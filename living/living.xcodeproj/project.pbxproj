@@ -111,6 +111,8 @@
 		3547F4F01D9909660068F04E /* UMSShareListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3547F4E41D9909660068F04E /* UMSShareListController.xib */; };
 		3547F4F11D9909660068F04E /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3547F4E51D9909660068F04E /* UMSocialSDKResourcesNew.bundle */; };
 		3547F4F41D990DDD0068F04E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3547F4F21D990DDD0068F04E /* Main.storyboard */; };
+		3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4F71D9910F50068F04E /* LMhomePageCell.m */; };
+		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
 /* End PBXBuildFile section */
 
@@ -314,6 +316,10 @@
 		3547F4E51D9909660068F04E /* UMSocialSDKResourcesNew.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResourcesNew.bundle; sourceTree = "<group>"; };
 		3547F4E61D9909660068F04E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMSocialLocalizable.strings"; sourceTree = "<group>"; };
 		3547F4F31D990DDD0068F04E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3547F4F61D9910F50068F04E /* LMhomePageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMhomePageCell.h; sourceTree = "<group>"; };
+		3547F4F71D9910F50068F04E /* LMhomePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMhomePageCell.m; sourceTree = "<group>"; };
+		3547F4FA1D9921370068F04E /* LMActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityCell.h; sourceTree = "<group>"; };
+		3547F4FB1D9921370068F04E /* LMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityCell.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -373,15 +379,15 @@
 		3547F3301D9901780068F04E /* living */ = {
 			isa = PBXGroup;
 			children = (
+				3547F35B1D9904A60068F04E /* Controller */,
+				3547F3AA1D9904BA0068F04E /* Model */,
+				3547F38D1D9904B20068F04E /* View */,
 				3547F4621D9904D90068F04E /* 3rdLibs */,
 				3547F43C1D9904C70068F04E /* Components */,
 				3547F4381D9904C20068F04E /* en.lproj */,
 				3547F4061D9904BD0068F04E /* Helper */,
-				3547F3AA1D9904BA0068F04E /* Model */,
 				3547F3A31D9904B60068F04E /* Resources */,
-				3547F38D1D9904B20068F04E /* View */,
 				3547F3891D9904AE0068F04E /* zh-Hans.lproj */,
-				3547F35B1D9904A60068F04E /* Controller */,
 				3547F3341D9901780068F04E /* AppDelegate.h */,
 				3547F3351D9901780068F04E /* AppDelegate.m */,
 				3547F4F21D990DDD0068F04E /* Main.storyboard */,
@@ -403,10 +409,10 @@
 		3547F35B1D9904A60068F04E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3547F36D1D9904A60068F04E /* homepage */,
 				3547F35C1D9904A60068F04E /* activity */,
 				3547F35F1D9904A60068F04E /* Base */,
 				3547F36A1D9904A60068F04E /* find */,
-				3547F36D1D9904A60068F04E /* homepage */,
 				3547F3701D9904A60068F04E /* Login */,
 				3547F3751D9904A60068F04E /* person */,
 			);
@@ -492,6 +498,8 @@
 		3547F38D1D9904B20068F04E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3547F4F91D9921030068F04E /* activity */,
+				3547F4F51D9910A80068F04E /* homepage */,
 				3547F38E1D9904B20068F04E /* Picker */,
 				3547F3951D9904B20068F04E /* register */,
 				3547F39A1D9904B20068F04E /* Share */,
@@ -1328,6 +1336,24 @@
 			path = SocialSDKXib;
 			sourceTree = "<group>";
 		};
+		3547F4F51D9910A80068F04E /* homepage */ = {
+			isa = PBXGroup;
+			children = (
+				3547F4F61D9910F50068F04E /* LMhomePageCell.h */,
+				3547F4F71D9910F50068F04E /* LMhomePageCell.m */,
+			);
+			path = homepage;
+			sourceTree = "<group>";
+		};
+		3547F4F91D9921030068F04E /* activity */ = {
+			isa = PBXGroup;
+			children = (
+				3547F4FA1D9921370068F04E /* LMActivityCell.h */,
+				3547F4FB1D9921370068F04E /* LMActivityCell.m */,
+			);
+			path = activity;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1491,6 +1517,7 @@
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
 				3547F4001D9904BA0068F04E /* FirGetUserInfoRequest.m in Sources */,
 				3547F4051D9904BA0068F04E /* VOUtil.m in Sources */,
+				3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
 				3547F4011D9904BA0068F04E /* HeadVO.m in Sources */,
 				3547F3F51D9904BA0068F04E /* FitCaptchaRequest.m in Sources */,
@@ -1503,6 +1530,7 @@
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
+				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
 				3547F3A01D9904B20068F04E /* LMAgeChooseButton.m in Sources */,
 				3547F3A21D9904B20068F04E /* FitShareView.m in Sources */,
 				3547F4031D9904BA0068F04E /* FirPersonVO.m in Sources */,
