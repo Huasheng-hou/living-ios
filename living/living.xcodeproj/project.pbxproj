@@ -113,6 +113,7 @@
 		3547F4F41D990DDD0068F04E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3547F4F21D990DDD0068F04E /* Main.storyboard */; };
 		3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4F71D9910F50068F04E /* LMhomePageCell.m */; };
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
+		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
 /* End PBXBuildFile section */
 
@@ -320,6 +321,8 @@
 		3547F4F71D9910F50068F04E /* LMhomePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMhomePageCell.m; sourceTree = "<group>"; };
 		3547F4FA1D9921370068F04E /* LMActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityCell.h; sourceTree = "<group>"; };
 		3547F4FB1D9921370068F04E /* LMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityCell.m; sourceTree = "<group>"; };
+		3547F4FE1D9931ED0068F04E /* LMFindCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindCell.h; sourceTree = "<group>"; };
+		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -498,6 +501,7 @@
 		3547F38D1D9904B20068F04E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3547F4FD1D99308E0068F04E /* find */,
 				3547F4F91D9921030068F04E /* activity */,
 				3547F4F51D9910A80068F04E /* homepage */,
 				3547F38E1D9904B20068F04E /* Picker */,
@@ -1354,6 +1358,15 @@
 			path = activity;
 			sourceTree = "<group>";
 		};
+		3547F4FD1D99308E0068F04E /* find */ = {
+			isa = PBXGroup;
+			children = (
+				3547F4FE1D9931ED0068F04E /* LMFindCell.h */,
+				3547F4FF1D9931ED0068F04E /* LMFindCell.m */,
+			);
+			name = find;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1533,6 +1546,7 @@
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
 				3547F3A01D9904B20068F04E /* LMAgeChooseButton.m in Sources */,
 				3547F3A21D9904B20068F04E /* FitShareView.m in Sources */,
+				3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */,
 				3547F4031D9904BA0068F04E /* FirPersonVO.m in Sources */,
 				3547F37D1D9904A60068F04E /* FitBaseViewController.m in Sources */,
 				3547F3FF1D9904BA0068F04E /* FirChangeUserInfoRequest.m in Sources */,

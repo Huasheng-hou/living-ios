@@ -91,7 +91,7 @@
     hintLbl.font            = TEXT_FONT_LEVEL_3;
 
     
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《污语服务协议》"];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《生活馆服务协议》"];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:91.0/255.0 green:115.0/255.0 blue:192.0/255.0 alpha:1.0] range:NSMakeRange(11,str.length-11)];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
     

@@ -290,11 +290,29 @@
 
 }
 
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==2) {
+        if (indexPath.row==0) {
+            LMSettingViewController *setVC = [[LMSettingViewController alloc] init];
+            
+            [self.navigationController pushViewController:setVC animated:YES];
+        }
+    }
+}
+
+
+
+
+
+
+
+
 -(void)action
 {
-        LMSettingViewController *setVC = [[LMSettingViewController alloc] init];
-        
-        [self.navigationController pushViewController:setVC animated:YES];
+    
 }
 
 

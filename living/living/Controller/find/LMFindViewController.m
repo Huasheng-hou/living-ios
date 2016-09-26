@@ -7,6 +7,7 @@
 //
 
 #import "LMFindViewController.h"
+#import "LMFindCell.h"
 
 @interface LMFindViewController ()<UITableViewDelegate,
 UITableViewDataSource
@@ -69,8 +70,8 @@ UITableViewDataSource
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
-    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
+    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
     imageV.image = [UIImage imageNamed:@"112"];
     [headView addSubview:imageV];
     return headView;
@@ -80,12 +81,12 @@ UITableViewDataSource
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 120;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 160;
+    return 180;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -108,12 +109,16 @@ UITableViewDataSource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    LMFindCell *cell = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
 //    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    cell.textLabel.text = @"测试";
+    cell.questonLabel.text = @"这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢";
+    
+    cell.numLabel.text =@"得赞数 126";
+    cell.headImage.frame = CGRectMake(22.5, 22.5, 50, 50);
+    cell.headImage.image = [UIImage imageNamed:@"function"];
     
     
     return cell;
