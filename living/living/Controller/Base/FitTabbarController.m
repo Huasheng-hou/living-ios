@@ -55,7 +55,7 @@
 {
  
    
-    [self.tabBar setTintColor:COLOR_DIRTY_COLOR];
+    [self.tabBar setTintColor:[UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]];
     [[UITabBarItem appearance]setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10]}
                                             forState:UIControlStateNormal];
    
@@ -83,8 +83,8 @@
     FitNavigationController     *secondNav    = [[FitNavigationController alloc] initWithRootViewController:secondVC];
     
     UITabBarItem *itemTrip=[[UITabBarItem alloc]initWithTitle:@"活动"
-                                                        image:[UIImage imageNamed:@"past-gray"]
-                                                selectedImage:[UIImage imageNamed:@"past"]];
+                                                        image:[UIImage imageNamed:@"activity-gray"]
+                                                selectedImage:[UIImage imageNamed:@"activity"]];
     [secondNav setTabBarItem:itemTrip];
     
     

@@ -80,7 +80,7 @@
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
     self.tableView.tableHeaderView = headView;
     
-    self.navigationController.navigationBar.tintColor  = TEXT_COLOR_LEVEL_3;
+//    self.navigationController.navigationBar.tintColor  = ;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStylePlain target:self action:@selector(submitBtnPressed)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -211,7 +211,7 @@
         _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
-        [_loginBtn setBackgroundColor:[UIColor colorWithRed:80.0/255.0 green:164.0/255.0 blue:178.0/255.0 alpha:1.0]];
+        [_loginBtn setBackgroundColor:[UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]];
         _loginBtn.frame  = CGRectMake(15, 40, kScreenWidth - 30, 45);
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;

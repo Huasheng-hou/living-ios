@@ -75,7 +75,7 @@
     
     
     UILabel *introduce =[[UILabel alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 20)];
-    introduce.text = @"上传真实照片，会提升赞赏度哦";
+    introduce.text = @"上传真实照片，让小伙伴更好的认识你哦";
     introduce.font = TEXT_FONT_LEVEL_3;
     introduce.textColor = TEXT_COLOR_LEVEL_2;
     introduce.textAlignment = NSTextAlignmentCenter;
@@ -89,22 +89,11 @@
     loginButton.frame = CGRectMake(15, 20, kScreenWidth-30, 45);
     loginButton.titleLabel.font = TEXT_FONT_LEVEL_1;
     [loginButton setTitle:@"登 陆" forState:UIControlStateNormal];
-    loginButton.backgroundColor = COLOR_DIRTY_COLOR;
+    loginButton.backgroundColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
     [loginButton addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
     
     loginButton.layer.cornerRadius = 5;
     [footView addSubview:loginButton];
-    
-    UILabel *HintLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, kScreenWidth, 20)];
-    HintLabel.textAlignment=NSTextAlignmentCenter;
-    HintLabel.font = TEXT_FONT_LEVEL_3;
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"温馨提示：以上信息一旦确定将无法修改"];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:91.0/255.0 green:115.0/255.0 blue:192.0/255.0 alpha:1.0] range:NSMakeRange(0,5)];
-    [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_3 range:NSMakeRange(5,str.length-5)];
-    
-    HintLabel.attributedText = str;
-    [footView addSubview:HintLabel];
     
     self.tableView.tableFooterView = footView;
     
