@@ -10,6 +10,19 @@
 #import "FitConsts.h"
 #import "UIView+frame.h"
 
+@interface LMFindCell (){
+    float _xScale;
+    float _yScale;
+}
+
+@property(nonatomic,retain)UIImageView *headImage;
+
+@property(nonatomic,retain)UILabel *questonLabel;
+
+@property(nonatomic,retain)UILabel *numLabel;
+
+@end
+
 @implementation LMFindCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -58,10 +71,38 @@
     _numLabel.font = TEXT_FONT_LEVEL_3;
     _numLabel.textColor = TEXT_COLOR_LEVEL_3;
     [contView addSubview:_numLabel];
+    _questonLabel.text = @"这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢";
     
-    
+    _numLabel.text =@"得赞数 126";
+    _headImage.image = [UIImage imageNamed:@"function"];
     
     
 }
+
+-(void)setData:(NSString *)data
+{
+    
+}
+
+- (void)setXScale:(float)xScale yScale:(float)yScale
+{
+    _xScale = xScale;
+    _yScale = yScale;
+}
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    [_headImage sizeToFit];
+    [_questonLabel sizeToFit];
+    [_numLabel sizeToFit];
+
+    _headImage.frame =CGRectMake(22.5, 22.5, 50, 50);
+    _questonLabel.frame =CGRectMake(10, 5, kScreenWidth-116-20-15, 60);
+    _numLabel.frame =CGRectMake(0, 75, kScreenWidth-131-10, 20);
+    
+}
+
+
 
 @end

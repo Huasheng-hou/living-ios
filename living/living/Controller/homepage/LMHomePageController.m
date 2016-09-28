@@ -7,6 +7,7 @@
 //
 
 #import "LMHomePageController.h"
+#import "LMHomeDetailController.h"
 
 #import "UIView+frame.h"
 
@@ -127,6 +128,9 @@ UITableViewDataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
 
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3509B5F51D9B5302003F4D76 /* LMCommentCell.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
 		3547F3361D9901780068F04E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3351D9901780068F04E /* AppDelegate.m */; };
 		3547F33E1D9901780068F04E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3547F33D1D9901780068F04E /* Assets.xcassets */; };
@@ -114,10 +115,13 @@
 		3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4F71D9910F50068F04E /* LMhomePageCell.m */; };
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
+		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3509B5F41D9B5302003F4D76 /* LMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentCell.h; sourceTree = "<group>"; };
+		3509B5F51D9B5302003F4D76 /* LMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentCell.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* living.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = living.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -323,6 +327,8 @@
 		3547F4FB1D9921370068F04E /* LMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityCell.m; sourceTree = "<group>"; };
 		3547F4FE1D9931ED0068F04E /* LMFindCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindCell.h; sourceTree = "<group>"; };
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
+		35A448B11D9A13A7001179FC /* LMHomeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailController.h; sourceTree = "<group>"; };
+		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -462,6 +468,8 @@
 			children = (
 				3547F36E1D9904A60068F04E /* LMHomePageController.h */,
 				3547F36F1D9904A60068F04E /* LMHomePageController.m */,
+				35A448B11D9A13A7001179FC /* LMHomeDetailController.h */,
+				35A448B21D9A13A7001179FC /* LMHomeDetailController.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -480,10 +488,10 @@
 		3547F3751D9904A60068F04E /* person */ = {
 			isa = PBXGroup;
 			children = (
-				3547F3761D9904A60068F04E /* LMAddviceViewController.h */,
-				3547F3771D9904A60068F04E /* LMAddviceViewController.m */,
 				3547F3781D9904A60068F04E /* LMPersonViewController.h */,
 				3547F3791D9904A60068F04E /* LMPersonViewController.m */,
+				3547F3761D9904A60068F04E /* LMAddviceViewController.h */,
+				3547F3771D9904A60068F04E /* LMAddviceViewController.m */,
 				3547F37A1D9904A60068F04E /* LMSettingViewController.h */,
 				3547F37B1D9904A60068F04E /* LMSettingViewController.m */,
 			);
@@ -1345,6 +1353,8 @@
 			children = (
 				3547F4F61D9910F50068F04E /* LMhomePageCell.h */,
 				3547F4F71D9910F50068F04E /* LMhomePageCell.m */,
+				3509B5F41D9B5302003F4D76 /* LMCommentCell.h */,
+				3509B5F51D9B5302003F4D76 /* LMCommentCell.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -1410,6 +1420,7 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 2BPVM7PZ48;
 					};
 				};
 			};
@@ -1564,6 +1575,7 @@
 				3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */,
 				3547F42C1D9904BD0068F04E /* UIColor+ZXLazy.m in Sources */,
 				3547F3A11D9904B20068F04E /* LMChooseButton.m in Sources */,
+				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
 				3547F3F81D9904BA0068F04E /* DYGetCaptchaRequest.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
@@ -1576,6 +1588,7 @@
 				3547F4341D9904BD0068F04E /* README.md in Sources */,
 				3547F3F71D9904BA0068F04E /* FitLoginRequest.m in Sources */,
 				3547F3801D9904A60068F04E /* FitTabbarController.m in Sources */,
+				35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
 				3547F3FD1D9904BA0068F04E /* FirUploadFileRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
@@ -1655,7 +1668,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1677,6 +1691,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fembed-bitcode";
+				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1699,7 +1715,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1714,6 +1731,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
+				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1724,6 +1743,8 @@
 			baseConfigurationReference = C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1732,8 +1753,34 @@
 					"$(PROJECT_DIR)/living/3rdLibs/Gtui",
 					"$(PROJECT_DIR)/living/3rdLibs/umeng_ios_social_sdk_4.2.5_arm64_custom/UMSocial_Sdk_4.2.5",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = CL.living;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/HMSegmentedControl\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MIHCrypto\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/UIImage-Helpers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ZYQAssetPickerController\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fembed-bitcode",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
 			};
 			name = Debug;
 		};
@@ -1742,6 +1789,8 @@
 			baseConfigurationReference = F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1750,8 +1799,34 @@
 					"$(PROJECT_DIR)/living/3rdLibs/Gtui",
 					"$(PROJECT_DIR)/living/3rdLibs/umeng_ios_social_sdk_4.2.5_arm64_custom/UMSocial_Sdk_4.2.5",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = CL.living;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/HMSegmentedControl\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MIHCrypto\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/UIImage-Helpers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ZYQAssetPickerController\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fembed-bitcode",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
 			};
 			name = Release;
 		};

@@ -238,7 +238,7 @@
 
     }
     if (indexPath.section==1) {
-        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         switch (indexPath.row) {
                 
@@ -266,7 +266,7 @@
     
     if (indexPath.section==2) {
         
-        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (indexPath.row) {
                 
             case 0:

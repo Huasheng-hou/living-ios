@@ -113,12 +113,8 @@ UITableViewDataSource
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-//    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    cell.questonLabel.text = @"这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢";
-    
-    cell.numLabel.text =@"得赞数 126";
-    cell.headImage.frame = CGRectMake(22.5, 22.5, 50, 50);
-    cell.headImage.image = [UIImage imageNamed:@"function"];
+    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+
     
     
     return cell;
