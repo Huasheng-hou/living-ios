@@ -62,10 +62,6 @@
     [self.contentView addSubview:_countLabel];
     
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 30)];
-    footView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:footView];
-    
     //活动人头像
     _headV = [UIImageView new];
     _headV.backgroundColor = [UIColor blueColor];

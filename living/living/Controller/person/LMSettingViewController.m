@@ -35,7 +35,7 @@
     loginOut.titleLabel.font = [UIFont systemFontOfSize:17];
     loginOut.layer.cornerRadius=5.0f;
     [loginOut addTarget:self action:@selector(logOutAction) forControlEvents:UIControlEventTouchUpInside];
-    loginOut.backgroundColor = COLOR_DIRTY_COLOR;
+    loginOut.backgroundColor = LIVING_COLOR;
     [footView addSubview:loginOut];
     
     [self.tableView setTableFooterView:footView];

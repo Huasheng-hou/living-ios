@@ -69,7 +69,7 @@
     sendButton.layer.cornerRadius=5.0f;
     [sendButton setClipsToBounds:YES];
     [sendButton addTarget:self action:@selector(senderFeedBackData) forControlEvents:UIControlEventTouchUpInside];
-    [sendButton setBackgroundColor:COLOR_DIRTY_COLOR];
+    [sendButton setBackgroundColor:LIVING_COLOR];
     [self.view addSubview:sendButton];
 }
 

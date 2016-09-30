@@ -142,7 +142,7 @@ UITextViewDelegate
         }
     }
     
-    return 100;
+    return 130;
 }
 
 

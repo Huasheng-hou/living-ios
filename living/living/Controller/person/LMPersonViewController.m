@@ -38,7 +38,7 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     
-    self.navigationController.navigationBar.tintColor  = COLOR_DIRTY_COLOR;
+    self.navigationController.navigationBar.tintColor  = LIVING_COLOR;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(action)];
     self.navigationItem.rightBarButtonItem = rightItem;
     

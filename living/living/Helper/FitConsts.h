@@ -104,7 +104,7 @@
 #define COLOR_BGVIEW_GREEN          [UIColor colorWithRed:72 / 255.0 green:206 / 255.0 blue:164 / 255.0 alpha:1]
 #define COLOR_CASELBL_BORDER        [UIColor colorWithRed:174 / 255.0 green:174 / 255.0 blue:174 / 255.0 alpha:1]
 
-#define COLOR_DIRTY_COLOR        [UIColor colorWithRed:82 / 255.0 green:149 / 255.0 blue:227 / 255.0 alpha:1]
+#define LIVING_COLOR        [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]
 
 
 
