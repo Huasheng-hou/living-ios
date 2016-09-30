@@ -13,14 +13,18 @@
 
 #import "LMhomePageCell.h"
 
+#import "WJLoopView.h"
+
 @interface LMHomePageController ()<UITableViewDelegate,
-UITableViewDataSource
+UITableViewDataSource,
+WJLoopViewDelegate
 >
 {
     UITableView *_tableView;
     
     
     UIBarButtonItem *backItem;
+    NSMutableArray *imageUrls;
     
 }
 
@@ -33,6 +37,7 @@ UITableViewDataSource
     // Do any additional setup after loading the view.
     
     [self creatUI];
+    imageUrls = [NSMutableArray new];
     [self getHomeDataRequest];
     
 }
@@ -45,10 +50,17 @@ UITableViewDataSource
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Sweep"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
 
 }
 
-
+-(void)sweepAction
+{
+    NSLog(@"********扫描");
+}
 
 -(void)getHomeDataRequest
 {
@@ -77,14 +89,25 @@ UITableViewDataSource
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    NSString *string  = @"http://img1.imgtn.bdimg.com/it/u=3040788390,192575263&fm=11&gp=0.jpg";
+    NSString *string2  = @"http://img4.imgtn.bdimg.com/it/u=3378612301,2503019167&fm=21&gp=0.jpg";
+    
+    [imageUrls addObject:string];
+    [imageUrls addObject:string2];
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
-    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
-    imageV.image = [UIImage imageNamed:@"112"];
-    [headView addSubview:imageV];
+    
+    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160) delegate:self imageURLs:imageUrls placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+    loopView.location = WJPageControlAlignmentRight;
+    
+
+    [headView addSubview:loopView];
     return headView;
 }
 
-
+#pragma mark scrollview代理函数
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
+    NSLog(@"%ld",index);
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -7,6 +7,7 @@
 //
 
 #import "LMActivityViewController.h"
+#import "LMActivityDetailController.h"
 #import "LMActivityCell.h"
 
 @interface LMActivityViewController ()<UITableViewDelegate,
@@ -85,6 +86,8 @@ UITableViewDataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 

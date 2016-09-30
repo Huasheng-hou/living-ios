@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3509B5F51D9B5302003F4D76 /* LMCommentCell.m */; };
+		354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574751D9CAFB900E88D6F /* LMCommentButton.m */; };
+		354574791D9CC24600E88D6F /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574781D9CC24600E88D6F /* WJLoopView.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
 		3547F3361D9901780068F04E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3351D9901780068F04E /* AppDelegate.m */; };
 		3547F33E1D9901780068F04E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3547F33D1D9901780068F04E /* Assets.xcassets */; };
@@ -116,12 +118,19 @@
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
 		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
+		35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */; };
+		35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */; };
+		35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3509B5F41D9B5302003F4D76 /* LMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentCell.h; sourceTree = "<group>"; };
 		3509B5F51D9B5302003F4D76 /* LMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentCell.m; sourceTree = "<group>"; };
+		354574741D9CAFB900E88D6F /* LMCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentButton.h; sourceTree = "<group>"; };
+		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
+		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
+		354574781D9CC24600E88D6F /* WJLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJLoopView.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* living.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = living.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -329,6 +338,12 @@
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
 		35A448B11D9A13A7001179FC /* LMHomeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailController.h; sourceTree = "<group>"; };
 		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
+		35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDetailController.h; sourceTree = "<group>"; };
+		35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDetailController.m; sourceTree = "<group>"; };
+		35E7B2E61D9DFF780035AFFE /* LMActivityheadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityheadCell.h; sourceTree = "<group>"; };
+		35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityheadCell.m; sourceTree = "<group>"; };
+		35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityMsgCell.h; sourceTree = "<group>"; };
+		35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityMsgCell.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -433,6 +448,8 @@
 			children = (
 				3547F35D1D9904A60068F04E /* LMActivityViewController.h */,
 				3547F35E1D9904A60068F04E /* LMActivityViewController.m */,
+				35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */,
+				35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1351,10 +1368,14 @@
 		3547F4F51D9910A80068F04E /* homepage */ = {
 			isa = PBXGroup;
 			children = (
+				354574771D9CC24200E88D6F /* WJLoopView.h */,
+				354574781D9CC24600E88D6F /* WJLoopView.m */,
 				3547F4F61D9910F50068F04E /* LMhomePageCell.h */,
 				3547F4F71D9910F50068F04E /* LMhomePageCell.m */,
 				3509B5F41D9B5302003F4D76 /* LMCommentCell.h */,
 				3509B5F51D9B5302003F4D76 /* LMCommentCell.m */,
+				354574741D9CAFB900E88D6F /* LMCommentButton.h */,
+				354574751D9CAFB900E88D6F /* LMCommentButton.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -1364,6 +1385,10 @@
 			children = (
 				3547F4FA1D9921370068F04E /* LMActivityCell.h */,
 				3547F4FB1D9921370068F04E /* LMActivityCell.m */,
+				35E7B2E61D9DFF780035AFFE /* LMActivityheadCell.h */,
+				35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */,
+				35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */,
+				35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1531,6 +1556,7 @@
 				3547F4BE1D9904D90068F04E /* SSPullToRefreshSimpleContentView.m in Sources */,
 				3547F3FA1D9904BA0068F04E /* DYRegisterRequest.m in Sources */,
 				3547F45D1D9904C70068F04E /* FitSignalCacheManager.m in Sources */,
+				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				3547F4B01D9904D90068F04E /* MJRefreshBaseView.m in Sources */,
 				3547F42F1D9904BD0068F04E /* UIImage+ImageFromArrayUtils.m in Sources */,
@@ -1551,12 +1577,14 @@
 				3547F4B71D9904D90068F04E /* MJPhoto.m in Sources */,
 				3547F3861D9904A60068F04E /* LMAddviceViewController.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
+				354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */,
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
 				3547F3A01D9904B20068F04E /* LMAgeChooseButton.m in Sources */,
 				3547F3A21D9904B20068F04E /* FitShareView.m in Sources */,
+				35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */,
 				3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */,
 				3547F4031D9904BA0068F04E /* FirPersonVO.m in Sources */,
 				3547F37D1D9904A60068F04E /* FitBaseViewController.m in Sources */,
@@ -1589,9 +1617,11 @@
 				3547F3F71D9904BA0068F04E /* FitLoginRequest.m in Sources */,
 				3547F3801D9904A60068F04E /* FitTabbarController.m in Sources */,
 				35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */,
+				35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
 				3547F3FD1D9904BA0068F04E /* FirUploadFileRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
+				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
 				3547F4311D9904BD0068F04E /* HcbObjectTable.m in Sources */,
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
@@ -1743,6 +1773,7 @@
 			baseConfigurationReference = C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = living/Info.plist;
@@ -1789,6 +1820,7 @@
 			baseConfigurationReference = F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = living/Info.plist;

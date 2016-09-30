@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) UILabel *lineLabel;
 
+@property (nonatomic,strong) UIImageView *addIcon;
+
 
 @end
 
@@ -76,6 +78,11 @@
     [self.contentView addSubview:_titleLabel];
     
     
+    _addIcon = [UIImageView new];
+    _addIcon.image =[UIImage imageNamed:@"addIcon"];
+    [self.contentView addSubview:_addIcon];
+    
+    
     _addressLabel = [UILabel new];
     _addressLabel.text = @"浙江杭州";
     _addressLabel.font = [UIFont systemFontOfSize:12.f];
@@ -85,6 +92,22 @@
     _lineLabel = [UILabel new];
     _lineLabel.backgroundColor =LINE_COLOR;
     [self.contentView addSubview:_lineLabel];
+    
+    
+    _zanButton = [[LMCommentButton alloc] init];
+    _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
+    _zanButton.textLabel.text = @"66";
+    _zanButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+    [self.contentView addSubview:_zanButton];
+    
+    
+    _replyButton = [[LMCommentButton alloc] init];
+    _replyButton.headImage.image = [UIImage imageNamed:@"reply"];
+    [_replyButton.headImage sizeToFit];
+    _replyButton.headImage.frame = CGRectMake(0, 6, 12, 12);
+    _replyButton.textLabel.text = @"回复";
+    _replyButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+    [self.contentView addSubview:_replyButton];
     
     
 }
@@ -122,21 +145,31 @@
 {
     [super layoutSubviews];
     [_nameLabel sizeToFit];
-    
     [_titleLabel sizeToFit];
     [_timeLabel sizeToFit];
+    [_addIcon sizeToFit];
     [_addressLabel sizeToFit];
+    [_replyButton sizeToFit];
+    [_zanButton.textLabel sizeToFit];
+    [_replyButton.textLabel sizeToFit];
     
+    _zanButton.textLabel.frame = CGRectMake(15, 5, _zanButton.textLabel.bounds.size.width, _zanButton.textLabel.bounds.size.height);
+
+    _replyButton.textLabel.frame = CGRectMake(15, 5, _replyButton.textLabel.bounds.size.width, _replyButton.textLabel.bounds.size.height);
     
     _nameLabel.frame = CGRectMake(55, 15, _nameLabel.bounds.size.width, 20);
     
     _timeLabel.frame = CGRectMake(55, 35, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     _titleLabel.frame = CGRectMake(55, 60, kScreenWidth-70, _conHigh);
-    _addressLabel.frame =CGRectMake(55,70+_conHigh, _addressLabel.bounds.size.width, _addressLabel.bounds.size.height);
+
+    _addIcon.frame = CGRectMake(55, 70+_conHigh, _addIcon.bounds.size.width, _addIcon.bounds.size.height);
+        _addressLabel.frame =CGRectMake(58+_addIcon.bounds.size.width,70+_conHigh, _addressLabel.bounds.size.width, _addressLabel.bounds.size.height);
     
     _lineLabel.frame = CGRectMake(15, 75+_conHigh+20, kScreenWidth-30, 0.5);
     
+    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width-20, 30);
     
+    _zanButton.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-80-_replyButton.bounds.size.width, 70+_conHigh-5, _zanButton.textLabel.bounds.size.width-20, 30);
     
 }
 

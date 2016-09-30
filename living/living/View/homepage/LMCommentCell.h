@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMCommentButton.h"
 
 @interface LMCommentCell : UITableViewCell
 
@@ -23,6 +24,9 @@
 @property (nonatomic) NSInteger count;
 
 @property (nonatomic)CGFloat conHigh;
+
+@property (nonatomic, strong)LMCommentButton *zanButton;
+@property (nonatomic, strong)LMCommentButton *replyButton;
 
 
 @property (nonatomic, readonly) float xScale;
