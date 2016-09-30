@@ -34,7 +34,7 @@ UITextViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title = @"首页详情";
     [self creatUI];
     [self getHomeDataRequest];
     [self registerForKeyboardNotifications];

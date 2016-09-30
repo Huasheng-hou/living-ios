@@ -35,7 +35,7 @@ WJLoopViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title = @"活动详情";
     [self creatUI];
     imageUrls = [NSMutableArray new];
     [self getHomeDataRequest];
@@ -89,6 +89,7 @@ WJLoopViewDelegate
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    [imageUrls removeAllObjects];
     NSString *string  = @"http://img1.imgtn.bdimg.com/it/u=3040788390,192575263&fm=11&gp=0.jpg";
     NSString *string2  = @"http://img4.imgtn.bdimg.com/it/u=3378612301,2503019167&fm=21&gp=0.jpg";
     
