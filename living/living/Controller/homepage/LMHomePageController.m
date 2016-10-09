@@ -35,7 +35,7 @@ WJLoopViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"活动详情";
+    self.title = @"首页";
     [self creatUI];
     imageUrls = [NSMutableArray new];
     [self getHomeDataRequest];

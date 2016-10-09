@@ -8,6 +8,7 @@
 
 #import "LMPersonViewController.h"
 #import "LMSettingViewController.h"
+#import "LMNoticViewController.h"
 #import "FitUserManager.h"
 #import "DYUserInfo.h"
 
@@ -38,13 +39,22 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     
-    self.navigationController.navigationBar.tintColor  = LIVING_COLOR;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(action)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notic"] style:UIBarButtonItemStylePlain target:self action:@selector(noticAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     
 
 }
+
+-(void)noticAction
+{
+    NSLog(@"*******通知");
+    LMNoticViewController *noticVC = [[LMNoticViewController alloc] init];
+    [noticVC setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:noticVC animated:YES];
+    
+}
+
 
 #pragma mark  请求个人数据
 -(void)getUserInfoData
@@ -185,7 +195,7 @@
             
             //余额
             UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 80, 20)];
-            question.text = [NSString stringWithFormat:@"余额 %.0f",infoModel.todayQuestions];
+            question.text = [NSString stringWithFormat:@"余额 ￥%.0f",infoModel.todayQuestions];
             question.font = TEXT_FONT_LEVEL_2;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [cell.contentView addSubview:question];
@@ -243,17 +253,20 @@
         switch (indexPath.row) {
                 
             case 0:
-                cell.textLabel.text = @" 余额";
+                cell.textLabel.text = @"余额";
+                cell.imageView.image = [UIImage imageNamed:@"balance"];
 
                 break;
                 
             case 1:
-                cell.textLabel.text = @" 订单";
+                cell.textLabel.text = @"订单";
+                cell.imageView.image = [UIImage imageNamed:@"order"];
 
                 break;
                 
             case 2:
-                cell.textLabel.text = @" 生活馆";
+                cell.textLabel.text = @"生活馆";
+                cell.imageView.image = [UIImage imageNamed:@"living"];
 
                 
                 break;
@@ -270,12 +283,14 @@
         switch (indexPath.row) {
                 
             case 0:
-                cell.textLabel.text = @" 设置";
+                cell.textLabel.text = @"设置";
+                cell.imageView.image = [UIImage imageNamed:@"setting"];
                 
                 break;
                 
             case 1:
-                cell.textLabel.text = @" 我的二维码";
+                cell.textLabel.text = @"我的二维码";
+                cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
                 
                 break;
                 

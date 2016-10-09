@@ -118,9 +118,13 @@
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
 		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
+		35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */; };
 		35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */; };
 		35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */; };
 		35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */; };
+		35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */; };
+		35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */; };
+		35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A411DAA3EF300688713 /* LMTimeButton.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
 /* End PBXBuildFile section */
 
@@ -338,12 +342,20 @@
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
 		35A448B11D9A13A7001179FC /* LMHomeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailController.h; sourceTree = "<group>"; };
 		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
+		35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticViewController.h; sourceTree = "<group>"; };
+		35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticViewController.m; sourceTree = "<group>"; };
 		35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDetailController.h; sourceTree = "<group>"; };
 		35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDetailController.m; sourceTree = "<group>"; };
 		35E7B2E61D9DFF780035AFFE /* LMActivityheadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityheadCell.h; sourceTree = "<group>"; };
 		35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityheadCell.m; sourceTree = "<group>"; };
 		35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityMsgCell.h; sourceTree = "<group>"; };
 		35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityMsgCell.m; sourceTree = "<group>"; };
+		35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicActivityController.h; sourceTree = "<group>"; };
+		35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicActivityController.m; sourceTree = "<group>"; };
+		35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicMsgCell.h; sourceTree = "<group>"; };
+		35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicMsgCell.m; sourceTree = "<group>"; };
+		35FA0A401DAA3EF200688713 /* LMTimeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTimeButton.h; sourceTree = "<group>"; };
+		35FA0A411DAA3EF300688713 /* LMTimeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTimeButton.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -450,6 +462,8 @@
 				3547F35E1D9904A60068F04E /* LMActivityViewController.m */,
 				35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */,
 				35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */,
+				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
+				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -511,6 +525,8 @@
 				3547F3771D9904A60068F04E /* LMAddviceViewController.m */,
 				3547F37A1D9904A60068F04E /* LMSettingViewController.h */,
 				3547F37B1D9904A60068F04E /* LMSettingViewController.m */,
+				35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */,
+				35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -1389,6 +1405,10 @@
 				35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */,
 				35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */,
 				35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */,
+				35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */,
+				35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */,
+				35FA0A401DAA3EF200688713 /* LMTimeButton.h */,
+				35FA0A411DAA3EF300688713 /* LMTimeButton.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1558,6 +1578,7 @@
 				3547F45D1D9904C70068F04E /* FitSignalCacheManager.m in Sources */,
 				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
+				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3547F4B01D9904D90068F04E /* MJRefreshBaseView.m in Sources */,
 				3547F42F1D9904BD0068F04E /* UIImage+ImageFromArrayUtils.m in Sources */,
 				3547F4B51D9904D90068F04E /* UIScrollView+MJRefresh.m in Sources */,
@@ -1578,6 +1599,7 @@
 				3547F3861D9904A60068F04E /* LMAddviceViewController.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
 				354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */,
+				35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */,
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
@@ -1591,6 +1613,7 @@
 				3547F3FF1D9904BA0068F04E /* FirChangeUserInfoRequest.m in Sources */,
 				3547F4B41D9904D90068F04E /* UIScrollView+MJExtension.m in Sources */,
 				3547F4B11D9904D90068F04E /* MJRefreshConst.m in Sources */,
+				35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */,
 				3547F42D1D9904BD0068F04E /* FitConsts.m in Sources */,
 				3547F4601D9904C70068F04E /* FitUserInfoManager.m in Sources */,
 				3547F3F11D9904BA0068F04E /* UITabBar+Badge.m in Sources */,
@@ -1618,6 +1641,7 @@
 				3547F3801D9904A60068F04E /* FitTabbarController.m in Sources */,
 				35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */,
 				35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */,
+				35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
 				3547F3FD1D9904BA0068F04E /* FirUploadFileRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,

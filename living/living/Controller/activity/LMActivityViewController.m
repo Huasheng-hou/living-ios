@@ -8,6 +8,7 @@
 
 #import "LMActivityViewController.h"
 #import "LMActivityDetailController.h"
+#import "LMPublicActivityController.h"
 #import "LMActivityCell.h"
 
 @interface LMActivityViewController ()<UITableViewDelegate,
@@ -40,7 +41,20 @@ UITableViewDataSource
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
     
+    
+}
+
+-(void)publicAction
+{
+    
+    LMPublicActivityController *publicVC = [[LMPublicActivityController alloc] init];
+    [publicVC setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:publicVC animated:YES];
+    
+    NSLog(@"********发布活动");
 }
 
 
