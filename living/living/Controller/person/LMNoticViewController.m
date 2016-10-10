@@ -7,6 +7,7 @@
 //
 
 #import "LMNoticViewController.h"
+#import "LMNoticCell.h"
 
 @interface LMNoticViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -53,11 +54,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.textLabel.text = @"测试";
-    }
+    LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+//        [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    
     return cell;
 }
 
