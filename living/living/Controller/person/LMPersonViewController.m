@@ -9,6 +9,8 @@
 #import "LMPersonViewController.h"
 #import "LMSettingViewController.h"
 #import "LMNoticViewController.h"
+#import "LMBalanceViewController.h"
+#import "LMOrderViewController.h"
 #import "FitUserManager.h"
 #import "DYUserInfo.h"
 
@@ -309,6 +311,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==1) {
+        if (indexPath.row==0) {
+            LMBalanceViewController *baVC = [[LMBalanceViewController alloc] init];
+            [baVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:baVC animated:YES];
+        }
+        if (indexPath.row==1) {
+            LMOrderViewController *orderVC = [[LMOrderViewController alloc] init];
+            [orderVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:orderVC animated:YES];
+        }
+    }
     if (indexPath.section==2) {
         if (indexPath.row==0) {
             LMSettingViewController *setVC = [[LMSettingViewController alloc] init];
