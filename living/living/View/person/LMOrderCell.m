@@ -48,10 +48,16 @@
 }
 -(void)addSubviews
 {
-    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, kScreenWidth-30, 150)];
+    UIView *cellbackView = [[UIView alloc] initWithFrame:CGRectMake(14.5, 14.5, kScreenWidth-29, 151)];
+    cellbackView.backgroundColor = LINE_COLOR;
+    cellbackView.layer.cornerRadius = 5;
+    [self addSubview:cellbackView];
+    
+    
+    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(0.5, 0.5, kScreenWidth-30, 150)];
     cellView.backgroundColor = [UIColor whiteColor];
     cellView.layer.cornerRadius = 5;
-    [self addSubview:cellView];
+    [cellbackView addSubview:cellView];
     
     _orderNumLabel = [UILabel new];
     _orderNumLabel.text = @"订单：1234567891234564789123456";
@@ -99,6 +105,35 @@
     line3.backgroundColor = LINE_COLOR;
     [cellView addSubview:line3];
     
+    UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 115, kScreenWidth-30, 35)];
+    foot.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
+    [cellView addSubview:foot];
+    
+    _timeLabel = [UILabel new];
+    _timeLabel.text = @"订购时间：2016-12-24 12:30:20";
+    _timeLabel.font = TEXT_FONT_LEVEL_3;
+    _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
+    [cellView addSubview:_timeLabel];
+    
+
+    _deleteButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    //        _topBtn.backgroundColor = _COLOR_N(red);
+    [_deleteButton setTitle:@"删除" forState:UIControlStateNormal];
+    [_deleteButton setTintColor:TEXT_COLOR_LEVEL_3];
+    _deleteButton.showsTouchWhenHighlighted = YES;
+    _deleteButton.frame = CGRectMake(0, 0, 48.f, 48.f);
+    [_deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+    [cellView addSubview:_deleteButton];
+    
+    
+    _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_payButton setTitle:@"付款" forState:UIControlStateNormal];
+    [_payButton setTintColor:LIVING_COLOR];
+    _payButton.showsTouchWhenHighlighted = YES;
+    _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
+    [_payButton addTarget:self action:@selector(payCell:) forControlEvents:UIControlEventTouchUpInside];
+    [cellView addSubview:_payButton];
+    
     
 }
 
@@ -121,6 +156,9 @@
     [_paytypeLabel sizeToFit];
     [_titleLabel sizeToFit];
     [_priceLabel sizeToFit];
+    [_timeLabel sizeToFit];
+    [_deleteButton sizeToFit];
+    [_payButton sizeToFit];
     
     
     
@@ -128,7 +166,11 @@
     _paytypeLabel.frame = CGRectMake(kScreenWidth-40-_paytypeLabel.bounds.size.width, 0, _paytypeLabel.bounds.size.width, 35);
     _titleLabel.frame = CGRectMake(80, 45, kScreenWidth-120, _titleLabel.bounds.size.height*2);
     _priceLabel.frame = CGRectMake(kScreenWidth-40-_priceLabel.bounds.size.width, 90, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
+    _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);
     
+    _deleteButton.frame = CGRectMake(kScreenWidth-_deleteButton.bounds.size.width*2-50, 120, _deleteButton.bounds.size.width, 25);
+    
+    _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
 }
 
 //删除

@@ -27,7 +27,7 @@ LMOrderCellDelegate>
 
 -(void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+44) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+36) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     //去分割线
@@ -60,8 +60,9 @@ LMOrderCellDelegate>
     LMOrderCell *cell = [[LMOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
+    cell.delegate = self;
     
-    //        [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    [cell setXScale:self.xScale yScale:self.yScaleNoTab];
     
     return cell;
 }
