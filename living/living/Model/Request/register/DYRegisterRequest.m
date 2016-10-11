@@ -11,10 +11,8 @@
 @implementation DYRegisterRequest
 
 - (id)initWithNickname:(NSString *)nickname
-           andPassword:(NSString *)password
              andGender:(NSString *)gender
              andAvatar:(NSString *)avatar
-              andPhone:(NSString *)phone
            andBirtyday:(NSString *)birthday
            andProvince:(NSString *)province
                andCity:(NSString *)city
@@ -26,20 +24,14 @@
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
         if (nickname){
-            [bodyDict setObject:nickname forKey:@"nickname"];
+            [bodyDict setObject:nickname forKey:@"nick_name"];
         }
-        
-        if (password){
-            [bodyDict setObject:password forKey:@"password"];
-        }
+
         if (gender){
             [bodyDict setObject:gender forKey:@"gender"];
         }
         if (avatar){
             [bodyDict setObject:avatar forKey:@"avatar"];
-        }
-        if (phone){
-            [bodyDict setObject:phone forKey:@"phone"];
         }
         if (birthday){
             [bodyDict setObject:birthday forKey:@"birthday"];
@@ -65,7 +57,7 @@
 
 - (NSString *)methodPath
 {
-    return @"user/register";
+    return @"user/edit";
 }
 
 

@@ -44,10 +44,10 @@
 {
     [super viewDidAppear:animated];
     
-//    if (![[FitUserManager sharedUserManager] isLogin]) {
-//        
-//        [LMLoginViewController presentInViewController:self Animated:YES];
-//    }
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        
+        [LMLoginViewController presentInViewController:self Animated:YES];
+    }
 }
 
 

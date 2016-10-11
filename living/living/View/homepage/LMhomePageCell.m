@@ -7,6 +7,7 @@
 //
 
 #import "LMhomePageCell.h"
+#import "UIImageView+WebCache.h"
 #import "FitConsts.h"
 
 @interface LMhomePageCell () {
@@ -44,7 +45,7 @@
     [self.contentView addSubview:_imageV];
     
     _titleLabel = [UILabel new];
-    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
+//    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
     _titleLabel.numberOfLines  = 2;
     _titleLabel.font = [UIFont systemFontOfSize:14.f];
     _titleLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -66,12 +67,22 @@
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_timeLabel];
     
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 99.5, kScreenWidth-30, 0.5)];
+    line.backgroundColor = LINE_COLOR;
+    [self.contentView addSubview:line];
+    
     
 }
 
--(void)setData:(NSString *)data
+-(void)setValue:(LMActicleList *)list
 {
+    LMActicleList *listData = list;
+    _titleLabel.text = listData.articleTitle;
+    _nameLabel.text = listData.articleName;
     
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.avatar]];
+    
+    _timeLabel.text = [self getUTCFormateDate:listData.publishTime];
 }
 
 
@@ -99,6 +110,55 @@
 
     
 }
+
+
+-(NSString *)getUTCFormateDate:(NSString *)newDate
+{
+    NSString *str=[newDate substringWithRange:NSMakeRange(0, 16)];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    NSDate *newsDateFormatted = [dateFormatter dateFromString:str];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [dateFormatter setTimeZone:timeZone];
+    
+    NSDate* current_date = [[NSDate alloc] init];
+    NSTimeInterval time=[current_date timeIntervalSinceDate:newsDateFormatted];//间隔的秒数
+    int month=((int)time)/(3600*24*30);
+    int day=((int)time)/(3600*24);
+    int hour=((int)time)%(3600*24)/3600;
+    int minute=((int)time)%(3600*24)/60;
+    
+    NSString *dateContent  = nil;
+    
+    if(month!=0){
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM月dd日"];
+        
+        NSString *str= [dateFormatter stringFromDate:newsDateFormatted];
+        
+        dateContent = str;
+    }else if(day!=0){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM月dd日"];
+        
+        NSString *str= [dateFormatter stringFromDate:newsDateFormatted];
+        dateContent = str;
+    }else if(hour!=0){
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",hour,@"小时前"];
+    }else if(minute !=0){
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",minute,@"分钟前"];
+        
+    }else
+    {
+        dateContent =@"刚刚";
+    }
+    
+    return dateContent;
+}
+
 
 
 

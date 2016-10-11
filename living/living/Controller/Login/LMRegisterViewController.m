@@ -230,8 +230,9 @@
     NSLog(@"*****ageTF.textLabel.text********%@",ageTF.textLabel.text);
     NSLog(@"*****passWordStr********%@",passWordStr);
     NSLog(@"*******genderStr******%@",genderStr);
+    NSLog(@"*************%@",_imgURL);
     
-//    _imgURL = @"http://a.hiphotos.baidu.com/zhidao/pic/item/2cf5e0fe9925bc314cc6bd685fdf8db1ca1370a2.jpg";
+    _imgURL = @"http://a.hiphotos.baidu.com/zhidao/pic/item/2cf5e0fe9925bc314cc6bd685fdf8db1ca1370a2.jpg";
     
     if ([nickTF.text isEqualToString:@""]) {
         [self textStateHUD:@"请填写昵称"];
@@ -256,7 +257,7 @@
 
     
     
-    DYRegisterRequest *request = [[DYRegisterRequest alloc] initWithNickname:nickTF.text andPassword:_passWord andGender:genderStr andAvatar:_imgURL andPhone:_numberString andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
+    DYRegisterRequest *request = [[DYRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -332,27 +333,27 @@
         [userInfo setObject:_passWord forKey:@"password"];
     }
     
-    if (nickTF.text) {
-        [userInfo setObject:nickTF.text forKey:@"username"];
-    }
+//    if (nickTF.text) {
+//        [userInfo setObject:nickTF.text forKey:@"username"];
+//    }
     
     if (genderStr) {
         [userInfo setObject:genderStr forKey:@"gender"];
     }
-    if (_imgURL) {
-        [userInfo setObject:_imgURL forKey:@"avatar"];
-    }
-    if (ageTF.textLabel.text) {
-        [userInfo setObject:ageTF.textLabel.text forKey:@"birthday"];
-    }
-    
-    if (provinceStr) {
-        [userInfo setObject:provinceStr forKey:@"province"];
-    }
-    
-    if (cityStr) {
-        [userInfo setObject:cityStr forKey:@"city"];
-    }
+//    if (_imgURL) {
+//        [userInfo setObject:_imgURL forKey:@"avatar"];
+//    }
+//    if (ageTF.textLabel.text) {
+//        [userInfo setObject:ageTF.textLabel.text forKey:@"birthday"];
+//    }
+//    
+//    if (provinceStr) {
+//        [userInfo setObject:provinceStr forKey:@"province"];
+//    }
+//    
+//    if (cityStr) {
+//        [userInfo setObject:cityStr forKey:@"city"];
+//    }
     
     
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];

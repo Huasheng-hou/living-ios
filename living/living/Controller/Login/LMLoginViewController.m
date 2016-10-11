@@ -325,7 +325,7 @@
 - (void)submitBtnPressed
 {
     //      验证码正则
-    NSString    *verCodeRegex     = @"[0-9]{4}";
+    NSString    *verCodeRegex     = @"[0-9]{6}";
     NSPredicate *verCodePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", verCodeRegex];
     
     _password   = [self generatePassword:_phoneTF.text];
@@ -333,7 +333,7 @@
     if (!_codeTF.text || ![verCodePredicate evaluateWithObject:_codeTF.text]) {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"验证码有误"
-                                                        message:@"验证码为四位数字"
+                                                        message:@"验证码为六位数字"
                                                        delegate:self
                                               cancelButtonTitle:@"确定"
                                               otherButtonTitles:nil, nil];
@@ -381,7 +381,7 @@
     {
         
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
-        NSString *is_exist = [bodyDict objectForKey:@"is_exist"];
+        NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
         if (is_exist && [is_exist intValue] == 0) {
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
             registerVC.userId = _uuid;
@@ -389,8 +389,7 @@
             registerVC.numberString = _phoneTF.text;
             [self.navigationController pushViewController:registerVC animated:YES];
         }else{
-            gender      = [bodyDict objectForKey:@"gender"];
-            [self setUserInfo];
+            
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
              
@@ -399,7 +398,7 @@
              [self dismissViewControllerAnimated:YES completion:nil];
             
         }
-        
+        [self setUserInfo];
        
     } else {
         [self textStateHUD:@"登录失败"];

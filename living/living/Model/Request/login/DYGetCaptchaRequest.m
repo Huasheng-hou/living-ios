@@ -23,9 +23,9 @@
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-//        if (phone){
-//            [bodyDict setObject:phone forKey:@"phone"];
-//        }
+        if (phone){
+            [bodyDict setObject:phone forKey:@"phone"];
+        }
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
@@ -37,7 +37,7 @@
 
 - (NSString *)methodPath
 {
-    return [NSString stringWithFormat:@"captcha/%@", _phone];//获取验证码路径
+    return [NSString stringWithFormat:@"user/captcha/%@", _phone];//获取验证码路径
 }
 
 

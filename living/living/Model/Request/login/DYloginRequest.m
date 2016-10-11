@@ -23,7 +23,7 @@
         }
         
         if (code){
-            [bodyDict setObject:code forKey:@"code"];
+            [bodyDict setObject:code forKey:@"captcha"];
         }
         if (password){
             [bodyDict setObject:password forKey:@"password"];

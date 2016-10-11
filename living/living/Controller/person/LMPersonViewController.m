@@ -11,13 +11,14 @@
 #import "LMNoticViewController.h"
 #import "LMBalanceViewController.h"
 #import "LMOrderViewController.h"
+#import "LMPersonInfoRequest.h"
 #import "FitUserManager.h"
-#import "DYUserInfo.h"
+#import "LMUserInfo.h"
 
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
-    DYUserInfo *infoModel;
+    LMUserInfo *infoModel;
     NSString *gender;
 }
 
@@ -62,6 +63,20 @@
 -(void)getUserInfoData
 {
     NSLog(@"**************%@",[FitUserManager sharedUserManager].uuid);
+    LMPersonInfoRequest *request = [[LMPersonInfoRequest alloc] initWithPhone:[FitUserManager sharedUserManager].uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getUserInfoResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
     
 
 }
@@ -79,7 +94,7 @@
     
     if (result && [result intValue] == 0)
     {
-        infoModel = [[DYUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"user_info"]];
+        infoModel = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         [_tableView reloadData];
 
         
@@ -171,7 +186,7 @@
             nicklabel.textColor = TEXT_COLOR_LEVEL_2;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
             
-            NSString *str = infoModel.nickname;
+            NSString *str = infoModel.nickName;
             CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
             [nicklabel setFrame:CGRectMake(100, 10, textSize.width, 30)];
             nicklabel.text = str;
@@ -181,8 +196,7 @@
             //gender icon
             UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 17, 16, 16)];
             if (infoModel.gender) {
-                NSLog(@"%.0f",infoModel.gender);
-                if (infoModel.gender==1) {
+                if ([infoModel.gender isEqual:@"1"]) {
                     [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
                 }else{
                     [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
@@ -197,7 +211,7 @@
             
             //余额
             UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 80, 20)];
-            question.text = [NSString stringWithFormat:@"余额 ￥%.0f",infoModel.todayQuestions];
+            question.text = [NSString stringWithFormat:@"余额 ￥%.0f",infoModel.balance];
             question.font = TEXT_FONT_LEVEL_2;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [cell.contentView addSubview:question];
@@ -206,7 +220,7 @@
             
             //订单
             UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 50, 80, 20)];
-            reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.todayRewards];
+//            reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.todayRewards];
             reward.font = TEXT_FONT_LEVEL_2;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [cell.contentView addSubview:reward];
@@ -217,10 +231,10 @@
                 
             case 1:
                 cell.textLabel.text = @" 绑定号码";
-                if (infoModel.phone==nil) {
+                if ([FitUserManager sharedUserManager].phone==nil) {
                     cell.detailTextLabel.text = @"- -";
                 }else{
-                    cell.detailTextLabel.text = infoModel.phone;
+                    cell.detailTextLabel.text = [FitUserManager sharedUserManager].phone;
                 }
                 break;
                 

@@ -30,7 +30,7 @@
 
 - (NSString *)serverHost
 {
-    return @"http://120.26.77.84:8080/dirty/";
+    return @"http://120.26.64.40:8080/living/";
 }
 
 - (BOOL)isPost
@@ -40,7 +40,7 @@
 
 - (NSString *)methodPath
 {
-    return [NSString stringWithFormat:@"media/image_upload?user_uuid=%@&password=%@",[FitUserManager sharedUserManager].uuid,[FitUserManager sharedUserManager].password];
+    return [NSString stringWithFormat:@"media/file_upload?user_uuid=%@&password=%@",[FitUserManager sharedUserManager].uuid,[FitUserManager sharedUserManager].password];
 }
 
 - (BOOL)isImageInclude

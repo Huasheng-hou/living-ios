@@ -11,10 +11,8 @@
 @interface DYRegisterRequest : FitBaseRequest
 
 - (id)initWithNickname:(NSString *)nickname
-           andPassword:(NSString *)password
              andGender:(NSString *)gender
              andAvatar:(NSString *)avatar
-              andPhone:(NSString *)phone
            andBirtyday:(NSString *)birthday
            andProvince:(NSString *)province
                andCity:(NSString *)city;
