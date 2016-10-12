@@ -442,7 +442,7 @@ LMCommentCellDelegate
                                                NSLog(@"%@",bodyDic);
                                                NSInteger value = cell.count+1;
                                                
-                                               cell.zanButton.textLabel.text = [NSString stringWithFormat:@"%ld",value];
+                                               cell.zanButton.textLabel.text = [NSString stringWithFormat:@"%ld",(long)value];
                                                
                                                [_tableView reloadData];
                                                
@@ -454,15 +454,6 @@ LMCommentCellDelegate
     [proxy start];
     
 }
-
-
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
-
 
 #pragma mark 键盘部分
 
