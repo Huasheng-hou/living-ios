@@ -7,12 +7,19 @@
 //
 
 #import "LMHomeDetailController.h"
+#import "LMHomeDetailRequest.h"
+#import "LMArtclePariseRequest.h"
+#import "LMCommentPraiseRequest.h"
+#import "LMArticleBody.h"
+#import "LMCommentMessages.h"
 #import "LMCommentCell.h"
+#import "UIImageView+WebCache.h"
 #import "UIView+frame.h"
 
 @interface LMHomeDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
-UITextViewDelegate
+UITextViewDelegate,
+LMCommentCellDelegate
 >
 {
     UITableView *_tableView;
@@ -23,6 +30,9 @@ UITextViewDelegate
     CGFloat bgViewY;
     UILabel  *tipLabel;
     UIButton *zanButton;
+
+    LMArticleBody *articleData;
+    NSMutableArray *listArray;
     
 }
 
@@ -31,12 +41,15 @@ UITextViewDelegate
 
 @implementation LMHomeDetailController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"首页详情";
     [self creatUI];
-    [self getHomeDataRequest];
+    listArray = [NSMutableArray new];
+    [self getHomeDetailDataRequest];
     [self registerForKeyboardNotifications];
     
 }
@@ -73,6 +86,7 @@ UITextViewDelegate
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [zanButton setTitle:@"点赞" forState:UIControlStateNormal];
     [zanButton setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+    [zanButton addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
     
     [toolBar addSubview:zanButton];
@@ -84,29 +98,78 @@ UITextViewDelegate
     tipLabel.font = TEXT_FONT_LEVEL_3;
     [textcView addSubview:tipLabel];
     
-    
-    
-    
-    
     [toolBar addSubview:textcView];
 }
 
-
-
--(void)getHomeDataRequest
+//点赞
+-(void)zanButtonAction:(id)senser
 {
-    
+    LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"点赞失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+-(void)getarticlePraiseDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
+    {
+        [self textStateHUD:@"点赞成功"];
+        [_tableView reloadData];
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+        
+}
+
+
+
+
+-(void)getHomeDetailDataRequest
+{
+    LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getHomeDeatilDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取详情失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
     
 }
 
--(void)getHomeDataResponse:(NSString *)resp
+-(void)getHomeDeatilDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
         
-        
+        articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
+        NSMutableArray *array=bodyDic[@"comment_messages"];
+        for (int i=0; i<array.count; i++) {
+            LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:array[i]];
+            if (![listArray containsObject:list]) {
+                [listArray addObject:list];
+            }
+        }
         
         [_tableView reloadData];
     }else{
@@ -124,25 +187,37 @@ UITextViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
-        return [LMCommentCell cellHigth:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
-    }
-    
-    if (indexPath.section==0) {
-        if (indexPath.row==1) {
-            NSString *string = @"这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述";
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-            CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            
-            NSString *string2 = @"这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文";
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-            CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-            
-            
-            return 300+conHigh+conHigh2;
+        if (listArray.count>0) {
+            LMCommentMessages *list = listArray[indexPath.row];
+            return [LMCommentCell cellHigth:list.commentContent];
         }
     }
     
-    return 130;
+    if (indexPath.section==0) {
+        if (indexPath.row==0) {
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            return 75+conHigh;
+        }
+        if (indexPath.row==1) {
+
+            
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            
+            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            CGFloat conHigh2 = [articleData.articleContent boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+            
+            if (!articleData.articleImgs) {
+               return 80+conHigh+conHigh2;
+            }else{
+                return 300+conHigh+conHigh2;
+            }
+            
+        }
+    }
+    
+    return 0;
 }
 
 
@@ -202,6 +277,9 @@ UITextViewDelegate
     if (section==0) {
         return 2;
     }
+    if (section==1) {
+        return listArray.count;
+    }
     return 7;
 }
 
@@ -216,7 +294,7 @@ UITextViewDelegate
             UILabel *titleLabel = [UILabel new];
             titleLabel.font = TEXT_FONT_LEVEL_1;
             titleLabel.numberOfLines=0;
-            titleLabel.text = @"首页详情这是标题标题首页详情这是标题标题首页详情这是标题标题首页详情这是标题标题";
+            titleLabel.text = articleData.articleTitle;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [titleLabel sizeToFit];
@@ -224,7 +302,7 @@ UITextViewDelegate
             [cell.contentView addSubview:titleLabel];
             
             UIImageView *headImage = [UIImageView new];
-            headImage.image = [UIImage imageNamed:@"112"];
+            [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar]];
             headImage.frame = CGRectMake(15, conHigh+30, 20, 20);
             headImage.layer.cornerRadius =10;
             [headImage setClipsToBounds:YES];
@@ -236,7 +314,7 @@ UITextViewDelegate
             UILabel *nameLabel = [UILabel new];
             nameLabel.font = TEXT_FONT_LEVEL_3;
             nameLabel.textColor = TEXT_COLOR_LEVEL_3;
-            nameLabel.text = @"作者名";
+            nameLabel.text = articleData.articleName;
             [nameLabel sizeToFit];
             nameLabel.frame = CGRectMake(40, conHigh+30, nameLabel.bounds.size.width,20);
             [cell.contentView addSubview:nameLabel];
@@ -245,7 +323,7 @@ UITextViewDelegate
             UILabel *timeLabel = [UILabel new];
             timeLabel.font = TEXT_FONT_LEVEL_3;
             timeLabel.textColor = TEXT_COLOR_LEVEL_3;
-            timeLabel.text = @"09-12 18:26";
+            timeLabel.text = articleData.publishTime;
             [timeLabel sizeToFit];
             timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+30, timeLabel.bounds.size.width,20);
             [cell.contentView addSubview:timeLabel];
@@ -258,22 +336,25 @@ UITextViewDelegate
             
         }
         if (indexPath.row==1) {
+
             UIImageView *headImage = [UIImageView new];
-            headImage.image = [UIImage imageNamed:@"112"];
-            headImage.frame = CGRectMake(15, 15, kScreenWidth-30, 210);
+            [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.articleImgs]];
+            
             [headImage setClipsToBounds:YES];
             headImage.contentMode = UIViewContentModeScaleToFill;
             [cell.contentView addSubview:headImage];
+
+            
             
             UILabel *dspLabel = [UILabel new];
             dspLabel.font = TEXT_FONT_LEVEL_3;
             dspLabel.textColor = TEXT_COLOR_LEVEL_3;
             dspLabel.numberOfLines=0;
-            dspLabel.text = @"这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述";
+            dspLabel.text = articleData.describe;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
             CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [dspLabel sizeToFit];
-            dspLabel.frame = CGRectMake(15, 20+headImage.bounds.size.height, kScreenWidth-30, conHigh);
+
             [cell.contentView addSubview:dspLabel];
             
             
@@ -281,20 +362,20 @@ UITextViewDelegate
             contentLabel.font = TEXT_FONT_LEVEL_2;
             contentLabel.textColor = TEXT_COLOR_LEVEL_2;
             contentLabel.numberOfLines=0;
-            contentLabel.text = @"这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文";
+            contentLabel.text = articleData.articleContent;
             NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
-            contentLabel.frame = CGRectMake(15, 30+headImage.bounds.size.height +conHigh, kScreenWidth-30, conHighs);
+
             [cell.contentView addSubview:contentLabel];
             
             
             UILabel *commentLabel = [UILabel new];
             commentLabel.font = TEXT_FONT_LEVEL_3;
             commentLabel.textColor = TEXT_COLOR_LEVEL_3;
-            commentLabel.text = @"评论 264";
+            commentLabel.text = [NSString stringWithFormat:@"评论 %.0f",articleData.commentNum];
             [commentLabel sizeToFit];
-            commentLabel.frame = CGRectMake(15, 45+headImage.bounds.size.height +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+
             [cell.contentView addSubview:commentLabel];
             
             
@@ -302,17 +383,26 @@ UITextViewDelegate
             UILabel *zanLabel = [UILabel new];
             zanLabel.font = TEXT_FONT_LEVEL_3;
             zanLabel.textColor = TEXT_COLOR_LEVEL_3;
-            zanLabel.text = @"点赞 264";
+            zanLabel.text = [NSString stringWithFormat:@"点赞 %.0f",articleData.articlePraiseNum];
             [zanLabel sizeToFit];
-            zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+headImage.bounds.size.height +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+
             [cell.contentView addSubview:zanLabel];
             
-            
+            if (articleData.articleImgs) {
+                headImage.frame = CGRectMake(15, 15, kScreenWidth-30, 210);
+                dspLabel.frame = CGRectMake(15, 20+headImage.bounds.size.height, kScreenWidth-30, conHigh);
+                contentLabel.frame = CGRectMake(15, 30+headImage.bounds.size.height +conHigh, kScreenWidth-30, conHighs);
+                commentLabel.frame = CGRectMake(15, 45+headImage.bounds.size.height +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+headImage.bounds.size.height +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+            }else{
+                dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
+                contentLabel.frame = CGRectMake(15, 20 +conHigh, kScreenWidth-30, conHighs);
+                commentLabel.frame = CGRectMake(15, 35+conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 35+conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+            }
             
         }
-        
-        
-        
+  
         return cell;
  
     }
@@ -320,11 +410,14 @@ UITextViewDelegate
         static NSString *cellId = @"cellId";
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
+        LMCommentMessages *list = listArray[indexPath.row];
+        cell.delegate = self;
+        [cell setValue:list];
+        cell.commentUUid = list.commentUuid;
+        cell.count = list.praiseCount;
 
-        
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
-        [cell setTitleString:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
         return cell;
     }
     
@@ -334,6 +427,35 @@ UITextViewDelegate
     return nil;
     
 }
+
+#pragma mark - LMCommentCell delegate -
+- (void)cellWillComment:(LMCommentCell *)cell
+{
+    
+    NSLog(@"%@",cell.commentUUid);
+    LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                    
+                                               
+                                               NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                               NSLog(@"%@",bodyDic);
+                                               NSInteger value = cell.count+1;
+                                               
+                                               cell.zanButton.textLabel.text = [NSString stringWithFormat:@"%ld",value];
+                                               
+                                               [_tableView reloadData];
+                                               
+                                           } failed:^(NSError *error) {
+                                               [self textStateHUD:@"点赞失败"];
+                                               
+                 
+                                           }];
+    [proxy start];
+    
+}
+
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

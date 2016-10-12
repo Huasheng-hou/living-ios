@@ -420,7 +420,7 @@ LMActivityheadCellDelegate
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
-        [cell setTitleString:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
+//        [cell setTitleString:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
         return cell;
     }
     

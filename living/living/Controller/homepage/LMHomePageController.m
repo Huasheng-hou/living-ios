@@ -208,8 +208,9 @@ WJLoopViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-    
+    detailVC.artcleuuid = list.articleUuid;
     [self.navigationController pushViewController:detailVC animated:YES];
 
 }

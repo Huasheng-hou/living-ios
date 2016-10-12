@@ -126,6 +126,11 @@
 		35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */; };
 		35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */; };
 		35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */; };
+		35F004161DADC6D900F59CB2 /* LMHomeDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F004151DADC6D900F59CB2 /* LMHomeDetailRequest.m */; };
+		35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F004191DADCACC00F59CB2 /* LMArticleBody.m */; };
+		35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */; };
+		35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F0041F1DADEA0400F59CB2 /* LMArtclePariseRequest.m */; };
+		35F004231DAE0C0200F59CB2 /* LMCommentPraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F004221DAE0C0200F59CB2 /* LMCommentPraiseRequest.m */; };
 		35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */; };
 		35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */; };
 		35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A411DAA3EF300688713 /* LMTimeButton.m */; };
@@ -355,14 +360,24 @@
 		35E40A311DACBF9700DE1807 /* LMBannerrequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBannerrequest.m; sourceTree = "<group>"; };
 		35E40A331DACC4B500DE1807 /* LMHomelistequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomelistequest.h; sourceTree = "<group>"; };
 		35E40A341DACC4B500DE1807 /* LMHomelistequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomelistequest.m; sourceTree = "<group>"; };
-		35E40A3C1DACCD8400DE1807 /* LMActicleList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMActicleList.h; sourceTree = "<group>"; };
-		35E40A3D1DACCD8800DE1807 /* LMActicleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActicleList.m; sourceTree = "<group>"; };
+		35E40A3C1DACCD8400DE1807 /* LMActicleList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LMActicleList.h; path = ../../person/LMActicleList.h; sourceTree = "<group>"; };
+		35E40A3D1DACCD8800DE1807 /* LMActicleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMActicleList.m; path = ../../person/LMActicleList.m; sourceTree = "<group>"; };
 		35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDetailController.h; sourceTree = "<group>"; };
 		35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDetailController.m; sourceTree = "<group>"; };
 		35E7B2E61D9DFF780035AFFE /* LMActivityheadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityheadCell.h; sourceTree = "<group>"; };
 		35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityheadCell.m; sourceTree = "<group>"; };
 		35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityMsgCell.h; sourceTree = "<group>"; };
 		35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityMsgCell.m; sourceTree = "<group>"; };
+		35F004141DADC6D900F59CB2 /* LMHomeDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailRequest.h; sourceTree = "<group>"; };
+		35F004151DADC6D900F59CB2 /* LMHomeDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailRequest.m; sourceTree = "<group>"; };
+		35F004181DADCAC800F59CB2 /* LMArticleBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMArticleBody.h; sourceTree = "<group>"; };
+		35F004191DADCACC00F59CB2 /* LMArticleBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArticleBody.m; sourceTree = "<group>"; };
+		35F0041B1DADCAD100F59CB2 /* LMCommentMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMCommentMessages.h; sourceTree = "<group>"; };
+		35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentMessages.m; sourceTree = "<group>"; };
+		35F0041E1DADEA0400F59CB2 /* LMArtclePariseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtclePariseRequest.h; sourceTree = "<group>"; };
+		35F0041F1DADEA0400F59CB2 /* LMArtclePariseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtclePariseRequest.m; sourceTree = "<group>"; };
+		35F004211DAE0C0200F59CB2 /* LMCommentPraiseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentPraiseRequest.h; sourceTree = "<group>"; };
+		35F004221DAE0C0200F59CB2 /* LMCommentPraiseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentPraiseRequest.m; sourceTree = "<group>"; };
 		35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicActivityController.h; sourceTree = "<group>"; };
 		35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicActivityController.m; sourceTree = "<group>"; };
 		35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicMsgCell.h; sourceTree = "<group>"; };
@@ -657,8 +672,6 @@
 			children = (
 				35E40A2D1DACBD3F00DE1807 /* LMUserInfo.h */,
 				35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */,
-				35E40A3D1DACCD8800DE1807 /* LMActicleList.m */,
-				35E40A3C1DACCD8400DE1807 /* LMActicleList.h */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -743,6 +756,7 @@
 		3547F3DB1D9904BA0068F04E /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				35F004171DADCA8900F59CB2 /* homepage */,
 				3547F3DC1D9904BA0068F04E /* Case */,
 				3547F3DD1D9904BA0068F04E /* Contact */,
 				3547F3DE1D9904BA0068F04E /* Head */,
@@ -1431,6 +1445,12 @@
 				35E40A311DACBF9700DE1807 /* LMBannerrequest.m */,
 				35E40A331DACC4B500DE1807 /* LMHomelistequest.h */,
 				35E40A341DACC4B500DE1807 /* LMHomelistequest.m */,
+				35F004141DADC6D900F59CB2 /* LMHomeDetailRequest.h */,
+				35F004151DADC6D900F59CB2 /* LMHomeDetailRequest.m */,
+				35F0041E1DADEA0400F59CB2 /* LMArtclePariseRequest.h */,
+				35F0041F1DADEA0400F59CB2 /* LMArtclePariseRequest.m */,
+				35F004211DAE0C0200F59CB2 /* LMCommentPraiseRequest.h */,
+				35F004221DAE0C0200F59CB2 /* LMCommentPraiseRequest.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1442,6 +1462,19 @@
 				35E40A2B1DACBBC000DE1807 /* LMPersonInfoRequest.m */,
 			);
 			name = person;
+			sourceTree = "<group>";
+		};
+		35F004171DADCA8900F59CB2 /* homepage */ = {
+			isa = PBXGroup;
+			children = (
+				35E40A3C1DACCD8400DE1807 /* LMActicleList.h */,
+				35E40A3D1DACCD8800DE1807 /* LMActicleList.m */,
+				35F004181DADCAC800F59CB2 /* LMArticleBody.h */,
+				35F004191DADCACC00F59CB2 /* LMArticleBody.m */,
+				35F0041B1DADCAD100F59CB2 /* LMCommentMessages.h */,
+				35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */,
+			);
+			path = homepage;
 			sourceTree = "<group>";
 		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
@@ -1597,6 +1630,7 @@
 				3547F4BE1D9904D90068F04E /* SSPullToRefreshSimpleContentView.m in Sources */,
 				3547F3FA1D9904BA0068F04E /* DYRegisterRequest.m in Sources */,
 				3547F45D1D9904C70068F04E /* FitSignalCacheManager.m in Sources */,
+				35F004231DAE0C0200F59CB2 /* LMCommentPraiseRequest.m in Sources */,
 				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
@@ -1608,6 +1642,7 @@
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
 				3547F4001D9904BA0068F04E /* FirGetUserInfoRequest.m in Sources */,
 				3547F4051D9904BA0068F04E /* VOUtil.m in Sources */,
+				35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */,
 				3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
 				35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */,
@@ -1622,6 +1657,7 @@
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				351CC64F1DAB234E008D59D8 /* LMNoticCell.m in Sources */,
 				351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */,
+				35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */,
 				351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
@@ -1653,6 +1689,7 @@
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
 				3547F3F81D9904BA0068F04E /* DYGetCaptchaRequest.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
+				35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
 				3547F4371D9904BD0068F04E /* UIView+frame.m in Sources */,
 				3547F3F91D9904BA0068F04E /* DYloginRequest.m in Sources */,
@@ -1671,6 +1708,7 @@
 				3547F3FD1D9904BA0068F04E /* FirUploadFileRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
 				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
+				35F004161DADC6D900F59CB2 /* LMHomeDetailRequest.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
 				3547F4311D9904BD0068F04E /* HcbObjectTable.m in Sources */,
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
