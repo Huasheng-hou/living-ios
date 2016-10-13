@@ -1,21 +1,19 @@
 //
-//  DYRegisterRequest.h
-//  dirty
+//  LMRegisterRequest.h
+//  living
 //
-//  Created by Ding on 16/8/25.
-//  Copyright © 2016年 Huasheng. All rights reserved.
+//  Created by Ding on 16/10/13.
+//  Copyright © 2016年 chenle. All rights reserved.
 //
 
 #import "FitBaseRequest.h"
 
-@interface DYRegisterRequest : FitBaseRequest
-
+@interface LMRegisterRequest : FitBaseRequest
 - (id)initWithNickname:(NSString *)nickname
              andGender:(NSString *)gender
              andAvatar:(NSString *)avatar
            andBirtyday:(NSString *)birthday
            andProvince:(NSString *)province
                andCity:(NSString *)city;
-
 
 @end

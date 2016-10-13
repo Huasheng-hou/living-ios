@@ -63,7 +63,7 @@
 -(void)getUserInfoData
 {
     NSLog(@"**************%@",[FitUserManager sharedUserManager].uuid);
-    LMPersonInfoRequest *request = [[LMPersonInfoRequest alloc] initWithPhone:[FitUserManager sharedUserManager].uuid];
+    LMPersonInfoRequest *request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

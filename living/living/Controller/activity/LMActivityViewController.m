@@ -9,14 +9,16 @@
 #import "LMActivityViewController.h"
 #import "LMActivityDetailController.h"
 #import "LMPublicActivityController.h"
+#import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
+#import "LMActivityList.h"
 
 @interface LMActivityViewController ()<UITableViewDelegate,
 UITableViewDataSource
 >
 {
     UITableView *_tableView;
-    
+    NSMutableArray *listArray;
     
     UIBarButtonItem *backItem;
     
@@ -30,6 +32,8 @@ UITableViewDataSource
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self creatUI];
+    listArray = [NSMutableArray new];
+    [self getActivityListDataRequest];
 }
 
 
@@ -39,6 +43,8 @@ UITableViewDataSource
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    //去分割线
+    _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
@@ -56,6 +62,51 @@ UITableViewDataSource
     
     NSLog(@"********发布活动");
 }
+
+-(void)getActivityListDataRequest
+{
+    NSLog(@"%@", [FitUserManager sharedUserManager].uuid);
+    NSLog(@"%@", [FitUserManager sharedUserManager].password);
+    LMActivityListRequest *request = [[LMActivityListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getActivityListResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)getActivityListResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        NSLog(@"%@",bodyDic);
+        NSMutableArray *array=bodyDic[@"list"];
+        for (int i=0; i<array.count; i++) {
+            LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
+            if (![listArray containsObject:list]) {
+                [listArray addObject:list];
+            }
+        }
+        
+        [_tableView reloadData];
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+    
+    
+}
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,7 +133,7 @@ UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return listArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -92,15 +143,21 @@ UITableViewDataSource
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    
+    LMActivityList *list = [listArray objectAtIndex:indexPath.row];
+    [cell setValue:list];
+    
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LMActivityList *list = [listArray objectAtIndex:indexPath.row];
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    detailVC.eventUuid = list.eventUuid;
+    
     [self.navigationController pushViewController:detailVC animated:YES];
     
 }

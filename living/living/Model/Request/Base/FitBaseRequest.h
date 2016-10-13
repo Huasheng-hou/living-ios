@@ -1,7 +1,7 @@
 
 //
-//  FitBaseRequest.h
-//  FitTrainer
+//  BabBaseRequest.h
+//  BabTrainer
 //
 //  Created by Huasheng on 15/8/21.
 //  Copyright (c) 2015年 Huasheng. All rights reserved.
@@ -14,7 +14,7 @@
 @property (readonly, nonatomic) NSMutableDictionary     * params;
 @property (strong, nonatomic)   NSData                  * imageData;
 @property (strong, nonatomic)   NSString                * imageName;
-@property (nonatomic, retain)   NSString                * type;
+@property (strong,nonatomic)    NSData                  * fileData;
 
 //无输入参数初始化
 - (id)initWithNone;
@@ -24,9 +24,6 @@
 
 //是否是POST操作
 - (BOOL)isPost;
-
-//是否登录
--(BOOL)isLogin;
 
 //操作接口号路径
 - (NSString *)methodPath;
@@ -42,5 +39,7 @@
 
 //该接口是否包含图片,默认为NO
 - (BOOL)isImageInclude;
+
+//- (BOOL)iSFileDataInclude;
 
 @end

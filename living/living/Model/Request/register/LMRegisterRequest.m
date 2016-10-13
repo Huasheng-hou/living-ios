@@ -1,14 +1,14 @@
 //
-//  DYRegisterRequest.m
-//  dirty
+//  LMRegisterRequest.m
+//  living
 //
-//  Created by Ding on 16/8/25.
-//  Copyright © 2016年 Huasheng. All rights reserved.
+//  Created by Ding on 16/10/13.
+//  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "DYRegisterRequest.h"
+#import "LMRegisterRequest.h"
 
-@implementation DYRegisterRequest
+@implementation LMRegisterRequest
 
 - (id)initWithNickname:(NSString *)nickname
              andGender:(NSString *)gender
@@ -24,9 +24,8 @@
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
         if (nickname){
-            [bodyDict setObject:nickname forKey:@"nick_name"];
+            [bodyDict setObject:nickname forKey:@"nickname"];
         }
-
         if (gender){
             [bodyDict setObject:gender forKey:@"gender"];
         }
@@ -59,6 +58,5 @@
 {
     return @"user/edit";
 }
-
 
 @end

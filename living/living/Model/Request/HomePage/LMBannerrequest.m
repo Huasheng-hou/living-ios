@@ -2,7 +2,7 @@
 //  LMBannerrequest.m
 //  living
 //
-//  Created by Ding on 16/10/11.
+//  Created by Ding on 16/10/13.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
@@ -10,29 +10,27 @@
 
 @implementation LMBannerrequest
 
-
-- (id)init
+-(id)init
 {
     self = [super init];
     
     if (self){
-
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-
+        
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
-        
-        
     }
     return self;
 }
 
+
 - (NSString *)methodPath
 {
-    return [NSString stringWithFormat:@"home/banner"];
+    return @"home/banner";
 }
+
 
 
 @end

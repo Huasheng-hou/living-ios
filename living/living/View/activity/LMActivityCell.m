@@ -7,6 +7,7 @@
 //
 
 #import "LMActivityCell.h"
+#import "UIImageView+WebCache.h"
 #import "FitConsts.h"
 
 @interface LMActivityCell () {
@@ -47,12 +48,10 @@
 {
     //活动图片
     _imageV = [UIImageView new];
-    _imageV.image = [UIImage imageNamed:@"112"];
     [self.contentView addSubview:_imageV];
     
     //标题
     _titleLabel = [UILabel new];
-    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.numberOfLines  = 2;
     _titleLabel.font = [UIFont systemFontOfSize:16.f];
@@ -61,7 +60,6 @@
     
     //参加人数
     _countLabel = [UILabel new];
-    _countLabel.text = @"300/10人已报名参加";
     _countLabel.font = [UIFont systemFontOfSize:13.f];
     _countLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_countLabel];
@@ -69,7 +67,6 @@
     
     //价格
     _priceLabel = [UILabel new];
-    _priceLabel.text = @"￥600/人";
     _priceLabel.font = [UIFont systemFontOfSize:13.f];
     _priceLabel.textAlignment = NSTextAlignmentCenter;
     _priceLabel.textColor = [UIColor whiteColor];
@@ -79,7 +76,6 @@
     
     //活动时间
     _timeLabel = [UILabel new];
-    _timeLabel.text = @"2016-10-25 12:20:30";
     _timeLabel.font = [UIFont systemFontOfSize:13.f];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     _timeLabel.textColor = [UIColor whiteColor];
@@ -91,13 +87,11 @@
     
     //活动人头像
     _headV = [UIImageView new];
-    _headV.backgroundColor = [UIColor blueColor];
     _headV.layer.cornerRadius = 10.f;
     [footView addSubview:_headV];
     
     //活动人名
     _nameLabel = [UILabel new];
-    _nameLabel.text = @"作者的名字";
     _nameLabel.font = [UIFont systemFontOfSize:13.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_2;
     _nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -105,7 +99,6 @@
     
     //活动地址
     _addressLabel = [UILabel new];
-    _addressLabel.text = @"活动地址：浙江省杭州市西湖区";
     _addressLabel.textAlignment = NSTextAlignmentRight;
     _addressLabel.font = [UIFont systemFontOfSize:13.f];
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -115,9 +108,18 @@
     
 }
 
--(void)setData:(NSString *)data
+-(void)setValue:(LMActivityList *)list
 {
+    LMActivityList *listData = list;
+    _nameLabel.text = listData.nickNname;
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.eventImg]];
+    _addressLabel.text = listData.address;
+    [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar]];
+    _titleLabel.text = listData.eventName;
+    _timeLabel.text = listData.startTime;
     
+    _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.totalnum,listData.currentNum];
+    _priceLabel.text =[NSString stringWithFormat:@"￥%@/人",listData.perCost];
 }
 
 

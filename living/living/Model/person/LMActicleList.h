@@ -1,13 +1,11 @@
 //
-//  List.h
+//  LMActicleList.h
 //
 //  Created by   on 16/10/11
 //  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-
-
 
 @interface LMActicleList : NSObject <NSCoding, NSCopying>
 

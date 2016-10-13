@@ -53,7 +53,6 @@
     
     
     _nameLabel = [UILabel new];
-    _nameLabel.text = @"作者的名字";
     _nameLabel.font = [UIFont systemFontOfSize:12.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_3;
     _nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -61,7 +60,6 @@
     
     
     _timeLabel = [UILabel new];
-    _timeLabel.text = @"30分钟前";
     _timeLabel.font = [UIFont systemFontOfSize:12.f];
     _timeLabel.textColor = TEXT_COLOR_LEVEL_3;
     _timeLabel.textAlignment = NSTextAlignmentCenter;

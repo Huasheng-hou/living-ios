@@ -16,6 +16,7 @@
 #import "LMActicleList.h"
 
 #import "WJLoopView.h"
+#import "FitUserManager.h"
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -91,6 +92,7 @@ WJLoopViewDelegate
 
 -(void)getBannerResponse:(NSString *)resp
 {
+    
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
@@ -119,6 +121,8 @@ WJLoopViewDelegate
 
 -(void)getHomeDataRequest
 {
+    NSLog(@"%@", [FitUserManager sharedUserManager].uuid);
+    NSLog(@"%@", [FitUserManager sharedUserManager].password);
     LMHomelistequest *request = [[LMHomelistequest alloc] initWithPageIndex:1 andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -208,8 +212,9 @@ WJLoopViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-    
+    detailVC.artcleuuid = list.articleUuid;
     [self.navigationController pushViewController:detailVC animated:YES];
 
 }

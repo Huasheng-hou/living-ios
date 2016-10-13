@@ -47,7 +47,7 @@
 {
     _imageV = [UIImageView new];
     
-    _imageV.image = [UIImage imageNamed:@"112"];
+//    _imageV.image = [UIImage imageNamed:@"112"];
     [_imageV sizeToFit];
     _imageV.frame = CGRectMake(15, 15, 30, 30);
      _imageV.layer.cornerRadius =15;
@@ -56,7 +56,7 @@
     [self.contentView addSubview:_imageV];
     
     _nameLabel = [UILabel new];
-    _nameLabel.text = @"评论者名字";
+//    _nameLabel.text = @"评论者名字";
     _nameLabel.font = [UIFont systemFontOfSize:12.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_3;
     _nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -64,7 +64,7 @@
     
     
     _timeLabel = [UILabel new];
-    _timeLabel.text = @"2016-09-12 18:26";
+
     _timeLabel.font = [UIFont systemFontOfSize:12.f];
     _timeLabel.textColor = TEXT_COLOR_LEVEL_3;
     _timeLabel.textAlignment = NSTextAlignmentCenter;
@@ -96,8 +96,9 @@
     
     _zanButton = [[LMCommentButton alloc] init];
     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
-    _zanButton.textLabel.text = @"66";
+//    _zanButton.textLabel.text = @"66";
     _zanButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+    [_zanButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_zanButton];
     
     
@@ -113,24 +114,22 @@
 }
 
 
--(void)setTitleString:(NSString *)titleString
-{
-    _titleLabel.text = titleString;
-    
 
-    //指定自适应过程中自适应的字体
+-(void)setValue:(LMCommentMessages *)data;
+{
+    LMCommentMessages *list = data;
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    _nameLabel.text = list.nickName;
+    _timeLabel.text = list.commentTime;
+    _titleLabel.text = list.commentContent;
+    _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",list.praiseCount];
+    
+    _commentUUid = list.commentUuid;
+    
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     //参数1 代表文字自适应的范围 2代表 文字自适应的方式前三种 3代表文字在自适应过程中自适应的字体大小
-//   NSString *string =@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
-    _conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-
-    
-    
-    
-}
-
--(void)setData:(NSString *)data
-{
+    //   NSString *string =@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
+    _conHigh = [list.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
 }
 
@@ -178,6 +177,14 @@
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     return (75+conHigh+20);
+}
+
+- (void)commentAction:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellWillComment:)]) {
+        [_delegate cellWillComment:self];
+    }
+    
 }
 
 

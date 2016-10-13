@@ -10,8 +10,8 @@
 #import "FitNavigationController.h"
 #import "NSString+StringHelper.h"
 
-#import "DYGetCaptchaRequest.h"
-#import "DYloginRequest.h"
+#import "LMGetCaptchaRequest.h"
+#import "LMloginRequest.h"
 
 #import "LMRegisterViewController.h"
 
@@ -272,7 +272,7 @@
     _timer                                            = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
     codeBtn.userInteractionEnabled                    = NO ;
     
-    DYGetCaptchaRequest    *request    = [[DYGetCaptchaRequest alloc] initWithPhone:_phoneTF.text];
+     LMGetCaptchaRequest   *request    = [[LMGetCaptchaRequest alloc] initWithPhone:_phoneTF.text];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -344,8 +344,7 @@
     [self initStateHud];
     
     
-    DYloginRequest *request    = [[DYloginRequest alloc] initWithPhone:_phoneTF.text
-                                                                      andCode:_codeTF.text andPassword:_password];
+    LMloginRequest *request    = [[LMloginRequest alloc] initWithPhone:_phoneTF.text andPassword:_codeTF.text andCaptcha:_password];
     
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request

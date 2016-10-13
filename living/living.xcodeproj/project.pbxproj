@@ -7,6 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3507BE601DAF66A50061DDC7 /* LMActivityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE5F1DAF66A50061DDC7 /* LMActivityList.m */; };
+		3507BE641DAF7F0E0061DDC7 /* LMPublicActivityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE631DAF7F0E0061DDC7 /* LMPublicActivityRequest.m */; };
+		3507BE711DAF80C00061DDC7 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE701DAF80C00061DDC7 /* FitBaseRequest.m */; };
+		3507BE741DAF80F30061DDC7 /* LMBannerrequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE731DAF80F30061DDC7 /* LMBannerrequest.m */; };
+		3507BE771DAF838C0061DDC7 /* LMHomelistequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE761DAF838C0061DDC7 /* LMHomelistequest.m */; };
+		3507BE7A1DAF85B90061DDC7 /* LMGetCaptchaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE791DAF85B90061DDC7 /* LMGetCaptchaRequest.m */; };
+		3507BE7D1DAF85D40061DDC7 /* LMloginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE7C1DAF85D40061DDC7 /* LMloginRequest.m */; };
+		3507BE841DAF88000061DDC7 /* LMPersonInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE831DAF88000061DDC7 /* LMPersonInfoRequest.m */; };
+		3507BE871DAF88C20061DDC7 /* LMRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE861DAF88C20061DDC7 /* LMRegisterRequest.m */; };
+		3507BE8A1DAF8B860061DDC7 /* LMHomeDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE891DAF8B860061DDC7 /* LMHomeDetailRequest.m */; };
+		3507BE8D1DAF8C280061DDC7 /* LMArtclePariseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE8C1DAF8C280061DDC7 /* LMArtclePariseRequest.m */; };
+		3507BE901DAF8C6A0061DDC7 /* LMCommentPraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE8F1DAF8C6A0061DDC7 /* LMCommentPraiseRequest.m */; };
+		3507BE931DAF8D4E0061DDC7 /* LMCommentArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE921DAF8D4E0061DDC7 /* LMCommentArticleRequest.m */; };
+		3507BE961DAF8E0F0061DDC7 /* LMActivityListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE951DAF8E0F0061DDC7 /* LMActivityListRequest.m */; };
+		3507BE991DAF8E7F0061DDC7 /* FirUploadImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE981DAF8E7F0061DDC7 /* FirUploadImageRequest.m */; };
+		3507BE9C1DAF8FD20061DDC7 /* LMActivityDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE9B1DAF8FD20061DDC7 /* LMActivityDetailRequest.m */; };
+		3507BEA01DAF93C30061DDC7 /* LMEventDetailLeavingMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BE9F1DAF93C30061DDC7 /* LMEventDetailLeavingMessages.m */; };
+		3507BEA31DAF93CF0061DDC7 /* LMEventDetailEventBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BEA21DAF93CF0061DDC7 /* LMEventDetailEventBody.m */; };
+		3507BEA61DAF93D70061DDC7 /* LMEventDetailEventProjectsBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BEA51DAF93D70061DDC7 /* LMEventDetailEventProjectsBody.m */; };
+		3507BEA91DAF9BB00061DDC7 /* LMEventMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507BEA81DAF9BB00061DDC7 /* LMEventMsgCell.m */; };
 		3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3509B5F51D9B5302003F4D76 /* LMCommentCell.m */; };
 		351CC64F1DAB234E008D59D8 /* LMNoticCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC64E1DAB234E008D59D8 /* LMNoticCell.m */; };
 		351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6611DAB85B6008D59D8 /* LMBalanceViewController.m */; };
@@ -43,15 +63,6 @@
 		3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3AD1D9904BA0068F04E /* UIBarButtonItem+Badge.m */; };
 		3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3AF1D9904BA0068F04E /* UIButton+Badge.m */; };
 		3547F3F11D9904BA0068F04E /* UITabBar+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3B11D9904BA0068F04E /* UITabBar+Badge.m */; };
-		3547F3F81D9904BA0068F04E /* DYGetCaptchaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3C61D9904BA0068F04E /* DYGetCaptchaRequest.m */; };
-		3547F3F91D9904BA0068F04E /* DYloginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3C81D9904BA0068F04E /* DYloginRequest.m */; };
-		3547F3FA1D9904BA0068F04E /* DYRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3CB1D9904BA0068F04E /* DYRegisterRequest.m */; };
-		3547F3FB1D9904BA0068F04E /* FirInformationFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3CE1D9904BA0068F04E /* FirInformationFileRequest.m */; };
-		3547F3FC1D9904BA0068F04E /* FirUploadEventFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3D01D9904BA0068F04E /* FirUploadEventFileRequest.m */; };
-		3547F3FD1D9904BA0068F04E /* FirUploadFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3D21D9904BA0068F04E /* FirUploadFileRequest.m */; };
-		3547F3FE1D9904BA0068F04E /* FirUploadImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3D51D9904BA0068F04E /* FirUploadImageRequest.m */; };
-		3547F3FF1D9904BA0068F04E /* FirChangeUserInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3D81D9904BA0068F04E /* FirChangeUserInfoRequest.m */; };
-		3547F4001D9904BA0068F04E /* FirGetUserInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3DA1D9904BA0068F04E /* FirGetUserInfoRequest.m */; };
 		3547F4011D9904BA0068F04E /* HeadVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3E01D9904BA0068F04E /* HeadVO.m */; };
 		3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3E41D9904BA0068F04E /* PayloadVO.m */; };
 		3547F4031D9904BA0068F04E /* FirPersonVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3E71D9904BA0068F04E /* FirPersonVO.m */; };
@@ -116,16 +127,14 @@
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
 		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
 		35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */; };
-		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
-		35E40A2C1DACBBC000DE1807 /* LMPersonInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A2B1DACBBC000DE1807 /* LMPersonInfoRequest.m */; };
 		35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */; };
-		35E40A321DACBF9700DE1807 /* LMBannerrequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A311DACBF9700DE1807 /* LMBannerrequest.m */; };
-		35E40A351DACC4B500DE1807 /* LMHomelistequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A341DACC4B500DE1807 /* LMHomelistequest.m */; };
 		35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A3D1DACCD8800DE1807 /* LMActicleList.m */; };
 		35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */; };
 		35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */; };
 		35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */; };
+		35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F004191DADCACC00F59CB2 /* LMArticleBody.m */; };
+		35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */; };
 		35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */; };
 		35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */; };
 		35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A411DAA3EF300688713 /* LMTimeButton.m */; };
@@ -133,6 +142,46 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3507BE5E1DAF66A50061DDC7 /* LMActivityList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityList.h; sourceTree = "<group>"; };
+		3507BE5F1DAF66A50061DDC7 /* LMActivityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityList.m; sourceTree = "<group>"; };
+		3507BE621DAF7F0E0061DDC7 /* LMPublicActivityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicActivityRequest.h; sourceTree = "<group>"; };
+		3507BE631DAF7F0E0061DDC7 /* LMPublicActivityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicActivityRequest.m; sourceTree = "<group>"; };
+		3507BE6F1DAF80BC0061DDC7 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
+		3507BE701DAF80C00061DDC7 /* FitBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitBaseRequest.m; sourceTree = "<group>"; };
+		3507BE721DAF80F30061DDC7 /* LMBannerrequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBannerrequest.h; sourceTree = "<group>"; };
+		3507BE731DAF80F30061DDC7 /* LMBannerrequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBannerrequest.m; sourceTree = "<group>"; };
+		3507BE751DAF838C0061DDC7 /* LMHomelistequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomelistequest.h; sourceTree = "<group>"; };
+		3507BE761DAF838C0061DDC7 /* LMHomelistequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomelistequest.m; sourceTree = "<group>"; };
+		3507BE781DAF85B90061DDC7 /* LMGetCaptchaRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMGetCaptchaRequest.h; sourceTree = "<group>"; };
+		3507BE791DAF85B90061DDC7 /* LMGetCaptchaRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMGetCaptchaRequest.m; sourceTree = "<group>"; };
+		3507BE7B1DAF85D40061DDC7 /* LMloginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMloginRequest.h; sourceTree = "<group>"; };
+		3507BE7C1DAF85D40061DDC7 /* LMloginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMloginRequest.m; sourceTree = "<group>"; };
+		3507BE821DAF88000061DDC7 /* LMPersonInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPersonInfoRequest.h; sourceTree = "<group>"; };
+		3507BE831DAF88000061DDC7 /* LMPersonInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPersonInfoRequest.m; sourceTree = "<group>"; };
+		3507BE851DAF88BF0061DDC7 /* LMRegisterRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LMRegisterRequest.h; path = living/Model/Request/register/LMRegisterRequest.h; sourceTree = SOURCE_ROOT; };
+		3507BE861DAF88C20061DDC7 /* LMRegisterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMRegisterRequest.m; path = living/Model/Request/register/LMRegisterRequest.m; sourceTree = SOURCE_ROOT; };
+		3507BE881DAF8B860061DDC7 /* LMHomeDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailRequest.h; sourceTree = "<group>"; };
+		3507BE891DAF8B860061DDC7 /* LMHomeDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailRequest.m; sourceTree = "<group>"; };
+		3507BE8B1DAF8C280061DDC7 /* LMArtclePariseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtclePariseRequest.h; sourceTree = "<group>"; };
+		3507BE8C1DAF8C280061DDC7 /* LMArtclePariseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtclePariseRequest.m; sourceTree = "<group>"; };
+		3507BE8E1DAF8C6A0061DDC7 /* LMCommentPraiseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentPraiseRequest.h; sourceTree = "<group>"; };
+		3507BE8F1DAF8C6A0061DDC7 /* LMCommentPraiseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentPraiseRequest.m; sourceTree = "<group>"; };
+		3507BE911DAF8D4E0061DDC7 /* LMCommentArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentArticleRequest.h; sourceTree = "<group>"; };
+		3507BE921DAF8D4E0061DDC7 /* LMCommentArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentArticleRequest.m; sourceTree = "<group>"; };
+		3507BE941DAF8E0F0061DDC7 /* LMActivityListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityListRequest.h; sourceTree = "<group>"; };
+		3507BE951DAF8E0F0061DDC7 /* LMActivityListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityListRequest.m; sourceTree = "<group>"; };
+		3507BE971DAF8E7A0061DDC7 /* FirUploadImageRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirUploadImageRequest.h; sourceTree = "<group>"; };
+		3507BE981DAF8E7F0061DDC7 /* FirUploadImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadImageRequest.m; sourceTree = "<group>"; };
+		3507BE9A1DAF8FD20061DDC7 /* LMActivityDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDetailRequest.h; sourceTree = "<group>"; };
+		3507BE9B1DAF8FD20061DDC7 /* LMActivityDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDetailRequest.m; sourceTree = "<group>"; };
+		3507BE9E1DAF93C00061DDC7 /* LMEventDetailLeavingMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMEventDetailLeavingMessages.h; sourceTree = "<group>"; };
+		3507BE9F1DAF93C30061DDC7 /* LMEventDetailLeavingMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailLeavingMessages.m; sourceTree = "<group>"; };
+		3507BEA11DAF93CC0061DDC7 /* LMEventDetailEventBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMEventDetailEventBody.h; sourceTree = "<group>"; };
+		3507BEA21DAF93CF0061DDC7 /* LMEventDetailEventBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailEventBody.m; sourceTree = "<group>"; };
+		3507BEA41DAF93D30061DDC7 /* LMEventDetailEventProjectsBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMEventDetailEventProjectsBody.h; sourceTree = "<group>"; };
+		3507BEA51DAF93D70061DDC7 /* LMEventDetailEventProjectsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailEventProjectsBody.m; sourceTree = "<group>"; };
+		3507BEA71DAF9BB00061DDC7 /* LMEventMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventMsgCell.h; sourceTree = "<group>"; };
+		3507BEA81DAF9BB00061DDC7 /* LMEventMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventMsgCell.m; sourceTree = "<group>"; };
 		3509B5F41D9B5302003F4D76 /* LMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentCell.h; sourceTree = "<group>"; };
 		3509B5F51D9B5302003F4D76 /* LMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentCell.m; sourceTree = "<group>"; };
 		351CC64D1DAB234E008D59D8 /* LMNoticCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticCell.h; sourceTree = "<group>"; };
@@ -201,24 +250,6 @@
 		3547F3AF1D9904BA0068F04E /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		3547F3B01D9904BA0068F04E /* UITabBar+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Badge.h"; sourceTree = "<group>"; };
 		3547F3B11D9904BA0068F04E /* UITabBar+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Badge.m"; sourceTree = "<group>"; };
-		3547F3C51D9904BA0068F04E /* DYGetCaptchaRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYGetCaptchaRequest.h; sourceTree = "<group>"; };
-		3547F3C61D9904BA0068F04E /* DYGetCaptchaRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYGetCaptchaRequest.m; sourceTree = "<group>"; };
-		3547F3C71D9904BA0068F04E /* DYloginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYloginRequest.h; sourceTree = "<group>"; };
-		3547F3C81D9904BA0068F04E /* DYloginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYloginRequest.m; sourceTree = "<group>"; };
-		3547F3CA1D9904BA0068F04E /* DYRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYRegisterRequest.h; sourceTree = "<group>"; };
-		3547F3CB1D9904BA0068F04E /* DYRegisterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYRegisterRequest.m; sourceTree = "<group>"; };
-		3547F3CD1D9904BA0068F04E /* FirInformationFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirInformationFileRequest.h; sourceTree = "<group>"; };
-		3547F3CE1D9904BA0068F04E /* FirInformationFileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirInformationFileRequest.m; sourceTree = "<group>"; };
-		3547F3CF1D9904BA0068F04E /* FirUploadEventFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirUploadEventFileRequest.h; sourceTree = "<group>"; };
-		3547F3D01D9904BA0068F04E /* FirUploadEventFileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadEventFileRequest.m; sourceTree = "<group>"; };
-		3547F3D11D9904BA0068F04E /* FirUploadFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirUploadFileRequest.h; sourceTree = "<group>"; };
-		3547F3D21D9904BA0068F04E /* FirUploadFileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadFileRequest.m; sourceTree = "<group>"; };
-		3547F3D41D9904BA0068F04E /* FirUploadImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirUploadImageRequest.h; sourceTree = "<group>"; };
-		3547F3D51D9904BA0068F04E /* FirUploadImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadImageRequest.m; sourceTree = "<group>"; };
-		3547F3D71D9904BA0068F04E /* FirChangeUserInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirChangeUserInfoRequest.h; sourceTree = "<group>"; };
-		3547F3D81D9904BA0068F04E /* FirChangeUserInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirChangeUserInfoRequest.m; sourceTree = "<group>"; };
-		3547F3D91D9904BA0068F04E /* FirGetUserInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirGetUserInfoRequest.h; sourceTree = "<group>"; };
-		3547F3DA1D9904BA0068F04E /* FirGetUserInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirGetUserInfoRequest.m; sourceTree = "<group>"; };
 		3547F3DF1D9904BA0068F04E /* HeadVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadVO.h; sourceTree = "<group>"; };
 		3547F3E01D9904BA0068F04E /* HeadVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadVO.m; sourceTree = "<group>"; };
 		3547F3E31D9904BA0068F04E /* PayloadVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayloadVO.h; sourceTree = "<group>"; };
@@ -343,26 +374,22 @@
 		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
 		35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticViewController.h; sourceTree = "<group>"; };
 		35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticViewController.m; sourceTree = "<group>"; };
-		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
-		35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitBaseRequest.m; sourceTree = "<group>"; };
 		35E40A251DAC9B6600DE1807 /* HTTPProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPProxy.h; sourceTree = "<group>"; };
 		35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPProxy.m; sourceTree = "<group>"; };
-		35E40A2A1DACBBC000DE1807 /* LMPersonInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPersonInfoRequest.h; sourceTree = "<group>"; };
-		35E40A2B1DACBBC000DE1807 /* LMPersonInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPersonInfoRequest.m; sourceTree = "<group>"; };
 		35E40A2D1DACBD3F00DE1807 /* LMUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMUserInfo.h; sourceTree = "<group>"; };
 		35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMUserInfo.m; sourceTree = "<group>"; };
-		35E40A301DACBF9700DE1807 /* LMBannerrequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBannerrequest.h; sourceTree = "<group>"; };
-		35E40A311DACBF9700DE1807 /* LMBannerrequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBannerrequest.m; sourceTree = "<group>"; };
-		35E40A331DACC4B500DE1807 /* LMHomelistequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomelistequest.h; sourceTree = "<group>"; };
-		35E40A341DACC4B500DE1807 /* LMHomelistequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomelistequest.m; sourceTree = "<group>"; };
-		35E40A3C1DACCD8400DE1807 /* LMActicleList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMActicleList.h; sourceTree = "<group>"; };
-		35E40A3D1DACCD8800DE1807 /* LMActicleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActicleList.m; sourceTree = "<group>"; };
+		35E40A3C1DACCD8400DE1807 /* LMActicleList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LMActicleList.h; path = ../../person/LMActicleList.h; sourceTree = "<group>"; };
+		35E40A3D1DACCD8800DE1807 /* LMActicleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMActicleList.m; path = ../../person/LMActicleList.m; sourceTree = "<group>"; };
 		35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDetailController.h; sourceTree = "<group>"; };
 		35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDetailController.m; sourceTree = "<group>"; };
 		35E7B2E61D9DFF780035AFFE /* LMActivityheadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityheadCell.h; sourceTree = "<group>"; };
 		35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityheadCell.m; sourceTree = "<group>"; };
 		35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityMsgCell.h; sourceTree = "<group>"; };
 		35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityMsgCell.m; sourceTree = "<group>"; };
+		35F004181DADCAC800F59CB2 /* LMArticleBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMArticleBody.h; sourceTree = "<group>"; };
+		35F004191DADCACC00F59CB2 /* LMArticleBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArticleBody.m; sourceTree = "<group>"; };
+		35F0041B1DADCAD100F59CB2 /* LMCommentMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMCommentMessages.h; sourceTree = "<group>"; };
+		35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentMessages.m; sourceTree = "<group>"; };
 		35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicActivityController.h; sourceTree = "<group>"; };
 		35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicActivityController.m; sourceTree = "<group>"; };
 		35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicMsgCell.h; sourceTree = "<group>"; };
@@ -405,6 +432,152 @@
 				79D069E18A025DABE98552EA /* libPods-living.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3507BE561DAF61E40061DDC7 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Activity;
+			sourceTree = "<group>";
+		};
+		3507BE5D1DAF66840061DDC7 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE5E1DAF66A50061DDC7 /* LMActivityList.h */,
+				3507BE5F1DAF66A50061DDC7 /* LMActivityList.m */,
+			);
+			path = Activity;
+			sourceTree = "<group>";
+		};
+		3507BE611DAF7EC30061DDC7 /* PublicActivity */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE621DAF7F0E0061DDC7 /* LMPublicActivityRequest.h */,
+				3507BE631DAF7F0E0061DDC7 /* LMPublicActivityRequest.m */,
+			);
+			path = PublicActivity;
+			sourceTree = "<group>";
+		};
+		3507BE661DAF7FFE0061DDC7 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE6B1DAF7FFE0061DDC7 /* register */,
+				3507BE671DAF7FFE0061DDC7 /* Activity */,
+				3507BE681DAF7FFE0061DDC7 /* Base */,
+				3507BE691DAF7FFE0061DDC7 /* HomePage */,
+				3507BE6A1DAF7FFE0061DDC7 /* login */,
+				3507BE811DAF87B80061DDC7 /* person */,
+				3507BE6C1DAF7FFE0061DDC7 /* UploadFile */,
+				3507BE6D1DAF7FFE0061DDC7 /* UploadImage */,
+				3507BE6E1DAF7FFE0061DDC7 /* UserInfo */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		3507BE671DAF7FFE0061DDC7 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE941DAF8E0F0061DDC7 /* LMActivityListRequest.h */,
+				3507BE951DAF8E0F0061DDC7 /* LMActivityListRequest.m */,
+				3507BE9A1DAF8FD20061DDC7 /* LMActivityDetailRequest.h */,
+				3507BE9B1DAF8FD20061DDC7 /* LMActivityDetailRequest.m */,
+			);
+			path = Activity;
+			sourceTree = "<group>";
+		};
+		3507BE681DAF7FFE0061DDC7 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE6F1DAF80BC0061DDC7 /* FitBaseRequest.h */,
+				3507BE701DAF80C00061DDC7 /* FitBaseRequest.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		3507BE691DAF7FFE0061DDC7 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE721DAF80F30061DDC7 /* LMBannerrequest.h */,
+				3507BE731DAF80F30061DDC7 /* LMBannerrequest.m */,
+				3507BE751DAF838C0061DDC7 /* LMHomelistequest.h */,
+				3507BE761DAF838C0061DDC7 /* LMHomelistequest.m */,
+				3507BE881DAF8B860061DDC7 /* LMHomeDetailRequest.h */,
+				3507BE891DAF8B860061DDC7 /* LMHomeDetailRequest.m */,
+				3507BE8B1DAF8C280061DDC7 /* LMArtclePariseRequest.h */,
+				3507BE8C1DAF8C280061DDC7 /* LMArtclePariseRequest.m */,
+				3507BE8E1DAF8C6A0061DDC7 /* LMCommentPraiseRequest.h */,
+				3507BE8F1DAF8C6A0061DDC7 /* LMCommentPraiseRequest.m */,
+				3507BE911DAF8D4E0061DDC7 /* LMCommentArticleRequest.h */,
+				3507BE921DAF8D4E0061DDC7 /* LMCommentArticleRequest.m */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		3507BE6A1DAF7FFE0061DDC7 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE781DAF85B90061DDC7 /* LMGetCaptchaRequest.h */,
+				3507BE791DAF85B90061DDC7 /* LMGetCaptchaRequest.m */,
+				3507BE7B1DAF85D40061DDC7 /* LMloginRequest.h */,
+				3507BE7C1DAF85D40061DDC7 /* LMloginRequest.m */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		3507BE6B1DAF7FFE0061DDC7 /* register */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE851DAF88BF0061DDC7 /* LMRegisterRequest.h */,
+				3507BE861DAF88C20061DDC7 /* LMRegisterRequest.m */,
+			);
+			name = register;
+			path = person/register;
+			sourceTree = "<group>";
+		};
+		3507BE6C1DAF7FFE0061DDC7 /* UploadFile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UploadFile;
+			sourceTree = "<group>";
+		};
+		3507BE6D1DAF7FFE0061DDC7 /* UploadImage */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE971DAF8E7A0061DDC7 /* FirUploadImageRequest.h */,
+				3507BE981DAF8E7F0061DDC7 /* FirUploadImageRequest.m */,
+			);
+			path = UploadImage;
+			sourceTree = "<group>";
+		};
+		3507BE6E1DAF7FFE0061DDC7 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UserInfo;
+			sourceTree = "<group>";
+		};
+		3507BE811DAF87B80061DDC7 /* person */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE821DAF88000061DDC7 /* LMPersonInfoRequest.h */,
+				3507BE831DAF88000061DDC7 /* LMPersonInfoRequest.m */,
+			);
+			path = person;
+			sourceTree = "<group>";
+		};
+		3507BE9D1DAF938E0061DDC7 /* ActivityDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3507BE9E1DAF93C00061DDC7 /* LMEventDetailLeavingMessages.h */,
+				3507BE9F1DAF93C30061DDC7 /* LMEventDetailLeavingMessages.m */,
+				3507BEA11DAF93CC0061DDC7 /* LMEventDetailEventBody.h */,
+				3507BEA21DAF93CF0061DDC7 /* LMEventDetailEventBody.m */,
+				3507BEA41DAF93D30061DDC7 /* LMEventDetailEventProjectsBody.h */,
+				3507BEA51DAF93D70061DDC7 /* LMEventDetailEventProjectsBody.m */,
+			);
+			path = ActivityDetail;
 			sourceTree = "<group>";
 		};
 		351CC64C1DAB22C1008D59D8 /* person */ = {
@@ -626,11 +799,12 @@
 		3547F3AA1D9904BA0068F04E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3507BE661DAF7FFE0061DDC7 /* Request */,
+				3507BE561DAF61E40061DDC7 /* Activity */,
 				35E40A251DAC9B6600DE1807 /* HTTPProxy.h */,
 				35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */,
 				3547F3AB1D9904BA0068F04E /* dot */,
 				3547F3B71D9904BA0068F04E /* person */,
-				3547F3BA1D9904BA0068F04E /* Request */,
 				3547F3DB1D9904BA0068F04E /* VO */,
 				3547F3EC1D9904BA0068F04E /* VOReflactable.h */,
 				3547F3ED1D9904BA0068F04E /* VOUtil.h */,
@@ -657,116 +831,23 @@
 			children = (
 				35E40A2D1DACBD3F00DE1807 /* LMUserInfo.h */,
 				35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */,
-				35E40A3D1DACCD8800DE1807 /* LMActicleList.m */,
-				35E40A3C1DACCD8400DE1807 /* LMActicleList.h */,
 			);
 			path = person;
-			sourceTree = "<group>";
-		};
-		3547F3BA1D9904BA0068F04E /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				35E40A291DACBB9600DE1807 /* person */,
-				35E40A281DACBB0D00DE1807 /* HomePage */,
-				3547F3BB1D9904BA0068F04E /* Base */,
-				3547F3C41D9904BA0068F04E /* login */,
-				3547F3C91D9904BA0068F04E /* register */,
-				3547F3CC1D9904BA0068F04E /* UploadFile */,
-				3547F3D31D9904BA0068F04E /* UploadImage */,
-				3547F3D61D9904BA0068F04E /* UserInfo */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		3547F3BB1D9904BA0068F04E /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */,
-				35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		3547F3C41D9904BA0068F04E /* login */ = {
-			isa = PBXGroup;
-			children = (
-				3547F3C51D9904BA0068F04E /* DYGetCaptchaRequest.h */,
-				3547F3C61D9904BA0068F04E /* DYGetCaptchaRequest.m */,
-				3547F3C71D9904BA0068F04E /* DYloginRequest.h */,
-				3547F3C81D9904BA0068F04E /* DYloginRequest.m */,
-			);
-			path = login;
-			sourceTree = "<group>";
-		};
-		3547F3C91D9904BA0068F04E /* register */ = {
-			isa = PBXGroup;
-			children = (
-				3547F3CA1D9904BA0068F04E /* DYRegisterRequest.h */,
-				3547F3CB1D9904BA0068F04E /* DYRegisterRequest.m */,
-			);
-			path = register;
-			sourceTree = "<group>";
-		};
-		3547F3CC1D9904BA0068F04E /* UploadFile */ = {
-			isa = PBXGroup;
-			children = (
-				3547F3CD1D9904BA0068F04E /* FirInformationFileRequest.h */,
-				3547F3CE1D9904BA0068F04E /* FirInformationFileRequest.m */,
-				3547F3CF1D9904BA0068F04E /* FirUploadEventFileRequest.h */,
-				3547F3D01D9904BA0068F04E /* FirUploadEventFileRequest.m */,
-				3547F3D11D9904BA0068F04E /* FirUploadFileRequest.h */,
-				3547F3D21D9904BA0068F04E /* FirUploadFileRequest.m */,
-			);
-			path = UploadFile;
-			sourceTree = "<group>";
-		};
-		3547F3D31D9904BA0068F04E /* UploadImage */ = {
-			isa = PBXGroup;
-			children = (
-				3547F3D41D9904BA0068F04E /* FirUploadImageRequest.h */,
-				3547F3D51D9904BA0068F04E /* FirUploadImageRequest.m */,
-			);
-			path = UploadImage;
-			sourceTree = "<group>";
-		};
-		3547F3D61D9904BA0068F04E /* UserInfo */ = {
-			isa = PBXGroup;
-			children = (
-				3547F3D71D9904BA0068F04E /* FirChangeUserInfoRequest.h */,
-				3547F3D81D9904BA0068F04E /* FirChangeUserInfoRequest.m */,
-				3547F3D91D9904BA0068F04E /* FirGetUserInfoRequest.h */,
-				3547F3DA1D9904BA0068F04E /* FirGetUserInfoRequest.m */,
-			);
-			path = UserInfo;
 			sourceTree = "<group>";
 		};
 		3547F3DB1D9904BA0068F04E /* VO */ = {
 			isa = PBXGroup;
 			children = (
-				3547F3DC1D9904BA0068F04E /* Case */,
-				3547F3DD1D9904BA0068F04E /* Contact */,
+				3507BE9D1DAF938E0061DDC7 /* ActivityDetail */,
+				3507BE611DAF7EC30061DDC7 /* PublicActivity */,
+				3507BE5D1DAF66840061DDC7 /* Activity */,
+				35F004171DADCA8900F59CB2 /* homepage */,
 				3547F3DE1D9904BA0068F04E /* Head */,
-				3547F3E11D9904BA0068F04E /* Notice */,
 				3547F3E21D9904BA0068F04E /* Payload */,
 				3547F3E51D9904BA0068F04E /* PersonData */,
-				3547F3E81D9904BA0068F04E /* Tool */,
 				3547F3E91D9904BA0068F04E /* UserInfo */,
 			);
 			path = VO;
-			sourceTree = "<group>";
-		};
-		3547F3DC1D9904BA0068F04E /* Case */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Case;
-			sourceTree = "<group>";
-		};
-		3547F3DD1D9904BA0068F04E /* Contact */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Contact;
 			sourceTree = "<group>";
 		};
 		3547F3DE1D9904BA0068F04E /* Head */ = {
@@ -776,13 +857,6 @@
 				3547F3E01D9904BA0068F04E /* HeadVO.m */,
 			);
 			path = Head;
-			sourceTree = "<group>";
-		};
-		3547F3E11D9904BA0068F04E /* Notice */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Notice;
 			sourceTree = "<group>";
 		};
 		3547F3E21D9904BA0068F04E /* Payload */ = {
@@ -801,13 +875,6 @@
 				3547F3E71D9904BA0068F04E /* FirPersonVO.m */,
 			);
 			path = PersonData;
-			sourceTree = "<group>";
-		};
-		3547F3E81D9904BA0068F04E /* Tool */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tool;
 			sourceTree = "<group>";
 		};
 		3547F3E91D9904BA0068F04E /* UserInfo */ = {
@@ -1407,6 +1474,8 @@
 				35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */,
 				35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */,
 				35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */,
+				3507BEA71DAF9BB00061DDC7 /* LMEventMsgCell.h */,
+				3507BEA81DAF9BB00061DDC7 /* LMEventMsgCell.m */,
 				35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */,
 				35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */,
 				35FA0A401DAA3EF200688713 /* LMTimeButton.h */,
@@ -1424,24 +1493,17 @@
 			path = find;
 			sourceTree = "<group>";
 		};
-		35E40A281DACBB0D00DE1807 /* HomePage */ = {
+		35F004171DADCA8900F59CB2 /* homepage */ = {
 			isa = PBXGroup;
 			children = (
-				35E40A301DACBF9700DE1807 /* LMBannerrequest.h */,
-				35E40A311DACBF9700DE1807 /* LMBannerrequest.m */,
-				35E40A331DACC4B500DE1807 /* LMHomelistequest.h */,
-				35E40A341DACC4B500DE1807 /* LMHomelistequest.m */,
+				35E40A3C1DACCD8400DE1807 /* LMActicleList.h */,
+				35E40A3D1DACCD8800DE1807 /* LMActicleList.m */,
+				35F004181DADCAC800F59CB2 /* LMArticleBody.h */,
+				35F004191DADCACC00F59CB2 /* LMArticleBody.m */,
+				35F0041B1DADCAD100F59CB2 /* LMCommentMessages.h */,
+				35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */,
 			);
-			path = HomePage;
-			sourceTree = "<group>";
-		};
-		35E40A291DACBB9600DE1807 /* person */ = {
-			isa = PBXGroup;
-			children = (
-				35E40A2A1DACBBC000DE1807 /* LMPersonInfoRequest.h */,
-				35E40A2B1DACBBC000DE1807 /* LMPersonInfoRequest.m */,
-			);
-			name = person;
+			path = homepage;
 			sourceTree = "<group>";
 		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
@@ -1595,71 +1657,77 @@
 			files = (
 				3547F39E1D9904B20068F04E /* FitDatePickerView.m in Sources */,
 				3547F4BE1D9904D90068F04E /* SSPullToRefreshSimpleContentView.m in Sources */,
-				3547F3FA1D9904BA0068F04E /* DYRegisterRequest.m in Sources */,
+				3507BE841DAF88000061DDC7 /* LMPersonInfoRequest.m in Sources */,
 				3547F45D1D9904C70068F04E /* FitSignalCacheManager.m in Sources */,
 				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
+				3507BE741DAF80F30061DDC7 /* LMBannerrequest.m in Sources */,
+				3507BE991DAF8E7F0061DDC7 /* FirUploadImageRequest.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3547F4B01D9904D90068F04E /* MJRefreshBaseView.m in Sources */,
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
 				3547F42F1D9904BD0068F04E /* UIImage+ImageFromArrayUtils.m in Sources */,
 				3547F4B51D9904D90068F04E /* UIScrollView+MJRefresh.m in Sources */,
+				3507BE901DAF8C6A0061DDC7 /* LMCommentPraiseRequest.m in Sources */,
 				3547F4B61D9904D90068F04E /* UIView+MJExtension.m in Sources */,
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
-				3547F4001D9904BA0068F04E /* FirGetUserInfoRequest.m in Sources */,
 				3547F4051D9904BA0068F04E /* VOUtil.m in Sources */,
+				35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */,
 				3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */,
+				3507BEA01DAF93C30061DDC7 /* LMEventDetailLeavingMessages.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
-				35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */,
 				3547F4011D9904BA0068F04E /* HeadVO.m in Sources */,
+				3507BE601DAF66A50061DDC7 /* LMActivityList.m in Sources */,
 				3547F37E1D9904A60068F04E /* FitNavigationController.m in Sources */,
 				3547F3881D9904A60068F04E /* LMSettingViewController.m in Sources */,
 				3547F4B71D9904D90068F04E /* MJPhoto.m in Sources */,
 				3547F3861D9904A60068F04E /* LMAddviceViewController.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
+				3507BEA61DAF93D70061DDC7 /* LMEventDetailEventProjectsBody.m in Sources */,
 				354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */,
 				35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */,
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				351CC64F1DAB234E008D59D8 /* LMNoticCell.m in Sources */,
 				351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */,
+				35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */,
+				3507BE641DAF7F0E0061DDC7 /* LMPublicActivityRequest.m in Sources */,
 				351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
+				3507BE871DAF88C20061DDC7 /* LMRegisterRequest.m in Sources */,
 				3547F3A01D9904B20068F04E /* LMAgeChooseButton.m in Sources */,
 				3547F3A21D9904B20068F04E /* FitShareView.m in Sources */,
 				35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */,
 				3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */,
 				3547F4031D9904BA0068F04E /* FirPersonVO.m in Sources */,
 				3547F37D1D9904A60068F04E /* FitBaseViewController.m in Sources */,
-				3547F3FF1D9904BA0068F04E /* FirChangeUserInfoRequest.m in Sources */,
 				3547F4B41D9904D90068F04E /* UIScrollView+MJExtension.m in Sources */,
 				3547F4B11D9904D90068F04E /* MJRefreshConst.m in Sources */,
 				35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */,
 				35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */,
 				3547F42D1D9904BD0068F04E /* FitConsts.m in Sources */,
+				3507BE8A1DAF8B860061DDC7 /* LMHomeDetailRequest.m in Sources */,
+				3507BEA91DAF9BB00061DDC7 /* LMEventMsgCell.m in Sources */,
 				3547F4601D9904C70068F04E /* FitUserInfoManager.m in Sources */,
 				3547F3F11D9904BA0068F04E /* UITabBar+Badge.m in Sources */,
 				3547F4301D9904BD0068F04E /* CheckUtils.m in Sources */,
 				3547F4361D9904BD0068F04E /* FitThumbImageHelper.m in Sources */,
-				3547F3FC1D9904BA0068F04E /* FirUploadEventFileRequest.m in Sources */,
+				3507BE8D1DAF8C280061DDC7 /* LMArtclePariseRequest.m in Sources */,
 				3547F3831D9904A60068F04E /* LMHomePageController.m in Sources */,
 				3547F4B31D9904D90068F04E /* MJRefreshHeaderView.m in Sources */,
 				3547F4041D9904BA0068F04E /* UserInfoVO.m in Sources */,
 				3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */,
 				3547F42C1D9904BD0068F04E /* UIColor+ZXLazy.m in Sources */,
+				3507BE711DAF80C00061DDC7 /* FitBaseRequest.m in Sources */,
 				351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */,
 				3547F3A11D9904B20068F04E /* LMChooseButton.m in Sources */,
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
-				3547F3F81D9904BA0068F04E /* DYGetCaptchaRequest.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
+				3507BE9C1DAF8FD20061DDC7 /* LMActivityDetailRequest.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
 				3547F4371D9904BD0068F04E /* UIView+frame.m in Sources */,
-				3547F3F91D9904BA0068F04E /* DYloginRequest.m in Sources */,
-				3547F3FE1D9904BA0068F04E /* FirUploadImageRequest.m in Sources */,
 				3547F3871D9904A60068F04E /* LMPersonViewController.m in Sources */,
-				35E40A2C1DACBBC000DE1807 /* LMPersonInfoRequest.m in Sources */,
-				35E40A321DACBF9700DE1807 /* LMBannerrequest.m in Sources */,
 				3547F4B91D9904D90068F04E /* MJPhotoToolbar.m in Sources */,
 				3547F37F1D9904A60068F04E /* FitStatefulTableViewController.m in Sources */,
 				3547F4341D9904BD0068F04E /* README.md in Sources */,
@@ -1668,23 +1736,26 @@
 				35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */,
 				35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
-				3547F3FD1D9904BA0068F04E /* FirUploadFileRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
 				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
 				3547F4311D9904BD0068F04E /* HcbObjectTable.m in Sources */,
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
 				3547F42B1D9904BD0068F04E /* FitColorConvertFactory.m in Sources */,
+				3507BE771DAF838C0061DDC7 /* LMHomelistequest.m in Sources */,
 				3547F3811D9904A60068F04E /* FitTableViewController.m in Sources */,
-				3547F3FB1D9904BA0068F04E /* FirInformationFileRequest.m in Sources */,
 				3547F4611D9904C70068F04E /* FitUserManager.m in Sources */,
 				3547F37C1D9904A60068F04E /* LMActivityViewController.m in Sources */,
 				3547F3851D9904A60068F04E /* LMRegisterViewController.m in Sources */,
+				3507BE961DAF8E0F0061DDC7 /* LMActivityListRequest.m in Sources */,
 				3547F3331D9901780068F04E /* main.m in Sources */,
-				35E40A351DACC4B500DE1807 /* LMHomelistequest.m in Sources */,
+				3507BE931DAF8D4E0061DDC7 /* LMCommentArticleRequest.m in Sources */,
 				3547F4BC1D9904D90068F04E /* Readme.markdown in Sources */,
 				3547F4B21D9904D90068F04E /* MJRefreshFooterView.m in Sources */,
 				3547F4BA1D9904D90068F04E /* MJPhotoView.m in Sources */,
+				3507BE7D1DAF85D40061DDC7 /* LMloginRequest.m in Sources */,
+				3507BEA31DAF93CF0061DDC7 /* LMEventDetailEventBody.m in Sources */,
+				3507BE7A1DAF85B90061DDC7 /* LMGetCaptchaRequest.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,

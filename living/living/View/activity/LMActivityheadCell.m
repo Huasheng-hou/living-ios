@@ -95,9 +95,10 @@
     
 }
 
--(void)setData:(NSString *)data
+-(void)setValue:(LMEventDetailLeavingMessages *)value
 {
     
+    NSLog(@"%@",value.nickName);
 }
 
 

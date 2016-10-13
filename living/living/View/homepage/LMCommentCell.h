@@ -8,32 +8,46 @@
 
 #import <UIKit/UIKit.h>
 #import "LMCommentButton.h"
+#import "LMCommentMessages.h"
+#import "UIImageView+WebCache.h"
+
+@protocol  LMCommentCellDelegate;
 
 @interface LMCommentCell : UITableViewCell
 
-@property (nonatomic, strong)NSString *imageUrl;
+@property (nonatomic, strong)NSString *article_uuid;
 
-@property (nonatomic, strong)NSString *titleString;
-
-@property (nonatomic, strong)NSString *name;
-
-@property (nonatomic, strong)NSString *time;
-
-@property (nonatomic, strong)NSString *address;
+@property (nonatomic, strong)NSString *commentUUid;
 
 @property (nonatomic) NSInteger count;
-
 @property (nonatomic)CGFloat conHigh;
 
 @property (nonatomic, strong)LMCommentButton *zanButton;
 @property (nonatomic, strong)LMCommentButton *replyButton;
+
+@property (nonatomic, weak) id <LMCommentCellDelegate> delegate;
 
 
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
+-(void)setValue:(LMCommentMessages *)data;
 
 + (CGFloat)cellHigth:(NSString *)titleString;
 
 @end
+
+@protocol LMCommentCellDelegate <NSObject>
+
+@optional
+- (void)cellWillComment:(LMCommentCell *)cell;
+
+@end
+
+
+
+
+
+
+

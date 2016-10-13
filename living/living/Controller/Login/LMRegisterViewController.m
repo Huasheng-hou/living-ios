@@ -12,7 +12,7 @@
 #import "FitPickerView.h"
 #import "FitDatePickerView.h"
 #import "NSString+StringHelper.h"
-#import "DYRegisterRequest.h"
+#import "LMRegisterRequest.h"
 #import "FirUploadImageRequest.h"
 #import "FitTabbarController.h"
 #import "ImageHelpTool.h"
@@ -257,7 +257,7 @@
 
     
     
-    DYRegisterRequest *request = [[DYRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
+    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

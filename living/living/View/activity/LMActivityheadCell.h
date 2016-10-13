@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMEventDetailLeavingMessages.h"
 
 @protocol  LMActivityheadCellDelegate;
 
@@ -29,6 +30,8 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
+
+-(void)setValue:(LMEventDetailLeavingMessages *)value;
 
 @end
 

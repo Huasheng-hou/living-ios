@@ -7,10 +7,15 @@
 //
 
 #import "LMActivityDetailController.h"
+#import "LMEventMsgCell.h"
 #import "LMCommentCell.h"
 #import "UIView+frame.h"
 #import "LMActivityheadCell.h"
 #import "LMActivityMsgCell.h"
+#import "LMActivityDetailRequest.h"
+#import "LMEventDetailEventBody.h"
+#import "LMEventDetailEventProjectsBody.h"
+#import "LMEventDetailLeavingMessages.h"
 
 @interface LMActivityDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -24,6 +29,7 @@ LMActivityheadCellDelegate
     UIButton *zanButton;
     UITextView *suggestTF;
     UIView *headerView;
+    NSMutableArray *msgArray;
     
 }
 
@@ -37,7 +43,8 @@ LMActivityheadCellDelegate
     // Do any additional setup after loading the view.
     
     [self creatUI];
-    [self getHomeDataRequest];
+    [self getEventListDataRequest];
+    msgArray = [NSMutableArray new];
 
     
 }
@@ -120,19 +127,41 @@ LMActivityheadCellDelegate
 
 
 
--(void)getHomeDataRequest
+-(void)getEventListDataRequest
 {
     [self creatHeaderView];
-    
+    LMActivityDetailRequest *request = [[LMActivityDetailRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventListDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"点赞失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
 }
 
--(void)getHomeDataResponse:(NSString *)resp
+-(void)getEventListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
         
+        NSMutableArray *array = bodyDic[@"leaving_messages"];
+        
+        for (int i=0; i<array.count; i++) {
+            LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:array[i]];
+            if (![msgArray containsObject:list]) {
+                [msgArray addObject:list];
+            }
+        }
+    
         
         
         [_tableView reloadData];
@@ -298,10 +327,6 @@ LMActivityheadCellDelegate
         
         
         return headView;
-        
-        
-        
-        
     }
     
     
@@ -339,6 +364,9 @@ LMActivityheadCellDelegate
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section==2) {
+        return msgArray.count;
+    }
     if (section==3) {
         return 7;
     }
@@ -353,6 +381,7 @@ LMActivityheadCellDelegate
         static NSString *cellId = @"cellIdd";
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         return cell;
@@ -371,42 +400,13 @@ LMActivityheadCellDelegate
     
         if (indexPath.section==2) {
             static NSString *cellId = @"cellId";
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            UILabel *dspLabel = [UILabel new];
-            dspLabel.font = TEXT_FONT_LEVEL_2;
-            dspLabel.textColor = TEXT_COLOR_LEVEL_2;
-            dspLabel.numberOfLines=0;
-            dspLabel.text = @"这这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题";
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-            CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            [dspLabel sizeToFit];
-            dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
-            [cell.contentView addSubview:dspLabel];
-            
-            UIImageView *headImage = [UIImageView new];
-            headImage.image = [UIImage imageNamed:@"112"];
-            headImage.frame = CGRectMake(15, 20+conHigh, kScreenWidth-30, 210);
-            [headImage setClipsToBounds:YES];
-            headImage.contentMode = UIViewContentModeScaleToFill;
-            [cell.contentView addSubview:headImage];
-            
-            UILabel *contentLabel = [UILabel new];
-            contentLabel.font = TEXT_FONT_LEVEL_2;
-            contentLabel.textColor = TEXT_COLOR_LEVEL_3;
-            contentLabel.numberOfLines=0;
-            contentLabel.text = @"这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文";
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-            CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-            [contentLabel sizeToFit];
-            contentLabel.frame = CGRectMake(15, 30+headImage.bounds.size.height +conHigh, kScreenWidth-30, conHighs);
-            [cell.contentView addSubview:contentLabel];
+            LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
+            [cell setValue:msgData];
             return cell;
-            
-            
-
-            
+  
             
         }
         
@@ -420,7 +420,7 @@ LMActivityheadCellDelegate
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
-        [cell setTitleString:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
+//        [cell setTitleString:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
         return cell;
     }
     

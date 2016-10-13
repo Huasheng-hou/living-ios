@@ -9,6 +9,9 @@
 #import "FitTableViewController.h"
 
 @interface LMHomeDetailController : FitTableViewController
+@property(nonatomic, strong) NSString *artcleuuid;
+
+
 
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;

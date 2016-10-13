@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/Login/LMRegisterViewController.m"
-            timestampString = "497858360.406496"
+            filePath = "living/View/activity/LMActivityheadCell.m"
+            timestampString = "498046977.059669"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
-            landmarkName = "-parseCodeResponse:"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-setValue:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
