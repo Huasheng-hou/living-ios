@@ -63,6 +63,10 @@ WJLoopViewDelegate
     self.navigationItem.rightBarButtonItem = rightItem;
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
      _tableView.tableHeaderView = headView;
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerDataRequest) name:@"login" object:nil];
+    
 
 }
 

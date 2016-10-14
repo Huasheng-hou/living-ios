@@ -308,6 +308,9 @@
 -(void)gotoHomepage
 {
     FitTabbarController *tabbar = [[FitTabbarController alloc] init];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
+     
+                                                        object:nil];
     
     [self presentViewController:tabbar animated:YES completion:nil];
 

@@ -8,6 +8,7 @@
 
 #import "FitBaseViewController.h"
 
+
 @interface LMHomePageController :FitBaseViewController
 
 // 带tab, nav, status的y向缩放
