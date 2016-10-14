@@ -2,14 +2,18 @@
 //  LMHomeDetailRequest.m
 //  living
 //
+
 //  Created by Ding on 16/10/13.
+
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
 #import "LMHomeDetailRequest.h"
 
 @implementation LMHomeDetailRequest
--(id)initWithArticle_uuid:(NSString *)article_uuid
+
+
+- (id)initWithArticle_uuid:(NSString *)article_uuid
 {
     self = [super init];
     
@@ -21,10 +25,14 @@
             [bodyDict setObject:article_uuid forKey:@"article_uuid"];
         }
 
+
         
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
+
+        
+    
     }
     return self;
 }

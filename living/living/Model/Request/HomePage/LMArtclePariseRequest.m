@@ -2,7 +2,8 @@
 //  LMArtclePariseRequest.m
 //  living
 //
-//  Created by Ding on 16/10/13.
+
+//  Created by Ding on 16/10/12.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
@@ -10,7 +11,9 @@
 
 @implementation LMArtclePariseRequest
 
--(id)initWithArticle_uuid:(NSString *)article_uuid
+
+- (id)initWithArticle_uuid:(NSString *)article_uuid
+
 {
     self = [super init];
     
@@ -26,6 +29,8 @@
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
+
+        
     }
     return self;
 }

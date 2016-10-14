@@ -108,19 +108,19 @@
     
 }
 
--(void)setValue:(LMActivityList *)list
-{
-    LMActivityList *listData = list;
-    _nameLabel.text = listData.nickNname;
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.eventImg]];
-    _addressLabel.text = listData.address;
-    [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar]];
-    _titleLabel.text = listData.eventName;
-    _timeLabel.text = listData.startTime;
-    
-    _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.totalnum,listData.currentNum];
-    _priceLabel.text =[NSString stringWithFormat:@"￥%@/人",listData.perCost];
-}
+//-(void)setValue:(LMActivityList *)list
+//{
+//    LMActivityList *listData = list;
+//    _nameLabel.text = listData.nickNname;
+//    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.eventImg]];
+//    _addressLabel.text = listData.address;
+//    [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar]];
+//    _titleLabel.text = listData.eventName;
+//    _timeLabel.text = listData.startTime;
+//    
+//    _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.totalnum,listData.currentNum];
+//    _priceLabel.text =[NSString stringWithFormat:@"￥%@/人",listData.perCost];
+//}
 
 
 - (void)setXScale:(float)xScale yScale:(float)yScale

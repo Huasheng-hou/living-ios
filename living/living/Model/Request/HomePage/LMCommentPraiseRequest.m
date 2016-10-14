@@ -2,14 +2,17 @@
 //  LMCommentPraiseRequest.m
 //  living
 //
-//  Created by Ding on 16/10/13.
+
+//  Created by Ding on 16/10/12.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
 #import "LMCommentPraiseRequest.h"
 
 @implementation LMCommentPraiseRequest
+
 -(id)initWithArticle_uuid:(NSString *)article_uuid CommentUUid:(NSString *)comment_uuid
+
 {
     self = [super init];
     
@@ -24,10 +27,9 @@
             [bodyDict setObject:comment_uuid forKey:@"comment_uuid"];
         }
         
-        
-        
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
+
     }
     return self;
 }

@@ -33,6 +33,7 @@ LMCommentCellDelegate
     UIButton *zanButton;
     UILabel *zanLabel;
 
+
     LMArticleBody *articleData;
     NSMutableArray *listArray;
     
@@ -103,7 +104,11 @@ LMCommentCellDelegate
     [toolBar addSubview:textcView];
 }
 
+
 #pragma mark --点赞
+
+//点赞
+
 -(void)zanButtonAction:(id)senser
 {
     LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
@@ -121,7 +126,11 @@ LMCommentCellDelegate
                                            }];
     [proxy start];
 
+
 }
+
+
+
 -(void)getarticlePraiseDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
@@ -142,8 +151,8 @@ LMCommentCellDelegate
 }
 
 
-#pragma mark  --请求详情数据
 
+#pragma mark  --请求详情数据
 -(void)getHomeDetailDataRequest
 {
     LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
@@ -418,6 +427,7 @@ LMCommentCellDelegate
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         LMCommentMessages *list = listArray[indexPath.row];
         cell.delegate = self;
         [cell setValue:list];
@@ -456,6 +466,7 @@ LMCommentCellDelegate
                                                    [self textStateHUD:str];
                                                }
                                                
+
                                                
                                            } failed:^(NSError *error) {
                                                [self textStateHUD:@"点赞失败"];
