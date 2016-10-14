@@ -57,12 +57,8 @@ LMLeavemessagecellDelegate
 
 -(void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [self.view addSubview:_tableView];
-    _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    
+    [super createUI];
+
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
@@ -589,7 +585,16 @@ LMLeavemessagecellDelegate
     }
 }
 
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    [self resignCurrentFirstResponder];
+    return YES;
+}
 
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self scrollEditingRectToVisible:textView.frame EditingView:textView];
+}
 
 
 - (BOOL)prefersStatusBarHidden

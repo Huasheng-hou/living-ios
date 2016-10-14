@@ -123,6 +123,7 @@
 		35B61E1B1DB0A9DA00083F30 /* LMEventJoinRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E1A1DB0A9DA00083F30 /* LMEventJoinRequest.m */; };
 		35B61E1E1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E1D1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m */; };
 		35B61E211DB0B62600083F30 /* LMPublicEventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E201DB0B62600083F30 /* LMPublicEventListCell.m */; };
+		35B61E251DB0C53F00083F30 /* LMPublicEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E241DB0C53F00083F30 /* LMPublicEventRequest.m */; };
 		35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */; };
 		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
@@ -370,6 +371,8 @@
 		35B61E1D1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventLivingMsgRequest.m; sourceTree = "<group>"; };
 		35B61E1F1DB0B62600083F30 /* LMPublicEventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicEventListCell.h; sourceTree = "<group>"; };
 		35B61E201DB0B62600083F30 /* LMPublicEventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicEventListCell.m; sourceTree = "<group>"; };
+		35B61E231DB0C53F00083F30 /* LMPublicEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicEventRequest.h; sourceTree = "<group>"; };
+		35B61E241DB0C53F00083F30 /* LMPublicEventRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicEventRequest.m; sourceTree = "<group>"; };
 		35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticViewController.h; sourceTree = "<group>"; };
 		35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticViewController.m; sourceTree = "<group>"; };
 		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
@@ -700,6 +703,7 @@
 		3547F3BA1D9904BA0068F04E /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				35B61E221DB0C4EF00083F30 /* PublicEvent */,
 				35B61E081DB0702200083F30 /* Activity */,
 				35E40A291DACBB9600DE1807 /* person */,
 				35E40A281DACBB0D00DE1807 /* HomePage */,
@@ -1463,6 +1467,15 @@
 			path = Activity;
 			sourceTree = "<group>";
 		};
+		35B61E221DB0C4EF00083F30 /* PublicEvent */ = {
+			isa = PBXGroup;
+			children = (
+				35B61E231DB0C53F00083F30 /* LMPublicEventRequest.h */,
+				35B61E241DB0C53F00083F30 /* LMPublicEventRequest.m */,
+			);
+			path = PublicEvent;
+			sourceTree = "<group>";
+		};
 		35E40A281DACBB0D00DE1807 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1657,6 +1670,7 @@
 				3547F39E1D9904B20068F04E /* FitDatePickerView.m in Sources */,
 				3547F4BE1D9904D90068F04E /* SSPullToRefreshSimpleContentView.m in Sources */,
 				35B61E0E1DB0702200083F30 /* LMActivityListRequest.m in Sources */,
+				35B61E251DB0C53F00083F30 /* LMPublicEventRequest.m in Sources */,
 				35B61DF01DB06DA000083F30 /* LMloginRequest.m in Sources */,
 				3547F45D1D9904C70068F04E /* FitSignalCacheManager.m in Sources */,
 				35F004231DAE0C0200F59CB2 /* LMCommentPraiseRequest.m in Sources */,

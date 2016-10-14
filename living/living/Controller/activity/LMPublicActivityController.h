@@ -6,8 +6,11 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitTableViewController.h"
 
-@interface LMPublicActivityController : FitBaseViewController
+@interface LMPublicActivityController : FitTableViewController
+
+
+
 
 @end

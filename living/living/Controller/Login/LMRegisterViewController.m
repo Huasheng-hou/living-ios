@@ -153,7 +153,7 @@
         womanButton.headImage.frame = CGRectMake(26, 20, 44, 50);
         womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
         womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
-        womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-gray"];
+        womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
         [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:womanButton];
         
@@ -425,14 +425,14 @@
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
     manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
-    womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-gray"];
+    womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     genderStr = @"1";
 }
 
 -(void)womanAction{
     NSLog(@"***********woman*****");
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
-    manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-gray"];
+    manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
     womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
     genderStr = @"2";

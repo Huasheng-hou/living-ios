@@ -182,21 +182,21 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (component == 0) {
- 
+        
         if (row == 0) {
             
-//            [self.pickerView selectRow:0 inComponent:1 animated:YES];
-//            return;
+            //            [self.pickerView selectRow:0 inComponent:1 animated:YES];
+            //            return;
         }
         
-//        if (row >= [self.pickerView selectedRowInComponent:1]) {
-//            [self.pickerView selectRow:row + 1 inComponent:1 animated:YES];
-//        }
+        //        if (row >= [self.pickerView selectedRowInComponent:1]) {
+        //            [self.pickerView selectRow:row + 1 inComponent:1 animated:YES];
+        //        }
     }
     if (component == 1) {
-//        if (row <= [self.pickerView selectedRowInComponent:0]) {
-//            [self.pickerView selectRow:row - 1 inComponent:0 animated:YES];
-//        }
+        //        if (row <= [self.pickerView selectedRowInComponent:0]) {
+        //            [self.pickerView selectRow:row - 1 inComponent:0 animated:YES];
+        //        }
     }
 }
 

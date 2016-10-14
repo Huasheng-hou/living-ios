@@ -64,6 +64,51 @@
     [self.contentView addSubview:imagemsgLable];
     
     
+    _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-25, 30)];
+    _titleTF.font = TEXT_FONT_LEVEL_2;
+    _titleTF.placeholder = @"请输入项目标题";
+    [self.contentView addSubview:_titleTF];
+    
+    
+    UIView *TFview = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 50, kScreenWidth- titleW-30, 160)];
+    TFview.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
+    [self.contentView addSubview:TFview];
+    
+    _includeTF = [[UITextView alloc] initWithFrame:CGRectMake(5, 0, kScreenWidth- titleW-35, 160)];
+    _includeTF.backgroundColor = [UIColor clearColor];
+    _includeTF.font = TEXT_FONT_LEVEL_2;
+    
+    UILabel *textLab = [UILabel new];
+    textLab.text = @"请输入项目详情";
+    textLab.textColor = TEXT_COLOR_LEVEL_3;
+    textLab.font = TEXT_FONT_LEVEL_2;
+    [textLab sizeToFit];
+    textLab.frame = CGRectMake(5, 0, textLab.bounds.size.width, 30);
+    [_includeTF addSubview:textLab];
+    [TFview addSubview:_includeTF];
+    
+    
+    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(10, 240, 70, 70)];
+    imgBackView.layer.borderColor = LINE_COLOR.CGColor;
+    imgBackView.layer.borderWidth=0.5;
+    [self.contentView addSubview:imgBackView];
+    
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(25, 23, 20, 22)];
+    image.image = [UIImage imageNamed:@"publicProgram"];
+    [imgBackView addSubview:image];
+    
+    
+    _eventButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    _eventButton.backgroundColor = [UIColor clearColor];
+    _eventButton.frame = CGRectMake(0, 0, 70, 70);
+    [imgBackView addSubview:_eventButton];
+    
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 330, kScreenWidth, 10)];
+    footView.backgroundColor = BG_GRAY_COLOR;
+    [self.contentView addSubview:footView];
+    
+    
+    
     
 }
 
