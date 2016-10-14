@@ -16,6 +16,8 @@
 #import "LMEventDetailEventBody.h"
 #import "LMEventDetailEventProjectsBody.h"
 #import "LMEventDetailLeavingMessages.h"
+#import "LMEventJoinRequest.h"
+#import "LMEventLivingMsgRequest.h"
 
 @interface LMActivityDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -76,7 +78,7 @@ LMLeavemessagecellDelegate
     
     //活动人头像
     UIImageView *headV = [UIImageView new];
-    headV.backgroundColor = [UIColor blueColor];
+    [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar]];
     headV.layer.cornerRadius = 5.f;
     [headV sizeToFit];
     headV.frame = CGRectMake(15, 30, 40, 40);
@@ -84,7 +86,7 @@ LMLeavemessagecellDelegate
     
     //活动人名
     UILabel *nameLabel = [UILabel new];
-    nameLabel.text = @"发布者：高琛";
+    nameLabel.text = [NSString stringWithFormat:@"发布者：%@",eventDic.publishName];
     nameLabel.font = [UIFont systemFontOfSize:13.f];
     nameLabel.textColor = [UIColor whiteColor];
     nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -94,7 +96,7 @@ LMLeavemessagecellDelegate
     
     //费用
     UILabel *countLabel = [UILabel new];
-    countLabel.text = @"活动人数：1000/10人";
+    countLabel.text = [NSString stringWithFormat:@"活动人数：%.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
     countLabel.textColor = [UIColor whiteColor];
     countLabel.font = [UIFont systemFontOfSize:13.f];
     [countLabel sizeToFit];
@@ -122,12 +124,9 @@ LMLeavemessagecellDelegate
 }
 
 
-
-
-
 -(void)getEventListDataRequest
 {
-    [self creatHeaderView];
+    
     LMActivityDetailRequest *request = [[LMActivityDetailRequest alloc] initWithEvent_uuid:_eventUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -170,7 +169,7 @@ LMLeavemessagecellDelegate
         
         eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:bodyDic[@"event_body"]];
     
-        
+        [self creatHeaderView];
         
         [_tableView reloadData];
     }else{
@@ -180,9 +179,6 @@ LMLeavemessagecellDelegate
     
     
 }
-
-
-
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -459,7 +455,40 @@ LMLeavemessagecellDelegate
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
     NSLog(@"**********报名");
+    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"报名参加活动失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
 
+    
+    
+    
+
+}
+
+-(void)getEventjoinDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"%@",bodyDic);
+    if (!bodyDic) {
+        [self textStateHUD:@"报名失败"];
+    }
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        [self textStateHUD:@"报名活动成功"];
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
 }
 
 
@@ -515,9 +544,49 @@ LMLeavemessagecellDelegate
     
 }
 
+#pragma mark  --活动留言或评论
+
 -(void)besureAction:(id)sender
 {
+    if (suggestTF.text.length<=0) {
+        [self textStateHUD:@"请输入内容"];
+        return;
+    }
     NSLog(@"*******************确认");
+    LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:suggestTF.text];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventLivingmsgDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"评论或建议失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+    
+    
+}
+
+-(void)getEventLivingmsgDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"留言失败"];
+        return;
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"留言成功"];
+            [_tableView reloadData];
+        }else{
+            NSString *str = [bodyDic objectForKey:@"description"];
+            [self textStateHUD:str];
+        }
+    }
 }
 
 

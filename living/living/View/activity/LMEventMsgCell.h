@@ -21,6 +21,6 @@
 
 -(void)setValue:(LMEventDetailEventProjectsBody *)data;
 
-+ (CGFloat)cellHigth:(NSString *)titleString;
+//+ (CGFloat)cellHigth:(NSString *)titleString;
 
 @end

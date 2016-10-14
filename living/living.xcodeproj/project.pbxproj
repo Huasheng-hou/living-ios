@@ -120,6 +120,9 @@
 		35B61E111DB070BD00083F30 /* LMCommentArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E101DB070BD00083F30 /* LMCommentArticleRequest.m */; };
 		35B61E151DB0727800083F30 /* LMActivityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E141DB0727800083F30 /* LMActivityList.m */; };
 		35B61E181DB0767200083F30 /* LMLeavemessagecell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E171DB0767200083F30 /* LMLeavemessagecell.m */; };
+		35B61E1B1DB0A9DA00083F30 /* LMEventJoinRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E1A1DB0A9DA00083F30 /* LMEventJoinRequest.m */; };
+		35B61E1E1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E1D1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m */; };
+		35B61E211DB0B62600083F30 /* LMPublicEventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E201DB0B62600083F30 /* LMPublicEventListCell.m */; };
 		35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */; };
 		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
@@ -361,6 +364,12 @@
 		35B61E141DB0727800083F30 /* LMActivityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityList.m; sourceTree = "<group>"; };
 		35B61E161DB0767200083F30 /* LMLeavemessagecell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLeavemessagecell.h; sourceTree = "<group>"; };
 		35B61E171DB0767200083F30 /* LMLeavemessagecell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLeavemessagecell.m; sourceTree = "<group>"; };
+		35B61E191DB0A9DA00083F30 /* LMEventJoinRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventJoinRequest.h; sourceTree = "<group>"; };
+		35B61E1A1DB0A9DA00083F30 /* LMEventJoinRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventJoinRequest.m; sourceTree = "<group>"; };
+		35B61E1C1DB0AC4C00083F30 /* LMEventLivingMsgRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventLivingMsgRequest.h; sourceTree = "<group>"; };
+		35B61E1D1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventLivingMsgRequest.m; sourceTree = "<group>"; };
+		35B61E1F1DB0B62600083F30 /* LMPublicEventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicEventListCell.h; sourceTree = "<group>"; };
+		35B61E201DB0B62600083F30 /* LMPublicEventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicEventListCell.m; sourceTree = "<group>"; };
 		35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticViewController.h; sourceTree = "<group>"; };
 		35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticViewController.m; sourceTree = "<group>"; };
 		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
@@ -393,7 +402,6 @@
 		35F004221DAE0C0200F59CB2 /* LMCommentPraiseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentPraiseRequest.m; sourceTree = "<group>"; };
 		35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicActivityController.h; sourceTree = "<group>"; };
 		35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicActivityController.m; sourceTree = "<group>"; };
-		35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicMsgCell.h; sourceTree = "<group>"; };
 		35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicMsgCell.m; sourceTree = "<group>"; };
 		35FA0A401DAA3EF200688713 /* LMTimeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTimeButton.h; sourceTree = "<group>"; };
 		35FA0A411DAA3EF300688713 /* LMTimeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTimeButton.m; sourceTree = "<group>"; };
@@ -1398,8 +1406,9 @@
 				35B61DF91DB06F1E00083F30 /* LMEventMsgCell.h */,
 				35B61DF41DB06EC800083F30 /* LMEventMsgCell.m */,
 				35B61DF51DB06EC800083F30 /* LMPublicMsgCell.h */,
-				35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */,
 				35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */,
+				35B61E1F1DB0B62600083F30 /* LMPublicEventListCell.h */,
+				35B61E201DB0B62600083F30 /* LMPublicEventListCell.m */,
 				35B61E161DB0767200083F30 /* LMLeavemessagecell.h */,
 				35B61E171DB0767200083F30 /* LMLeavemessagecell.m */,
 				35FA0A401DAA3EF200688713 /* LMTimeButton.h */,
@@ -1437,6 +1446,10 @@
 				35B61E0A1DB0702200083F30 /* LMActivityDetailRequest.m */,
 				35B61E0B1DB0702200083F30 /* LMActivityListRequest.h */,
 				35B61E0C1DB0702200083F30 /* LMActivityListRequest.m */,
+				35B61E191DB0A9DA00083F30 /* LMEventJoinRequest.h */,
+				35B61E1A1DB0A9DA00083F30 /* LMEventJoinRequest.m */,
+				35B61E1C1DB0AC4C00083F30 /* LMEventLivingMsgRequest.h */,
+				35B61E1D1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1640,6 +1653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B61E1E1DB0AC4C00083F30 /* LMEventLivingMsgRequest.m in Sources */,
 				3547F39E1D9904B20068F04E /* FitDatePickerView.m in Sources */,
 				3547F4BE1D9904D90068F04E /* SSPullToRefreshSimpleContentView.m in Sources */,
 				35B61E0E1DB0702200083F30 /* LMActivityListRequest.m in Sources */,
@@ -1670,6 +1684,7 @@
 				3547F4B71D9904D90068F04E /* MJPhoto.m in Sources */,
 				3547F3861D9904A60068F04E /* LMAddviceViewController.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
+				35B61E211DB0B62600083F30 /* LMPublicEventListCell.m in Sources */,
 				354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */,
 				35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */,
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
@@ -1703,6 +1718,7 @@
 				3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */,
 				3547F42C1D9904BD0068F04E /* UIColor+ZXLazy.m in Sources */,
 				351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */,
+				35B61E1B1DB0A9DA00083F30 /* LMEventJoinRequest.m in Sources */,
 				3547F3A11D9904B20068F04E /* LMChooseButton.m in Sources */,
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,

@@ -67,9 +67,6 @@
     _contentLabel.font = TEXT_FONT_LEVEL_2;
     _contentLabel.textColor = TEXT_COLOR_LEVEL_3;
     _contentLabel.numberOfLines=0;
-    _contentLabel.text = @"这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文";
-    NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-    CGFloat conHighs = [_contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
 
     [self.contentView addSubview:_contentLabel];
     

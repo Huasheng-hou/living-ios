@@ -221,11 +221,11 @@ LMCommentCellDelegate
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
             CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh2 = [articleData.articleContent boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
             if (!articleData.articleImgs) {
-               return 80+conHigh+conHigh2;
+               return 70+conHigh+conHigh2;
             }else{
                 return 300+conHigh+conHigh2;
             }

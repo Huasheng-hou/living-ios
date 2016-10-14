@@ -7,6 +7,7 @@
 //
 
 #import "LMPublicActivityController.h"
+#import "LMPublicEventListCell.h"
 #import "LMPublicMsgCell.h"
 #import "LMTimeButton.h"
 
@@ -15,6 +16,7 @@ UITextFieldDelegate>
 {
     UITableView *_tableView;
     LMPublicMsgCell *msgCell;
+    LMPublicEventListCell *AddEventCell;
 }
 
 @end
@@ -34,9 +36,6 @@ UITextFieldDelegate>
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    
-
-    
     
 }
 
@@ -59,7 +58,7 @@ UITextFieldDelegate>
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 400;
+        return 400 +165;
     }
     if (indexPath.section==1) {
         return 300;
@@ -144,8 +143,10 @@ UITextFieldDelegate>
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellID = @"cellID";
+    
     if (indexPath.section==0) {
+        
+        static NSString *cellID = @"cellID";
         msgCell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (!msgCell) {
             msgCell = [[LMPublicMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
@@ -162,13 +163,19 @@ UITextFieldDelegate>
         [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.endTimeButton addTarget:self action:@selector(endTimeAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.addressButton addTarget:self action:@selector(addressAction:) forControlEvents:UIControlEventTouchUpInside];
+        [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
         
          return msgCell;
     }
     if (indexPath.section==1) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        return cell;
+        
+        static NSString *cellId = @"cellId";
+        AddEventCell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!AddEventCell) {
+            AddEventCell = [[LMPublicEventListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
+        return AddEventCell;
     }
     return nil;
 }
@@ -193,6 +200,11 @@ UITextFieldDelegate>
 -(void)addressAction:(id)sender
 {
     NSLog(@"************addressAction");
+}
+
+-(void)imageButtonAction:(id)sender
+{
+    NSLog(@"************imageButtonAction");
 }
 
 

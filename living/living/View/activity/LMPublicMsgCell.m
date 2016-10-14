@@ -219,6 +219,21 @@
     _dspTF.font = TEXT_FONT_LEVEL_2;
     _dspTF.placeholder = @"请输入详细地址";
     [self.contentView addSubview:_dspTF];
+    
+    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 400, kScreenWidth, 165)];
+    imgBackView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
+    [self.contentView addSubview:imgBackView];
+    
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-28, 50, 56, 65)];
+    image.image = [UIImage imageNamed:@"publicEvent"];
+    [imgBackView addSubview:image];
+    
+    
+    _imageButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    _imageButton.backgroundColor = [UIColor clearColor];
+    _imageButton.frame = CGRectMake(0, 0, kScreenWidth, 165);
+    [imgBackView addSubview:_imageButton];
+    
 
 }
 

@@ -30,6 +30,8 @@
 
 @property(nonatomic,strong)UITextField *dspTF;
 
+@property(nonatomic,strong)UIButton *imageButton;
+
 //@property(nonatomic,strong);
 
 
