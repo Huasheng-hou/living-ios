@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMEventDetailEventBody.h"
 
 @interface LMActivityMsgCell : UITableViewCell
 
@@ -23,6 +24,9 @@
 
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
+
+
+-(void)setValue:(LMEventDetailEventBody *)event;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 

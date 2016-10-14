@@ -9,11 +9,13 @@
 
 
 NSString *const kLMEventDetailEventBodyPublishName = @"publish_name";
+NSString *const kLMEventDetailEventBodyPublishAvatar = @"publish_avatar";
 NSString *const kLMEventDetailEventBodyContactPhone = @"contact_phone";
 NSString *const kLMEventDetailEventBodyUserUuid = @"user_uuid";
 NSString *const kLMEventDetailEventBodyEventName = @"event_name";
 NSString *const kLMEventDetailEventBodyStartTime = @"start_time";
 NSString *const kLMEventDetailEventBodyTotalNumber = @"total_number";
+NSString *const kLMEventDetailEventBodyTotalNum = @"total_num";
 NSString *const kLMEventDetailEventBodyEventImg = @"event_img";
 NSString *const kLMEventDetailEventBodyAddress = @"address";
 NSString *const kLMEventDetailEventBodyEventUuid = @"event_uuid";
@@ -31,11 +33,13 @@ NSString *const kLMEventDetailEventBodyContactName = @"contact_name";
 @implementation LMEventDetailEventBody
 
 @synthesize publishName = _publishName;
+@synthesize publishAvatar = _publishAvatar;
 @synthesize contactPhone = _contactPhone;
 @synthesize userUuid = _userUuid;
 @synthesize eventName = _eventName;
 @synthesize startTime = _startTime;
 @synthesize totalNumber = _totalNumber;
+@synthesize totalNum = _totalNum;
 @synthesize eventImg = _eventImg;
 @synthesize address = _address;
 @synthesize eventUuid = _eventUuid;
@@ -57,11 +61,13 @@ NSString *const kLMEventDetailEventBodyContactName = @"contact_name";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.publishName = [self objectOrNilForKey:kLMEventDetailEventBodyPublishName fromDictionary:dict];
+            self.publishAvatar = [self objectOrNilForKey:kLMEventDetailEventBodyPublishAvatar fromDictionary:dict];
             self.contactPhone = [self objectOrNilForKey:kLMEventDetailEventBodyContactPhone fromDictionary:dict];
             self.userUuid = [self objectOrNilForKey:kLMEventDetailEventBodyUserUuid fromDictionary:dict];
             self.eventName = [self objectOrNilForKey:kLMEventDetailEventBodyEventName fromDictionary:dict];
             self.startTime = [self objectOrNilForKey:kLMEventDetailEventBodyStartTime fromDictionary:dict];
             self.totalNumber = [[self objectOrNilForKey:kLMEventDetailEventBodyTotalNumber fromDictionary:dict] doubleValue];
+            self.totalNum = [[self objectOrNilForKey:kLMEventDetailEventBodyTotalNum fromDictionary:dict] doubleValue];
             self.eventImg = [self objectOrNilForKey:kLMEventDetailEventBodyEventImg fromDictionary:dict];
             self.address = [self objectOrNilForKey:kLMEventDetailEventBodyAddress fromDictionary:dict];
             self.eventUuid = [self objectOrNilForKey:kLMEventDetailEventBodyEventUuid fromDictionary:dict];
@@ -79,11 +85,13 @@ NSString *const kLMEventDetailEventBodyContactName = @"contact_name";
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.publishName forKey:kLMEventDetailEventBodyPublishName];
+    [mutableDict setValue:self.publishAvatar forKey:kLMEventDetailEventBodyPublishAvatar];
     [mutableDict setValue:self.contactPhone forKey:kLMEventDetailEventBodyContactPhone];
     [mutableDict setValue:self.userUuid forKey:kLMEventDetailEventBodyUserUuid];
     [mutableDict setValue:self.eventName forKey:kLMEventDetailEventBodyEventName];
     [mutableDict setValue:self.startTime forKey:kLMEventDetailEventBodyStartTime];
     [mutableDict setValue:[NSNumber numberWithDouble:self.totalNumber] forKey:kLMEventDetailEventBodyTotalNumber];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.totalNum] forKey:kLMEventDetailEventBodyTotalNum];
     [mutableDict setValue:self.eventImg forKey:kLMEventDetailEventBodyEventImg];
     [mutableDict setValue:self.address forKey:kLMEventDetailEventBodyAddress];
     [mutableDict setValue:self.eventUuid forKey:kLMEventDetailEventBodyEventUuid];
@@ -114,11 +122,13 @@ NSString *const kLMEventDetailEventBodyContactName = @"contact_name";
     self = [super init];
 
     self.publishName = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyPublishName];
+    self.publishAvatar = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyPublishAvatar];
     self.contactPhone = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyContactPhone];
     self.userUuid = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyUserUuid];
     self.eventName = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyEventName];
     self.startTime = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyStartTime];
     self.totalNumber = [aDecoder decodeDoubleForKey:kLMEventDetailEventBodyTotalNumber];
+    self.totalNum = [aDecoder decodeDoubleForKey:kLMEventDetailEventBodyTotalNum];
     self.eventImg = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyEventImg];
     self.address = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyAddress];
     self.eventUuid = [aDecoder decodeObjectForKey:kLMEventDetailEventBodyEventUuid];
@@ -132,11 +142,13 @@ NSString *const kLMEventDetailEventBodyContactName = @"contact_name";
 {
 
     [aCoder encodeObject:_publishName forKey:kLMEventDetailEventBodyPublishName];
+    [aCoder encodeObject:_publishAvatar forKey:kLMEventDetailEventBodyPublishAvatar];
     [aCoder encodeObject:_contactPhone forKey:kLMEventDetailEventBodyContactPhone];
     [aCoder encodeObject:_userUuid forKey:kLMEventDetailEventBodyUserUuid];
     [aCoder encodeObject:_eventName forKey:kLMEventDetailEventBodyEventName];
     [aCoder encodeObject:_startTime forKey:kLMEventDetailEventBodyStartTime];
     [aCoder encodeDouble:_totalNumber forKey:kLMEventDetailEventBodyTotalNumber];
+    [aCoder encodeDouble:_totalNum forKey:kLMEventDetailEventBodyTotalNum];
     [aCoder encodeObject:_eventImg forKey:kLMEventDetailEventBodyEventImg];
     [aCoder encodeObject:_address forKey:kLMEventDetailEventBodyAddress];
     [aCoder encodeObject:_eventUuid forKey:kLMEventDetailEventBodyEventUuid];
@@ -152,11 +164,13 @@ NSString *const kLMEventDetailEventBodyContactName = @"contact_name";
     if (copy) {
 
         copy.publishName = [self.publishName copyWithZone:zone];
+        copy.publishAvatar = [self.publishAvatar copyWithZone:zone];
         copy.contactPhone = [self.contactPhone copyWithZone:zone];
         copy.userUuid = [self.userUuid copyWithZone:zone];
         copy.eventName = [self.eventName copyWithZone:zone];
         copy.startTime = [self.startTime copyWithZone:zone];
         copy.totalNumber = self.totalNumber;
+        copy.totalNum = self.totalNum;
         copy.eventImg = [self.eventImg copyWithZone:zone];
         copy.address = [self.address copyWithZone:zone];
         copy.eventUuid = [self.eventUuid copyWithZone:zone];

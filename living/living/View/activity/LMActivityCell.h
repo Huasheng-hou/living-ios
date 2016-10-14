@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "LMActivityList.h"
+#import "LMActivityList.h"
 
 @interface LMActivityCell : UITableViewCell
 @property (nonatomic, strong)NSString *imageUrl;
@@ -32,6 +32,6 @@
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
-//-(void)setValue:(LMActivityList *)list;
+-(void)setValue:(LMActivityList *)list;
 
 @end

@@ -52,7 +52,6 @@
     
     
     _numberLabel = [UILabel new];
-    _numberLabel.text = @"15878901234(老王)";
     _numberLabel.font = [UIFont systemFontOfSize:14.f];
     _numberLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_numberLabel];
@@ -65,7 +64,6 @@
     [self.contentView addSubview:_freeV];
     
     _priceLabel = [UILabel new];
-    _priceLabel.text = @"人均费用 400 元";
     _priceLabel.font = [UIFont systemFontOfSize:14.f];
     _priceLabel.textAlignment = NSTextAlignmentCenter;
     _priceLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -81,7 +79,7 @@
     
     
     _timeLabel = [UILabel new];
-    _timeLabel.text = @"2016-10-1 12:20 —— 2016-12-03 13:00";
+//    _timeLabel.text = @"2016-10-1 12:20 —— 2016-12-03 13:00";
     _timeLabel.font = [UIFont systemFontOfSize:14.f];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -100,7 +98,7 @@
     
     
     _addressLabel = [UILabel new];
-    _addressLabel.text = @"浙江省杭州市西湖区万塘路";
+//    _addressLabel.text = @"浙江省杭州市西湖区万塘路";
     _addressLabel.textAlignment = NSTextAlignmentRight;
     _addressLabel.font = [UIFont systemFontOfSize:13.f];
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -110,8 +108,12 @@
     
 }
 
--(void)setData:(NSString *)data
+-(void)setValue:(LMEventDetailEventBody *)event
 {
+    _addressLabel.text = event.address;
+    _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",event.startTime,event.endTime];
+    _numberLabel.text = [NSString stringWithFormat:@"%@(%@)",event.contactPhone,event.contactName];
+    _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
     
 }
 

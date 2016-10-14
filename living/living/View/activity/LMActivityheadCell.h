@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMEventDetailLeavingMessages.h"
+#import "UIImageView+WebCache.h"
+#import "LMEventDetailEventBody.h"
 
 @protocol  LMActivityheadCellDelegate;
 
@@ -31,7 +32,7 @@
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
--(void)setValue:(LMEventDetailLeavingMessages *)value;
+-(void)setValue:(LMEventDetailEventBody *)event;
 
 @end
 

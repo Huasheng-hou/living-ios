@@ -11,7 +11,7 @@
 #import "LMPublicActivityController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
-//#import "LMActivityList.h"
+#import "LMActivityList.h"
 
 @interface LMActivityViewController ()<UITableViewDelegate,
 UITableViewDataSource
@@ -92,10 +92,10 @@ UITableViewDataSource
         NSLog(@"%@",bodyDic);
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
-//            LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
-//            if (![listArray containsObject:list]) {
-//                [listArray addObject:list];
-//            }
+            LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
+            if (![listArray containsObject:list]) {
+                [listArray addObject:list];
+            }
         }
         
         [_tableView reloadData];
@@ -144,8 +144,8 @@ UITableViewDataSource
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
-//    LMActivityList *list = [listArray objectAtIndex:indexPath.row];
-//    [cell setValue:list];
+    LMActivityList *list = [listArray objectAtIndex:indexPath.row];
+    [cell setValue:list];
     
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
@@ -154,11 +154,11 @@ UITableViewDataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    LMActivityList *list = [listArray objectAtIndex:indexPath.row];
-//    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
-//    detailVC.eventUuid = list.eventUuid;
-//    
-//    [self.navigationController pushViewController:detailVC animated:YES];
+    LMActivityList *list = [listArray objectAtIndex:indexPath.row];
+    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    detailVC.eventUuid = list.eventUuid;
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 

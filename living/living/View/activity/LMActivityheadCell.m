@@ -48,7 +48,7 @@
     
     //标题
     _titleLabel = [UILabel new];
-    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
+
     _titleLabel.numberOfLines  = 2;
     _titleLabel.font = [UIFont systemFontOfSize:16.f];
     _titleLabel.textColor = [UIColor whiteColor];
@@ -56,7 +56,7 @@
     
     //活动人数
     _countLabel = [UILabel new];
-    _countLabel.text = @"活动人数：1000/10人";
+    
     _countLabel.textColor = TEXT_COLOR_LEVEL_2;
     _countLabel.font = [UIFont systemFontOfSize:13.f];
     [self.contentView addSubview:_countLabel];
@@ -70,7 +70,7 @@
     
     //活动人名
     _nameLabel = [UILabel new];
-    _nameLabel.text = @"发布者：高琛";
+    
     _nameLabel.font = [UIFont systemFontOfSize:13.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_2;
     _nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -95,10 +95,14 @@
     
 }
 
--(void)setValue:(LMEventDetailLeavingMessages *)value
+-(void)setValue:(LMEventDetailEventBody *)event
 {
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:event.eventImg]];
+    _nameLabel.text = [NSString stringWithFormat:@"发布者：%@",event.publishName];
+    _titleLabel.text = event.eventName;
+    [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
+    _countLabel.text = [NSString stringWithFormat:@"活动人数：%.0f/%.0f人",event.totalNumber,event.totalNum];
     
-    NSLog(@"%@",value.nickName);
 }
 
 

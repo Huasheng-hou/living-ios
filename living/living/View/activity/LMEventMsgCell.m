@@ -7,6 +7,7 @@
 //
 
 #import "LMEventMsgCell.h"
+#import "UIImageView+WebCache.h"
 #import "FitConsts.h"
 
 @interface LMEventMsgCell () {
@@ -41,8 +42,6 @@
     //图片
     
     _headImage = [UIImageView new];
-    _headImage.image = [UIImage imageNamed:@"112"];
-//    headImage.frame = CGRectMake(15, 20+conHigh, kScreenWidth-30, 210);
     [_headImage setClipsToBounds:YES];
     _headImage.contentMode = UIViewContentModeScaleToFill;
     [self.contentView addSubview:_headImage];
@@ -55,11 +54,9 @@
     _dspLabel.font = TEXT_FONT_LEVEL_2;
     _dspLabel.textColor = TEXT_COLOR_LEVEL_2;
     _dspLabel.numberOfLines=0;
-    _dspLabel.text = @"这这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题";
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-    CGFloat conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+
     [_dspLabel sizeToFit];
-    _dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
+    
     [self.contentView addSubview:_dspLabel];
     
     
@@ -73,24 +70,25 @@
     _contentLabel.text = @"这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文";
     NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
     CGFloat conHighs = [_contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-    [_contentLabel sizeToFit];
-    _contentLabel.frame = CGRectMake(15, 30+_headImage.bounds.size.height +conHigh, kScreenWidth-30, conHighs);
+
     [self.contentView addSubview:_contentLabel];
     
     
     
 }
 
--(void)setValue:(LMEventDetailLeavingMessages *)data
+-(void)setValue:(LMEventDetailEventProjectsBody *)data
 {
-    
-}
+    LMEventDetailEventProjectsBody *list = data;
+    _dspLabel.text = list.projectTitle;
+    _contentLabel.text = list.projectDsp;
 
-+ (CGFloat)cellHigth:(NSString *)titleString
-{
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
-    CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    return (75+conHigh+20);
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.projectImgs]];
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+     _conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    
+    _dspHigh = [_contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    
 }
 
 
@@ -108,7 +106,9 @@
     [_dspLabel sizeToFit];
     [_contentLabel sizeToFit];
 
-    
+    _dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, _conHigh);
+    _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 210);
+    _contentLabel.frame = CGRectMake(15, 30+_headImage.bounds.size.height +_conHigh, kScreenWidth-30, _dspHigh);
 
 }
 

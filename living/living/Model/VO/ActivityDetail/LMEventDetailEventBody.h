@@ -12,11 +12,13 @@
 @interface LMEventDetailEventBody : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *publishName;
+@property (nonatomic, strong) NSString *publishAvatar;
 @property (nonatomic, strong) NSString *contactPhone;
 @property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *eventName;
 @property (nonatomic, strong) NSString *startTime;
 @property (nonatomic, assign) double totalNumber;
+@property (nonatomic, assign) double totalNum;
 @property (nonatomic, strong) NSString *eventImg;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *eventUuid;

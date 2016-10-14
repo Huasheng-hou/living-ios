@@ -119,6 +119,7 @@
 		35B61E0E1DB0702200083F30 /* LMActivityListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E0C1DB0702200083F30 /* LMActivityListRequest.m */; };
 		35B61E111DB070BD00083F30 /* LMCommentArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E101DB070BD00083F30 /* LMCommentArticleRequest.m */; };
 		35B61E151DB0727800083F30 /* LMActivityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E141DB0727800083F30 /* LMActivityList.m */; };
+		35B61E181DB0767200083F30 /* LMLeavemessagecell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E171DB0767200083F30 /* LMLeavemessagecell.m */; };
 		35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */; };
 		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
@@ -358,6 +359,8 @@
 		35B61E101DB070BD00083F30 /* LMCommentArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentArticleRequest.m; sourceTree = "<group>"; };
 		35B61E131DB0727800083F30 /* LMActivityList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityList.h; sourceTree = "<group>"; };
 		35B61E141DB0727800083F30 /* LMActivityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityList.m; sourceTree = "<group>"; };
+		35B61E161DB0767200083F30 /* LMLeavemessagecell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLeavemessagecell.h; sourceTree = "<group>"; };
+		35B61E171DB0767200083F30 /* LMLeavemessagecell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLeavemessagecell.m; sourceTree = "<group>"; };
 		35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticViewController.h; sourceTree = "<group>"; };
 		35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticViewController.m; sourceTree = "<group>"; };
 		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
@@ -1392,11 +1395,13 @@
 				35E7B2E71D9DFF780035AFFE /* LMActivityheadCell.m */,
 				35E7B2E91D9E11160035AFFE /* LMActivityMsgCell.h */,
 				35E7B2EA1D9E11160035AFFE /* LMActivityMsgCell.m */,
-				35B61DF41DB06EC800083F30 /* LMEventMsgCell.m */,
 				35B61DF91DB06F1E00083F30 /* LMEventMsgCell.h */,
+				35B61DF41DB06EC800083F30 /* LMEventMsgCell.m */,
 				35B61DF51DB06EC800083F30 /* LMPublicMsgCell.h */,
 				35FA0A3D1DAA324C00688713 /* LMPublicMsgCell.h */,
 				35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */,
+				35B61E161DB0767200083F30 /* LMLeavemessagecell.h */,
+				35B61E171DB0767200083F30 /* LMLeavemessagecell.m */,
 				35FA0A401DAA3EF200688713 /* LMTimeButton.h */,
 				35FA0A411DAA3EF300688713 /* LMTimeButton.m */,
 			);
@@ -1725,6 +1730,7 @@
 				3547F4311D9904BD0068F04E /* HcbObjectTable.m in Sources */,
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
 				3547F42B1D9904BD0068F04E /* FitColorConvertFactory.m in Sources */,
+				35B61E181DB0767200083F30 /* LMLeavemessagecell.m in Sources */,
 				3547F3811D9904A60068F04E /* FitTableViewController.m in Sources */,
 				3547F4611D9904C70068F04E /* FitUserManager.m in Sources */,
 				3547F37C1D9904A60068F04E /* LMActivityViewController.m in Sources */,

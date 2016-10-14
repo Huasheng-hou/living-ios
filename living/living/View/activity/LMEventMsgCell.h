@@ -7,18 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMEventDetailLeavingMessages.h"
+#import "LMEventDetailEventProjectsBody.h"
 
 @interface LMEventMsgCell : UITableViewCell
 
 @property (nonatomic)CGFloat conHigh;
+@property (nonatomic)CGFloat dspHigh;
 
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
--(void)setValue:(LMEventDetailLeavingMessages *)data;
+-(void)setValue:(LMEventDetailEventProjectsBody *)data;
 
 + (CGFloat)cellHigth:(NSString *)titleString;
 

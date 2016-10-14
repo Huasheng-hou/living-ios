@@ -8,7 +8,7 @@
 
 #import "LMActivityDetailController.h"
 #import "LMEventMsgCell.h"
-#import "LMCommentCell.h"
+#import "LMLeavemessagecell.h"
 #import "UIView+frame.h"
 #import "LMActivityheadCell.h"
 #import "LMActivityMsgCell.h"
@@ -21,7 +21,8 @@
 UITableViewDataSource,
 UITextViewDelegate,
 UITextViewDelegate,
-LMActivityheadCellDelegate
+LMActivityheadCellDelegate,
+LMLeavemessagecellDelegate
 >
 {
     UITableView *_tableView;
@@ -30,6 +31,8 @@ LMActivityheadCellDelegate
     UITextView *suggestTF;
     UIView *headerView;
     NSMutableArray *msgArray;
+    NSMutableArray *eventArray;
+    LMEventDetailEventBody *eventDic;
     
 }
 
@@ -45,6 +48,7 @@ LMActivityheadCellDelegate
     [self creatUI];
     [self getEventListDataRequest];
     msgArray = [NSMutableArray new];
+    eventArray = [NSMutableArray new];
 
     
 }
@@ -114,12 +118,6 @@ LMActivityheadCellDelegate
     [headerView addSubview:line];
     
     
-
-    
-    
-  
-
-    
     
 }
 
@@ -140,7 +138,7 @@ LMActivityheadCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"点赞失败"
+                                                                      withObject:@"获取列表失败"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -156,11 +154,21 @@ LMActivityheadCellDelegate
         NSMutableArray *array = bodyDic[@"leaving_messages"];
         
         for (int i=0; i<array.count; i++) {
-            LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:array[i]];
+            LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:array[i]];
             if (![msgArray containsObject:list]) {
                 [msgArray addObject:list];
             }
         }
+        
+        NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
+        for (int i=0; i<eveArray.count; i++) {
+            LMEventDetailEventProjectsBody *Projectslist=[[LMEventDetailEventProjectsBody alloc]initWithDictionary:eveArray[i]];
+            if (![eventArray containsObject:Projectslist]) {
+                [eventArray addObject:Projectslist];
+            }
+        }
+        
+        eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:bodyDic[@"event_body"]];
     
         
         
@@ -187,12 +195,12 @@ LMActivityheadCellDelegate
     }
     
     if (indexPath.section==2) {
-        
-            NSString *string = @"这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题";
+         LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+            NSString *string = list.projectTitle;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-            NSString *string2 = @"这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文";
+            NSString *string2 = list.projectDsp;
             NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
@@ -201,7 +209,8 @@ LMActivityheadCellDelegate
         
     }
     if (indexPath.section==3) {
-        return [LMCommentCell cellHigth:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
+        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
+        return [LMLeavemessagecell cellHigth:msgData.commentContent];
     }
     
     return 0;
@@ -365,10 +374,10 @@ LMActivityheadCellDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==2) {
-        return msgArray.count;
+        return eventArray.count;
     }
     if (section==3) {
-        return 7;
+        return msgArray.count;
     }
     return 1;
 }
@@ -381,7 +390,7 @@ LMActivityheadCellDelegate
         static NSString *cellId = @"cellIdd";
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         return cell;
@@ -392,6 +401,8 @@ LMActivityheadCellDelegate
         static NSString *cellId = @"cellIddd";
         LMActivityMsgCell *cell = [[LMActivityMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         return cell;
@@ -402,9 +413,10 @@ LMActivityheadCellDelegate
             static NSString *cellId = @"cellId";
             LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
-            [cell setValue:msgData];
+            LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+            [cell setValue:list];
+            [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+
             return cell;
   
             
@@ -414,13 +426,14 @@ LMActivityheadCellDelegate
     
     if (indexPath.section==3) {
         static NSString *cellId = @"cellId";
-        LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
-        
+        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
+        [cell setValue:msgData];
+        cell.delegate = self;
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
-//        [cell setTitleString:@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定"];
         return cell;
     }
     
@@ -430,6 +443,12 @@ LMActivityheadCellDelegate
     return nil;
     
 }
+#pragma mark - LMLeavemessagecell delegate -
+- (void)cellWillComment:(LMLeavemessagecell *)cell
+{
+    NSLog(@"**********");
+}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
