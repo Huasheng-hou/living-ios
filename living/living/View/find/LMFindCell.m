@@ -79,8 +79,9 @@
     
 }
 
--(void)setData:(NSString *)data
+-(void)setValue:(LMFindList *)list
 {
+    _questonLabel.text = list.description;
     
 }
 

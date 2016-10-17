@@ -232,8 +232,6 @@
     NSLog(@"*******genderStr******%@",genderStr);
     NSLog(@"*************%@",_imgURL);
     
-    _imgURL = @"http://a.hiphotos.baidu.com/zhidao/pic/item/2cf5e0fe9925bc314cc6bd685fdf8db1ca1370a2.jpg";
-    
     if ([nickTF.text isEqualToString:@""]) {
         [self textStateHUD:@"请填写昵称"];
         return;

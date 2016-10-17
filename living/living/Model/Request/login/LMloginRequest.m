@@ -51,7 +51,7 @@
 
 - (NSString *)methodPath
 {
-    return [NSString stringWithFormat:@"user/login/%@", _phone];
+    return [NSString stringWithFormat:@"user/login"];
 }
 
 @end

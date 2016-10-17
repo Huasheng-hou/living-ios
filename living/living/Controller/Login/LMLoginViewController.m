@@ -344,9 +344,9 @@
     [self initStateHud];
     
     
-    LMloginRequest *request    = [[LMloginRequest alloc] initWithPhone:_phoneTF.text andPassword:_codeTF.text andCaptcha:_password];
+    LMloginRequest *request    = [[LMloginRequest alloc] initWithPhone:_phoneTF.text andPassword:_password andCaptcha:_codeTF.text];
     
-    
+    NSLog(@"%@",_codeTF);
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -400,7 +400,8 @@
         [self setUserInfo];
        
     } else {
-        [self textStateHUD:@"登录失败"];
+        NSString *string = [bodyDict objectForKey:@"description"];
+        [self textStateHUD:string];
     }
 }
 

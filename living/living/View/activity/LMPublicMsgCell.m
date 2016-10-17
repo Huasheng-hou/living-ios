@@ -231,8 +231,12 @@
     
     _imageButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _imageButton.backgroundColor = [UIColor clearColor];
-    _imageButton.frame = CGRectMake(0, 0, kScreenWidth, 165);
-    [imgBackView addSubview:_imageButton];
+    _imageButton.frame = CGRectMake(0, 400, kScreenWidth, 165);
+    [self.contentView addSubview:_imageButton];
+    
+    _imgView = [[UIImageView alloc] init];
+    _imgView.frame = CGRectMake(0, 400, kScreenWidth, 165);
+    [self.contentView addSubview:_imgView];
     
 
 }

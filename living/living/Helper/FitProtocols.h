@@ -24,6 +24,7 @@
 @optional
 
 - (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row;
+- (void)didSelectedItems:(NSArray *)items andDistrict:(NSString *)district;
 
 @end
 

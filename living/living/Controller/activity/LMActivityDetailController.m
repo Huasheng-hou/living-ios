@@ -27,7 +27,7 @@ LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate
 >
 {
-    UITableView *_tableView;
+//    UITableView *_tableView;
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -167,7 +167,7 @@ LMLeavemessagecellDelegate
     
         [self creatHeaderView];
         
-        [_tableView reloadData];
+        [self.tableView reloadData];
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
@@ -577,7 +577,7 @@ LMLeavemessagecellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"留言成功"];
-            [_tableView reloadData];
+            [self.tableView reloadData];
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
             [self textStateHUD:str];

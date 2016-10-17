@@ -125,6 +125,11 @@
 		35B61E211DB0B62600083F30 /* LMPublicEventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E201DB0B62600083F30 /* LMPublicEventListCell.m */; };
 		35B61E251DB0C53F00083F30 /* LMPublicEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61E241DB0C53F00083F30 /* LMPublicEventRequest.m */; };
 		35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */; };
+		35D8FC231DB47D4E00AD469E /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FC221DB47D4E00AD469E /* area.plist */; };
+		35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC251DB47DBE00AD469E /* FitPickerThreeLevelView.m */; };
+		35D8FC291DB4AAC700AD469E /* LMPublicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC281DB4AAC700AD469E /* LMPublicProjectRequest.m */; };
+		35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */; };
+		35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC331DB4CD3C00AD469E /* LMFindList.m */; };
 		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
 		35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */; };
@@ -375,6 +380,15 @@
 		35B61E241DB0C53F00083F30 /* LMPublicEventRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicEventRequest.m; sourceTree = "<group>"; };
 		35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticViewController.h; sourceTree = "<group>"; };
 		35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticViewController.m; sourceTree = "<group>"; };
+		35D8FC221DB47D4E00AD469E /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
+		35D8FC241DB47DB700AD469E /* FitPickerThreeLevelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitPickerThreeLevelView.h; sourceTree = "<group>"; };
+		35D8FC251DB47DBE00AD469E /* FitPickerThreeLevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitPickerThreeLevelView.m; sourceTree = "<group>"; };
+		35D8FC271DB4AAC700AD469E /* LMPublicProjectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicProjectRequest.h; sourceTree = "<group>"; };
+		35D8FC281DB4AAC700AD469E /* LMPublicProjectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicProjectRequest.m; sourceTree = "<group>"; };
+		35D8FC2E1DB4CBFD00AD469E /* LMFindListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindListRequest.h; sourceTree = "<group>"; };
+		35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindListRequest.m; sourceTree = "<group>"; };
+		35D8FC321DB4CD3800AD469E /* LMFindList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFindList.h; sourceTree = "<group>"; };
+		35D8FC331DB4CD3C00AD469E /* LMFindList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindList.m; sourceTree = "<group>"; };
 		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
 		35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitBaseRequest.m; sourceTree = "<group>"; };
 		35E40A251DAC9B6600DE1807 /* HTTPProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPProxy.h; sourceTree = "<group>"; };
@@ -622,6 +636,8 @@
 		3547F38E1D9904B20068F04E /* Picker */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC241DB47DB700AD469E /* FitPickerThreeLevelView.h */,
+				35D8FC251DB47DBE00AD469E /* FitPickerThreeLevelView.m */,
 				3547F38F1D9904B20068F04E /* BabFilterAgePickerView.h */,
 				3547F3901D9904B20068F04E /* BabFilterAgePickerView.m */,
 				3547F3911D9904B20068F04E /* FitDatePickerView.h */,
@@ -655,6 +671,7 @@
 		3547F3A31D9904B60068F04E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC221DB47D4E00AD469E /* area.plist */,
 				3547F3A41D9904B60068F04E /* 112.png */,
 				3547F3A51D9904B60068F04E /* city.plist */,
 				3547F3A61D9904B60068F04E /* line.png */,
@@ -703,6 +720,7 @@
 		3547F3BA1D9904BA0068F04E /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC2D1DB4CBCA00AD469E /* Find */,
 				35B61E221DB0C4EF00083F30 /* PublicEvent */,
 				35B61E081DB0702200083F30 /* Activity */,
 				35E40A291DACBB9600DE1807 /* person */,
@@ -772,6 +790,7 @@
 		3547F3DB1D9904BA0068F04E /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC311DB4CD2200AD469E /* Find */,
 				35B61E121DB0727800083F30 /* Activity */,
 				35B61DFA1DB06F7E00083F30 /* ActivityDetail */,
 				35F004171DADCA8900F59CB2 /* homepage */,
@@ -1472,8 +1491,28 @@
 			children = (
 				35B61E231DB0C53F00083F30 /* LMPublicEventRequest.h */,
 				35B61E241DB0C53F00083F30 /* LMPublicEventRequest.m */,
+				35D8FC271DB4AAC700AD469E /* LMPublicProjectRequest.h */,
+				35D8FC281DB4AAC700AD469E /* LMPublicProjectRequest.m */,
 			);
 			path = PublicEvent;
+			sourceTree = "<group>";
+		};
+		35D8FC2D1DB4CBCA00AD469E /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				35D8FC2E1DB4CBFD00AD469E /* LMFindListRequest.h */,
+				35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */,
+			);
+			path = Find;
+			sourceTree = "<group>";
+		};
+		35D8FC311DB4CD2200AD469E /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				35D8FC321DB4CD3800AD469E /* LMFindList.h */,
+				35D8FC331DB4CD3C00AD469E /* LMFindList.m */,
+			);
+			path = Find;
 			sourceTree = "<group>";
 		};
 		35E40A281DACBB0D00DE1807 /* HomePage */ = {
@@ -1599,6 +1638,7 @@
 				3547F38C1D9904AE0068F04E /* InfoPlist.strings in Resources */,
 				3547F3A71D9904B60068F04E /* 112.png in Resources */,
 				3547F3A81D9904B60068F04E /* city.plist in Resources */,
+				35D8FC231DB47D4E00AD469E /* area.plist in Resources */,
 				3547F4BB1D9904D90068F04E /* LICENSE in Resources */,
 				3547F42A1D9904BD0068F04E /* city.plist in Resources */,
 				3547F4AF1D9904D90068F04E /* MJRefresh.bundle in Resources */,
@@ -1679,17 +1719,20 @@
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3547F4B01D9904D90068F04E /* MJRefreshBaseView.m in Sources */,
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
+				35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */,
 				3547F42F1D9904BD0068F04E /* UIImage+ImageFromArrayUtils.m in Sources */,
 				3547F4B51D9904D90068F04E /* UIScrollView+MJRefresh.m in Sources */,
 				35B61E011DB06F7E00083F30 /* LMEventDetailEventBody.m in Sources */,
 				3547F4B61D9904D90068F04E /* UIView+MJExtension.m in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
+				35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */,
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
 				3547F4051D9904BA0068F04E /* VOUtil.m in Sources */,
 				35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */,
 				35B61E031DB06F7E00083F30 /* LMEventDetailLeavingMessages.m in Sources */,
 				3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */,
 				35B61E151DB0727800083F30 /* LMActivityList.m in Sources */,
+				35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
 				35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */,
 				3547F4011D9904BA0068F04E /* HeadVO.m in Sources */,
@@ -1764,6 +1807,7 @@
 				3547F3811D9904A60068F04E /* FitTableViewController.m in Sources */,
 				3547F4611D9904C70068F04E /* FitUserManager.m in Sources */,
 				3547F37C1D9904A60068F04E /* LMActivityViewController.m in Sources */,
+				35D8FC291DB4AAC700AD469E /* LMPublicProjectRequest.m in Sources */,
 				3547F3851D9904A60068F04E /* LMRegisterViewController.m in Sources */,
 				3547F3331D9901780068F04E /* main.m in Sources */,
 				35E40A351DACC4B500DE1807 /* LMHomelistequest.m in Sources */,
@@ -1826,8 +1870,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1850,7 +1894,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1873,8 +1917,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1890,7 +1934,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1939,7 +1983,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1986,7 +2030,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

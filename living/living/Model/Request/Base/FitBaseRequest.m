@@ -126,11 +126,34 @@
     
     if ([self isPost]) {
         
-        afRequest   = [httpClient requestWithMethod:@"POST"
-                                               path:[self methodPath]
-                                         parameters:[NSDictionary dictionaryWithObject:[[NSString alloc] initWithData:[self toJSONData:[self query]]
-                                                                                                             encoding:NSUTF8StringEncoding]
-                                                                                forKey:@"json_package"]];
+        if (![self isImageInclude]) {
+            
+            afRequest   = [httpClient requestWithMethod:@"POST"
+                                                   path:[self methodPath]
+                                             parameters:[NSDictionary dictionaryWithObject:[[NSString alloc] initWithData:[self toJSONData:[self query]]
+                                                                                                                 encoding:NSUTF8StringEncoding]
+                                                                                    forKey:@"json_package"]];
+            
+        }else{
+            
+            afRequest = [httpClient multipartFormRequestWithMethod:@"POST"
+                                                              path:[self methodPath]
+                                                        parameters:nil
+                                         constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                             
+                                             [formData appendPartWithFormData:[self toJSONData:[self query]]
+                                                                         name:@"json_package"];
+                                             
+                                             if ([self isImageInclude] && _imageData) {
+                                                 [formData appendPartWithFileData:_imageData
+                                                                             name:_imageName
+                                                                         fileName:[NSString stringWithFormat:@"%@.jpg", _imageName]
+                                                                         mimeType:@"image/jpeg"];
+                                             }
+                                             
+                                         }];
+            
+        }
         
     } else {
         

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMFindList.h"
 
 @interface LMFindCell : UITableViewCell
 @property (nonatomic, strong)NSString *imageUrl;
@@ -25,5 +26,6 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
+-(void)setValue:(LMFindList *)list;
 
 @end

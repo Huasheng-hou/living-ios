@@ -78,13 +78,13 @@
     _includeTF.backgroundColor = [UIColor clearColor];
     _includeTF.font = TEXT_FONT_LEVEL_2;
     
-    UILabel *textLab = [UILabel new];
-    textLab.text = @"请输入项目详情";
-    textLab.textColor = TEXT_COLOR_LEVEL_3;
-    textLab.font = TEXT_FONT_LEVEL_2;
-    [textLab sizeToFit];
-    textLab.frame = CGRectMake(5, 0, textLab.bounds.size.width, 30);
-    [_includeTF addSubview:textLab];
+    _textLab = [UILabel new];
+    _textLab.text = @"请输入项目详情";
+    _textLab.textColor = TEXT_COLOR_LEVEL_3;
+    _textLab.font = TEXT_FONT_LEVEL_2;
+    [_textLab sizeToFit];
+    _textLab.frame = CGRectMake(5, 0, _textLab.bounds.size.width, 30);
+    [_includeTF addSubview:_textLab];
     [TFview addSubview:_includeTF];
     
     
@@ -99,9 +99,12 @@
     
     
     _eventButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _eventButton.backgroundColor = [UIColor clearColor];
-    _eventButton.frame = CGRectMake(0, 0, 70, 70);
-    [imgBackView addSubview:_eventButton];
+
+    _eventButton.frame = CGRectMake(10, 240, 70, 70);
+    [self.contentView addSubview:_eventButton];
+    
+    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 240, 70, 70)];
+    [self.contentView addSubview:_imgView];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 330, kScreenWidth, 10)];
     footView.backgroundColor = BG_GRAY_COLOR;

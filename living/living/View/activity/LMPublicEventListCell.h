@@ -18,6 +18,10 @@
 
 @property(nonatomic,strong)UIButton *eventButton;
 
+@property(nonatomic,strong)UILabel *textLab;
+
+@property(nonatomic,strong)UIImageView *imgView;
+
 
 @end
 

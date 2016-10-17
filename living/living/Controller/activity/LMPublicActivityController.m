@@ -13,9 +13,11 @@
 #import "FitPickerView.h"
 #import "FitDatePickerView.h"
 #import "LMPublicEventRequest.h"
+#import "LMPublicProjectRequest.h"
 #import "FirUploadImageRequest.h"
 #import "ImageHelpTool.h"
 #import "BabFilterAgePickerView.h"
+#import "FitPickerThreeLevelView.h"
 
 @interface LMPublicActivityController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -32,8 +34,13 @@ FitPickerViewDelegate
     LMPublicEventListCell *AddEventCell;
     UIImagePickerController *pickImage;
     NSString *_imgURL;
+    NSString *_imgProURL;
     NSInteger dateIndex;
     NSInteger timeIndex;
+    NSInteger cellIndex;
+    NSString                    *districtStr;//设置中间变量，获取县（区）的编码
+    NSInteger imageIndex;
+    NSString *eventUUid;
     
     
 }
@@ -57,7 +64,7 @@ FitPickerViewDelegate
     
     [pickImage setDelegate:self];
     [pickImage setAllowsEditing:NO];
-    
+    cellIndex = 1;
     
     [self creatFootView];
     
@@ -86,6 +93,8 @@ FitPickerViewDelegate
     [addButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
     addButton.titleLabel.font = TEXT_FONT_LEVEL_2;
     addButton.frame = CGRectMake(kScreenWidth/2-50, 5, 100, 30);
+    
+    [addButton addTarget:self action:@selector(addButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:addButton];
     
     
@@ -104,7 +113,7 @@ FitPickerViewDelegate
         return 1;
     }
     if (section==1) {
-        return 2;
+        return cellIndex;
     }
     return 0;
 }
@@ -226,8 +235,10 @@ FitPickerViewDelegate
         
         static NSString *cellId = @"cellId";
         AddEventCell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        
         if (!AddEventCell) {
             AddEventCell = [[LMPublicEventListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            AddEventCell.selectionStyle = UITableViewCellSelectionStyleNone;
             AddEventCell.titleTF.delegate = self;
             AddEventCell.includeTF.delegate = self;
             [AddEventCell.eventButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -241,6 +252,7 @@ FitPickerViewDelegate
 
 -(void)beginDateAction:(id)sender
 {
+    [self.view endEditing:YES];
     dateIndex = 0;
     NSLog(@"************beginDateAction");
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
@@ -258,6 +270,7 @@ FitPickerViewDelegate
 }
 -(void)beginTimeAction:(id)sender
 {
+    [self.view endEditing:YES];
     NSLog(@"************beginTimeAction");
     timeIndex = 0;
     NSMutableArray *hourArray = [NSMutableArray new];
@@ -276,6 +289,7 @@ FitPickerViewDelegate
 }
 -(void)endDateAction:(id)sender
 {
+    [self.view endEditing:YES];
     dateIndex = 1;
     NSLog(@"************endDateAction");
     
@@ -294,6 +308,7 @@ FitPickerViewDelegate
 }
 -(void)endTimeAction:(id)sender
 {
+    [self.view endEditing:YES];
     NSLog(@"************endTimeAction");
     timeIndex = 1;
     NSMutableArray *hourArray = [NSMutableArray new];
@@ -310,14 +325,41 @@ FitPickerViewDelegate
     NSArray *arr = @[@":"];
     [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
 }
+
+
+#pragma mark 选择省市区视图
+
+-(void)createPickerView
+{
+    
+    FitPickerThreeLevelView *pickView=[[FitPickerThreeLevelView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 260)];
+    pickView.delegate=self;
+    [[[[UIApplication sharedApplication] delegate] window] addSubview:pickView];
+}
+
 -(void)addressAction:(id)sender
 {
+    [self.view endEditing:YES];
     NSLog(@"************addressAction");
+    
+   [self createPickerView];
+    
 }
+- (void)didSelectedItems:(NSArray *)items andDistrict:(NSString *)district
+{
+   
+        msgCell.addressButton.textLabel.text = [NSString stringWithFormat:@"%@", items[0]];
+        districtStr=district;
+    
+}
+
+
+
 
 -(void)imageButtonAction:(id)sender
 {
     NSLog(@"************imageButtonAction");
+    imageIndex = 0;
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
@@ -337,6 +379,7 @@ FitPickerViewDelegate
 {
     NSLog(@"*******项目图片");
     
+    imageIndex = 1;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
@@ -375,12 +418,31 @@ FitPickerViewDelegate
         msgCell.endTimeButton.textLabel.text = [NSString stringWithFormat:@"%@:%@", items[0],items[2]];
 
     }
-    
-    
-    
 }
 
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        //在这里做你响应return键的代码
+        [self.view endEditing:YES];
+        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+        
+    }
+    
+    return YES;
+}
+
+
+- (void)textViewDidChange:(UITextView *)textView1
+{
+    if (!textView1.text||textView1.text.length==0)
+    {
+        [AddEventCell.textLab setHidden:NO];
+    }else{
+        [AddEventCell.textLab setHidden:YES];
+    }
+}
 
 
 
@@ -417,13 +479,23 @@ FitPickerViewDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker
         didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
-    //设置头像图片
-    [msgCell.imageButton.imageView setImage:image];
-    //获取图片的url
-    [self getImageURL:image];
+    if (imageIndex==0) {
+        //设置头像图片
+        [msgCell.imgView setImage:image];
+        //获取图片的url
+        [self getImageURL:image];
+    }
+    if (imageIndex==1) {
+        //设置头像图片
+        [AddEventCell.imgView setImage:image];
+        //获取图片的url
+        [self getImageURL:image];
+    }
+
     
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 #pragma mark 获取头像的url
 
@@ -435,63 +507,76 @@ FitPickerViewDelegate
         return;
     }
     
-    [self initStateHud];
-    
-    FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-    UIImage *headImage = [ImageHelpTool scaleImage:image];
-    request.imageData   = UIImageJPEGRepresentation(headImage, 1);
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding){
-                                               
-                                               [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                      withObject:nil
-                                                                   waitUntilDone:YES];
-                                               NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                               
-                                               NSString    *result = [bodyDict objectForKey:@"result"];
-                                               
-                                               NSLog(@"--------bodyDict--------%@",bodyDict);
-                                               
-                                               if (result && [result isKindOfClass:[NSString class]]
-                                                   && [result isEqualToString:@"0"]) {
-                                                   NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                                   if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                       _imgURL=imgUrl;
+    if (imageIndex==0) {
+        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+        UIImage *headImage = [ImageHelpTool scaleImage:image];
+        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        
+        [self initStateHud];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding){
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                          withObject:nil
+                                                                       waitUntilDone:YES];
+                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString    *result = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
+                                                   
+                                                   if (result && [result isKindOfClass:[NSString class]]
+                                                       && [result isEqualToString:@"0"]) {
+                                                       NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                       if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+               
+                                                           _imgURL=imgUrl;
+                                     
+                                                        }
                                                    }
-                                               }
-                                           } failed:^(NSError *error) {
-                                               [self hideStateHud];
-                                           }];
-    [proxy start];
+                                               } failed:^(NSError *error) {
+                                                   [self hideStateHud];
+                                               }];
+        [proxy start];
+
+    }
+    if (imageIndex==1) {
+        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+        UIImage *headImage = [ImageHelpTool scaleImage:image];
+        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        
+        [self initStateHud];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding){
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                          withObject:nil
+                                                                       waitUntilDone:YES];
+                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString    *result = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
+                                                   
+                                                   if (result && [result isKindOfClass:[NSString class]]
+                                                       && [result isEqualToString:@"0"]) {
+                                                       NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                       if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+                                                    
+                                                            _imgProURL=imgUrl;
+                                                           
+                                                       }
+                                                   }
+                                               } failed:^(NSError *error) {
+                                                   [self hideStateHud];
+                                               }];
+        [proxy start];
+
+    }
+    
 }
 
 
-#pragma mark 确定执行方法
-
--(void)saveUserInfoResponse:(NSString *)resp
-{
-    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    if (!bodyDict)
-    {
-        [self textStateHUD:@"保存失败"];
-        return;
-    }
-    if (bodyDict && [bodyDict objectForKey:@"result"]
-        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]])
-    {
-        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
-            [self textStateHUD:@"保存成功"];
-            NSLog(@"保存成功");
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [self dismissViewControllerAnimated:YES completion:nil];
-            });
-            
-        }else{
-            [self textStateHUD:[bodyDict objectForKey:@"description"]];
-        }
-    }
-}
 
 
 
@@ -542,6 +627,95 @@ FitPickerViewDelegate
 -(void)publishButtonAction:(id)sender
 {
     NSLog(@"**************发布");
+    NSString *startstring = [NSString stringWithFormat:@"%@ %@:00",msgCell.dateButton.textLabel.text,msgCell.timeButton.textLabel.text];
+    NSString *endString =[NSString stringWithFormat:@"%@ %@:00",msgCell.endDateButton.textLabel.text,msgCell.endTimeButton.textLabel.text];
+    
+    NSLog(@"%@",msgCell.titleTF.text);
+    NSLog(@"%@",msgCell.phoneTF.text);
+    NSLog(@"%@",msgCell.nameTF.text);
+    NSLog(@"%@",msgCell.freeTF.text);
+    NSLog(@"%@",startstring);
+    NSLog(@"%@",endString);
+    NSLog(@"%@",msgCell.addressButton.textLabel.text);
+    NSLog(@"%@",msgCell.dspTF.text);
+    NSLog(@"%@",_imgURL);
+
+    
+    
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+
+    
+    
+}
+
+-(void)publicProject
+{
+    LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:AddEventCell.titleTF.text Project_dsp:AddEventCell.includeTF.text Project_imgs:_imgProURL];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+
+
+-(void)getEventDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"***************%@",bodyDic);
+    if (!bodyDic) {
+        [self textStateHUD:@"发布失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            NSString *string = [bodyDic objectForKey:@"event_uuid"];
+            eventUUid = string;
+            [self publicProject];
+        }else{
+            NSString *string = [bodyDic objectForKey:@"description"];
+            [self textStateHUD:string];
+        }
+    }
+
+}
+
+
+-(void)getEventPublicProjectDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"**********%@",bodyDic);
+    
+}
+
+
+
+#pragma mark  --添加项目
+-(void)addButtonAction:(id)sender
+{
+    cellIndex = cellIndex+1;
+    [self.tableView reloadData];
 }
 
 

@@ -452,30 +452,43 @@ LMCommentCellDelegate
     
     NSLog(@"%@",cell.commentUUid);
     LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
-                                    
                                                
-                                               NSDictionary *bodyDic = [VOUtil parseBody:resp];
-                                               if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-                                                   [self textStateHUD:@"点赞成功"];
-                                                   [_tableView reloadData];
-
-                                               }else{
-                                                   NSString *str = [bodyDic objectForKey:@"description"];
-                                                   [self textStateHUD:str];
-                                               }
-                                               
-
-                                               
+                                               [self performSelectorOnMainThread:@selector(getPraisecellDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"点赞失败"];
                                                
-                 
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"点赞失败"
+                                                                   waitUntilDone:YES];
                                            }];
     [proxy start];
     
+    
 }
+
+-(void)getPraisecellDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"点赞失败"];
+        return;
+    }
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        [self textStateHUD:@"点赞成功"];
+        [_tableView reloadData];
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+
+}
+
+
 
 #pragma mark 键盘部分
 

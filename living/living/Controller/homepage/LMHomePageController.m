@@ -36,6 +36,12 @@ WJLoopViewDelegate
 
 @implementation LMHomePageController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerDataRequest) name:@"login" object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -65,7 +71,7 @@ WJLoopViewDelegate
      _tableView.tableHeaderView = headView;
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerDataRequest) name:@"login" object:nil];
+    
     
 
 }

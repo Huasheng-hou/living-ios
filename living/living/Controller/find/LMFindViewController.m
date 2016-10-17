@@ -7,6 +7,8 @@
 //
 
 #import "LMFindViewController.h"
+#import "LMFindListRequest.h"
+#import "LMFindList.h"
 #import "LMFindCell.h"
 
 @interface LMFindViewController ()<UITableViewDelegate,
@@ -14,6 +16,7 @@ UITableViewDataSource
 >
 {
     UITableView *_tableView;
+    NSMutableArray *listArray;
     
 }
 
@@ -27,7 +30,7 @@ UITableViewDataSource
     
     [self creatUI];
     [self getHomeDataRequest];
-    
+    listArray = [NSMutableArray new];
 }
 
 -(void)creatUI
@@ -45,17 +48,37 @@ UITableViewDataSource
 
 -(void)getHomeDataRequest
 {
-    
+    LMFindListRequest *request = [[LMFindListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getFindListResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
     
 }
 
--(void)getHomeDataResponse:(NSString *)resp
+-(void)getFindListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
         
+        NSArray *array = bodyDic[@"list"];
+        for (int i =0; i<array.count; i++) {
+            LMFindList *list=[[LMFindList alloc]initWithDictionary:array[i]];
+            if (![listArray containsObject:list]) {
+                [listArray addObject:list];
+            }
+
+        }
         
         
         [_tableView reloadData];
@@ -112,7 +135,8 @@ UITableViewDataSource
     LMFindCell *cell = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    LMFindList *list =[listArray objectAtIndex:indexPath.row];
+    [cell setValue:list];
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
 
     
