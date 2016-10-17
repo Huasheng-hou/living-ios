@@ -141,6 +141,13 @@
 -(void)setValue:(LMOrderList *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
+    _priceLabel.text = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
+    _titleLabel.text = list.eventName;
+    _orderNumLabel.text = list.orderNumber;
+    
+    
+    
     int payNum = [list.payStatus intValue];
         switch (payNum) {
             case 0:
@@ -162,6 +169,9 @@
             default:
                 break;
         }
+    
+    
+    
     
 }
 
