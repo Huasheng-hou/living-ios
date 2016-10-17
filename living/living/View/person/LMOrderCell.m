@@ -8,6 +8,7 @@
 
 #import "LMOrderCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 
 @interface LMOrderCell () {
     float _xScale;
@@ -137,8 +138,30 @@
     
 }
 
--(void)setData:(NSString *)data
+-(void)setValue:(LMOrderList *)list
 {
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    int payNum = [list.payStatus intValue];
+        switch (payNum) {
+            case 0:
+                _paytypeLabel.text = @"待支付";
+                break;
+            case 1:
+                _paytypeLabel.text = @"待确认";
+                break;
+            case 2:
+                _paytypeLabel.text = @"已付款";
+                break;
+            case 3:
+                _paytypeLabel.text = @"退款中";
+                break;
+            case 4:
+                _paytypeLabel.text = @"已退款";
+                break;
+                
+            default:
+                break;
+        }
     
 }
 

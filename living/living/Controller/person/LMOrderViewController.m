@@ -7,12 +7,15 @@
 //
 
 #import "LMOrderViewController.h"
+#import "LMOrderListRequest.h"
 #import "LMOrderCell.h"
+#import "LMOrderList.h"
 
 @interface LMOrderViewController ()<UITableViewDelegate,UITableViewDataSource,
 LMOrderCellDelegate>
 {
     UITableView *_tableView;
+    NSMutableArray *orderArray;
 }
 
 @end
@@ -23,6 +26,8 @@ LMOrderCellDelegate>
     [super viewDidLoad];
     self.title = @"订单";
     [self creatUI];
+    [self getOrderListRequest];
+    orderArray = [NSMutableArray new];
 }
 
 -(void)creatUI
@@ -34,6 +39,51 @@ LMOrderCellDelegate>
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [self.view addSubview:_tableView];
 }
+
+-(void)getOrderListRequest
+{
+    LMOrderListRequest *request = [[LMOrderListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getOrderListResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)getOrderListResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        NSArray *array = bodyDic[@"list"];
+        for (int i =0; i<array.count; i++) {
+            LMOrderList *list=[[LMOrderList alloc]initWithDictionary:array[i]];
+            if (![orderArray containsObject:list]) {
+                [orderArray addObject:list];
+            }
+            
+        }
+        
+        
+        [_tableView reloadData];
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+    
+    
+}
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -51,7 +101,7 @@ LMOrderCellDelegate>
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return orderArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,6 +110,8 @@ LMOrderCellDelegate>
     LMOrderCell *cell = [[LMOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
+    LMOrderList *list =[orderArray objectAtIndex:indexPath.row];
+    [cell setValue:list];
     cell.delegate = self;
     
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];

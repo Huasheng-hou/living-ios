@@ -95,7 +95,7 @@ UITableViewDataSource
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
     UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
-    imageV.image = [UIImage imageNamed:@"112"];
+    imageV.image = [UIImage imageNamed:@"findpage"];
     [headView addSubview:imageV];
     return headView;
 }
@@ -126,7 +126,7 @@ UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return listArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -130,6 +130,9 @@
 		35D8FC291DB4AAC700AD469E /* LMPublicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC281DB4AAC700AD469E /* LMPublicProjectRequest.m */; };
 		35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */; };
 		35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC331DB4CD3C00AD469E /* LMFindList.m */; };
+		35D8FC361DB4DD9900AD469E /* findpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FC351DB4DD9900AD469E /* findpage.png */; };
+		35D8FC3A1DB4E03400AD469E /* LMOrderListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */; };
+		35D8FC3E1DB4E26300AD469E /* LMOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC3D1DB4E26300AD469E /* LMOrderList.m */; };
 		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
 		35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */; };
@@ -389,6 +392,11 @@
 		35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindListRequest.m; sourceTree = "<group>"; };
 		35D8FC321DB4CD3800AD469E /* LMFindList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFindList.h; sourceTree = "<group>"; };
 		35D8FC331DB4CD3C00AD469E /* LMFindList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindList.m; sourceTree = "<group>"; };
+		35D8FC351DB4DD9900AD469E /* findpage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = findpage.png; sourceTree = "<group>"; };
+		35D8FC381DB4E03400AD469E /* LMOrderListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrderListRequest.h; sourceTree = "<group>"; };
+		35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderListRequest.m; sourceTree = "<group>"; };
+		35D8FC3C1DB4E25F00AD469E /* LMOrderList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMOrderList.h; sourceTree = "<group>"; };
+		35D8FC3D1DB4E26300AD469E /* LMOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderList.m; sourceTree = "<group>"; };
 		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
 		35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitBaseRequest.m; sourceTree = "<group>"; };
 		35E40A251DAC9B6600DE1807 /* HTTPProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPProxy.h; sourceTree = "<group>"; };
@@ -671,6 +679,7 @@
 		3547F3A31D9904B60068F04E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC351DB4DD9900AD469E /* findpage.png */,
 				35D8FC221DB47D4E00AD469E /* area.plist */,
 				3547F3A41D9904B60068F04E /* 112.png */,
 				3547F3A51D9904B60068F04E /* city.plist */,
@@ -720,6 +729,7 @@
 		3547F3BA1D9904BA0068F04E /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC371DB4DFDA00AD469E /* Order */,
 				35D8FC2D1DB4CBCA00AD469E /* Find */,
 				35B61E221DB0C4EF00083F30 /* PublicEvent */,
 				35B61E081DB0702200083F30 /* Activity */,
@@ -790,6 +800,7 @@
 		3547F3DB1D9904BA0068F04E /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				35D8FC3B1DB4E24300AD469E /* Order */,
 				35D8FC311DB4CD2200AD469E /* Find */,
 				35B61E121DB0727800083F30 /* Activity */,
 				35B61DFA1DB06F7E00083F30 /* ActivityDetail */,
@@ -1515,6 +1526,24 @@
 			path = Find;
 			sourceTree = "<group>";
 		};
+		35D8FC371DB4DFDA00AD469E /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				35D8FC381DB4E03400AD469E /* LMOrderListRequest.h */,
+				35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */,
+			);
+			path = Order;
+			sourceTree = "<group>";
+		};
+		35D8FC3B1DB4E24300AD469E /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				35D8FC3C1DB4E25F00AD469E /* LMOrderList.h */,
+				35D8FC3D1DB4E26300AD469E /* LMOrderList.m */,
+			);
+			path = Order;
+			sourceTree = "<group>";
+		};
 		35E40A281DACBB0D00DE1807 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1647,6 +1676,7 @@
 				3547F4F01D9909660068F04E /* UMSShareListController.xib in Resources */,
 				3547F4F11D9909660068F04E /* UMSocialSDKResourcesNew.bundle in Resources */,
 				3547F33E1D9901780068F04E /* Assets.xcassets in Resources */,
+				35D8FC361DB4DD9900AD469E /* findpage.png in Resources */,
 				3547F43B1D9904C20068F04E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1715,6 +1745,7 @@
 				3547F45D1D9904C70068F04E /* FitSignalCacheManager.m in Sources */,
 				35F004231DAE0C0200F59CB2 /* LMCommentPraiseRequest.m in Sources */,
 				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
+				35D8FC3A1DB4E03400AD469E /* LMOrderListRequest.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3547F4B01D9904D90068F04E /* MJRefreshBaseView.m in Sources */,
@@ -1734,6 +1765,7 @@
 				35B61E151DB0727800083F30 /* LMActivityList.m in Sources */,
 				35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
+				35D8FC3E1DB4E26300AD469E /* LMOrderList.m in Sources */,
 				35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */,
 				3547F4011D9904BA0068F04E /* HeadVO.m in Sources */,
 				3547F37E1D9904A60068F04E /* FitNavigationController.m in Sources */,

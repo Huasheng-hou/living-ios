@@ -51,22 +51,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/LMFindViewController.m"
-            timestampString = "498389164.869467"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "-getFindListResponse:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "living/Controller/activity/LMPublicActivityController.m"
             timestampString = "498390247.784605"
             startingColumnNumber = "9223372036854775807"
@@ -75,53 +59,6 @@
             endingLineNumber = "687"
             landmarkName = "-getEventDataResponse:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__43-[LMPublicActivityController publicProject]_block_invoke.370"
-                  moduleName = "living"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "498390247.888192"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "688"
-                  endingLineNumber = "688"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.371"
-                  moduleName = "living"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "498390247.889433"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "688"
-                  endingLineNumber = "688"
-                  offsetFromSymbolStart = "51">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.372"
-                  moduleName = "living"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "498390247.889817"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "688"
-                  endingLineNumber = "688"
-                  offsetFromSymbolStart = "29">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

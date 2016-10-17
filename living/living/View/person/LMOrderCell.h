@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMOrderList.h"
 
 @protocol LMOrderCellDelegate;
 
@@ -21,6 +22,8 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
+
+-(void)setValue:(LMOrderList *)list;
 @end
 
 @protocol LMOrderCellDelegate <NSObject>

@@ -74,14 +74,15 @@
     _questonLabel.text = @"这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢这是一段什么样的话呢";
     
     _numLabel.text =@"得赞数 126";
-    _headImage.image = [UIImage imageNamed:@"function"];
+    _headImage.image = [UIImage imageNamed:@"funtion"];
     
     
 }
 
 -(void)setValue:(LMFindList *)list
 {
-    _questonLabel.text = list.description;
+    _questonLabel.text = list.descrition;
+    _numLabel.text = [NSString stringWithFormat:@"得赞数 %.0f",list.numberOfVotes];
     
 }
 
