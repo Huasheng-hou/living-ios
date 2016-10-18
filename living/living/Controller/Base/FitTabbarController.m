@@ -36,8 +36,6 @@
 {
     [super viewDidLoad];
 
-    [self createUI];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -47,6 +45,8 @@
     if (![[FitUserManager sharedUserManager] isLogin]) {
         
         [LMLoginViewController presentInViewController:self Animated:YES];
+    }else{
+         [self createUI];
     }
 }
 

@@ -143,7 +143,6 @@
     
     [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
     
-
     [self presentViewController:tab animated:YES completion:nil];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];

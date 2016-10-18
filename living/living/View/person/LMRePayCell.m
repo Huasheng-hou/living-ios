@@ -45,7 +45,7 @@
     
     _payNum=[[UITextField alloc]initWithFrame:CGRectMake(50, 0, kScreenWidth-60, 45)];
     [_payNum setPlaceholder:@"请输入要充值的金额"];
-    _payNum.keyboardType=UIKeyboardTypeNumberPad;
+    _payNum.keyboardType=UIKeyboardTypeDecimalPad;
     [_payNum setReturnKeyType:UIReturnKeyDone];
     [_payNum setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
     [_payNum setFont:TEXT_FONT_LEVEL_2];

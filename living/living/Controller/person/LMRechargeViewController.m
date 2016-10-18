@@ -390,7 +390,7 @@ UIAlertViewDelegate
 
 -(void)senderAliPay:(NSString *)payOrderStr
 {
-    NSString *appScheme = @"apparelApp";
+    NSString *appScheme = @"livingApp";
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
         //        NSLog(@"  购物车支付宝支付结果返回reslut = %@",resultDic);
     }];
