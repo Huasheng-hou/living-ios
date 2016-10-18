@@ -19,7 +19,16 @@
 
 
 #define TOKEN @"dirty2016"
-@interface LMRegisterViewController ()<UITextFieldDelegate,FitDatePickerDelegate,FitPickerViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface LMRegisterViewController ()
+<
+UITextFieldDelegate,
+FitDatePickerDelegate,
+FitPickerViewDelegate,
+UIActionSheetDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+UIViewControllerTransitioningDelegate
+>
 {
     UITextField *nickTF;
     LMAgeChooseButton *ageTF;
@@ -36,7 +45,7 @@
     NSString *genderStr;
     NSString *passWordStr;
     
-    NSString        *_uuid;
+    NSString *_uuid;
     
     NSDictionary *infoDic;
 }
@@ -99,7 +108,8 @@
     
     
     pickImage=[[UIImagePickerController alloc]init];
-    
+    pickImage.transitioningDelegate  = self;
+    pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setDelegate:self];
     [pickImage setAllowsEditing:YES];
     
@@ -211,9 +221,7 @@
         
     }
     
-    
-    
-    
+
     
     return cell;
 }
@@ -221,17 +229,7 @@
 #pragma mark 登陆
 -(void)loginAction
 {
-    
-    NSLog(@"*************denglu******");
-    NSLog(@"****provinceStr********%@",provinceStr);
-    NSLog(@"******nickTF.text******%@",nickTF.text);
-    NSLog(@"*****cityStr*******%@",cityStr);
-    NSLog(@"*******_numberString******%@",_numberString);
-    NSLog(@"*****ageTF.textLabel.text********%@",ageTF.textLabel.text);
-    NSLog(@"*****passWordStr********%@",passWordStr);
-    NSLog(@"*******genderStr******%@",genderStr);
-    NSLog(@"*************%@",_imgURL);
-    
+
     if ([nickTF.text isEqualToString:@""]) {
         [self textStateHUD:@"请填写昵称"];
         return;
@@ -334,28 +332,11 @@
         [userInfo setObject:_passWord forKey:@"password"];
     }
     
-//    if (nickTF.text) {
-//        [userInfo setObject:nickTF.text forKey:@"username"];
-//    }
     
     if (genderStr) {
         [userInfo setObject:genderStr forKey:@"gender"];
     }
-//    if (_imgURL) {
-//        [userInfo setObject:_imgURL forKey:@"avatar"];
-//    }
-//    if (ageTF.textLabel.text) {
-//        [userInfo setObject:ageTF.textLabel.text forKey:@"birthday"];
-//    }
-//    
-//    if (provinceStr) {
-//        [userInfo setObject:provinceStr forKey:@"province"];
-//    }
-//    
-//    if (cityStr) {
-//        [userInfo setObject:cityStr forKey:@"city"];
-//    }
-    
+
     
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
 }

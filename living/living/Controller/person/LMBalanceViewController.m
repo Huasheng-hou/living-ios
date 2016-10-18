@@ -9,6 +9,8 @@
 #import "LMBalanceViewController.h"
 #import "LMRechargeViewController.h"
 #import "LMBalanceRequest.h"
+#import "LMBalanceListRequest.h"
+
 
 @interface LMBalanceViewController ()
 <UITableViewDelegate,
@@ -16,6 +18,7 @@ UITableViewDataSource>
 {
     UITableView *_tableView;
     NSString *balanceStr;
+    NSMutableArray *listArray;
 }
 
 
@@ -27,7 +30,9 @@ UITableViewDataSource>
     [super viewDidLoad];
     self.title = @"余额明细";
     [self getBlanceData];
+    [self getBalancelistData];
     [self creatUI];
+    listArray = [NSMutableArray new];
 }
 
 -(void)creatUI
@@ -69,7 +74,7 @@ UITableViewDataSource>
         headLb.text =@"本月明细";
     }
     if (section==2) {
-        headLb.text = @"9月明细";
+        headLb.text = @"10月明细";
     }
     headLb.font = TEXT_FONT_LEVEL_2;
     headLb.textColor = TEXT_COLOR_LEVEL_2;
@@ -82,9 +87,6 @@ UITableViewDataSource>
 
 
 
-
-
-
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 3;
@@ -94,7 +96,7 @@ UITableViewDataSource>
     if (section==0) {
         return 2;
     }
-    return 10;
+    return listArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -188,13 +190,59 @@ UITableViewDataSource>
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
 
-            balanceStr =[NSString stringWithFormat:@"%@",[dic objectForKey:@"balance"]];
+            balanceStr =[NSString stringWithFormat:@"%@元",[dic objectForKey:@"balance"]];
 
             
             [_tableView reloadData];
         }
     }
 }
+
+#pragma mark --余额明细列表
+
+-(void)getBalancelistData
+{
+    NSDate *currentDate = [NSDate date];//获取当前时间，日期
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY-MM"];
+    NSString *dateString = [dateFormatter stringFromDate:currentDate];
+    NSLog(@"dateString:%@",dateString);
+    
+    LMBalanceListRequest *request = [[LMBalanceListRequest alloc] initWithPageIndex:1 andPageSize:20 andMonth:dateString];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getBlanceListDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取余额数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+
+-(void)getBlanceListDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"获取余额列表失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            NSLog(@"%@",bodyDic[@"list"]);
+            
+            
+        }
+        [_tableView reloadData];
+    }
+    
+}
+
+
+
 
 
 @end

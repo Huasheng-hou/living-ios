@@ -26,6 +26,7 @@ UITextViewDelegate,
 FitDatePickerDelegate,
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
+UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
 FitPickerViewDelegate
 >
@@ -63,6 +64,8 @@ FitPickerViewDelegate
     pickImage=[[UIImagePickerController alloc]init];
     
     [pickImage setDelegate:self];
+    pickImage.transitioningDelegate  = self;
+    pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setAllowsEditing:NO];
     cellIndex = 1;
     
@@ -491,7 +494,6 @@ FitPickerViewDelegate
         //获取图片的url
         [self getImageURL:image];
     }
-
     
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
@@ -639,9 +641,39 @@ FitPickerViewDelegate
     NSLog(@"%@",msgCell.addressButton.textLabel.text);
     NSLog(@"%@",msgCell.dspTF.text);
     NSLog(@"%@",_imgURL);
-
-    
-    
+    if (!(msgCell.titleTF.text.length>0)) {
+        [ self textStateHUD:@"请输入活动标题"];
+        return;
+    }
+    if (!(msgCell.phoneTF.text.length>0)) {
+        [ self textStateHUD:@"请输入联系电话"];
+        return;
+    }
+    if (!(msgCell.nameTF.text.length>0)) {
+        [ self textStateHUD:@"请输入联系人名字"];
+        return;
+    }
+    if (!(msgCell.freeTF.text.length>0)) {
+        [ self textStateHUD:@"请输入人均费用"];
+        return;
+    }
+    if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区@"]) {
+        [ self textStateHUD:@"请选择活动地址"];
+        return;
+    }
+    if (!(msgCell.dspTF.text.length>0)) {
+        [ self textStateHUD:@"请输入活动详细地址"];
+        return;
+    }
+    if ([startstring isEqual:@"请选择活动开始日期 请选择时间:00"]) {
+        [ self textStateHUD:@"请选择开始时间"];
+        return;
+    }
+    if ([endString isEqual:@"请选择活动开始日期 请选择时间:00"]) {
+        [ self textStateHUD:@"请选择开始时间"];
+        return;
+    }
+  
     LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -657,13 +689,16 @@ FitPickerViewDelegate
                                            }];
     [proxy start];
     
-
-    
     
 }
 
 -(void)publicProject
 {
+    if (!(AddEventCell.titleTF.text.length>0)) {
+        [ self textStateHUD:@"请输入活动详细地址"];
+        return;
+    }
+    
     LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:AddEventCell.titleTF.text Project_dsp:AddEventCell.includeTF.text Project_imgs:_imgProURL];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -706,6 +741,23 @@ FitPickerViewDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     NSLog(@"**********%@",bodyDic);
+    if (!bodyDic) {
+        [self textStateHUD:@"发布项目失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"发布项目成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+             
+                                                                object:nil];
+            
+        }else{
+            NSString *string = [bodyDic objectForKey:@"description"];
+            [self textStateHUD:string];
+        }
+    }
+        
     
 }
 

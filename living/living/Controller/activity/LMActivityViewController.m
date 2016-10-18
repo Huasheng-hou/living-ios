@@ -27,6 +27,13 @@ UITableViewDataSource
 @end
 
 @implementation LMActivityViewController
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getActivityListDataRequest) name:@"reloadEvent" object:nil];
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

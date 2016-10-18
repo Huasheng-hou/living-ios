@@ -12,6 +12,7 @@
 		351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6611DAB85B6008D59D8 /* LMBalanceViewController.m */; };
 		351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6641DAB8F70008D59D8 /* LMOrderViewController.m */; };
 		351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6671DAB8FBF008D59D8 /* LMOrderCell.m */; };
+		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574751D9CAFB900E88D6F /* LMCommentButton.m */; };
 		354574791D9CC24600E88D6F /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574781D9CC24600E88D6F /* WJLoopView.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
@@ -200,6 +201,8 @@
 		351CC6641DAB8F70008D59D8 /* LMOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderViewController.m; sourceTree = "<group>"; };
 		351CC6661DAB8FBF008D59D8 /* LMOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrderCell.h; sourceTree = "<group>"; };
 		351CC6671DAB8FBF008D59D8 /* LMOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderCell.m; sourceTree = "<group>"; };
+		353A8E651DB614AA00D829DB /* LMBalanceListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceListRequest.h; sourceTree = "<group>"; };
+		353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceListRequest.m; sourceTree = "<group>"; };
 		354574741D9CAFB900E88D6F /* LMCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentButton.h; sourceTree = "<group>"; };
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
@@ -1741,6 +1744,8 @@
 				35FA8E9C1DB5CF3D00510A75 /* LMRefundRequest.m */,
 				35FA8E9E1DB5ECDE00510A75 /* LMBalanceRequest.h */,
 				35FA8E9F1DB5ECDE00510A75 /* LMBalanceRequest.m */,
+				353A8E651DB614AA00D829DB /* LMBalanceListRequest.h */,
+				353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -2206,6 +2211,7 @@
 				3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */,
 				3547F42C1D9904BD0068F04E /* UIColor+ZXLazy.m in Sources */,
 				351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */,
+				353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */,
 				35B61E1B1DB0A9DA00083F30 /* LMEventJoinRequest.m in Sources */,
 				3547F3A11D9904B20068F04E /* LMChooseButton.m in Sources */,
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
