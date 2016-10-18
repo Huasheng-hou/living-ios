@@ -103,7 +103,7 @@ UITableViewDataSource>
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.section==0) {
-        cell.imageView.image = [UIImage imageNamed:@"balance"];
+        
         cell.textLabel.font = TEXT_FONT_LEVEL_2;
         cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
         switch (indexPath.row) {
@@ -111,10 +111,12 @@ UITableViewDataSource>
                 cell.textLabel.text = @"当前余额";
                 cell.detailTextLabel.text = balanceStr;
                 cell.detailTextLabel.textColor = LIVING_COLOR;
+                cell.imageView.image = [UIImage imageNamed:@"balance"];
                 break;
                 case 1:
                 cell.textLabel.text = @"余额充值";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.imageView.image = [UIImage imageNamed:@"recharge"];
                 break;
             default:
                 break;
