@@ -142,7 +142,13 @@
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
     _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
-    _priceLabel.text = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
+    NSString *textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
+    
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:textstr];
+    [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,4)];
+    [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(4,str.length-4)];
+     _priceLabel.attributedText = str;
+    
     _titleLabel.text = list.eventName;
     _orderNumLabel.text = list.orderNumber;
     
@@ -158,12 +164,20 @@
                 break;
             case 2:
                 _paytypeLabel.text = @"已付款";
+                [_deleteButton setTitle:@"退款" forState:UIControlStateNormal];
+                [_deleteButton addTarget:self action:@selector(RefundCell:) forControlEvents:UIControlEventTouchUpInside];
+                [_payButton setTitle:@"完成" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(finishCell:) forControlEvents:UIControlEventTouchUpInside];
                 break;
             case 3:
                 _paytypeLabel.text = @"退款中";
                 break;
             case 4:
                 _paytypeLabel.text = @"已退款";
+                [_deleteButton setTitle:@"再订" forState:UIControlStateNormal];
+                [_deleteButton addTarget:self action:@selector(rebookCell:) forControlEvents:UIControlEventTouchUpInside];
+                [_payButton setTitle:@"删除" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
                 break;
                 
             default:

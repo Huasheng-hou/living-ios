@@ -132,3 +132,10 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define GOODS_CATEGORY_TYPE_Bupin           @"BuPin"
 #define GOODS_CATEGORY_TYPE_Zhinengcheng    @"ZhiNengCheng"
 
+
+//---------------------重新登录提示语----------------------
+#define reLoginTip @"账号已在其他设备上登录，请重新登录！"
+#define imageH   (kScreenWidth-160)*2/3
+
+#define imageW  kScreenWidth/2
+

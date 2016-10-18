@@ -13,7 +13,7 @@
 
 @interface LMOrderCell : UITableViewCell
 
-
+@property(nonatomic,strong)NSString *Orderuuid;
 
 
 @property (nonatomic, weak) id <LMOrderCellDelegate> delegate;

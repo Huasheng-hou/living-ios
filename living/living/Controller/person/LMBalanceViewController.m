@@ -7,10 +7,15 @@
 //
 
 #import "LMBalanceViewController.h"
+#import "LMRechargeViewController.h"
+#import "LMBalanceRequest.h"
 
-@interface LMBalanceViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface LMBalanceViewController ()
+<UITableViewDelegate,
+UITableViewDataSource>
 {
     UITableView *_tableView;
+    NSString *balanceStr;
 }
 
 
@@ -21,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"余额明细";
+    [self getBlanceData];
     [self creatUI];
 }
 
@@ -86,7 +92,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 3;
+        return 2;
     }
     return 10;
 }
@@ -103,15 +109,11 @@
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"当前余额";
-                cell.detailTextLabel.text = @"1000元";
+                cell.detailTextLabel.text = balanceStr;
                 cell.detailTextLabel.textColor = LIVING_COLOR;
                 break;
                 case 1:
                 cell.textLabel.text = @"余额充值";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                break;
-                case 2:
-                cell.textLabel.text = @"余额提现";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 break;
             default:
@@ -140,6 +142,56 @@
     //        [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0) {
+        if (indexPath.row==1) {
+            LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
+            [reVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:reVC animated:YES];
+        }
+    }
+    
+}
+
+#pragma mark  --获取余额数据
+-(void)getBlanceData
+{
+    LMBalanceRequest *request = [[LMBalanceRequest alloc] init];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getBlanceDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取余额数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+    
+}
+-(void)getBlanceDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"获取余额失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
+
+            balanceStr =[NSString stringWithFormat:@"%@",[dic objectForKey:@"balance"]];
+
+            
+            [_tableView reloadData];
+        }
+    }
 }
 
 

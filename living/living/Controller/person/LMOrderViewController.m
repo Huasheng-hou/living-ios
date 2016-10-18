@@ -10,8 +10,23 @@
 #import "LMOrderListRequest.h"
 #import "LMOrderCell.h"
 #import "LMOrderList.h"
+#import "LMRefundRequest.h"
 
-@interface LMOrderViewController ()<UITableViewDelegate,UITableViewDataSource,
+
+//支付宝
+#import "Order.h"
+#import "DataSigner.h"
+#import <AlipaySDK/AlipaySDK.h>
+//微信支付
+#import "WXApiObject.h"
+#import "WXApi.h"
+
+#import "WXApiRequestHandler.h"
+#import "WXApiManager.h"
+
+@interface LMOrderViewController ()<UITableViewDelegate,
+UITableViewDataSource,
+UIActionSheetDelegate,
 LMOrderCellDelegate>
 {
     UITableView *_tableView;
@@ -112,6 +127,7 @@ LMOrderCellDelegate>
     cell.backgroundColor = [UIColor clearColor];
     LMOrderList *list =[orderArray objectAtIndex:indexPath.row];
     [cell setValue:list];
+    cell.Orderuuid = list.orderUuid;
     cell.delegate = self;
     
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -123,12 +139,46 @@ LMOrderCellDelegate>
 #pragma mark - LMOrderCell delegate -
 - (void)cellWilldelete:(LMOrderCell *)cell
 {
+    NSLog(@"%@",cell.Orderuuid);
     NSLog(@"**********删除");
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除"
+                                                                   message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"******确定");
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 }
 - (void)cellWillpay:(LMOrderCell *)cell
 {
     NSLog(@"**********付款");
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
+                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];      [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"******微信支付");
+        [WXApiRequestHandler jumpToBizPay:nil];
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"支付宝支付"
+                                                        style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                NSLog(@"******支付宝支付");
+                                                        }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+    
 }
 - (void)cellWillfinish:(LMOrderCell *)cell
 {
@@ -137,11 +187,51 @@ LMOrderCellDelegate>
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
     NSLog(@"**********退款");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否退款"
+                                                                   message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"******确定");
+        LMRefundRequest *request = [[LMRefundRequest alloc] initWithOrder_uuid:cell.Orderuuid];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getrefundDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"退款失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+        
+        
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    [self presentViewController:alert animated:YES completion:nil];
+
+    
 }
 - (void)cellWillrebook:(LMOrderCell *)cell
 {
     NSLog(@"**********再订");
 }
+
+
+#pragma mark  --退款
+-(void)getrefundDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"*******%@",bodyDic);
+}
+
+
 
 
 
