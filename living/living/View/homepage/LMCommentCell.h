@@ -43,6 +43,8 @@
 @optional
 - (void)cellWillComment:(LMCommentCell *)cell;
 
+-(void)cellWillReply:(LMCommentCell *)cell;
+
 @end
 
 

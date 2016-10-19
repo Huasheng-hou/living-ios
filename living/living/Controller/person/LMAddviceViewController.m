@@ -7,6 +7,7 @@
 //
 
 #import "LMAddviceViewController.h"
+#import "LMFeedBackRequest.h"
 #import "FitConsts.h"
 
 @interface LMAddviceViewController ()<UITextViewDelegate>
@@ -128,56 +129,55 @@
 //    [self uploadFeedback];
 }
 
-//- (void)uploadFeedback
-//{
-//    if (![CheckUtils isLink]) {
-//        
-//        [self textStateHUD:@"无网络连接"];
-//        return;
-//    }
+- (void)uploadFeedback
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
 
-//    NSCharacterSet *whiteSpace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-//    NSString *descriptionString = [[NSString alloc]initWithString:[textView.text stringByTrimmingCharactersInSet:whiteSpace]];
+    NSCharacterSet *whiteSpace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString *descriptionString = [[NSString alloc]initWithString:[textView.text stringByTrimmingCharactersInSet:whiteSpace]];
 
-    //    FitUploadFeedBackRequest *request=[[FitUploadFeedBackRequest alloc]initWithUuid:iphoneUUID
-    //                                                                         andMessage:descriptionString];
-    //
-    //    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-    //                                           completed:^(NSString *resp, NSStringEncoding encoding)
-    //                           {
-    //                               [self performSelectorOnMainThread:@selector(parseResponse:)
-    //                                                      withObject:resp waitUntilDone:YES];
-    //                           } failed:^(NSError *error) {
-    //                               [self textStateHUD:@"发送失败"];
-    //                           }];
-    //    [proxy start];
-//}
+        LMFeedBackRequest *request=[[LMFeedBackRequest alloc]initWithFeedbackcontent:descriptionString];
+    
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding)
+                               {
+                                   [self performSelectorOnMainThread:@selector(parseResponse:)
+                                                          withObject:resp waitUntilDone:YES];
+                               } failed:^(NSError *error) {
+                                   [self textStateHUD:@"发送失败"];
+                               }];
+        [proxy start];
+}
 
-//- (void)parseResponse:(NSString *)resp
-//{
-//    NSDictionary  *bodyDict   = [VOUtil parseBody:resp];
-//    
-//    if (!bodyDict)
-//    {
-//        [self textStateHUD:@"发送失败"];
-//        return;
-//    }
-//    
-//    if (bodyDict && [bodyDict objectForKey:@"result"]
-//        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]])
-//    {
-//        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"])
-//        {
-//            [self textStateHUD:@"发送成功"];
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [self.navigationController popViewControllerAnimated:YES];
-//            });
-//        }
-//    }else
-//    {
-//        [self textStateHUD:@"发送失败"];
-//    }
-//}
+- (void)parseResponse:(NSString *)resp
+{
+    NSDictionary  *bodyDict   = [VOUtil parseBody:resp];
+    
+    if (!bodyDict)
+    {
+        [self textStateHUD:@"发送失败"];
+        return;
+    }
+    
+    if (bodyDict && [bodyDict objectForKey:@"result"]
+        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]])
+    {
+        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"])
+        {
+            [self textStateHUD:@"发送成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }
+    }else
+    {
+        [self textStateHUD:@"发送失败"];
+    }
+}
 
 
 @end

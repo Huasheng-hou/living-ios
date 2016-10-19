@@ -18,6 +18,8 @@
 #import "LMEventDetailLeavingMessages.h"
 #import "LMEventJoinRequest.h"
 #import "LMEventLivingMsgRequest.h"
+#import "LMEventpraiseRequest.h"
+#import "LMEventCommitReplyRequset.h"
 
 @interface LMActivityDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -35,6 +37,10 @@ LMLeavemessagecellDelegate
     NSMutableArray *msgArray;
     NSMutableArray *eventArray;
     LMEventDetailEventBody *eventDic;
+    UIView *commentsView;
+    UITextView *commentText;
+    UIView *backView;
+    NSString *commitUUid;
     
 }
 
@@ -69,8 +75,6 @@ LMLeavemessagecellDelegate
 }
 -(void)creatHeaderView
 {
-
-    
     
     //活动人头像
     UIImageView *headV = [UIImageView new];
@@ -419,9 +423,11 @@ LMLeavemessagecellDelegate
     if (indexPath.section==3) {
         static NSString *cellId = @"cellId";
         LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
         [cell setValue:msgData];
+        cell.commentUUid = msgData.commentUuid;
         cell.delegate = self;
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -435,11 +441,142 @@ LMLeavemessagecellDelegate
     return nil;
     
 }
-#pragma mark - LMLeavemessagecell delegate -
+#pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMLeavemessagecell *)cell
 {
     NSLog(@"**********");
+    
+    LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:cell.commentUUid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventpraiseDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"点赞失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+    
 }
+-(void)getEventpraiseDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"点赞失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"点赞成功"];
+            [self getEventListDataRequest];
+        }else{
+            NSString *str = [bodyDic objectForKey:@"description"];
+            [self textStateHUD:str];
+        }
+    }
+}
+
+
+//回复
+-(void)cellWillReply:(LMLeavemessagecell *)cell
+{
+    NSLog(@"**********回复");
+    
+    cell.commentUUid = commitUUid;
+    [UIView  beginAnimations:nil context:NULL];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.75];
+    self.tableView.userInteractionEnabled = NO;
+    [self showCommentText];
+    [UIView commitAnimations];
+ 
+}
+- (void)showCommentText {
+    [self createCommentsView];
+    [commentText becomeFirstResponder];//再次让textView成为第一响应者（第二次）这次键盘才成功显示
+}
+- (void)createCommentsView {
+    if (!commentsView) {
+        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
+        commentsView.backgroundColor = [UIColor whiteColor];
+        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 20.0)];
+        commentText.layer.borderWidth   = 0.5;
+        commentText.layer.borderColor   = LINE_COLOR.CGColor;
+        commentText.layer.cornerRadius  = 5.0;
+        commentText.layer.masksToBounds = YES;
+        commentText.inputAccessoryView  = commentsView;
+        commentText.backgroundColor     = [UIColor whiteColor];
+        commentText.returnKeyType       = UIReturnKeySend;
+        commentText.delegate	        = self;
+        commentText.font		        = [UIFont systemFontOfSize:15.0];
+        
+        UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        sureButton.frame = CGRectMake(kScreenWidth-90, 160-60, 72, 24);
+        sureButton.layer.cornerRadius = 5;
+        [sureButton setTitle:@"确认" forState:UIControlStateNormal];
+        sureButton.backgroundColor = BLUE_COLOR;
+        sureButton.tintColor = [UIColor whiteColor];
+        [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
+        [commentText addSubview:sureButton];
+        [commentsView addSubview:commentText];
+    }
+    [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
+    [commentText becomeFirstResponder];//让textView成为第一响应者（第一次）这次键盘并未显示出来
+}
+
+-(void)sendComment
+{
+    NSLog(@"************");
+    if ([commentText.text isEqualToString:@""]) {
+        [self textStateHUD:@"回答内容不能为空"];
+        return;
+    }
+    [self commitDataRequest];
+
+    
+    [commentText resignFirstResponder];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+-(void)commitDataRequest
+{
+    LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:commentText.text];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventcommitResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"回复失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+-(void)getEventcommitResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"回复失败"];
+    }
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        [self textStateHUD:@"回复成功"];
+        [self getEventListDataRequest];
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+    
+}
+
+
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

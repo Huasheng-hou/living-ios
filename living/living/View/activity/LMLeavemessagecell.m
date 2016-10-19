@@ -108,6 +108,7 @@
     _replyButton.headImage.frame = CGRectMake(0, 6, 12, 12);
     _replyButton.textLabel.text = @"回复";
     _replyButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+    [_replyButton addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_replyButton];
     
     
@@ -166,9 +167,9 @@
     
     _lineLabel.frame = CGRectMake(15, 75+_conHigh+20, kScreenWidth-30, 0.5);
     
-    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width-20, 30);
+    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width+20, 30);
     
-    _zanButton.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-80-_replyButton.bounds.size.width, 70+_conHigh-5, _zanButton.textLabel.bounds.size.width-20, 30);
+    _zanButton.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-80-_replyButton.bounds.size.width, 70+_conHigh-5, _zanButton.textLabel.bounds.size.width+20, 30);
     
 }
 
@@ -186,6 +187,15 @@
     }
     
 }
+
+- (void)replyAction:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellWillReply:)]) {
+        [_delegate cellWillReply:self];
+    }
+    
+}
+
 
 
 - (void)awakeFromNib {

@@ -14,7 +14,7 @@
 @interface LMLeavemessagecell : UITableViewCell
 
 
-@property (nonatomic, strong)NSString *article_uuid;
+@property (nonatomic, strong)NSString *event_uuid;
 
 @property (nonatomic, strong)NSString *commentUUid;
 
@@ -41,5 +41,7 @@
 
 @optional
 - (void)cellWillComment:(LMLeavemessagecell *)cell;
+- (void)cellWillReply:(LMLeavemessagecell *)cell;
+
 
 @end

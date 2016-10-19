@@ -70,9 +70,7 @@ WJLoopViewDelegate
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
      _tableView.tableHeaderView = headView;
     
-    
-    
-    
+
 
 }
 
@@ -228,13 +226,6 @@ WJLoopViewDelegate
     [self.navigationController pushViewController:detailVC animated:YES];
 
 }
-
-
-
-
-
-
-
 
 
 - (void)didReceiveMemoryWarning {
