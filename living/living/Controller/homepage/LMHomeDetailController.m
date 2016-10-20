@@ -492,7 +492,6 @@ LMCommentCellDelegate
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.75];
     [self showCommentText];
-    toolBar.hidden = YES;
     [UIView commitAnimations];
 
 }

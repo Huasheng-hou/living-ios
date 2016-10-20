@@ -29,10 +29,25 @@ UITableViewDataSource>
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"余额明细";
-    [self getBlanceData];
-    [self getBalancelistData];
+    [self getData];
+ 
     [self creatUI];
     listArray = [NSMutableArray new];
+    
+    //请求获取余额
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(getData)
+     
+                                                 name:@"rechargeMoney"
+     
+                                               object:nil];
+}
+
+-(void)getData
+{
+    [self getBlanceData];
+    [self getBalancelistData];
 }
 
 -(void)creatUI

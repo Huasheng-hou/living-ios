@@ -310,7 +310,7 @@ UIAlertViewDelegate
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
                 [self textStateHUD:@"充值成功！"];
-                //更新余额
+                //刷新订单数据
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
             }else{
                 [self textStateHUD:@"充值失败！"];

@@ -7,11 +7,18 @@
 //
 
 #import "LMNoticViewController.h"
+#import "LMNoticListRequest.h"
+#import "FitUserManager.h"
+#import "LMNoticList.h"
 #import "LMNoticCell.h"
 
-@interface LMNoticViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface LMNoticViewController ()
+<UITableViewDelegate,
+UITableViewDataSource
+>
 {
     UITableView *_tableView;
+    NSMutableArray *listArray;
 }
 
 @end
@@ -21,7 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"通知中心";
+    [self getNoticListData];
     [self creatUI];
+    listArray = [NSMutableArray new];
 }
 
 -(void)creatUI
@@ -30,7 +39,67 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    
+    _tableView.editing = NO;
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(EditAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    
 }
+
+-(void)EditAction
+{
+    NSLog(@"**************编辑");
+    _tableView.editing = YES;
+}
+
+-(void)getNoticListData
+{
+    LMNoticListRequest *request = [[LMNoticListRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getNoticListDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取通知列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getNoticListDataResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDic = [VOUtil parseBody:resp];
+    
+    if (!bodyDic) {
+        [self textStateHUD:@"获取数据失败"];
+        return;
+    }
+    
+    NSString *result    = [bodyDic objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0)
+    {
+        NSArray *array = bodyDic[@"list"];
+        for (int i =0; i<array.count; i++) {
+            LMNoticList *list=[[LMNoticList alloc]initWithDictionary:array[i]];
+            if (![listArray containsObject:list]) {
+                [listArray addObject:list];
+            }
+            
+        }
+        [_tableView reloadData];
+        
+    } else {
+        [self textStateHUD:bodyDic[@"description"]];
+    }
+}
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -48,18 +117,52 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return listArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-//        [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    LMNoticList *list = [listArray objectAtIndex:indexPath.row];
+    
+    [cell  setData:list];
+    
+    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
+}
+
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    void(^rowActionHandler)(UITableViewRowAction *, NSIndexPath *) = ^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
+                                                                       message:@"是否删除"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                               style:UIAlertActionStyleDestructive
+                                                             handler:^(UIAlertAction*action) {
+                                                                 [listArray removeObject:indexPath];
+                                                             }]];
+
+        [self presentViewController:alert animated:YES completion:nil];
+             
+        
+        [tableView reloadData];
+    };
+
+    
+    UITableViewRowAction *action1 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:rowActionHandler];
+    
+    action1.backgroundColor = LIVING_COLOR;
+
+    
+    return @[action1];
 }
 
 

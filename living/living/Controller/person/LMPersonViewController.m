@@ -33,6 +33,16 @@
     
     [self getUserInfoData];
     [self creatUI];
+    
+    //请求获取余额
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(getUserInfoData)
+     
+                                                 name:@"rechargeMoney"
+     
+                                               object:nil];
+    
 }
 
 -(void)creatUI
@@ -100,7 +110,7 @@
         
 
     } else {
-        [self textStateHUD:@"登录失败"];
+        [self textStateHUD:bodyDict[@"description"]];
     }
 
 }
@@ -220,7 +230,7 @@
             
             //订单
             UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 50, 80, 20)];
-//            reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.todayRewards];
+            reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.orderNumber];
             reward.font = TEXT_FONT_LEVEL_2;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [cell.contentView addSubview:reward];

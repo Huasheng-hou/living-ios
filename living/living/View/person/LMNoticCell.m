@@ -70,8 +70,24 @@
 }
 
 
--(void)setData:(NSString *)data
+-(void)setData:(LMNoticList *)list
 {
+    _contentLabel.text = list.content;
+    _timeLabel.text = list.noticeTime;
+    
+    if ([list.type isEqual:@"praise"]) {
+        _typeLabel.text =[NSString stringWithFormat:@"%@赞了你",list.userNick];
+        _headImage.image = [UIImage imageNamed:@"no-read"];
+    }
+    if ([list.type isEqual:@"adopted"]) {
+        _typeLabel.text =[NSString stringWithFormat:@"%@回复你",list.userNick];
+        _headImage.image = [UIImage imageNamed:@"no-read"];
+    }
+    if ([list.type isEqual:@"system"]) {
+        _typeLabel.text =[NSString stringWithFormat:@"系统消息"];
+        _headImage.image = [UIImage imageNamed:@"settingIcon"];
+    }
+    
     
 }
 

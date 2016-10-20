@@ -21,6 +21,8 @@
 		351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6671DAB8FBF008D59D8 /* LMOrderCell.m */; };
 		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */; };
+		353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890E1DB860EC007585F1 /* LMNoticListRequest.m */; };
+		353B89121DB864B9007585F1 /* LMNoticList.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B89111DB864B9007585F1 /* LMNoticList.m */; };
 		354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574751D9CAFB900E88D6F /* LMCommentButton.m */; };
 		354574791D9CC24600E88D6F /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574781D9CC24600E88D6F /* WJLoopView.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
@@ -227,6 +229,10 @@
 		353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceListRequest.m; sourceTree = "<group>"; };
 		353B890A1DB85327007585F1 /* LMAlipayResultRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAlipayResultRequest.h; sourceTree = "<group>"; };
 		353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAlipayResultRequest.m; sourceTree = "<group>"; };
+		353B890D1DB860EC007585F1 /* LMNoticListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticListRequest.h; sourceTree = "<group>"; };
+		353B890E1DB860EC007585F1 /* LMNoticListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticListRequest.m; sourceTree = "<group>"; };
+		353B89101DB864B3007585F1 /* LMNoticList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMNoticList.h; sourceTree = "<group>"; };
+		353B89111DB864B9007585F1 /* LMNoticList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticList.m; sourceTree = "<group>"; };
 		354574741D9CAFB900E88D6F /* LMCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentButton.h; sourceTree = "<group>"; };
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
@@ -1067,6 +1073,8 @@
 			children = (
 				3547F3E61D9904BA0068F04E /* FirPersonVO.h */,
 				3547F3E71D9904BA0068F04E /* FirPersonVO.m */,
+				353B89101DB864B3007585F1 /* LMNoticList.h */,
+				353B89111DB864B9007585F1 /* LMNoticList.m */,
 			);
 			path = PersonData;
 			sourceTree = "<group>";
@@ -1823,6 +1831,8 @@
 				35B61DE91DB06D7900083F30 /* LMPersonInfoRequest.m */,
 				350AD21E1DB7560E00CA181A /* LMFeedBackRequest.h */,
 				350AD21F1DB7560E00CA181A /* LMFeedBackRequest.m */,
+				353B890D1DB860EC007585F1 /* LMNoticListRequest.h */,
+				353B890E1DB860EC007585F1 /* LMNoticListRequest.m */,
 			);
 			name = person;
 			sourceTree = "<group>";
@@ -2293,10 +2303,12 @@
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
 				3547F42B1D9904BD0068F04E /* FitColorConvertFactory.m in Sources */,
 				35FA8E111DB5B31100510A75 /* WXMediaMessage+messageConstruct.m in Sources */,
+				353B89121DB864B9007585F1 /* LMNoticList.m in Sources */,
 				35B61E181DB0767200083F30 /* LMLeavemessagecell.m in Sources */,
 				3547F3811D9904A60068F04E /* FitTableViewController.m in Sources */,
 				3547F4611D9904C70068F04E /* FitUserManager.m in Sources */,
 				3547F37C1D9904A60068F04E /* LMActivityViewController.m in Sources */,
+				353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */,
 				35D8FC291DB4AAC700AD469E /* LMPublicProjectRequest.m in Sources */,
 				35FA8E0F1DB5B31100510A75 /* GetMessageFromWXResp+responseWithTextOrMediaMessage.m in Sources */,
 				3547F3851D9904A60068F04E /* LMRegisterViewController.m in Sources */,

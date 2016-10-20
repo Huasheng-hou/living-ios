@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMNoticList.h"
 
 @interface LMNoticCell : UITableViewCell
 
@@ -23,5 +24,7 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
+
+-(void)setData:(LMNoticList *)list;
 
 @end

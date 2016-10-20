@@ -12,8 +12,11 @@ NSString *const kUserInfoGender = @"gender";
 NSString *const kUserInfoNickName = @"nick_name";
 NSString *const kUserInfoCity = @"city";
 NSString *const kUserInfoAvatar = @"avatar";
-NSString *const kUserInfoBirthday = @"birthday";
+NSString *const kUserInfoEventNum = @"event_num";
 NSString *const kUserInfoBalance = @"balance";
+NSString *const kUserInfoBirthday = @"birthday";
+NSString *const kUserInfoOrderNumber = @"order_number";
+NSString *const kUserInfoTotalEventNum = @"total_event_num";
 NSString *const kUserInfoProvince = @"province";
 
 
@@ -29,8 +32,11 @@ NSString *const kUserInfoProvince = @"province";
 @synthesize nickName = _nickName;
 @synthesize city = _city;
 @synthesize avatar = _avatar;
-@synthesize birthday = _birthday;
+@synthesize eventNum = _eventNum;
 @synthesize balance = _balance;
+@synthesize birthday = _birthday;
+@synthesize orderNumber = _orderNumber;
+@synthesize totalEventNum = _totalEventNum;
 @synthesize province = _province;
 
 
@@ -46,13 +52,16 @@ NSString *const kUserInfoProvince = @"province";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.gender = [self objectOrNilForKey:kUserInfoGender fromDictionary:dict];
-            self.nickName = [self objectOrNilForKey:kUserInfoNickName fromDictionary:dict];
-            self.city = [self objectOrNilForKey:kUserInfoCity fromDictionary:dict];
-            self.avatar = [self objectOrNilForKey:kUserInfoAvatar fromDictionary:dict];
-            self.birthday = [self objectOrNilForKey:kUserInfoBirthday fromDictionary:dict];
-            self.balance = [[self objectOrNilForKey:kUserInfoBalance fromDictionary:dict] doubleValue];
-            self.province = [self objectOrNilForKey:kUserInfoProvince fromDictionary:dict];
+        self.gender = [self objectOrNilForKey:kUserInfoGender fromDictionary:dict];
+        self.nickName = [self objectOrNilForKey:kUserInfoNickName fromDictionary:dict];
+        self.city = [self objectOrNilForKey:kUserInfoCity fromDictionary:dict];
+        self.avatar = [self objectOrNilForKey:kUserInfoAvatar fromDictionary:dict];
+        self.eventNum = [self objectOrNilForKey:kUserInfoEventNum fromDictionary:dict];
+        self.balance = [[self objectOrNilForKey:kUserInfoBalance fromDictionary:dict] doubleValue];
+        self.birthday = [self objectOrNilForKey:kUserInfoBirthday fromDictionary:dict];
+        self.orderNumber = [[self objectOrNilForKey:kUserInfoOrderNumber fromDictionary:dict] doubleValue];
+        self.totalEventNum = [self objectOrNilForKey:kUserInfoTotalEventNum fromDictionary:dict];
+        self.province = [self objectOrNilForKey:kUserInfoProvince fromDictionary:dict];
 
     }
     
@@ -67,8 +76,11 @@ NSString *const kUserInfoProvince = @"province";
     [mutableDict setValue:self.nickName forKey:kUserInfoNickName];
     [mutableDict setValue:self.city forKey:kUserInfoCity];
     [mutableDict setValue:self.avatar forKey:kUserInfoAvatar];
-    [mutableDict setValue:self.birthday forKey:kUserInfoBirthday];
+    [mutableDict setValue:self.eventNum forKey:kUserInfoEventNum];
     [mutableDict setValue:[NSNumber numberWithDouble:self.balance] forKey:kUserInfoBalance];
+    [mutableDict setValue:self.birthday forKey:kUserInfoBirthday];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.orderNumber] forKey:kUserInfoOrderNumber];
+    [mutableDict setValue:self.totalEventNum forKey:kUserInfoTotalEventNum];
     [mutableDict setValue:self.province forKey:kUserInfoProvince];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
@@ -97,8 +109,11 @@ NSString *const kUserInfoProvince = @"province";
     self.nickName = [aDecoder decodeObjectForKey:kUserInfoNickName];
     self.city = [aDecoder decodeObjectForKey:kUserInfoCity];
     self.avatar = [aDecoder decodeObjectForKey:kUserInfoAvatar];
-    self.birthday = [aDecoder decodeObjectForKey:kUserInfoBirthday];
+    self.eventNum = [aDecoder decodeObjectForKey:kUserInfoEventNum];
     self.balance = [aDecoder decodeDoubleForKey:kUserInfoBalance];
+    self.birthday = [aDecoder decodeObjectForKey:kUserInfoBirthday];
+    self.orderNumber = [aDecoder decodeDoubleForKey:kUserInfoOrderNumber];
+    self.totalEventNum = [aDecoder decodeObjectForKey:kUserInfoTotalEventNum];
     self.province = [aDecoder decodeObjectForKey:kUserInfoProvince];
     return self;
 }
@@ -110,8 +125,11 @@ NSString *const kUserInfoProvince = @"province";
     [aCoder encodeObject:_nickName forKey:kUserInfoNickName];
     [aCoder encodeObject:_city forKey:kUserInfoCity];
     [aCoder encodeObject:_avatar forKey:kUserInfoAvatar];
-    [aCoder encodeObject:_birthday forKey:kUserInfoBirthday];
+    [aCoder encodeObject:_eventNum forKey:kUserInfoEventNum];
     [aCoder encodeDouble:_balance forKey:kUserInfoBalance];
+    [aCoder encodeObject:_birthday forKey:kUserInfoBirthday];
+    [aCoder encodeDouble:_orderNumber forKey:kUserInfoOrderNumber];
+    [aCoder encodeObject:_totalEventNum forKey:kUserInfoTotalEventNum];
     [aCoder encodeObject:_province forKey:kUserInfoProvince];
 }
 
@@ -125,8 +143,11 @@ NSString *const kUserInfoProvince = @"province";
         copy.nickName = [self.nickName copyWithZone:zone];
         copy.city = [self.city copyWithZone:zone];
         copy.avatar = [self.avatar copyWithZone:zone];
-        copy.birthday = [self.birthday copyWithZone:zone];
+        copy.eventNum = [self.eventNum copyWithZone:zone];
         copy.balance = self.balance;
+        copy.birthday = [self.birthday copyWithZone:zone];
+        copy.orderNumber = self.orderNumber;
+        copy.totalEventNum = [self.totalEventNum copyWithZone:zone];
         copy.province = [self.province copyWithZone:zone];
     }
     
