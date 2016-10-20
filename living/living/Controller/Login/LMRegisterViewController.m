@@ -97,7 +97,7 @@ UIViewControllerTransitioningDelegate
     UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     loginButton.frame = CGRectMake(15, 20, kScreenWidth-30, 45);
     loginButton.titleLabel.font = TEXT_FONT_LEVEL_1;
-    [loginButton setTitle:@"登 陆" forState:UIControlStateNormal];
+    [loginButton setTitle:@"提 交" forState:UIControlStateNormal];
     loginButton.backgroundColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
     [loginButton addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
     
@@ -160,7 +160,7 @@ UIViewControllerTransitioningDelegate
         
         
         womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-        womanButton.headImage.frame = CGRectMake(26, 20, 44, 50);
+        womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
         womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
         womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
         womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
@@ -289,7 +289,7 @@ UIViewControllerTransitioningDelegate
         
         _uuid = [infoDic objectForKey:@"user_uuid"];
         
-        [self setUserInfo];
+//        [self setUserInfo];
 
         [self gotoHomepage];
         [self textStateHUD:@"资料填写成功"];
@@ -313,33 +313,33 @@ UIViewControllerTransitioningDelegate
 }
 
 
-#pragma mark 登记用户信息
-
-- (void)setUserInfo{
-    
-    
-    NSMutableDictionary *userInfo   = [NSMutableDictionary new];
-    
-    if (_uuid) {
-        [userInfo setObject:_uuid forKey:@"uuid"];
-    }
-    
-    if (_numberString) {
-        [userInfo setObject:_numberString forKey:@"phone"];
-    }
-    
-    if (_passWord) {
-        [userInfo setObject:_passWord forKey:@"password"];
-    }
-    
-    
-    if (genderStr) {
-        [userInfo setObject:genderStr forKey:@"gender"];
-    }
-
-    
-    [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
-}
+//#pragma mark 登记用户信息
+//
+//- (void)setUserInfo{
+//    
+//    
+//    NSMutableDictionary *userInfo   = [NSMutableDictionary new];
+//    
+//    if (_uuid) {
+//        [userInfo setObject:_uuid forKey:@"uuid"];
+//    }
+//    
+//    if (_numberString) {
+//        [userInfo setObject:_numberString forKey:@"phone"];
+//    }
+//    
+//    if (_passWord) {
+//        [userInfo setObject:_passWord forKey:@"password"];
+//    }
+//    
+//    
+//    if (genderStr) {
+//        [userInfo setObject:genderStr forKey:@"gender"];
+//    }
+//
+//    
+//    [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
+//}
 
 
 
@@ -495,7 +495,7 @@ UIViewControllerTransitioningDelegate
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             [self textStateHUD:@"保存成功"];
             NSLog(@"保存成功");
-            [self setUserInfo];
+//            [self setUserInfo];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [self dismissViewControllerAnimated:YES completion:nil];

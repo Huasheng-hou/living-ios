@@ -151,6 +151,7 @@ LMLeavemessagecellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
+        [msgArray removeAllObjects];
         
         for (int i=0; i<array.count; i++) {
             LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:array[i]];
@@ -160,6 +161,7 @@ LMLeavemessagecellDelegate
         }
         
         NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
+        [eventArray removeAllObjects];
         for (int i=0; i<eveArray.count; i++) {
             LMEventDetailEventProjectsBody *Projectslist=[[LMEventDetailEventProjectsBody alloc]initWithDictionary:eveArray[i]];
             if (![eventArray containsObject:Projectslist]) {

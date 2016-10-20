@@ -54,7 +54,7 @@ LMCommentCellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"首页详情";
+    self.title = @"文章详情";
     [self creatUI];
     listArray = [NSMutableArray new];
     [self getHomeDetailDataRequest];
@@ -179,6 +179,8 @@ LMCommentCellDelegate
         
         articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
         NSMutableArray *array=bodyDic[@"comment_messages"];
+        
+        [listArray removeAllObjects];
         for (int i=0; i<array.count; i++) {
             LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:array[i]];
             if (![listArray containsObject:list]) {

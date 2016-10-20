@@ -143,7 +143,7 @@
         
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight/3)];
         
-        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 100, 100)];
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 85, 100)];
         iconView.image = [UIImage imageNamed:@"editMsg"];
         [headView addSubview:iconView];
         [cell.contentView addSubview:headView];
@@ -388,8 +388,7 @@
             registerVC.numberString = _phoneTF.text;
             [self.navigationController pushViewController:registerVC animated:YES];
         }else{
-            
-            
+                    
             [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
              
                                                                 object:nil];
@@ -434,9 +433,9 @@
         [userInfo setObject:_password forKey:@"password"];
     }
     
-    if (gender) {
-        [userInfo setObject:gender forKey:@"gender"];
-    }
+//    if (gender) {
+//        [userInfo setObject:gender forKey:@"gender"];
+//    }
     
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
 }
