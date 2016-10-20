@@ -18,7 +18,7 @@
         NSMutableDictionary     *bodyDict   = [NSMutableDictionary new];
         
         if (recharge) {
-            [bodyDict setObject:recharge forKey:@"totalMoney"];
+            [bodyDict setObject:recharge forKey:@"order_uuid"];
         }
         
         NSMutableDictionary     *paramsDict = [self params];

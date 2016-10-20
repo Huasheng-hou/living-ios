@@ -36,7 +36,7 @@ LMOrderCellDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *orderArray;
-    NSString *price;
+    NSString *Orderuuid;
     NSString *rechargeOrderUUID;
 }
 
@@ -184,7 +184,7 @@ LMOrderCellDelegate>
 - (void)cellWillpay:(LMOrderCell *)cell
 {
     NSLog(@"**********付款");
-    price = cell.priceStr;
+    Orderuuid = cell.Orderuuid;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
                                                                    message:nil preferredStyle:UIAlertControllerStyleActionSheet];      [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -270,7 +270,7 @@ LMOrderCellDelegate>
         return;
     }
     [self initStateHud];
-    LMWXPayRequest *request=[[LMWXPayRequest alloc]initWithWXRecharge:price];
+    LMWXPayRequest *request=[[LMWXPayRequest alloc]initWithWXRecharge:Orderuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -397,7 +397,7 @@ LMOrderCellDelegate>
         return;
     }
     [self initStateHud];
-    LMAliPayRequest *request=[[LMAliPayRequest alloc]initWithAliRecharge:price];
+    LMAliPayRequest *request=[[LMAliPayRequest alloc]initWithAliRecharge:Orderuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
