@@ -17,12 +17,17 @@
 #import "Order.h"
 #import "DataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "LMAliPayRequest.h"
+#import "LMAlipayResultRequest.h"
+
 //微信支付
 #import "WXApiObject.h"
 #import "WXApi.h"
 
 #import "WXApiRequestHandler.h"
 #import "WXApiManager.h"
+#import "LMWXPayRequest.h"
+#import "LMWXPayResultRequest.h"
 
 @interface LMOrderViewController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -31,6 +36,8 @@ LMOrderCellDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *orderArray;
+    NSString *price;
+    NSString *rechargeOrderUUID;
 }
 
 @end
@@ -43,6 +50,23 @@ LMOrderCellDelegate>
     [self creatUI];
     [self getOrderListRequest];
     orderArray = [NSMutableArray new];
+    
+    //微信支付结果确认
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(weixinPayEnsure)
+     
+                                                 name:@"weixinPayEnsure"
+     
+                                               object:nil];
+    //支付宝支付结果确认
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(aliPayEnsure:)
+     
+                                                 name:@"aliPayEnsure"
+     
+                                               object:nil];
 }
 
 -(void)creatUI
@@ -128,6 +152,7 @@ LMOrderCellDelegate>
     LMOrderList *list =[orderArray objectAtIndex:indexPath.row];
     [cell setValue:list];
     cell.Orderuuid = list.orderUuid;
+    cell.priceStr = list.orderAmount;
     cell.delegate = self;
     
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -159,17 +184,20 @@ LMOrderCellDelegate>
 - (void)cellWillpay:(LMOrderCell *)cell
 {
     NSLog(@"**********付款");
+    price = cell.priceStr;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
                                                                    message:nil preferredStyle:UIAlertControllerStyleActionSheet];      [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******微信支付");
-        [WXApiRequestHandler jumpToBizPay:nil];
+        [self wxRechargeRequest];
+
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"支付宝支付"
                                                         style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 NSLog(@"******支付宝支付");
+                                                [self aliRechargeRequest];
                                                         }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
@@ -230,6 +258,262 @@ LMOrderCellDelegate>
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     NSLog(@"*******%@",bodyDic);
 }
+
+
+#pragma mark 微信充值下单请求
+
+-(void)wxRechargeRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    [self initStateHud];
+    LMWXPayRequest *request=[[LMWXPayRequest alloc]initWithWXRecharge:price];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(wxRechargeResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self textStateHUD:@"微信充值下单失败"];
+                                           }];
+    [proxy start];
+}
+
+-(void)wxRechargeResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
+        
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
+                                                     message:reLoginTip
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"确定", nil];
+        [alert show];
+        alert.tag=10;
+        return;
+    }
+    //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
+    
+    if (!bodyDict) {
+        return;
+    }
+    
+    if (bodyDict && [bodyDict objectForKey:@"result"]
+        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
+        
+        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            [self textStateHUD:@"微信充值下单成功"];
+            
+            rechargeOrderUUID=bodyDict[@"myOrderUuid"];
+            [self senderWeiXinPay:bodyDict[@"wxOrder"]];
+            
+        }else{
+            [self textStateHUD:[bodyDict objectForKey:@"description"]];
+        }
+    }
+}
+
+#pragma mark 发起第三方微信支付
+
+-(void)senderWeiXinPay:(NSDictionary *)dic
+{
+    [WXApiRequestHandler jumpToBizPay:dic];
+}
+
+#pragma mark 微信支付结果确认
+
+-(void)weixinPayEnsure
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMWXPayResultRequest *request=[[LMWXPayResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(weixinPaySuccessEnsureResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self textStateHUD:@"数据请求失败"];
+                                           }];
+    [proxy start];
+    
+}
+-(void)weixinPaySuccessEnsureResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
+        
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
+                                                     message:reLoginTip
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"确定", nil];
+        [alert show];
+        alert.tag=10;
+        return;
+    }
+    
+    if (!bodyDict) {
+        [self textStateHUD:@"数据请求失败"];
+        return;
+    }
+    if (bodyDict && [bodyDict objectForKey:@"result"]
+        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
+        
+        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            
+            if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
+                [self textStateHUD:@"充值成功！"];
+                //更新余额
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
+            }else{
+                [self textStateHUD:@"充值失败！"];
+            }
+        }else{
+            [self textStateHUD:bodyDict[@"description"]];
+        }
+    }
+}
+
+#pragma mark 支付宝充值下单请求
+
+-(void)aliRechargeRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    [self initStateHud];
+    LMAliPayRequest *request=[[LMAliPayRequest alloc]initWithAliRecharge:price];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(aliRechargeResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self textStateHUD:@"数据请求失败"];
+                                           }];
+    [proxy start];
+}
+
+-(void)aliRechargeResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
+        
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
+                                                     message:reLoginTip
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"确定", nil];
+        [alert show];
+        alert.tag=10;
+        return;
+    }
+    //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
+    if (!bodyDict) {
+        [self textStateHUD:@"数据请求失败"];
+        return;
+    }
+    
+    if (bodyDict && [bodyDict objectForKey:@"result"]
+        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
+        
+        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            [self textStateHUD:@"下单成功"];
+            //支付宝支付下单后货物的uuid
+            if (bodyDict[@"myOrderUuid"]) {
+                rechargeOrderUUID=bodyDict[@"myOrderUuid"];
+            }
+            
+            if (bodyDict[@"aliSignedOrder"]) {
+                [self senderAliPay:bodyDict[@"aliSignedOrder"]];
+            }
+            
+        }else{
+            [self textStateHUD:[bodyDict objectForKey:@"description"]];
+        }
+    }
+}
+
+#pragma mark 发起第三方支付宝支付
+
+-(void)senderAliPay:(NSString *)payOrderStr
+{
+    NSString *appScheme = @"livingApp";
+    [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        //        NSLog(@"  购物车支付宝支付结果返回reslut = %@",resultDic);
+    }];
+}
+
+#pragma mark 支付宝支付结果确认
+
+-(void)aliPayEnsure:(NSNotification *)dic
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMAlipayResultRequest *request=[[LMAlipayResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID andAlipayResult:dic.object];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(aliPaySuccessEnsureResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                           }];
+    [proxy start];
+}
+
+-(void)aliPaySuccessEnsureResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
+        
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
+                                                     message:reLoginTip
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"确定", nil];
+        [alert show];
+        alert.tag=10;
+        return;
+    }
+    if (!bodyDict) {
+        return;
+    }
+    
+    if (bodyDict && [bodyDict objectForKey:@"result"]
+        && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
+        
+        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            [self textStateHUD:@"充值成功！"];
+        }else{
+            
+            [self textStateHUD:bodyDict[@"description"]];
+        }
+    }
+}
+
 
 
 
