@@ -24,7 +24,7 @@
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
         if (nickname){
-            [bodyDict setObject:nickname forKey:@"nickname"];
+            [bodyDict setObject:nickname forKey:@"nick_name"];
         }
         if (gender){
             [bodyDict setObject:gender forKey:@"gender"];
