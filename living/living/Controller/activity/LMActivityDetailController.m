@@ -488,11 +488,10 @@ LMLeavemessagecellDelegate
 {
     NSLog(@"**********回复");
     
-    cell.commentUUid = commitUUid;
+    commitUUid = cell.commentUUid;
     [UIView  beginAnimations:nil context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.75];
-    self.tableView.userInteractionEnabled = NO;
     [self showCommentText];
     [UIView commitAnimations];
  
@@ -541,11 +540,15 @@ LMLeavemessagecellDelegate
 
     
     [commentText resignFirstResponder];
-    self.tableView.userInteractionEnabled = YES;
 }
 
 -(void)commitDataRequest
 {
+    
+    NSLog(@"%@",_eventUuid);
+    NSLog(@"%@",commitUUid);
+    NSLog(@"%@",commentText.text);
+    
     LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:commentText.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -600,9 +603,6 @@ LMLeavemessagecellDelegate
                                            }];
     [proxy start];
 
-    
-    
-    
 
 }
 

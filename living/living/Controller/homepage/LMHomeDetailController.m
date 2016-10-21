@@ -489,7 +489,7 @@ LMCommentCellDelegate
 {
     NSLog(@"**********回复");
     
-    cell.commentUUid = commitUUid;
+    commitUUid =cell.commentUUid;
     [UIView  beginAnimations:nil context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.75];
