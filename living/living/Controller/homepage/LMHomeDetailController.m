@@ -426,11 +426,11 @@ LMCommentCellDelegate
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
         LMCommentMessages *list = listArray[indexPath.row];
-        cell.delegate = self;
+        
         [cell setValue:list];
         cell.commentUUid = list.commentUuid;
         cell.count = list.praiseCount;
-
+        cell.delegate = self;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         return cell;

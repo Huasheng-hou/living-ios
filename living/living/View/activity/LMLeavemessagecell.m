@@ -119,10 +119,19 @@
 -(void)setValue:(LMEventDetailLeavingMessages *)data;
 {
     LMEventDetailLeavingMessages *list = data;
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
-    _nameLabel.text = list.nickName;
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+    if (list.nickName == nil) {
+        _nameLabel.text = @"匿名用户";
+    }else{
+        _nameLabel.text = list.nickName;
+    }
     _timeLabel.text = list.commentTime;
     _titleLabel.text = list.commentContent;
+    if (list.hasPraised == YES) {
+        _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
+    }else{
+        _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
+    }
     _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",list.praiseCount];
     
     _commentUUid = list.commentUuid;

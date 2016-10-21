@@ -127,6 +127,12 @@
     }
     _timeLabel.text = [self getUTCFormateDate:list.commentTime];
     _titleLabel.text = list.commentContent;
+    if (list.hasPraised == YES) {
+        _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
+    }else{
+        _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
+    }
+    
     _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",list.praiseCount];
     
     _commentUUid = list.commentUuid;
