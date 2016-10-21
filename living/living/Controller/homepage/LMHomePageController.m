@@ -223,7 +223,6 @@ WJLoopViewDelegate
     [cell setValue:list];
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
-    
     return cell;
 }
 

@@ -97,6 +97,7 @@ UITableViewDataSource
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
+        [listArray removeAllObjects];
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
@@ -156,6 +157,8 @@ UITableViewDataSource
     
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
+    
+    
     return cell;
 }
 
@@ -164,7 +167,7 @@ UITableViewDataSource
     LMActivityList *list = [listArray objectAtIndex:indexPath.row];
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
     detailVC.eventUuid = list.eventUuid;
-    
+    detailVC.titleStr = list.eventName;
     [self.navigationController pushViewController:detailVC animated:YES];
     
 }

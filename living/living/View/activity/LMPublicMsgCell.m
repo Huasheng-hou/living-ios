@@ -133,21 +133,25 @@
     
     _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-25, 30)];
     _titleTF.font = TEXT_FONT_LEVEL_2;
+    _titleTF.returnKeyType = UIReturnKeyDone;
     _titleTF.placeholder = @"请输入活动标题";
     [self.contentView addSubview:_titleTF];
     
     _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 50, kScreenWidth- titleW-25, 30)];
     _phoneTF.font = TEXT_FONT_LEVEL_2;
+    _phoneTF.returnKeyType = UIReturnKeyDone;
     _phoneTF.placeholder = @"请输入活动联系人号码";
     [self.contentView addSubview:_phoneTF];
     
     _nameTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 95, kScreenWidth- titleW-25, 30)];
     _nameTF.font = TEXT_FONT_LEVEL_2;
+    _nameTF.returnKeyType = UIReturnKeyDone;
     _nameTF.placeholder = @"请输入活动联系人姓名";
     [self.contentView addSubview:_nameTF];
     
     _freeTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 140, kScreenWidth- titleW-25, 30)];
     _freeTF.font = TEXT_FONT_LEVEL_2;
+    _freeTF.returnKeyType = UIReturnKeyDone;
     _freeTF.placeholder = @"请输入费用金额";
     [self.contentView addSubview:_freeTF];
     

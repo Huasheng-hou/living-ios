@@ -42,6 +42,7 @@
 {
     _imageV = [UIImageView new];
     _imageV.image = [UIImage imageNamed:@"112"];
+    _imageV.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:_imageV];
     
     _titleLabel = [UILabel new];

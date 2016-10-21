@@ -9,7 +9,7 @@
 #import "LMLoginViewController.h"
 #import "FitNavigationController.h"
 #import "NSString+StringHelper.h"
-
+#import "LMWebViewController.h"
 #import "LMGetCaptchaRequest.h"
 #import "LMloginRequest.h"
 
@@ -440,12 +440,12 @@
 
 - (void)lookProtocol
 {
-//    FirWEBViewController *webVC = [[FirWEBViewController alloc] init];
-//    
-//    webVC.urlString = @"http://test.appring.cn:8080/fastask/user-cn.html";
-//    webVC.titleString = @"隐私协议";
-//    
-//    [self.navigationController pushViewController:webVC animated:YES];
+    LMWebViewController *webVC = [[LMWebViewController alloc] init];
+    
+    webVC.urlString = @"http://120.26.64.40:8080/living/user-cn.html";
+    webVC.titleString = @"隐私协议";
+    
+    [self.navigationController pushViewController:webVC animated:YES];
     
 }
 

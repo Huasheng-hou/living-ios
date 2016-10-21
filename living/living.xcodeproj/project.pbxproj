@@ -16,6 +16,9 @@
 		3507691C1DB9B2AD00487341 /* scanLine@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769161DB9B2AD00487341 /* scanLine@3x.png */; };
 		3507691D1DB9B2AD00487341 /* scanscanBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769171DB9B2AD00487341 /* scanscanBg.png */; };
 		350769201DB9B3E300487341 /* LMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507691F1DB9B3E300487341 /* LMWebViewController.m */; };
+		350769231DB9F22500487341 /* LMChangeDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769221DB9F22500487341 /* LMChangeDataViewController.m */; };
+		350769271DB9FEBF00487341 /* LMVersionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769261DB9FEBF00487341 /* LMVersionViewController.m */; };
+		3507692A1DBA05A100487341 /* LMOrederDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769291DBA05A100487341 /* LMOrederDeleteRequest.m */; };
 		3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3509B5F51D9B5302003F4D76 /* LMCommentCell.m */; };
 		350AD2201DB7560E00CA181A /* LMFeedBackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD21F1DB7560E00CA181A /* LMFeedBackRequest.m */; };
 		350AD2231DB7577000CA181A /* LMEventpraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD2221DB7577000CA181A /* LMEventpraiseRequest.m */; };
@@ -222,6 +225,12 @@
 		350769171DB9B2AD00487341 /* scanscanBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanscanBg.png; sourceTree = "<group>"; };
 		3507691E1DB9B3E300487341 /* LMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWebViewController.h; sourceTree = "<group>"; };
 		3507691F1DB9B3E300487341 /* LMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWebViewController.m; sourceTree = "<group>"; };
+		350769211DB9F22500487341 /* LMChangeDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeDataViewController.h; sourceTree = "<group>"; };
+		350769221DB9F22500487341 /* LMChangeDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeDataViewController.m; sourceTree = "<group>"; };
+		350769251DB9FEBF00487341 /* LMVersionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVersionViewController.h; sourceTree = "<group>"; };
+		350769261DB9FEBF00487341 /* LMVersionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVersionViewController.m; sourceTree = "<group>"; };
+		350769281DBA05A100487341 /* LMOrederDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrederDeleteRequest.h; sourceTree = "<group>"; };
+		350769291DBA05A100487341 /* LMOrederDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrederDeleteRequest.m; sourceTree = "<group>"; };
 		3509B5F41D9B5302003F4D76 /* LMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentCell.h; sourceTree = "<group>"; };
 		3509B5F51D9B5302003F4D76 /* LMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentCell.m; sourceTree = "<group>"; };
 		350AD21E1DB7560E00CA181A /* LMFeedBackRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFeedBackRequest.h; sourceTree = "<group>"; };
@@ -719,6 +728,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		350769241DB9FE7B00487341 /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				350769251DB9FEBF00487341 /* LMVersionViewController.h */,
+				350769261DB9FEBF00487341 /* LMVersionViewController.m */,
+			);
+			path = setting;
+			sourceTree = "<group>";
+		};
 		351CC64C1DAB22C1008D59D8 /* person */ = {
 			isa = PBXGroup;
 			children = (
@@ -862,8 +880,11 @@
 		3547F3751D9904A60068F04E /* person */ = {
 			isa = PBXGroup;
 			children = (
+				350769241DB9FE7B00487341 /* setting */,
 				3547F3781D9904A60068F04E /* LMPersonViewController.h */,
 				3547F3791D9904A60068F04E /* LMPersonViewController.m */,
+				350769211DB9F22500487341 /* LMChangeDataViewController.h */,
+				350769221DB9F22500487341 /* LMChangeDataViewController.m */,
 				3547F3761D9904A60068F04E /* LMAddviceViewController.h */,
 				3547F3771D9904A60068F04E /* LMAddviceViewController.m */,
 				3547F37A1D9904A60068F04E /* LMSettingViewController.h */,
@@ -1823,6 +1844,8 @@
 				350AD2311DB77B1200CA181A /* LMAliPayRequest.m */,
 				353B890A1DB85327007585F1 /* LMAlipayResultRequest.h */,
 				353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */,
+				350769281DBA05A100487341 /* LMOrederDeleteRequest.h */,
+				350769291DBA05A100487341 /* LMOrederDeleteRequest.m */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -2286,6 +2309,7 @@
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
 				35FA8DF71DB5B27800510A75 /* LMRechargeViewController.m in Sources */,
+				3507692A1DBA05A100487341 /* LMOrederDeleteRequest.m in Sources */,
 				3547F3A01D9904B20068F04E /* LMAgeChooseButton.m in Sources */,
 				3547F3A21D9904B20068F04E /* FitShareView.m in Sources */,
 				35E7B2E51D9DF7580035AFFE /* LMActivityDetailController.m in Sources */,
@@ -2335,6 +2359,7 @@
 				35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */,
 				35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */,
 				35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */,
+				350769271DB9FEBF00487341 /* LMVersionViewController.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
 				35FA8E9D1DB5CF3D00510A75 /* LMRefundRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
@@ -2346,6 +2371,7 @@
 				3547F42B1D9904BD0068F04E /* FitColorConvertFactory.m in Sources */,
 				35FA8E111DB5B31100510A75 /* WXMediaMessage+messageConstruct.m in Sources */,
 				353B89121DB864B9007585F1 /* LMNoticList.m in Sources */,
+				350769231DB9F22500487341 /* LMChangeDataViewController.m in Sources */,
 				35B61E181DB0767200083F30 /* LMLeavemessagecell.m in Sources */,
 				3547F3811D9904A60068F04E /* FitTableViewController.m in Sources */,
 				3547F4611D9904C70068F04E /* FitUserManager.m in Sources */,

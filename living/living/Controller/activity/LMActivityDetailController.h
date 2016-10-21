@@ -10,6 +10,7 @@
 
 @interface LMActivityDetailController : FitTableViewController
 
+@property(nonatomic, strong) NSString *titleStr;
 @property(nonatomic, strong) NSString *eventUuid;
 
 // 带tab, nav, status的y向缩放

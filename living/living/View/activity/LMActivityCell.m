@@ -48,7 +48,15 @@
 {
     //活动图片
     _imageV = [UIImageView new];
+    _imageV.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:_imageV];
+    
+    UIView *backView = [UIView new];
+    backView.backgroundColor = [UIColor blackColor];
+    backView.alpha = 0.5;
+    backView.frame = CGRectMake(0, 0, kScreenWidth, 170);
+    [_imageV addSubview:backView];
+    
     
     //标题
     _titleLabel = [UILabel new];
@@ -87,6 +95,7 @@
     
     //活动人头像
     _headV = [UIImageView new];
+    _headV.backgroundColor = [UIColor grayColor];
     _headV.layer.cornerRadius = 10.f;
     [footView addSubview:_headV];
     
@@ -114,7 +123,7 @@
     _nameLabel.text = listData.nickNname;
     [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.eventImg]];
     _addressLabel.text = listData.address;
-    [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar]];
+    [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
     _titleLabel.text = listData.eventName;
     _timeLabel.text = listData.startTime;
     

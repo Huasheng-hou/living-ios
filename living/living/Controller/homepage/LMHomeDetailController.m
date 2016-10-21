@@ -315,7 +315,7 @@ LMCommentCellDelegate
             [cell.contentView addSubview:titleLabel];
             
             UIImageView *headImage = [UIImageView new];
-            [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar]];
+            [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
             headImage.frame = CGRectMake(15, conHigh+30, 20, 20);
             headImage.layer.cornerRadius =10;
             [headImage setClipsToBounds:YES];

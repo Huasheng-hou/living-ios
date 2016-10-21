@@ -111,9 +111,24 @@
 -(void)setValue:(LMEventDetailEventBody *)event
 {
     _addressLabel.text = event.address;
-    _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",event.startTime,event.endTime];
-    _numberLabel.text = [NSString stringWithFormat:@"%@(%@)",event.contactPhone,event.contactName];
-    _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
+    
+    if (event.startTime == nil) {
+        _timeLabel.text = @"";
+    }else{
+      _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",event.startTime,event.endTime];
+    }
+    if (event.contactPhone == nil) {
+        _numberLabel.text = @"";
+    }else{
+        _numberLabel.text = [NSString stringWithFormat:@"%@(%@)",event.contactPhone,event.contactName];
+    }
+    if (event.perCost == nil) {
+        _priceLabel.text = @"";
+    }else{
+        _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
+    }
+
+    
     
 }
 

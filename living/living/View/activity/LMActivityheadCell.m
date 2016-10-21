@@ -43,7 +43,7 @@
 {
     //活动图片
     _imageV = [UIImageView new];
-    _imageV.image = [UIImage imageNamed:@"112"];
+    _imageV.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:_imageV];
     
     //标题
@@ -64,8 +64,8 @@
     
     //活动人头像
     _headV = [UIImageView new];
-    _headV.backgroundColor = [UIColor blueColor];
     _headV.layer.cornerRadius = 5.f;
+    _headV.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:_headV];
     
     //活动人名
@@ -98,8 +98,13 @@
 -(void)setValue:(LMEventDetailEventBody *)event
 {
     [_imageV sd_setImageWithURL:[NSURL URLWithString:event.eventImg]];
-    _nameLabel.text = [NSString stringWithFormat:@"发布者：%@",event.publishName];
-    _titleLabel.text = event.eventName;
+
+    if (event.publishName ==nil) {
+        _nameLabel.text = @"";
+    }else{
+        _nameLabel.text = [NSString stringWithFormat:@"发布者：%@",event.publishName];
+    }
+//    _titleLabel.text = event.eventName;
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
     _countLabel.text = [NSString stringWithFormat:@"活动人数：%.0f/%.0f人",event.totalNumber,event.totalNum];
     

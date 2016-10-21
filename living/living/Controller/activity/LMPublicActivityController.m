@@ -52,6 +52,8 @@ FitPickerViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = @"发布活动";
     // Do any additional setup after loading the view.
     [self creatUI];
 }
@@ -66,7 +68,7 @@ FitPickerViewDelegate
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
-    [pickImage setAllowsEditing:NO];
+    [pickImage setAllowsEditing:YES];
     cellIndex = 1;
     
     [self creatFootView];
@@ -586,6 +588,7 @@ FitPickerViewDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
     if (buttonIndex==0)
     {//图库
         [pickImage setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];

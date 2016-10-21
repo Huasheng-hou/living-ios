@@ -53,7 +53,7 @@ LMLeavemessagecellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title = _titleStr;
     [self creatUI];
     [self getEventListDataRequest];
     msgArray = [NSMutableArray new];

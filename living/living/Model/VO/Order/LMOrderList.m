@@ -8,7 +8,7 @@
 #import "LMOrderList.h"
 
 
-NSString *const kLMOrderListAvatar = @"avatar";
+NSString *const kLMOrderListAvatar = @"event_img";
 NSString *const kLMOrderListOrderStatus = @"order_status";
 NSString *const kLMOrderListEventName = @"event_name";
 NSString *const kLMOrderListEventUuid = @"event_uuid";

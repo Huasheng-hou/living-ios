@@ -11,6 +11,7 @@
 #import "LMOrderCell.h"
 #import "LMOrderList.h"
 #import "LMRefundRequest.h"
+#import "LMOrederDeleteRequest.h"
 
 
 //支付宝
@@ -103,6 +104,7 @@ LMOrderCellDelegate>
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        [orderArray removeAllObjects];
         
         NSArray *array = bodyDic[@"list"];
         for (int i =0; i<array.count; i++) {
@@ -112,7 +114,6 @@ LMOrderCellDelegate>
             }
             
         }
-        
         
         [_tableView reloadData];
     }else{
@@ -170,7 +171,7 @@ LMOrderCellDelegate>
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除"
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"******确定");
+        [self OrderDeleteRequest:cell.Orderuuid];
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -181,6 +182,46 @@ LMOrderCellDelegate>
     
     
 }
+
+-(void)OrderDeleteRequest:(NSString *)string
+{
+    NSLog(@"%@",string);
+    
+    LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:string];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getdeleteDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除失败，请重试！"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)getdeleteDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"删除失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"订单删除成功"];
+            [self getOrderListRequest];
+        }else{
+            [self textStateHUD:bodyDic[@"description"]];
+        }
+    }
+}
+
+
+
+
 - (void)cellWillpay:(LMOrderCell *)cell
 {
     NSLog(@"**********付款");
@@ -256,7 +297,16 @@ LMOrderCellDelegate>
 -(void)getrefundDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    NSLog(@"*******%@",bodyDic);
+    if (!bodyDic) {
+        [self textStateHUD:@"退款申请失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"退款成功"];
+            [self getOrderListRequest];
+        }else{
+            [self textStateHUD:bodyDic[@"description"]];
+        }
+    }
 }
 
 

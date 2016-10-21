@@ -85,7 +85,7 @@
     _headImage.clipsToBounds = YES;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
     
-    _headImage.backgroundColor = [UIColor blueColor];
+    _headImage.backgroundColor = [UIColor grayColor];
     [cellView addSubview:_headImage];
     
     _titleLabel = [UILabel new];
@@ -164,20 +164,16 @@
                 break;
             case 2:
                 _paytypeLabel.text = @"已付款";
-                [_deleteButton setTitle:@"退款" forState:UIControlStateNormal];
-                [_deleteButton addTarget:self action:@selector(RefundCell:) forControlEvents:UIControlEventTouchUpInside];
-                [_payButton setTitle:@"完成" forState:UIControlStateNormal];
-                [_payButton addTarget:self action:@selector(finishCell:) forControlEvents:UIControlEventTouchUpInside];
+                [_payButton setTitle:@"退款" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(RefundCell:) forControlEvents:UIControlEventTouchUpInside];
                 break;
             case 3:
                 _paytypeLabel.text = @"退款中";
                 break;
             case 4:
                 _paytypeLabel.text = @"已退款";
-                [_deleteButton setTitle:@"再订" forState:UIControlStateNormal];
-                [_deleteButton addTarget:self action:@selector(rebookCell:) forControlEvents:UIControlEventTouchUpInside];
-                [_payButton setTitle:@"删除" forState:UIControlStateNormal];
-                [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+                [_payButton setTitle:@"再订" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(rebookCell:) forControlEvents:UIControlEventTouchUpInside];
                 break;
                 
             default:
@@ -236,15 +232,8 @@
     }
     
 }
-//完成
-- (void)finishCell:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(cellWillfinish:)]) {
-        [_delegate cellWillfinish:self];
-    }
-    
-}
-//再订
+
+//退款
 - (void)RefundCell:(id)sender
 {
     if ([_delegate respondsToSelector:@selector(cellWillRefund:)]) {
@@ -252,7 +241,7 @@
     }
     
 }
-//
+//再订
 - (void)rebookCell:(id)sender
 {
     if ([_delegate respondsToSelector:@selector(cellWillrebook:)]) {

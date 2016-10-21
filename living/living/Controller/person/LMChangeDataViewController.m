@@ -1,12 +1,12 @@
 //
-//  DYRegisterViewController.m
-//  dirty
+//  LMChangeDataViewController.m
+//  living
 //
-//  Created by Ding on 16/8/24.
-//  Copyright © 2016年 Huasheng. All rights reserved.
+//  Created by Ding on 2016/10/21.
+//  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "LMRegisterViewController.h"
+#import "LMChangeDataViewController.h"
 #import "LMChooseButton.h"
 #import "LMAgeChooseButton.h"
 #import "FitPickerView.h"
@@ -16,10 +16,10 @@
 #import "FirUploadImageRequest.h"
 #import "FitTabbarController.h"
 #import "ImageHelpTool.h"
-
+#import "UIImageView+WebCache.h"
 
 #define TOKEN @"dirty2016"
-@interface LMRegisterViewController ()
+@interface LMChangeDataViewController ()
 <
 UITextFieldDelegate,
 FitDatePickerDelegate,
@@ -40,8 +40,6 @@ UIViewControllerTransitioningDelegate
     
     NSString *_imgURL;
     UIImageView *headerView;
-    NSString *provinceStr;
-    NSString *cityStr;
     NSString *genderStr;
     NSString *passWordStr;
     
@@ -52,7 +50,7 @@ UIViewControllerTransitioningDelegate
 
 @end
 
-@implementation LMRegisterViewController
+@implementation LMChangeDataViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,8 +60,9 @@ UIViewControllerTransitioningDelegate
 -(void)createUI
 {
     [super createUI];
-    self.title = @"填写资料";
-    genderStr = @"1";
+    self.title = @"修改资料";
+    _imgURL = _avartStr;
+    genderStr = [FitUserManager sharedUserManager].gender;
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -71,6 +70,7 @@ UIViewControllerTransitioningDelegate
     
     headerView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
     headerView.image = [UIImage imageNamed:@"headerIcon"];
+    [headerView sd_setImageWithURL:[NSURL URLWithString:_imgURL]];
     [backView addSubview:headerView];
     
     headerView.userInteractionEnabled=YES;
@@ -127,9 +127,9 @@ UIViewControllerTransitioningDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-
+    
     return 10;
-
+    
 }
 
 
@@ -141,7 +141,7 @@ UIViewControllerTransitioningDelegate
     if (indexPath.section==1) {
         return 160;
     }
-
+    
     return 0;
 }
 
@@ -167,7 +167,7 @@ UIViewControllerTransitioningDelegate
         [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:womanButton];
         
-
+        
         
         
     }
@@ -180,7 +180,8 @@ UIViewControllerTransitioningDelegate
         [cell.contentView addSubview:nameLabel];
         
         nickTF = [[UITextField alloc] initWithFrame:CGRectMake(90, 10, kScreenWidth-100, 30)];
-        nickTF.placeholder = @"请输入昵称";
+//        nickTF.placeholder = @"请输入昵称";
+        nickTF.text = _nickStr;
         nickTF.returnKeyType = UIReturnKeyDone;
         [nickTF setValue:TEXT_COLOR_LEVEL_3 forKeyPath:@"_placeholderLabel.textColor"];
         nickTF.font=TEXT_FONT_LEVEL_2;
@@ -203,7 +204,8 @@ UIViewControllerTransitioningDelegate
         ageTF.layer.borderWidth=0.5;
         ageTF.layer.borderColor = LINE_COLOR.CGColor;
         [ageTF addTarget:self action:@selector(timeChooseAction) forControlEvents:UIControlEventTouchUpInside];
-        ageTF.textLabel.text = @"请选择出生日期";
+//        ageTF.textLabel.text = @"请选择出生日期";
+        ageTF.textLabel.text = _ageStr;
         [cell.contentView addSubview:ageTF];
         
         
@@ -217,12 +219,13 @@ UIViewControllerTransitioningDelegate
         cityTF.layer.borderWidth=0.5;
         cityTF.layer.borderColor = LINE_COLOR.CGColor;
         [cityTF addTarget:self action:@selector(addressChooseAction) forControlEvents:UIControlEventTouchUpInside];
-        cityTF.textLabel.text = @"请选择所在城市";
+//        cityTF.textLabel.text = @"请选择所在城市";
+        cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@",_provinceStr,_cityStr];
         [cell.contentView addSubview:cityTF];
         
     }
     
-
+    
     
     return cell;
 }
@@ -230,7 +233,7 @@ UIViewControllerTransitioningDelegate
 #pragma mark 登陆
 -(void)loginAction
 {
-
+    
     if ([nickTF.text isEqualToString:@""]) {
         [self textStateHUD:@"请填写昵称"];
         return;
@@ -247,7 +250,7 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-    if ([provinceStr isEqualToString:@""]||[cityStr isEqualToString:@""]) {
+    if ([_provinceStr isEqualToString:@""]||[_cityStr isEqualToString:@""]) {
         [self textStateHUD:@"请选择所在城市"];
         return;
     }
@@ -257,10 +260,10 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-
     
     
-    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
+    
+    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:_provinceStr andCity:_cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -274,7 +277,7 @@ UIViewControllerTransitioningDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
     
 }
 
@@ -283,7 +286,7 @@ UIViewControllerTransitioningDelegate
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     if (!bodyDict) {
-        [self textStateHUD:@"资料填写失败"];
+        [self textStateHUD:@"资料修改失败"];
         return;
     }
     
@@ -296,59 +299,15 @@ UIViewControllerTransitioningDelegate
         
         _uuid = [infoDic objectForKey:@"user_uuid"];
         
-//        [self setUserInfo];
-
-        [self gotoHomepage];
-        [self textStateHUD:@"资料填写成功"];
+        [self textStateHUD:@"资料修改成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
         
     } else {
-        [self textStateHUD:@"资料填写失败"];
+        [self textStateHUD:bodyDict[@"description"]];
     }
 }
-
-#pragma mark 填写资料完成跳转到首页
-
--(void)gotoHomepage
-{
-    FitTabbarController *tabbar = [[FitTabbarController alloc] init];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
-     
-                                                        object:nil];
-    
-    [self presentViewController:tabbar animated:YES completion:nil];
-
-}
-
-
-//#pragma mark 登记用户信息
-//
-//- (void)setUserInfo{
-//    
-//    
-//    NSMutableDictionary *userInfo   = [NSMutableDictionary new];
-//    
-//    if (_uuid) {
-//        [userInfo setObject:_uuid forKey:@"uuid"];
-//    }
-//    
-//    if (_numberString) {
-//        [userInfo setObject:_numberString forKey:@"phone"];
-//    }
-//    
-//    if (_passWord) {
-//        [userInfo setObject:_passWord forKey:@"password"];
-//    }
-//    
-//    
-//    if (genderStr) {
-//        [userInfo setObject:genderStr forKey:@"gender"];
-//    }
-//
-//    
-//    [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
-//}
-
-
 
 
 #pragma mark pickerView选择日期
@@ -375,7 +334,7 @@ UIViewControllerTransitioningDelegate
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd"];
     
-        ageTF.textLabel.text   = [formatter stringFromDate:date];
+    ageTF.textLabel.text   = [formatter stringFromDate:date];
 }
 
 #pragma mark pickerView选择城市
@@ -398,10 +357,10 @@ UIViewControllerTransitioningDelegate
 
 - (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
 {
-
+    
     cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@", items[0], items[1]];
-    provinceStr = [NSString stringWithFormat:@"%@",items[0]];
-    cityStr = [NSString stringWithFormat:@"%@",items[1]];
+    _provinceStr = [NSString stringWithFormat:@"%@",items[0]];
+    _cityStr = [NSString stringWithFormat:@"%@",items[1]];
     
 }
 
@@ -456,7 +415,7 @@ UIViewControllerTransitioningDelegate
     }
     
     [self initStateHud];
-
+    
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
     UIImage *headImage = [ImageHelpTool scaleImage:image];
     request.imageData   = UIImageJPEGRepresentation(headImage, 1);
@@ -502,7 +461,7 @@ UIViewControllerTransitioningDelegate
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             [self textStateHUD:@"保存成功"];
             NSLog(@"保存成功");
-//            [self setUserInfo];
+            //            [self setUserInfo];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
@@ -569,21 +528,5 @@ UIViewControllerTransitioningDelegate
 {
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

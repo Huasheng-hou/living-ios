@@ -8,6 +8,8 @@
 
 #import "LMSettingViewController.h"
 #import "LMAddviceViewController.h"
+#import "LMWebViewController.h"
+#import "LMVersionViewController.h"
 
 @interface LMSettingViewController ()
 
@@ -113,14 +115,25 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-//        if (indexPath.row==0) {
-//            APAboutViewController *about = [[APAboutViewController alloc] init];
-//            [self.navigationController pushViewController:about animated:YES];
-//        }
+        if (indexPath.row==0) {
+            LMWebViewController *webVC = [[LMWebViewController alloc] init];
+            webVC.hidesBottomBarWhenPushed = YES;
+            webVC.urlString = @"http://120.26.64.40:8080/living/user-cn.html";
+            webVC.titleString = @"用户协议";
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
         if (indexPath.row==1) {
             LMAddviceViewController *addvice = [[LMAddviceViewController alloc] init];
             [self.navigationController pushViewController:addvice animated:YES];
         }
+    }
+    if (indexPath.section==1) {
+        if (indexPath.row==0) {
+            LMVersionViewController *verVC = [[LMVersionViewController alloc] init];
+            verVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:verVC animated:YES];
+        }
+        
     }
     
 

@@ -7,6 +7,7 @@
 //
 
 #import "LMPersonViewController.h"
+#import "LMChangeDataViewController.h"
 #import "LMSettingViewController.h"
 #import "LMNoticViewController.h"
 #import "LMBalanceViewController.h"
@@ -42,6 +43,16 @@
                                                  name:@"rechargeMoney"
      
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(getUserInfoData)
+     
+                                                 name:@"reloadData"
+     
+                                               object:nil];
+    
+    
     
 }
 
@@ -174,6 +185,7 @@
             //头像
             UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
             headerView.layer.cornerRadius = 35;
+            headerView.backgroundColor = [UIColor grayColor];
             headerView.contentMode = UIViewContentModeScaleAspectFill;
             headerView.clipsToBounds = YES;
             
@@ -335,6 +347,22 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //修改资料
+    if (indexPath.section==0) {
+        if (indexPath.row==0) {
+            LMChangeDataViewController *changeVC = [[LMChangeDataViewController alloc] init];
+            changeVC.hidesBottomBarWhenPushed = YES;
+            changeVC.avartStr = infoModel.avatar;
+            changeVC.nickStr = infoModel.nickName;
+            changeVC.ageStr = infoModel.birthday;
+            changeVC.cityStr = infoModel.city;
+            changeVC.provinceStr = infoModel.province;
+            
+            [self.navigationController pushViewController:changeVC animated:YES];
+        }
+    }
+    
+    
     if (indexPath.section==1) {
         if (indexPath.row==0) {
             LMBalanceViewController *baVC = [[LMBalanceViewController alloc] init];
