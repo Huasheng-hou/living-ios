@@ -235,6 +235,12 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
+    if (nickTF.text.length>=10) {
+        [self textStateHUD:@"昵称过长，请重新输入"];
+        return;
+    }
+    
+    
     if ([_imgURL isEqualToString:@""]) {
         [self textStateHUD:@"请选择头像"];
         return;

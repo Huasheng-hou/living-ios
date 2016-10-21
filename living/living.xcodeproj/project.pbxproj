@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507690D1DB9A33A00487341 /* LMScanViewController.m */; };
+		350769111DB9B29C00487341 /* QRCodeReaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769101DB9B29C00487341 /* QRCodeReaderView.m */; };
+		350769181DB9B2AD00487341 /* lightNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769121DB9B2AD00487341 /* lightNormal.png */; };
+		350769191DB9B2AD00487341 /* lightSelect.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769131DB9B2AD00487341 /* lightSelect.png */; };
+		3507691A1DB9B2AD00487341 /* noticeMusic.wav in Resources */ = {isa = PBXBuildFile; fileRef = 350769141DB9B2AD00487341 /* noticeMusic.wav */; };
+		3507691B1DB9B2AD00487341 /* scanLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769151DB9B2AD00487341 /* scanLine@2x.png */; };
+		3507691C1DB9B2AD00487341 /* scanLine@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769161DB9B2AD00487341 /* scanLine@3x.png */; };
+		3507691D1DB9B2AD00487341 /* scanscanBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 350769171DB9B2AD00487341 /* scanscanBg.png */; };
+		350769201DB9B3E300487341 /* LMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3507691F1DB9B3E300487341 /* LMWebViewController.m */; };
 		3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3509B5F51D9B5302003F4D76 /* LMCommentCell.m */; };
 		350AD2201DB7560E00CA181A /* LMFeedBackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD21F1DB7560E00CA181A /* LMFeedBackRequest.m */; };
 		350AD2231DB7577000CA181A /* LMEventpraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD2221DB7577000CA181A /* LMEventpraiseRequest.m */; };
@@ -201,6 +210,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3507690C1DB9A33A00487341 /* LMScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMScanViewController.h; sourceTree = "<group>"; };
+		3507690D1DB9A33A00487341 /* LMScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanViewController.m; sourceTree = "<group>"; };
+		3507690F1DB9B29900487341 /* QRCodeReaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRCodeReaderView.h; sourceTree = "<group>"; };
+		350769101DB9B29C00487341 /* QRCodeReaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeReaderView.m; sourceTree = "<group>"; };
+		350769121DB9B2AD00487341 /* lightNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightNormal.png; sourceTree = "<group>"; };
+		350769131DB9B2AD00487341 /* lightSelect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightSelect.png; sourceTree = "<group>"; };
+		350769141DB9B2AD00487341 /* noticeMusic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = noticeMusic.wav; sourceTree = "<group>"; };
+		350769151DB9B2AD00487341 /* scanLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanLine@2x.png"; sourceTree = "<group>"; };
+		350769161DB9B2AD00487341 /* scanLine@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanLine@3x.png"; sourceTree = "<group>"; };
+		350769171DB9B2AD00487341 /* scanscanBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanscanBg.png; sourceTree = "<group>"; };
+		3507691E1DB9B3E300487341 /* LMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWebViewController.h; sourceTree = "<group>"; };
+		3507691F1DB9B3E300487341 /* LMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWebViewController.m; sourceTree = "<group>"; };
 		3509B5F41D9B5302003F4D76 /* LMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentCell.h; sourceTree = "<group>"; };
 		3509B5F51D9B5302003F4D76 /* LMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentCell.m; sourceTree = "<group>"; };
 		350AD21E1DB7560E00CA181A /* LMFeedBackRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFeedBackRequest.h; sourceTree = "<group>"; };
@@ -819,6 +840,10 @@
 				3547F36F1D9904A60068F04E /* LMHomePageController.m */,
 				35A448B11D9A13A7001179FC /* LMHomeDetailController.h */,
 				35A448B21D9A13A7001179FC /* LMHomeDetailController.m */,
+				3507690C1DB9A33A00487341 /* LMScanViewController.h */,
+				3507690D1DB9A33A00487341 /* LMScanViewController.m */,
+				3507691E1DB9B3E300487341 /* LMWebViewController.h */,
+				3507691F1DB9B3E300487341 /* LMWebViewController.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -915,6 +940,12 @@
 		3547F3A31D9904B60068F04E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				350769121DB9B2AD00487341 /* lightNormal.png */,
+				350769131DB9B2AD00487341 /* lightSelect.png */,
+				350769141DB9B2AD00487341 /* noticeMusic.wav */,
+				350769151DB9B2AD00487341 /* scanLine@2x.png */,
+				350769161DB9B2AD00487341 /* scanLine@3x.png */,
+				350769171DB9B2AD00487341 /* scanscanBg.png */,
 				35D8FC351DB4DD9900AD469E /* findpage.png */,
 				35D8FC221DB47D4E00AD469E /* area.plist */,
 				3547F3A41D9904B60068F04E /* 112.png */,
@@ -1665,6 +1696,8 @@
 				3509B5F51D9B5302003F4D76 /* LMCommentCell.m */,
 				354574741D9CAFB900E88D6F /* LMCommentButton.h */,
 				354574751D9CAFB900E88D6F /* LMCommentButton.m */,
+				3507690F1DB9B29900487341 /* QRCodeReaderView.h */,
+				350769101DB9B29C00487341 /* QRCodeReaderView.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -2059,12 +2092,13 @@
 		3547F3261D9901780068F04E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = chenle;
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2BPVM7PZ48;
+						DevelopmentTeam = XK259YP6W2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -2096,6 +2130,7 @@
 				3547F4331D9904BD0068F04E /* LICENCE.txt in Resources */,
 				3547F4EE1D9909660068F04E /* UMSLoginViewController.xib in Resources */,
 				3547F4E91D9909660068F04E /* UMSCommentDetailController.xib in Resources */,
+				350769191DB9B2AD00487341 /* lightSelect.png in Resources */,
 				3547F4EF1D9909660068F04E /* UMSnsAccountViewController.xib in Resources */,
 				3547F4EA1D9909660068F04E /* UMSCommentInputController.xib in Resources */,
 				3547F4EB1D9909660068F04E /* UMSCommentInputControlleriPad.xib in Resources */,
@@ -2105,12 +2140,17 @@
 				3547F3A81D9904B60068F04E /* city.plist in Resources */,
 				35D8FC231DB47D4E00AD469E /* area.plist in Resources */,
 				3547F4BB1D9904D90068F04E /* LICENSE in Resources */,
+				3507691C1DB9B2AD00487341 /* scanLine@3x.png in Resources */,
+				3507691D1DB9B2AD00487341 /* scanscanBg.png in Resources */,
 				3547F42A1D9904BD0068F04E /* city.plist in Resources */,
 				3547F4AF1D9904D90068F04E /* MJRefresh.bundle in Resources */,
+				3507691A1DB9B2AD00487341 /* noticeMusic.wav in Resources */,
+				3507691B1DB9B2AD00487341 /* scanLine@2x.png in Resources */,
 				35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */,
 				3547F4E71D9909660068F04E /* UMSocialLocalizable.strings in Resources */,
 				3547F4ED1D9909660068F04E /* UMShareEditViewControlleriPad.xib in Resources */,
 				3547F4F01D9909660068F04E /* UMSShareListController.xib in Resources */,
+				350769181DB9B2AD00487341 /* lightNormal.png in Resources */,
 				3547F4F11D9909660068F04E /* UMSocialSDKResourcesNew.bundle in Resources */,
 				3547F33E1D9901780068F04E /* Assets.xcassets in Resources */,
 				35D8FC361DB4DD9900AD469E /* findpage.png in Resources */,
@@ -2203,6 +2243,7 @@
 				35FA8E731DB5B31800510A75 /* Order.m in Sources */,
 				35FA8E751DB5B31800510A75 /* DataSigner.m in Sources */,
 				35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */,
+				350769111DB9B29C00487341 /* QRCodeReaderView.m in Sources */,
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
 				3547F4051D9904BA0068F04E /* VOUtil.m in Sources */,
 				35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */,
@@ -2226,6 +2267,7 @@
 				35FA8E741DB5B31800510A75 /* base64.m in Sources */,
 				353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
+				350769201DB9B3E300487341 /* LMWebViewController.m in Sources */,
 				350AD2291DB7740300CA181A /* LMArtcleCommitRequest.m in Sources */,
 				35B61E211DB0B62600083F30 /* LMPublicEventListCell.m in Sources */,
 				354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */,
@@ -2319,6 +2361,7 @@
 				3547F4B21D9904D90068F04E /* MJRefreshFooterView.m in Sources */,
 				3547F4BA1D9904D90068F04E /* MJPhotoView.m in Sources */,
 				35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */,
+				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,
@@ -2360,6 +2403,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2370,14 +2414,17 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2407,6 +2454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2417,14 +2465,17 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2450,7 +2501,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = XK259YP6W2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2493,7 +2546,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2503,7 +2557,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = XK259YP6W2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2546,7 +2602,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

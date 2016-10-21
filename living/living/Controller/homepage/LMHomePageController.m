@@ -18,6 +18,9 @@
 #import "WJLoopView.h"
 #import "FitUserManager.h"
 
+
+#import "LMScanViewController.h"
+
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
 WJLoopViewDelegate
@@ -77,6 +80,12 @@ WJLoopViewDelegate
 -(void)sweepAction
 {
     NSLog(@"********扫描");
+    
+    LMScanViewController *scanVC = [[LMScanViewController alloc] init];
+    
+    [scanVC setHidesBottomBarWhenPushed:YES];
+    
+    [self.navigationController pushViewController:scanVC animated:YES];
 }
 
 -(void)getBannerDataRequest

@@ -433,10 +433,6 @@
         [userInfo setObject:_password forKey:@"password"];
     }
     
-//    if (gender) {
-//        [userInfo setObject:gender forKey:@"gender"];
-//    }
-    
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
 }
 

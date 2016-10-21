@@ -31,6 +31,7 @@ MBProgressHUDDelegate
 - (void)textStateHUD:(NSString *)text;
 - (void)initStateHud;
 - (void)hideStateHud;
+
 //- (void)resignCurrentFirstResponder;
 
 @end
