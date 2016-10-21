@@ -310,8 +310,14 @@ LMOrderCellDelegate>
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             [self textStateHUD:@"微信充值下单成功"];
             
-            rechargeOrderUUID=bodyDict[@"myOrderUuid"];
-            [self senderWeiXinPay:bodyDict[@"wxOrder"]];
+            if (bodyDict[@"map"][@"myOrderUuid"]) {
+                rechargeOrderUUID=bodyDict[@"map"][@"myOrderUuid"];
+                NSLog(@"==微信支付下单后货物的uuid:%@",rechargeOrderUUID);
+            }
+            if (bodyDict[@"map"][@"wxOrder"]) {
+                [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
+            }
+
             
         }else{
             [self textStateHUD:[bodyDict objectForKey:@"description"]];

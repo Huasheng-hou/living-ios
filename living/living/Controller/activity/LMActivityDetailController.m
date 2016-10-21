@@ -7,6 +7,7 @@
 //
 
 #import "LMActivityDetailController.h"
+#import "LMOrderViewController.h"
 #import "LMEventMsgCell.h"
 #import "LMLeavemessagecell.h"
 #import "UIView+frame.h"
@@ -580,13 +581,7 @@ LMLeavemessagecellDelegate
 
 
 
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
-#pragma mark - LMActivityheadCell delegate -
+#pragma mark - LMActivityheadCell delegate -活动报名
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
     NSLog(@"**********报名");
@@ -620,6 +615,10 @@ LMLeavemessagecellDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"报名活动成功"];
+        LMOrderViewController *OrderVC = [[LMOrderViewController alloc] init];
+        [OrderVC setHidesBottomBarWhenPushed:YES];
+        [self.navigationController pushViewController:OrderVC animated:YES];
+        
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
