@@ -129,6 +129,7 @@
 		3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4F71D9910F50068F04E /* LMhomePageCell.m */; };
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
+		358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F31DBDA8E90048D176 /* LMCommentReplys.m */; };
 		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
 		35B61DEA1DB06D7900083F30 /* LMPersonInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61DE91DB06D7900083F30 /* LMPersonInfoRequest.m */; };
 		35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61DEC1DB06DA000083F30 /* LMGetCaptchaRequest.m */; };
@@ -443,6 +444,8 @@
 		3547F4FB1D9921370068F04E /* LMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityCell.m; sourceTree = "<group>"; };
 		3547F4FE1D9931ED0068F04E /* LMFindCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindCell.h; sourceTree = "<group>"; };
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
+		358460F21DBDA8E30048D176 /* LMCommentReplys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMCommentReplys.h; sourceTree = "<group>"; };
+		358460F31DBDA8E90048D176 /* LMCommentReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentReplys.m; sourceTree = "<group>"; };
 		35A448B11D9A13A7001179FC /* LMHomeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailController.h; sourceTree = "<group>"; };
 		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
 		35B61DE81DB06D7000083F30 /* LMPersonInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LMPersonInfoRequest.h; path = person/LMPersonInfoRequest.h; sourceTree = "<group>"; };
@@ -1764,6 +1767,8 @@
 				35B61DFE1DB06F7E00083F30 /* LMEventDetailEventProjectsBody.m */,
 				35B61DFF1DB06F7E00083F30 /* LMEventDetailLeavingMessages.h */,
 				35B61E001DB06F7E00083F30 /* LMEventDetailLeavingMessages.m */,
+				358460F21DBDA8E30048D176 /* LMCommentReplys.h */,
+				358460F31DBDA8E90048D176 /* LMCommentReplys.m */,
 			);
 			path = ActivityDetail;
 			sourceTree = "<group>";
@@ -2346,6 +2351,7 @@
 				35B61E0D1DB0702200083F30 /* LMActivityDetailRequest.m in Sources */,
 				35B61DEA1DB06D7900083F30 /* LMPersonInfoRequest.m in Sources */,
 				3547F4371D9904BD0068F04E /* UIView+frame.m in Sources */,
+				358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */,
 				3547F3FE1D9904BA0068F04E /* FirUploadImageRequest.m in Sources */,
 				35FA8E7E1DB5B39200510A75 /* LMRechargeCell.m in Sources */,
 				3547F3871D9904A60068F04E /* LMPersonViewController.m in Sources */,

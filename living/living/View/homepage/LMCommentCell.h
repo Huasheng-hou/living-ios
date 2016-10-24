@@ -32,7 +32,7 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
--(void)setValue:(LMCommentMessages *)data;
+-(void)setValue:(NSMutableArray *)data andIndex:(NSInteger)index;
 
 + (CGFloat)cellHigth:(NSString *)titleString;
 

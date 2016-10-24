@@ -430,6 +430,7 @@ LMLeavemessagecellDelegate
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
         [cell setValue:msgData];
+        cell.tag = indexPath.row;
         cell.commentUUid = msgData.commentUuid;
         cell.delegate = self;
         
@@ -447,15 +448,34 @@ LMLeavemessagecellDelegate
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMLeavemessagecell *)cell
 {
-    NSLog(@"**********");
+    NSLog(@"**********%ld",(long)cell.tag);
     
+  
     LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:cell.commentUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventpraiseDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                   if (!bodyDic) {
+                                                       [self textStateHUD:@"点赞失败"];
+                                                   }else{
+                                                       
+                                                       
+                                                       if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                           [self textStateHUD:@"点赞成功"];
+                                                           
+                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:2];
+                                                           [[self tableView] scrollToRowAtIndexPath:indexPaths
+                                                                                   atScrollPosition:UITableViewScrollPositionTop animated:YES];;
+                                                       }else{
+                                                           NSString *str = [bodyDic objectForKey:@"description"];
+                                                           [self textStateHUD:str];
+                                                       }
+                                                   }
+
+                                               });
+        
+                                              
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
@@ -574,6 +594,7 @@ LMLeavemessagecellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"回复成功"];
         [self getEventListDataRequest];
+         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -715,7 +736,10 @@ LMLeavemessagecellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"留言成功"];
-            [self.tableView reloadData];
+            [self getEventListDataRequest];
+            NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:0 inSection:2];
+            [[self tableView] scrollToRowAtIndexPath:indexPaths
+                                    atScrollPosition:UITableViewScrollPositionTop animated:YES];;
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
             [self textStateHUD:str];

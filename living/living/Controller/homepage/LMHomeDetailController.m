@@ -12,6 +12,7 @@
 #import "LMCommentPraiseRequest.h"
 #import "LMArticleBody.h"
 #import "LMCommentMessages.h"
+#import "LMCommentReplys.h"
 #import "LMCommentCell.h"
 #import "UIImageView+WebCache.h"
 #import "UIView+frame.h"
@@ -41,6 +42,8 @@ LMCommentCellDelegate
     UITextView *commentText;
     UIView *backView;
     NSString *commitUUid;
+    
+    NSInteger  textIndex;
     
 }
 
@@ -136,11 +139,10 @@ LMCommentCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
     {
         [self textStateHUD:@"点赞成功"];
-        NSInteger zanNum =[zanLabel.text integerValue];
+        int zanNum =[zanLabel.text intValue];
         zanNum = zanNum+1;
-        zanLabel.text = [NSString stringWithFormat:@"%ld",zanNum];
-        NSArray *indexPaths = @[
-                                [NSIndexPath indexPathForRow:1 inSection:0]];
+        zanLabel.text = [NSString stringWithFormat:@"%d",zanNum];
+        NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
         [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -176,15 +178,20 @@ LMCommentCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
+        [listArray removeAllObjects];
         articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
         NSMutableArray *array=bodyDic[@"comment_messages"];
-        
-        [listArray removeAllObjects];
-        for (int i=0; i<array.count; i++) {
-            LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:array[i]];
-            if (![listArray containsObject:list]) {
-                [listArray addObject:list];
+//        NSMutableArray *msgArray = [NSMutableArray new];
+        for (int i =0; i<array.count; i++) {
+            NSDictionary *dic = array[i][@"message"];
+            [listArray addObject:dic];
+
+        }
+        for (int i =0; i<array.count; i++) {
+            NSMutableArray *replyarr = array[i][@"replys"];
+            for (int j = 0; j<replyarr.count; j++) {
+                NSDictionary *dic = replyarr[j];
+                [listArray addObject:dic];
             }
         }
         
@@ -201,8 +208,19 @@ LMCommentCellDelegate
 {
     if (indexPath.section==1) {
         if (listArray.count>0) {
-            LMCommentMessages *list = listArray[indexPath.row];
-            return [LMCommentCell cellHigth:list.commentContent];
+            
+            if (listArray[indexPath.row][@"comment_content"]){
+                LMCommentMessages *list = [[LMCommentMessages alloc] initWithDictionary:listArray[indexPath.row]];
+                return [LMCommentCell cellHigth:list.commentContent];
+     
+            }
+            
+            if (listArray[indexPath.row][@"replyContent"]){
+                LMCommentReplys *list = [[LMCommentReplys alloc] initWithDictionary:listArray[indexPath.row]];
+                return [LMCommentCell cellHigth:list.replyContent];
+            }
+            
+
         }
     }
     
@@ -425,11 +443,12 @@ LMCommentCellDelegate
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-        LMCommentMessages *list = listArray[indexPath.row];
+//        LMCommentMessages *list = listArray[indexPath.row];
         
-        [cell setValue:list];
-        cell.commentUUid = list.commentUuid;
-        cell.count = list.praiseCount;
+        [cell setValue:listArray andIndex:indexPath.row];
+        cell.tag = indexPath.row;
+//        cell.commentUUid = list.commentUuid;
+//        cell.count = list.praiseCount;
         cell.delegate = self;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
@@ -453,9 +472,27 @@ LMCommentCellDelegate
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
-                                               [self performSelectorOnMainThread:@selector(getPraisecellDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                   if (!bodyDic) {
+                                                       [self textStateHUD:@"点赞失败"];
+                                                   }else{
+                                                       
+                                                       
+                                                       if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                           [self textStateHUD:@"点赞成功"];
+                                                           [self getHomeDetailDataRequest];
+                                                 
+                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:1];
+                                                           [[self tableView] scrollToRowAtIndexPath:indexPaths
+                                                                                   atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                                                       }else{
+                                                           NSString *str = [bodyDic objectForKey:@"description"];
+                                                           [self textStateHUD:str];
+                                                       }
+                                                   }
+                                               });
+
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
@@ -488,6 +525,8 @@ LMCommentCellDelegate
 -(void)cellWillReply:(LMCommentCell *)cell
 {
     NSLog(@"**********回复");
+    
+    textIndex = 1;
     
     commitUUid =cell.commentUUid;
     [UIView  beginAnimations:nil context:NULL];
@@ -570,8 +609,9 @@ LMCommentCellDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"回复成功"];
-        toolBar.hidden = NO;
+        textIndex = 1;
         [self getHomeDetailDataRequest];
+         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -598,10 +638,14 @@ LMCommentCellDelegate
     CGRect keyboardFrame = [notifi.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     float duration = [notifi.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
     
-    [UIView animateWithDuration:duration animations:^{
-        toolBar.transform = CGAffineTransformMakeTranslation(0, keyboardFrame.origin.y - kScreenHeight);
-        bgViewY = toolBar.frame.origin.y;
-    }];
+    if (textIndex==0) {
+        [UIView animateWithDuration:duration animations:^{
+            toolBar.transform = CGAffineTransformMakeTranslation(0, keyboardFrame.origin.y - kScreenHeight);
+            bgViewY = toolBar.frame.origin.y;
+        }];
+    }
+    
+
 }
 
 
@@ -612,12 +656,16 @@ LMCommentCellDelegate
     CGRect end = [[[notif userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
     
     // 第三方键盘回调三次问题，监听仅执行最后一次
-    if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
-        [UIView animateWithDuration:0.1f animations:^{
-            [toolBar setFrame:CGRectMake(0, kScreenHeight-(curkeyBoardHeight+toolBar.height+contentSize), kScreenWidth, toolBar.height+contentSize)];
-            
-        }];
+    if (textIndex==0) {
+        if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
+            [UIView animateWithDuration:0.1f animations:^{
+                [toolBar setFrame:CGRectMake(0, kScreenHeight-(curkeyBoardHeight+toolBar.height+contentSize), kScreenWidth, toolBar.height+contentSize)];
+                
+            }];
+        }
     }
+    
+   
 }
 
 - (void) keyboardWasHidden:(NSNotification *) notif
@@ -717,7 +765,7 @@ LMCommentCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"评论成功"];
-        [self.tableView reloadData];
+        [self getHomeDetailDataRequest];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];

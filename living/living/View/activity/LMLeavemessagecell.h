@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong)NSString *commentUUid;
 
+
 @property (nonatomic) NSInteger count;
 @property (nonatomic)CGFloat conHigh;
 
