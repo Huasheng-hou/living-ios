@@ -19,6 +19,7 @@ UITableViewDataSource
 {
     UITableView *_tableView;
     NSMutableArray *listArray;
+    BOOL isSelected;
 }
 
 @end
@@ -51,7 +52,12 @@ UITableViewDataSource
 -(void)EditAction
 {
     NSLog(@"**************编辑");
-    _tableView.editing = YES;
+    isSelected = NO;//全选状态的切换
+    NSString *string = !_tableView.editing?@"完成":@"编辑";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:string style:UIBarButtonItemStyleDone target:self action:@selector(EditAction)];
+
+    _tableView.editing = !_tableView.editing;
+
 }
 
 -(void)getNoticListData
@@ -126,7 +132,7 @@ UITableViewDataSource
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     LMNoticList *list = [listArray objectAtIndex:indexPath.row];
-    
+    cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
@@ -147,7 +153,8 @@ UITableViewDataSource
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                                style:UIAlertActionStyleDestructive
                                                              handler:^(UIAlertAction*action) {
-                                                                 [listArray removeObject:indexPath];
+                                                                 [listArray removeObjectAtIndex:indexPath.row];
+                                                                 [_tableView reloadData];
                                                              }]];
 
         [self presentViewController:alert animated:YES completion:nil];

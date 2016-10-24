@@ -43,6 +43,12 @@ FitPickerViewDelegate
     NSInteger imageIndex;
     NSString *eventUUid;
     
+    NSInteger projectIndex;
+    
+    NSMutableArray *projectTitle;
+    NSMutableArray *projectDsp;
+    NSMutableArray *imageURL;
+    
     
 }
 
@@ -56,6 +62,11 @@ FitPickerViewDelegate
     self.title = @"发布活动";
     // Do any additional setup after loading the view.
     [self creatUI];
+    
+    projectTitle = [NSMutableArray new];
+    projectDsp = [NSMutableArray new];
+    imageURL = [NSMutableArray new];
+    
 }
 
 -(void)creatUI
@@ -244,9 +255,26 @@ FitPickerViewDelegate
         if (!AddEventCell) {
             AddEventCell = [[LMPublicEventListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             AddEventCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            
             AddEventCell.titleTF.delegate = self;
+            [projectTitle addObject:AddEventCell.titleTF.text];
+            
             AddEventCell.includeTF.delegate = self;
+            if (AddEventCell.includeTF) {
+                [projectDsp addObject:AddEventCell.includeTF.text];
+            }else{
+                [projectDsp addObject:@""];
+            }
+            
+            
             [AddEventCell.eventButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
+            AddEventCell.eventButton.tag = indexPath.row;
+            for (int j = 0; j<imageURL.count; j++) {
+                [imageURL addObject:@""];
+            }
+            
+            
             
         }
         return AddEventCell;
@@ -380,11 +408,12 @@ FitPickerViewDelegate
     
 }
 
--(void)addImageAction:(id)sender
+-(void)addImageAction:(UIButton *)sender
 {
     NSLog(@"*******项目图片");
     
     imageIndex = 1;
+    projectIndex =sender.tag;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
@@ -568,6 +597,9 @@ FitPickerViewDelegate
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                     
                                                             _imgProURL=imgUrl;
+
+                                                           imageURL[projectIndex] = _imgProURL;
+                                                           
                                                            
                                                        }
                                                    }
@@ -698,24 +730,28 @@ FitPickerViewDelegate
 -(void)publicProject
 {
     if (!(AddEventCell.titleTF.text.length>0)) {
-        [ self textStateHUD:@"请输入活动详细地址"];
+        [ self textStateHUD:@"请输入活动标题"];
         return;
     }
     
-    LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:AddEventCell.titleTF.text Project_dsp:AddEventCell.includeTF.text Project_imgs:_imgProURL];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    for (int i =0; i<projectTitle.count; i++) {
+        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:projectTitle[i] Project_dsp:projectDsp[i] Project_imgs:imageURL[i]];
+
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"获取列表失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
+
 }
 
 
@@ -723,6 +759,13 @@ FitPickerViewDelegate
 -(void)getEventDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if (![bodyDic[@"returnCode"] isEqualToString:@"000"]){
+        [self textStateHUD:bodyDic[@"returnDescription"]];
+        return;
+    }
+    
+    
     NSLog(@"***************%@",bodyDic);
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];

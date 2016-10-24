@@ -65,7 +65,9 @@
     _contentLabel.text = @"这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容";
     [self.contentView addSubview:_contentLabel];
     
-    
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-4, 0, 4, 60)];
+    leftView.backgroundColor = LIVING_COLOR;
+    [self.contentView addSubview:leftView];
     
 }
 

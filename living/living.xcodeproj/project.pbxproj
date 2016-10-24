@@ -50,9 +50,7 @@
 		3547F3831D9904A60068F04E /* LMHomePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F36F1D9904A60068F04E /* LMHomePageController.m */; };
 		3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3721D9904A60068F04E /* LMLoginViewController.m */; };
 		3547F3851D9904A60068F04E /* LMRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3741D9904A60068F04E /* LMRegisterViewController.m */; };
-		3547F3861D9904A60068F04E /* LMAddviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3771D9904A60068F04E /* LMAddviceViewController.m */; };
 		3547F3871D9904A60068F04E /* LMPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3791D9904A60068F04E /* LMPersonViewController.m */; };
-		3547F3881D9904A60068F04E /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F37B1D9904A60068F04E /* LMSettingViewController.m */; };
 		3547F38C1D9904AE0068F04E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3547F38A1D9904AE0068F04E /* InfoPlist.strings */; };
 		3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3901D9904B20068F04E /* BabFilterAgePickerView.m */; };
 		3547F39E1D9904B20068F04E /* FitDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3921D9904B20068F04E /* FitDatePickerView.m */; };
@@ -130,6 +128,8 @@
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
 		358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F31DBDA8E90048D176 /* LMCommentReplys.m */; };
+		358460F71DBDD4A10048D176 /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F61DBDD4A10048D176 /* LMSettingViewController.m */; };
+		358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F91DBDD4C30048D176 /* LMAddviceViewController.m */; };
 		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
 		35B61DEA1DB06D7900083F30 /* LMPersonInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61DE91DB06D7900083F30 /* LMPersonInfoRequest.m */; };
 		35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61DEC1DB06DA000083F30 /* LMGetCaptchaRequest.m */; };
@@ -294,12 +294,8 @@
 		3547F3721D9904A60068F04E /* LMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLoginViewController.m; sourceTree = "<group>"; };
 		3547F3731D9904A60068F04E /* LMRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRegisterViewController.h; sourceTree = "<group>"; };
 		3547F3741D9904A60068F04E /* LMRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRegisterViewController.m; sourceTree = "<group>"; };
-		3547F3761D9904A60068F04E /* LMAddviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddviceViewController.h; sourceTree = "<group>"; };
-		3547F3771D9904A60068F04E /* LMAddviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddviceViewController.m; sourceTree = "<group>"; };
 		3547F3781D9904A60068F04E /* LMPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPersonViewController.h; sourceTree = "<group>"; };
 		3547F3791D9904A60068F04E /* LMPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPersonViewController.m; sourceTree = "<group>"; };
-		3547F37A1D9904A60068F04E /* LMSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSettingViewController.h; sourceTree = "<group>"; };
-		3547F37B1D9904A60068F04E /* LMSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSettingViewController.m; sourceTree = "<group>"; };
 		3547F38B1D9904AE0068F04E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = InfoPlist.strings; sourceTree = "<group>"; };
 		3547F38F1D9904B20068F04E /* BabFilterAgePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabFilterAgePickerView.h; sourceTree = "<group>"; };
 		3547F3901D9904B20068F04E /* BabFilterAgePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabFilterAgePickerView.m; sourceTree = "<group>"; };
@@ -446,6 +442,10 @@
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
 		358460F21DBDA8E30048D176 /* LMCommentReplys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMCommentReplys.h; sourceTree = "<group>"; };
 		358460F31DBDA8E90048D176 /* LMCommentReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentReplys.m; sourceTree = "<group>"; };
+		358460F51DBDD4990048D176 /* LMSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMSettingViewController.h; sourceTree = "<group>"; };
+		358460F61DBDD4A10048D176 /* LMSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSettingViewController.m; sourceTree = "<group>"; };
+		358460F81DBDD4C30048D176 /* LMAddviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddviceViewController.h; sourceTree = "<group>"; };
+		358460F91DBDD4C30048D176 /* LMAddviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddviceViewController.m; sourceTree = "<group>"; };
 		35A448B11D9A13A7001179FC /* LMHomeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailController.h; sourceTree = "<group>"; };
 		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
 		35B61DE81DB06D7000083F30 /* LMPersonInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LMPersonInfoRequest.h; path = person/LMPersonInfoRequest.h; sourceTree = "<group>"; };
@@ -734,8 +734,12 @@
 		350769241DB9FE7B00487341 /* setting */ = {
 			isa = PBXGroup;
 			children = (
+				358460F51DBDD4990048D176 /* LMSettingViewController.h */,
+				358460F61DBDD4A10048D176 /* LMSettingViewController.m */,
 				350769251DB9FEBF00487341 /* LMVersionViewController.h */,
 				350769261DB9FEBF00487341 /* LMVersionViewController.m */,
+				358460F81DBDD4C30048D176 /* LMAddviceViewController.h */,
+				358460F91DBDD4C30048D176 /* LMAddviceViewController.m */,
 			);
 			path = setting;
 			sourceTree = "<group>";
@@ -888,10 +892,6 @@
 				3547F3791D9904A60068F04E /* LMPersonViewController.m */,
 				350769211DB9F22500487341 /* LMChangeDataViewController.h */,
 				350769221DB9F22500487341 /* LMChangeDataViewController.m */,
-				3547F3761D9904A60068F04E /* LMAddviceViewController.h */,
-				3547F3771D9904A60068F04E /* LMAddviceViewController.m */,
-				3547F37A1D9904A60068F04E /* LMSettingViewController.h */,
-				3547F37B1D9904A60068F04E /* LMSettingViewController.m */,
 				35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */,
 				35D6AD111DAA53E9005197E1 /* LMNoticViewController.m */,
 				351CC6601DAB85B6008D59D8 /* LMBalanceViewController.h */,
@@ -2282,6 +2282,7 @@
 				35B61E151DB0727800083F30 /* LMActivityList.m in Sources */,
 				35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
+				358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */,
 				35FA8EAD1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m in Sources */,
 				35FA8E0C1DB5B31100510A75 /* WXApiManager.m in Sources */,
 				35D8FC3E1DB4E26300AD469E /* LMOrderList.m in Sources */,
@@ -2289,9 +2290,7 @@
 				3547F4011D9904BA0068F04E /* HeadVO.m in Sources */,
 				35FA8E101DB5B31100510A75 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */,
 				3547F37E1D9904A60068F04E /* FitNavigationController.m in Sources */,
-				3547F3881D9904A60068F04E /* LMSettingViewController.m in Sources */,
 				3547F4B71D9904D90068F04E /* MJPhoto.m in Sources */,
-				3547F3861D9904A60068F04E /* LMAddviceViewController.m in Sources */,
 				35FA8E741DB5B31800510A75 /* base64.m in Sources */,
 				353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
@@ -2308,6 +2307,7 @@
 				35FA8EA41DB5F80900510A75 /* LMWXRechargrRequest.m in Sources */,
 				35FA8EA01DB5ECDE00510A75 /* LMBalanceRequest.m in Sources */,
 				35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */,
+				358460F71DBDD4A10048D176 /* LMSettingViewController.m in Sources */,
 				35B61E021DB06F7E00083F30 /* LMEventDetailEventProjectsBody.m in Sources */,
 				351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
