@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "LMCommentButton.h"
 #import "LMEventDetailLeavingMessages.h"
+#import "LMEventReplys.h"
 @protocol  LMLeavemessagecellDelegate;
 @interface LMLeavemessagecell : UITableViewCell
 
@@ -32,7 +33,7 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
--(void)setValue:(LMEventDetailLeavingMessages *)data;
+-(void)setValue:(NSMutableArray *)data andIndex:(NSInteger)index;
 
 + (CGFloat)cellHigth:(NSString *)titleString;
 

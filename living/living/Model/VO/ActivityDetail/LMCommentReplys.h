@@ -11,11 +11,14 @@
 
 @interface LMCommentReplys : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, strong) NSString *userUuid;
-@property (nonatomic, strong) NSString *replyContent;
-@property (nonatomic, strong) NSString *commentUuid;
-@property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSString *replyTime;
+@property (nonatomic, strong) NSString *replyContent;
+@property (nonatomic, strong) NSString *respondentNickname;
+@property (nonatomic, strong) NSString *userUuid;
+@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic, strong) NSString *commentUuid;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

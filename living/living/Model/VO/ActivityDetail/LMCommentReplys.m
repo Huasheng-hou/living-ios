@@ -8,11 +8,14 @@
 #import "LMCommentReplys.h"
 
 
-NSString *const kReplysUserUuid = @"userUuid";
-NSString *const kReplysReplyContent = @"replyContent";
-NSString *const kReplysCommentUuid = @"commentUuid";
-NSString *const kReplysNickName = @"nickName";
 NSString *const kReplysAvatar = @"avatar";
+NSString *const kReplysAddress = @"address";
+NSString *const kReplysReplyTime = @"reply_time";
+NSString *const kReplysReplyContent = @"replyContent";
+NSString *const kReplysRespondentNickname = @"respondent_nickname";
+NSString *const kReplysUserUuid = @"userUuid";
+NSString *const kReplysNickName = @"nickName";
+NSString *const kReplysCommentUuid = @"commentUuid";
 
 
 @interface LMCommentReplys ()
@@ -23,11 +26,14 @@ NSString *const kReplysAvatar = @"avatar";
 
 @implementation LMCommentReplys
 
-@synthesize userUuid = _userUuid;
-@synthesize replyContent = _replyContent;
-@synthesize commentUuid = _commentUuid;
-@synthesize nickName = _nickName;
 @synthesize avatar = _avatar;
+@synthesize address = _address;
+@synthesize replyTime = _replyTime;
+@synthesize replyContent = _replyContent;
+@synthesize respondentNickname = _respondentNickname;
+@synthesize userUuid = _userUuid;
+@synthesize nickName = _nickName;
+@synthesize commentUuid = _commentUuid;
 
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
@@ -42,11 +48,14 @@ NSString *const kReplysAvatar = @"avatar";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.userUuid = [self objectOrNilForKey:kReplysUserUuid fromDictionary:dict];
-            self.replyContent = [self objectOrNilForKey:kReplysReplyContent fromDictionary:dict];
-            self.commentUuid = [self objectOrNilForKey:kReplysCommentUuid fromDictionary:dict];
-            self.nickName = [self objectOrNilForKey:kReplysNickName fromDictionary:dict];
-            self.avatar = [self objectOrNilForKey:kReplysAvatar fromDictionary:dict];
+        self.avatar = [self objectOrNilForKey:kReplysAvatar fromDictionary:dict];
+        self.address = [self objectOrNilForKey:kReplysAddress fromDictionary:dict];
+        self.replyTime = [self objectOrNilForKey:kReplysReplyTime fromDictionary:dict];
+        self.replyContent = [self objectOrNilForKey:kReplysReplyContent fromDictionary:dict];
+        self.respondentNickname = [self objectOrNilForKey:kReplysRespondentNickname fromDictionary:dict];
+        self.userUuid = [self objectOrNilForKey:kReplysUserUuid fromDictionary:dict];
+        self.nickName = [self objectOrNilForKey:kReplysNickName fromDictionary:dict];
+        self.commentUuid = [self objectOrNilForKey:kReplysCommentUuid fromDictionary:dict];
 
     }
     
@@ -57,11 +66,14 @@ NSString *const kReplysAvatar = @"avatar";
 - (NSDictionary *)dictionaryRepresentation
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-    [mutableDict setValue:self.userUuid forKey:kReplysUserUuid];
-    [mutableDict setValue:self.replyContent forKey:kReplysReplyContent];
-    [mutableDict setValue:self.commentUuid forKey:kReplysCommentUuid];
-    [mutableDict setValue:self.nickName forKey:kReplysNickName];
     [mutableDict setValue:self.avatar forKey:kReplysAvatar];
+    [mutableDict setValue:self.address forKey:kReplysAddress];
+    [mutableDict setValue:self.replyTime forKey:kReplysReplyTime];
+    [mutableDict setValue:self.replyContent forKey:kReplysReplyContent];
+    [mutableDict setValue:self.respondentNickname forKey:kReplysRespondentNickname];
+    [mutableDict setValue:self.userUuid forKey:kReplysUserUuid];
+    [mutableDict setValue:self.nickName forKey:kReplysNickName];
+    [mutableDict setValue:self.commentUuid forKey:kReplysCommentUuid];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -85,22 +97,28 @@ NSString *const kReplysAvatar = @"avatar";
 {
     self = [super init];
 
-    self.userUuid = [aDecoder decodeObjectForKey:kReplysUserUuid];
-    self.replyContent = [aDecoder decodeObjectForKey:kReplysReplyContent];
-    self.commentUuid = [aDecoder decodeObjectForKey:kReplysCommentUuid];
-    self.nickName = [aDecoder decodeObjectForKey:kReplysNickName];
     self.avatar = [aDecoder decodeObjectForKey:kReplysAvatar];
+    self.address = [aDecoder decodeObjectForKey:kReplysAddress];
+    self.replyTime = [aDecoder decodeObjectForKey:kReplysReplyTime];
+    self.replyContent = [aDecoder decodeObjectForKey:kReplysReplyContent];
+    self.respondentNickname = [aDecoder decodeObjectForKey:kReplysRespondentNickname];
+    self.userUuid = [aDecoder decodeObjectForKey:kReplysUserUuid];
+    self.nickName = [aDecoder decodeObjectForKey:kReplysNickName];
+    self.commentUuid = [aDecoder decodeObjectForKey:kReplysCommentUuid];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 
-    [aCoder encodeObject:_userUuid forKey:kReplysUserUuid];
-    [aCoder encodeObject:_replyContent forKey:kReplysReplyContent];
-    [aCoder encodeObject:_commentUuid forKey:kReplysCommentUuid];
-    [aCoder encodeObject:_nickName forKey:kReplysNickName];
     [aCoder encodeObject:_avatar forKey:kReplysAvatar];
+    [aCoder encodeObject:_address forKey:kReplysAddress];
+    [aCoder encodeObject:_replyTime forKey:kReplysReplyTime];
+    [aCoder encodeObject:_replyContent forKey:kReplysReplyContent];
+    [aCoder encodeObject:_respondentNickname forKey:kReplysRespondentNickname];
+    [aCoder encodeObject:_userUuid forKey:kReplysUserUuid];
+    [aCoder encodeObject:_nickName forKey:kReplysNickName];
+    [aCoder encodeObject:_commentUuid forKey:kReplysCommentUuid];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -109,11 +127,14 @@ NSString *const kReplysAvatar = @"avatar";
     
     if (copy) {
 
-        copy.userUuid = [self.userUuid copyWithZone:zone];
-        copy.replyContent = [self.replyContent copyWithZone:zone];
-        copy.commentUuid = [self.commentUuid copyWithZone:zone];
-        copy.nickName = [self.nickName copyWithZone:zone];
         copy.avatar = [self.avatar copyWithZone:zone];
+        copy.address = [self.address copyWithZone:zone];
+        copy.replyTime = [self.replyTime copyWithZone:zone];
+        copy.replyContent = [self.replyContent copyWithZone:zone];
+        copy.respondentNickname = [self.respondentNickname copyWithZone:zone];
+        copy.userUuid = [self.userUuid copyWithZone:zone];
+        copy.nickName = [self.nickName copyWithZone:zone];
+        copy.commentUuid = [self.commentUuid copyWithZone:zone];
     }
     
     return copy;

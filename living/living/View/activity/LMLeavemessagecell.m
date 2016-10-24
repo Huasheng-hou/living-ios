@@ -116,17 +116,22 @@
 
 
 
--(void)setValue:(LMEventDetailLeavingMessages *)data;
+-(void)setValue:(NSMutableArray *)data andIndex:(NSInteger)index
 {
-    LMEventDetailLeavingMessages *list = data;
+    
+    for (int i = 0; i<data.count; i++) {
+        if (data[index][@"comment_content"]) {
+    
+    LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:data[index]];
     [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
     if (list.nickName == nil) {
         _nameLabel.text = @"匿名用户";
     }else{
         _nameLabel.text = list.nickName;
     }
-    _timeLabel.text = list.commentTime;
+            _timeLabel.text = [self getUTCFormateDate:list.commentTime];
     _titleLabel.text = list.commentContent;
+            _addressLabel.text = list.address;
     if (list.hasPraised == YES) {
         _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
     }else{
@@ -141,7 +146,32 @@
     //   NSString *string =@"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
     _conHigh = [list.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
+        }if (data[index][@"replyContent"]){
+            LMEventReplys *list = [[LMEventReplys alloc] initWithDictionary:data[index]];
+            [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+            if (list.nickName == nil) {
+                _nameLabel.text = [NSString stringWithFormat:@"匿名用户 回复了 %@",list.respondentNickname];
+            }else{
+                _nameLabel.text = [NSString stringWithFormat:@"%@ 回复了 %@",list.nickName,list.respondentNickname];
+            }
+            _timeLabel.text = [self getUTCFormateDate:list.replyTime];
+            _titleLabel.text = list.replyContent;
+            _addressLabel.text = list.address;
+            _zanButton.hidden = YES;
+            
+            _replyButton.hidden = YES;
+            
+            
+            _commentUUid = list.commentUuid;
+            
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+            //参数1 代表文字自适应的范围 2代表 文字自适应的方式前三种 3代表文字在自适应过程中自适应的字体大小
+            _conHigh = [list.replyContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            
+        }
+    }
 }
+
 
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
@@ -204,6 +234,32 @@
     }
     
 }
+
+
+-(NSString *)getUTCFormateDate:(NSString *)newDate
+{
+    NSString *str=[newDate substringWithRange:NSMakeRange(0, 16)];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    NSDate *newsDateFormatted = [dateFormatter dateFromString:str];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [dateFormatter setTimeZone:timeZone];
+    
+    NSString *dateContent  = nil;
+    
+    NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
+    [dateFormatter2 setDateFormat:@"MM-dd HH:mm"];
+    
+    NSString *str2= [dateFormatter2 stringFromDate:newsDateFormatted];
+    
+    dateContent = str2;
+    
+    
+    return dateContent;
+}
+
 
 
 

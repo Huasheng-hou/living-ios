@@ -130,6 +130,7 @@
 		358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F31DBDA8E90048D176 /* LMCommentReplys.m */; };
 		358460F71DBDD4A10048D176 /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F61DBDD4A10048D176 /* LMSettingViewController.m */; };
 		358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F91DBDD4C30048D176 /* LMAddviceViewController.m */; };
+		358461001DBE29950048D176 /* LMEventReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460FF1DBE29950048D176 /* LMEventReplys.m */; };
 		35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35A448B21D9A13A7001179FC /* LMHomeDetailController.m */; };
 		35B61DEA1DB06D7900083F30 /* LMPersonInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61DE91DB06D7900083F30 /* LMPersonInfoRequest.m */; };
 		35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B61DEC1DB06DA000083F30 /* LMGetCaptchaRequest.m */; };
@@ -446,6 +447,8 @@
 		358460F61DBDD4A10048D176 /* LMSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSettingViewController.m; sourceTree = "<group>"; };
 		358460F81DBDD4C30048D176 /* LMAddviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddviceViewController.h; sourceTree = "<group>"; };
 		358460F91DBDD4C30048D176 /* LMAddviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddviceViewController.m; sourceTree = "<group>"; };
+		358460FE1DBE29950048D176 /* LMEventReplys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventReplys.h; sourceTree = "<group>"; };
+		358460FF1DBE29950048D176 /* LMEventReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventReplys.m; sourceTree = "<group>"; };
 		35A448B11D9A13A7001179FC /* LMHomeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeDetailController.h; sourceTree = "<group>"; };
 		35A448B21D9A13A7001179FC /* LMHomeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeDetailController.m; sourceTree = "<group>"; };
 		35B61DE81DB06D7000083F30 /* LMPersonInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LMPersonInfoRequest.h; path = person/LMPersonInfoRequest.h; sourceTree = "<group>"; };
@@ -1767,6 +1770,8 @@
 				35B61DFE1DB06F7E00083F30 /* LMEventDetailEventProjectsBody.m */,
 				35B61DFF1DB06F7E00083F30 /* LMEventDetailLeavingMessages.h */,
 				35B61E001DB06F7E00083F30 /* LMEventDetailLeavingMessages.m */,
+				358460FE1DBE29950048D176 /* LMEventReplys.h */,
+				358460FF1DBE29950048D176 /* LMEventReplys.m */,
 				358460F21DBDA8E30048D176 /* LMCommentReplys.h */,
 				358460F31DBDA8E90048D176 /* LMCommentReplys.m */,
 			);
@@ -2125,8 +2130,8 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = XK259YP6W2;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 2BPVM7PZ48;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -2291,6 +2296,7 @@
 				35FA8E101DB5B31100510A75 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */,
 				3547F37E1D9904A60068F04E /* FitNavigationController.m in Sources */,
 				3547F4B71D9904D90068F04E /* MJPhoto.m in Sources */,
+				358461001DBE29950048D176 /* LMEventReplys.m in Sources */,
 				35FA8E741DB5B31800510A75 /* base64.m in Sources */,
 				353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */,
 				3547F3F01D9904BA0068F04E /* UIButton+Badge.m in Sources */,
@@ -2534,8 +2540,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XK259YP6W2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2578,8 +2584,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
+				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
 			};
 			name = Debug;
 		};
@@ -2590,8 +2596,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XK259YP6W2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2634,8 +2640,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
+				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
 			};
 			name = Release;
 		};

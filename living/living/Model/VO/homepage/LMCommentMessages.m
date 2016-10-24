@@ -8,14 +8,15 @@
 #import "LMCommentMessages.h"
 
 
-NSString *const kCommentMessagesNickName = @"nick_name";
-NSString *const kCommentMessagesCommentUuid = @"comment_uuid";
-NSString *const kCommentMessagesAvatar = @"avatar";
-NSString *const kCommentMessagesPraiseCount = @"praise_count";
-NSString *const kCommentMessagesCommentContent = @"comment_content";
-NSString *const kCommentMessagesUserUuid = @"user_uuid";
-NSString *const kCommentMessagesCommentTime = @"comment_time";
-NSString *const kCommentMessagesHasPraised = @"has_praised";
+NSString *const kMessageAvatar = @"avatar";
+NSString *const kMessageNickName = @"nick_name";
+NSString *const kMessageCommentUuid = @"comment_uuid";
+NSString *const kMessageAddress = @"address";
+NSString *const kMessagePraiseCount = @"praise_count";
+NSString *const kMessageCommentContent = @"comment_content";
+NSString *const kMessageUserUuid = @"user_uuid";
+NSString *const kMessageCommentTime = @"comment_time";
+NSString *const kMessageHasPraised = @"has_praised";
 
 
 @interface LMCommentMessages ()
@@ -26,9 +27,10 @@ NSString *const kCommentMessagesHasPraised = @"has_praised";
 
 @implementation LMCommentMessages
 
+@synthesize avatar = _avatar;
 @synthesize nickName = _nickName;
 @synthesize commentUuid = _commentUuid;
-@synthesize avatar = _avatar;
+@synthesize address = _address;
 @synthesize praiseCount = _praiseCount;
 @synthesize commentContent = _commentContent;
 @synthesize userUuid = _userUuid;
@@ -48,14 +50,15 @@ NSString *const kCommentMessagesHasPraised = @"has_praised";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.nickName = [self objectOrNilForKey:kCommentMessagesNickName fromDictionary:dict];
-            self.commentUuid = [self objectOrNilForKey:kCommentMessagesCommentUuid fromDictionary:dict];
-            self.avatar = [self objectOrNilForKey:kCommentMessagesAvatar fromDictionary:dict];
-            self.praiseCount = [[self objectOrNilForKey:kCommentMessagesPraiseCount fromDictionary:dict] doubleValue];
-            self.commentContent = [self objectOrNilForKey:kCommentMessagesCommentContent fromDictionary:dict];
-            self.userUuid = [self objectOrNilForKey:kCommentMessagesUserUuid fromDictionary:dict];
-            self.commentTime = [self objectOrNilForKey:kCommentMessagesCommentTime fromDictionary:dict];
-            self.hasPraised = [[self objectOrNilForKey:kCommentMessagesHasPraised fromDictionary:dict] boolValue];
+        self.avatar = [self objectOrNilForKey:kMessageAvatar fromDictionary:dict];
+        self.nickName = [self objectOrNilForKey:kMessageNickName fromDictionary:dict];
+        self.commentUuid = [self objectOrNilForKey:kMessageCommentUuid fromDictionary:dict];
+        self.address = [self objectOrNilForKey:kMessageAddress fromDictionary:dict];
+        self.praiseCount = [[self objectOrNilForKey:kMessagePraiseCount fromDictionary:dict] doubleValue];
+        self.commentContent = [self objectOrNilForKey:kMessageCommentContent fromDictionary:dict];
+        self.userUuid = [self objectOrNilForKey:kMessageUserUuid fromDictionary:dict];
+        self.commentTime = [self objectOrNilForKey:kMessageCommentTime fromDictionary:dict];
+        self.hasPraised = [[self objectOrNilForKey:kMessageHasPraised fromDictionary:dict] boolValue];
 
     }
     
@@ -66,15 +69,15 @@ NSString *const kCommentMessagesHasPraised = @"has_praised";
 - (NSDictionary *)dictionaryRepresentation
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-    [mutableDict setValue:self.nickName forKey:kCommentMessagesNickName];
-    [mutableDict setValue:self.commentUuid forKey:kCommentMessagesCommentUuid];
-    [mutableDict setValue:self.avatar forKey:kCommentMessagesAvatar];
-    [mutableDict setValue:[NSNumber numberWithDouble:self.praiseCount] forKey:kCommentMessagesPraiseCount];
-    [mutableDict setValue:self.commentContent forKey:kCommentMessagesCommentContent];
-    [mutableDict setValue:self.userUuid forKey:kCommentMessagesUserUuid];
-    [mutableDict setValue:self.commentTime forKey:kCommentMessagesCommentTime];
-    [mutableDict setValue:[NSNumber numberWithBool:self.hasPraised] forKey:kCommentMessagesHasPraised];
-
+    [mutableDict setValue:self.avatar forKey:kMessageAvatar];
+    [mutableDict setValue:self.nickName forKey:kMessageNickName];
+    [mutableDict setValue:self.commentUuid forKey:kMessageCommentUuid];
+    [mutableDict setValue:self.address forKey:kMessageAddress];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.praiseCount] forKey:kMessagePraiseCount];
+    [mutableDict setValue:self.commentContent forKey:kMessageCommentContent];
+    [mutableDict setValue:self.userUuid forKey:kMessageUserUuid];
+    [mutableDict setValue:self.commentTime forKey:kMessageCommentTime];
+    [mutableDict setValue:[NSNumber numberWithBool:self.hasPraised] forKey:kMessageHasPraised];
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
@@ -97,28 +100,30 @@ NSString *const kCommentMessagesHasPraised = @"has_praised";
 {
     self = [super init];
 
-    self.nickName = [aDecoder decodeObjectForKey:kCommentMessagesNickName];
-    self.commentUuid = [aDecoder decodeObjectForKey:kCommentMessagesCommentUuid];
-    self.avatar = [aDecoder decodeObjectForKey:kCommentMessagesAvatar];
-    self.praiseCount = [aDecoder decodeDoubleForKey:kCommentMessagesPraiseCount];
-    self.commentContent = [aDecoder decodeObjectForKey:kCommentMessagesCommentContent];
-    self.userUuid = [aDecoder decodeObjectForKey:kCommentMessagesUserUuid];
-    self.commentTime = [aDecoder decodeObjectForKey:kCommentMessagesCommentTime];
-    self.hasPraised = [aDecoder decodeBoolForKey:kCommentMessagesHasPraised];
+    self.avatar = [aDecoder decodeObjectForKey:kMessageAvatar];
+    self.nickName = [aDecoder decodeObjectForKey:kMessageNickName];
+    self.commentUuid = [aDecoder decodeObjectForKey:kMessageCommentUuid];
+    self.address = [aDecoder decodeObjectForKey:kMessageAddress];
+    self.praiseCount = [aDecoder decodeDoubleForKey:kMessagePraiseCount];
+    self.commentContent = [aDecoder decodeObjectForKey:kMessageCommentContent];
+    self.userUuid = [aDecoder decodeObjectForKey:kMessageUserUuid];
+    self.commentTime = [aDecoder decodeObjectForKey:kMessageCommentTime];
+    self.hasPraised = [aDecoder decodeBoolForKey:kMessageHasPraised];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 
-    [aCoder encodeObject:_nickName forKey:kCommentMessagesNickName];
-    [aCoder encodeObject:_commentUuid forKey:kCommentMessagesCommentUuid];
-    [aCoder encodeObject:_avatar forKey:kCommentMessagesAvatar];
-    [aCoder encodeDouble:_praiseCount forKey:kCommentMessagesPraiseCount];
-    [aCoder encodeObject:_commentContent forKey:kCommentMessagesCommentContent];
-    [aCoder encodeObject:_userUuid forKey:kCommentMessagesUserUuid];
-    [aCoder encodeObject:_commentTime forKey:kCommentMessagesCommentTime];
-    [aCoder encodeBool:_hasPraised forKey:kCommentMessagesHasPraised];
+    [aCoder encodeObject:_avatar forKey:kMessageAvatar];
+    [aCoder encodeObject:_nickName forKey:kMessageNickName];
+    [aCoder encodeObject:_commentUuid forKey:kMessageCommentUuid];
+    [aCoder encodeObject:_address forKey:kMessageAddress];
+    [aCoder encodeDouble:_praiseCount forKey:kMessagePraiseCount];
+    [aCoder encodeObject:_commentContent forKey:kMessageCommentContent];
+    [aCoder encodeObject:_userUuid forKey:kMessageUserUuid];
+    [aCoder encodeObject:_commentTime forKey:kMessageCommentTime];
+    [aCoder encodeBool:_hasPraised forKey:kMessageHasPraised];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -127,9 +132,10 @@ NSString *const kCommentMessagesHasPraised = @"has_praised";
     
     if (copy) {
 
+        copy.avatar = [self.avatar copyWithZone:zone];
         copy.nickName = [self.nickName copyWithZone:zone];
         copy.commentUuid = [self.commentUuid copyWithZone:zone];
-        copy.avatar = [self.avatar copyWithZone:zone];
+        copy.address = [self.address copyWithZone:zone];
         copy.praiseCount = self.praiseCount;
         copy.commentContent = [self.commentContent copyWithZone:zone];
         copy.userUuid = [self.userUuid copyWithZone:zone];

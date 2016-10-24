@@ -155,12 +155,13 @@
                 _timeLabel.text = [self getUTCFormateDate:list.commentTime];
                 _titleLabel.text = list.commentContent;
             
+            
                 if (list.hasPraised == YES) {
                     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
                 }else{
                     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
                 }
-            
+               _addressLabel.text = list.address;
                 _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",list.praiseCount];
             
                 _commentUUid = list.commentUuid;
@@ -173,11 +174,12 @@
             LMCommentReplys *list = [[LMCommentReplys alloc] initWithDictionary:data[index]];
             [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
             if (list.nickName == nil) {
-                _nameLabel.text = @"匿名用户";
+                _nameLabel.text = [NSString stringWithFormat:@"匿名用户 回复了 %@",list.respondentNickname];
             }else{
-                _nameLabel.text = list.nickName;
+                _nameLabel.text = [NSString stringWithFormat:@"%@ 回复了 %@",list.nickName,list.respondentNickname];
             }
-//            _timeLabel.text = [self getUTCFormateDate:list.commentTime];
+            _addressLabel.text = list.address;
+            _timeLabel.text = [self getUTCFormateDate:list.replyTime];
             _titleLabel.text = list.replyContent;
             _zanButton.hidden = YES;
             

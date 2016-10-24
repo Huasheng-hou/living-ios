@@ -1,7 +1,7 @@
 //
-//  CommentMessages.h
+//  LMEventReplys.h
 //
-//  Created by   on 16/10/12
+//  Created by   on 2016/10/24
 //  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
 //
 
@@ -9,17 +9,16 @@
 
 
 
-@interface LMCommentMessages : NSObject <NSCoding, NSCopying>
+@interface LMEventReplys : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSString *replyTime;
+@property (nonatomic, strong) NSString *replyContent;
+@property (nonatomic, strong) NSString *respondentNickname;
+@property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, strong) NSString *commentUuid;
-@property (nonatomic, strong) NSString *address;
-@property (nonatomic, assign) double praiseCount;
-@property (nonatomic, strong) NSString *commentContent;
-@property (nonatomic, strong) NSString *userUuid;
-@property (nonatomic, strong) NSString *commentTime;
-@property (nonatomic, assign) BOOL hasPraised;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

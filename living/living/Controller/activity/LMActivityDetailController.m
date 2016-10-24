@@ -21,6 +21,7 @@
 #import "LMEventLivingMsgRequest.h"
 #import "LMEventpraiseRequest.h"
 #import "LMEventCommitReplyRequset.h"
+#import "LMEventReplys.h"
 
 @interface LMActivityDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -155,11 +156,21 @@ LMLeavemessagecellDelegate
         [msgArray removeAllObjects];
         
         for (int i=0; i<array.count; i++) {
-            LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:array[i]];
-            if (![msgArray containsObject:list]) {
-                [msgArray addObject:list];
+//            LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:array[i]];
+
+                NSDictionary *dic = array[i][@"message"];
+                [msgArray addObject:dic];
+        }
+        for (int i =0; i<array.count; i++) {
+            NSMutableArray *replyarr = array[i][@"replys"];
+            for (int j = 0; j<replyarr.count; j++) {
+                NSDictionary *dic = replyarr[j];
+                [msgArray addObject:dic];
             }
         }
+        
+            
+            
         
         NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
         [eventArray removeAllObjects];
@@ -208,8 +219,25 @@ LMLeavemessagecellDelegate
         
     }
     if (indexPath.section==3) {
-        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
-        return [LMLeavemessagecell cellHigth:msgData.commentContent];
+
+        
+        if (msgArray.count>0) {
+            
+            if (msgArray[indexPath.row][@"comment_content"]){
+                LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:msgArray[indexPath.row]];
+                return [LMLeavemessagecell cellHigth:list.commentContent];
+                
+            }
+
+            if (msgArray[indexPath.row][@"replyContent"]){
+                LMEventReplys *list = [[LMEventReplys alloc] initWithDictionary:msgArray[indexPath.row]];
+                return [LMLeavemessagecell cellHigth:list.replyContent];
+            }
+            
+            
+        }
+
+        
     }
     
     return 0;
@@ -413,7 +441,10 @@ LMLeavemessagecellDelegate
             LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+            
             [cell setValue:list];
+            
+            
             [cell setXScale:self.xScale yScale:self.yScaleNoTab];
 
             return cell;
@@ -428,10 +459,10 @@ LMLeavemessagecellDelegate
         LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
-        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
-        [cell setValue:msgData];
+//        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
+        [cell setValue:msgArray andIndex:indexPath.row];
         cell.tag = indexPath.row;
-        cell.commentUUid = msgData.commentUuid;
+//        cell.commentUUid = msgData.commentUuid;
         cell.delegate = self;
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -464,7 +495,7 @@ LMLeavemessagecellDelegate
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
                                                            
-                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:2];
+                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:3];
                                                            [[self tableView] scrollToRowAtIndexPath:indexPaths
                                                                                    atScrollPosition:UITableViewScrollPositionTop animated:YES];;
                                                        }else{

@@ -11,14 +11,10 @@
 #import "LMBannerrequest.h"
 #import "LMHomelistequest.h"
 #import "UIView+frame.h"
-
 #import "LMhomePageCell.h"
 #import "LMActicleList.h"
-
 #import "WJLoopView.h"
 #import "FitUserManager.h"
-
-
 #import "LMScanViewController.h"
 
 @interface LMHomePageController ()<UITableViewDelegate,
@@ -67,14 +63,13 @@ WJLoopViewDelegate
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
-    
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Sweep"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
-     _tableView.tableHeaderView = headView;
     
-
-
+    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
+    _tableView.tableHeaderView = headView;
+    
+    
 }
 
 -(void)sweepAction
@@ -154,7 +149,7 @@ WJLoopViewDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 
 -(void)getHomeDataResponse:(NSString *)resp
@@ -170,7 +165,7 @@ WJLoopViewDelegate
                 [listArray addObject:list];
             }
         }
-
+        
         [_tableView reloadData];
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -232,7 +227,7 @@ WJLoopViewDelegate
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
     detailVC.artcleuuid = list.articleUuid;
     [self.navigationController pushViewController:detailVC animated:YES];
-
+    
 }
 
 
@@ -242,13 +237,13 @@ WJLoopViewDelegate
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
