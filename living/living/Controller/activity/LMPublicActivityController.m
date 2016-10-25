@@ -28,7 +28,8 @@ UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
-FitPickerViewDelegate
+FitPickerViewDelegate,
+LMPublicEventCellDelegate
 >
 {
     LMPublicMsgCell *msgCell;
@@ -258,18 +259,18 @@ FitPickerViewDelegate
             
             
             AddEventCell.titleTF.delegate = self;
-            [projectTitle addObject:AddEventCell.titleTF.text];
+//            [projectTitle addObject:AddEventCell.titleTF.text];
             
             AddEventCell.includeTF.delegate = self;
-            if (AddEventCell.includeTF) {
-                [projectDsp addObject:AddEventCell.includeTF.text];
-            }else{
-                [projectDsp addObject:@""];
-            }
+//            if (AddEventCell.includeTF) {
+//                [projectDsp addObject:AddEventCell.includeTF.text];
+//            }else{
+//                [projectDsp addObject:@""];
+//            }
             
-            
-            [AddEventCell.eventButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
-            AddEventCell.eventButton.tag = indexPath.row;
+//            
+//            [AddEventCell.eventButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
+//            AddEventCell.eventButton.tag = indexPath.row;
             for (int j = 0; j<imageURL.count; j++) {
                 [imageURL addObject:@""];
             }
@@ -408,12 +409,12 @@ FitPickerViewDelegate
     
 }
 
--(void)addImageAction:(UIButton *)sender
+-(void)cellWilladdImage:(LMPublicEventListCell *)cell
 {
     NSLog(@"*******项目图片");
     
     imageIndex = 1;
-    projectIndex =sender.tag;
+    projectIndex =cell.tag;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
@@ -515,12 +516,17 @@ FitPickerViewDelegate
 {
     if (imageIndex==0) {
         //设置头像图片
+
+        msgCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
+        msgCell.imgView.clipsToBounds = YES;
         [msgCell.imgView setImage:image];
         //获取图片的url
         [self getImageURL:image];
     }
     if (imageIndex==1) {
         //设置头像图片
+        msgCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
+        msgCell.imgView.clipsToBounds = YES;
         [AddEventCell.imgView setImage:image];
         //获取图片的url
         [self getImageURL:image];
@@ -575,7 +581,7 @@ FitPickerViewDelegate
     }
     if (imageIndex==1) {
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:image];
+       UIImage *headImage = [ImageHelpTool scaleImage:image];
         request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
         [self initStateHud];
@@ -734,6 +740,19 @@ FitPickerViewDelegate
         return;
     }
     
+
+                [projectTitle addObject:AddEventCell.titleTF.text];
+    
+                if (AddEventCell.includeTF) {
+                    [projectDsp addObject:AddEventCell.includeTF.text];
+                }else{
+                    [projectDsp addObject:@""];
+                }
+    
+    
+    
+    
+    
     for (int i =0; i<projectTitle.count; i++) {
         LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:projectTitle[i] Project_dsp:projectDsp[i] Project_imgs:imageURL[i]];
 
@@ -759,12 +778,6 @@ FitPickerViewDelegate
 -(void)getEventDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if (![bodyDic[@"returnCode"] isEqualToString:@"000"]){
-        [self textStateHUD:bodyDic[@"returnDescription"]];
-        return;
-    }
-    
     
     NSLog(@"***************%@",bodyDic);
     if (!bodyDic) {
@@ -814,6 +827,19 @@ FitPickerViewDelegate
 {
     cellIndex = cellIndex+1;
     [self.tableView reloadData];
+    
+    for (int j = 0; j<projectTitle.count; j++) {
+        [projectTitle addObject:@""];
+    }
+    
+    for (int j = 0; j<projectDsp.count; j++) {
+        [projectDsp addObject:@""];
+    }
+    
+    
+    for (int j = 0; j<imageURL.count; j++) {
+        [imageURL addObject:@""];
+    }
 }
 
 

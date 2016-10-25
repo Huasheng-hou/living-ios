@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol  LMPublicEventCellDelegate;
 
 @interface LMPublicEventListCell : UITableViewCell
+<UITextFieldDelegate,UITextViewDelegate>
 
 
 @property(nonatomic,strong)UITextField *titleTF;
@@ -23,5 +25,14 @@
 @property(nonatomic,strong)UIImageView *imgView;
 
 
+@property (nonatomic, weak) id <LMPublicEventCellDelegate> delegate;
+
 @end
 
+@protocol LMPublicEventCellDelegate <NSObject>
+
+@optional
+- (void)cellWilladdImage:(LMPublicEventListCell *)cell;
+
+
+@end

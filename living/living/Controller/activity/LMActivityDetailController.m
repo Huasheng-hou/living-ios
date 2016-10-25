@@ -340,6 +340,7 @@ LMLeavemessagecellDelegate
         suggestTF.textColor = TEXT_COLOR_LEVEL_3;
         suggestTF.font = TEXT_FONT_LEVEL_3;
         suggestTF.layer.borderColor = LINE_COLOR.CGColor;
+        suggestTF.returnKeyType = UIReturnKeyDone;
         suggestTF.layer.borderWidth = 0.5;
         suggestTF.delegate = self;
         [commentView addSubview:suggestTF];
@@ -712,7 +713,6 @@ LMLeavemessagecellDelegate
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
         //在这里做你响应return键的代码
         [textView  resignFirstResponder];
-        textView.text=@"";
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
     
@@ -748,6 +748,9 @@ LMLeavemessagecellDelegate
 
 -(void)besureAction:(id)sender
 {
+    
+    [self.view endEditing:YES];
+    
     if (suggestTF.text.length<=0) {
         [self textStateHUD:@"请输入内容"];
         return;
@@ -781,6 +784,7 @@ LMLeavemessagecellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"留言成功"];
+            suggestTF.text = @"";
             [self getEventListDataRequest];
             NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:0 inSection:2];
             [[self tableView] scrollToRowAtIndexPath:indexPaths
@@ -802,6 +806,10 @@ LMLeavemessagecellDelegate
 {
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
+
+
+
+
 
 
 - (BOOL)prefersStatusBarHidden

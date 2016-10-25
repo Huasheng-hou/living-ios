@@ -152,18 +152,38 @@ UIViewControllerTransitioningDelegate
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     
     if (indexPath.section==0) {
+        
+        if ([genderStr isEqual:@"1"]) {
+            manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
+            manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
+            manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
+            [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:manButton];
+            
+            
+            womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
+            womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
+            womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
+            womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
+            womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
+            [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:womanButton];
+        }else{
+            
+        }
+        
         manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
-        manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
-        manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
+        manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
+        manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
         [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:manButton];
         
         
         womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
         womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
-        womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
+        womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
         womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
-        womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
+        womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
         [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:womanButton];
         

@@ -10,7 +10,7 @@
 #import "FitConsts.h"
 
 #define titleW titleLable.bounds.size.width
-@implementation LMPublicEventListCell
+@implementation LMPublicEventListCell 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -67,6 +67,7 @@
     _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-25, 30)];
     _titleTF.font = TEXT_FONT_LEVEL_2;
     _titleTF.placeholder = @"请输入项目标题";
+    _titleTF.delegate = self;
     [self.contentView addSubview:_titleTF];
     
     
@@ -77,6 +78,7 @@
     _includeTF = [[UITextView alloc] initWithFrame:CGRectMake(5, 0, kScreenWidth- titleW-35, 160)];
     _includeTF.backgroundColor = [UIColor clearColor];
     _includeTF.font = TEXT_FONT_LEVEL_2;
+    _includeTF.delegate = self;
     
     _textLab = [UILabel new];
     _textLab.text = @"请输入项目详情";
@@ -102,6 +104,9 @@
 
     _eventButton.frame = CGRectMake(10, 240, 70, 70);
     [self.contentView addSubview:_eventButton];
+    [_eventButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 240, 70, 70)];
     [self.contentView addSubview:_imgView];
@@ -110,10 +115,22 @@
     footView.backgroundColor = BG_GRAY_COLOR;
     [self.contentView addSubview:footView];
     
-    
-    
+
     
 }
+
+- (void)addImage:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellWilladdImage:)]) {
+        [_delegate cellWilladdImage:self];
+    }
+    
+}
+
+
+
+
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];

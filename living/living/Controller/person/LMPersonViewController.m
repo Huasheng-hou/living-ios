@@ -272,8 +272,8 @@
             living.frame = CGRectMake(140+question.bounds.size.width+reward.bounds.size.width, 50, living.bounds.size.width, 20);
             [cell.contentView addSubview:living];
             
-            UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 50, 20, 20)];
-            right.image = [UIImage imageNamed:@""];
+            UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 53, 7, 14)];
+            right.image = [UIImage imageNamed:@"turnright"];
             [cell.contentView addSubview:right];
             
             

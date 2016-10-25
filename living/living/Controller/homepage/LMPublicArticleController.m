@@ -194,7 +194,7 @@ UIViewControllerTransitioningDelegate
     }else if(imageNum<8) {
         NSLog(@".count<count<=8");
         [viewScroll setFrame:CGRectMake(0, kScreenHeight/4, kScreenWidth,height+buttonW*2+space*3)];
-    }else if(imageNum<13){
+    }else if(imageNum<12){
         NSLog(@".count----else");
         viewScroll.frame = CGRectMake(0, kScreenHeight/4, kScreenWidth, height+buttonW*3+space*4);
     }else
