@@ -37,6 +37,7 @@
 		352364351DBEF6C7002E6B78 /* LMMyLivingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352364341DBEF6C7002E6B78 /* LMMyLivingViewController.m */; };
 		352364381DBEF7D3002E6B78 /* LMMyFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352364371DBEF7D3002E6B78 /* LMMyFriendViewController.m */; };
 		3523643B1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */; };
+		3523643E1DBF09B6002E6B78 /* LMRechargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3523643D1DBF09B6002E6B78 /* LMRechargeButton.m */; };
 		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */; };
 		353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890E1DB860EC007585F1 /* LMNoticListRequest.m */; };
@@ -274,6 +275,8 @@
 		352364371DBEF7D3002E6B78 /* LMMyFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyFriendViewController.m; sourceTree = "<group>"; };
 		352364391DBEFAA9002E6B78 /* LMMyLivingHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyLivingHomeCell.h; sourceTree = "<group>"; };
 		3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyLivingHomeCell.m; sourceTree = "<group>"; };
+		3523643C1DBF09B6002E6B78 /* LMRechargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRechargeButton.h; sourceTree = "<group>"; };
+		3523643D1DBF09B6002E6B78 /* LMRechargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRechargeButton.m; sourceTree = "<group>"; };
 		353A8E651DB614AA00D829DB /* LMBalanceListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceListRequest.h; sourceTree = "<group>"; };
 		353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceListRequest.m; sourceTree = "<group>"; };
 		353B890A1DB85327007585F1 /* LMAlipayResultRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAlipayResultRequest.h; sourceTree = "<group>"; };
@@ -775,6 +778,8 @@
 				35FA8E801DB5B5E100510A75 /* LMRePayCell.m */,
 				352364391DBEFAA9002E6B78 /* LMMyLivingHomeCell.h */,
 				3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */,
+				3523643C1DBF09B6002E6B78 /* LMRechargeButton.h */,
+				3523643D1DBF09B6002E6B78 /* LMRechargeButton.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -2287,6 +2292,7 @@
 				35FA8E761DB5B31800510A75 /* DataVerifier.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
+				3523643E1DBF09B6002E6B78 /* LMRechargeButton.m in Sources */,
 				3547F4B01D9904D90068F04E /* MJRefreshBaseView.m in Sources */,
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
 				35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */,

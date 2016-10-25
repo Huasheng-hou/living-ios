@@ -105,6 +105,7 @@
 #define COLOR_CASELBL_BORDER        [UIColor colorWithRed:174 / 255.0 green:174 / 255.0 blue:174 / 255.0 alpha:1]
 
 #define LIVING_COLOR                [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]
+#define LIVING_REDCOLOR             [UIColor colorWithRed:250.0/255.0 green:81/255.0 blue:81.0/255.0 alpha:1.0]
 
 
 
@@ -113,24 +114,6 @@
 // * 使用协议 *
 extern NSString *const SERVICE_AGREEMENTS_URL;
 
-
-//------------------健身--------------------
-
-#define FOOD_TYPE_CARBOHYDRATE      @"carbohydrate"
-#define FOOD_TYPE_FRUIT             @"fruit"
-#define FOOD_TYPE_PROTEIN           @"protein"
-#define FOOD_TYPE_FAT               @"fat"
-#define FOOD_TYPE_OTHER             @"other"
-
-#define MEAL_TYPE_BREAKFAST         @"breakfast"
-#define MEAL_TYPE_LUNCH             @"lunch"
-#define MEAL_TYPE_DINNER            @"dinner"
-#define MEAL_TYPE_SNACK             @"snack"
-
-#define GOODS_CATEGORY_TYPE_Peican          @"PeiCan"
-#define GOODS_CATEGORY_TYPE_Zhoubian        @"ZhouBian"
-#define GOODS_CATEGORY_TYPE_Bupin           @"BuPin"
-#define GOODS_CATEGORY_TYPE_Zhinengcheng    @"ZhiNengCheng"
 
 
 //---------------------重新登录提示语----------------------

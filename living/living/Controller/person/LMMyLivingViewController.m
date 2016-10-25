@@ -9,7 +9,7 @@
 #import "LMMyLivingViewController.h"
 #import "LMMyLivingHomeCell.h"
 
-@interface LMMyLivingViewController ()
+@interface LMMyLivingViewController ()<LMMyLivingHomeCellDelegate>
 
 @end
 
@@ -54,9 +54,18 @@
     if (!cell) {
         cell = [[LMMyLivingHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.delegate = self;
+    
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];
 
     return cell;
+}
+
+-(void)cellWillpay:(LMMyLivingHomeCell *)cell
+{
+    NSLog(@"***********立即支付");
 }
 
 

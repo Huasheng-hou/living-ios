@@ -335,7 +335,7 @@
                 break;
             case 3:
                 cell.textLabel.text = @"我的好友";
-                cell.imageView.image = [UIImage imageNamed:@""];
+                cell.imageView.image = [UIImage imageNamed:@"friend"];
                 
                 
                 break;

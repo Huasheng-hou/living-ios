@@ -21,6 +21,7 @@ UITableViewDataSource
     NSMutableArray *listArray;
     
     UIBarButtonItem *backItem;
+    UIImageView *homeImage;
     
 }
 
@@ -57,6 +58,21 @@ UITableViewDataSource
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
+    
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+    homeImg.image = [UIImage imageNamed:@"eventload"];
+    [homeImage addSubview:homeImg];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
+    imageLb.numberOfLines = 0;
+    imageLb.text = @"没活动，心塞塞，点击右上角按钮 快来参与吧";
+    imageLb.textColor = TEXT_COLOR_LEVEL_3;
+    imageLb.font = TEXT_FONT_LEVEL_2;
+    imageLb.textAlignment = NSTextAlignmentCenter;
+    [homeImage addSubview:imageLb];
+    
+    [self.view addSubview:homeImage];
     
 }
 
@@ -97,6 +113,7 @@ UITableViewDataSource
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
+        
         [listArray removeAllObjects];
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
@@ -105,6 +122,25 @@ UITableViewDataSource
                 [listArray addObject:list];
             }
         }
+        if (listArray.count>0) {
+            [homeImage removeFromSuperview];
+        }else{
+            homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
+            
+            UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+            homeImg.image = [UIImage imageNamed:@"eventload"];
+            [homeImage addSubview:homeImg];
+            UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
+            imageLb.numberOfLines = 0;
+            imageLb.text = @"没活动，心塞塞，点击右上角按钮 快来参与吧";
+            imageLb.textColor = TEXT_COLOR_LEVEL_3;
+            imageLb.font = TEXT_FONT_LEVEL_2;
+            imageLb.textAlignment = NSTextAlignmentCenter;
+            [homeImage addSubview:imageLb];
+            
+            [self.view addSubview:homeImage];
+        }
+
         
         [_tableView reloadData];
     }else{
