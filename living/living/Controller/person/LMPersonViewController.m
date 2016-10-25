@@ -12,6 +12,9 @@
 #import "LMNoticViewController.h"
 #import "LMBalanceViewController.h"
 #import "LMOrderViewController.h"
+#import "LMMy2dcodeViewController.h"
+#import "LMMyLivingViewController.h"
+#import "LMMyFriendViewController.h"
 #import "LMPersonInfoRequest.h"
 #import "FitUserManager.h"
 #import "LMUserInfo.h"
@@ -142,13 +145,16 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 4;
+        return 1;
     }
     if (section==1) {
-        return 3;
+        return 4;
     }
     if (section==2) {
-        return 2;
+        return 1;
+    }
+    if (section==3) {
+        return 1;
     }
 
     return 0;
@@ -168,7 +174,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -236,6 +242,8 @@
             question.text = [NSString stringWithFormat:@"余额 ￥%.0f",infoModel.balance];
             question.font = TEXT_FONT_LEVEL_2;
             question.textColor = TEXT_COLOR_LEVEL_3;
+            [question sizeToFit];
+            question.frame = CGRectMake(100, 50, question.bounds.size.width, 20);
             [cell.contentView addSubview:question];
             
             
@@ -245,43 +253,60 @@
             reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.orderNumber];
             reward.font = TEXT_FONT_LEVEL_2;
             reward.textColor = TEXT_COLOR_LEVEL_3;
+            [reward sizeToFit];
+            reward.frame = CGRectMake(120+question.bounds.size.width, 50, reward.bounds.size.width, 20);
             [cell.contentView addSubview:reward];
+            
+            //生活馆
+            UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 50, 80, 20)];
+            living.text = [NSString stringWithFormat:@"生活馆 %.0f",infoModel.orderNumber];
+            living.font = TEXT_FONT_LEVEL_2;
+            living.textColor = TEXT_COLOR_LEVEL_3;
+            [living sizeToFit];
+            living.frame = CGRectMake(140+question.bounds.size.width+reward.bounds.size.width, 50, living.bounds.size.width, 20);
+            [cell.contentView addSubview:living];
+            
+            UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 50, 20, 20)];
+            right.image = [UIImage imageNamed:@""];
+            [cell.contentView addSubview:right];
+            
+            
             
         }
         
-        switch (indexPath.row) {
-                
-            case 1:
-                cell.textLabel.text = @" 绑定号码";
-                if ([FitUserManager sharedUserManager].phone==nil) {
-                    cell.detailTextLabel.text = @"- -";
-                }else{
-                    cell.detailTextLabel.text = [FitUserManager sharedUserManager].phone;
-                }
-                break;
-                
-            case 2:
-                cell.textLabel.text = @" 出生年月";
-                if (infoModel.birthday==nil) {
-                    cell.detailTextLabel.text = @"- -";
-                }else{
-                    cell.detailTextLabel.text = infoModel.birthday;
-                }
-                break;
-                
-            case 3:
-                cell.textLabel.text = @" 所在城市";
-                if (infoModel.province==nil && infoModel.city==nil) {
-                    cell.detailTextLabel.text = @"- -";
-                }else{
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
-                }
-                
-                break;
-                
-            default:
-                break;
-        }
+//        switch (indexPath.row) {
+//                
+//            case 1:
+//                cell.textLabel.text = @" 绑定号码";
+//                if ([FitUserManager sharedUserManager].phone==nil) {
+//                    cell.detailTextLabel.text = @"- -";
+//                }else{
+//                    cell.detailTextLabel.text = [FitUserManager sharedUserManager].phone;
+//                }
+//                break;
+//                
+//            case 2:
+//                cell.textLabel.text = @" 出生年月";
+//                if (infoModel.birthday==nil) {
+//                    cell.detailTextLabel.text = @"- -";
+//                }else{
+//                    cell.detailTextLabel.text = infoModel.birthday;
+//                }
+//                break;
+//                
+//            case 3:
+//                cell.textLabel.text = @" 所在城市";
+//                if (infoModel.province==nil && infoModel.city==nil) {
+//                    cell.detailTextLabel.text = @"- -";
+//                }else{
+//                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
+//                }
+//                
+//                break;
+//                
+//            default:
+//                break;
+//        }
 
 
     }
@@ -308,6 +333,12 @@
 
                 
                 break;
+            case 3:
+                cell.textLabel.text = @"我的好友";
+                cell.imageView.image = [UIImage imageNamed:@""];
+                
+                
+                break;
                 
             default:
                 break;
@@ -318,23 +349,19 @@
     if (indexPath.section==2) {
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        switch (indexPath.row) {
-                
-            case 0:
-                cell.textLabel.text = @"设置";
-                cell.imageView.image = [UIImage imageNamed:@"setting"];
-                
-                break;
-                
-            case 1:
-                cell.textLabel.text = @"我的二维码";
-                cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
-                
-                break;
-                
-            default:
-                break;
-        }
+
+        cell.textLabel.text = @"我的二维码";
+        cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
+ 
+        
+        
+    }
+    if (indexPath.section==3) {
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  
+        cell.textLabel.text = @"设置";
+        cell.imageView.image = [UIImage imageNamed:@"setting"];
         
     }
     
@@ -364,18 +391,42 @@
     
     
     if (indexPath.section==1) {
+        //余额
         if (indexPath.row==0) {
             LMBalanceViewController *baVC = [[LMBalanceViewController alloc] init];
             [baVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:baVC animated:YES];
         }
+        //订单
         if (indexPath.row==1) {
             LMOrderViewController *orderVC = [[LMOrderViewController alloc] init];
             [orderVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:orderVC animated:YES];
         }
+        //生活馆
+        if (indexPath.row ==2) {
+            LMMyLivingViewController *myVC = [[LMMyLivingViewController alloc] init];
+            [self.navigationController pushViewController:myVC animated:YES];
+        }
+        //我的好友
+        if (indexPath.row ==3) {
+            LMMyFriendViewController *myfVC = [[LMMyFriendViewController alloc] init];
+            [self.navigationController pushViewController:myfVC animated:YES];
+        }
+        
     }
+    
     if (indexPath.section==2) {
+        if (indexPath.row==0) {
+            LMMy2dcodeViewController *setVC = [[LMMy2dcodeViewController alloc] init];
+            [setVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:setVC animated:YES];
+        }
+    }
+
+    
+    
+    if (indexPath.section==3) {
         if (indexPath.row==0) {
             LMSettingViewController *setVC = [[LMSettingViewController alloc] init];
             

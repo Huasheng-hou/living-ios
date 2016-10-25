@@ -9,8 +9,10 @@
 #import "LMNoticViewController.h"
 #import "LMNoticListRequest.h"
 #import "FitUserManager.h"
-#import "LMNoticList.h"
+#import "LMNoticeList.h"
 #import "LMNoticCell.h"
+
+#import "LMNoticDeleteRequest.h"
 
 @interface LMNoticViewController ()
 <UITableViewDelegate,
@@ -93,7 +95,7 @@ UITableViewDataSource
     {
         NSArray *array = bodyDic[@"list"];
         for (int i =0; i<array.count; i++) {
-            LMNoticList *list=[[LMNoticList alloc]initWithDictionary:array[i]];
+            LMNoticeList *list=[[LMNoticeList alloc]initWithDictionary:array[i]];
             if (![listArray containsObject:list]) {
                 [listArray addObject:list];
             }
@@ -131,7 +133,7 @@ UITableViewDataSource
     static NSString *cellId = @"cellId";
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMNoticList *list = [listArray objectAtIndex:indexPath.row];
+    LMNoticeList *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
@@ -154,6 +156,7 @@ UITableViewDataSource
                                                                style:UIAlertActionStyleDestructive
                                                              handler:^(UIAlertAction*action) {
                                                                  [listArray removeObjectAtIndex:indexPath.row];
+                                                                 [self getNoticDeleteRequest:indexPath.row];
                                                                  [_tableView reloadData];
                                                              }]];
 
@@ -170,6 +173,48 @@ UITableViewDataSource
 
     
     return @[action1];
+}
+
+
+-(void)getNoticDeleteRequest:(NSInteger)sender
+{
+    LMNoticeList *list = [listArray objectAtIndex:sender];
+    
+    
+    LMNoticDeleteRequest *request = [[LMNoticDeleteRequest alloc] initWithNoticeuuid:list.noticeUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getNoticDeleteResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除通知失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+
+-(void)getNoticDeleteResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDic = [VOUtil parseBody:resp];
+    
+    if (!bodyDic) {
+        [self textStateHUD:@"删除通知失败"];
+        return;
+    }
+    
+    NSString *result    = [bodyDic objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0)
+    {
+        [self textStateHUD:@"description"];
+    }else {
+        [self textStateHUD:bodyDic[@"description"]];
+    }
 }
 
 

@@ -31,10 +31,15 @@
 		351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6611DAB85B6008D59D8 /* LMBalanceViewController.m */; };
 		351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6641DAB8F70008D59D8 /* LMOrderViewController.m */; };
 		351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6671DAB8FBF008D59D8 /* LMOrderCell.m */; };
+		3523642C1DBEE928002E6B78 /* LMNoticDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3523642B1DBEE928002E6B78 /* LMNoticDeleteRequest.m */; };
+		3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3523642E1DBEEFD1002E6B78 /* LMNoticeList.m */; };
+		352364321DBEF3FA002E6B78 /* LMMy2dcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352364311DBEF3FA002E6B78 /* LMMy2dcodeViewController.m */; };
+		352364351DBEF6C7002E6B78 /* LMMyLivingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352364341DBEF6C7002E6B78 /* LMMyLivingViewController.m */; };
+		352364381DBEF7D3002E6B78 /* LMMyFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352364371DBEF7D3002E6B78 /* LMMyFriendViewController.m */; };
+		3523643B1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */; };
 		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */; };
 		353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890E1DB860EC007585F1 /* LMNoticListRequest.m */; };
-		353B89121DB864B9007585F1 /* LMNoticList.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B89111DB864B9007585F1 /* LMNoticList.m */; };
 		354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574751D9CAFB900E88D6F /* LMCommentButton.m */; };
 		354574791D9CC24600E88D6F /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574781D9CC24600E88D6F /* WJLoopView.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
@@ -257,14 +262,24 @@
 		351CC6641DAB8F70008D59D8 /* LMOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderViewController.m; sourceTree = "<group>"; };
 		351CC6661DAB8FBF008D59D8 /* LMOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrderCell.h; sourceTree = "<group>"; };
 		351CC6671DAB8FBF008D59D8 /* LMOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderCell.m; sourceTree = "<group>"; };
+		3523642A1DBEE928002E6B78 /* LMNoticDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticDeleteRequest.h; sourceTree = "<group>"; };
+		3523642B1DBEE928002E6B78 /* LMNoticDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticDeleteRequest.m; sourceTree = "<group>"; };
+		3523642D1DBEEFD1002E6B78 /* LMNoticeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticeList.h; sourceTree = "<group>"; };
+		3523642E1DBEEFD1002E6B78 /* LMNoticeList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticeList.m; sourceTree = "<group>"; };
+		352364301DBEF3FA002E6B78 /* LMMy2dcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMy2dcodeViewController.h; sourceTree = "<group>"; };
+		352364311DBEF3FA002E6B78 /* LMMy2dcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMy2dcodeViewController.m; sourceTree = "<group>"; };
+		352364331DBEF6C7002E6B78 /* LMMyLivingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyLivingViewController.h; sourceTree = "<group>"; };
+		352364341DBEF6C7002E6B78 /* LMMyLivingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyLivingViewController.m; sourceTree = "<group>"; };
+		352364361DBEF7D3002E6B78 /* LMMyFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyFriendViewController.h; sourceTree = "<group>"; };
+		352364371DBEF7D3002E6B78 /* LMMyFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyFriendViewController.m; sourceTree = "<group>"; };
+		352364391DBEFAA9002E6B78 /* LMMyLivingHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyLivingHomeCell.h; sourceTree = "<group>"; };
+		3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyLivingHomeCell.m; sourceTree = "<group>"; };
 		353A8E651DB614AA00D829DB /* LMBalanceListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceListRequest.h; sourceTree = "<group>"; };
 		353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceListRequest.m; sourceTree = "<group>"; };
 		353B890A1DB85327007585F1 /* LMAlipayResultRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAlipayResultRequest.h; sourceTree = "<group>"; };
 		353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAlipayResultRequest.m; sourceTree = "<group>"; };
 		353B890D1DB860EC007585F1 /* LMNoticListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticListRequest.h; sourceTree = "<group>"; };
 		353B890E1DB860EC007585F1 /* LMNoticListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticListRequest.m; sourceTree = "<group>"; };
-		353B89101DB864B3007585F1 /* LMNoticList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMNoticList.h; sourceTree = "<group>"; };
-		353B89111DB864B9007585F1 /* LMNoticList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticList.m; sourceTree = "<group>"; };
 		354574741D9CAFB900E88D6F /* LMCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentButton.h; sourceTree = "<group>"; };
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
@@ -758,6 +773,8 @@
 				35FA8E7D1DB5B39200510A75 /* LMRechargeCell.m */,
 				35FA8E7F1DB5B5E100510A75 /* LMRePayCell.h */,
 				35FA8E801DB5B5E100510A75 /* LMRePayCell.m */,
+				352364391DBEFAA9002E6B78 /* LMMyLivingHomeCell.h */,
+				3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -893,6 +910,12 @@
 				350769241DB9FE7B00487341 /* setting */,
 				3547F3781D9904A60068F04E /* LMPersonViewController.h */,
 				3547F3791D9904A60068F04E /* LMPersonViewController.m */,
+				352364331DBEF6C7002E6B78 /* LMMyLivingViewController.h */,
+				352364341DBEF6C7002E6B78 /* LMMyLivingViewController.m */,
+				352364361DBEF7D3002E6B78 /* LMMyFriendViewController.h */,
+				352364371DBEF7D3002E6B78 /* LMMyFriendViewController.m */,
+				352364301DBEF3FA002E6B78 /* LMMy2dcodeViewController.h */,
+				352364311DBEF3FA002E6B78 /* LMMy2dcodeViewController.m */,
 				350769211DB9F22500487341 /* LMChangeDataViewController.h */,
 				350769221DB9F22500487341 /* LMChangeDataViewController.m */,
 				35D6AD101DAA53E9005197E1 /* LMNoticViewController.h */,
@@ -1131,8 +1154,8 @@
 			children = (
 				3547F3E61D9904BA0068F04E /* FirPersonVO.h */,
 				3547F3E71D9904BA0068F04E /* FirPersonVO.m */,
-				353B89101DB864B3007585F1 /* LMNoticList.h */,
-				353B89111DB864B9007585F1 /* LMNoticList.m */,
+				3523642D1DBEEFD1002E6B78 /* LMNoticeList.h */,
+				3523642E1DBEEFD1002E6B78 /* LMNoticeList.m */,
 			);
 			path = PersonData;
 			sourceTree = "<group>";
@@ -1899,6 +1922,8 @@
 				350AD21F1DB7560E00CA181A /* LMFeedBackRequest.m */,
 				353B890D1DB860EC007585F1 /* LMNoticListRequest.h */,
 				353B890E1DB860EC007585F1 /* LMNoticListRequest.m */,
+				3523642A1DBEE928002E6B78 /* LMNoticDeleteRequest.h */,
+				3523642B1DBEE928002E6B78 /* LMNoticDeleteRequest.m */,
 			);
 			name = person;
 			sourceTree = "<group>";
@@ -2274,6 +2299,7 @@
 				35FA8E781DB5B31800510A75 /* NSDataEx.m in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
 				35FA8E731DB5B31800510A75 /* Order.m in Sources */,
+				352364351DBEF6C7002E6B78 /* LMMyLivingViewController.m in Sources */,
 				35FA8E751DB5B31800510A75 /* DataSigner.m in Sources */,
 				35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */,
 				350769111DB9B29C00487341 /* QRCodeReaderView.m in Sources */,
@@ -2334,6 +2360,7 @@
 				35FA8E7A1DB5B31800510A75 /* RSADataSigner.m in Sources */,
 				35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */,
 				3547F42D1D9904BD0068F04E /* FitConsts.m in Sources */,
+				352364381DBEF7D3002E6B78 /* LMMyFriendViewController.m in Sources */,
 				3547F4601D9904C70068F04E /* FitUserInfoManager.m in Sources */,
 				3547F3F11D9904BA0068F04E /* UITabBar+Badge.m in Sources */,
 				3547F4301D9904BD0068F04E /* CheckUtils.m in Sources */,
@@ -2351,7 +2378,9 @@
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
 				35FA8E771DB5B31800510A75 /* MD5DataSigner.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
+				352364321DBEF3FA002E6B78 /* LMMy2dcodeViewController.m in Sources */,
 				35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */,
+				3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
 				35B61E111DB070BD00083F30 /* LMCommentArticleRequest.m in Sources */,
 				35B61E0D1DB0702200083F30 /* LMActivityDetailRequest.m in Sources */,
@@ -2363,6 +2392,7 @@
 				3547F3871D9904A60068F04E /* LMPersonViewController.m in Sources */,
 				35E40A321DACBF9700DE1807 /* LMBannerrequest.m in Sources */,
 				35FA8E0E1DB5B31100510A75 /* WXApiResponseHandler.m in Sources */,
+				3523642C1DBEE928002E6B78 /* LMNoticDeleteRequest.m in Sources */,
 				3547F4B91D9904D90068F04E /* MJPhotoToolbar.m in Sources */,
 				3547F37F1D9904A60068F04E /* FitStatefulTableViewController.m in Sources */,
 				3547F4341D9904BD0068F04E /* README.md in Sources */,
@@ -2375,6 +2405,7 @@
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
 				35FA8E9D1DB5CF3D00510A75 /* LMRefundRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
+				3523643B1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m in Sources */,
 				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
 				35F004161DADC6D900F59CB2 /* LMHomeDetailRequest.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
@@ -2382,7 +2413,6 @@
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
 				3547F42B1D9904BD0068F04E /* FitColorConvertFactory.m in Sources */,
 				35FA8E111DB5B31100510A75 /* WXMediaMessage+messageConstruct.m in Sources */,
-				353B89121DB864B9007585F1 /* LMNoticList.m in Sources */,
 				350769231DB9F22500487341 /* LMChangeDataViewController.m in Sources */,
 				35B61E181DB0767200083F30 /* LMLeavemessagecell.m in Sources */,
 				3547F3811D9904A60068F04E /* FitTableViewController.m in Sources */,

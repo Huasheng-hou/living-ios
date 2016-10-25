@@ -72,7 +72,7 @@
 }
 
 
--(void)setData:(LMNoticList *)list
+-(void)setData:(LMNoticeList *)list
 {
     _contentLabel.text = list.content;
     _timeLabel.text = list.noticeTime;

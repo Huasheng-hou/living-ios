@@ -51,6 +51,19 @@ LMLeavemessagecellDelegate
 
 @implementation LMActivityDetailController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -59,6 +72,7 @@ LMLeavemessagecellDelegate
     [self getEventListDataRequest];
     msgArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
+    
 
     
 }
