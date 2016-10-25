@@ -14,11 +14,23 @@
 
 @implementation LMMy2dcodeViewController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor  = [UIColor blackColor];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = LIVING_COLOR;
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    self.title = @"二维码";
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

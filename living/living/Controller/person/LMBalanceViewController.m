@@ -127,7 +127,7 @@ UITableViewDataSource>
             case 0:
                 cell.textLabel.text = @"当前余额";
                 cell.detailTextLabel.text = balanceStr;
-                cell.detailTextLabel.textColor = LIVING_COLOR;
+                cell.detailTextLabel.textColor = LIVING_REDCOLOR;
                 cell.imageView.image = [UIImage imageNamed:@"balance"];
                 break;
                 case 1:

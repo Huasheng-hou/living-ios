@@ -16,6 +16,7 @@
 #import "WJLoopView.h"
 #import "FitUserManager.h"
 #import "LMScanViewController.h"
+#import "LMPublicArticleController.h"
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -76,7 +77,7 @@ WJLoopViewDelegate
 {
     NSLog(@"********扫描");
     
-    LMScanViewController *scanVC = [[LMScanViewController alloc] init];
+    LMPublicArticleController *scanVC = [[LMPublicArticleController alloc] init];
     
     [scanVC setHidesBottomBarWhenPushed:YES];
     

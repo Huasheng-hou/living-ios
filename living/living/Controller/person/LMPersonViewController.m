@@ -31,6 +31,12 @@
 
 @implementation LMPersonViewController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

@@ -143,7 +143,7 @@
         
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight/3)];
         
-        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 85, 100)];
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 100, 100)];
         iconView.image = [UIImage imageNamed:@"editMsg"];
         [headView addSubview:iconView];
         [cell.contentView addSubview:headView];
