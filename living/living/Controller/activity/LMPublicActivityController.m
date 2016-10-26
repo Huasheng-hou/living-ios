@@ -252,32 +252,20 @@ LMPublicEventCellDelegate
         
         static NSString *cellId = @"cellId";
         AddEventCell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        
         if (!AddEventCell) {
             AddEventCell = [[LMPublicEventListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             AddEventCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            
+            AddEventCell.delegate = self;
             AddEventCell.titleTF.delegate = self;
-//            [projectTitle addObject:AddEventCell.titleTF.text];
-            
             AddEventCell.includeTF.delegate = self;
-//            if (AddEventCell.includeTF) {
-//                [projectDsp addObject:AddEventCell.includeTF.text];
-//            }else{
-//                [projectDsp addObject:@""];
-//            }
-            
-//            
-//            [AddEventCell.eventButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
-//            AddEventCell.eventButton.tag = indexPath.row;
-            for (int j = 0; j<imageURL.count; j++) {
-                [imageURL addObject:@""];
-            }
-            
+            AddEventCell.cellndex = indexPath.row;
+            AddEventCell.tag = indexPath.row;
+
             
             
         }
+         
+        
         return AddEventCell;
     }
     return nil;
@@ -414,7 +402,7 @@ LMPublicEventCellDelegate
     NSLog(@"*******项目图片");
     
     imageIndex = 1;
-    projectIndex =cell.tag;
+    projectIndex =cell.cellndex;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
@@ -471,7 +459,9 @@ LMPublicEventCellDelegate
 
 - (void)textViewDidChange:(UITextView *)textView1
 {
-    if (!textView1.text||textView1.text.length==0)
+    AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
+    
+    if (textView1.text.length==0)
     {
         [AddEventCell.textLab setHidden:NO];
     }else{
@@ -480,9 +470,11 @@ LMPublicEventCellDelegate
 }
 
 
-
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
+    
+    projectDsp[AddEventCell.tag]  = AddEventCell.includeTF.text;
     [self resignCurrentFirstResponder];
     return YES;
 }
@@ -494,9 +486,18 @@ LMPublicEventCellDelegate
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
+    if ([textField isEqual:AddEventCell.titleTF]) {
+        AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
+        
+        projectTitle[AddEventCell.tag] = AddEventCell.titleTF.text;
+    }
+    
+    
     [self resignCurrentFirstResponder];
     return YES;
 }
+
+
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -525,12 +526,20 @@ LMPublicEventCellDelegate
     }
     if (imageIndex==1) {
         //设置头像图片
-        msgCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
-        msgCell.imgView.clipsToBounds = YES;
+        
+        
+        AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:projectIndex inSection:1]];
+                
+        AddEventCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
+        AddEventCell.imgView.clipsToBounds = YES;
         [AddEventCell.imgView setImage:image];
         //获取图片的url
         [self getImageURL:image];
-    }
+      
+
+}
+        
+
     
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
@@ -580,39 +589,45 @@ LMPublicEventCellDelegate
 
     }
     if (imageIndex==1) {
-        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-       UIImage *headImage = [ImageHelpTool scaleImage:image];
-        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
-        [self initStateHud];
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding){
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                          withObject:nil
-                                                                       waitUntilDone:YES];
-                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   NSString    *result = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
-                                                   
-                                                   if (result && [result isKindOfClass:[NSString class]]
-                                                       && [result isEqualToString:@"0"]) {
-                                                       NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                                       if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                    
-                                                            _imgProURL=imgUrl;
+                
+                FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+                UIImage *headImage = [ImageHelpTool scaleImage:image];
+                request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+                
+                [self initStateHud];
+                HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                       completed:^(NSString *resp, NSStringEncoding encoding){
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                                  withObject:nil
+                                                                               waitUntilDone:YES];
+                                                           NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                                           
+                                                           NSString    *result = [bodyDict objectForKey:@"result"];
+                                                           
+                                                           NSLog(@"--------bodyDict--------%@",bodyDict);
+                                                           
+                                                           if (result && [result isKindOfClass:[NSString class]]
+                                                               && [result isEqualToString:@"0"]) {
+                                                               NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                               if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+                                                                   
+                                                                   _imgProURL=imgUrl;
+                                                                   
+                                                                   imageURL[projectIndex] = _imgProURL;
+                                                                   
+                                                                   
+                                                               }
+                                                           }
+                                                       } failed:^(NSError *error) {
+                                                           [self hideStateHud];
+                                                       }];
+                [proxy start];
+                
 
-                                                           imageURL[projectIndex] = _imgProURL;
-                                                           
-                                                           
-                                                       }
-                                                   }
-                                               } failed:^(NSError *error) {
-                                                   [self hideStateHud];
-                                               }];
-        [proxy start];
+        
+
 
     }
     
@@ -672,16 +687,7 @@ LMPublicEventCellDelegate
     NSLog(@"**************发布");
     NSString *startstring = [NSString stringWithFormat:@"%@ %@:00",msgCell.dateButton.textLabel.text,msgCell.timeButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@ %@:00",msgCell.endDateButton.textLabel.text,msgCell.endTimeButton.textLabel.text];
-    
-    NSLog(@"%@",msgCell.titleTF.text);
-    NSLog(@"%@",msgCell.phoneTF.text);
-    NSLog(@"%@",msgCell.nameTF.text);
-    NSLog(@"%@",msgCell.freeTF.text);
-    NSLog(@"%@",startstring);
-    NSLog(@"%@",endString);
-    NSLog(@"%@",msgCell.addressButton.textLabel.text);
-    NSLog(@"%@",msgCell.dspTF.text);
-    NSLog(@"%@",_imgURL);
+
     if (!(msgCell.titleTF.text.length>0)) {
         [ self textStateHUD:@"请输入活动标题"];
         return;
@@ -729,7 +735,9 @@ LMPublicEventCellDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
+
     
+    [self publicProject];
     
 }
 
@@ -741,19 +749,26 @@ LMPublicEventCellDelegate
     }
     
 
-                [projectTitle addObject:AddEventCell.titleTF.text];
     
-                if (AddEventCell.includeTF) {
-                    [projectDsp addObject:AddEventCell.includeTF.text];
-                }else{
-                    [projectDsp addObject:@""];
-                }
+    if (![AddEventCell.includeTF isEqual:@""]) {
+            [projectDsp addObject:AddEventCell.includeTF.text];
+    }else{
+            [projectDsp addObject:@""];
+    }
     
-    
-    
+    if (imageURL.count<projectTitle.count) {
+        for (int i = 0; projectTitle.count-imageURL.count; i++) {
+           [imageURL addObject:@""];
+        }
+        
+    }
+
+
     
     
     for (int i =0; i<projectTitle.count; i++) {
+        
+        
         LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:projectTitle[i] Project_dsp:projectDsp[i] Project_imgs:imageURL[i]];
 
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -828,18 +843,6 @@ LMPublicEventCellDelegate
     cellIndex = cellIndex+1;
     [self.tableView reloadData];
     
-    for (int j = 0; j<projectTitle.count; j++) {
-        [projectTitle addObject:@""];
-    }
-    
-    for (int j = 0; j<projectDsp.count; j++) {
-        [projectDsp addObject:@""];
-    }
-    
-    
-    for (int j = 0; j<imageURL.count; j++) {
-        [imageURL addObject:@""];
-    }
 }
 
 

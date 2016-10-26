@@ -43,7 +43,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 60, 60, 71)];
     imageView.image = [UIImage imageNamed:@"editMsg"];
     UILabel *msg = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-40, 134, 80, 30)];
-    msg.text = @"生活馆";
+    msg.text = @"腰果";
     msg.textAlignment = NSTextAlignmentCenter;
     [headView addSubview:msg];
     [headView addSubview:imageView];

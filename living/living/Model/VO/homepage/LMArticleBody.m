@@ -87,7 +87,22 @@ NSString *const kArticleBodyArticleImgs = @"article_imgs";
     [mutableDict setValue:self.articleName forKey:kArticleBodyArticleName];
     [mutableDict setValue:self.userUuid forKey:kArticleBodyUserUuid];
     [mutableDict setValue:self.articleUuid forKey:kArticleBodyArticleUuid];
-    [mutableDict setValue:self.articleImgs forKey:kArticleBodyArticleImgs];
+//    [mutableDict setValue:self.articleImgs forKey:kArticleBodyArticleImgs];
+    
+    
+    NSMutableArray *tempArrayForList = [NSMutableArray array];
+    for (NSObject *subArrayObject in self.articleImgs) {
+        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForList addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForList addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForList] forKey:kArticleBodyArticleImgs];
+
+    
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }

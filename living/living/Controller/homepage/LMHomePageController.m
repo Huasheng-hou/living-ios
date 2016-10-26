@@ -40,6 +40,7 @@ WJLoopViewDelegate
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerDataRequest) name:@"login" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBannerDataRequest) name:@"reloadHomePage" object:nil];
 }
 
 - (void)viewDidLoad {
@@ -159,6 +160,7 @@ WJLoopViewDelegate
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
+        [listArray removeAllObjects];
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];

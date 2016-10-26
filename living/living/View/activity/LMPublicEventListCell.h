@@ -24,6 +24,8 @@
 
 @property(nonatomic,strong)UIImageView *imgView;
 
+@property(nonatomic)NSInteger cellndex;
+
 
 @property (nonatomic, weak) id <LMPublicEventCellDelegate> delegate;
 

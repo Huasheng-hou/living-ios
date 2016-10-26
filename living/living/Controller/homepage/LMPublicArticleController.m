@@ -17,6 +17,7 @@
 
 @interface LMPublicArticleController ()
 <
+UITextFieldDelegate,
 UITextViewDelegate,
 UIActionSheetDelegate,
 UIImagePickerControllerDelegate,
@@ -50,6 +51,8 @@ UIViewControllerTransitioningDelegate
     UIView *grayView2;
     UIButton *publish;
     
+    UITextField *titleTF;
+    
 }
 
 @end
@@ -73,16 +76,32 @@ UIViewControllerTransitioningDelegate
     self.title = @"发布文章";
 //    [self setAutomaticallyAdjustsScrollViewInsets:NO];
     
+
+    
+    
+    
+    
     UIScrollView *scroll=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     [scroll setBackgroundColor:BG_GRAY_COLOR];
     [scroll setContentSize:CGSizeMake(kScreenWidth, 800)];
     [self.tableView addSubview:scroll];
     
-    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight/2)];
+    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight/2+50)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
     [scroll addSubview:bgView];
     
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, bgView.frame.size.height/2)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, kScreenWidth, 0.5)];
+    lineView.backgroundColor = LINE_COLOR;
+    [bgView addSubview:lineView];
+    
+    titleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 44.5)];
+    titleTF.placeholder = @"请输入标题";
+    titleTF.delegate = self;
+    titleTF.font = TEXT_FONT_LEVEL_1;
+    [bgView addSubview:titleTF];
+    
+    
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 50, kScreenWidth-20, bgView.frame.size.height/2)];
     [textView setDelegate:self];
     [textView setBackgroundColor:[UIColor whiteColor]];
     textView.font = TEXT_FONT_LEVEL_1;//设置字体名字和字体大小
@@ -94,13 +113,13 @@ UIViewControllerTransitioningDelegate
     textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
     [bgView addSubview: textView];//加入到整个页面中
     
-    tip=[[UILabel alloc]initWithFrame:CGRectMake(12, 7, kScreenWidth-20, 25)];
+    tip=[[UILabel alloc]initWithFrame:CGRectMake(12, 57, kScreenWidth-20, 25)];
     tip.text = @"请输入正文";//设置它显示的内容
     tip.textColor = TEXT_COLOR_LEVEL_4;//设置textview里面的字体颜色
     tip.font = TEXT_FONT_LEVEL_1;//设置字体名字和字体大小
     [bgView addSubview:tip];
     
-    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight/4, kScreenWidth, bgView.frame.size.height/2+50)];
+    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight/4+50, kScreenWidth, bgView.frame.size.height/2+50)];
     [viewScroll setBackgroundColor:[UIColor whiteColor]];
     
     addImageBt=[[UIButton alloc]initWithFrame:[self setupImageFrame:0]];
@@ -382,21 +401,6 @@ UIViewControllerTransitioningDelegate
 }
 
 
-#pragma mark 长按手势方法(删除图片)
-
--(void)longPress:(UILongPressGestureRecognizer*)gestureRecognizer
-{
-    if(gestureRecognizer.state == UIGestureRecognizerStateBegan)
-    {
-        UIImageView *image= (UIImageView *)gestureRecognizer.view;
-        
-        UIButton *icon=[[UIButton alloc]initWithFrame:CGRectMake(image.frame.size.width*3/4, 0, image.frame.size.width/4, image.frame.size.height/4)];
-        [icon setBackgroundImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-        [icon addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
-        [icon setTag:image.tag];
-        [image addSubview:icon];
-    }
-}
 
 #pragma mark 删除图片
 
@@ -522,8 +526,15 @@ UIViewControllerTransitioningDelegate
 
 -(void)publishAction
 {
+    
+    if (titleTF.text.length ==0) {
+        [self textStateHUD:@"请输入标题"];
+        return;
+    }
+    
+    
     if (textView.text.length ==0) {
-        [self textStateHUD:@"请输入问题！"];
+        [self textStateHUD:@"请输入正文！"];
         return;
     }
     NSString *string = [textView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -542,7 +553,7 @@ UIViewControllerTransitioningDelegate
     
     NSLog(@"----------发布问题-----图片地址数组---------%@",imageUrlArray);
     
-    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text Article_title:@"" Descrition:@"" andImageURL:imageUrlArray];
+    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text Article_title:titleTF.text Descrition:@"" andImageURL:imageUrlArray];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -575,12 +586,28 @@ UIViewControllerTransitioningDelegate
             
             [self.navigationController popViewControllerAnimated:YES];
             
-            //            });
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
+            
+
         }else{
             [self textStateHUD:@"发布失败"];
         }
     }
 }
+
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    [self resignCurrentFirstResponder];
+    return YES;
+}
+
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self scrollEditingRectToVisible:textField.frame EditingView:textField];
+}
+
 
 
 - (void)didReceiveMemoryWarning {

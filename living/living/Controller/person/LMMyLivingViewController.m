@@ -8,8 +8,12 @@
 
 #import "LMMyLivingViewController.h"
 #import "LMMyLivingHomeCell.h"
+#import "LMLivingHomeListRequest.h"
 
 @interface LMMyLivingViewController ()<LMMyLivingHomeCellDelegate>
+{
+    NSMutableArray *listArray;
+}
 
 @end
 
@@ -20,13 +24,34 @@
     self.title = @"我的生活馆";
     [self createUI];
     [self getLivingHomeListData];
+    listArray = [NSMutableArray new];
     
 
 }
 #pragma mark  --生活馆数据列表请求
 -(void)getLivingHomeListData
 {
-    
+    LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getLivingHomeListDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+
+-(void)getLivingHomeListDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"%@",bodyDic);
 }
 
 

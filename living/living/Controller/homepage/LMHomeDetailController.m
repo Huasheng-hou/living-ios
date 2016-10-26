@@ -242,7 +242,9 @@ LMCommentCellDelegate
             if (!articleData.articleImgs) {
                return 70+conHigh+conHigh2;
             }else{
-                return 300+conHigh+conHigh2;
+                NSArray *arr = articleData.articleImgs;
+                
+                return 300+conHigh+conHigh2 +(230*(arr.count-1)) ;
             }
             
         }
@@ -368,13 +370,7 @@ LMCommentCellDelegate
         }
         if (indexPath.row==1) {
 
-            UIImageView *headImage = [UIImageView new];
-            [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.articleImgs]];
             
-            [headImage setClipsToBounds:YES];
-            headImage.contentMode = UIViewContentModeScaleToFill;
-            [cell.contentView addSubview:headImage];
-
             
             
             UILabel *dspLabel = [UILabel new];
@@ -420,11 +416,23 @@ LMCommentCellDelegate
             [cell.contentView addSubview:zanLabel];
             
             if (articleData.articleImgs) {
-                headImage.frame = CGRectMake(15, 15, kScreenWidth-30, 210);
-                dspLabel.frame = CGRectMake(15, 20+headImage.bounds.size.height, kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 30+headImage.bounds.size.height +conHigh, kScreenWidth-30, conHighs);
-                commentLabel.frame = CGRectMake(15, 45+headImage.bounds.size.height +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
-                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+headImage.bounds.size.height +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+                
+                NSArray *arr =articleData.articleImgs;
+                for (int i = 0; i<arr.count; i++) {
+                    UIImageView *headImage = [UIImageView new];
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]]];
+                    [headImage setClipsToBounds:YES];
+                    headImage.contentMode = UIViewContentModeScaleToFill;
+                    [cell.contentView addSubview:headImage];
+     
+                    headImage.frame = CGRectMake(15, 15*(i+1)+210*i, kScreenWidth-30, 210);
+                }
+                
+               
+                dspLabel.frame = CGRectMake(15, 20+15*arr.count+210*arr.count, kScreenWidth-30, conHigh);
+                contentLabel.frame = CGRectMake(15, 30+15*arr.count+210*arr.count +conHigh, kScreenWidth-30, conHighs);
+                commentLabel.frame = CGRectMake(15, 45+15*arr.count+210*arr.count +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+15*arr.count+210*arr.count +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
             }else{
                 dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
                 contentLabel.frame = CGRectMake(15, 20 +conHigh, kScreenWidth-30, conHighs);

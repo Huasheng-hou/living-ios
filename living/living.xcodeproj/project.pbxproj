@@ -135,6 +135,7 @@
 		3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4F71D9910F50068F04E /* LMhomePageCell.m */; };
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
+		355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */; };
 		358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F31DBDA8E90048D176 /* LMCommentReplys.m */; };
 		358460F71DBDD4A10048D176 /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F61DBDD4A10048D176 /* LMSettingViewController.m */; };
 		358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F91DBDD4C30048D176 /* LMAddviceViewController.m */; };
@@ -293,7 +294,7 @@
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
 		354574781D9CC24600E88D6F /* WJLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJLoopView.m; sourceTree = "<group>"; };
-		3547F32E1D9901780068F04E /* living.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = living.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3547F32E1D9901780068F04E /* 腰果.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3547F3351D9901780068F04E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -465,6 +466,8 @@
 		3547F4FB1D9921370068F04E /* LMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityCell.m; sourceTree = "<group>"; };
 		3547F4FE1D9931ED0068F04E /* LMFindCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindCell.h; sourceTree = "<group>"; };
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
+		355AEFA31DC098670029600B /* LMLivingHomeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingHomeListRequest.h; sourceTree = "<group>"; };
+		355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingHomeListRequest.m; sourceTree = "<group>"; };
 		358460F21DBDA8E30048D176 /* LMCommentReplys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMCommentReplys.h; sourceTree = "<group>"; };
 		358460F31DBDA8E90048D176 /* LMCommentReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentReplys.m; sourceTree = "<group>"; };
 		358460F51DBDD4990048D176 /* LMSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMSettingViewController.h; sourceTree = "<group>"; };
@@ -812,7 +815,7 @@
 		3547F32F1D9901780068F04E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3547F32E1D9901780068F04E /* living.app */,
+				3547F32E1D9901780068F04E /* 腰果.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1932,6 +1935,8 @@
 				35B61E101DB070BD00083F30 /* LMCommentArticleRequest.m */,
 				350AD2271DB7740300CA181A /* LMArtcleCommitRequest.h */,
 				350AD2281DB7740300CA181A /* LMArtcleCommitRequest.m */,
+				355AEFA31DC098670029600B /* LMLivingHomeListRequest.h */,
+				355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -2164,7 +2169,7 @@
 			);
 			name = living;
 			productName = living;
-			productReference = 3547F32E1D9901780068F04E /* living.app */;
+			productReference = 3547F32E1D9901780068F04E /* 腰果.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2178,8 +2183,8 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = XK259YP6W2;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 2BPVM7PZ48;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -2408,6 +2413,7 @@
 				3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
 				35B61E111DB070BD00083F30 /* LMCommentArticleRequest.m in Sources */,
+				355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */,
 				35B61E0D1DB0702200083F30 /* LMActivityDetailRequest.m in Sources */,
 				35B61DEA1DB06D7900083F30 /* LMPersonInfoRequest.m in Sources */,
 				3547F4371D9904BD0068F04E /* UIView+frame.m in Sources */,
@@ -2596,8 +2602,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XK259YP6W2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2639,9 +2645,9 @@
 					"-fembed-bitcode",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "腰果";
+				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
+				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
 			};
 			name = Debug;
 		};
@@ -2652,8 +2658,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XK259YP6W2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2695,9 +2701,9 @@
 					"-fembed-bitcode",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "腰果";
+				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
+				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
 			};
 			name = Release;
 		};

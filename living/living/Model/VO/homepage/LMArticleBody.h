@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSString *articleName;
 @property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *articleUuid;
-@property (nonatomic, strong) NSString *articleImgs;
+@property (nonatomic, strong) NSArray *articleImgs;
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;

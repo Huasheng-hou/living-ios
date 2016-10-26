@@ -127,8 +127,6 @@
         infoModel = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         [_tableView reloadData];
 
-        
-
     } else {
         [self textStateHUD:bodyDict[@"description"]];
     }
