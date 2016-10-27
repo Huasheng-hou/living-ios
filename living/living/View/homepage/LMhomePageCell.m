@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong) UILabel *timeLabel;
 
+@property (nonatomic, strong) UILabel *contentLabel;
+
 
 @end
 
@@ -42,16 +44,21 @@
 {
     _imageV = [UIImageView new];
     _imageV.image = [UIImage imageNamed:@"112"];
-    _imageV.backgroundColor = [UIColor grayColor];
+    _imageV.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_imageV];
     
     _titleLabel = [UILabel new];
 //    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
-    _titleLabel.numberOfLines  = 2;
     _titleLabel.font = [UIFont systemFontOfSize:16.f];
     _titleLabel.textColor = TEXT_COLOR_LEVEL_1;
     [self.contentView addSubview:_titleLabel];
     
+    _contentLabel = [UILabel new];
+    //    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
+    _contentLabel.numberOfLines  = 2;
+    _contentLabel.font = [UIFont systemFontOfSize:14.f];
+    _contentLabel.textColor = TEXT_COLOR_LEVEL_2;
+    [self.contentView addSubview:_contentLabel];
     
     _nameLabel = [UILabel new];
     _nameLabel.font = [UIFont systemFontOfSize:12.f];
@@ -78,7 +85,7 @@
     LMActicleList *listData = list;
     _titleLabel.text = listData.articleTitle;
     _nameLabel.text = listData.articleName;
-    
+    _contentLabel.text = listData.articleContent;
     [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     
     _timeLabel.text = [self getUTCFormateDate:listData.publishTime];
@@ -98,10 +105,12 @@
     [_imageV sizeToFit];
     [_titleLabel sizeToFit];
     [_timeLabel sizeToFit];
+    [_contentLabel sizeToFit];
     
     _imageV.frame = CGRectMake(15, 15, 90, 70);
-    _titleLabel.frame = CGRectMake(115, 18, kScreenWidth-130, _titleLabel.bounds.size.height*2);
+    _titleLabel.frame = CGRectMake(115, 15, kScreenWidth-130, _titleLabel.bounds.size.height);
     
+    _contentLabel.frame = CGRectMake(115, 18+_titleLabel.bounds.size.height, kScreenWidth-130, _contentLabel.bounds.size.height*2);
     
     
     _timeLabel.frame = CGRectMake(kScreenWidth-20-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 70, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);

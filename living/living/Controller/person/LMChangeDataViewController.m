@@ -40,7 +40,7 @@ UIViewControllerTransitioningDelegate
     
     NSString *_imgURL;
     UIImageView *headerView;
-    NSString *genderStr;
+//    NSString *genderStr;
     NSString *passWordStr;
     
     NSString *_uuid;
@@ -62,7 +62,9 @@ UIViewControllerTransitioningDelegate
     [super createUI];
     self.title = @"修改资料";
     _imgURL = _avartStr;
-    genderStr = [FitUserManager sharedUserManager].gender;
+    
+    NSLog(@"%@",_genderStr);
+    
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -153,7 +155,8 @@ UIViewControllerTransitioningDelegate
     
     if (indexPath.section==0) {
         
-        if ([genderStr isEqual:@"1"]) {
+        
+        if ([_genderStr intValue]== 1) {
             manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
             manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
             manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
@@ -168,26 +171,24 @@ UIViewControllerTransitioningDelegate
             womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
             [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:womanButton];
-        }else{
+        }
+        if ([_genderStr intValue]== 2) {
+            manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
+            manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
+            manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
+            [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:manButton];
+            
+            
+            womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
+            womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
+            womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
+            womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
+            womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
+            [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:womanButton];
             
         }
-        
-        manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
-        manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
-        manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
-        [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:manButton];
-        
-        
-        womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-        womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
-        womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
-        womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
-        womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
-        [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:womanButton];
-        
-        
         
         
     }
@@ -283,7 +284,7 @@ UIViewControllerTransitioningDelegate
     
     
     
-    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:_provinceStr andCity:_cityStr];
+    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:_genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:_provinceStr andCity:_cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -315,11 +316,7 @@ UIViewControllerTransitioningDelegate
     if (result && [result intValue] == 0)
     {
         
-        infoDic = [bodyDict objectForKey:@"user_info"];
-        
-        _uuid = [infoDic objectForKey:@"user_uuid"];
-        
-        [self textStateHUD:@"资料修改成功"];
+//        [self textStateHUD:@"资料修改成功"];
         [self.navigationController popViewControllerAnimated:YES];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
@@ -394,7 +391,7 @@ UIViewControllerTransitioningDelegate
     manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
     womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
-    genderStr = @"1";
+    _genderStr = @"1";
 }
 
 -(void)womanAction{
@@ -403,7 +400,7 @@ UIViewControllerTransitioningDelegate
     manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
     womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
-    genderStr = @"2";
+    _genderStr = @"2";
 }
 
 #pragma mark UIImagePickerController代理函数

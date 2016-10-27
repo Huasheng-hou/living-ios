@@ -136,6 +136,8 @@
 		355E52701DC1A6D90004FBAF /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52661DC1A6D90004FBAF /* UIScrollView+MJExtension.m */; };
 		355E52711DC1A6D90004FBAF /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52681DC1A6D90004FBAF /* UIScrollView+MJRefresh.m */; };
 		355E52721DC1A6D90004FBAF /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E526A1DC1A6D90004FBAF /* UIView+MJExtension.m */; };
+		355E52751DC1FE970004FBAF /* LMChangeLivingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52741DC1FE970004FBAF /* LMChangeLivingController.m */; };
+		355E52781DC203580004FBAF /* LMChangeLivingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52771DC203580004FBAF /* LMChangeLivingCell.m */; };
 		358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F31DBDA8E90048D176 /* LMCommentReplys.m */; };
 		358460F71DBDD4A10048D176 /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F61DBDD4A10048D176 /* LMSettingViewController.m */; };
 		358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358460F91DBDD4C30048D176 /* LMAddviceViewController.m */; };
@@ -468,6 +470,10 @@
 		355E52681DC1A6D90004FBAF /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		355E52691DC1A6D90004FBAF /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		355E526A1DC1A6D90004FBAF /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		355E52731DC1FE970004FBAF /* LMChangeLivingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeLivingController.h; sourceTree = "<group>"; };
+		355E52741DC1FE970004FBAF /* LMChangeLivingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeLivingController.m; sourceTree = "<group>"; };
+		355E52761DC203580004FBAF /* LMChangeLivingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeLivingCell.h; sourceTree = "<group>"; };
+		355E52771DC203580004FBAF /* LMChangeLivingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeLivingCell.m; sourceTree = "<group>"; };
 		358460F21DBDA8E30048D176 /* LMCommentReplys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMCommentReplys.h; sourceTree = "<group>"; };
 		358460F31DBDA8E90048D176 /* LMCommentReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentReplys.m; sourceTree = "<group>"; };
 		358460F51DBDD4990048D176 /* LMSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMSettingViewController.h; sourceTree = "<group>"; };
@@ -789,6 +795,8 @@
 				3523643A1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m */,
 				3523643C1DBF09B6002E6B78 /* LMRechargeButton.h */,
 				3523643D1DBF09B6002E6B78 /* LMRechargeButton.m */,
+				355E52761DC203580004FBAF /* LMChangeLivingCell.h */,
+				355E52771DC203580004FBAF /* LMChangeLivingCell.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -951,6 +959,8 @@
 				35FA8DF61DB5B27800510A75 /* LMRechargeViewController.m */,
 				351CC6631DAB8F70008D59D8 /* LMOrderViewController.h */,
 				351CC6641DAB8F70008D59D8 /* LMOrderViewController.m */,
+				355E52731DC1FE970004FBAF /* LMChangeLivingController.h */,
+				355E52741DC1FE970004FBAF /* LMChangeLivingController.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -2183,8 +2193,8 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2BPVM7PZ48;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = XK259YP6W2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -2410,6 +2420,7 @@
 				35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */,
 				3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
+				355E52781DC203580004FBAF /* LMChangeLivingCell.m in Sources */,
 				35B61E111DB070BD00083F30 /* LMCommentArticleRequest.m in Sources */,
 				355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */,
 				35B61E0D1DB0702200083F30 /* LMActivityDetailRequest.m in Sources */,
@@ -2460,6 +2471,7 @@
 				3547F4BC1D9904D90068F04E /* Readme.markdown in Sources */,
 				3547F4BA1D9904D90068F04E /* MJPhotoView.m in Sources */,
 				352364411DBF3899002E6B78 /* LMPublicArticleController.m in Sources */,
+				355E52751DC1FE970004FBAF /* LMChangeLivingController.m in Sources */,
 				35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */,
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
@@ -2602,8 +2614,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = XK259YP6W2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2647,8 +2659,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果";
-				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
-				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2659,8 +2671,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = XK259YP6W2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2704,8 +2716,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果";
-				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
-				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

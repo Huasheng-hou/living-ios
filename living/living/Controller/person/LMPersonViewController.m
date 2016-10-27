@@ -23,8 +23,9 @@
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
-    LMUserInfo *infoModel;
+//    LMUserInfo *infoModel;
     NSString *gender;
+    NSMutableDictionary *infoDic;
 }
 
 
@@ -41,7 +42,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
+
+    infoDic = [NSMutableDictionary new];
     [self getUserInfoData];
     [self creatUI];
     
@@ -125,7 +127,9 @@
     
     if (result && [result intValue] == 0)
     {
-        infoModel = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
+//        infoModel = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
+        infoDic =[bodyDict objectForKey:@"userInfo"];
+        
         [_tableView reloadData];
 
     } else {
@@ -192,6 +196,8 @@
     [cell.detailTextLabel setFont:TEXT_FONT_LEVEL_2];
     if (indexPath.section==0) {
 
+        LMUserInfo *infoModel = [[LMUserInfo alloc] initWithDictionary:infoDic];
+        
         if (indexPath.row==0) {
             //头像
             UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
@@ -202,7 +208,7 @@
             
             
             if (infoModel.avatar ==nil) {
-                if ([[FitUserManager sharedUserManager].gender isEqual:@1]) {
+                if ([infoModel.gender isEqual:@"1"]) {
                     headerView.image = [UIImage imageNamed:@"placeholder-man"];
                 }else{
                     headerView.image = [UIImage imageNamed:@"placeholder-woman"];
@@ -392,6 +398,7 @@
     //修改资料
     if (indexPath.section==0) {
         if (indexPath.row==0) {
+            LMUserInfo *infoModel = [[LMUserInfo alloc] initWithDictionary:infoDic];
             LMChangeDataViewController *changeVC = [[LMChangeDataViewController alloc] init];
             changeVC.hidesBottomBarWhenPushed = YES;
             changeVC.avartStr = infoModel.avatar;
@@ -399,6 +406,7 @@
             changeVC.ageStr = infoModel.birthday;
             changeVC.cityStr = infoModel.city;
             changeVC.provinceStr = infoModel.province;
+            changeVC.genderStr = infoModel.gender;
             
             [self.navigationController pushViewController:changeVC animated:YES];
         }

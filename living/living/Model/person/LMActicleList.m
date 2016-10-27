@@ -9,6 +9,7 @@
 
 
 NSString *const kListArticleName = @"article_name";
+NSString *const kListArticleContent = @"article_content";
 NSString *const kListArticleUuid = @"article_uuid";
 NSString *const kListArticleTitle = @"article_title";
 NSString *const kListPublishTime = @"publish_time";
@@ -25,6 +26,7 @@ NSString *const kListAvatar = @"avatar";
 @implementation LMActicleList
 
 @synthesize articleName = _articleName;
+@synthesize articleContent = _articleContent;
 @synthesize articleUuid = _articleUuid;
 @synthesize articleTitle = _articleTitle;
 @synthesize publishTime = _publishTime;
@@ -45,6 +47,7 @@ NSString *const kListAvatar = @"avatar";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.articleName = [self objectOrNilForKey:kListArticleName fromDictionary:dict];
+            self.articleContent = [self objectOrNilForKey:kListArticleContent fromDictionary:dict];
             self.articleUuid = [self objectOrNilForKey:kListArticleUuid fromDictionary:dict];
             self.articleTitle = [self objectOrNilForKey:kListArticleTitle fromDictionary:dict];
             self.publishTime = [self objectOrNilForKey:kListPublishTime fromDictionary:dict];
@@ -61,6 +64,7 @@ NSString *const kListAvatar = @"avatar";
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.articleName forKey:kListArticleName];
+    [mutableDict setValue:self.articleContent forKey:kListArticleContent];
     [mutableDict setValue:self.articleUuid forKey:kListArticleUuid];
     [mutableDict setValue:self.articleTitle forKey:kListArticleTitle];
     [mutableDict setValue:self.publishTime forKey:kListPublishTime];
@@ -90,6 +94,7 @@ NSString *const kListAvatar = @"avatar";
     self = [super init];
 
     self.articleName = [aDecoder decodeObjectForKey:kListArticleName];
+    self.articleContent = [aDecoder decodeObjectForKey:kListArticleContent];
     self.articleUuid = [aDecoder decodeObjectForKey:kListArticleUuid];
     self.articleTitle = [aDecoder decodeObjectForKey:kListArticleTitle];
     self.publishTime = [aDecoder decodeObjectForKey:kListPublishTime];
@@ -102,6 +107,7 @@ NSString *const kListAvatar = @"avatar";
 {
 
     [aCoder encodeObject:_articleName forKey:kListArticleName];
+    [aCoder encodeObject:_articleContent forKey:kListArticleContent];
     [aCoder encodeObject:_articleUuid forKey:kListArticleUuid];
     [aCoder encodeObject:_articleTitle forKey:kListArticleTitle];
     [aCoder encodeObject:_publishTime forKey:kListPublishTime];
@@ -116,6 +122,7 @@ NSString *const kListAvatar = @"avatar";
     if (copy) {
 
         copy.articleName = [self.articleName copyWithZone:zone];
+        copy.articleContent = [self.articleContent copyWithZone:zone];
         copy.articleUuid = [self.articleUuid copyWithZone:zone];
         copy.articleTitle = [self.articleTitle copyWithZone:zone];
         copy.publishTime = [self.publishTime copyWithZone:zone];

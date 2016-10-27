@@ -10,6 +10,8 @@
 
 @interface LMOrderViewController : FitBaseViewController
 
+@property (nonatomic)           int     current;
+
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;
 

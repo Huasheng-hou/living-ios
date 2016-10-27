@@ -7,6 +7,7 @@
 //
 
 #import "LMRechargeViewController.h"
+#import "LMChangeLivingController.h"
 #import "LMRechargeCell.h"
 #import "LMRePayCell.h"
 
@@ -78,10 +79,7 @@ UIAlertViewDelegate
     [table setDataSource:self];
     [self.view addSubview:table];
     table.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-//    //头部
-//    headView=[[APRechargeHeadView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 65)];
-//    [table setTableHeaderView:headView];
-//    [headView.payNum setDelegate:self];
+
     //尾部
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 85)];
     UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 40, kScreenWidth-30, 45)];
@@ -101,14 +99,49 @@ UIAlertViewDelegate
     return YES;
 }
 
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section==1) {
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+        headView.backgroundColor = [UIColor clearColor];
+        UILabel *label = [UILabel new];
+        label.text = @"选择支付方式";
+        label.font = TEXT_FONT_LEVEL_2;
+        label.textColor = TEXT_COLOR_LEVEL_2;
+        [label sizeToFit];
+        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
+        [headView addSubview:label];
+        
+        return headView;
+    }
+    if (section==2) {
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+        headView.backgroundColor = [UIColor clearColor];
+        UILabel *label = [UILabel new];
+        label.text = @"您的资金会很安全";
+        label.font = TEXT_FONT_LEVEL_2;
+        label.textColor = TEXT_COLOR_LEVEL_2;
+        [label sizeToFit];
+        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
+        [headView addSubview:label];
+        
+        return headView;
+    }
+    return nil;
+}
+
+
+
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0) {
+    if (section==1) {
         return 2;
     }
     return 1;
@@ -117,7 +150,7 @@ UIAlertViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 55;
+        return 70;
     }
     if (indexPath.section==1) {
         return 65;
@@ -128,6 +161,23 @@ UIAlertViewDelegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
+        static NSString *cellIds = @"cellIds";
+        UITableViewCell *addcell= [tableView dequeueReusableCellWithIdentifier:cellIds];
+        if (!addcell) {
+            addcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIds];
+        }
+        addcell.imageView.image = [UIImage imageNamed:@"addLiving"];
+        
+        addcell.textLabel.text = @"添加充值生活馆";
+        addcell.textLabel.textColor = LIVING_COLOR;
+        [addcell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
+        return addcell;
+        
+    }
+    
+    
+    if (indexPath.section==1) {
         static NSString *cellId = @"cellId";
         cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
@@ -150,7 +200,7 @@ UIAlertViewDelegate
         return cell;
 
     }
-    if (indexPath.section==1) {
+    if (indexPath.section==2) {
         static NSString *cellId = @"cellId";
         headcell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!headcell) {
@@ -163,9 +213,17 @@ UIAlertViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger index=indexPath.row;
-    selectedIndex=index;
-    [table reloadData];
+    if (indexPath.section==0) {
+        NSLog(@"***");
+        LMChangeLivingController *livingVC = [[LMChangeLivingController alloc] init];
+        [self.navigationController pushViewController:livingVC animated:YES];
+    }
+    if (indexPath.section==1) {
+        NSInteger index=indexPath.row;
+        selectedIndex=index;
+        [table reloadData];
+    }
+
 }
 
 -(void)selectedButton:(UIButton *)sender

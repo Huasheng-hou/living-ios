@@ -10,6 +10,7 @@
 @interface LMActicleList : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *articleName;
+@property (nonatomic, strong) NSString *articleContent;
 @property (nonatomic, strong) NSString *articleUuid;
 @property (nonatomic, strong) NSString *articleTitle;
 @property (nonatomic, strong) NSString *publishTime;

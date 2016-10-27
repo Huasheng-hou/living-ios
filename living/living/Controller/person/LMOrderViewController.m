@@ -30,6 +30,8 @@
 #import "LMWXPayRequest.h"
 #import "LMWXPayResultRequest.h"
 
+#import "MJRefresh.h"
+
 @interface LMOrderViewController ()<UITableViewDelegate,
 UITableViewDataSource,
 UIActionSheetDelegate,
@@ -39,17 +41,28 @@ LMOrderCellDelegate>
     NSMutableArray *orderArray;
     NSString *Orderuuid;
     NSString *rechargeOrderUUID;
+    
+    UIImageView *homeImage;
+    BOOL ifRefresh;
+    int total;
 }
 
 @end
 
 @implementation LMOrderViewController
 
+- (NSMutableArray *)orderArray
+{
+    if (!orderArray) {
+        orderArray = [NSMutableArray array];
+    }
+    return orderArray;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"订单";
     [self creatUI];
-    [self getOrderListRequest];
     orderArray = [NSMutableArray new];
     
     //微信支付结果确认
@@ -78,11 +91,102 @@ LMOrderCellDelegate>
     //去分割线
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [self.view addSubview:_tableView];
+    
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, kScreenWidth*3/5+40, 100, 130)];
+    
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 90, 90)];
+    homeImg.image = [UIImage imageNamed:@"NO-order"];
+    [homeImage addSubview:homeImg];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 30)];
+    imageLb.text = @"暂无订单";
+    imageLb.textColor = TEXT_COLOR_LEVEL_3;
+    imageLb.textAlignment = NSTextAlignmentCenter;
+    [homeImage addSubview:imageLb];
+    
+    [_tableView addSubview:homeImage];
+    
+    [self setupRefresh];
+    
+    
 }
 
--(void)getOrderListRequest
+- (void)setupRefresh
 {
-    LMOrderListRequest *request = [[LMOrderListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
+    //tableView刚出现时，进行刷新操作
+    [_tableView headerBeginRefreshing];
+    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.headerPullToRefreshText = @"下拉可以刷新";
+    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
+    _tableView.headerRefreshingText = @"正在帮你刷新...";
+    
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
+    _tableView.footerRefreshingText = @"正在帮你加载...";
+}
+
+
+- (void)headerRereshing
+{
+    
+    // 2.0秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
+                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        
+        [_tableView headerEndRefreshing];
+        ifRefresh = YES;
+        self.current=1;
+        [self getOrderListRequest:self.current];
+        ifRefresh=YES;
+        
+    });
+}
+
+
+- (void)footerRereshing
+{
+    
+    // 2.0秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
+                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.current = self.current+1;
+        
+        ifRefresh=NO;
+        
+        if (total<self.current) {
+            [self textStateHUD:@"没有更多文章"];
+        }else{
+            [self getOrderListRequest:self.current];
+        }
+        
+        
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [_tableView footerEndRefreshing];
+    });
+}
+
+-(void)reloadingHomePage
+{
+    [orderArray removeAllObjects];
+    [self getOrderListRequest:1];
+}
+
+
+
+-(void)getOrderListRequest:(int)page
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    
+    LMOrderListRequest *request = [[LMOrderListRequest alloc] initWithPageIndex:page andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -103,16 +207,38 @@ LMOrderCellDelegate>
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
+    total = [[bodyDic objectForKey:@"total"] intValue];
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        [orderArray removeAllObjects];
-        
-        NSArray *array = bodyDic[@"list"];
-        for (int i =0; i<array.count; i++) {
-            LMOrderList *list=[[LMOrderList alloc]initWithDictionary:array[i]];
-            if (![orderArray containsObject:list]) {
-                [orderArray addObject:list];
-            }
+        NSLog(@"%@",bodyDic);
+        if (orderArray.count>0) {
+            [orderArray removeAllObjects];
+        }
+        NSMutableArray *array=bodyDic[@"list"];
+        for (int i=0; i<array.count; i++) {
             
+        }
+        
+        
+        if (ifRefresh) {
+            ifRefresh=NO;
+            orderArray=[NSMutableArray arrayWithCapacity:0];
+            
+            NSArray *array = bodyDic[@"list"];
+            
+            
+            
+            for(int i=0;i<[array count];i++){
+                
+                LMOrderList *list=[[LMOrderList alloc]initWithDictionary:array[i]];
+                if (![orderArray containsObject:list]) {
+                    [orderArray addObject:list];
+                }
+            }
+        
+        }
+        if (orderArray.count!=0) {
+            [homeImage removeFromSuperview];
         }
         
         [_tableView reloadData];
@@ -120,6 +246,10 @@ LMOrderCellDelegate>
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
+
+    
+    
+    
     
     
 }
@@ -212,7 +342,7 @@ LMOrderCellDelegate>
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"订单删除成功"];
-            [self getOrderListRequest];
+            [self reloadingHomePage];
         }else{
             [self textStateHUD:bodyDic[@"description"]];
         }
@@ -302,7 +432,7 @@ LMOrderCellDelegate>
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"退款成功"];
-            [self getOrderListRequest];
+            [self reloadingHomePage];
         }else{
             [self textStateHUD:bodyDic[@"description"]];
         }
@@ -431,11 +561,13 @@ LMOrderCellDelegate>
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
-                [self textStateHUD:@"充值成功！"];
-                //更新余额
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
+                [self textStateHUD:@"支付成功！"];
+                
+                [self reloadingHomePage];
+                
+                
             }else{
-                [self textStateHUD:@"充值失败！"];
+                [self textStateHUD:@"支付失败！"];
             }
         }else{
             [self textStateHUD:bodyDict[@"description"]];
@@ -562,7 +694,8 @@ LMOrderCellDelegate>
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
-            [self textStateHUD:@"充值成功！"];
+            [self textStateHUD:@"支付成功！"];
+            [self reloadingHomePage];
         }else{
             
             [self textStateHUD:bodyDict[@"description"]];

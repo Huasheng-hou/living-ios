@@ -21,5 +21,7 @@
 
 @property(nonatomic ,strong)NSString *provinceStr;
 
+@property(nonatomic,strong)NSString *genderStr;
+
 
 @end

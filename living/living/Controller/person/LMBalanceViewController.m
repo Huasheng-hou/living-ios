@@ -86,16 +86,18 @@ UITableViewDataSource>
     
     UILabel *headLb = [UILabel new];
     if (section==1) {
-        headLb.text =@"本月明细";
+        headLb.text =@"本月";
     }
     if (section==2) {
-        headLb.text = @"10月明细";
+        headLb.text = @"9月";
     }
     headLb.font = TEXT_FONT_LEVEL_2;
     headLb.textColor = TEXT_COLOR_LEVEL_2;
     [headLb sizeToFit];
     headLb.frame = CGRectMake(15, 0, headLb.bounds.size.width, 30);
     [headView addSubview:headLb];
+    
+    
     
     return headView;
 }
@@ -179,6 +181,12 @@ UITableViewDataSource>
 #pragma mark  --获取余额数据
 -(void)getBlanceData
 {
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
     LMBalanceRequest *request = [[LMBalanceRequest alloc] init];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -217,6 +225,13 @@ UITableViewDataSource>
 
 -(void)getBalancelistData
 {
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
     NSDate *currentDate = [NSDate date];//获取当前时间，日期
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"YYYY-MM"];
