@@ -21,6 +21,7 @@
 
 -(void)createUI
 {
+    self.title = @"我的好友";
     [super createUI];
 }
 

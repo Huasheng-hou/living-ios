@@ -543,6 +543,12 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
+    if (imageUrlArray.count<1) {
+        [self textStateHUD:@"至少上传一张图片"];
+        return;
+    }
+    
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -583,7 +589,6 @@ UIViewControllerTransitioningDelegate
             
             [self textStateHUD:@"发布成功"];
         
-            
             [self.navigationController popViewControllerAnimated:YES];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];

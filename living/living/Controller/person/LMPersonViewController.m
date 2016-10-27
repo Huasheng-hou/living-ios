@@ -18,6 +18,7 @@
 #import "LMPersonInfoRequest.h"
 #import "FitUserManager.h"
 #import "LMUserInfo.h"
+#import "LMScanViewController.h"
 
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -155,7 +156,7 @@
         return 4;
     }
     if (section==2) {
-        return 1;
+        return 2;
     }
     if (section==3) {
         return 1;
@@ -351,11 +352,21 @@
     }
     
     if (indexPath.section==2) {
-        
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"扫一扫";
+                cell.imageView.image = [UIImage imageNamed:@"scanIcon"];
+                break;
+            case 1:
+                cell.textLabel.text = @"我的二维码";
+                cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
+                break;
+            default:
+                break;
+        }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
 
-        cell.textLabel.text = @"我的二维码";
-        cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
  
         
         
@@ -422,6 +433,11 @@
     
     if (indexPath.section==2) {
         if (indexPath.row==0) {
+            LMScanViewController *setVC = [[LMScanViewController alloc] init];
+            [setVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:setVC animated:YES];
+        }
+        if (indexPath.row==1) {
             LMMy2dcodeViewController *setVC = [[LMMy2dcodeViewController alloc] init];
             [setVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:setVC animated:YES];

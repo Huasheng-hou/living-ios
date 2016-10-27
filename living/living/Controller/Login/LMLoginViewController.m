@@ -32,6 +32,7 @@
     UIImageView     *_doneImg;
     UIButton        *_loginBtn;
     NSString        *gender;
+    NSString        *privileges;
 }
 
 @end
@@ -80,7 +81,6 @@
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
     self.tableView.tableHeaderView = headView;
     
-//    self.navigationController.navigationBar.tintColor  = ;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStylePlain target:self action:@selector(submitBtnPressed)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -92,7 +92,7 @@
 
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果服务协议》"];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:91.0/255.0 green:115.0/255.0 blue:192.0/255.0 alpha:1.0] range:NSMakeRange(11,str.length-11)];
+    [str addAttribute:NSForegroundColorAttributeName value:LIVING_REDCOLOR range:NSMakeRange(11,str.length-11)];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
     
     hintLbl.attributedText = str;
@@ -148,7 +148,12 @@
         [headView addSubview:iconView];
         [cell.contentView addSubview:headView];
         
-        
+        UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6+60, 100, 30)];
+        appName.text = @"腰 果";
+        appName.textColor = TEXT_COLOR_LEVEL_2;
+        appName.textAlignment = NSTextAlignmentCenter;
+        appName.font = [UIFont systemFontOfSize:20];
+        [cell.contentView addSubview:appName];
         
         
         
@@ -191,7 +196,7 @@
         codeBtn.layer.cornerRadius = 5;
         codeBtn.frame              = CGRectMake(kScreenWidth - 115, 10, 100, 50);
         codeBtn.text               = @"获取验证码";
-        codeBtn.textColor          = [UIColor colorWithRed:91.0/255.0 green:115.0/255.0 blue:192.0/255.0 alpha:1.0];
+        codeBtn.textColor          = LIVING_REDCOLOR;
         codeBtn.userInteractionEnabled = YES;
         codeBtn.clipsToBounds      = YES;
         codeBtn.textAlignment      = NSTextAlignmentCenter;
@@ -378,7 +383,7 @@
     
     if (result && [result intValue] == 0)
     {
-        
+        privileges = [bodyDict objectForKey:@"privileges"];
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
         if (is_exist && [is_exist intValue] == 0) {
@@ -423,6 +428,9 @@
     
     if (_uuid) {
         [userInfo setObject:_uuid forKey:@"uuid"];
+    }
+    if (privileges) {
+        [userInfo setObject:privileges forKey:@"privileges"];
     }
     
     if (_phoneTF.text) {

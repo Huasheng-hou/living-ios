@@ -142,6 +142,11 @@ LMLeavemessagecellDelegate
 
 -(void)getEventListDataRequest
 {
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
     
     LMActivityDetailRequest *request = [[LMActivityDetailRequest alloc] initWithEvent_uuid:_eventUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -167,7 +172,11 @@ LMLeavemessagecellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
-        [msgArray removeAllObjects];
+        if (msgArray.count>0) {
+           [msgArray removeAllObjects];
+        }
+        
+        
         
         for (int i=0; i<array.count; i++) {
 //            LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:array[i]];
@@ -494,7 +503,11 @@ LMLeavemessagecellDelegate
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMLeavemessagecell *)cell
 {
-    NSLog(@"**********%ld",(long)cell.tag);
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
     
   
     LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:cell.commentUUid];
@@ -654,7 +667,11 @@ LMLeavemessagecellDelegate
 #pragma mark - LMActivityheadCell delegate -活动报名
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    NSLog(@"**********报名");
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"暂不能报名"];
+        return;
+    }
     LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -756,6 +773,11 @@ LMLeavemessagecellDelegate
         return;
     }
     NSLog(@"*******************确认");
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
     LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:suggestTF.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {

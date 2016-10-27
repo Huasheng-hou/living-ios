@@ -371,6 +371,17 @@ static NSString *const __kPasswordInfoFileName = @"C2BC1692D60AAC29";
     return [[self userInfo] objectForKey:@"name"];
 }
 
+- (void)setPrivileges:(NSString *)privileges
+{
+    [self saveUserInnfo:privileges ForKey:@"privileges"];
+}
+
+- (NSString *)privileges
+{
+    return [[self userInfo] objectForKey:@"privileges"];
+}
+
+
 - (void)setProvince:(NSString *)province
 {
     [self saveUserInnfo:province ForKey:@"province"];

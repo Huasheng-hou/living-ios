@@ -12,6 +12,7 @@
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
 #import "LMActivityList.h"
+#import "MJRefresh.h"
 
 @interface LMActivityViewController ()<UITableViewDelegate,
 UITableViewDataSource
@@ -23,15 +24,26 @@ UITableViewDataSource
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
     
+    BOOL ifRefresh;
+    int total;
+    
 }
 
 @end
 
 @implementation LMActivityViewController
+
+- (NSMutableArray *)taskArr
+{
+    if (!listArray) {
+        listArray = [NSMutableArray array];
+    }
+    return listArray;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getActivityListDataRequest) name:@"reloadEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadingEvent) name:@"reloadEvent" object:nil];
 }
 
 
@@ -41,7 +53,8 @@ UITableViewDataSource
     // Do any additional setup after loading the view.
     [self creatUI];
     listArray = [NSMutableArray new];
-    [self getActivityListDataRequest];
+    [self setupRefresh];
+    NSLog(@"********%@",[FitUserManager sharedUserManager].privileges);
 }
 
 
@@ -55,8 +68,10 @@ UITableViewDataSource
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
     
     
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
@@ -74,6 +89,9 @@ UITableViewDataSource
     
     [self.view addSubview:homeImage];
     
+    
+    
+    
 }
 
 -(void)publicAction
@@ -86,11 +104,79 @@ UITableViewDataSource
     NSLog(@"********发布活动");
 }
 
--(void)getActivityListDataRequest
+- (void)setupRefresh
 {
-    NSLog(@"%@", [FitUserManager sharedUserManager].uuid);
-    NSLog(@"%@", [FitUserManager sharedUserManager].password);
-    LMActivityListRequest *request = [[LMActivityListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
+    //tableView刚出现时，进行刷新操作
+    [_tableView headerBeginRefreshing];
+    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.headerPullToRefreshText = @"下拉可以刷新";
+    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
+    _tableView.headerRefreshingText = @"正在帮你刷新...";
+    
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
+    _tableView.footerRefreshingText = @"正在帮你加载...";
+}
+
+- (void)headerRereshing
+{
+    
+    // 2.0秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
+                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        
+        [_tableView headerEndRefreshing];
+        ifRefresh = YES;
+        self.current=1;
+        [self getActivityListDataRequest:self.current];
+        ifRefresh=YES;
+        
+    });
+}
+
+
+- (void)footerRereshing
+{
+    
+    // 2.0秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
+                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.current = self.current+1;
+        
+        ifRefresh=NO;
+        
+        if (total<self.current) {
+            [self textStateHUD:@"没有更多文章"];
+        }else{
+            [self getActivityListDataRequest:self.current];
+        }
+        
+        
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [_tableView footerEndRefreshing];
+    });
+}
+
+-(void)reloadingEvent
+{
+    [listArray removeAllObjects];
+    [self getActivityListDataRequest:1];
+}
+
+-(void)getActivityListDataRequest:(int)page
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMActivityListRequest *request = [[LMActivityListRequest alloc] initWithPageIndex:page andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -122,32 +208,30 @@ UITableViewDataSource
                 [listArray addObject:list];
             }
         }
-        if (listArray.count>0) {
-            [homeImage removeFromSuperview];
-        }else{
-            homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
-            
-            UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
-            homeImg.image = [UIImage imageNamed:@"eventload"];
-            [homeImage addSubview:homeImg];
-            UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
-            imageLb.numberOfLines = 0;
-            imageLb.text = @"没活动，心塞塞，点击右上角按钮 快来参与吧";
-            imageLb.textColor = TEXT_COLOR_LEVEL_3;
-            imageLb.font = TEXT_FONT_LEVEL_2;
-            imageLb.textAlignment = NSTextAlignmentCenter;
-            [homeImage addSubview:imageLb];
-            
-            [self.view addSubview:homeImage];
-        }
-
-        
         [_tableView reloadData];
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
+    if (listArray.count>0) {
+        [homeImage removeFromSuperview];
+    }else{
+        homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
+        
+        UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+        homeImg.image = [UIImage imageNamed:@"eventload"];
+        [homeImage addSubview:homeImg];
+        UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
+        imageLb.numberOfLines = 0;
+        imageLb.text = @"没活动，心塞塞，点击右上角按钮 快来参与吧";
+        imageLb.textColor = TEXT_COLOR_LEVEL_3;
+        imageLb.font = TEXT_FONT_LEVEL_2;
+        imageLb.textAlignment = NSTextAlignmentCenter;
+        [homeImage addSubview:imageLb];
+        
+        [self.view addSubview:homeImage];
+    }
+    [_tableView reloadData];
     
 }
 

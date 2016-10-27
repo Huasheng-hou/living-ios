@@ -48,14 +48,14 @@
     _titleLabel = [UILabel new];
 //    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
     _titleLabel.numberOfLines  = 2;
-    _titleLabel.font = [UIFont systemFontOfSize:14.f];
-    _titleLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _titleLabel.font = [UIFont systemFontOfSize:16.f];
+    _titleLabel.textColor = TEXT_COLOR_LEVEL_1;
     [self.contentView addSubview:_titleLabel];
     
     
     _nameLabel = [UILabel new];
     _nameLabel.font = [UIFont systemFontOfSize:12.f];
-    _nameLabel.textColor = TEXT_COLOR_LEVEL_3;
+    _nameLabel.textColor = LIVING_COLOR;
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_nameLabel];
     
@@ -79,7 +79,7 @@
     _titleLabel.text = listData.articleTitle;
     _nameLabel.text = listData.articleName;
     
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.avatar]];
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     
     _timeLabel.text = [self getUTCFormateDate:listData.publishTime];
 }
@@ -102,9 +102,11 @@
     _imageV.frame = CGRectMake(15, 15, 90, 70);
     _titleLabel.frame = CGRectMake(115, 18, kScreenWidth-130, _titleLabel.bounds.size.height*2);
     
-    _nameLabel.frame = CGRectMake(kScreenWidth-150, 70, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
     
-    _timeLabel.frame = CGRectMake(kScreenWidth-10-_timeLabel.bounds.size.width, 70, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    
+    _timeLabel.frame = CGRectMake(kScreenWidth-20-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 70, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    
+    _nameLabel.frame = CGRectMake(kScreenWidth-10-_nameLabel.bounds.size.width, 70, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
 
 
     

@@ -127,7 +127,7 @@
     _titleLabel.text = listData.eventName;
     _timeLabel.text = listData.startTime;
     
-    _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.totalnum,listData.currentNum];
+    _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.currentNum,listData.totalnum];
     _priceLabel.text =[NSString stringWithFormat:@"￥%@/人",listData.perCost];
 }
 

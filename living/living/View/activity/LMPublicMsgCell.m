@@ -33,7 +33,7 @@
     titleLable.frame = CGRectMake(10, 5, titleLable.bounds.size.width, 30);
     [self.contentView addSubview:titleLable];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-25-titleW, 1.0)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-25-titleW, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView];
     
@@ -46,7 +46,7 @@
     phoneLable.frame = CGRectMake(10, 50, titleW, 30);
     [self.contentView addSubview:phoneLable];
     
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 85, kScreenWidth-25-titleW, 1.0)];
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 85, kScreenWidth-25-titleW, 0.5)];
     lineView1.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView1];
     //联系姓名
@@ -58,7 +58,7 @@
     nameLable.frame = CGRectMake(10, 95, titleW, 30);
     [self.contentView addSubview:nameLable];
     
-    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 130, kScreenWidth-25-titleW, 1.0)];
+    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 130, kScreenWidth-25-titleW, 0.5)];
     lineView2.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView2];
     //人均费用
@@ -70,7 +70,7 @@
     freeLable.frame = CGRectMake(10, 140, titleW, 30);
     [self.contentView addSubview:freeLable];
     
-    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 175, kScreenWidth-25-titleW, 1.0)];
+    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 175, kScreenWidth-25-titleW, 0.5)];
     lineView3.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView3];
     //开始时间
@@ -109,7 +109,7 @@
     dspLable.frame = CGRectMake(10, 320, dspLable.bounds.size.width, 30);
     [self.contentView addSubview:dspLable];
     
-    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 355, kScreenWidth-25-titleW, 1.0)];
+    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 355, kScreenWidth-25-titleW, 0.5)];
     lineView4.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView4];
     
@@ -140,6 +140,7 @@
     _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 50, kScreenWidth- titleW-25, 30)];
     _phoneTF.font = TEXT_FONT_LEVEL_2;
     _phoneTF.returnKeyType = UIReturnKeyDone;
+    _phoneTF.keyboardType = UIKeyboardTypePhonePad;
     _phoneTF.placeholder = @"请输入活动联系人号码";
     [self.contentView addSubview:_phoneTF];
     
@@ -153,6 +154,7 @@
     _freeTF.font = TEXT_FONT_LEVEL_2;
     _freeTF.returnKeyType = UIReturnKeyDone;
     _freeTF.placeholder = @"请输入费用金额";
+    _phoneTF.keyboardType = UIKeyboardTypeDecimalPad;
     [self.contentView addSubview:_freeTF];
     
     //开始时间

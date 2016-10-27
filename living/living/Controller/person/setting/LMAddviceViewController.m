@@ -126,7 +126,7 @@
         return;
     }
     
-//    [self uploadFeedback];
+    [self uploadFeedback];
 }
 
 - (void)uploadFeedback

@@ -45,6 +45,8 @@ LMCommentCellDelegate
     
     NSInteger  textIndex;
     
+    UIImageView *homeImage;
+    
 }
 
 
@@ -106,6 +108,23 @@ LMCommentCellDelegate
     [textcView addSubview:tipLabel];
     
     [toolBar addSubview:textcView];
+    
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, 0, 100, 160)];
+    
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
+    homeImg.image = [UIImage imageNamed:@"NO-article"];
+    [homeImage addSubview:homeImg];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 30)];
+    imageLb.text = @"没有评论";
+    imageLb.textColor = TEXT_COLOR_LEVEL_3;
+    imageLb.textAlignment = NSTextAlignmentCenter;
+    [homeImage addSubview:imageLb];
+    
+    self.tableView.tableFooterView = homeImage;
+
+    
+    
+    
 }
 
 
@@ -178,9 +197,18 @@ LMCommentCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        [listArray removeAllObjects];
+        if (listArray.count>0) {
+           [listArray removeAllObjects];
+        }
+        
+        
         articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
         NSMutableArray *array=bodyDic[@"comment_messages"];
+        if (array.count>0) {
+            homeImage.frame = CGRectMake(0, 0, 0, 0);
+            [homeImage removeFromSuperview];
+        }
+        
 //        NSMutableArray *msgArray = [NSMutableArray new];
         for (int i =0; i<array.count; i++) {
             NSDictionary *dic = array[i][@"message"];
@@ -188,6 +216,7 @@ LMCommentCellDelegate
 
         }
         for (int i =0; i<array.count; i++) {
+            
             NSMutableArray *replyarr = array[i][@"replys"];
             for (int j = 0; j<replyarr.count; j++) {
                 NSDictionary *dic = replyarr[j];
@@ -347,7 +376,12 @@ LMCommentCellDelegate
             UILabel *nameLabel = [UILabel new];
             nameLabel.font = TEXT_FONT_LEVEL_3;
             nameLabel.textColor = TEXT_COLOR_LEVEL_3;
-            nameLabel.text = articleData.articleName;
+            if (!articleData.articleName||articleData.articleName ==nil) {
+                nameLabel.text = @"匿名用户";
+            }else{
+               nameLabel.text = articleData.articleName;
+            }
+            
             [nameLabel sizeToFit];
             nameLabel.frame = CGRectMake(40, conHigh+30, nameLabel.bounds.size.width,20);
             [cell.contentView addSubview:nameLabel];

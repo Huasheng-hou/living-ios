@@ -30,7 +30,7 @@
 @property   (retain, nonatomic)     NSString        *city;
 @property   (retain, nonatomic)     NSString        *emp_uuid;
 
-@property   (retain, nonatomic)     NSString        *roleName;
+@property   (retain, nonatomic)     NSString        *privileges;
 @property   (retain, nonatomic)     NSString        *name;
 @property   (retain, nonatomic)     NSString        *province;
 
