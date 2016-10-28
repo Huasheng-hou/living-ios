@@ -22,6 +22,10 @@
 #import "LMEventpraiseRequest.h"
 #import "LMEventCommitReplyRequset.h"
 #import "LMEventReplys.h"
+#import "APChooseView.h"
+#import "UIImageView+WebCache.h"
+
+#import "LMBesureOrderViewController.h"
 
 @interface LMActivityDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -43,6 +47,7 @@ LMLeavemessagecellDelegate
     UITextView *commentText;
     UIView *backView;
     NSString *commitUUid;
+    NSMutableDictionary *orderDic;
     
 }
 
@@ -67,11 +72,17 @@ LMLeavemessagecellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = _titleStr;
+    self.title = @"活动详情";
     [self creatUI];
     [self getEventListDataRequest];
     msgArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
+    
+    //加入订单
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(joindataRequest:)
+                                                name:@"purchase"
+                                              object:nil];
     
 
     
@@ -112,7 +123,7 @@ LMLeavemessagecellDelegate
     
     //费用
     UILabel *countLabel = [UILabel new];
-    countLabel.text = [NSString stringWithFormat:@"活动人数：%.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
+    countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@",eventDic.perCost];
     countLabel.textColor = [UIColor whiteColor];
     countLabel.font = [UIFont systemFontOfSize:13.f];
     [countLabel sizeToFit];
@@ -205,6 +216,9 @@ LMLeavemessagecellDelegate
         }
         
         eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:bodyDic[@"event_body"]];
+        
+        orderDic = [bodyDic objectForKey:@"event_body"];
+        
     
         [self creatHeaderView];
         
@@ -522,7 +536,7 @@ LMLeavemessagecellDelegate
                                                        
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
-                                                           
+                                                           [self getEventListDataRequest];
                                                            NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:3];
                                                            [[self tableView] scrollToRowAtIndexPath:indexPaths
                                                                                    atScrollPosition:UITableViewScrollPositionTop animated:YES];;
@@ -553,7 +567,7 @@ LMLeavemessagecellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"点赞成功"];
-            [self getEventListDataRequest];
+            
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
             [self textStateHUD:str];
@@ -590,7 +604,7 @@ LMLeavemessagecellDelegate
         commentText.layer.masksToBounds = YES;
         commentText.inputAccessoryView  = commentsView;
         commentText.backgroundColor     = [UIColor whiteColor];
-        commentText.returnKeyType       = UIReturnKeySend;
+        commentText.returnKeyType       = UIReturnKeyDone;
         commentText.delegate	        = self;
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
@@ -667,28 +681,73 @@ LMLeavemessagecellDelegate
 #pragma mark - LMActivityheadCell delegate -活动报名
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
+    
+    
+    APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+
+    infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+    
+    infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
+    
+    [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+    
+    infoView.orderInfo = orderDic;
+
+    [self.view addSubview:infoView];
+    
+    UIView *view = [infoView viewWithTag:1000];
+    [UIView animateWithDuration:0.2 animations:^{
+        view.frame = CGRectMake(0, kScreenHeight-465,self.view.bounds.size.width, 465);
+    }];
+    
+    
+    
+    
+    
+    
+
+}
+
+-(void)joindataRequest:(NSNotification *)notice
+{
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"暂不能报名"];
         return;
     }
-    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"报名参加活动失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
-
+//    NSMutableDictionary *orderNum=notice.object;
+//    NSLog(@"%@",orderNum[@"num"]);
+//    
+//    NSString *num = [NSString stringWithFormat:@"%@",orderNum[@"num"]];
+    
+//    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:num];
+//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+//                                               
+//                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+//                                                                      withObject:resp
+//                                                                   waitUntilDone:YES];
+//                                           } failed:^(NSError *error) {
+//                                               
+//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+//                                                                      withObject:@"报名参加活动失败"
+//                                                                   waitUntilDone:YES];
+//                                           }];
+//    [proxy start];
+    
+    [self besureOrder];
 
 }
+
+-(void)besureOrder
+{
+    LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
+    [OrderVC setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:OrderVC animated:YES];
+}
+
+
 
 -(void)getEventjoinDataResponse:(NSString *)resp
 {
@@ -699,16 +758,19 @@ LMLeavemessagecellDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"报名活动成功"];
-        LMOrderViewController *OrderVC = [[LMOrderViewController alloc] init];
-        [OrderVC setHidesBottomBarWhenPushed:YES];
-        [self.navigationController pushViewController:OrderVC animated:YES];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
+            [OrderVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:OrderVC animated:YES];
+        });
+
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
 }
-
 
 
 
@@ -808,7 +870,7 @@ LMLeavemessagecellDelegate
             [self textStateHUD:@"留言成功"];
             suggestTF.text = @"";
             [self getEventListDataRequest];
-            NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:0 inSection:2];
+            NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:0 inSection:3];
             [[self tableView] scrollToRowAtIndexPath:indexPaths
                                     atScrollPosition:UITableViewScrollPositionTop animated:YES];;
         }else{
@@ -820,6 +882,11 @@ LMLeavemessagecellDelegate
 
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    if ([textView isEqual:commentText]) {
+        [self commitDataRequest];
+    }
+    
+    
     [self resignCurrentFirstResponder];
     return YES;
 }

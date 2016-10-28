@@ -19,6 +19,7 @@
                   Address:(NSString *)address
            Address_detail:(NSString *)address_detail
                 Event_img:(NSString *)event_img
+             Event_type:(NSString *)event_type
 {
     self = [super init];
     
@@ -52,6 +53,9 @@
         }
         if (event_img){
             [bodyDict setObject:event_img forKey:@"event_img"];
+        }
+        if (event_type){
+            [bodyDict setObject:event_type forKey:@"event_type"];
         }
         
         

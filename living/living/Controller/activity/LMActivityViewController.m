@@ -76,18 +76,18 @@ UITableViewDataSource
     
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
     
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
-    homeImg.image = [UIImage imageNamed:@"eventload"];
-    [homeImage addSubview:homeImg];
+//    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+//    homeImg.image = [UIImage imageNamed:@"eventload"];
+//    [homeImage addSubview:homeImg];
     UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
     imageLb.numberOfLines = 0;
-    imageLb.text = @"没活动，心塞塞，点击右上角按钮 快来参与吧";
+    imageLb.text = @"正在加载。。。";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.font = TEXT_FONT_LEVEL_2;
     imageLb.textAlignment = NSTextAlignmentCenter;
     [homeImage addSubview:imageLb];
     
-    [self.view addSubview:homeImage];
+    [_tableView addSubview:homeImage];
     
     
     
@@ -188,6 +188,28 @@ UITableViewDataSource
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"获取列表失败"
                                                                    waitUntilDone:YES];
+                                               
+                                               [homeImage removeFromSuperview];
+                                               
+                                               homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
+                                               
+                                               //    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+                                               //    homeImg.image = [UIImage imageNamed:@"eventload"];
+                                               //    [homeImage addSubview:homeImg];
+                                               UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
+                                               imageLb.numberOfLines = 0;
+                                               imageLb.text = @"请点击页面重新加载...";
+                                               imageLb.textColor = TEXT_COLOR_LEVEL_3;
+                                               imageLb.font = TEXT_FONT_LEVEL_2;
+                                               imageLb.textAlignment = NSTextAlignmentCenter;
+                                               [homeImage addSubview:imageLb];
+                                               
+                                               UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadingEvent)];
+                                               [_tableView addGestureRecognizer:tap];
+                                               [_tableView addSubview:homeImage];
+                                               
+                                               
+                                               
                                            }];
     [proxy start];
     
@@ -212,10 +234,33 @@ UITableViewDataSource
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
+        
+        [homeImage removeFromSuperview];
+        
+        homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
+        
+        //    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+        //    homeImg.image = [UIImage imageNamed:@"eventload"];
+        //    [homeImage addSubview:homeImg];
+        UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
+        imageLb.numberOfLines = 0;
+        imageLb.text = @"请点击页面重新加载...";
+        imageLb.textColor = TEXT_COLOR_LEVEL_3;
+        imageLb.font = TEXT_FONT_LEVEL_2;
+        imageLb.textAlignment = NSTextAlignmentCenter;
+        [homeImage addSubview:imageLb];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadingEvent)];
+        [_tableView addGestureRecognizer:tap];
+        [_tableView addSubview:homeImage];
+        
+        
+        
     }
     if (listArray.count>0) {
         [homeImage removeFromSuperview];
     }else{
+        [homeImage removeFromSuperview];
         homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
         
         UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
@@ -229,7 +274,7 @@ UITableViewDataSource
         imageLb.textAlignment = NSTextAlignmentCenter;
         [homeImage addSubview:imageLb];
         
-        [self.view addSubview:homeImage];
+        [_tableView addSubview:homeImage];
     }
     [_tableView reloadData];
     

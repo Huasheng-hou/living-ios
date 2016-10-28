@@ -70,9 +70,16 @@ UIViewControllerTransitioningDelegate
     backView.backgroundColor = [UIColor whiteColor];
     
     
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
+     imageView.image = [UIImage imageNamed:@"headerIcon"];
+    [backView addSubview:imageView];
     headerView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
     headerView.image = [UIImage imageNamed:@"headerIcon"];
-    [headerView sd_setImageWithURL:[NSURL URLWithString:_imgURL]];
+    [headerView sd_setImageWithURL:[NSURL URLWithString:_imgURL] placeholderImage:[UIImage imageNamed:@"headerIcon"]];
+    
+    headerView.layer.cornerRadius = 30;
+    headerView.clipsToBounds=YES;
+    
     [backView addSubview:headerView];
     
     headerView.userInteractionEnabled=YES;
@@ -86,7 +93,7 @@ UIViewControllerTransitioningDelegate
     
     
     UILabel *introduce =[[UILabel alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 20)];
-    introduce.text = @"上传真实照片，让小伙伴更好的认识你哦";
+    introduce.text = @"点击头像修改，上传头像";
     introduce.font = TEXT_FONT_LEVEL_3;
     introduce.textColor = TEXT_COLOR_LEVEL_2;
     introduce.textAlignment = NSTextAlignmentCenter;
@@ -316,10 +323,15 @@ UIViewControllerTransitioningDelegate
     if (result && [result intValue] == 0)
     {
         
-//        [self textStateHUD:@"资料修改成功"];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self textStateHUD:@"资料修改成功"];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+        });
+        
+
         
     } else {
         [self textStateHUD:bodyDict[@"description"]];

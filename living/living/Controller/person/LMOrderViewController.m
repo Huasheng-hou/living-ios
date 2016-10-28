@@ -97,13 +97,15 @@ LMOrderCellDelegate>
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 90, 90)];
     homeImg.image = [UIImage imageNamed:@"NO-order"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 30)];
-    imageLb.text = @"暂无订单";
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 60)];
+    imageLb.numberOfLines = 0;
+    imageLb.text = @"暂无订单,赶快报名活动吧！";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.textAlignment = NSTextAlignmentCenter;
     [homeImage addSubview:imageLb];
     
     [_tableView addSubview:homeImage];
+    homeImage.hidden = YES;
     
     [self setupRefresh];
     
@@ -239,6 +241,8 @@ LMOrderCellDelegate>
         }
         if (orderArray.count!=0) {
             [homeImage removeFromSuperview];
+        }else{
+            homeImage.hidden = NO;
         }
         
         [_tableView reloadData];
@@ -247,9 +251,7 @@ LMOrderCellDelegate>
         [self textStateHUD:str];
     }
 
-    
-    
-    
+
     
     
 }

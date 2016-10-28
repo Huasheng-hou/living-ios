@@ -27,6 +27,10 @@
 		350AD22C1DB77A7600CA181A /* LMWXPayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD22B1DB77A7600CA181A /* LMWXPayRequest.m */; };
 		350AD22F1DB77ACE00CA181A /* LMWXPayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD22E1DB77ACE00CA181A /* LMWXPayResultRequest.m */; };
 		350AD2321DB77B1200CA181A /* LMAliPayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD2311DB77B1200CA181A /* LMAliPayRequest.m */; };
+		351767801DC2EB1400D2D407 /* APChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3517677F1DC2EB1400D2D407 /* APChooseView.m */; };
+		351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 351767821DC2ECBF00D2D407 /* CustomButton.m */; };
+		351767861DC328BA00D2D407 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351767851DC328BA00D2D407 /* LM2DcodeRequest.m */; };
+		351767891DC3359B00D2D407 /* LMBesureOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351767881DC3359B00D2D407 /* LMBesureOrderViewController.m */; };
 		351CC64F1DAB234E008D59D8 /* LMNoticCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC64E1DAB234E008D59D8 /* LMNoticCell.m */; };
 		351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6611DAB85B6008D59D8 /* LMBalanceViewController.m */; };
 		351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 351CC6641DAB8F70008D59D8 /* LMOrderViewController.m */; };
@@ -260,6 +264,14 @@
 		350AD22E1DB77ACE00CA181A /* LMWXPayResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWXPayResultRequest.m; sourceTree = "<group>"; };
 		350AD2301DB77B1200CA181A /* LMAliPayRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAliPayRequest.h; sourceTree = "<group>"; };
 		350AD2311DB77B1200CA181A /* LMAliPayRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAliPayRequest.m; sourceTree = "<group>"; };
+		3517677E1DC2EB0E00D2D407 /* APChooseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APChooseView.h; sourceTree = "<group>"; };
+		3517677F1DC2EB1400D2D407 /* APChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APChooseView.m; sourceTree = "<group>"; };
+		351767811DC2ECBA00D2D407 /* CustomButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		351767821DC2ECBF00D2D407 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
+		351767841DC328BA00D2D407 /* LM2DcodeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DcodeRequest.h; sourceTree = "<group>"; };
+		351767851DC328BA00D2D407 /* LM2DcodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DcodeRequest.m; sourceTree = "<group>"; };
+		351767871DC3359B00D2D407 /* LMBesureOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBesureOrderViewController.h; sourceTree = "<group>"; };
+		351767881DC3359B00D2D407 /* LMBesureOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBesureOrderViewController.m; sourceTree = "<group>"; };
 		351CC64D1DAB234E008D59D8 /* LMNoticCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticCell.h; sourceTree = "<group>"; };
 		351CC64E1DAB234E008D59D8 /* LMNoticCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticCell.m; sourceTree = "<group>"; };
 		351CC6601DAB85B6008D59D8 /* LMBalanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceViewController.h; sourceTree = "<group>"; };
@@ -877,6 +889,8 @@
 				3547F35E1D9904A60068F04E /* LMActivityViewController.m */,
 				35E7B2E31D9DF7580035AFFE /* LMActivityDetailController.h */,
 				35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */,
+				351767871DC3359B00D2D407 /* LMBesureOrderViewController.h */,
+				351767881DC3359B00D2D407 /* LMBesureOrderViewController.m */,
 				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
 				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
 			);
@@ -1784,6 +1798,10 @@
 				35B61E171DB0767200083F30 /* LMLeavemessagecell.m */,
 				35FA0A401DAA3EF200688713 /* LMTimeButton.h */,
 				35FA0A411DAA3EF300688713 /* LMTimeButton.m */,
+				3517677E1DC2EB0E00D2D407 /* APChooseView.h */,
+				3517677F1DC2EB1400D2D407 /* APChooseView.m */,
+				351767811DC2ECBA00D2D407 /* CustomButton.h */,
+				351767821DC2ECBF00D2D407 /* CustomButton.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1962,6 +1980,8 @@
 				353B890E1DB860EC007585F1 /* LMNoticListRequest.m */,
 				3523642A1DBEE928002E6B78 /* LMNoticDeleteRequest.h */,
 				3523642B1DBEE928002E6B78 /* LMNoticDeleteRequest.m */,
+				351767841DC328BA00D2D407 /* LM2DcodeRequest.h */,
+				351767851DC328BA00D2D407 /* LM2DcodeRequest.m */,
 			);
 			name = person;
 			sourceTree = "<group>";
@@ -2315,6 +2335,7 @@
 				3547F4BE1D9904D90068F04E /* SSPullToRefreshSimpleContentView.m in Sources */,
 				35B61E0E1DB0702200083F30 /* LMActivityListRequest.m in Sources */,
 				35B61E251DB0C53F00083F30 /* LMPublicEventRequest.m in Sources */,
+				351767891DC3359B00D2D407 /* LMBesureOrderViewController.m in Sources */,
 				35B61DF01DB06DA000083F30 /* LMloginRequest.m in Sources */,
 				35FA8EA71DB5F98F00510A75 /* LMWXRechargeResultRequest.m in Sources */,
 				350AD2231DB7577000CA181A /* LMEventpraiseRequest.m in Sources */,
@@ -2328,6 +2349,7 @@
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3523643E1DBF09B6002E6B78 /* LMRechargeButton.m in Sources */,
+				351767801DC2EB1400D2D407 /* APChooseView.m in Sources */,
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
 				35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */,
 				350AD2261DB76EE200CA181A /* LMEventCommitReplyRequset.m in Sources */,
@@ -2406,6 +2428,7 @@
 				3547F4361D9904BD0068F04E /* FitThumbImageHelper.m in Sources */,
 				350AD22C1DB77A7600CA181A /* LMWXPayRequest.m in Sources */,
 				3547F3831D9904A60068F04E /* LMHomePageController.m in Sources */,
+				351767861DC328BA00D2D407 /* LM2DcodeRequest.m in Sources */,
 				3547F4041D9904BA0068F04E /* UserInfoVO.m in Sources */,
 				3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */,
 				3547F42C1D9904BD0068F04E /* UIColor+ZXLazy.m in Sources */,
@@ -2474,6 +2497,7 @@
 				355E52751DC1FE970004FBAF /* LMChangeLivingController.m in Sources */,
 				35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */,
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
+				351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,

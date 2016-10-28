@@ -120,7 +120,13 @@
 -(void)setValue:(LMActivityList *)list
 {
     LMActivityList *listData = list;
-    _nameLabel.text = listData.nickNname;
+    if (listData.nickNname==nil) {
+        _nameLabel.text = @"匿名商户";
+    }else{
+        _nameLabel.text = listData.nickNname;
+    }
+    
+    
     [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.eventImg]];
     _addressLabel.text = listData.address;
     [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];

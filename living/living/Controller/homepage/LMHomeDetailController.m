@@ -89,7 +89,7 @@ LMCommentCellDelegate
     textcView.textColor = [UIColor blackColor];
     textcView.backgroundColor = [UIColor whiteColor];
     textcView.keyboardType=UIKeyboardTypeDefault;
-    [textcView setReturnKeyType:UIReturnKeyDone];
+    [textcView setReturnKeyType:UIReturnKeySend];
     
     zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -161,6 +161,7 @@ LMCommentCellDelegate
         int zanNum =[zanLabel.text intValue];
         zanNum = zanNum+1;
         zanLabel.text = [NSString stringWithFormat:@"%d",zanNum];
+        [self getHomeDetailDataRequest];
         NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
         [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     }else{

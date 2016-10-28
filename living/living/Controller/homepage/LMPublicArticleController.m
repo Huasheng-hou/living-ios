@@ -76,7 +76,12 @@ UIViewControllerTransitioningDelegate
     self.title = @"发布文章";
 //    [self setAutomaticallyAdjustsScrollViewInsets:NO];
     
-
+    pickImage=[[UIImagePickerController alloc]init];
+    
+    [pickImage setDelegate:self];
+    pickImage.transitioningDelegate  = self;
+    pickImage.modalPresentationStyle = UIModalPresentationCustom;
+    [pickImage setAllowsEditing:YES];
     
     
     
@@ -587,11 +592,15 @@ UIViewControllerTransitioningDelegate
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
-            [self textStateHUD:@"发布成功"];
-        
-            [self.navigationController popViewControllerAnimated:YES];
+            [self textStateHUD:@"发布活动成功"];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
+            });
+            
+
             
 
         }else{

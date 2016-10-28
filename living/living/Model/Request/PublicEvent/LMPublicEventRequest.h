@@ -18,6 +18,7 @@
                  End_time:(NSString *)end_time
                   Address:(NSString *)address
            Address_detail:(NSString *)address_detail
-                Event_img:(NSString *)event_img;
+                Event_img:(NSString *)event_img
+               Event_type:(NSString *)event_type;
 
 @end

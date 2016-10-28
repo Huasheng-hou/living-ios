@@ -10,4 +10,12 @@
 
 @interface LMMy2dcodeViewController : FitBaseViewController
 
+@property(nonatomic,strong)NSString *name;
+
+@property(nonatomic,strong)NSString *gender;
+
+@property(nonatomic,strong)NSString *headURL;
+
+@property(nonatomic,strong)NSString *address;
+
 @end

@@ -89,12 +89,12 @@ WJLoopViewDelegate
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
     homeImg.image = [UIImage imageNamed:@"NO-article"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 30)];
-    imageLb.text = @"暂无文章";
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 60)];
+    imageLb.text = @"暂无文章,点击右上角按钮，赶紧发布吧！";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.textAlignment = NSTextAlignmentCenter;
     [homeImage addSubview:imageLb];
-    
+    homeImage.hidden = YES;
     [_tableView addSubview:homeImage];
     
      [self setupRefresh];
@@ -270,9 +270,7 @@ WJLoopViewDelegate
         if (listArray.count>0) {
            [listArray removeAllObjects];
         }
-        
-        
-        
+     
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
 
@@ -284,9 +282,6 @@ WJLoopViewDelegate
             listArray=[NSMutableArray arrayWithCapacity:0];
             
             NSArray *array = bodyDic[@"list"];
-            
-            
-            
             for(int i=0;i<[array count];i++){
                 
                 LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
@@ -294,7 +289,6 @@ WJLoopViewDelegate
                     [listArray addObject:list];
                 }
             }
-       
             
         }
         else{
@@ -309,6 +303,8 @@ WJLoopViewDelegate
         }
         if (listArray.count!=0) {
             [homeImage removeFromSuperview];
+        }else{
+            homeImage.hidden = YES;
         }
         
         [_tableView reloadData];

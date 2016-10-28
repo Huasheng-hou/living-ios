@@ -396,9 +396,10 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //修改资料
+    LMUserInfo *infoModel = [[LMUserInfo alloc] initWithDictionary:infoDic];
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-            LMUserInfo *infoModel = [[LMUserInfo alloc] initWithDictionary:infoDic];
+            
             LMChangeDataViewController *changeVC = [[LMChangeDataViewController alloc] init];
             changeVC.hidesBottomBarWhenPushed = YES;
             changeVC.avartStr = infoModel.avatar;
@@ -448,6 +449,15 @@
         if (indexPath.row==1) {
             LMMy2dcodeViewController *setVC = [[LMMy2dcodeViewController alloc] init];
             [setVC setHidesBottomBarWhenPushed:YES];
+            
+            if (infoModel.province!=nil) {
+               setVC.address = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
+            }
+            setVC.name = infoModel.nickName;
+            setVC.gender = infoModel.gender;
+            setVC.headURL = infoModel.avatar;
+            
+            
             [self.navigationController pushViewController:setVC animated:YES];
         }
     }

@@ -154,7 +154,7 @@
     _freeTF.font = TEXT_FONT_LEVEL_2;
     _freeTF.returnKeyType = UIReturnKeyDone;
     _freeTF.placeholder = @"请输入费用金额";
-    _phoneTF.keyboardType = UIKeyboardTypeDecimalPad;
+    _phoneTF.keyboardType = UIKeyboardTypePhonePad;
     [self.contentView addSubview:_freeTF];
     
     //开始时间
@@ -162,24 +162,12 @@
     _dateButton.layer.cornerRadius = 5;
     _dateButton.layer.borderColor = LINE_COLOR.CGColor;
     _dateButton.layer.borderWidth = 0.5;
-    _dateButton.textLabel.text =  @"请选择活动开始日期";
+    _dateButton.textLabel.text =  @"请选择活动开始时间";
     [_dateButton.textLabel sizeToFit];
     _dateButton.textLabel.frame = CGRectMake(5, 0, _dateButton.textLabel.bounds.size.width+30, 30);
     [_dateButton sizeToFit];
-    _dateButton.frame = CGRectMake(titleW+20, 185, _dateButton.textLabel.bounds.size.width, 30);
+    _dateButton.frame = CGRectMake(titleW+20, 185, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_dateButton];
-    
-    _timeButton = [LMTimeButton buttonWithType:UIButtonTypeSystem];
-    _timeButton.layer.cornerRadius = 5;
-    _timeButton.layer.borderColor = LINE_COLOR.CGColor;
-    _timeButton.layer.borderWidth = 0.5;
-    _timeButton.textLabel.text =  @"请选择时间";
-    [_timeButton.textLabel sizeToFit];
-    _timeButton.textLabel.frame = CGRectMake(5, 0, _timeButton.textLabel.bounds.size.width+30, 30);
-    [_timeButton sizeToFit];
-    _timeButton.frame = CGRectMake(kScreenWidth-_timeButton.textLabel.bounds.size.width-10, 185, _timeButton.textLabel.bounds.size.width, 30);
-    [self.contentView addSubview:_timeButton];
-    
     
     
     //结束时间
@@ -191,19 +179,9 @@
     [_endDateButton.textLabel sizeToFit];
     _endDateButton.textLabel.frame = CGRectMake(5, 0, _endDateButton.textLabel.bounds.size.width+30, 30);
     [_endDateButton sizeToFit];
-    _endDateButton.frame = CGRectMake(titleW+20, 230, _endDateButton.textLabel.bounds.size.width, 30);
+    _endDateButton.frame = CGRectMake(titleW+20, 230, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_endDateButton];
     
-    _endTimeButton = [LMTimeButton buttonWithType:UIButtonTypeSystem];
-    _endTimeButton.layer.cornerRadius = 5;
-    _endTimeButton.layer.borderColor = LINE_COLOR.CGColor;
-    _endTimeButton.layer.borderWidth = 0.5;
-    _endTimeButton.textLabel.text =  @"请选择时间";
-    [_endTimeButton.textLabel sizeToFit];
-    _endTimeButton.textLabel.frame = CGRectMake(5, 0, _endTimeButton.textLabel.bounds.size.width+30, 30);
-    [_endTimeButton sizeToFit];
-    _endTimeButton.frame = CGRectMake(kScreenWidth-_endTimeButton.textLabel.bounds.size.width-10, 230, _endTimeButton.textLabel.bounds.size.width, 30);
-    [self.contentView addSubview:_endTimeButton];
     
     //活动地址
     

@@ -239,9 +239,9 @@ LMPublicEventCellDelegate
         msgCell.dspTF.delegate = self;
         
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
-        [msgCell.timeButton addTarget:self action:@selector(beginTimeAction:) forControlEvents:UIControlEventTouchUpInside];
+
         [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
-        [msgCell.endTimeButton addTarget:self action:@selector(endTimeAction:) forControlEvents:UIControlEventTouchUpInside];
+
         [msgCell.addressButton addTarget:self action:@selector(addressAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -286,29 +286,29 @@ LMPublicEventCellDelegate
     [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
                                MaximumDate:[formatter dateFromString:@"2950-01-01"]
                                CurrentDate:currentDate
-                                      Mode:UIDatePickerModeDate
+                                      Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
 
 }
--(void)beginTimeAction:(id)sender
-{
-    [self.view endEditing:YES];
-    NSLog(@"************beginTimeAction");
-    timeIndex = 0;
-    NSMutableArray *hourArray = [NSMutableArray new];
-    for(int i=0; i<24; i++){
-        [hourArray addObject:[NSString stringWithFormat:@"%02d",i]];
-    }
-    
-    NSMutableArray *minArray = [NSMutableArray new];
-    
-    for(int i=0; i<60; i++){
-        [minArray addObject:[NSString stringWithFormat:@"%02d",i]];
-    }
-    [self.view endEditing:YES];
-    NSArray *arr = @[@":"];
-    [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
-}
+//-(void)beginTimeAction:(id)sender
+//{
+//    [self.view endEditing:YES];
+//    NSLog(@"************beginTimeAction");
+//    timeIndex = 0;
+//    NSMutableArray *hourArray = [NSMutableArray new];
+//    for(int i=0; i<24; i++){
+//        [hourArray addObject:[NSString stringWithFormat:@"%02d",i]];
+//    }
+//    
+//    NSMutableArray *minArray = [NSMutableArray new];
+//    
+//    for(int i=0; i<60; i++){
+//        [minArray addObject:[NSString stringWithFormat:@"%02d",i]];
+//    }
+//    [self.view endEditing:YES];
+//    NSArray *arr = @[@":"];
+//    [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
+//}
 -(void)endDateAction:(id)sender
 {
     [self.view endEditing:YES];
@@ -316,37 +316,37 @@ LMPublicEventCellDelegate
     NSLog(@"************endDateAction");
     
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *currentDate;
     
     currentDate = [NSDate date];
     
-    [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
-                               MaximumDate:[formatter dateFromString:@"2950-01-01"]
+    [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"2010-01-01 00:00:00"]
+                               MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
                                CurrentDate:currentDate
-                                      Mode:UIDatePickerModeDate
+                                      Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
     
 }
--(void)endTimeAction:(id)sender
-{
-    [self.view endEditing:YES];
-    NSLog(@"************endTimeAction");
-    timeIndex = 1;
-    NSMutableArray *hourArray = [NSMutableArray new];
-    for(int i=0; i<24; i++){
-        [hourArray addObject:[NSString stringWithFormat:@"%02d",i]];
-    }
-    
-    NSMutableArray *minArray = [NSMutableArray new];
-    
-    for(int i=0; i<60; i++){
-        [minArray addObject:[NSString stringWithFormat:@"%02d",i]];
-    }
-    [self.view endEditing:YES];
-    NSArray *arr = @[@":"];
-    [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
-}
+//-(void)endTimeAction:(id)sender
+//{
+//    [self.view endEditing:YES];
+//    NSLog(@"************endTimeAction");
+//    timeIndex = 1;
+//    NSMutableArray *hourArray = [NSMutableArray new];
+//    for(int i=0; i<24; i++){
+//        [hourArray addObject:[NSString stringWithFormat:@"%02d",i]];
+//    }
+//    
+//    NSMutableArray *minArray = [NSMutableArray new];
+//    
+//    for(int i=0; i<60; i++){
+//        [minArray addObject:[NSString stringWithFormat:@"%02d",i]];
+//    }
+//    [self.view endEditing:YES];
+//    NSArray *arr = @[@":"];
+//    [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
+//}
 
 
 #pragma mark 选择省市区视图
@@ -420,7 +420,7 @@ LMPublicEventCellDelegate
 - (void)didSelectedDate:(NSDate *)date
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd"];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     
     if (dateIndex==0) {
         msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
@@ -429,18 +429,6 @@ LMPublicEventCellDelegate
          msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
     }
    
-}
-
-- (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
-{
-    if (timeIndex==0) {
-        
-        msgCell.timeButton.textLabel.text =[NSString stringWithFormat:@"%@:%@", items[0],items[2]];
-    }
-    if (timeIndex==1){
-        msgCell.endTimeButton.textLabel.text = [NSString stringWithFormat:@"%@:%@", items[0],items[2]];
-
-    }
 }
 
 
@@ -454,6 +442,12 @@ LMPublicEventCellDelegate
     }
     
     return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
 }
 
 
@@ -474,7 +468,10 @@ LMPublicEventCellDelegate
 {
     AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
     
-    projectDsp[AddEventCell.tag]  = AddEventCell.includeTF.text;
+    if (AddEventCell.includeTF.text.length>0) {
+        projectDsp[AddEventCell.tag]  = AddEventCell.includeTF.text;
+    }
+    
     [self resignCurrentFirstResponder];
     return YES;
 }
@@ -486,7 +483,7 @@ LMPublicEventCellDelegate
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    if ([textField isEqual:AddEventCell.titleTF]) {
+    if ([textField isEqual:AddEventCell.titleTF]&&textField.text.length>0) {
         AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
         
         projectTitle[AddEventCell.tag] = AddEventCell.titleTF.text;
@@ -685,8 +682,8 @@ LMPublicEventCellDelegate
 -(void)publishButtonAction:(id)sender
 {
     NSLog(@"**************发布");
-    NSString *startstring = [NSString stringWithFormat:@"%@ %@:00",msgCell.dateButton.textLabel.text,msgCell.timeButton.textLabel.text];
-    NSString *endString =[NSString stringWithFormat:@"%@ %@:00",msgCell.endDateButton.textLabel.text,msgCell.endTimeButton.textLabel.text];
+    NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
+    NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
 
     if (!(msgCell.titleTF.text.length>0)) {
         [ self textStateHUD:@"请输入活动标题"];
@@ -704,7 +701,7 @@ LMPublicEventCellDelegate
         [ self textStateHUD:@"请输入人均费用"];
         return;
     }
-    if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区@"]) {
+    if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区"]) {
         [ self textStateHUD:@"请选择活动地址"];
         return;
     }
@@ -712,16 +709,16 @@ LMPublicEventCellDelegate
         [ self textStateHUD:@"请输入活动详细地址"];
         return;
     }
-    if ([startstring isEqual:@"请选择活动开始日期 请选择时间:00"]) {
+    if ([startstring isEqual:@"请选择活动开始时间"]) {
         [ self textStateHUD:@"请选择开始时间"];
         return;
     }
-    if ([endString isEqual:@"请选择活动开始日期 请选择时间:00"]) {
+    if ([endString isEqual:@"请选择活动开始时间"]) {
         [ self textStateHUD:@"请选择开始时间"];
         return;
     }
   
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary"];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -820,11 +817,16 @@ LMPublicEventCellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"发布项目成功"];
-            [self.navigationController popViewControllerAnimated:YES];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
-             
-                                                                object:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+                 
+                                                                    object:nil];
+            });
+            
+
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];

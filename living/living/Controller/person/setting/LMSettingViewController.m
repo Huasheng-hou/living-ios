@@ -150,13 +150,11 @@
 -(void)logOutAction
 {
     [[FitUserManager sharedUserManager] logout];
-    
-    FitTabbarController *tab=[[FitTabbarController alloc]init];
     NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
     
     [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
     
-    [self presentViewController:tab animated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
     

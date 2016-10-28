@@ -7,6 +7,8 @@
 //
 
 #import "LMMy2dcodeViewController.h"
+#import "LM2DcodeRequest.h"
+#import "UIImageView+WebCache.h"
 
 @interface LMMy2dcodeViewController ()
 
@@ -27,11 +29,116 @@
     self.view.backgroundColor = [UIColor blackColor];
     
     self.title = @"二维码";
-    
-    
+    [self get2DcodeRequest];
     
     
 }
+
+-(void)get2DcodeRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LM2DcodeRequest *request = [[LM2DcodeRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(get2DcodeResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+
+-(void)get2DcodeResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"获取数据失败"];
+        return;
+    }
+    
+    NSString *result    = [bodyDic objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0)
+    {
+    
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-20, 115+kScreenWidth)];
+    backView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:backView];
+    
+    UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 75, 75)];
+    headImage.backgroundColor = [UIColor lightGrayColor];
+    [headImage sd_setImageWithURL:[NSURL URLWithString:_headURL]];
+    headImage.layer.cornerRadius = 5;
+    headImage.clipsToBounds = YES;
+    [backView addSubview:headImage];
+    
+    
+    //nick
+    UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,10,30,30)];
+    nicklabel.font = TEXT_FONT_LEVEL_1;
+    nicklabel.textColor = TEXT_COLOR_LEVEL_2;
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
+    
+    NSString *str = _name;
+    CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
+    [nicklabel setFrame:CGRectMake(100, 20, textSize.width, 30)];
+    nicklabel.text = str;
+    [backView addSubview:nicklabel];
+    
+    
+    UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 22, 16, 16)];
+    if (_gender) {
+        if ([_gender intValue] ==1) {
+            [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
+        }else{
+            [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
+        }
+    }
+    [backView addSubview:genderImage];
+    
+    
+    UILabel *addressLabel = [UILabel new];
+    addressLabel.text = _address;
+    addressLabel.textColor = TEXT_COLOR_LEVEL_3;
+    addressLabel.font = TEXT_FONT_LEVEL_2;
+    
+    [addressLabel sizeToFit];
+    addressLabel.frame = CGRectMake(100, 75, addressLabel.bounds.size.width, 20);
+    [backView addSubview: addressLabel];
+    
+    
+    
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
+//        imageView.backgroundColor = [UIColor redColor];
+    
+    [imageView sd_setImageWithURL:[NSURL URLWithString:bodyDic[@"code"]]];
+        [backView addSubview:imageView];
+    
+    
+    UIImageView *headImage2 = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth-70)/2-37.5, (kScreenWidth-70)/2-37.5, 75, 75)];
+    headImage2.backgroundColor = [UIColor lightGrayColor];
+    [headImage2 sd_setImageWithURL:[NSURL URLWithString:_headURL]];
+    headImage2.layer.cornerRadius = 5;
+    headImage2.clipsToBounds = YES;
+    [imageView addSubview:headImage2];
+
+    
+    } else {
+        [self textStateHUD:bodyDic[@"description"]];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

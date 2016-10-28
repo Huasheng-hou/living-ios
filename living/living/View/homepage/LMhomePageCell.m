@@ -110,10 +110,10 @@
     _imageV.frame = CGRectMake(15, 15, 90, 70);
     _titleLabel.frame = CGRectMake(115, 15, kScreenWidth-130, _titleLabel.bounds.size.height);
     
-    _contentLabel.frame = CGRectMake(115, 18+_titleLabel.bounds.size.height, kScreenWidth-130, _contentLabel.bounds.size.height*2);
+    _contentLabel.frame = CGRectMake(115, 5+_titleLabel.bounds.size.height, kScreenWidth-130, 50);
     
     
-    _timeLabel.frame = CGRectMake(kScreenWidth-20-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 70, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    _timeLabel.frame = CGRectMake(kScreenWidth-20-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 72, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     
     _nameLabel.frame = CGRectMake(kScreenWidth-10-_nameLabel.bounds.size.width, 70, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
 

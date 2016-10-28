@@ -10,6 +10,6 @@
 
 @interface LMEventJoinRequest : FitBaseRequest
 
--(id)initWithEvent_uuid:(NSString *)event_uuid;
+-(id)initWithEvent_uuid:(NSString *)event_uuid order_nums:(NSString *)order_nums;
 
 @end
