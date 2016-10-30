@@ -290,25 +290,7 @@ LMPublicEventCellDelegate
                                   Delegate:self];
 
 }
-//-(void)beginTimeAction:(id)sender
-//{
-//    [self.view endEditing:YES];
-//    NSLog(@"************beginTimeAction");
-//    timeIndex = 0;
-//    NSMutableArray *hourArray = [NSMutableArray new];
-//    for(int i=0; i<24; i++){
-//        [hourArray addObject:[NSString stringWithFormat:@"%02d",i]];
-//    }
-//    
-//    NSMutableArray *minArray = [NSMutableArray new];
-//    
-//    for(int i=0; i<60; i++){
-//        [minArray addObject:[NSString stringWithFormat:@"%02d",i]];
-//    }
-//    [self.view endEditing:YES];
-//    NSArray *arr = @[@":"];
-//    [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
-//}
+
 -(void)endDateAction:(id)sender
 {
     [self.view endEditing:YES];
@@ -328,25 +310,6 @@ LMPublicEventCellDelegate
                                   Delegate:self];
     
 }
-//-(void)endTimeAction:(id)sender
-//{
-//    [self.view endEditing:YES];
-//    NSLog(@"************endTimeAction");
-//    timeIndex = 1;
-//    NSMutableArray *hourArray = [NSMutableArray new];
-//    for(int i=0; i<24; i++){
-//        [hourArray addObject:[NSString stringWithFormat:@"%02d",i]];
-//    }
-//    
-//    NSMutableArray *minArray = [NSMutableArray new];
-//    
-//    for(int i=0; i<60; i++){
-//        [minArray addObject:[NSString stringWithFormat:@"%02d",i]];
-//    }
-//    [self.view endEditing:YES];
-//    NSArray *arr = @[@":"];
-//    [BabFilterAgePickerView showWithData:@[hourArray, arr, minArray] Delegate:self OffSets:@[@"0",@"0",@"0"]];
-//}
 
 
 #pragma mark 选择省市区视图
@@ -844,6 +807,12 @@ LMPublicEventCellDelegate
 {
     cellIndex = cellIndex+1;
     [self.tableView reloadData];
+    
+    [projectTitle addObject:@""];
+    [projectDsp addObject:@""];
+    [imageURL addObject:@""];
+    
+    
     
 }
 
