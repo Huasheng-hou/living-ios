@@ -86,6 +86,7 @@ UITableViewDataSource
     imageLb.font = TEXT_FONT_LEVEL_2;
     imageLb.textAlignment = NSTextAlignmentCenter;
     [homeImage addSubview:imageLb];
+    homeImage.hidden = YES;
     
     [_tableView addSubview:homeImage];
     
