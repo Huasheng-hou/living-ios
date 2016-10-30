@@ -14,6 +14,8 @@
 @property (nonatomic)CGFloat conHigh;
 @property (nonatomic)CGFloat dspHigh;
 
+@property (nonatomic)NSInteger index;
+
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 

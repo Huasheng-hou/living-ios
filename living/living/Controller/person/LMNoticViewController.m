@@ -22,6 +22,7 @@ UITableViewDataSource
     UITableView *_tableView;
     NSMutableArray *listArray;
     BOOL isSelected;
+    NSString *Estring;
 }
 
 @end
@@ -55,10 +56,12 @@ UITableViewDataSource
 {
     NSLog(@"**************编辑");
     isSelected = NO;//全选状态的切换
-    NSString *string = !_tableView.editing?@"完成":@"编辑";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:string style:UIBarButtonItemStyleDone target:self action:@selector(EditAction)];
-
+    Estring= !_tableView.editing?@"完成":@"编辑";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:Estring style:UIBarButtonItemStyleDone target:self action:@selector(EditAction)];
+    
+   [_tableView reloadData];
     _tableView.editing = !_tableView.editing;
+   
 
 }
 
@@ -136,6 +139,10 @@ UITableViewDataSource
     LMNoticeList *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
+    
+    if ([Estring isEqual:@"完成"]) {
+        cell.INDEX = 1;
+    }
     
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     

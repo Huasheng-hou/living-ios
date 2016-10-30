@@ -48,7 +48,7 @@
 {
     //活动图片
     _imageV = [UIImageView new];
-    _imageV.backgroundColor = [UIColor grayColor];
+    _imageV.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_imageV];
     
     UIView *backView = [UIView new];
@@ -95,7 +95,7 @@
     
     //活动人头像
     _headV = [UIImageView new];
-    _headV.backgroundColor = [UIColor grayColor];
+    _headV.backgroundColor = [UIColor lightGrayColor];
     _headV.clipsToBounds = YES;
     _headV.layer.cornerRadius = 10.f;
     [footView addSubview:_headV];

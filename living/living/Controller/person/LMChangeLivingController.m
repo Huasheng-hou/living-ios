@@ -30,6 +30,7 @@
     self.navigationItem.rightBarButtonItem = rightItem;
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     self.tableView.editing = !self.tableView.editing;
+    self.tableView.allowsMultipleSelection = NO;
     
     
 }
@@ -51,10 +52,6 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
 
     
-//    chooseView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
-//    chooseView.image = [UIImage imageNamed:@"choose"];
-//    [cell.contentView addSubview:chooseView];
-    
     UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
     headImage.backgroundColor = [UIColor lightGrayColor];
     headImage.layer.cornerRadius = 5;
@@ -72,13 +69,6 @@
     return cell;
 }
 
-
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//
-//    chooseView.image = [UIImage imageNamed:@"choose-no"];
-//    
-//}
 
 
 

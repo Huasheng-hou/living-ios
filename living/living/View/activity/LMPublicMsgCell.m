@@ -154,7 +154,7 @@
     _freeTF.font = TEXT_FONT_LEVEL_2;
     _freeTF.returnKeyType = UIReturnKeyDone;
     _freeTF.placeholder = @"请输入费用金额";
-    _phoneTF.keyboardType = UIKeyboardTypePhonePad;
+    _freeTF.keyboardType = UIKeyboardTypePhonePad;
     [self.contentView addSubview:_freeTF];
     
     //开始时间
@@ -201,6 +201,7 @@
     
     _dspTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 320, kScreenWidth- titleW-25, 30)];
     _dspTF.font = TEXT_FONT_LEVEL_2;
+    _dspTF.returnKeyType = UIReturnKeyDone;
     _dspTF.placeholder = @"请输入详细地址";
     [self.contentView addSubview:_dspTF];
     

@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong)NSString *name;
 
+@property (nonatomic)NSInteger INDEX;
+
 
 
 @property (nonatomic, readonly) float xScale;

@@ -92,7 +92,7 @@
         ifRefresh=NO;
         
         if (total<self.current) {
-            [self textStateHUD:@"没有更多文章"];
+            [self textStateHUD:@"没有更多生活馆"];
         }else{
             [self getLivingHomeListData:self.current];
         }

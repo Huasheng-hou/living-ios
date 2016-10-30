@@ -92,6 +92,7 @@ LMLeavemessagecellDelegate
 {
     [super createUI];
 
+    self.tableView.contentInset     = UIEdgeInsetsMake(64, 0, 12, 0);
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
@@ -250,9 +251,15 @@ LMLeavemessagecellDelegate
             NSString *string2 = list.projectDsp;
             NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-            
-            
+        
+        if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
+            return 60+conHigh+conHigh2;
+        }else{
             return 270+conHigh+conHigh2;
+        }
+            
+            
+        
         
     }
     if (indexPath.section==3) {
@@ -480,9 +487,15 @@ LMLeavemessagecellDelegate
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
             
+            
+            
+           if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
+                cell.index = 1;
+            }
+            
             [cell setValue:list];
             
-            
+            NSLog(@"%@",list.projectImgs);
             [cell setXScale:self.xScale yScale:self.yScaleNoTab];
 
             return cell;
@@ -500,6 +513,9 @@ LMLeavemessagecellDelegate
 //        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
         [cell setValue:msgArray andIndex:indexPath.row];
         cell.tag = indexPath.row;
+        
+        
+        
 //        cell.commentUUid = msgData.commentUuid;
         cell.delegate = self;
         

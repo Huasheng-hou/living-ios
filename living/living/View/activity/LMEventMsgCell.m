@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 
 
+
+
 @end
 
 @implementation LMEventMsgCell
@@ -79,8 +81,13 @@
     LMEventDetailEventProjectsBody *list = data;
     _dspLabel.text = list.projectTitle;
     _contentLabel.text = list.projectDsp;
+    
 
+    
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.projectImgs]];
+    
+
+    
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
      _conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
@@ -104,7 +111,16 @@
     [_contentLabel sizeToFit];
 
     _dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, _conHigh);
-    _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 210);
+ 
+    _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 0);
+    if (_index==1) {
+        _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 0);
+    }else{
+       _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 210);
+    }
+
+    
+    
     _contentLabel.frame = CGRectMake(15, 30+_headImage.bounds.size.height +_conHigh, kScreenWidth-30, _dspHigh);
 
 }

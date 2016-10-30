@@ -107,7 +107,13 @@
     [_contentLabel sizeToFit];
     
     _typeLabel.frame = CGRectMake(60, 12, _typeLabel.bounds.size.width,  _typeLabel.bounds.size.height);
+    
+    if (_INDEX==1) {
+       _timeLabel.frame = CGRectMake(kScreenWidth-65-_timeLabel.bounds.size.width, 12, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    }else{
     _timeLabel.frame = CGRectMake(kScreenWidth-15-_timeLabel.bounds.size.width, 12, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    }
+
     _contentLabel.frame = CGRectMake(60, _timeLabel.bounds.size.height+12, kScreenWidth-75, 30);
 
     
