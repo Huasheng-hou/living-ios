@@ -10,6 +10,9 @@
 #import "LMRechargeViewController.h"
 #import "LMBalanceRequest.h"
 #import "LMBalanceListRequest.h"
+#import "LMBlanceDetailController.h"
+#import "LMBlanceListCell.h"
+#import "LMBalanceList.h"
 
 
 @interface LMBalanceViewController ()
@@ -19,6 +22,7 @@ UITableViewDataSource>
     UITableView *_tableView;
     NSString *balanceStr;
     NSMutableArray *listArray;
+    NSMutableArray *monthArray;
 }
 
 
@@ -33,6 +37,7 @@ UITableViewDataSource>
  
     [self creatUI];
     listArray = [NSMutableArray new];
+    monthArray = [NSMutableArray new];
     
     //请求获取余额
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -61,7 +66,12 @@ UITableViewDataSource>
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    
+    if (indexPath.section==0) {
+        return 60;
+    }
+    
+    return 75;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -82,15 +92,19 @@ UITableViewDataSource>
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    if (section!=0) {
+        
+ 
+    
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
     
-    UILabel *headLb = [UILabel new];
-    if (section==1) {
-        headLb.text =@"本月";
-    }
-    if (section==2) {
-        headLb.text = @"9月";
-    }
+         UILabel *headLb = [UILabel new];
+        for (int i = 0; i<monthArray.count; i++) {
+            if (section==i) {
+                headLb.text =@"本月";
+            }
+        }
+
     headLb.font = TEXT_FONT_LEVEL_2;
     headLb.textColor = TEXT_COLOR_LEVEL_2;
     [headLb sizeToFit];
@@ -98,31 +112,58 @@ UITableViewDataSource>
     [headView addSubview:headLb];
     
     
+    UILabel *detal = [UILabel new];
+    detal.text = @"本月明细";
+    detal.font = TEXT_FONT_LEVEL_2;
+    detal.textColor = TEXT_COLOR_LEVEL_2;
+    [detal sizeToFit];
+    detal.frame = CGRectMake(kScreenWidth-27-detal.bounds.size.width, 0, detal.bounds.size.width, 30);
+    [headView addSubview:detal];
     
+    UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 8, 7, 14)];
+    right.image = [UIImage imageNamed:@"turnright"];
+    [headView addSubview:right];
+    
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sectionclickAction:)];
+        [headView addGestureRecognizer:tap];
+        tap.view.tag = section;
     return headView;
+        
+    }
+    return nil;
+        
+}
+
+-(void)sectionclickAction:(UITapGestureRecognizer *)tap
+{
+    NSLog(@"%ld",tap.view.tag);
+    LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
+    DetailVC.monthArr = monthArray;
+    [self.navigationController pushViewController:DetailVC animated:YES];
 }
 
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return monthArray.count+1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 2;
     }
-    return listArray.count;
+    return 3;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"cellId";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     if (indexPath.section==0) {
-        
+        static NSString *cellId = @"cellId";
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.font = TEXT_FONT_LEVEL_2;
         cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
         switch (indexPath.row) {
@@ -140,29 +181,21 @@ UITableViewDataSource>
             default:
                 break;
         }
+        return cell;
+        
+        
+    }else{
+        static NSString *cellID = @"cellId";
+        LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        LMBalanceList *list = [listArray objectAtIndex:indexPath.row];
+        [cell setModel:list];
+        return cell;
+        
     }
     
-    if (indexPath.section==1) {
-        cell.textLabel.font = TEXT_FONT_LEVEL_2;
-        cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
-        cell.textLabel.text = @"*******************活动已退款";
-        cell.detailTextLabel.textColor = LIVING_COLOR;
-        cell.detailTextLabel.font = TEXT_FONT_LEVEL_2;
-        cell.detailTextLabel.text = @"+300";
-    }
-    if (indexPath.section==2) {
-        cell.textLabel.font = TEXT_FONT_LEVEL_2;
-        cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
-        cell.textLabel.text = @"*******************活动已支付";
-        cell.detailTextLabel.textColor = TEXT_COLOR_LEVEL_2;
-        cell.detailTextLabel.font = TEXT_FONT_LEVEL_2;
-        cell.detailTextLabel.text = @"-300";
-    }
-    
-    
-    //        [cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    
-    return cell;
+    return nil;
+
 }
 
 
@@ -171,6 +204,7 @@ UITableViewDataSource>
     if (indexPath.section==0) {
         if (indexPath.row==1) {
             LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
+            
             [reVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:reVC animated:YES];
         }
@@ -238,7 +272,7 @@ UITableViewDataSource>
     NSString *dateString = [dateFormatter stringFromDate:currentDate];
     NSLog(@"dateString:%@",dateString);
     
-    LMBalanceListRequest *request = [[LMBalanceListRequest alloc] initWithPageIndex:1 andPageSize:20 andMonth:dateString];
+    LMBalanceListRequest *request = [[LMBalanceListRequest alloc] initWithPageIndex:1 andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -262,7 +296,17 @@ UITableViewDataSource>
         [self textStateHUD:@"获取余额列表失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            NSLog(@"%@",bodyDic[@"list"]);
+        
+        NSMutableArray *array=bodyDic[@"list"];
+            for (int i=0; i<array.count; i++) {
+                LMBalanceList *list=[[LMBalanceList alloc]initWithDictionary:array[i]];
+                NSString *month = [array[i] objectForKey:@"month"];
+                [monthArray addObject:month];
+                if (![listArray containsObject:list]) {
+                    [listArray addObject:list];
+                }
+                
+            }
             
             
         }

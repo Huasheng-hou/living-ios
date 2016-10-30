@@ -115,7 +115,7 @@
     
     _timeLabel.frame = CGRectMake(kScreenWidth-20-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 72, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     
-    _nameLabel.frame = CGRectMake(kScreenWidth-10-_nameLabel.bounds.size.width, 70, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
+    _nameLabel.frame = CGRectMake(kScreenWidth-10-_nameLabel.bounds.size.width, 72, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
 
 
     

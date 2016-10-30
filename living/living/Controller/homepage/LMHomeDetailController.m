@@ -114,7 +114,7 @@ LMCommentCellDelegate
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
     homeImg.image = [UIImage imageNamed:@"NO-article"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 30)];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 100,30)];
     imageLb.text = @"没有评论";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.textAlignment = NSTextAlignmentCenter;

@@ -154,7 +154,7 @@
     
     [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
     

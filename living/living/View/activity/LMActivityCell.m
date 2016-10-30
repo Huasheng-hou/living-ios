@@ -96,6 +96,7 @@
     //活动人头像
     _headV = [UIImageView new];
     _headV.backgroundColor = [UIColor grayColor];
+    _headV.clipsToBounds = YES;
     _headV.layer.cornerRadius = 10.f;
     [footView addSubview:_headV];
     

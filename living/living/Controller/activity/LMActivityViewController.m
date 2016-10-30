@@ -79,7 +79,7 @@ UITableViewDataSource
 //    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
 //    homeImg.image = [UIImage imageNamed:@"eventload"];
 //    [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 150, 60)];
     imageLb.numberOfLines = 0;
     imageLb.text = @"正在加载。。。";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;

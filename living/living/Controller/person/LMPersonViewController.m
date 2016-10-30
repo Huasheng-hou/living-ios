@@ -37,6 +37,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
+
 }
 
 - (void)viewDidLoad {

@@ -716,37 +716,28 @@ LMLeavemessagecellDelegate
         [self textStateHUD:@"暂不能报名"];
         return;
     }
-//    NSMutableDictionary *orderNum=notice.object;
-//    NSLog(@"%@",orderNum[@"num"]);
-//    
-//    NSString *num = [NSString stringWithFormat:@"%@",orderNum[@"num"]];
+    NSMutableDictionary *orderNum=notice.object;
+    NSLog(@"%@",orderNum[@"num"]);
     
-//    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:num];
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"报名参加活动失败"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
+    NSString *num = [NSString stringWithFormat:@"%@",orderNum[@"num"]];
     
-    [self besureOrder];
+    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:num];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"报名参加活动失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
 
 }
-
--(void)besureOrder
-{
-    LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
-    [OrderVC setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:OrderVC animated:YES];
-}
-
 
 
 -(void)getEventjoinDataResponse:(NSString *)resp

@@ -97,9 +97,9 @@ LMOrderCellDelegate>
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 90, 90)];
     homeImg.image = [UIImage imageNamed:@"NO-order"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 60)];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 100, 60)];
     imageLb.numberOfLines = 0;
-    imageLb.text = @"暂无订单,赶快报名活动吧！";
+    imageLb.text = @"没订单,好枯燥,快来参与活动 享受美好生活";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.textAlignment = NSTextAlignmentCenter;
     [homeImage addSubview:imageLb];
@@ -160,7 +160,7 @@ LMOrderCellDelegate>
         ifRefresh=NO;
         
         if (total<self.current) {
-            [self textStateHUD:@"没有更多文章"];
+            [self textStateHUD:@"没有更多订单"];
         }else{
             [self getOrderListRequest:self.current];
         }

@@ -1,16 +1,16 @@
 //
-//  LMBalanceListRequest.m
+//  LMBalanceMonthRequest.m
 //  living
 //
-//  Created by Ding on 16/10/18.
+//  Created by Ding on 2016/10/30.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "LMBalanceListRequest.h"
+#import "LMBalanceMonthRequest.h"
 
-@implementation LMBalanceListRequest
+@implementation LMBalanceMonthRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize
+-(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize andMonth:(NSString *)month
 {
     self = [super init];
     if (self) {
@@ -20,6 +20,9 @@
         }
         if (pageSize != -1) {
             [body setObject:[NSString stringWithFormat:@"%d", pageSize] forKey:@"pageSize"];
+        }
+        if (month) {
+            [body setObject:month forKey:@"month"];
         }
         
         NSMutableDictionary *parmDic = [self params];
@@ -36,7 +39,7 @@
 
 - (NSString *)methodPath
 {
-    return @"balance/detail";
+    return @"balance/search";
 }
 
 @end

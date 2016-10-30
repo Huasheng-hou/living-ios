@@ -49,7 +49,7 @@
     
     if (![[FitUserManager sharedUserManager] isLogin]) {
         
-        [LMLoginViewController presentInViewController:self Animated:YES];
+        [LMLoginViewController presentInViewController:self Animated:NO];
     }else{
          [self createUI];
     }
@@ -58,6 +58,8 @@
 -(void)switchAction
 {
     NSLog(@"****************");
+    self.selectedIndex = 0;
+    [LMLoginViewController presentInViewController:self Animated:NO];
 }
 
 

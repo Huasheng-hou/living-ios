@@ -40,6 +40,7 @@
     listArray = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadingEvent) name:@"reloadEvent" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadingEvent) name:@"rechargeMoney" object:nil];
+
     
 
 }
@@ -170,7 +171,7 @@
         [homeImage addSubview:homeImg];
         UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
         imageLb.numberOfLines = 0;
-        imageLb.text = @"还未添加生活馆，赶紧添加吧！";
+        imageLb.text = @"拥有属于自己的生活馆，绝对是很高大上的感觉哦，快来参与吧";
         imageLb.textColor = TEXT_COLOR_LEVEL_3;
         imageLb.font = TEXT_FONT_LEVEL_2;
         imageLb.textAlignment = NSTextAlignmentCenter;

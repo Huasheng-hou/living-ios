@@ -28,13 +28,15 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle: @"确定" style:UIBarButtonItemStylePlain target:self action:@selector(besureAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    self.tableView.allowsMultipleSelectionDuringEditing = YES;
+    self.tableView.editing = !self.tableView.editing;
     
     
 }
 
 -(void)besureAction
 {
-    NSLog(@"确定");
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -49,11 +51,11 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
 
     
-    chooseView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
-    chooseView.image = [UIImage imageNamed:@"choose"];
-    [cell.contentView addSubview:chooseView];
+//    chooseView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
+//    chooseView.image = [UIImage imageNamed:@"choose"];
+//    [cell.contentView addSubview:chooseView];
     
-    UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(40, 10, 30, 30)];
+    UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
     headImage.backgroundColor = [UIColor lightGrayColor];
     headImage.layer.cornerRadius = 5;
     [cell.contentView addSubview:headImage];
@@ -63,7 +65,7 @@
     nameLabel.textColor = TEXT_COLOR_LEVEL_2;
     nameLabel.font = TEXT_FONT_LEVEL_2;
     [nameLabel sizeToFit];
-    nameLabel.frame = CGRectMake(80, 0, nameLabel.bounds.size.width, 50);
+    nameLabel.frame = CGRectMake(50, 0, nameLabel.bounds.size.width, 50);
     [cell.contentView addSubview:nameLabel];
     
     
@@ -71,12 +73,12 @@
 }
 
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-    chooseView.image = [UIImage imageNamed:@"choose-no"];
-    
-}
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//
+//    chooseView.image = [UIImage imageNamed:@"choose-no"];
+//    
+//}
 
 
 

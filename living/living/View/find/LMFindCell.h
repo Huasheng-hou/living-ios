@@ -20,8 +20,6 @@
 @property (nonatomic, strong)NSString *name;
 
 
-
-
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 

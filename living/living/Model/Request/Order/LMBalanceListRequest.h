@@ -10,6 +10,6 @@
 
 @interface LMBalanceListRequest : FitBaseRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize andMonth:(NSString *)month;
+-(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize;
 
 @end
