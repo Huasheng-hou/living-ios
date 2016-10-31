@@ -50,8 +50,8 @@ WJLoopViewDelegate
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHomeDataRequest:) name:@"login" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHomeDataRequest:) name:@"reloadHomePage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"login" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadHomePage" object:nil];
 }
 
 - (void)viewDidLoad {
@@ -171,11 +171,11 @@ WJLoopViewDelegate
     });
 }
 
--(void)reloadingHomePage
-{
-    [listArray removeAllObjects];
-    [self getHomeDataRequest:(int)@""];
-}
+//-(void)reloadingHomePage
+//{
+//    [listArray removeAllObjects];
+//    [self getHomeDataRequest:(int)@""];
+//}
 
 
 -(void)getBannerDataRequest
