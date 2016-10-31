@@ -15,6 +15,8 @@
 #import "ImageHelpTool.h"
 #import "UIView+frame.h"
 
+
+
 @interface LMPublicArticleController ()
 <
 UITextFieldDelegate,
@@ -52,13 +54,13 @@ UIViewControllerTransitioningDelegate
     UIButton *publish;
     
     UITextField *titleTF;
+    UITextField *discribleTF;
     
 }
 
 @end
 
 @implementation LMPublicArticleController
-
 
 - (void)viewDidLoad
 {
@@ -83,33 +85,50 @@ UIViewControllerTransitioningDelegate
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setAllowsEditing:YES];
     
-    
-    
-    
     UIScrollView *scroll=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     [scroll setBackgroundColor:BG_GRAY_COLOR];
     [scroll setContentSize:CGSizeMake(kScreenWidth, 800)];
+    [scroll setDelegate:self];
     [self.tableView addSubview:scroll];
     
-    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight/2+50)];
+    //
+    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight/2+50+45)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
     [scroll addSubview:bgView];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, kScreenWidth, 0.5)];
+    //
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5, kScreenWidth, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
     [bgView addSubview:lineView];
     
+    //标题
     titleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 44.5)];
     titleTF.placeholder = @"请输入标题";
+    [titleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
     titleTF.delegate = self;
-    titleTF.font = TEXT_FONT_LEVEL_1;
+    [titleTF setReturnKeyType:UIReturnKeyDone];
+    titleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
+    titleTF.font = TEXT_FONT_LEVEL_2;
     [bgView addSubview:titleTF];
     
+    //描述
+    discribleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 50, kScreenWidth-20, 44.5)];
+    discribleTF.placeholder = @"请输入描述内容";
+    discribleTF.delegate = self;
+    [discribleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
+    [discribleTF setReturnKeyType:UIReturnKeyDone];
+    discribleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
+    discribleTF.font = TEXT_FONT_LEVEL_2;
+    [bgView addSubview:discribleTF];
+
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5+45, kScreenWidth, 0.5)];
+    line.backgroundColor = LINE_COLOR;
+    [bgView addSubview:line];
     
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 50, kScreenWidth-20, bgView.frame.size.height/2)];
+    //正文
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, bgView.frame.size.height/2)];
     [textView setDelegate:self];
     [textView setBackgroundColor:[UIColor whiteColor]];
-    textView.font = TEXT_FONT_LEVEL_1;//设置字体名字和字体大小
+    textView.font = TEXT_FONT_LEVEL_2;//设置字体名字和字体大小
     textView.delegate = self;//设置它的委托方法
     
     [textView setReturnKeyType:UIReturnKeyDone];
@@ -118,13 +137,15 @@ UIViewControllerTransitioningDelegate
     textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
     [bgView addSubview: textView];//加入到整个页面中
     
-    tip=[[UILabel alloc]initWithFrame:CGRectMake(12, 57, kScreenWidth-20, 25)];
+    //textView的提示文字
+    tip=[[UILabel alloc]initWithFrame:CGRectMake(12, 57+45, kScreenWidth-20, 25)];
     tip.text = @"请输入正文";//设置它显示的内容
     tip.textColor = TEXT_COLOR_LEVEL_4;//设置textview里面的字体颜色
-    tip.font = TEXT_FONT_LEVEL_1;//设置字体名字和字体大小
+    tip.font = TEXT_FONT_LEVEL_2;//设置字体名字和字体大小
     [bgView addSubview:tip];
     
-    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight/4+50, kScreenWidth, bgView.frame.size.height/2+50)];
+    //加载图片，父视图是scroll
+    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight/4+50+45, kScreenWidth, bgView.frame.size.height/2+50)];
     [viewScroll setBackgroundColor:[UIColor whiteColor]];
     
     addImageBt=[[UIButton alloc]initWithFrame:[self setupImageFrame:0]];
@@ -132,16 +153,19 @@ UIViewControllerTransitioningDelegate
     [addImageBt setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
     [addImageBt addTarget:self action:@selector(selectImage) forControlEvents:UIControlEventTouchUpInside];
     [viewScroll addSubview:addImageBt];
+    [scroll addSubview:viewScroll];
     
+    //按钮上边的灰色部分
     grayView1=[[UIView alloc]initWithFrame:CGRectMake(0, viewScroll.frame.size.height-45-45, kScreenWidth, 45)];
     [grayView1 setBackgroundColor:BG_GRAY_COLOR];
     [viewScroll addSubview:grayView1];
-    [scroll addSubview:viewScroll];
-    
-    grayView2=[[UIView alloc]initWithFrame:CGRectMake(0, viewScroll.frame.size.height-45, kScreenWidth, 45)];
+   
+    //和按钮同一y轴
+    grayView2=[[UIView alloc]initWithFrame:CGRectMake(0, viewScroll.frame.size.height-45+45, kScreenWidth, 45)];
     [grayView2 setBackgroundColor:BG_GRAY_COLOR];
     [viewScroll addSubview:grayView2];
     
+    //发布按钮
     publish=[[UIButton alloc]initWithFrame:CGRectMake(10, viewScroll.frame.size.height-45, kScreenWidth-20, 45)];
     [publish setBackgroundColor:LIVING_COLOR];
     
@@ -150,8 +174,6 @@ UIViewControllerTransitioningDelegate
     [publish setTitle:@"发布" forState:UIControlStateNormal];
     [publish addTarget:self action:@selector(publishQuestion) forControlEvents:UIControlEventTouchUpInside];
     [viewScroll addSubview:publish];
-    
-
 }
 
 -(void)selectImage
@@ -193,7 +215,6 @@ UIViewControllerTransitioningDelegate
             
             [imageArray addObject:tempImg];
         }
-        
     });
     
     [self setViewScrollViewHeight:imageNum];
@@ -211,19 +232,18 @@ UIViewControllerTransitioningDelegate
     
     if (imageNum<4) {
         NSLog(@".count<=4");
-        //        [scroll setContentSize:CGSizeMake(kScreenWidth, buttonW+space*2)];
         
-        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4, kScreenWidth,height+buttonW+space*2)];
+        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45, kScreenWidth,height+buttonW+space*2)];
         
     }else if(imageNum<8) {
         NSLog(@".count<count<=8");
-        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4, kScreenWidth,height+buttonW*2+space*3)];
+        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45, kScreenWidth,height+buttonW*2+space*3)];
     }else if(imageNum<12){
         NSLog(@".count----else");
-        viewScroll.frame = CGRectMake(0, kScreenHeight/4, kScreenWidth, height+buttonW*3+space*4);
+        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45, kScreenWidth, height+buttonW*3+space*4);
     }else
     {
-        viewScroll.frame = CGRectMake(0, kScreenHeight/4, kScreenWidth, height+buttonW*4+space*5);
+        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45, kScreenWidth, height+buttonW*4+space*5);
     }
     
     
@@ -233,7 +253,6 @@ UIViewControllerTransitioningDelegate
     [grayView2 setFrame:CGRectMake(0, viewScroll.frame.size.height-45, kScreenWidth, 45)];
     
     [publish setFrame:CGRectMake(10, viewScroll.frame.size.height-45, kScreenWidth-20, 45)];
-    
 }
 
 
@@ -316,15 +335,98 @@ UIViewControllerTransitioningDelegate
 
 -(void)publishQuestion
 {
+    NSLog(@"=======publishQuestion=========");
+    
     [self.view endEditing:YES];
+    
+    if (titleTF.text.length ==0) {
+        [self textStateHUD:@"请输入标题"];
+        return;
+    }
+    
+    if ([self stringContainsEmoji:titleTF.text]) {
+       
+        
+        NSString *uniStr = [NSString stringWithUTF8String:[titleTF.text UTF8String]];
+        NSData *uniData = [uniStr dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+        NSString *goodStr = [[NSString alloc] initWithData:uniData encoding:NSUTF8StringEncoding] ;
+        titleTF.text=goodStr;
+        
+         NSLog(@"===========包含=============|%@|",titleTF.text);
+        
+    }else{
+        NSLog(@"===========不包含=============");
+    }
+    
+    
+    
+    
+    
+    if (discribleTF.text.length ==0) {
+        [self textStateHUD:@"请输入描述内容"];
+        return;
+    }
+    
+    if (textView.text.length ==0) {
+        [self textStateHUD:@"请输入正文！"];
+        return;
+    }
+    NSString *string = [textView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([string isEqual:@""]) {
+        [self textStateHUD:@"请输入文字信息！"];
+        return;
+    }
+    
+    if (imageArray.count<1) {
+        [self textStateHUD:@"至少上传一张图片"];
+        return;
+    }
+
     if (imageArray.count>0) {
         [self performSelectorOnMainThread:@selector(getImageURL) withObject:nil waitUntilDone:YES];
     }else{
         [self publishAction];
     }
-    
 }
 
+-(BOOL)stringContainsEmoji:(NSString *)string
+{
+    __block BOOL returnValue = NO;
+    
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
+                               options:NSStringEnumerationByComposedCharacterSequences
+                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+                                const unichar hs = [substring characterAtIndex:0];
+                                if (0xd800 <= hs && hs <= 0xdbff) {
+                                    if (substring.length > 1) {
+                                        const unichar ls = [substring characterAtIndex:1];
+                                        const int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
+                                        if (0x1d000 <= uc && uc <= 0x1f77f) {
+                                            returnValue = YES;
+                                        }
+                                    }
+                                } else if (substring.length > 1) {
+                                    const unichar ls = [substring characterAtIndex:1];
+                                    if (ls == 0x20e3) {
+                                        returnValue = YES;
+                                    }
+                                } else {
+                                    if (0x2100 <= hs && hs <= 0x27ff) {
+                                        returnValue = YES;
+                                    } else if (0x2B05 <= hs && hs <= 0x2b07) {
+                                        returnValue = YES;
+                                    } else if (0x2934 <= hs && hs <= 0x2935) {
+                                        returnValue = YES;
+                                    } else if (0x3297 <= hs && hs <= 0x3299) {
+                                        returnValue = YES;
+                                    } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50) {
+                                        returnValue = YES;
+                                    }
+                                }
+                            }];
+    
+    return returnValue;
+}
 
 #pragma mark UITextViewDelegate
 
@@ -370,6 +472,12 @@ UIViewControllerTransitioningDelegate
         }
     return rect;
 }
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
 
 #pragma mark scroll加载图片
 
@@ -471,6 +579,7 @@ UIViewControllerTransitioningDelegate
 
 - (void)getImageURL
 {
+    NSLog(@"======获取图片的url========");
     
     if (![CheckUtils isLink]) {
         
@@ -531,29 +640,6 @@ UIViewControllerTransitioningDelegate
 
 -(void)publishAction
 {
-    
-    if (titleTF.text.length ==0) {
-        [self textStateHUD:@"请输入标题"];
-        return;
-    }
-    
-    
-    if (textView.text.length ==0) {
-        [self textStateHUD:@"请输入正文！"];
-        return;
-    }
-    NSString *string = [textView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if ([string isEqual:@""]) {
-        [self textStateHUD:@"请输入文字信息！"];
-        return;
-    }
-    
-    if (imageUrlArray.count<1) {
-        [self textStateHUD:@"至少上传一张图片"];
-        return;
-    }
-    
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -564,7 +650,7 @@ UIViewControllerTransitioningDelegate
     
     NSLog(@"----------发布问题-----图片地址数组---------%@",imageUrlArray);
     
-    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text Article_title:titleTF.text Descrition:@"" andImageURL:imageUrlArray];
+    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text Article_title:titleTF.text Descrition:discribleTF.text andImageURL:imageUrlArray];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -624,19 +710,5 @@ UIViewControllerTransitioningDelegate
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
