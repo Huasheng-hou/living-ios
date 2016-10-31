@@ -89,10 +89,6 @@ UITableViewDataSource
     homeImage.hidden = YES;
     
     [_tableView addSubview:homeImage];
-    
-    
-    
-    
 }
 
 -(void)publicAction
