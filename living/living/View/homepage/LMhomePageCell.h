@@ -9,20 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "LMActicleList.h"
 
+@protocol  LMhomePageCellDelegate;
+
 @interface LMhomePageCell : UITableViewCell
 @property (nonatomic, strong)NSString *imageUrl;
 
-//@property (nonatomic, strong)NSString *titleString;
-
-@property (nonatomic, strong)NSString *name;
-
-@property (nonatomic, strong)NSString *time;
-
-@property (nonatomic, readonly) float xScale;
-@property (nonatomic, readonly) float yScale;
-
-- (void)setXScale:(float)xScale yScale:(float)yScale;
+@property (nonatomic, weak) id <LMhomePageCellDelegate> delegate;
 
 -(void)setValue:(LMActicleList *)list;
+
+@end
+
+
+@protocol LMhomePageCellDelegate <NSObject>
+
+@optional
+- (void)cellWillClick:(LMhomePageCell *)cell;
 
 @end

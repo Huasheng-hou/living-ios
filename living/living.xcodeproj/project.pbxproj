@@ -19,6 +19,12 @@
 		350769231DB9F22500487341 /* LMChangeDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769221DB9F22500487341 /* LMChangeDataViewController.m */; };
 		350769271DB9FEBF00487341 /* LMVersionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769261DB9FEBF00487341 /* LMVersionViewController.m */; };
 		3507692A1DBA05A100487341 /* LMOrederDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350769291DBA05A100487341 /* LMOrederDeleteRequest.m */; };
+		350904E41DC74C390045CC14 /* SYPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 350904E11DC74C390045CC14 /* SYPhotoBrowser.m */; };
+		350904E51DC74C390045CC14 /* SYPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350904E31DC74C390045CC14 /* SYPhotoViewController.m */; };
+		350904EE1DC74C540045CC14 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 350904E91DC74C540045CC14 /* DACircularProgressView.m */; };
+		350904EF1DC74C540045CC14 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 350904EB1DC74C540045CC14 /* DALabeledCircularProgressView.m */; };
+		350904F01DC74C540045CC14 /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 350904EC1DC74C540045CC14 /* LICENSE.md */; };
+		350904F11DC74C540045CC14 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 350904ED1DC74C540045CC14 /* README.md */; };
 		3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3509B5F51D9B5302003F4D76 /* LMCommentCell.m */; };
 		350AD2201DB7560E00CA181A /* LMFeedBackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD21F1DB7560E00CA181A /* LMFeedBackRequest.m */; };
 		350AD2231DB7577000CA181A /* LMEventpraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 350AD2221DB7577000CA181A /* LMEventpraiseRequest.m */; };
@@ -261,6 +267,16 @@
 		350769261DB9FEBF00487341 /* LMVersionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVersionViewController.m; sourceTree = "<group>"; };
 		350769281DBA05A100487341 /* LMOrederDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrederDeleteRequest.h; sourceTree = "<group>"; };
 		350769291DBA05A100487341 /* LMOrederDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrederDeleteRequest.m; sourceTree = "<group>"; };
+		350904E01DC74C390045CC14 /* SYPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoBrowser.h; sourceTree = "<group>"; };
+		350904E11DC74C390045CC14 /* SYPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoBrowser.m; sourceTree = "<group>"; };
+		350904E21DC74C390045CC14 /* SYPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoViewController.h; sourceTree = "<group>"; };
+		350904E31DC74C390045CC14 /* SYPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoViewController.m; sourceTree = "<group>"; };
+		350904E81DC74C540045CC14 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		350904E91DC74C540045CC14 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		350904EA1DC74C540045CC14 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		350904EB1DC74C540045CC14 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		350904EC1DC74C540045CC14 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		350904ED1DC74C540045CC14 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3509B5F41D9B5302003F4D76 /* LMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentCell.h; sourceTree = "<group>"; };
 		3509B5F51D9B5302003F4D76 /* LMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentCell.m; sourceTree = "<group>"; };
 		350AD21E1DB7560E00CA181A /* LMFeedBackRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFeedBackRequest.h; sourceTree = "<group>"; };
@@ -830,6 +846,38 @@
 			path = setting;
 			sourceTree = "<group>";
 		};
+		350904DF1DC74C390045CC14 /* SYPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				350904E01DC74C390045CC14 /* SYPhotoBrowser.h */,
+				350904E11DC74C390045CC14 /* SYPhotoBrowser.m */,
+				350904E21DC74C390045CC14 /* SYPhotoViewController.h */,
+				350904E31DC74C390045CC14 /* SYPhotoViewController.m */,
+			);
+			path = SYPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		350904E61DC74C540045CC14 /* DACircularProgress */ = {
+			isa = PBXGroup;
+			children = (
+				350904E71DC74C540045CC14 /* DACircularProgress */,
+				350904EC1DC74C540045CC14 /* LICENSE.md */,
+				350904ED1DC74C540045CC14 /* README.md */,
+			);
+			path = DACircularProgress;
+			sourceTree = "<group>";
+		};
+		350904E71DC74C540045CC14 /* DACircularProgress */ = {
+			isa = PBXGroup;
+			children = (
+				350904E81DC74C540045CC14 /* DACircularProgressView.h */,
+				350904E91DC74C540045CC14 /* DACircularProgressView.m */,
+				350904EA1DC74C540045CC14 /* DALabeledCircularProgressView.h */,
+				350904EB1DC74C540045CC14 /* DALabeledCircularProgressView.m */,
+			);
+			path = DACircularProgress;
+			sourceTree = "<group>";
+		};
 		351CC64C1DAB22C1008D59D8 /* person */ = {
 			isa = PBXGroup;
 			children = (
@@ -1285,6 +1333,8 @@
 		3547F4061D9904BD0068F04E /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				350904E61DC74C540045CC14 /* DACircularProgress */,
+				350904DF1DC74C390045CC14 /* SYPhotoBrowser */,
 				3547F4071D9904BD0068F04E /* city.plist */,
 				3547F4081D9904BD0068F04E /* ColorConvert */,
 				3547F40D1D9904BD0068F04E /* DateTime */,
@@ -2433,6 +2483,7 @@
 				3547F42F1D9904BD0068F04E /* UIImage+ImageFromArrayUtils.m in Sources */,
 				35B61E011DB06F7E00083F30 /* LMEventDetailEventBody.m in Sources */,
 				35FA8E781DB5B31800510A75 /* NSDataEx.m in Sources */,
+				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
 				3517678F1DC5A6BD00D2D407 /* LMBlanceDetailController.m in Sources */,
 				35FA8E731DB5B31800510A75 /* Order.m in Sources */,
@@ -2482,9 +2533,11 @@
 				35FA8EA01DB5ECDE00510A75 /* LMBalanceRequest.m in Sources */,
 				35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */,
 				358460F71DBDD4A10048D176 /* LMSettingViewController.m in Sources */,
+				350904E51DC74C390045CC14 /* SYPhotoViewController.m in Sources */,
 				35B61E021DB06F7E00083F30 /* LMEventDetailEventProjectsBody.m in Sources */,
 				351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
+				350904EF1DC74C540045CC14 /* DALabeledCircularProgressView.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
 				35FA8DF71DB5B27800510A75 /* LMRechargeViewController.m in Sources */,
@@ -2517,6 +2570,7 @@
 				351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */,
 				353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */,
 				35B61E1B1DB0A9DA00083F30 /* LMEventJoinRequest.m in Sources */,
+				350904F01DC74C540045CC14 /* LICENSE.md in Sources */,
 				3547F3A11D9904B20068F04E /* LMChooseButton.m in Sources */,
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
 				35FA8E771DB5B31800510A75 /* MD5DataSigner.m in Sources */,
@@ -2549,6 +2603,7 @@
 				351767921DC5ABB600D2D407 /* LMBlanceHeadCell.m in Sources */,
 				35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */,
 				35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */,
+				350904EE1DC74C540045CC14 /* DACircularProgressView.m in Sources */,
 				350769271DB9FEBF00487341 /* LMVersionViewController.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
 				35FA8E9D1DB5CF3D00510A75 /* LMRefundRequest.m in Sources */,
@@ -2581,6 +2636,7 @@
 				355E52751DC1FE970004FBAF /* LMChangeLivingController.m in Sources */,
 				35B61DEF1DB06DA000083F30 /* LMGetCaptchaRequest.m in Sources */,
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
+				350904E41DC74C390045CC14 /* SYPhotoBrowser.m in Sources */,
 				351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
@@ -2640,8 +2696,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
@@ -2665,7 +2721,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "42dace51-cd9c-4ffe-a3c0-ccb518bb7dc4";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2691,8 +2747,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
@@ -2709,7 +2765,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "42dace51-cd9c-4ffe-a3c0-ccb518bb7dc4";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2721,9 +2777,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2778,9 +2834,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (

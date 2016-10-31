@@ -344,19 +344,24 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-    if ([self stringContainsEmoji:titleTF.text]) {
-       
-        
-        NSString *uniStr = [NSString stringWithUTF8String:[titleTF.text UTF8String]];
-        NSData *uniData = [uniStr dataUsingEncoding:NSNonLossyASCIIStringEncoding];
-        NSString *goodStr = [[NSString alloc] initWithData:uniData encoding:NSUTF8StringEncoding] ;
-        titleTF.text=goodStr;
-        
-         NSLog(@"===========包含=============|%@|",titleTF.text);
-        
-    }else{
-        NSLog(@"===========不包含=============");
-    }
+//    if ([self stringContainsEmoji:titleTF.text]) {
+//       
+//        
+//        NSString *uniStr = [NSString stringWithUTF8String:[titleTF.text UTF8String]];
+//        NSData *uniData = [uniStr dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+//        NSString *goodStr = [[NSString alloc] initWithData:uniData encoding:NSUTF8StringEncoding] ;
+//        titleTF.text=goodStr;
+//        
+//        
+////        NSData *jsonData = [NSData dataWithBytes:jsonString length:strlen(jsonString)];
+////        NSString *goodMsg1 = [[NSString alloc] initWithData:jsonData encoding:NSNonLossyASCIIStringEncoding];
+////        NSLog(@"---解码--->[%@]",goodMsg1);
+//        
+//         NSLog(@"===========包含=============|%@|",titleTF.text);
+//        
+//    }else{
+//        NSLog(@"===========不包含=============");
+//    }
     
     
     

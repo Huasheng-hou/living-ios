@@ -19,6 +19,8 @@
 #import "LMCommentArticleRequest.h"
 #import "LMArtcleCommitRequest.h"
 
+#import "SYPhotoBrowser.h"
+
 @interface LMHomeDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
@@ -46,6 +48,8 @@ LMCommentCellDelegate
     NSInteger  textIndex;
     
     UIImageView *homeImage;
+    
+    NSArray *imageArray;
     
 }
 
@@ -93,9 +97,9 @@ LMCommentCellDelegate
     
     zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [zanButton setTitle:@"点赞" forState:UIControlStateNormal];
+    [zanButton setTitle:@"发送" forState:UIControlStateNormal];
     [zanButton setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-    [zanButton addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [zanButton addTarget:self action:@selector(getCommentArticleDataRequest) forControlEvents:UIControlEventTouchUpInside];
     zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
     
     [toolBar addSubview:zanButton];
@@ -441,7 +445,6 @@ LMCommentCellDelegate
             [cell.contentView addSubview:commentLabel];
             
             
-            
             zanLabel = [UILabel new];
             zanLabel.font = TEXT_FONT_LEVEL_3;
             zanLabel.textColor = TEXT_COLOR_LEVEL_3;
@@ -451,16 +454,28 @@ LMCommentCellDelegate
             [cell.contentView addSubview:zanLabel];
             
             if (articleData.articleImgs) {
-                
+                imageArray =articleData.articleImgs;
                 NSArray *arr =articleData.articleImgs;
                 for (int i = 0; i<arr.count; i++) {
                     UIImageView *headImage = [UIImageView new];
                     [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]]];
+                    headImage.backgroundColor = BG_GRAY_COLOR;
+                    
+                    headImage.contentMode = UIViewContentModeScaleAspectFill;
+                    
                     [headImage setClipsToBounds:YES];
-                    headImage.contentMode = UIViewContentModeScaleToFill;
+                    
+                    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
+                    headImage.tag = i;
+                    [headImage addGestureRecognizer:tap];
+                    headImage.userInteractionEnabled = YES;
+                    
+                    
                     [cell.contentView addSubview:headImage];
      
                     headImage.frame = CGRectMake(15, 15*(i+1)+210*i, kScreenWidth-30, 210);
+                    
+
                 }
                 
                
@@ -485,25 +500,30 @@ LMCommentCellDelegate
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-//        LMCommentMessages *list = listArray[indexPath.row];
-        
         [cell setValue:listArray andIndex:indexPath.row];
         cell.tag = indexPath.row;
-//        cell.commentUUid = list.commentUuid;
-//        cell.count = list.praiseCount;
         cell.delegate = self;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         return cell;
     }
     
-    
-    
-    
     return nil;
     
 }
+
+#pragma mark  --点击图片放大
+-(void)tapimageAction:(UITapGestureRecognizer *)tap
+{
+    
+    NSLog(@"*******%ld",tap.view.tag);
+    
+    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+    photoBrowser.initialPageIndex = tap.view.tag;
+    [self presentViewController:photoBrowser animated:YES completion:nil];
+}
+
+
 
 #pragma mark - LMCommentCell delegate -评论点赞
 - (void)cellWillComment:(LMCommentCell *)cell
@@ -775,7 +795,6 @@ LMCommentCellDelegate
         //在这里做你响应return键的代码
         [textcView resignFirstResponder];
         [self getCommentArticleDataRequest];
-        textView.text=@"说两句吧...";
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
     
@@ -785,6 +804,11 @@ LMCommentCellDelegate
 #pragma mark  --评论文章
 -(void)getCommentArticleDataRequest
 {
+    if (textcView.text.length<=0) {
+        [self textStateHUD:@"请输入评论内容"];
+        return;
+    }
+    
     LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:textcView.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {

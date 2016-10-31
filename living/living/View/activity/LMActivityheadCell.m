@@ -43,7 +43,9 @@
 {
     //活动图片
     _imageV = [UIImageView new];
-    _imageV.backgroundColor = [UIColor grayColor];
+    _imageV.backgroundColor = BG_GRAY_COLOR;
+    _imageV.contentMode = UIViewContentModeScaleAspectFill;
+    _imageV.clipsToBounds = YES;
     [self.contentView addSubview:_imageV];
     
     //标题
