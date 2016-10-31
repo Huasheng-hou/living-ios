@@ -36,7 +36,7 @@
 {
     //测试
     
-    return @"http://120.26.137.44:80/living/";
+    return @"http://120.26.64.40:8080/living/";
 }
 
 - (NSString *)methodPath

@@ -21,7 +21,8 @@
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
-WJLoopViewDelegate
+WJLoopViewDelegate,
+LMhomePageCellDelegate
 >
 {
     UIView *headView;
@@ -118,14 +119,14 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     homeImage.hidden = YES;
     [_tableView addSubview:homeImage];
     
-     [self setupRefresh];
+    [self setupRefresh];
 
     
 }
 
 -(void)sweepAction
 {
-    NSLog(@"********扫描");
+    NSLog(@"********发布");
     
     LMPublicArticleController *scanVC = [[LMPublicArticleController alloc] init];
     
@@ -185,19 +186,10 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         }else{
             [self getHomeDataRequest:self.current];
         }
-        
-        
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [_tableView footerEndRefreshing];
     });
 }
-
-//-(void)reloadingHomePage
-//{
-//    [listArray removeAllObjects];
-//    [self getHomeDataRequest:(int)@""];
-//}
-
 
 -(void)getBannerDataRequest
 {
@@ -237,7 +229,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
             NSString *url = dic[@"linkUrl"];
             [imageUrls addObject:url];
         }
-//        NSLog(@"%@",imageUrls);
         if (imageUrls.count==0) {
             headView.backgroundColor = LINE_COLOR;
         }else{
@@ -284,13 +275,11 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     total = [[bodyDic objectForKey:@"total"] intValue];
-//    pages = [bodyDic objectForKey:@"page"];
-    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-//        NSLog(@"%@",bodyDic);
-//        if (listArray.count>0) {
-//           [listArray removeAllObjects];
-//        }
+        NSLog(@"%@",bodyDic);
+        if (listArray.count>0) {
+           [listArray removeAllObjects];
+        }
      
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
@@ -333,8 +322,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
-    
 }
 
 
@@ -345,7 +332,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 130;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -378,7 +365,8 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     LMActicleList *list = [listArray objectAtIndex:indexPath.row];
     [cell setValue:list];
-    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    
+    cell.delegate = self;
     
     return cell;
 }
@@ -390,6 +378,14 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     detailVC.artcleuuid = list.articleUuid;
     [self.navigationController pushViewController:detailVC animated:YES];
     
+}
+
+
+#pragma mark  --cell click delegat
+
+-(void)cellWillClick:(LMhomePageCell *)cell
+{
+    NSLog(@"文章作者点击");
 }
 
 

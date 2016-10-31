@@ -44,8 +44,10 @@
     //图片
     
     _headImage = [UIImageView new];
-    [_headImage setClipsToBounds:YES];
+    _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.contentMode = UIViewContentModeScaleToFill;
+    [_headImage setClipsToBounds:YES];
+    
     [self.contentView addSubview:_headImage];
     
     

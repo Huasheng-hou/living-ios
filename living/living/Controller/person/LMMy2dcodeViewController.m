@@ -136,6 +136,18 @@
     
     } else {
         [self textStateHUD:bodyDic[@"description"]];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你不是轻创客，没有二维码"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:nil];
+        
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
     }
 }
 
