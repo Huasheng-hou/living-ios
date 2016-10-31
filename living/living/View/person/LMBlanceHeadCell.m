@@ -26,7 +26,6 @@
 @implementation LMBlanceHeadCell
 
 
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self    = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -163,10 +162,6 @@
     _refundCount.textColor = [UIColor whiteColor];
     _refundCount.textAlignment = NSTextAlignmentCenter;
     [refundView addSubview:_refundCount];
-    
-    
-    
-    
 }
 
 -(void)setDic:(NSDictionary *)dic

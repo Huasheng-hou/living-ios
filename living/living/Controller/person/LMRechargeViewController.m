@@ -19,7 +19,6 @@
 #import "LMAliRechargeRequest.h"
 #import "LMAliRechargeResultRequest.h"
 
-
 //微信支付
 #import "WXApiObject.h"
 #import "WXApi.h"
@@ -34,7 +33,8 @@
 UITableViewDelegate,
 UITableViewDataSource,
 UITextFieldDelegate,
-UIAlertViewDelegate
+UIAlertViewDelegate,
+liveNameProtocol
 >
 {
     LMRechargeCell *cell;
@@ -42,12 +42,14 @@ UIAlertViewDelegate
     UITableView *table;
     LMRePayCell *headcell;
     NSString *rechargeOrderUUID;
-}
 
+    NSString *liveRoomName;
+}
 
 @end
 
 @implementation LMRechargeViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
@@ -73,6 +75,9 @@ UIAlertViewDelegate
 -(void)createUI
 {
     self.title=@"余额充值";
+    
+    liveRoomName=@"添加充值生活馆";
+    
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
     [table setBackgroundColor:BG_GRAY_COLOR];
     [table setDelegate:self];
@@ -162,20 +167,19 @@ UIAlertViewDelegate
 {
     if (indexPath.section==0) {
         static NSString *cellIds = @"cellIds";
-        UITableViewCell *addcell= [tableView dequeueReusableCellWithIdentifier:cellIds];
+        
+        UITableViewCell * addcell= [tableView dequeueReusableCellWithIdentifier:cellIds];
         if (!addcell) {
             addcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIds];
         }
         addcell.imageView.image = [UIImage imageNamed:@"addLiving"];
         
-        addcell.textLabel.text = @"添加充值生活馆";
+        addcell.textLabel.text = liveRoomName;
         addcell.textLabel.textColor = LIVING_COLOR;
         [addcell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
         return addcell;
-        
     }
-    
     
     if (indexPath.section==1) {
         static NSString *cellId = @"cellId";
@@ -216,6 +220,7 @@ UIAlertViewDelegate
     if (indexPath.section==0) {
         NSLog(@"***");
         LMChangeLivingController *livingVC = [[LMChangeLivingController alloc] init];
+        livingVC.delegate=self;
         [self.navigationController pushViewController:livingVC animated:YES];
     }
     if (indexPath.section==1) {
@@ -223,7 +228,14 @@ UIAlertViewDelegate
         selectedIndex=index;
         [table reloadData];
     }
+}
 
+#pragma mark LMChangeLivingController&&liveNameProtocol代理协议
+
+-(void)backLiveName:(NSString *)liveRoom
+{
+    liveRoomName=liveRoom;
+    [table reloadData];
 }
 
 -(void)selectedButton:(UIButton *)sender

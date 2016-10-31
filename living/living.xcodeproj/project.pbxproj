@@ -239,6 +239,7 @@
 		35FA8EAA1DB5FAC900510A75 /* LMAliRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA8EA91DB5FAC900510A75 /* LMAliRechargeRequest.m */; };
 		35FA8EAD1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA8EAC1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
+		8E39411C1DC71546000740DB /* LMLiveRoomNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -755,6 +756,8 @@
 		35FA8EAB1DB5FB1A00510A75 /* LMAliRechargeResultRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAliRechargeResultRequest.h; sourceTree = "<group>"; };
 		35FA8EAC1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAliRechargeResultRequest.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E39411A1DC71546000740DB /* LMLiveRoomNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomNameCell.h; sourceTree = "<group>"; };
+		8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomNameCell.m; sourceTree = "<group>"; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -848,6 +851,8 @@
 				355E52771DC203580004FBAF /* LMChangeLivingCell.m */,
 				351767901DC5ABB600D2D407 /* LMBlanceHeadCell.h */,
 				351767911DC5ABB600D2D407 /* LMBlanceHeadCell.m */,
+				8E39411A1DC71546000740DB /* LMLiveRoomNameCell.h */,
+				8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -2466,6 +2471,7 @@
 				350AD2291DB7740300CA181A /* LMArtcleCommitRequest.m in Sources */,
 				35B61E211DB0B62600083F30 /* LMPublicEventListCell.m in Sources */,
 				354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */,
+				8E39411C1DC71546000740DB /* LMLiveRoomNameCell.m in Sources */,
 				35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */,
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				35B61DF31DB06DBB00083F30 /* LMRegisterRequest.m in Sources */,

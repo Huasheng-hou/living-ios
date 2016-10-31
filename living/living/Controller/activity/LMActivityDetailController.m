@@ -60,6 +60,9 @@ LMLeavemessagecellDelegate
 {
     [super viewWillAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    
+    
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -719,9 +722,6 @@ LMLeavemessagecellDelegate
     
     
     
-    
-    
-    
 
 }
 
@@ -770,7 +770,7 @@ LMLeavemessagecellDelegate
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
-            [OrderVC setHidesBottomBarWhenPushed:YES];
+//            [OrderVC setHidesBottomBarWhenPushed:YES];
             OrderVC.orderUUid = orderID;
             OrderVC.dict = orderDic;
             [self.navigationController pushViewController:OrderVC animated:YES];

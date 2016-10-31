@@ -8,6 +8,13 @@
 
 #import "FitTableViewController.h"
 
+@protocol liveNameProtocol <NSObject>
+
+-(void)backLiveName:(NSString *)liveRoom;
+
+@end
+
 @interface LMChangeLivingController : FitTableViewController
 
+@property(nonatomic,assign)id<liveNameProtocol>delegate;
 @end
