@@ -130,7 +130,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     
     NSDate *newsDateFormatted = [dateFormatter dateFromString:str];
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"JST"];
     [dateFormatter setTimeZone:timeZone];
     
     NSDate* current_date = [[NSDate alloc] init];

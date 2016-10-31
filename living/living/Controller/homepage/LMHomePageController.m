@@ -54,8 +54,8 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHomeDataRequest:) name:@"login" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHomeDataRequest:) name:@"reloadHomePage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"login" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadHomePage" object:nil];
 }
 
 - (void)viewDidLoad {
@@ -192,11 +192,11 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     });
 }
 
--(void)reloadingHomePage
-{
-    [listArray removeAllObjects];
-    [self getHomeDataRequest:(int)@""];
-}
+//-(void)reloadingHomePage
+//{
+//    [listArray removeAllObjects];
+//    [self getHomeDataRequest:(int)@""];
+//}
 
 
 -(void)getBannerDataRequest

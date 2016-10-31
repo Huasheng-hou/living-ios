@@ -173,8 +173,8 @@ LMOrderCellDelegate>
 
 -(void)reloadingHomePage
 {
-    [orderArray removeAllObjects];
-    [self getOrderListRequest:1];
+//    [orderArray removeAllObjects];
+    [self headerRereshing];
 }
 
 
@@ -213,9 +213,9 @@ LMOrderCellDelegate>
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
-        if (orderArray.count>0) {
-            [orderArray removeAllObjects];
-        }
+//        if (orderArray.count>0) {
+//            [orderArray removeAllObjects];
+//        }
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             
@@ -226,10 +226,7 @@ LMOrderCellDelegate>
             ifRefresh=NO;
             orderArray=[NSMutableArray arrayWithCapacity:0];
             
-            NSArray *array = bodyDic[@"list"];
-            
-            
-            
+            NSArray *array = bodyDic[@"list"];           
             for(int i=0;i<[array count];i++){
                 
                 LMOrderList *list=[[LMOrderList alloc]initWithDictionary:array[i]];
