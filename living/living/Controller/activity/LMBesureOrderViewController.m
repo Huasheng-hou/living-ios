@@ -28,12 +28,15 @@
 #import "WXApiManager.h"
 #import "LMWXPayRequest.h"
 #import "LMWXPayResultRequest.h"
+#import "LMEventDetailEventBody.h"
+#import "UIImageView+WebCache.h"
 
 @interface LMBesureOrderViewController ()
 {
     LMOrderDataOrderInfo *orderInfos;
     LMOrderDataOrderBody *orderdata;
     NSString *rechargeOrderUUID;
+    LMEventDetailEventBody *eventDic;
 }
 
 @end
@@ -50,6 +53,9 @@
 {
     [super createUI];
     self.title = @"确认订单";
+    
+    
+    eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:_dict];
     
     [self getOrderData];
     
@@ -74,7 +80,13 @@
 
 -(void)getOrderData
 {
-    LMOrderpayRequest *request = [[LMOrderpayRequest alloc] initWithOrder_uuid:@""];
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMOrderpayRequest *request = [[LMOrderpayRequest alloc] initWithOrder_uuid:_orderUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -94,9 +106,23 @@
 -(void)getOrderDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"获取数据失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            orderInfos = [[LMOrderDataOrderInfo alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
+            orderdata = [[LMOrderDataOrderBody alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
+            [self.tableView reloadData];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+            
+    }
     
-    orderInfos = [[LMOrderDataOrderInfo alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
-    orderdata = [[LMOrderDataOrderBody alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
+    
+    
+
+    
     
 }
 
@@ -348,13 +374,13 @@
         if (indexPath.row==7) {
             APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
             
-//            infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
-//            
-//            infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
-//            
-//            [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+            infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
             
-//            infoView.orderInfo = orderDic;
+            infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
+            
+            [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+            
+            infoView.orderInfo = _dict;
             
             [self.view addSubview:infoView];
             
@@ -370,7 +396,7 @@
 {
     NSLog(@"取消订单");
     
-    LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:@""];
+    LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:_orderUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

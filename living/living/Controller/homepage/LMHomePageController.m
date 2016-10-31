@@ -267,9 +267,9 @@ WJLoopViewDelegate
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
-        if (listArray.count>0) {
-           [listArray removeAllObjects];
-        }
+//        if (listArray.count>0) {
+//           [listArray removeAllObjects];
+//        }
      
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {

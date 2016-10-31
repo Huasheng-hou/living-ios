@@ -10,4 +10,9 @@
 
 @interface LMBesureOrderViewController : FitTableViewController
 
+
+@property(nonatomic,strong)NSString *orderUUid;
+
+@property(nonatomic,strong)NSDictionary *dict;
+
 @end

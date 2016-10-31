@@ -584,6 +584,7 @@ LMLeavemessagecellDelegate
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"点赞成功"];
             
+            
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
             [self textStateHUD:str];
@@ -765,10 +766,13 @@ LMLeavemessagecellDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"报名活动成功"];
+        NSString *orderID = [bodyDic objectForKey:@"order_uuid"];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
             [OrderVC setHidesBottomBarWhenPushed:YES];
+            OrderVC.orderUUid = orderID;
+            OrderVC.dict = orderDic;
             [self.navigationController pushViewController:OrderVC animated:YES];
         });
 
