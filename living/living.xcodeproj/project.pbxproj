@@ -245,7 +245,18 @@
 		35FA8EAA1DB5FAC900510A75 /* LMAliRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA8EA91DB5FAC900510A75 /* LMAliRechargeRequest.m */; };
 		35FA8EAD1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA8EAC1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
+		8E0760181DC84B8E001D7098 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0760161DC84B8E001D7098 /* TencentOpenAPI.framework */; };
+		8E0760191DC84B8E001D7098 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E0760171DC84B8E001D7098 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601A1DC84C06001D7098 /* libiconv.tbd */; };
+		8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601C1DC84C2E001D7098 /* CoreGraphics.framework */; };
+		8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601E1DC84C59001D7098 /* libstdc++.tbd */; };
+		8E0760261DC89056001D7098 /* LMMapViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0760251DC89056001D7098 /* LMMapViewCell.m */; };
+		8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0760271DC892AE001D7098 /* MapKit.framework */; };
 		8E39411C1DC71546000740DB /* LMLiveRoomNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */; };
+		8EC998A01DC83A1000448997 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC9989F1DC83A1000448997 /* HBShareView.m */; };
+		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
+		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
+		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -772,8 +783,22 @@
 		35FA8EAB1DB5FB1A00510A75 /* LMAliRechargeResultRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAliRechargeResultRequest.h; sourceTree = "<group>"; };
 		35FA8EAC1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAliRechargeResultRequest.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0760161DC84B8E001D7098 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		8E0760171DC84B8E001D7098 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		8E07601A1DC84C06001D7098 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		8E07601C1DC84C2E001D7098 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8E07601E1DC84C59001D7098 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		8E0760241DC89056001D7098 /* LMMapViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMapViewCell.h; sourceTree = "<group>"; };
+		8E0760251DC89056001D7098 /* LMMapViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMapViewCell.m; sourceTree = "<group>"; };
+		8E0760271DC892AE001D7098 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8E39411A1DC71546000740DB /* LMLiveRoomNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomNameCell.h; sourceTree = "<group>"; };
 		8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomNameCell.m; sourceTree = "<group>"; };
+		8EC9989E1DC83A1000448997 /* HBShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareView.h; sourceTree = "<group>"; };
+		8EC9989F1DC83A1000448997 /* HBShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareView.m; sourceTree = "<group>"; };
+		8EC998A11DC83B3600448997 /* HBShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareButton.h; sourceTree = "<group>"; };
+		8EC998A21DC83B3600448997 /* HBShareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareButton.m; sourceTree = "<group>"; };
+		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -783,6 +808,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */,
+				8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */,
+				8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */,
+				8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */,
+				8EC998A71DC8411900448997 /* Security.framework in Frameworks */,
+				8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */,
 				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
 				35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */,
 				35FA8E931DB5BC8600510A75 /* libc++.tbd in Frameworks */,
@@ -800,6 +831,7 @@
 				3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */,
 				35FA8E891DB5BBF000510A75 /* libssl.a in Frameworks */,
 				3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */,
+				8E0760181DC84B8E001D7098 /* TencentOpenAPI.framework in Frameworks */,
 				3547F4C11D9905190068F04E /* libsqlite3.tbd in Frameworks */,
 				3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */,
 			);
@@ -811,6 +843,12 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8E0760271DC892AE001D7098 /* MapKit.framework */,
+				8E07601E1DC84C59001D7098 /* libstdc++.tbd */,
+				8E07601C1DC84C2E001D7098 /* CoreGraphics.framework */,
+				8E07601A1DC84C06001D7098 /* libiconv.tbd */,
+				8EC998A61DC8411900448997 /* Security.framework */,
+				8EC998A41DC8410500448997 /* libsqlite3.0.tbd */,
 				35FA8E961DB5BCE500510A75 /* UIKit.framework */,
 				35FA8E941DB5BCBD00510A75 /* QuartzCore.framework */,
 				35FA8E921DB5BC8600510A75 /* libc++.tbd */,
@@ -1139,6 +1177,10 @@
 			children = (
 				3547F39B1D9904B20068F04E /* FitShareView.h */,
 				3547F39C1D9904B20068F04E /* FitShareView.m */,
+				8EC9989E1DC83A1000448997 /* HBShareView.h */,
+				8EC9989F1DC83A1000448997 /* HBShareView.m */,
+				8EC998A11DC83B3600448997 /* HBShareButton.h */,
+				8EC998A21DC83B3600448997 /* HBShareButton.m */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -1634,6 +1676,7 @@
 		3547F4621D9904D90068F04E /* 3rdLibs */ = {
 			isa = PBXGroup;
 			children = (
+				8E0760151DC84B8E001D7098 /* TencentShare */,
 				355E525A1DC1A6D90004FBAF /* MJRefresh */,
 				35FA8E121DB5B31800510A75 /* AliPay */,
 				35FA8DF81DB5B31100510A75 /* weixinPay */,
@@ -1915,6 +1958,8 @@
 				3517677F1DC2EB1400D2D407 /* APChooseView.m */,
 				351767811DC2ECBA00D2D407 /* CustomButton.h */,
 				351767821DC2ECBF00D2D407 /* CustomButton.m */,
+				8E0760241DC89056001D7098 /* LMMapViewCell.h */,
+				8E0760251DC89056001D7098 /* LMMapViewCell.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -2291,6 +2336,15 @@
 			path = Pay;
 			sourceTree = "<group>";
 		};
+		8E0760151DC84B8E001D7098 /* TencentShare */ = {
+			isa = PBXGroup;
+			children = (
+				8E0760161DC84B8E001D7098 /* TencentOpenAPI.framework */,
+				8E0760171DC84B8E001D7098 /* TencentOpenApi_IOS_Bundle.bundle */,
+			);
+			path = TencentShare;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2391,6 +2445,7 @@
 				3530ABDA1DC5C348003CB68F /* SQMenuShowCell.xib in Resources */,
 				3547F4F11D9909660068F04E /* UMSocialSDKResourcesNew.bundle in Resources */,
 				3547F33E1D9901780068F04E /* Assets.xcassets in Resources */,
+				8E0760191DC84B8E001D7098 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				35D8FC361DB4DD9900AD469E /* findpage.png in Resources */,
 				3547F43B1D9904C20068F04E /* InfoPlist.strings in Resources */,
 			);
@@ -2467,6 +2522,7 @@
 				355E526E1DC1A6D90004FBAF /* MJRefreshFooterView.m in Sources */,
 				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
 				35D8FC3A1DB4E03400AD469E /* LMOrderListRequest.m in Sources */,
+				8E0760261DC89056001D7098 /* LMMapViewCell.m in Sources */,
 				35FA8E761DB5B31800510A75 /* DataVerifier.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				3530ABEF1DC5E500003CB68F /* LMOrderDataOrderBody.m in Sources */,
@@ -2486,6 +2542,7 @@
 				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
 				3517678F1DC5A6BD00D2D407 /* LMBlanceDetailController.m in Sources */,
+				8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */,
 				35FA8E731DB5B31800510A75 /* Order.m in Sources */,
 				352364351DBEF6C7002E6B78 /* LMMyLivingViewController.m in Sources */,
 				35FA8E751DB5B31800510A75 /* DataSigner.m in Sources */,
@@ -2611,6 +2668,7 @@
 				3523643B1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m in Sources */,
 				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
 				35F004161DADC6D900F59CB2 /* LMHomeDetailRequest.m in Sources */,
+				8EC998A01DC83A1000448997 /* HBShareView.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
 				3547F4311D9904BD0068F04E /* HcbObjectTable.m in Sources */,
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
@@ -2785,6 +2843,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -2820,6 +2879,36 @@
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-fembed-bitcode",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"HMSegmentedControl\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MIHCrypto\"",
+					"-l\"SDWebImage\"",
+					"-l\"UIImage-Helpers\"",
+					"-l\"ZYQAssetPickerController\"",
+					"-l\"crypto\"",
+					"-l\"ssl\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果";
@@ -2842,6 +2931,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -2877,6 +2967,36 @@
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-fembed-bitcode",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"HMSegmentedControl\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MIHCrypto\"",
+					"-l\"SDWebImage\"",
+					"-l\"UIImage-Helpers\"",
+					"-l\"ZYQAssetPickerController\"",
+					"-l\"crypto\"",
+					"-l\"ssl\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果";

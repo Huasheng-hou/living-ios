@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LMEventDetailEventBody.h"
+#import <MapKit/MapKit.h>
 
 @interface LMActivityMsgCell : UITableViewCell
 
@@ -21,6 +22,10 @@
 
 @property (nonatomic, strong)NSString *address;
 
+
+@property (nonatomic, strong) UILabel *numberLabel;
+
+@property(nonatomic,strong)MKMapView *mapView;
 
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;

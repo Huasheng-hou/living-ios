@@ -20,8 +20,6 @@
 @property (nonatomic, strong) UIImageView *freeV;
 
 
-@property (nonatomic, strong) UILabel *numberLabel;
-
 @property (nonatomic, strong) UILabel *timeLabel;
 
 @property (nonatomic, strong) UILabel *priceLabel;
@@ -45,7 +43,6 @@
 {
     
     //号码
-    
     _phoneV = [UIImageView new];
     _phoneV.image = [UIImage imageNamed:@"phoneV"];
     [self.contentView addSubview:_phoneV];
@@ -53,9 +50,9 @@
     
     _numberLabel = [UILabel new];
     _numberLabel.font = [UIFont systemFontOfSize:14.f];
+    [_numberLabel setUserInteractionEnabled:YES];
     _numberLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_numberLabel];
-    
     
     //价格
     
@@ -68,8 +65,6 @@
     _priceLabel.textAlignment = NSTextAlignmentCenter;
     _priceLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_priceLabel];
-    
-    
     
     //活动时间
     
@@ -104,6 +99,45 @@
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_addressLabel];
     
+    
+    //分割线
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 155, kScreenWidth, 5)];
+    [view setBackgroundColor:BG_GRAY_COLOR];
+    [self addSubview:view];
+    
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 165, kScreenWidth-30, 160)];
+    _mapView.mapType = MKMapTypeStandard;
+    //_mapView.showsUserLocation = YES;
+    [self.contentView addSubview:_mapView];
+    
+    //设置中心坐标点
+    CLLocationCoordinate2D curLocation;
+    curLocation.latitude = 23.9098099;
+    curLocation.longitude = 112.980980;
+    
+    //设置地图跨度
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.008;
+    span.longitudeDelta = 0.008;
+    
+    //显示地图
+    MKCoordinateRegion region = {curLocation, span};
+    [self.mapView setRegion:region animated:NO];
+    
+    //点
+    MKPointAnnotation *annotation0 = [[MKPointAnnotation alloc] init];
+    [annotation0 setCoordinate:CLLocationCoordinate2DMake(23.9098099, 112.980980)];
+    [annotation0 setTitle:@"地址位置"];
+//    [annotation0 setSubtitle:@"重庆市巴南区红光大道69号"];
+    [_mapView addAnnotation:annotation0];
+    
+    
+    
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 325, kScreenWidth-30, 30)];
+    [label setText:@"这是地图显示地址"];
+    [label setTextColor:TEXT_COLOR_LEVEL_3];
+    [label setFont:TEXT_FONT_LEVEL_2];
+    [self.contentView addSubview:label];
     
     
 }
@@ -165,15 +199,5 @@
     _addressLabel.frame = CGRectMake(40, 80, _addressLabel.bounds.size.width, 30);
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

@@ -20,11 +20,19 @@
 #import "LMArtcleCommitRequest.h"
 
 #import "SYPhotoBrowser.h"
+#import "HBShareView.h"
+#import "WXApi.h"
+
+//qq
+//#import <TencentOpenAPI/TencentOAuth.h>
+
+#import <TencentOpenAPI/QQApiInterface.h>
 
 @interface LMHomeDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
-LMCommentCellDelegate
+LMCommentCellDelegate,
+shareTypeDelegate
 >
 {
     UIToolbar *toolBar;
@@ -52,7 +60,7 @@ LMCommentCellDelegate
     NSArray *imageArray;
     
 }
-
+//@property(nonatomic,strong)TencentOAuth *tencentOAuth;
 
 @end
 
@@ -453,6 +461,12 @@ LMCommentCellDelegate
 
             [cell.contentView addSubview:zanLabel];
             
+            
+            UIButton *button=[UIButton new];
+            
+            
+            
+            
             if (articleData.articleImgs) {
                 imageArray =articleData.articleImgs;
                 NSArray *arr =articleData.articleImgs;
@@ -483,12 +497,23 @@ LMCommentCellDelegate
                 contentLabel.frame = CGRectMake(15, 30+15*arr.count+210*arr.count +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 45+15*arr.count+210*arr.count +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+15*arr.count+210*arr.count +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+                [button setFrame:CGRectMake(kScreenWidth-100, 20+15*arr.count+210*arr.count, 80, 50)];
+                
             }else{
                 dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
                 contentLabel.frame = CGRectMake(15, 20 +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 35+conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 35+conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+                
+                [button setFrame:CGRectMake(kScreenWidth-100, 10, 80, 50)];
             }
+            
+            [button setBackgroundColor:[UIColor greenColor]];
+            [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
+            [button setTitle:@"分享" forState:UIControlStateNormal];
+            [cell.contentView addSubview:button];
+            
+            
             
         }
   
@@ -511,6 +536,97 @@ LMCommentCellDelegate
     return nil;
     
 }
+
+#pragma mark 分享按钮
+
+-(void)shareButton
+{
+    HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    shareView.delegate=self;
+    [self.view addSubview:shareView];
+}
+
+-(void)shareType:(NSInteger)type
+{
+    NSLog(@"===========type===========%ld",(long)type);
+    switch (type) {
+        case 1://微信好友
+        {
+            WXMediaMessage *message=[WXMediaMessage message];
+           message.title=@"生活馆";
+            message.description=@"描述";
+            [message setThumbImage:[UIImage imageNamed:@"shareIcon"]];
+            
+            WXWebpageObject *web=[WXWebpageObject object];
+            web.webpageUrl=@"https://baidu.com";
+            message.mediaObject=web;
+            
+            SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
+            req.bText=NO;
+            req.message=message;
+            req.scene=WXSceneSession;//好友
+            [WXApi sendReq:req];
+        }
+            break;
+        case 2://微信朋友圈
+        {
+            WXMediaMessage *message=[WXMediaMessage message];
+            message.title=@"生活馆";
+            message.description=@"描述";
+            [message setThumbImage:[UIImage imageNamed:@"shareIcon"]];
+            
+            WXWebpageObject *web=[WXWebpageObject object];
+            web.webpageUrl=@"https://baidu.com";
+            message.mediaObject=web;
+            
+            SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
+            req.bText=NO;
+            req.message=message;
+            req.scene=WXSceneTimeline;//朋友圈
+            [WXApi sendReq:req];
+        }
+            break;
+        case 3://qq好友
+        {
+            QQApiTextObject *txtObj = [QQApiTextObject objectWithText:@"qq好友"];
+            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
+            //将内容分享到qq
+            [QQApiInterface sendReq:req];
+        }
+            break;
+        case 4://qq空间
+        {
+            QQApiTextObject *txtObj = [QQApiTextObject objectWithText:@"qq好友"];
+            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
+            //将内容分享到qq
+            [QQApiInterface sendReq:req];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+// 发送图片文字链接
+- (void)showMediaNewsWithScene:(int)scene {
+//    if (![TencentOAuth iphoneQQInstalled]) {
+//        NSLog(@"请移步App Store去下载腾讯QQ客户端");
+//    }else {
+        QQApiNewsObject *newsObj = [QQApiNewsObject
+                                    objectWithURL:[NSURL URLWithString:@"https://baidu.com"]
+                                    title:@"生活馆"
+                                    description:@"描述"
+                                    previewImageURL:@""];
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+        if (scene == 0) {
+            NSLog(@"QQ好友列表分享 - %d",[QQApiInterface sendReq:req]);
+        }else if (scene == 1){
+            NSLog(@"QQ空间分享 - %d",[QQApiInterface SendReqToQZone:req]);
+        }
+//    }
+}
+
 
 #pragma mark  --点击图片放大
 -(void)tapimageAction:(UITapGestureRecognizer *)tap

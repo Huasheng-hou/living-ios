@@ -379,6 +379,8 @@
         return;
     }
     
+    NSLog(@"========bodyDict========%@",bodyDict);
+    
     NSString *result    = [bodyDict objectForKey:@"result"];
     
     if (result && [result intValue] == 0)
@@ -386,12 +388,14 @@
         
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
+         privileges = [bodyDict objectForKey:@"privileges"];
+        
         if (is_exist && [is_exist intValue] == 0) {
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
             registerVC.userId = _uuid;
             registerVC.passWord = _password;
             registerVC.numberString = _phoneTF.text;
-            privileges = [bodyDict objectForKey:@"privileges"];
+           
             [self.navigationController pushViewController:registerVC animated:YES];
         }else{
                     
@@ -441,6 +445,9 @@
     if (_password) {
         [userInfo setObject:_password forKey:@"password"];
     }
+    
+    NSLog(@"_uuid:%@\n,phone:%@\n,_password:%@\n",_uuid,_phoneTF.text,_password);
+    
     
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
 }

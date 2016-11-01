@@ -67,25 +67,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     imageUrls = [NSMutableArray new];
     listArray = [NSMutableArray new];
     [self getBannerDataRequest];
-    
-    [self getTime];
-}
-
--(void)getTime
-{
-    NSDate *senddate = [NSDate date];
-    NSString *date2 = [NSString stringWithFormat:@"%ld", (long)[senddate timeIntervalSince1970]];
-    NSLog(@"date2时间戳 = %@",date2);
-    
-    NSDateFormatter *dateformatter = [[NSDateFormatter alloc] init];
-    [dateformatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-    NSString *date1 = [dateformatter stringFromDate:senddate];
-    NSLog(@"获取当前时间   = %@",date1);
-    
-    // 时间戳转时间
-    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[senddate timeIntervalSince1970]];
-    NSString *confromTimespStr = [dateformatter stringFromDate:confromTimesp];
-    NSLog(@"时间戳转时间   = %@",confromTimespStr);
 }
 
 
@@ -104,7 +85,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     _tableView.tableHeaderView = headView;
-    
     
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, kScreenWidth*3/5+40, 100, 130)];
     
@@ -276,7 +256,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     
     total = [[bodyDic objectForKey:@"total"] intValue];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
+//        NSLog(@"%@",bodyDic);
         if (listArray.count>0) {
            [listArray removeAllObjects];
         }

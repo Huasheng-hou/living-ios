@@ -8,7 +8,7 @@
 
 #import "FitTableViewController.h"
 
-@interface LMActivityDetailController : FitTableViewController
+@interface LMActivityDetailController :FitTableViewController
 
 @property(nonatomic, strong) NSString *titleStr;
 @property(nonatomic, strong) NSString *eventUuid;

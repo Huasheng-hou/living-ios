@@ -20,7 +20,13 @@
 #import "WXApi.h"
 #import "WXApiManager.h"
 
-@interface AppDelegate ()
+//qqSDK
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+
+#define TENCENT_CONNECT_APP_KEY @"1105720353"
+
+@interface AppDelegate ()<TencentLoginDelegate,TencentSessionDelegate>
 
 @end
 
@@ -29,6 +35,8 @@
     QLPreviewController *_preController;
     NSURL               *_dataPath;
     NSString            *_fileName;
+    
+    TencentOAuth *_tencentOAuth;
 }
 
 
@@ -45,12 +53,28 @@
     //向微信注册
     [WXApi registerApp:@"wxe6c31febbd05d58d"];
     
+//    1104875913
+   _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
+    //设置权限数据 ， 具体的权限名，在sdkdef.h 文件中查看。
+//   NSMutableArray *permissionArray = [NSMutableArray arrayWithObjects: kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,nil];
+//    
+//    //登录操作
+//    [_tencentOAuth authorize:permissionArray inSafari:NO];
+    
+    
     return YES;
 }
 
 // NOTE: 9.0以后使用新API接口
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
+    
+    if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
+        [QQApiInterface handleOpenURL:url delegate:self];
+        return [TencentOAuth HandleOpenURL:url];
+        
+    }
+   
     //    if ([url.host isEqualToString:@"safepay"]) {
     //        //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
@@ -61,19 +85,60 @@
     return YES;
 }
 
+//登录完成后，会调用TencentSessionDelegate中关于登录的协议方法。
+- (void)tencentDidLogin{
+    NSLog(@"登录完成");
+    if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length]){
+        // 记录登录用户的OpenID、Token以及过期时间
+        NSLog(@"tencent-accessToken:%@",_tencentOAuth.accessToken);
+    }
+    else{
+        NSLog(@"登录不成功 没有获取tencent-accesstoken");
+    }
+}
+
+//非网络错误导致登录失败
+-(void)tencentDidNotLogin:(BOOL)cancelled{
+    if (cancelled){
+        NSLog(@"用户取消登录");
+    }
+    else{
+        NSLog(@"登录失败");
+    }
+}
+
+//腾讯代理函数
+-(void)tencentDidNotNetWork{
+     NSLog(@"没有网络了， 怎么登录成功呢");
+}
+
+
 //禁止横屏
-- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
     return UIInterfaceOrientationMaskPortrait;
 }
 
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    
+    if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
+        [QQApiInterface handleOpenURL:url delegate:self];
+        return [TencentOAuth HandleOpenURL:url];
+    }else{
+        return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
+    return YES;
 }
+
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
+    if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
+        [QQApiInterface handleOpenURL:url delegate:self];
+        return [TencentOAuth HandleOpenURL:url];
+    }
     
     // 支付跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
@@ -82,6 +147,15 @@
     }];
     return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
 }
+
+
+/**
+ 处理QQ在线状态的回调
+ */
+- (void)isOnlineResponse:(NSDictionary *)response{
+    
+}
+
 
 - (void)textStateHUD:(NSString *)text
 {

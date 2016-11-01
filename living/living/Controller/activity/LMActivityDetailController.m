@@ -13,6 +13,8 @@
 #import "UIView+frame.h"
 #import "LMActivityheadCell.h"
 #import "LMActivityMsgCell.h"
+#import "LMMapViewCell.h"
+
 #import "LMActivityDetailRequest.h"
 #import "LMEventDetailEventBody.h"
 #import "LMEventDetailEventProjectsBody.h"
@@ -27,12 +29,15 @@
 
 #import "LMBesureOrderViewController.h"
 
-@interface LMActivityDetailController ()<UITableViewDelegate,
+@interface LMActivityDetailController ()
+<
+UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
 UITextViewDelegate,
 LMActivityheadCellDelegate,
-LMLeavemessagecellDelegate
+LMLeavemessagecellDelegate,
+UIAlertViewDelegate
 >
 {
 //    UITableView *_tableView;
@@ -51,6 +56,7 @@ LMLeavemessagecellDelegate
     
 }
 
+//@property(nonatomic,strong)UITableView *tableView;
 
 @end
 
@@ -61,7 +67,7 @@ LMLeavemessagecellDelegate
     [super viewWillAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
-    
+    [self scrollViewDidScroll:self.tableView];
     
 }
 
@@ -94,7 +100,12 @@ LMLeavemessagecellDelegate
 -(void)creatUI
 {
     [super createUI];
-
+//    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+//    self.tableView.delegate=self;
+//    self.tableView.dataSource=self;
+//    [self.view addSubview:self.tableView];
+    
+    
     self.tableView.contentInset     = UIEdgeInsetsMake(64, 0, 12, 0);
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
@@ -133,7 +144,6 @@ LMLeavemessagecellDelegate
     [countLabel sizeToFit];
     countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
-    
     
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     //        _topBtn.backgroundColor = _COLOR_N(red);
@@ -240,7 +250,7 @@ LMLeavemessagecellDelegate
         return 230;
     }
     if (indexPath.section==1) {
-        return 155;
+        return 155+200;
     }
     
     if (indexPath.section==2) {
@@ -291,8 +301,6 @@ LMLeavemessagecellDelegate
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-
-
     if (section==1){
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
         
@@ -304,7 +312,7 @@ LMLeavemessagecellDelegate
         commentLabel.font = [UIFont systemFontOfSize:13.f];
         
         commentLabel.textColor = TEXT_COLOR_LEVEL_2;
-        commentLabel.text = @"活动信息";
+        commentLabel.text = @"生活馆信息";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
@@ -321,6 +329,18 @@ LMLeavemessagecellDelegate
         
         return headView;
     }
+//     if (section==2){
+//         UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 5)];
+////         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
+////         [label setBackgroundColor:[UIColor whiteColor]];
+////         [view addSubview:label];
+//         
+//         [view setBackgroundColor:BG_GRAY_COLOR];
+//         
+//         return view;
+//         
+//     }
+    
     if (section==2){
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
         
@@ -410,18 +430,22 @@ LMLeavemessagecellDelegate
         
         return headView;
     }
-    
-    
-    
     return nil;
  
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if(section==0){
+        return 0.01;
+    }
+    
     if (section==1) {
         return 40;
     }
+//    if (section==2) {
+//        return 5;
+//    }
     if (section==2) {
         return 40;
     }
@@ -429,7 +453,7 @@ LMLeavemessagecellDelegate
         return 150;
     }
 
-    return 0.01;
+    return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -458,36 +482,56 @@ LMLeavemessagecellDelegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-
     if (indexPath.section==0) {
         static NSString *cellId = @"cellIdd";
+        
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+       
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         return cell;
-            
         }
     
+    //生活馆信息   //地图展示
     if (indexPath.section==1) {
         static NSString *cellId = @"cellIddd";
+        
+        
         LMActivityMsgCell *cell = [[LMActivityMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+       
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
-        return cell;
+        UITapGestureRecognizer   *hintLblTap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callTelephone)];
+        [cell.numberLabel addGestureRecognizer:hintLblTap];
         
+        return cell;
     }
+    
+    
+//    if (indexPath.section==2) {
+//        static NSString *cellId = @"cellIdd";
+//        
+//        LMMapViewCell *cell = [[LMMapViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+//        
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//       
+//        
+//        return cell;
+//    }
+    
     
         if (indexPath.section==2) {
             static NSString *cellId = @"cellId";
+            
             LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
-            
             
             
            if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
@@ -500,22 +544,19 @@ LMLeavemessagecellDelegate
             [cell setXScale:self.xScale yScale:self.yScaleNoTab];
 
             return cell;
-  
-            
         }
         
         
-    
     if (indexPath.section==3) {
         static NSString *cellId = @"cellId";
+        
         LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
 //        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
         [cell setValue:msgArray andIndex:indexPath.row];
         cell.tag = indexPath.row;
-        
-        
         
 //        cell.commentUUid = msgData.commentUuid;
         cell.delegate = self;
@@ -525,12 +566,31 @@ LMLeavemessagecellDelegate
         return cell;
     }
     
-    
-    
-    
     return nil;
     
 }
+
+-(void)callTelephone
+{
+    if (!eventDic.contactPhone) {
+        return;
+    }
+    
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"是否拨打：%@",eventDic.contactPhone] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
+    alert=nil;
+    
+   }
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==1) {
+         NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
+         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+
+    }
+}
+
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMLeavemessagecell *)cell
 {
@@ -809,7 +869,6 @@ LMLeavemessagecellDelegate
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
 
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
         
@@ -912,10 +971,26 @@ LMLeavemessagecellDelegate
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
-
-
-
-
+//- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+//{
+//    CGFloat     keyboardHeight  = 280;
+//    
+//    if (view && view.superview) {
+//        rect    = [self.tableView convertRect:rect fromView:view.superview];
+//    }
+//    
+//    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+//        return;
+//    }
+//    
+//    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+//}
+//
+//- (void)resignCurrentFirstResponder
+//{
+//    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+//    [keyWindow endEditing:YES];
+//}
 
 - (BOOL)prefersStatusBarHidden
 {

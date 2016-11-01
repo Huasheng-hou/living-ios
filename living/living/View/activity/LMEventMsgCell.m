@@ -45,7 +45,7 @@
     
     _headImage = [UIImageView new];
     _headImage.backgroundColor = BG_GRAY_COLOR;
-    _headImage.contentMode = UIViewContentModeScaleToFill;
+    _headImage.contentMode = UIViewContentModeScaleAspectFill;
     [_headImage setClipsToBounds:YES];
     
     [self.contentView addSubview:_headImage];
