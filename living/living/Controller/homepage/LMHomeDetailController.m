@@ -299,7 +299,7 @@ LMCommentCellDelegate
         
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        commentLabel.textColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
+        commentLabel.textColor = LIVING_COLOR;
         commentLabel.text = @"评论列表";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
@@ -408,16 +408,13 @@ LMCommentCellDelegate
             
         }
         if (indexPath.row==1) {
-
-            
-            
             
             UILabel *dspLabel = [UILabel new];
-            dspLabel.font = TEXT_FONT_LEVEL_3;
+            dspLabel.font = TEXT_FONT_LEVEL_2;
             dspLabel.textColor = TEXT_COLOR_LEVEL_3;
             dspLabel.numberOfLines=0;
             dspLabel.text = articleData.describe;
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [dspLabel sizeToFit];
 
@@ -425,11 +422,11 @@ LMCommentCellDelegate
             
             
             UILabel *contentLabel = [UILabel new];
-            contentLabel.font = TEXT_FONT_LEVEL_2;
+            contentLabel.font = TEXT_FONT_LEVEL_1;
             contentLabel.textColor = TEXT_COLOR_LEVEL_2;
             contentLabel.numberOfLines=0;
             contentLabel.text = articleData.articleContent;
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
 
@@ -452,6 +449,12 @@ LMCommentCellDelegate
             [zanLabel sizeToFit];
 
             [cell.contentView addSubview:zanLabel];
+            
+            zanLabel.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zanButtonAction:)];
+            [zanLabel addGestureRecognizer:tap];
+            
+            
             
             if (articleData.articleImgs) {
                 imageArray =articleData.articleImgs;
@@ -833,6 +836,11 @@ LMCommentCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"评论成功"];
         [self getHomeDetailDataRequest];
+        
+        textcView.text = @"";
+        tipLabel.hidden=NO;
+        [textcView resignFirstResponder];
+        
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];

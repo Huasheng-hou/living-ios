@@ -222,7 +222,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-//        NSLog(@"%@",bodyDic);
+        NSLog(@"%@",bodyDic);
         NSMutableArray *array = [NSMutableArray new];
         array = bodyDic[@"banners"];
         for (NSDictionary *dic in array) {

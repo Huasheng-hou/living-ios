@@ -67,6 +67,8 @@
     //活动人头像
     _headV = [UIImageView new];
     _headV.layer.cornerRadius = 5.f;
+    _headV.contentMode = UIViewContentModeScaleAspectFill;
+    _headV.clipsToBounds = YES;
     _headV.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:_headV];
     
@@ -81,7 +83,7 @@
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     //        _topBtn.backgroundColor = _COLOR_N(red);
     [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
-    [_joinButton setTintColor:[UIColor colorWithRed:0/255.0 green:136.0/255.0 blue:231.0/255.0 alpha:1.0]];
+    [_joinButton setTintColor:LIVING_COLOR];
     _joinButton.showsTouchWhenHighlighted = YES;
     _joinButton.frame = CGRectMake(0, 0, 48.f, 48.f);
     [_joinButton addTarget:self action:@selector(onApply:) forControlEvents:UIControlEventTouchUpInside];

@@ -68,7 +68,7 @@
 {
  
    
-    [self.tabBar setTintColor:[UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]];
+    [self.tabBar setTintColor:LIVING_COLOR];
     [[UITabBarItem appearance]setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10]}
                                             forState:UIControlStateNormal];
    

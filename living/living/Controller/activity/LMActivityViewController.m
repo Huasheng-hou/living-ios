@@ -183,7 +183,7 @@ UITableViewDataSource
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                                
                                                [homeImage removeFromSuperview];
