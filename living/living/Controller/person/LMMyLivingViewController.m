@@ -10,14 +10,21 @@
 #import "LMMyLivingHomeCell.h"
 #import "LMLivingHomeListRequest.h"
 #import "LMRechargeViewController.h"
-#import "MJRefresh.h"
+#import "LMActivityCell.h"
+#import "WJLoopView.h"
 
-@interface LMMyLivingViewController ()<LMMyLivingHomeCellDelegate>
+@interface LMMyLivingViewController ()
+<UITableViewDelegate,
+UITableViewDataSource,
+LMMyLivingHomeCellDelegate,
+WJLoopViewDelegate
+>
 {
     NSMutableArray *listArray;
     BOOL ifRefresh;
     int total;
     UIImageView *homeImage;
+    UITableView *_tableView;
 }
 
 @end
@@ -36,83 +43,23 @@
     [super viewDidLoad];
     self.title = @"我的生活馆";
     [self createUI];
-     [self setupRefresh];
     listArray = [NSMutableArray new];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadingEvent) name:@"reloadEvent" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadingEvent) name:@"rechargeMoney" object:nil];
-
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"reloadEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"rechargeMoney" object:nil];
 
 }
 
-- (void)setupRefresh
+-(void)createUI
 {
-    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
-    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    //tableView刚出现时，进行刷新操作
-    [self.tableView headerBeginRefreshing];
-    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
-    self.tableView.headerPullToRefreshText = @"下拉可以刷新";
-    self.tableView.headerReleaseToRefreshText = @"松开马上刷新";
-    self.tableView.headerRefreshingText = @"正在帮你刷新...";
-    
-    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
-    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
-    self.tableView.footerRefreshingText = @"正在帮你加载...";
+    _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
 }
-
-- (void)headerRereshing
-{
-    
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        
-        [self.tableView headerEndRefreshing];
-        ifRefresh = YES;
-        self.current=1;
-        [self getLivingHomeListData:self.current];
-        ifRefresh=YES;
-        
-    });
-}
-
-
-- (void)footerRereshing
-{
-    
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.current = self.current+1;
-        
-        ifRefresh=NO;
-        
-        if (total<self.current) {
-            [self textStateHUD:@"没有更多生活馆"];
-        }else{
-            [self getLivingHomeListData:self.current];
-        }
-        
-        
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        [self.tableView footerEndRefreshing];
-    });
-}
-
--(void)reloadingEvent
-{
-    [listArray removeAllObjects];
-    [self getLivingHomeListData:1];
-}
-
 
 
 #pragma mark  --生活馆数据列表请求
--(void)getLivingHomeListData:(int)page
+-(void)getLivingHomeListData
 {
     if (![CheckUtils isLink]) {
         
@@ -121,7 +68,7 @@
     }
     
     
-    LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithPageIndex:page andPageSize:20];
+    LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithPageIndex:1 andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -153,7 +100,7 @@
 //                [listArray addObject:list];
 //            }
         }
-        [self.tableView reloadData];
+        [_tableView reloadData];
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
@@ -177,39 +124,76 @@
         imageLb.textAlignment = NSTextAlignmentCenter;
         [homeImage addSubview:imageLb];
         
-        [self.tableView addSubview:homeImage];
+        [_tableView addSubview:homeImage];
     }
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
-
-
--(void)createUI
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    [super createUI];
+    if (section==0) {
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
+        WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:nil placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+        loopView.location = WJPageControlAlignmentRight;
+        
+        
+        [headView addSubview:loopView];
+        
+        return headView;
+    }
+    
+    return nil;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==0) {
+        return kScreenWidth*3/5;
+    }
+    return 0;
+}
+
+
+#pragma mark scrollview代理函数
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
+    NSLog(@"%ld",(long)index);
+    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==1) {
+        return 210;
+    }
+    
     return 235;
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return listArray.count;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    LMMyLivingHomeCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    LMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
-        cell = [[LMMyLivingHomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
-    cell.delegate = self;
     
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];
 

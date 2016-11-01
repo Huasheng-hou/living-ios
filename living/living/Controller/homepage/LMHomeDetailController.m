@@ -69,12 +69,14 @@ LMCommentCellDelegate
     [self getHomeDetailDataRequest];
     [self registerForKeyboardNotifications];
     
+    
 }
 
 -(void)creatUI
 {
     [super createUI];
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-45);
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self creatFootView];
 }
 
@@ -260,17 +262,17 @@ LMCommentCellDelegate
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             return 75+conHigh;
         }
         if (indexPath.row==1) {
 
             
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh2 = [articleData.articleContent boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
             if (!articleData.articleImgs) {
@@ -361,7 +363,13 @@ LMCommentCellDelegate
             UILabel *titleLabel = [UILabel new];
             titleLabel.font = TEXT_FONT_LEVEL_1;
             titleLabel.numberOfLines=0;
-            titleLabel.text = articleData.articleTitle;
+//            titleLabel.text = articleData.articleTitle;
+            
+//            NSString *content = [[aPlanItem objectAtIndex:0] objectForKey:@"content"];
+//            //替换回车符
+            titleLabel.text = [articleData.articleTitle stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+            
+            
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [titleLabel sizeToFit];
@@ -461,7 +469,7 @@ LMCommentCellDelegate
                 NSArray *arr =articleData.articleImgs;
                 for (int i = 0; i<arr.count; i++) {
                     UIImageView *headImage = [UIImageView new];
-                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]]];
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
                     headImage.backgroundColor = BG_GRAY_COLOR;
                     
                     headImage.contentMode = UIViewContentModeScaleAspectFill;

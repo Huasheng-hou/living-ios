@@ -92,12 +92,12 @@ LMOrderCellDelegate>
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [self.view addSubview:_tableView];
     
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, kScreenWidth*3/5+40, 100, 130)];
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*2/5, 200, 130)];
     
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 90, 90)];
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(55, 10, 90, 90)];
     homeImg.image = [UIImage imageNamed:@"NO-order"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 100, 60)];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 200, 60)];
     imageLb.numberOfLines = 0;
     imageLb.text = @"没订单,好枯燥,快来参与活动 享受美好生活";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
@@ -248,8 +248,6 @@ LMOrderCellDelegate>
         [self textStateHUD:str];
     }
 
-
-    
     
 }
 

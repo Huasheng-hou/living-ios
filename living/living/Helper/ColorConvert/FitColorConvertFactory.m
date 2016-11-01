@@ -102,7 +102,7 @@
     NSString *urlPath;
     NSUInteger length = [imgUrl length];
     NSUInteger imgNameSartPoint = 1;
-    NSString *thumbPrefix = [NSString stringWithFormat:@"_size_w%ldh%ld", (long)width, height];
+    NSString *thumbPrefix = [NSString stringWithFormat:@"_size_w%ldh%ld", (long)width, (long)height];
     
     NSRange startPoint = [imgUrl rangeOfString:@"/"];
     while (startPoint.location != NSNotFound)

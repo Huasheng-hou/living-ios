@@ -248,7 +248,13 @@ UIViewControllerTransitioningDelegate
         cityTF.layer.borderColor = LINE_COLOR.CGColor;
         [cityTF addTarget:self action:@selector(addressChooseAction) forControlEvents:UIControlEventTouchUpInside];
 //        cityTF.textLabel.text = @"请选择所在城市";
-        cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@",_provinceStr,_cityStr];
+        if (_provinceStr == nil&&_cityStr==nil) {
+            cityTF.textLabel.text = @"";
+        }else{
+           cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@",_provinceStr,_cityStr];
+        }
+        
+        
         [cell.contentView addSubview:cityTF];
         
     }

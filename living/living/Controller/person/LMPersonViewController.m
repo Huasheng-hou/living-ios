@@ -203,7 +203,7 @@
             //头像
             UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
             headerView.layer.cornerRadius = 35;
-            headerView.backgroundColor = [UIColor grayColor];
+            headerView.backgroundColor = BG_GRAY_COLOR;
             headerView.contentMode = UIViewContentModeScaleAspectFill;
             headerView.clipsToBounds = YES;
             
@@ -431,6 +431,7 @@
         //生活馆
         if (indexPath.row ==2) {
             LMMyLivingViewController *myVC = [[LMMyLivingViewController alloc] init];
+            myVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:myVC animated:YES];
         }
         //我的好友

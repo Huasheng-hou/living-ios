@@ -22,7 +22,7 @@ UITableViewDataSource>
     UITableView *_tableView;
     NSString *balanceStr;
     NSMutableArray *listArray;
-    NSMutableArray *monthArray;
+    NSArray *monthArray;
 }
 
 
@@ -37,7 +37,8 @@ UITableViewDataSource>
  
     [self creatUI];
     listArray = [NSMutableArray new];
-    monthArray = [NSMutableArray new];
+//    monthArray = [NSMutableArray new];
+    monthArray = @[@"9月"];
     
     //请求获取余额
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -137,7 +138,6 @@ UITableViewDataSource>
 
 -(void)sectionclickAction:(UITapGestureRecognizer *)tap
 {
-    NSLog(@"%ld",tap.view.tag);
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
     DetailVC.monthArr = monthArray;
     [self.navigationController pushViewController:DetailVC animated:YES];
@@ -188,8 +188,8 @@ UITableViewDataSource>
         static NSString *cellID = @"cellId";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMBalanceList *list = [listArray objectAtIndex:indexPath.row];
-        [cell setModel:list];
+//        LMBalanceList *list = [listArray objectAtIndex:indexPath.row];
+//        [cell setModel:list];
         return cell;
         
     }
@@ -301,7 +301,7 @@ UITableViewDataSource>
             for (int i=0; i<array.count; i++) {
                 LMBalanceList *list=[[LMBalanceList alloc]initWithDictionary:array[i]];
                 NSString *month = [array[i] objectForKey:@"month"];
-                [monthArray addObject:month];
+//                [monthArray addObject:month];
                 if (![listArray containsObject:list]) {
                     [listArray addObject:list];
                 }
