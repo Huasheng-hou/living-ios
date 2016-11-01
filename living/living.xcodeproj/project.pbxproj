@@ -62,6 +62,10 @@
 		3530ABEA1DC5E354003CB68F /* LMOrderpayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3530ABE91DC5E354003CB68F /* LMOrderpayRequest.m */; };
 		3530ABEF1DC5E500003CB68F /* LMOrderDataOrderBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 3530ABEC1DC5E500003CB68F /* LMOrderDataOrderBody.m */; };
 		3530ABF01DC5E500003CB68F /* LMOrderDataOrderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3530ABEE1DC5E500003CB68F /* LMOrderDataOrderInfo.m */; };
+		353683651DC85E9900D067AE /* LMWriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 353683641DC85E9900D067AE /* LMWriterViewController.m */; };
+		353683671DC8759700D067AE /* back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 353683661DC8759700D067AE /* back@3x.png */; };
+		3536836A1DC8766900D067AE /* LMWriterDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353683691DC8766900D067AE /* LMWriterDataRequest.m */; };
+		3536836D1DC87DD700D067AE /* LMAUTHORList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3536836C1DC87DD700D067AE /* LMAUTHORList.m */; };
 		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */; };
 		353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890E1DB860EC007585F1 /* LMNoticListRequest.m */; };
@@ -361,6 +365,13 @@
 		3530ABEC1DC5E500003CB68F /* LMOrderDataOrderBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderDataOrderBody.m; sourceTree = "<group>"; };
 		3530ABED1DC5E500003CB68F /* LMOrderDataOrderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrderDataOrderInfo.h; sourceTree = "<group>"; };
 		3530ABEE1DC5E500003CB68F /* LMOrderDataOrderInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderDataOrderInfo.m; sourceTree = "<group>"; };
+		353683631DC85E9900D067AE /* LMWriterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWriterViewController.h; sourceTree = "<group>"; };
+		353683641DC85E9900D067AE /* LMWriterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWriterViewController.m; sourceTree = "<group>"; };
+		353683661DC8759700D067AE /* back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@3x.png"; sourceTree = "<group>"; };
+		353683681DC8766900D067AE /* LMWriterDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWriterDataRequest.h; sourceTree = "<group>"; };
+		353683691DC8766900D067AE /* LMWriterDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWriterDataRequest.m; sourceTree = "<group>"; };
+		3536836B1DC87DD700D067AE /* LMAUTHORList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAUTHORList.h; sourceTree = "<group>"; };
+		3536836C1DC87DD700D067AE /* LMAUTHORList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAUTHORList.m; sourceTree = "<group>"; };
 		353A8E651DB614AA00D829DB /* LMBalanceListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceListRequest.h; sourceTree = "<group>"; };
 		353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceListRequest.m; sourceTree = "<group>"; };
 		353B890A1DB85327007585F1 /* LMAlipayResultRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAlipayResultRequest.h; sourceTree = "<group>"; };
@@ -1072,6 +1083,8 @@
 				3547F36F1D9904A60068F04E /* LMHomePageController.m */,
 				35A448B11D9A13A7001179FC /* LMHomeDetailController.h */,
 				35A448B21D9A13A7001179FC /* LMHomeDetailController.m */,
+				353683631DC85E9900D067AE /* LMWriterViewController.h */,
+				353683641DC85E9900D067AE /* LMWriterViewController.m */,
 				3507690C1DB9A33A00487341 /* LMScanViewController.h */,
 				3507690D1DB9A33A00487341 /* LMScanViewController.m */,
 				3507691E1DB9B3E300487341 /* LMWebViewController.h */,
@@ -1188,6 +1201,7 @@
 		3547F3A31D9904B60068F04E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				353683661DC8759700D067AE /* back@3x.png */,
 				350769121DB9B2AD00487341 /* lightNormal.png */,
 				350769131DB9B2AD00487341 /* lightSelect.png */,
 				350769141DB9B2AD00487341 /* noticeMusic.wav */,
@@ -2131,6 +2145,8 @@
 				350AD2281DB7740300CA181A /* LMArtcleCommitRequest.m */,
 				355AEFA31DC098670029600B /* LMLivingHomeListRequest.h */,
 				355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */,
+				353683681DC8766900D067AE /* LMWriterDataRequest.h */,
+				353683691DC8766900D067AE /* LMWriterDataRequest.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -2161,6 +2177,8 @@
 				35F004191DADCACC00F59CB2 /* LMArticleBody.m */,
 				35F0041B1DADCAD100F59CB2 /* LMCommentMessages.h */,
 				35F0041C1DADCAD500F59CB2 /* LMCommentMessages.m */,
+				3536836B1DC87DD700D067AE /* LMAUTHORList.h */,
+				3536836C1DC87DD700D067AE /* LMAUTHORList.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -2417,6 +2435,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				353683671DC8759700D067AE /* back@3x.png in Resources */,
 				3547F4EC1D9909660068F04E /* UMShareEditViewController.xib in Resources */,
 				3547F4331D9904BD0068F04E /* LICENCE.txt in Resources */,
 				3547F4EE1D9909660068F04E /* UMSLoginViewController.xib in Resources */,
@@ -2549,6 +2568,7 @@
 				35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */,
 				3530ABE71DC5CFBF003CB68F /* LMBalanceMonthRequest.m in Sources */,
 				350769111DB9B29C00487341 /* QRCodeReaderView.m in Sources */,
+				3536836A1DC8766900D067AE /* LMWriterDataRequest.m in Sources */,
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
 				3547F4051D9904BA0068F04E /* VOUtil.m in Sources */,
 				35F0041D1DADCAD500F59CB2 /* LMCommentMessages.m in Sources */,
@@ -2595,6 +2615,7 @@
 				351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				350904EF1DC74C540045CC14 /* DALabeledCircularProgressView.m in Sources */,
+				3536836D1DC87DD700D067AE /* LMAUTHORList.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
 				35FA8DF71DB5B27800510A75 /* LMRechargeViewController.m in Sources */,
@@ -2655,6 +2676,7 @@
 				3547F4341D9904BD0068F04E /* README.md in Sources */,
 				355E526D1DC1A6D90004FBAF /* MJRefreshConst.m in Sources */,
 				35FA8E811DB5B5E100510A75 /* LMRePayCell.m in Sources */,
+				353683651DC85E9900D067AE /* LMWriterViewController.m in Sources */,
 				3547F3801D9904A60068F04E /* FitTabbarController.m in Sources */,
 				35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */,
 				351767921DC5ABB600D2D407 /* LMBlanceHeadCell.m in Sources */,

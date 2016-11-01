@@ -9,6 +9,7 @@
 #import "LMhomePageCell.h"
 #import "UIImageView+WebCache.h"
 #import "FitConsts.h"
+#import "ImageHelpTool.h"
 
 @interface LMhomePageCell ()
 
@@ -94,6 +95,8 @@
     _titleLabel.text = listData.articleTitle;
     _nameLabel.text = listData.articleName;
     _contentLabel.text = listData.articleContent;
+    
+    
     [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     _timeLabel.text = [self getUTCFormateDate:listData.publishTime];
 }

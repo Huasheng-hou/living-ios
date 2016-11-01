@@ -6,9 +6,9 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitTableViewController.h"
+#import "FitBaseViewController.h"
 
-@interface LMMyLivingViewController : FitTableViewController
+@interface LMMyLivingViewController : FitBaseViewController
 
 @property (nonatomic)           int     current;
 

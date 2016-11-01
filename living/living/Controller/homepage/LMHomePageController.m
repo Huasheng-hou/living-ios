@@ -7,6 +7,7 @@
 //
 
 #import "LMHomePageController.h"
+#import "LMActivityDetailController.h"
 #import "LMHomeDetailController.h"
 #import "LMBannerrequest.h"
 #import "LMHomelistequest.h"
@@ -18,6 +19,7 @@
 #import "LMScanViewController.h"
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
+#import "LMWriterViewController.h"
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -30,6 +32,7 @@ LMhomePageCellDelegate
     UIBarButtonItem *backItem;
     NSMutableArray *imageUrls;
     NSMutableArray *listArray;
+    NSMutableArray *eventArray;
     UIImageView *homeImage;
     BOOL ifRefresh;
     int total;
@@ -66,6 +69,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     ifRefresh = YES;
     imageUrls = [NSMutableArray new];
     listArray = [NSMutableArray new];
+    eventArray = [NSMutableArray new];
     [self getBannerDataRequest];
 }
 
@@ -202,15 +206,18 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-//        NSLog(@"%@",bodyDic);
+        NSLog(@"%@",bodyDic);
         NSMutableArray *array = [NSMutableArray new];
         array = bodyDic[@"banners"];
         for (NSDictionary *dic in array) {
             NSString *url = dic[@"linkUrl"];
             [imageUrls addObject:url];
+            
+            NSString *event = dic[@"event_uuid"];
+            [eventArray addObject:event];
         }
         if (imageUrls.count==0) {
-            headView.backgroundColor = LINE_COLOR;
+            headView.backgroundColor = BG_GRAY_COLOR;
         }else{
             WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:imageUrls placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
             loopView.location = WJPageControlAlignmentRight;
@@ -260,6 +267,10 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         if (listArray.count>0) {
            [listArray removeAllObjects];
         }
+        NSLog(@"%@",bodyDic);
+//        if (listArray.count>0) {
+//           [listArray removeAllObjects];
+//        }
      
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
@@ -307,7 +318,12 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
 #pragma mark scrollview代理函数
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
-    NSLog(@"%ld",index);
+    NSLog(@"%ld",(long)index);
+    LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+    eventVC.hidesBottomBarWhenPushed = YES;
+    eventVC.eventUuid = eventArray[index];
+    [self.navigationController pushViewController:eventVC animated:YES];
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -345,7 +361,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     LMActicleList *list = [listArray objectAtIndex:indexPath.row];
     [cell setValue:list];
-    
+    cell.tag = indexPath.row;
     cell.delegate = self;
     
     return cell;
@@ -365,7 +381,15 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
 -(void)cellWillClick:(LMhomePageCell *)cell
 {
+    LMActicleList *list = [listArray objectAtIndex:cell.tag];
+    
     NSLog(@"文章作者点击");
+    LMWriterViewController *writerVC = [[LMWriterViewController alloc] init];
+    writerVC.hidesBottomBarWhenPushed = YES;
+    writerVC.writerUUid = list.userUuid;
+    [self.navigationController pushViewController:writerVC animated:YES];
+    
+    
 }
 
 

@@ -56,7 +56,7 @@
     
     _dspLabel = [UILabel new];
     _dspLabel.font = TEXT_FONT_LEVEL_2;
-    _dspLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _dspLabel.textColor = LIVING_COLOR;
     _dspLabel.numberOfLines=0;
 
     [_dspLabel sizeToFit];

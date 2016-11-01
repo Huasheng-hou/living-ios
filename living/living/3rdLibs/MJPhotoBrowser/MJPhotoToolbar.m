@@ -47,7 +47,7 @@
     _currentPhotoIndex = currentPhotoIndex;
     
     // 更新页码
-    _indexLabel.text = [NSString stringWithFormat:@"%ld / %ld", _currentPhotoIndex + 1, _photos.count];
+    _indexLabel.text = [NSString stringWithFormat:@"%lu / %ld", _currentPhotoIndex + 1, _photos.count];
     _indexLabel.font = [UIFont systemFontOfSize:12.0f];
 }
 

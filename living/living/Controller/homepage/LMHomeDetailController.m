@@ -77,12 +77,14 @@ shareTypeDelegate
     [self getHomeDetailDataRequest];
     [self registerForKeyboardNotifications];
     
+    
 }
 
 -(void)creatUI
 {
     [super createUI];
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-45);
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self creatFootView];
 }
 
@@ -268,17 +270,17 @@ shareTypeDelegate
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             return 75+conHigh;
         }
         if (indexPath.row==1) {
 
             
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh2 = [articleData.articleContent boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
             if (!articleData.articleImgs) {
@@ -307,7 +309,7 @@ shareTypeDelegate
         
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        commentLabel.textColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
+        commentLabel.textColor = LIVING_COLOR;
         commentLabel.text = @"评论列表";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
@@ -369,7 +371,13 @@ shareTypeDelegate
             UILabel *titleLabel = [UILabel new];
             titleLabel.font = TEXT_FONT_LEVEL_1;
             titleLabel.numberOfLines=0;
-            titleLabel.text = articleData.articleTitle;
+//            titleLabel.text = articleData.articleTitle;
+            
+//            NSString *content = [[aPlanItem objectAtIndex:0] objectForKey:@"content"];
+//            //替换回车符
+            titleLabel.text = [articleData.articleTitle stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+            
+            
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [titleLabel sizeToFit];
@@ -416,16 +424,13 @@ shareTypeDelegate
             
         }
         if (indexPath.row==1) {
-
-            
-            
             
             UILabel *dspLabel = [UILabel new];
-            dspLabel.font = TEXT_FONT_LEVEL_3;
+            dspLabel.font = TEXT_FONT_LEVEL_2;
             dspLabel.textColor = TEXT_COLOR_LEVEL_3;
             dspLabel.numberOfLines=0;
             dspLabel.text = articleData.describe;
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [dspLabel sizeToFit];
 
@@ -433,11 +438,11 @@ shareTypeDelegate
             
             
             UILabel *contentLabel = [UILabel new];
-            contentLabel.font = TEXT_FONT_LEVEL_2;
+            contentLabel.font = TEXT_FONT_LEVEL_1;
             contentLabel.textColor = TEXT_COLOR_LEVEL_2;
             contentLabel.numberOfLines=0;
             contentLabel.text = articleData.articleContent;
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
 
@@ -464,7 +469,9 @@ shareTypeDelegate
             
             UIButton *button=[UIButton new];
             
-            
+            zanLabel.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zanButtonAction:)];
+            [zanLabel addGestureRecognizer:tap];
             
             
             if (articleData.articleImgs) {
@@ -472,7 +479,7 @@ shareTypeDelegate
                 NSArray *arr =articleData.articleImgs;
                 for (int i = 0; i<arr.count; i++) {
                     UIImageView *headImage = [UIImageView new];
-                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]]];
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
                     headImage.backgroundColor = BG_GRAY_COLOR;
                     
                     headImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -949,6 +956,11 @@ shareTypeDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"评论成功"];
         [self getHomeDetailDataRequest];
+        
+        textcView.text = @"";
+        tipLabel.hidden=NO;
+        [textcView resignFirstResponder];
+        
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];

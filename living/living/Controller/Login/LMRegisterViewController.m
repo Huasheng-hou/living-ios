@@ -64,6 +64,7 @@ UIViewControllerTransitioningDelegate
     [super createUI];
     self.title = @"填写资料";
     genderStr = @"1";
+    _imgURL = @"";
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];

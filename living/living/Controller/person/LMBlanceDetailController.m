@@ -117,8 +117,8 @@
         static NSString *cellID = @"cellID";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMBalanceList *list = [_listArray objectAtIndex:indexPath.row];
-        [cell setModel:list];
+//        LMBalanceList *list = [_listArray objectAtIndex:indexPath.row];
+//        [cell setModel:list];
         
         return cell;
     }
