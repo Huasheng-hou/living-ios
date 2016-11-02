@@ -11,14 +11,16 @@
 @interface LMPublicEventRequest : FitBaseRequest
 
 -(id)initWithevent_name:(NSString *)event_name
-            Contact_phone:(NSString *)contact_phone
-             Contact_name:(NSString *)contact_name
-                 Per_cost:(NSString *)per_cost
-               Start_time:(NSString *)start_time
-                 End_time:(NSString *)end_time
-                  Address:(NSString *)address
-           Address_detail:(NSString *)address_detail
-                Event_img:(NSString *)event_img
-               Event_type:(NSString *)event_type;
+          Contact_phone:(NSString *)contact_phone
+           Contact_name:(NSString *)contact_name
+               Per_cost:(NSString *)per_cost
+             Start_time:(NSString *)start_time
+               End_time:(NSString *)end_time
+                Address:(NSString *)address
+         Address_detail:(NSString *)address_detail
+              Event_img:(NSString *)event_img
+             Event_type:(NSString *)event_type
+            andLatitude:(NSString *)latitude
+           andLongitude:(NSString *)longitude;
 
 @end

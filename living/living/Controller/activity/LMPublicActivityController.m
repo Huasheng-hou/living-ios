@@ -18,6 +18,7 @@
 #import "ImageHelpTool.h"
 #import "BabFilterAgePickerView.h"
 #import "FitPickerThreeLevelView.h"
+#import "LMMapViewController.h"
 
 @interface LMPublicActivityController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -29,7 +30,8 @@ UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
 FitPickerViewDelegate,
-LMPublicEventCellDelegate
+LMPublicEventCellDelegate,
+selectAddressDelegate
 >
 {
     LMPublicMsgCell *msgCell;
@@ -49,6 +51,9 @@ LMPublicEventCellDelegate
     NSMutableArray *projectTitle;
     NSMutableArray *projectDsp;
     NSMutableArray *imageURL;
+    
+    CGFloat _latitude;
+    CGFloat _longitude;
     
     
 }
@@ -245,6 +250,7 @@ LMPublicEventCellDelegate
         [msgCell.addressButton addTarget:self action:@selector(addressAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
+        [msgCell.mapButton addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
         
          return msgCell;
     }
@@ -261,8 +267,6 @@ LMPublicEventCellDelegate
             AddEventCell.cellndex = indexPath.row;
             AddEventCell.tag = indexPath.row;
 
-            
-            
         }
          
         
@@ -271,6 +275,24 @@ LMPublicEventCellDelegate
     return nil;
 }
 
+#pragma mark 地图选择地址详情
+
+-(void)selectLocation
+{
+    LMMapViewController *map=[[LMMapViewController alloc]init];
+    map.delegate=self;
+    [self.navigationController pushViewController:map animated:YES];
+}
+
+- (void)selectAddress:(NSString *)addressName andLatitude:(CGFloat)latitude
+         andLongitude:(CGFloat)longitude
+          anddistance:(CGFloat)distance
+{
+    NSLog(@"=============addressName=%@,latitude=%f  longitude=%f",addressName,latitude,longitude);
+    msgCell.dspTF.text=addressName;
+    _latitude=latitude;
+    _longitude=longitude;
+}
 
 -(void)beginDateAction:(id)sender
 {
@@ -669,9 +691,10 @@ LMPublicEventCellDelegate
         return;
     }
     if (!(msgCell.dspTF.text.length>0)) {
-        [ self textStateHUD:@"请输入活动详细地址"];
+        [ self textStateHUD:@"请选择活动详细地址"];
         return;
     }
+    
     if ([startstring isEqual:@"请选择活动开始时间"]) {
         [ self textStateHUD:@"请选择开始时间"];
         return;
@@ -681,7 +704,7 @@ LMPublicEventCellDelegate
         return;
     }
   
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary"];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude]];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

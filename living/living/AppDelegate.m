@@ -24,6 +24,8 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 
+#import <AMapFoundationKit/AMapFoundationKit.h>
+
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
 @interface AppDelegate ()<TencentLoginDelegate,TencentSessionDelegate>
@@ -61,7 +63,8 @@
 //    //登录操作
 //    [_tencentOAuth authorize:permissionArray inSafari:NO];
     
-    
+    //高德地图
+     [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
     return YES;
 }
 

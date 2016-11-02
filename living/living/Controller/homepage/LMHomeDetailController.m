@@ -565,7 +565,7 @@ shareTypeDelegate
             [message setThumbImage:[UIImage imageNamed:@"shareIcon"]];
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=@"https://baidu.com";
+            web.webpageUrl=@"http://120.26.243.47:3003/001-living-share/article-detail.html";
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -583,7 +583,7 @@ shareTypeDelegate
             [message setThumbImage:[UIImage imageNamed:@"shareIcon"]];
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=@"https://baidu.com";
+            web.webpageUrl=@"http://120.26.243.47:3003/001-living-share/article-detail.html";
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -595,7 +595,7 @@ shareTypeDelegate
             break;
         case 3://qq好友
         {
-            QQApiTextObject *txtObj = [QQApiTextObject objectWithText:@"qq好友"];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:@"http://120.26.243.47:3003/001-living-share/article-detail.html"] title:@"生活馆" description:@"描述" previewImageURL:[NSURL URLWithString:@""]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -603,10 +603,10 @@ shareTypeDelegate
             break;
         case 4://qq空间
         {
-            QQApiTextObject *txtObj = [QQApiTextObject objectWithText:@"qq好友"];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:@"http://120.26.243.47:3003/001-living-share/article-detail.html"] title:@"生活馆" description:@"描述" previewImageURL:[NSURL URLWithString:@""]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
-            //将内容分享到qq
-            [QQApiInterface sendReq:req];
+            //将内容分享到qq空间
+            [QQApiInterface SendReqToQZone:req];
         }
             break;
             

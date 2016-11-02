@@ -20,6 +20,9 @@
            Address_detail:(NSString *)address_detail
                 Event_img:(NSString *)event_img
              Event_type:(NSString *)event_type
+            andLatitude:(NSString *)latitude
+            andLongitude:(NSString *)longitude
+
 {
     self = [super init];
     
@@ -57,7 +60,12 @@
         if (event_type){
             [bodyDict setObject:event_type forKey:@"event_type"];
         }
-        
+        if (latitude){
+            [bodyDict setObject:latitude forKey:@"latitude"];
+        }
+        if (longitude){
+            [bodyDict setObject:longitude forKey:@"longitude"];
+        }
         
         
         NSMutableDictionary *paramsDict = [self params];

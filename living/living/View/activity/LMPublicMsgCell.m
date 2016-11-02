@@ -201,9 +201,15 @@
     
     _dspTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 320, kScreenWidth- titleW-25, 30)];
     _dspTF.font = TEXT_FONT_LEVEL_2;
+    [_dspTF setUserInteractionEnabled:NO];
     _dspTF.returnKeyType = UIReturnKeyDone;
-    _dspTF.placeholder = @"请输入详细地址";
+    _dspTF.placeholder = @"请选择详细地址";
     [self.contentView addSubview:_dspTF];
+    
+    //地图选点按钮
+    _mapButton=[[UIButton alloc]initWithFrame:CGRectMake(titleW+20, 320, kScreenWidth-(titleW+20), 30)];
+    [_mapButton setBackgroundColor:[UIColor clearColor]];
+    [self.contentView addSubview:_mapButton];
     
     UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 400, kScreenWidth, 165)];
     imgBackView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];

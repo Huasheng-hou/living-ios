@@ -261,6 +261,18 @@
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
 		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
+		8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */; };
+		8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */; };
+		8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */; };
+		8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */; };
+		8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD01DC98227000CD0AB /* AdSupport.framework */; };
+		8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */; };
+		8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */; };
+		8ECA2AD71DC98316000CD0AB /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD51DC98316000CD0AB /* MAMapKit.framework */; };
+		8ECA2AD91DC98320000CD0AB /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8ECA2AD81DC98320000CD0AB /* AMap.bundle */; };
+		8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */; };
+		8ECA2AE11DC98DA2000CD0AB /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2ADE1DC98DA2000CD0AB /* AMapTipAnnotation.m */; };
+		8ECA2AE21DC98DA2000CD0AB /* POIAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AE01DC98DA2000CD0AB /* POIAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -810,6 +822,21 @@
 		8EC998A21DC83B3600448997 /* HBShareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareButton.m; sourceTree = "<group>"; };
 		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMapViewController.h; sourceTree = "<group>"; };
+		8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMapViewController.m; sourceTree = "<group>"; };
+		8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		8ECA2AD01DC98227000CD0AB /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		8ECA2AD51DC98316000CD0AB /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		8ECA2AD81DC98320000CD0AB /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMap.bundle; path = MAMapKit.framework/AMap.bundle; sourceTree = "<group>"; };
+		8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
+		8ECA2ADD1DC98DA2000CD0AB /* AMapTipAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMapTipAnnotation.h; sourceTree = "<group>"; };
+		8ECA2ADE1DC98DA2000CD0AB /* AMapTipAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMapTipAnnotation.m; sourceTree = "<group>"; };
+		8ECA2ADF1DC98DA2000CD0AB /* POIAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIAnnotation.h; sourceTree = "<group>"; };
+		8ECA2AE01DC98DA2000CD0AB /* POIAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIAnnotation.m; sourceTree = "<group>"; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -819,14 +846,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
+				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
+				8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */,
+				8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */,
+				35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */,
+				8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */,
+				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
 				8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */,
 				8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */,
 				8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */,
 				8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */,
 				8EC998A71DC8411900448997 /* Security.framework in Frameworks */,
 				8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */,
-				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
-				35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */,
 				35FA8E931DB5BC8600510A75 /* libc++.tbd in Frameworks */,
 				35FA8E911DB5BC7300510A75 /* libz.tbd in Frameworks */,
 				35FA8E8F1DB5BC5B00510A75 /* CoreMotion.framework in Frameworks */,
@@ -835,8 +867,11 @@
 				35FA8E8D1DB5BC4500510A75 /* CFNetwork.framework in Frameworks */,
 				35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */,
 				3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */,
+				8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */,
+				8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */,
 				35FA8E0B1DB5B31100510A75 /* libWeChatSDK.a in Frameworks */,
 				3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */,
+				8ECA2AD71DC98316000CD0AB /* MAMapKit.framework in Frameworks */,
 				3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */,
 				35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */,
 				3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */,
@@ -854,6 +889,15 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */,
+				8ECA2AD81DC98320000CD0AB /* AMap.bundle */,
+				8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */,
+				8ECA2AD51DC98316000CD0AB /* MAMapKit.framework */,
+				8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */,
+				8ECA2AD01DC98227000CD0AB /* AdSupport.framework */,
+				8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */,
+				8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */,
+				8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */,
 				8E0760271DC892AE001D7098 /* MapKit.framework */,
 				8E07601E1DC84C59001D7098 /* libstdc++.tbd */,
 				8E07601C1DC84C2E001D7098 /* CoreGraphics.framework */,
@@ -1046,6 +1090,8 @@
 				351767881DC3359B00D2D407 /* LMBesureOrderViewController.m */,
 				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
 				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
+				8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */,
+				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1952,6 +1998,7 @@
 		3547F4F91D9921030068F04E /* activity */ = {
 			isa = PBXGroup;
 			children = (
+				8ECA2ADC1DC98DA2000CD0AB /* mapView */,
 				3547F4FA1D9921370068F04E /* LMActivityCell.h */,
 				3547F4FB1D9921370068F04E /* LMActivityCell.m */,
 				35E7B2E61D9DFF780035AFFE /* LMActivityheadCell.h */,
@@ -2363,6 +2410,17 @@
 			path = TencentShare;
 			sourceTree = "<group>";
 		};
+		8ECA2ADC1DC98DA2000CD0AB /* mapView */ = {
+			isa = PBXGroup;
+			children = (
+				8ECA2ADD1DC98DA2000CD0AB /* AMapTipAnnotation.h */,
+				8ECA2ADE1DC98DA2000CD0AB /* AMapTipAnnotation.m */,
+				8ECA2ADF1DC98DA2000CD0AB /* POIAnnotation.h */,
+				8ECA2AE01DC98DA2000CD0AB /* POIAnnotation.m */,
+			);
+			path = mapView;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2450,6 +2508,7 @@
 				3547F3A81D9904B60068F04E /* city.plist in Resources */,
 				35D8FC231DB47D4E00AD469E /* area.plist in Resources */,
 				3547F4BB1D9904D90068F04E /* LICENSE in Resources */,
+				8ECA2AD91DC98320000CD0AB /* AMap.bundle in Resources */,
 				3507691C1DB9B2AD00487341 /* scanLine@3x.png in Resources */,
 				3507691D1DB9B2AD00487341 /* scanscanBg.png in Resources */,
 				3547F42A1D9904BD0068F04E /* city.plist in Resources */,
@@ -2552,12 +2611,14 @@
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
 				35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */,
 				350AD2261DB76EE200CA181A /* LMEventCommitReplyRequset.m in Sources */,
+				8ECA2AE11DC98DA2000CD0AB /* AMapTipAnnotation.m in Sources */,
 				35FA8E791DB5B31800510A75 /* openssl_wrapper.m in Sources */,
 				355E52711DC1A6D90004FBAF /* UIScrollView+MJRefresh.m in Sources */,
 				3530ABE41DC5CDD4003CB68F /* LMBalanceList.m in Sources */,
 				3547F42F1D9904BD0068F04E /* UIImage+ImageFromArrayUtils.m in Sources */,
 				35B61E011DB06F7E00083F30 /* LMEventDetailEventBody.m in Sources */,
 				35FA8E781DB5B31800510A75 /* NSDataEx.m in Sources */,
+				8ECA2AE21DC98DA2000CD0AB /* POIAnnotation.m in Sources */,
 				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
 				3517678F1DC5A6BD00D2D407 /* LMBlanceDetailController.m in Sources */,
@@ -2718,6 +2779,7 @@
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
 				350904E41DC74C390045CC14 /* SYPhotoBrowser.m in Sources */,
 				351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */,
+				8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,
