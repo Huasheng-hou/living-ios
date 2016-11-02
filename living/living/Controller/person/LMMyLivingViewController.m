@@ -12,6 +12,8 @@
 #import "LMRechargeViewController.h"
 #import "LMActivityCell.h"
 #import "WJLoopView.h"
+#import "LMLivingLivingInfo.h"
+#import "LMLivingMap.h"
 
 @interface LMMyLivingViewController ()
 <UITableViewDelegate,
@@ -25,6 +27,8 @@ WJLoopViewDelegate
     int total;
     UIImageView *homeImage;
     UITableView *_tableView;
+    LMLivingLivingInfo*livingInfo;
+    LMLivingMap *numInfo;
 }
 
 @end
@@ -43,6 +47,7 @@ WJLoopViewDelegate
     [super viewDidLoad];
     self.title = @"我的生活馆";
     [self createUI];
+    [self getLivingHomeListData];
     listArray = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"reloadEvent" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"rechargeMoney" object:nil];
@@ -66,9 +71,9 @@ WJLoopViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    NSLog(@"%@",_livImgUUid);
     
-    
-    LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithLivingUuid:_livImgUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -92,13 +97,15 @@ WJLoopViewDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
         
-        [listArray removeAllObjects];
+        livingInfo = [[LMLivingLivingInfo alloc] initWithDictionary:bodyDic[@"livingInfo"]];
+        numInfo = [[LMLivingMap alloc] initWithDictionary:bodyDic[@"map"]];
+        
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
-//            LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
-//            if (![listArray containsObject:list]) {
-//                [listArray addObject:list];
-//            }
+            LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
+            if (![listArray containsObject:list]) {
+                [listArray addObject:list];
+            }
         }
         [_tableView reloadData];
     }else{
@@ -133,7 +140,7 @@ WJLoopViewDelegate
 {
     if (section==0) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
-        WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:nil placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+        WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:livingInfo.livingImage placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
         loopView.location = WJPageControlAlignmentRight;
         
         
@@ -141,6 +148,44 @@ WJLoopViewDelegate
         
         return headView;
     }
+    if (section==1) {
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
+        headView.backgroundColor = [UIColor whiteColor];
+        
+        UIImageView *publicV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/4-10, 10, 20, 20)];
+        publicV.backgroundColor = [UIColor lightGrayColor];
+        [headView addSubview:publicV];
+        
+        UILabel *publicLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, kScreenWidth/2, 20)];
+        if (numInfo.publishNums) {
+            publicLb.text = [NSString stringWithFormat:@"共发布%.0f次活动",numInfo.publishNums];
+        }
+        publicLb.textAlignment = NSTextAlignmentCenter;
+        publicLb.textColor = TEXT_COLOR_LEVEL_3;
+        publicLb.font = TEXT_FONT_BOLD_14;
+        [headView addSubview:publicLb];
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/2-0.25, 15, 0.5, 30)];
+        line.backgroundColor = LINE_COLOR;
+        [headView addSubview:line];
+        
+        
+        UIImageView *joinV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth*3/4-10, 10, 20, 20)];
+        joinV.backgroundColor = [UIColor lightGrayColor];
+        [headView addSubview:joinV];
+        
+        UILabel *joinLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2, 35, kScreenWidth/2, 20)];
+//        if (numInfo.joinNums) {
+            joinLb.text = [NSString stringWithFormat:@"共参与%.0f次活动",numInfo.joinNums];
+        joinLb.textAlignment = NSTextAlignmentCenter;
+
+        joinLb.textColor = TEXT_COLOR_LEVEL_3;
+        joinLb.font = TEXT_FONT_BOLD_14;
+        [headView addSubview:joinLb];
+        return headView;
+    }
+    
+    
     
     return nil;
 }
@@ -150,7 +195,7 @@ WJLoopViewDelegate
     if (section==0) {
         return kScreenWidth*3/5;
     }
-    return 0;
+    return 60;
 }
 
 
@@ -182,22 +227,35 @@ WJLoopViewDelegate
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section==1) {
+        return listArray.count;
+    }
     return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"cellId";
-    LMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    if (indexPath.section==0) {
+        static NSString *cellID = @"cellID";
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor = [UIColor clearColor];
     
-    [cell setXScale:self.xScale yScale:self.yScaleNoTab];
-
-    return cell;
+    if (indexPath.section==1) {
+        static NSString *cellId = @"cellId";
+        LMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
+        LMActivityList *list = [listArray objectAtIndex:indexPath.row];
+        [cell setValue:list];
+        [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+        
+        return cell;
+    }
+    return nil;
 }
 
 -(void)cellWillpay:(LMMyLivingHomeCell *)cell

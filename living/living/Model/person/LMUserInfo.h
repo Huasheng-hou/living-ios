@@ -21,6 +21,7 @@
 @property (nonatomic, assign) double orderNumber;
 @property (nonatomic, strong) NSString *totalEventNum;
 @property (nonatomic, strong) NSString *province;
+@property (nonatomic, strong) NSString *livingUuid;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

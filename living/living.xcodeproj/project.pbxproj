@@ -153,6 +153,8 @@
 		3547F4F81D9910F50068F04E /* LMhomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4F71D9910F50068F04E /* LMhomePageCell.m */; };
 		3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FB1D9921370068F04E /* LMActivityCell.m */; };
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
+		354C0BD01DC98FD400869A3D /* LMLivingLivingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BCF1DC98FD400869A3D /* LMLivingLivingInfo.m */; };
+		354C0BD31DC9951F00869A3D /* LMLivingMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BD21DC9951F00869A3D /* LMLivingMap.m */; };
 		355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */; };
 		355E526B1DC1A6D90004FBAF /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */; };
 		355E526C1DC1A6D90004FBAF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E525E1DC1A6D90004FBAF /* MJRefreshBaseView.m */; };
@@ -538,6 +540,10 @@
 		3547F4FB1D9921370068F04E /* LMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityCell.m; sourceTree = "<group>"; };
 		3547F4FE1D9931ED0068F04E /* LMFindCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindCell.h; sourceTree = "<group>"; };
 		3547F4FF1D9931ED0068F04E /* LMFindCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCell.m; sourceTree = "<group>"; };
+		354C0BCE1DC98FCE00869A3D /* LMLivingLivingInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMLivingLivingInfo.h; sourceTree = "<group>"; };
+		354C0BCF1DC98FD400869A3D /* LMLivingLivingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingLivingInfo.m; sourceTree = "<group>"; };
+		354C0BD11DC9951C00869A3D /* LMLivingMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMLivingMap.h; sourceTree = "<group>"; };
+		354C0BD21DC9951F00869A3D /* LMLivingMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingMap.m; sourceTree = "<group>"; };
 		355AEFA31DC098670029600B /* LMLivingHomeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingHomeListRequest.h; sourceTree = "<group>"; };
 		355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingHomeListRequest.m; sourceTree = "<group>"; };
 		355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
@@ -1373,6 +1379,10 @@
 				3530ABE01DC5CDC9003CB68F /* LMBalanceBill.m */,
 				3530ABE21DC5CDCF003CB68F /* LMBalanceList.h */,
 				3530ABE31DC5CDD4003CB68F /* LMBalanceList.m */,
+				354C0BCE1DC98FCE00869A3D /* LMLivingLivingInfo.h */,
+				354C0BCF1DC98FD400869A3D /* LMLivingLivingInfo.m */,
+				354C0BD11DC9951C00869A3D /* LMLivingMap.h */,
+				354C0BD21DC9951F00869A3D /* LMLivingMap.m */,
 			);
 			path = PersonData;
 			sourceTree = "<group>";
@@ -2643,6 +2653,7 @@
 				3530ABD91DC5C348003CB68F /* SQMenuShowCell.m in Sources */,
 				351767861DC328BA00D2D407 /* LM2DcodeRequest.m in Sources */,
 				3547F4041D9904BA0068F04E /* UserInfoVO.m in Sources */,
+				354C0BD31DC9951F00869A3D /* LMLivingMap.m in Sources */,
 				3547F39D1D9904B20068F04E /* BabFilterAgePickerView.m in Sources */,
 				3547F42C1D9904BD0068F04E /* UIColor+ZXLazy.m in Sources */,
 				351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */,
@@ -2689,6 +2700,7 @@
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
 				3523643B1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m in Sources */,
 				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
+				354C0BD01DC98FD400869A3D /* LMLivingLivingInfo.m in Sources */,
 				35F004161DADC6D900F59CB2 /* LMHomeDetailRequest.m in Sources */,
 				8EC998A01DC83A1000448997 /* HBShareView.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,

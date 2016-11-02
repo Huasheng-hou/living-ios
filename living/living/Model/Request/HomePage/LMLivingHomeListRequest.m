@@ -10,17 +10,15 @@
 
 @implementation LMLivingHomeListRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize
+-(id)initWithLivingUuid:(NSString *)living_uuid
 {
     self = [super init];
     if (self) {
         NSMutableDictionary *body = [NSMutableDictionary new];
-        if (pageIndex != -1) {
-            [body setObject:[NSString stringWithFormat:@"%d", pageIndex] forKey:@"pageIndex"];
+        if (living_uuid) {
+            [body setObject:living_uuid forKey:@"living_uuid"];
         }
-        if (pageSize != -1) {
-            [body setObject:[NSString stringWithFormat:@"%d", pageSize] forKey:@"pageSize"];
-        }
+
         
         NSMutableDictionary *parmDic = [self params];
         [parmDic setValue:body forKey:@"body"];

@@ -18,7 +18,7 @@ NSString *const kUserInfoBirthday = @"birthday";
 NSString *const kUserInfoOrderNumber = @"order_number";
 NSString *const kUserInfoTotalEventNum = @"total_event_num";
 NSString *const kUserInfoProvince = @"province";
-
+NSString *const kUserInfoLivingUuid = @"livingUuid";
 
 @interface LMUserInfo ()
 
@@ -38,7 +38,7 @@ NSString *const kUserInfoProvince = @"province";
 @synthesize orderNumber = _orderNumber;
 @synthesize totalEventNum = _totalEventNum;
 @synthesize province = _province;
-
+@synthesize livingUuid = _livingUuid;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
 {
@@ -62,6 +62,7 @@ NSString *const kUserInfoProvince = @"province";
         self.orderNumber = [[self objectOrNilForKey:kUserInfoOrderNumber fromDictionary:dict] doubleValue];
         self.totalEventNum = [self objectOrNilForKey:kUserInfoTotalEventNum fromDictionary:dict];
         self.province = [self objectOrNilForKey:kUserInfoProvince fromDictionary:dict];
+        self.livingUuid = [self objectOrNilForKey:kUserInfoLivingUuid fromDictionary:dict];
 
     }
     
@@ -82,6 +83,7 @@ NSString *const kUserInfoProvince = @"province";
     [mutableDict setValue:[NSNumber numberWithDouble:self.orderNumber] forKey:kUserInfoOrderNumber];
     [mutableDict setValue:self.totalEventNum forKey:kUserInfoTotalEventNum];
     [mutableDict setValue:self.province forKey:kUserInfoProvince];
+    [mutableDict setValue:self.livingUuid forKey:kUserInfoLivingUuid];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -115,6 +117,7 @@ NSString *const kUserInfoProvince = @"province";
     self.orderNumber = [aDecoder decodeDoubleForKey:kUserInfoOrderNumber];
     self.totalEventNum = [aDecoder decodeObjectForKey:kUserInfoTotalEventNum];
     self.province = [aDecoder decodeObjectForKey:kUserInfoProvince];
+    self.livingUuid = [aDecoder decodeObjectForKey:kUserInfoLivingUuid];
     return self;
 }
 
@@ -131,6 +134,7 @@ NSString *const kUserInfoProvince = @"province";
     [aCoder encodeDouble:_orderNumber forKey:kUserInfoOrderNumber];
     [aCoder encodeObject:_totalEventNum forKey:kUserInfoTotalEventNum];
     [aCoder encodeObject:_province forKey:kUserInfoProvince];
+    [aCoder encodeObject:_livingUuid forKey:kUserInfoLivingUuid];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -149,6 +153,7 @@ NSString *const kUserInfoProvince = @"province";
         copy.orderNumber = self.orderNumber;
         copy.totalEventNum = [self.totalEventNum copyWithZone:zone];
         copy.province = [self.province copyWithZone:zone];
+        copy.livingUuid = [self.livingUuid copyWithZone:zone];
     }
     
     return copy;
