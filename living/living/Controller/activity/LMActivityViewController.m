@@ -68,6 +68,8 @@ UITableViewDataSource
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
+    NSLog(@"[FitUserManager sharedUserManager].privileges:%@",[FitUserManager sharedUserManager].privileges);
+    
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
