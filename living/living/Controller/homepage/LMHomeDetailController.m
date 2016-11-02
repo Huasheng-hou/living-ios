@@ -498,6 +498,7 @@ shareTypeDelegate
             [zanLabel addGestureRecognizer:tap];
             
             
+
             if (articleData.articleImgs) {
                 
                 NSArray *arr =articleData.articleImgs;

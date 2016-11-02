@@ -155,6 +155,7 @@
 		3547F5001D9931ED0068F04E /* LMFindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F4FF1D9931ED0068F04E /* LMFindCell.m */; };
 		354C0BD01DC98FD400869A3D /* LMLivingLivingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BCF1DC98FD400869A3D /* LMLivingLivingInfo.m */; };
 		354C0BD31DC9951F00869A3D /* LMLivingMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BD21DC9951F00869A3D /* LMLivingMap.m */; };
+		354C0BD61DCA131100869A3D /* LMScanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BD51DCA131100869A3D /* LMScanRequest.m */; };
 		355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */; };
 		355E526B1DC1A6D90004FBAF /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */; };
 		355E526C1DC1A6D90004FBAF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E525E1DC1A6D90004FBAF /* MJRefreshBaseView.m */; };
@@ -275,6 +276,12 @@
 		8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */; };
 		8ECA2AE11DC98DA2000CD0AB /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2ADE1DC98DA2000CD0AB /* AMapTipAnnotation.m */; };
 		8ECA2AE21DC98DA2000CD0AB /* POIAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AE01DC98DA2000CD0AB /* POIAnnotation.m */; };
+		8ECA2AE61DC9B00B000CD0AB /* LMLiveRoomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AE51DC9B00B000CD0AB /* LMLiveRoomCell.m */; };
+		8ECA2AEE1DC9C329000CD0AB /* LMLiveRoomBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AE91DC9C329000CD0AB /* LMLiveRoomBody.m */; };
+		8ECA2AEF1DC9C329000CD0AB /* LMLiveRoomLivingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AEB1DC9C329000CD0AB /* LMLiveRoomLivingInfo.m */; };
+		8ECA2AF01DC9C329000CD0AB /* LMLiveRoomMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AED1DC9C329000CD0AB /* LMLiveRoomMap.m */; };
+		8ECA2AF31DC9F2B7000CD0AB /* LMMyCouponController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AF21DC9F2B7000CD0AB /* LMMyCouponController.m */; };
+		8ECA2AFA1DC9F461000CD0AB /* LMCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AF91DC9F461000CD0AB /* LMCouponCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -556,6 +563,8 @@
 		354C0BCF1DC98FD400869A3D /* LMLivingLivingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingLivingInfo.m; sourceTree = "<group>"; };
 		354C0BD11DC9951C00869A3D /* LMLivingMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMLivingMap.h; sourceTree = "<group>"; };
 		354C0BD21DC9951F00869A3D /* LMLivingMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingMap.m; sourceTree = "<group>"; };
+		354C0BD41DCA131100869A3D /* LMScanRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMScanRequest.h; sourceTree = "<group>"; };
+		354C0BD51DCA131100869A3D /* LMScanRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanRequest.m; sourceTree = "<group>"; };
 		355AEFA31DC098670029600B /* LMLivingHomeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingHomeListRequest.h; sourceTree = "<group>"; };
 		355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingHomeListRequest.m; sourceTree = "<group>"; };
 		355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
@@ -843,6 +852,18 @@
 		8ECA2ADE1DC98DA2000CD0AB /* AMapTipAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMapTipAnnotation.m; sourceTree = "<group>"; };
 		8ECA2ADF1DC98DA2000CD0AB /* POIAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIAnnotation.h; sourceTree = "<group>"; };
 		8ECA2AE01DC98DA2000CD0AB /* POIAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIAnnotation.m; sourceTree = "<group>"; };
+		8ECA2AE41DC9B00B000CD0AB /* LMLiveRoomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomCell.h; sourceTree = "<group>"; };
+		8ECA2AE51DC9B00B000CD0AB /* LMLiveRoomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomCell.m; sourceTree = "<group>"; };
+		8ECA2AE81DC9C329000CD0AB /* LMLiveRoomBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomBody.h; sourceTree = "<group>"; };
+		8ECA2AE91DC9C329000CD0AB /* LMLiveRoomBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomBody.m; sourceTree = "<group>"; };
+		8ECA2AEA1DC9C329000CD0AB /* LMLiveRoomLivingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomLivingInfo.h; sourceTree = "<group>"; };
+		8ECA2AEB1DC9C329000CD0AB /* LMLiveRoomLivingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomLivingInfo.m; sourceTree = "<group>"; };
+		8ECA2AEC1DC9C329000CD0AB /* LMLiveRoomMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomMap.h; sourceTree = "<group>"; };
+		8ECA2AED1DC9C329000CD0AB /* LMLiveRoomMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomMap.m; sourceTree = "<group>"; };
+		8ECA2AF11DC9F2B7000CD0AB /* LMMyCouponController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyCouponController.h; sourceTree = "<group>"; };
+		8ECA2AF21DC9F2B7000CD0AB /* LMMyCouponController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyCouponController.m; sourceTree = "<group>"; };
+		8ECA2AF81DC9F461000CD0AB /* LMCouponCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponCell.h; sourceTree = "<group>"; };
+		8ECA2AF91DC9F461000CD0AB /* LMCouponCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponCell.m; sourceTree = "<group>"; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -980,6 +1001,8 @@
 		351CC64C1DAB22C1008D59D8 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				8ECA2AF41DC9F416000CD0AB /* personCoupon */,
+				8ECA2AE31DC9AFE6000CD0AB /* personMyliveRoom */,
 				351CC64D1DAB234E008D59D8 /* LMNoticCell.h */,
 				351CC64E1DAB234E008D59D8 /* LMNoticCell.m */,
 				351CC6661DAB8FBF008D59D8 /* LMOrderCell.h */,
@@ -1164,6 +1187,8 @@
 				350769241DB9FE7B00487341 /* setting */,
 				3547F3781D9904A60068F04E /* LMPersonViewController.h */,
 				3547F3791D9904A60068F04E /* LMPersonViewController.m */,
+				8ECA2AF11DC9F2B7000CD0AB /* LMMyCouponController.h */,
+				8ECA2AF21DC9F2B7000CD0AB /* LMMyCouponController.m */,
 				352364331DBEF6C7002E6B78 /* LMMyLivingViewController.h */,
 				352364341DBEF6C7002E6B78 /* LMMyLivingViewController.m */,
 				352364361DBEF7D3002E6B78 /* LMMyFriendViewController.h */,
@@ -1301,6 +1326,7 @@
 		3547F3B71D9904BA0068F04E /* person */ = {
 			isa = PBXGroup;
 			children = (
+				8ECA2AE71DC9C329000CD0AB /* LMLiveRoomData */,
 				35E40A2D1DACBD3F00DE1807 /* LMUserInfo.h */,
 				35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */,
 			);
@@ -2221,6 +2247,8 @@
 				3523642B1DBEE928002E6B78 /* LMNoticDeleteRequest.m */,
 				351767841DC328BA00D2D407 /* LM2DcodeRequest.h */,
 				351767851DC328BA00D2D407 /* LM2DcodeRequest.m */,
+				354C0BD41DCA131100869A3D /* LMScanRequest.h */,
+				354C0BD51DCA131100869A3D /* LMScanRequest.m */,
 			);
 			name = person;
 			sourceTree = "<group>";
@@ -2431,6 +2459,37 @@
 			path = mapView;
 			sourceTree = "<group>";
 		};
+		8ECA2AE31DC9AFE6000CD0AB /* personMyliveRoom */ = {
+			isa = PBXGroup;
+			children = (
+				8ECA2AE41DC9B00B000CD0AB /* LMLiveRoomCell.h */,
+				8ECA2AE51DC9B00B000CD0AB /* LMLiveRoomCell.m */,
+			);
+			path = personMyliveRoom;
+			sourceTree = "<group>";
+		};
+		8ECA2AE71DC9C329000CD0AB /* LMLiveRoomData */ = {
+			isa = PBXGroup;
+			children = (
+				8ECA2AE81DC9C329000CD0AB /* LMLiveRoomBody.h */,
+				8ECA2AE91DC9C329000CD0AB /* LMLiveRoomBody.m */,
+				8ECA2AEA1DC9C329000CD0AB /* LMLiveRoomLivingInfo.h */,
+				8ECA2AEB1DC9C329000CD0AB /* LMLiveRoomLivingInfo.m */,
+				8ECA2AEC1DC9C329000CD0AB /* LMLiveRoomMap.h */,
+				8ECA2AED1DC9C329000CD0AB /* LMLiveRoomMap.m */,
+			);
+			path = LMLiveRoomData;
+			sourceTree = "<group>";
+		};
+		8ECA2AF41DC9F416000CD0AB /* personCoupon */ = {
+			isa = PBXGroup;
+			children = (
+				8ECA2AF81DC9F461000CD0AB /* LMCouponCell.h */,
+				8ECA2AF91DC9F461000CD0AB /* LMCouponCell.m */,
+			);
+			path = personCoupon;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2609,7 +2668,9 @@
 				35F004231DAE0C0200F59CB2 /* LMCommentPraiseRequest.m in Sources */,
 				355E526E1DC1A6D90004FBAF /* MJRefreshFooterView.m in Sources */,
 				354574791D9CC24600E88D6F /* WJLoopView.m in Sources */,
+				8ECA2AEE1DC9C329000CD0AB /* LMLiveRoomBody.m in Sources */,
 				35D8FC3A1DB4E03400AD469E /* LMOrderListRequest.m in Sources */,
+				354C0BD61DCA131100869A3D /* LMScanRequest.m in Sources */,
 				8E0760261DC89056001D7098 /* LMMapViewCell.m in Sources */,
 				35FA8E761DB5B31800510A75 /* DataVerifier.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
@@ -2631,6 +2692,7 @@
 				8ECA2AE21DC98DA2000CD0AB /* POIAnnotation.m in Sources */,
 				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
+				8ECA2AFA1DC9F461000CD0AB /* LMCouponCell.m in Sources */,
 				3517678F1DC5A6BD00D2D407 /* LMBlanceDetailController.m in Sources */,
 				8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */,
 				35FA8E731DB5B31800510A75 /* Order.m in Sources */,
@@ -2648,6 +2710,7 @@
 				350AD2201DB7560E00CA181A /* LMFeedBackRequest.m in Sources */,
 				35FA8EAA1DB5FAC900510A75 /* LMAliRechargeRequest.m in Sources */,
 				35B61E151DB0727800083F30 /* LMActivityList.m in Sources */,
+				8ECA2AF01DC9C329000CD0AB /* LMLiveRoomMap.m in Sources */,
 				3530ABF01DC5E500003CB68F /* LMOrderDataOrderInfo.m in Sources */,
 				35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
@@ -2699,11 +2762,13 @@
 				3547F4031D9904BA0068F04E /* FirPersonVO.m in Sources */,
 				3547F37D1D9904A60068F04E /* FitBaseViewController.m in Sources */,
 				35D6AD121DAA53E9005197E1 /* LMNoticViewController.m in Sources */,
+				8ECA2AE61DC9B00B000CD0AB /* LMLiveRoomCell.m in Sources */,
 				35FA8E0D1DB5B31100510A75 /* WXApiRequestHandler.m in Sources */,
 				35FA8E7A1DB5B31800510A75 /* RSADataSigner.m in Sources */,
 				35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */,
 				3547F42D1D9904BD0068F04E /* FitConsts.m in Sources */,
 				352364381DBEF7D3002E6B78 /* LMMyFriendViewController.m in Sources */,
+				8ECA2AEF1DC9C329000CD0AB /* LMLiveRoomLivingInfo.m in Sources */,
 				3547F4601D9904C70068F04E /* FitUserInfoManager.m in Sources */,
 				3547F3F11D9904BA0068F04E /* UITabBar+Badge.m in Sources */,
 				3547F4301D9904BD0068F04E /* CheckUtils.m in Sources */,
@@ -2726,6 +2791,7 @@
 				35FA8E771DB5B31800510A75 /* MD5DataSigner.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
 				352364321DBEF3FA002E6B78 /* LMMy2dcodeViewController.m in Sources */,
+				8ECA2AF31DC9F2B7000CD0AB /* LMMyCouponController.m in Sources */,
 				35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */,
 				3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,

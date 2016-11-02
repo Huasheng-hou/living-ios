@@ -166,8 +166,6 @@ updatingLocation:(BOOL)updatingLocation
 
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
 {
-    
-    
     if (response.pois.count == 0)
     {
         return;

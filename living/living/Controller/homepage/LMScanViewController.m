@@ -11,6 +11,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "LMWebViewController.h"
+#import "LMScanRequest.h"
+
 
 #define DeviceMaxHeight ([UIScreen mainScreen].bounds.size.height)
 #define DeviceMaxWidth ([UIScreen mainScreen].bounds.size.width)
@@ -189,23 +191,55 @@
 - (void)accordingQcode:(NSString *)str
 {
 
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"扫描结果"
-                                                                           message:str preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                LMWebViewController *webVC = [[LMWebViewController alloc] init];
-                [webVC setHidesBottomBarWhenPushed:YES];
-                webVC.urlString = str;
-                [self.navigationController pushViewController:webVC animated:YES];
-                
-                
-            }]];
-    
-            [self presentViewController:alert animated:YES completion:nil];
+//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"扫描结果"
+//                                                                           message:str preferredStyle:UIAlertControllerStyleAlert];
+//            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                LMWebViewController *webVC = [[LMWebViewController alloc] init];
+//                [webVC setHidesBottomBarWhenPushed:YES];
+//                webVC.urlString = str;
+//                [self.navigationController pushViewController:webVC animated:YES];
+//                
+//                
+//            }]];
+//    
+//            [self presentViewController:alert animated:YES completion:nil];
+
+    LMScanRequest *request = [[LMScanRequest alloc] initWithscanningResult:str];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getscanningResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取二维码信息失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
 
     
     
+}
+
+-(void)getscanningResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"添加好友失败!"];
+    }else{
+        
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"添加好友成功!"];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+        
+    }
     
 }
+
 
 - (void)reStartScan
 {

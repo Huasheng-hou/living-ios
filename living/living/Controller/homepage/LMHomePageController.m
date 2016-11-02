@@ -20,6 +20,7 @@
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
 #import "LMWriterViewController.h"
+#import "LMHomeDetailController.h"
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -36,6 +37,9 @@ LMhomePageCellDelegate
     UIImageView *homeImage;
     BOOL ifRefresh;
     int total;
+    
+    NSMutableArray *stateArray;
+    
     
 }
 
@@ -65,12 +69,15 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"首页";
+    
+    stateArray=[NSMutableArray arrayWithCapacity:0];
+    
     [self creatUI];
     ifRefresh = YES;
     imageUrls = [NSMutableArray new];
     listArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
-//    [self getBannerDataRequest];
+    [self getBannerDataRequest];
 }
 
 
@@ -209,7 +216,10 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
+        
+       NSLog(@"===========轮播图=bodyDic===============%@",bodyDic);
+      
+//        return;
         NSMutableArray *array = [NSMutableArray new];
         array = bodyDic[@"banners"];
         for (NSDictionary *dic in array) {
@@ -218,6 +228,9 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
             
             NSString *event = dic[@"event_uuid"];
             [eventArray addObject:event];
+            
+            NSString *state = dic[@"type"];
+            [stateArray addObject:state];
         }
         if (imageUrls.count==0) {
             headView.backgroundColor = BG_GRAY_COLOR;
@@ -320,11 +333,18 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 #pragma mark scrollview代理函数
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
     NSLog(@"%ld",(long)index);
-    LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
-    eventVC.hidesBottomBarWhenPushed = YES;
-    eventVC.eventUuid = eventArray[index];
-    [self.navigationController pushViewController:eventVC animated:YES];
     
+    if ([stateArray[index] isEqualToString:@"event"]) {
+        LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+        eventVC.hidesBottomBarWhenPushed = YES;
+        eventVC.eventUuid = eventArray[index];
+        [self.navigationController pushViewController:eventVC animated:YES];
+    }else{
+        LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
+        eventVC.hidesBottomBarWhenPushed = YES;
+        eventVC.artcleuuid = eventArray[index];
+        [self.navigationController pushViewController:eventVC animated:YES];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -370,6 +390,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     LMActicleList *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
     detailVC.artcleuuid = list.articleUuid;
