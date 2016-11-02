@@ -10,9 +10,12 @@
 #import "LMFindListRequest.h"
 #import "LMFindList.h"
 #import "LMFindCell.h"
+#import "WJLoopView.h"
 
-@interface LMFindViewController ()<UITableViewDelegate,
-UITableViewDataSource
+@interface LMFindViewController ()<
+UITableViewDelegate,
+UITableViewDataSource,
+WJLoopViewDelegate
 >
 {
     UITableView *_tableView;
@@ -41,7 +44,11 @@ UITableViewDataSource
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
+    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:nil placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+    loopView.location = WJPageControlAlignmentRight;
     
+    
+    [self.view addSubview:loopView];
 }
 
 
@@ -88,6 +95,12 @@ UITableViewDataSource
     }
     
     
+}
+
+#pragma mark scrollview代理函数
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
+    NSLog(@"%ld",(long)index);
+
 }
 
 

@@ -107,6 +107,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     self.navigationItem.rightBarButtonItem = rightItem;
     
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
+    headView.backgroundColor = BG_GRAY_COLOR;
     _tableView.tableHeaderView = headView;
     
     
@@ -321,7 +322,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         if (listArray.count!=0) {
             [homeImage removeFromSuperview];
         }else{
-            homeImage.hidden = YES;
+            homeImage.hidden = NO;
         }
         
         [_tableView reloadData];

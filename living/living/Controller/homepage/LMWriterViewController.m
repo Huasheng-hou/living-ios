@@ -19,7 +19,7 @@ UITableViewDataSource
 {
     UITableView *_tableView;
     NSMutableArray *listArray;
-
+    NSMutableDictionary *infoDic;
     BOOL ifRefresh;
     int total;
 }
@@ -136,6 +136,8 @@ UITableViewDataSource
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
         
+        infoDic = [bodyDic objectForKey:@"map"];
+    
         if (ifRefresh) {
             ifRefresh=NO;
             listArray=[NSMutableArray arrayWithCapacity:0];
@@ -177,53 +179,158 @@ UITableViewDataSource
     // Dispose of any resources that can be recreated.
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section==0) {
+        return 20;
+    }
+    return 0.01;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==1) {
+        return 40;
+    }
+    
+    return 0.01;
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenHeight, 215)];
-    UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenHeight, 215)];
-    backImage.image = [UIImage imageNamed:@"back@3x"];
-    backImage.contentMode = UIViewContentModeScaleAspectFill;
-    backImage.clipsToBounds = YES;
-    [headView addSubview:backImage];
-    return headView;
-    
+    if (section==1) {
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        headView.backgroundColor = [UIColor whiteColor];
+        
+        UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kScreenWidth-30, 30)];
+        headLabel.text = @"全部文章";
+        headLabel.font = TEXT_FONT_LEVEL_2;
+        headLabel.textColor = LIVING_COLOR;
+        [headView addSubview:headLabel];
+        
+        return headView;
+    }
+    return nil;
 }
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==0) {
+        return 100;
+    }
     return 130;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section==0) {
+        return 1;
+    }
     return listArray.count;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 215;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.01;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"cellId";
-    LMhomePageCell *cell  = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    if (indexPath.section==0) {
+        static NSString *cellId = @"cellId";
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //头像
+            UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
+            headerView.layer.cornerRadius = 5;
+            headerView.backgroundColor = BG_GRAY_COLOR;
+            headerView.contentMode = UIViewContentModeScaleAspectFill;
+            headerView.clipsToBounds = YES;
+            
+            
+            if (![infoDic[@"avatar"] isEqual:@""]&&infoDic[@"avatar"]) {
+                [headerView setImageWithURL:[NSURL URLWithString:infoDic[@"avatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+            }
+            [cell.contentView addSubview:headerView];
+
+            //nick
+            UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,10,30,30)];
+            nicklabel.font = TEXT_FONT_LEVEL_1;
+            nicklabel.textColor = TEXT_COLOR_LEVEL_2;
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
+        NSString *str= @"";
+        if (infoDic[@"nickename"]&& ![infoDic[@"nickename"] isEqual:@""]) {
+           str =infoDic[@"nickename"];
+        }else{
+            str = @"匿名作者";
+        }
+        
+            CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
+            [nicklabel setFrame:CGRectMake(100, 10, textSize.width, 30)];
+            nicklabel.text = str;
+            [cell.contentView addSubview:nicklabel];
+//
+//            
+//            //gender icon
+//            UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 17, 16, 16)];
+//            if (infoModel.gender) {
+//                if ([infoModel.gender isEqual:@"1"]) {
+//                    [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
+//                }else{
+//                    [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
+//                }
+//            }
+//            [cell.contentView addSubview:genderImage];
+//            
+            //下划线
+            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 40, kScreenWidth-100, 1.0)];
+            lineLabel.backgroundColor = LINE_COLOR;
+            [cell.contentView addSubview:lineLabel];
+
+            //地址
+            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 80, 20)];
+        
+        if (infoDic[@"address"]&&![infoDic[@"address"] isEqual:@""]) {
+            question.text = [NSString stringWithFormat:@"地址：%@", infoDic[@"address"]];
+        }else{
+            question.text = @"地址：--";
+        }
+        
+        
+            question.font = TEXT_FONT_LEVEL_2;
+            question.textColor = TEXT_COLOR_LEVEL_3;
+            [question sizeToFit];
+            question.frame = CGRectMake(100, 50, question.bounds.size.width, 20);
+            [cell.contentView addSubview:question];
+            
+        
+            
+
+            
+        return cell;
+        
+        }
+
+    
+    if (indexPath.section==1) {
+        static NSString *cellIdd = @"cellIdd";
+        LMhomePageCell *cell  = [tableView dequeueReusableCellWithIdentifier:cellIdd];
+        if (!cell) {
+            cell = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdd];
+        }
+        
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+        [cell setValue:list];
+        
+        return cell;
     }
-    
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
-    [cell setValue:list];
-    
-    return cell;
+    return nil;
+
     
 }
 
