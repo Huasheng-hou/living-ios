@@ -474,46 +474,46 @@ shareTypeDelegate
             [zanLabel addGestureRecognizer:tap];
             
             
-            if (articleData.articleImgs) {
-                imageArray =articleData.articleImgs;
-                NSArray *arr =articleData.articleImgs;
-                for (int i = 0; i<arr.count; i++) {
-                    UIImageView *headImage = [UIImageView new];
-                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
-                    headImage.backgroundColor = BG_GRAY_COLOR;
-                    
-                    headImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
-                    [headImage setClipsToBounds:YES];
-                    
-                    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
-                    headImage.tag = i;
-                    [headImage addGestureRecognizer:tap];
-                    headImage.userInteractionEnabled = YES;
-                    
-                    
-                    [cell.contentView addSubview:headImage];
-     
-                    headImage.frame = CGRectMake(15, 15*(i+1)+210*i, kScreenWidth-30, 210);
-                    
-
-                }
-                
+//            if (articleData.articleImgs) {
+//                imageArray =articleData.articleImgs;
+//                NSArray *arr =articleData.articleImgs;
+//                for (int i = 0; i<arr.count; i++) {
+//                    UIImageView *headImage = [UIImageView new];
+//                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+//                    headImage.backgroundColor = BG_GRAY_COLOR;
+//                    
+//                    headImage.contentMode = UIViewContentModeScaleAspectFill;
+//                    
+//                    [headImage setClipsToBounds:YES];
+//                    
+//                    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
+//                    headImage.tag = i;
+//                    [headImage addGestureRecognizer:tap];
+//                    headImage.userInteractionEnabled = YES;
+//                    
+//                    
+//                    [cell.contentView addSubview:headImage];
+//     
+//                    headImage.frame = CGRectMake(15, 15*(i+1)+210*i, kScreenWidth-30, 210);
+//                    
+//
+//                }
+            
                
-                dspLabel.frame = CGRectMake(15, 20+15*arr.count+210*arr.count, kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 30+15*arr.count+210*arr.count +conHigh, kScreenWidth-30, conHighs);
-                commentLabel.frame = CGRectMake(15, 45+15*arr.count+210*arr.count +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
-                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+15*arr.count+210*arr.count +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
-                [button setFrame:CGRectMake(kScreenWidth-100, 20+15*arr.count+210*arr.count, 80, 50)];
-                
-            }else{
-                dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 20 +conHigh, kScreenWidth-30, conHighs);
-                commentLabel.frame = CGRectMake(15, 35+conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
-                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 35+conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
-                
-                [button setFrame:CGRectMake(kScreenWidth-100, 10, 80, 50)];
-            }
+//                dspLabel.frame = CGRectMake(15, 20+15*arr.count+210*arr.count, kScreenWidth-30, conHigh);
+//                contentLabel.frame = CGRectMake(15, 30+15*arr.count+210*arr.count +conHigh, kScreenWidth-30, conHighs);
+//                commentLabel.frame = CGRectMake(15, 45+15*arr.count+210*arr.count +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+//                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+15*arr.count+210*arr.count +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+//                [button setFrame:CGRectMake(kScreenWidth-100, 20+15*arr.count+210*arr.count, 80, 50)];
+//                
+//            }else{
+//                dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
+//                contentLabel.frame = CGRectMake(15, 20 +conHigh, kScreenWidth-30, conHighs);
+//                commentLabel.frame = CGRectMake(15, 35+conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+//                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 35+conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+//                
+//                [button setFrame:CGRectMake(kScreenWidth-100, 10, 80, 50)];
+//            }
             
             [button setBackgroundColor:[UIColor greenColor]];
             [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];

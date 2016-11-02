@@ -19,6 +19,7 @@
 #import "FitUserManager.h"
 #import "LMUserInfo.h"
 #import "LMScanViewController.h"
+#import "LMMyCouponController.h"
 
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -158,7 +159,7 @@
         return 1;
     }
     if (section==1) {
-        return 4;
+        return 5;
     }
     if (section==2) {
         return 2;
@@ -343,12 +344,15 @@
                 cell.textLabel.text = @"生活馆";
                 cell.imageView.image = [UIImage imageNamed:@"living"];
 
-                
                 break;
             case 3:
                 cell.textLabel.text = @"我的好友";
                 cell.imageView.image = [UIImage imageNamed:@"friend"];
                 
+                break;
+            case 4:
+                cell.textLabel.text = @"我的优惠券";
+                cell.imageView.image = [UIImage imageNamed:@"personCoupon"];
                 
                 break;
                 
@@ -438,6 +442,12 @@
         //我的好友
         if (indexPath.row ==3) {
             LMMyFriendViewController *myfVC = [[LMMyFriendViewController alloc] init];
+            [self.navigationController pushViewController:myfVC animated:YES];
+        }
+        //我的优惠券
+        if (indexPath.row ==4) {
+            LMMyCouponController *myfVC = [[LMMyCouponController alloc] init];
+            [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
         

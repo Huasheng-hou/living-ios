@@ -11,6 +11,7 @@
 @interface LMMyLivingViewController : FitBaseViewController
 
 @property (nonatomic)           int     current;
+
 @property (nonatomic,strong)NSString *livImgUUid;
 
 // 带tab, nav, status的y向缩放

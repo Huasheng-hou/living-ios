@@ -194,6 +194,8 @@ UIAlertViewDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
+    NSLog(@"==========================活动详情:bodyDic:%@",bodyDic);
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
@@ -214,9 +216,6 @@ UIAlertViewDelegate
                 [msgArray addObject:dic];
             }
         }
-        
-            
-            
         
         NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
         [eventArray removeAllObjects];
@@ -497,7 +496,6 @@ UIAlertViewDelegate
     //生活馆信息   //地图展示
     if (indexPath.section==1) {
         static NSString *cellId = @"cellIddd";
-        
         
         LMActivityMsgCell *cell = [[LMActivityMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
        
