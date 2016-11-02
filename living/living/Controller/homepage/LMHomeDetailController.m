@@ -57,7 +57,8 @@ shareTypeDelegate
     
     UIImageView *homeImage;
     
-    NSArray *imageArray;
+    NSMutableArray *imageArray;
+    NSMutableArray *hightArray;
     
 }
 //@property(nonatomic,strong)TencentOAuth *tencentOAuth;
@@ -86,6 +87,8 @@ shareTypeDelegate
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-45);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self creatFootView];
+    hightArray = [NSMutableArray new];
+    imageArray = [NSMutableArray new];
 }
 
 -(void)creatFootView
@@ -287,8 +290,29 @@ shareTypeDelegate
                return 70+conHigh+conHigh2;
             }else{
                 NSArray *arr = articleData.articleImgs;
+                for (int i = 0; i<arr.count; i++) {
+                    
+                    NSDictionary *dic = arr[i];
+                    
+                    CGFloat imageVH = [dic[@"width"] floatValue];
+                    CGFloat imageVW = [dic[@"width"] floatValue];
+                    
+                    CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
+                    CGFloat hight = 0;
+                    NSString *string = [NSString stringWithFormat:@"%f",imageViewH+hight];
+                    
+                    [hightArray addObject:string];
+                    if (i>0) {
+                        hight =[hightArray[i-1] floatValue] +15;
+                    }else{
+                        hight = 0;
+                    }
+  
+                }
                 
-                return 300+conHigh+conHigh2 +(230*(arr.count-1)) ;
+                NSInteger index =  arr.count-1;
+                
+                return 70+conHigh+conHigh2 +15 + [hightArray[index] floatValue] ;
             }
             
         }
@@ -475,11 +499,25 @@ shareTypeDelegate
             
             
             if (articleData.articleImgs) {
-                imageArray =articleData.articleImgs;
+                
                 NSArray *arr =articleData.articleImgs;
+                
+                
+                hightArray = [NSMutableArray new];
                 for (int i = 0; i<arr.count; i++) {
+                    
+                    NSDictionary *dic = arr[i];
+                    
+                    CGFloat imageVH = [dic[@"width"] floatValue];
+                    CGFloat imageVW = [dic[@"width"] floatValue];
+                    
+                    CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
+                    
+
+                    [imageArray addObject:[dic objectForKey:@"url"]];
+                    
                     UIImageView *headImage = [UIImageView new];
-                    [headImage sd_setImageWithURL:[NSURL URLWithString:arr[i]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
                     headImage.backgroundColor = BG_GRAY_COLOR;
                     
                     headImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -490,21 +528,31 @@ shareTypeDelegate
                     headImage.tag = i;
                     [headImage addGestureRecognizer:tap];
                     headImage.userInteractionEnabled = YES;
+                    if (i>0) {
+                       headImage.frame = CGRectMake(15, 15 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
+                    }else{
+                        headImage.frame = CGRectMake(15, 15, kScreenWidth-30, imageViewH);
+                    }
+                    
+                    
+                    NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
+                    
+                    [hightArray addObject:string];
                     
                     
                     [cell.contentView addSubview:headImage];
      
-                    headImage.frame = CGRectMake(15, 15*(i+1)+210*i, kScreenWidth-30, 210);
+                    
                     
 
                 }
                 
                
-                dspLabel.frame = CGRectMake(15, 20+15*arr.count+210*arr.count, kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 30+15*arr.count+210*arr.count +conHigh, kScreenWidth-30, conHighs);
-                commentLabel.frame = CGRectMake(15, 45+15*arr.count+210*arr.count +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
-                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+15*arr.count+210*arr.count +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
-                [button setFrame:CGRectMake(kScreenWidth-100, 20+15*arr.count+210*arr.count, 80, 50)];
+                dspLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
+                contentLabel.frame = CGRectMake(15, 30+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
+                commentLabel.frame = CGRectMake(15, 45+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
+                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+                [button setFrame:CGRectMake(kScreenWidth-100, 20+[hightArray[arr.count-1] floatValue] , 80, 50)];
                 
             }else{
                 dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
@@ -624,7 +672,7 @@ shareTypeDelegate
                                     objectWithURL:[NSURL URLWithString:@"https://baidu.com"]
                                     title:@"生活馆"
                                     description:@"描述"
-                                    previewImageURL:@""];
+                                    previewImageURL:nil];
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
         if (scene == 0) {
             NSLog(@"QQ好友列表分享 - %d",[QQApiInterface sendReq:req]);

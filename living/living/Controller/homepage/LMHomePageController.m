@@ -70,7 +70,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     imageUrls = [NSMutableArray new];
     listArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
-    [self getBannerDataRequest];
+//    [self getBannerDataRequest];
 }
 
 
@@ -146,6 +146,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
+        [listArray removeAllObjects];
         [self.tableView headerEndRefreshing];
         ifRefresh = YES;
         self.current=1;
@@ -204,6 +205,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
 -(void)getBannerResponse:(NSString *)resp
 {
+   
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
@@ -265,13 +267,11 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     total = [[bodyDic objectForKey:@"total"] intValue];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
 //        NSLog(@"%@",bodyDic);
-        if (listArray.count>0) {
-           [listArray removeAllObjects];
-        }
-        NSLog(@"%@",bodyDic);
 //        if (listArray.count>0) {
 //           [listArray removeAllObjects];
 //        }
+        NSLog(@"%@",bodyDic);
+
      
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
