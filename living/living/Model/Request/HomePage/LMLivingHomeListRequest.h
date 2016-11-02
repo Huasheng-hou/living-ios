@@ -10,6 +10,6 @@
 
 @interface LMLivingHomeListRequest : FitBaseRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize;
+-(id)initWithLivingUuid:(NSString *)living_uuid;
 
 @end

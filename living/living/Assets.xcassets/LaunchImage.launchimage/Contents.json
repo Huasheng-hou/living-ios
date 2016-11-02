@@ -49,7 +49,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "生活馆启动页640 960.png",
+      "filename" : "生活馆启动页640 960psd.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -58,7 +58,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "生活馆启动页640 1136.png",
+      "filename" : "生活馆启动页640 1136psd.png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
