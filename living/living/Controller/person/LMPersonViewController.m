@@ -246,7 +246,7 @@
             [cell.contentView addSubview:genderImage];
             
             //下划线
-            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 50, kScreenWidth-100, 1.0)];
+            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 50, kScreenWidth-100, 0.5)];
             lineLabel.backgroundColor = LINE_COLOR;
             [cell.contentView addSubview:lineLabel];
             

@@ -31,8 +31,11 @@
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
 
-@interface AppDelegate ()<TencentLoginDelegate,TencentSessionDelegate,QQApiInterfaceDelegate,
-
+@interface AppDelegate ()
+<
+TencentLoginDelegate,
+TencentSessionDelegate,
+QQApiInterfaceDelegate,
 TencentLoginDelegate,
 TencentSessionDelegate,
 UNUserNotificationCenterDelegate

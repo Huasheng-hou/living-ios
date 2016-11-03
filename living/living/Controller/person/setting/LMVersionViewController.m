@@ -30,6 +30,19 @@
     _tableView.delegate = self;
     version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    UILabel *copyRight = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    copyRight.font = [UIFont systemFontOfSize:11.0f];
+    copyRight.textColor = [UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1.0];
+    copyRight.textAlignment = NSTextAlignmentCenter;
+    copyRight.text = @"Copyright © 2016 yao guo";
+    [headView addSubview:copyRight];
+    _tableView.tableFooterView = headView;
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

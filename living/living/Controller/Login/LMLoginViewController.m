@@ -144,13 +144,16 @@
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight/3)];
         
         UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 100, 100)];
+        iconView.layer.cornerRadius = 20;
+        iconView.clipsToBounds = YES;
+        iconView.contentMode = UIViewContentModeScaleAspectFill;
         iconView.image = [UIImage imageNamed:@"editMsg"];
         [headView addSubview:iconView];
         [cell.contentView addSubview:headView];
         
         UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6+60, 100, 30)];
-        appName.text = @"腰 果";
-        appName.textColor = TEXT_COLOR_LEVEL_2;
+        appName.text = @"腰果生活";
+        appName.textColor = TEXT_COLOR_LEVEL_1;
         appName.textAlignment = NSTextAlignmentCenter;
         appName.font = [UIFont systemFontOfSize:20];
         [cell.contentView addSubview:appName];
