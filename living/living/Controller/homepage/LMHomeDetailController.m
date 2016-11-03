@@ -639,7 +639,7 @@ shareTypeDelegate
                     
                     NSDictionary *dic = arr[i];
                     
-                    CGFloat imageVH = [dic[@"width"] floatValue];
+                    CGFloat imageVH = [dic[@"height"] floatValue];
                     CGFloat imageVW = [dic[@"width"] floatValue];
                     
                     CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
@@ -1073,25 +1073,29 @@ shareTypeDelegate
 
 - (void)textViewDidChange:(UITextView *)textView{
     
-    if (textView.text.length==0) {
-        tipLabel.hidden=NO;
-    }else{
-        tipLabel.hidden=YES;
-    }
-    
-    // numberlines用来控制输入的行数
-    NSInteger numberLines = textView.contentSize.height / textView.font.lineHeight;
-    if (numberLines != _rows) {
-        NSLog(@"text = %@", textcView.text);
-        _rows = numberLines;
-        if  (_rows < 5){
-            [self changeFrame:textView.contentSize.height];
+    if ([textView isEqual:textcView]) {
+        if (textView.text.length==0) {
+            tipLabel.hidden=NO;
         }else{
-            textcView.scrollEnabled = YES;
+            tipLabel.hidden=YES;
         }
         
-        [textView setContentOffset:CGPointZero animated:YES];
+        // numberlines用来控制输入的行数
+        NSInteger numberLines = textView.contentSize.height / textView.font.lineHeight;
+        if (numberLines != _rows) {
+            NSLog(@"text = %@", textcView.text);
+            _rows = numberLines;
+            if  (_rows < 5){
+                [self changeFrame:textView.contentSize.height];
+            }else{
+                textcView.scrollEnabled = YES;
+            }
+            
+            [textView setContentOffset:CGPointZero animated:YES];
+        }
     }
+    
+
 }
 
 
