@@ -35,6 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     [self createUI];
 
 }
 
@@ -43,15 +44,10 @@
     [super viewDidAppear:animated];
     
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
-    
-    
-    
-    
+ 
     if (![[FitUserManager sharedUserManager] isLogin]) {
         
         [LMLoginViewController presentInViewController:self Animated:NO];
-    }else{
-         [self createUI];
     }
 }
 

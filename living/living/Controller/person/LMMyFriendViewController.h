@@ -6,8 +6,8 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitTableViewController.h"
+#import "FitBaseViewController.h"
 
-@interface LMMyFriendViewController : FitTableViewController
+@interface LMMyFriendViewController : FitBaseViewController
 
 @end

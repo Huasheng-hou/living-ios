@@ -157,6 +157,7 @@
 		354C0BD31DC9951F00869A3D /* LMLivingMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BD21DC9951F00869A3D /* LMLivingMap.m */; };
 		354C0BD61DCA131100869A3D /* LMScanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BD51DCA131100869A3D /* LMScanRequest.m */; };
 		355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */; };
+		355B39E81DCB228B00163A42 /* LMLivingListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355B39E71DCB228B00163A42 /* LMLivingListRequest.m */; };
 		355E526B1DC1A6D90004FBAF /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */; };
 		355E526C1DC1A6D90004FBAF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E525E1DC1A6D90004FBAF /* MJRefreshBaseView.m */; };
 		355E526D1DC1A6D90004FBAF /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52601DC1A6D90004FBAF /* MJRefreshConst.m */; };
@@ -408,7 +409,7 @@
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
 		354574781D9CC24600E88D6F /* WJLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJLoopView.m; sourceTree = "<group>"; };
-		3547F32E1D9901780068F04E /* 腰果.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3547F3351D9901780068F04E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -569,6 +570,8 @@
 		354C0BD51DCA131100869A3D /* LMScanRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanRequest.m; sourceTree = "<group>"; };
 		355AEFA31DC098670029600B /* LMLivingHomeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingHomeListRequest.h; sourceTree = "<group>"; };
 		355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingHomeListRequest.m; sourceTree = "<group>"; };
+		355B39E61DCB228B00163A42 /* LMLivingListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingListRequest.h; sourceTree = "<group>"; };
+		355B39E71DCB228B00163A42 /* LMLivingListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingListRequest.m; sourceTree = "<group>"; };
 		355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		355E525C1DC1A6D90004FBAF /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		355E525D1DC1A6D90004FBAF /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -1078,7 +1081,7 @@
 		3547F32F1D9901780068F04E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3547F32E1D9901780068F04E /* 腰果.app */,
+				3547F32E1D9901780068F04E /* 腰果生活.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2231,6 +2234,8 @@
 				355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */,
 				353683681DC8766900D067AE /* LMWriterDataRequest.h */,
 				353683691DC8766900D067AE /* LMWriterDataRequest.m */,
+				355B39E61DCB228B00163A42 /* LMLivingListRequest.h */,
+				355B39E71DCB228B00163A42 /* LMLivingListRequest.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -2552,7 +2557,7 @@
 			);
 			name = living;
 			productName = living;
-			productReference = 3547F32E1D9901780068F04E /* 腰果.app */;
+			productReference = 3547F32E1D9901780068F04E /* 腰果生活.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2738,6 +2743,7 @@
 				35FA8E751DB5B31800510A75 /* DataSigner.m in Sources */,
 				35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */,
 				3530ABE71DC5CFBF003CB68F /* LMBalanceMonthRequest.m in Sources */,
+				355B39E81DCB228B00163A42 /* LMLivingListRequest.m in Sources */,
 				350769111DB9B29C00487341 /* QRCodeReaderView.m in Sources */,
 				3536836A1DC8766900D067AE /* LMWriterDataRequest.m in Sources */,
 				3547F45E1D9904C70068F04E /* FitClientIDManager.m in Sources */,
@@ -3116,7 +3122,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
-				PRODUCT_NAME = "腰果";
+				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -3206,7 +3212,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
-				PRODUCT_NAME = "腰果";
+				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

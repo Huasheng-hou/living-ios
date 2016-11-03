@@ -91,7 +91,7 @@
     hintLbl.font            = TEXT_FONT_LEVEL_3;
 
     
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果服务协议》"];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果生活服务协议》"];
     [str addAttribute:NSForegroundColorAttributeName value:LIVING_REDCOLOR range:NSMakeRange(11,str.length-11)];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
     
@@ -144,13 +144,16 @@
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight/3)];
         
         UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 100, 100)];
+        iconView.layer.cornerRadius = 20;
+        iconView.clipsToBounds = YES;
+        iconView.contentMode = UIViewContentModeScaleAspectFill;
         iconView.image = [UIImage imageNamed:@"editMsg"];
         [headView addSubview:iconView];
         [cell.contentView addSubview:headView];
         
         UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6+60, 100, 30)];
-        appName.text = @"腰 果";
-        appName.textColor = TEXT_COLOR_LEVEL_2;
+        appName.text = @"腰果生活";
+        appName.textColor = TEXT_COLOR_LEVEL_1;
         appName.textAlignment = NSTextAlignmentCenter;
         appName.font = [UIFont systemFontOfSize:20];
         [cell.contentView addSubview:appName];
@@ -216,7 +219,7 @@
         _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
-        [_loginBtn setBackgroundColor:[UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]];
+        [_loginBtn setBackgroundColor:LIVING_COLOR];
         _loginBtn.frame  = CGRectMake(15, 40, kScreenWidth - 30, 45);
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;

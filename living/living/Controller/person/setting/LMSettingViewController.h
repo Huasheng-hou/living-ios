@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Huasheng. All rights reserved.
 //
 
-#import "FitTableViewController.h"
+#import "FitBaseViewController.h"
 
-@interface LMSettingViewController : FitTableViewController
+@interface LMSettingViewController : FitBaseViewController
 
 @end

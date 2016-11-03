@@ -23,7 +23,7 @@
 -(UIImageView *)headImage {
     if (!_headImage) {
         _headImage = [[UIImageView alloc]init];
-        _headImage.frame = CGRectMake(kScreenWidth/2-70, 20, 44, 50);
+        _headImage.frame = CGRectMake(kScreenWidth/2-70, 20, 52, 48);
         [self addSubview:_headImage];
     }
     return _headImage;

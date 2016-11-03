@@ -8,6 +8,7 @@
 
 #import "LMChangeLivingController.h"
 #import "LMLiveRoomNameCell.h"
+#import "LMLivingListRequest.h"
 
 @interface LMChangeLivingController ()
 {
@@ -27,15 +28,7 @@
     
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
     
-    cellDataArray=[NSMutableArray
-                   arrayWithObjects:@"杭州网络科技有限公司生活馆1",
-                   @"杭州网络科技有限公司生活馆2",
-                   @"杭州网络科技有限公司生活馆3",
-                   @"杭州网络科技有限公司生活馆4",
-                   @"杭州网络科技有限公司生活馆5",
-                   @"杭州网络科技有限公司生活馆6",
-                   @"杭州网络科技有限公司生活馆7",
-                   @"杭州网络科技有限公司生活馆8", nil];
+    [self getLivingListData];
     
     [self createUI];
 }
@@ -51,6 +44,33 @@
     
     
 }
+
+-(void)getLivingListData
+{
+    LMLivingListRequest *request = [[LMLivingListRequest alloc] init];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getLivingListResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           
+                           
+                           }];
+    [proxy start];
+}
+
+-(void)getLivingListResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"***********b**%@",bodyDic);
+}
+
 
 -(void)besureAction
 {

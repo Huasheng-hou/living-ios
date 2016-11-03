@@ -112,9 +112,9 @@
     [_contentLabel sizeToFit];
     
     _imageV.frame = CGRectMake(15, 15, 120, 100);
-    _titleLabel.frame = CGRectMake(140, 17, kScreenWidth-155, _titleLabel.bounds.size.height);
+    _titleLabel.frame = CGRectMake(145, 17, kScreenWidth-160, _titleLabel.bounds.size.height);
     
-    _contentLabel.frame = CGRectMake(140, 20+_titleLabel.bounds.size.height, kScreenWidth-155, 50);
+    _contentLabel.frame = CGRectMake(145, 20+_titleLabel.bounds.size.height, kScreenWidth-160, 50);
     
     
     _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 95, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
