@@ -11,10 +11,10 @@
 
 //------------------个推配置--------------------
 
-#define gtAppID                 @"OlmML6qokB8XngS0TXWAn1"
-#define gtAppKey                @"4ftC7KlJzZ64iK7LL6G51"
-#define gtAppSecret             @"cqVpdfUZVo8NkJnc4gTCI4"
-#define gtMasterSecret          @"m9U6Js9OVM7cQSehxZpvC3"
+#define gtAppID                 @"Jms51IsCqtAeWqnCUAavX1"
+#define gtAppKey                @"SXncsuRlgs6x0qd5YhG8l4"
+#define gtAppSecret             @"ptwM5X0tfF6vySlYyZDCQ1"
+#define gtMasterSecret          @"TOGmGhdrCk8PDty5TGkg62"
 
 //------------------高德配置--------------------
 

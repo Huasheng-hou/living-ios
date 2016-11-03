@@ -26,9 +26,17 @@
 
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
+#import <UserNotifications/UserNotifications.h>
+
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
-@interface AppDelegate ()<TencentLoginDelegate,TencentSessionDelegate,QQApiInterfaceDelegate>
+
+@interface AppDelegate ()<TencentLoginDelegate,TencentSessionDelegate,QQApiInterfaceDelegate,
+
+TencentLoginDelegate,
+TencentSessionDelegate,
+UNUserNotificationCenterDelegate
+>
 
 @end
 
@@ -44,6 +52,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    // * 启动个推
+    //
+    [self GexinProcess:launchOptions];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
@@ -53,20 +65,173 @@
     [self.window makeKeyAndVisible];
     
     //向微信注册
-    [WXApi registerApp:@"wxe6c31febbd05d58d"];
+    [WXApi registerApp:@"wx443c64230b24fe24"];
     
 //    1104875913
    _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
-    //设置权限数据 ， 具体的权限名，在sdkdef.h 文件中查看。
-//   NSMutableArray *permissionArray = [NSMutableArray arrayWithObjects: kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,nil];
-//    
-//    //登录操作
-//    [_tencentOAuth authorize:permissionArray inSafari:NO];
-    
+
     //高德地图
      [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
+    
+    
+
+    // 使用 UNUserNotificationCenter 来管理通知
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    //监听回调事件
+    center.delegate = self;
+    
+    //iOS 10 使用以下方法注册，才能得到授权
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                              // Enable or disable features based on authorization.
+                          }];
+    
+    //获取当前的通知设置，UNNotificationSettings 是只读对象，不能直接修改，只能通过以下方法获取
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        
+    }];
+
+    
     return YES;
 }
+
+#pragma mark - APNS Process
+
+//注册苹果通知
+- (void)registerRemoteNotification
+{
+#ifdef __IPHONE_8_0
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        
+        UIUserNotificationSettings *uns = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:uns];
+    } else {
+        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge);
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+    }
+#else
+    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge);
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+#endif
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    _deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSLog(@"--------_deviceToken:%@",_deviceToken);
+    
+    NSUserDefaults  *standDefaults  = [NSUserDefaults standardUserDefaults];
+    
+    [standDefaults setObject:_deviceToken forKey:@"deviceToken"];
+    
+    [standDefaults synchronize];
+    
+    [GeTuiSdk registerDeviceToken:_deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    [GeTuiSdk registerDeviceToken:@""];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userinfo
+{
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    NSString *payloadMsg = [userInfo objectForKey:@"payload"];
+    
+    if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+        
+        [FitPayloadManager processPayload:payloadMsg];
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+#pragma mark - Getui Process
+
+- (void)GexinProcess:(NSDictionary *)launchOptions
+{
+    // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
+    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self error:nil];
+    
+    // [2]:注册APNS
+    [self registerRemoteNotification];
+    
+    // [2-EXT]: 获取启动时收到的APN
+    NSDictionary* message = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (message) {
+        //        NSString *payloadMsg = [message objectForKey:@"payload"];
+        //        NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
+        //        if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+        //            [[hcb_PayloadManager sharedPayloadManager] processPayload:payloadMsg];
+        //        }
+    }
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+#pragma mark - GexinSdkDelegate
+
+//SDK启动成功返回cid
+- (void) GeTuiSdkDidRegisterClient:(NSString *)clientId
+{
+    [[FitClientIDManager sharedClientIDManager] saveClientID:clientId];
+    NSLog(@"--------clientId:%@",clientId);
+}
+
+//SDK收到透传消息回调
+- (void) GeTuiSdkDidReceivePayload:(NSString *)payloadId
+                         andTaskId:(NSString*) taskId
+                      andMessageId:(NSString*)aMsgId
+                   fromApplication:(NSString *)appId
+{
+    // [4]: 收到个推消息
+    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
+    NSString *payloadMsg = nil;
+    if (payload) {
+        
+        
+        
+        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
+                                              length:payload.length
+                                            encoding:NSUTF8StringEncoding];
+    }
+    
+    if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+        
+        NSLog(@"---------payloadMsg------------%@",payloadMsg);
+        
+        [FitPayloadManager processTransPayload:payloadMsg];
+    }
+}
+
+
+#pragma mark - UNUserNotificationCenterDelegate
+//在展示通知前进行处理，即有机会在展示通知前再修改通知内容。
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+    //1. 处理通知
+    
+    //2. 处理完成后条用 completionHandler ，用于指示在前台显示通知的形式
+    completionHandler(UNNotificationPresentationOptionAlert);
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    [GeTuiSdk enterBackground];
+}
+
 
 // NOTE: 9.0以后使用新API接口
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
@@ -186,10 +351,6 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.

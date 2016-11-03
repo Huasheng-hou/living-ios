@@ -260,11 +260,16 @@
 		8E0760261DC89056001D7098 /* LMMapViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0760251DC89056001D7098 /* LMMapViewCell.m */; };
 		8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0760271DC892AE001D7098 /* MapKit.framework */; };
 		8E39411C1DC71546000740DB /* LMLiveRoomNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */; };
+		8E88861A1DCAC672009D3374 /* LMCouponRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886191DCAC672009D3374 /* LMCouponRequest.m */; };
+		8E8886201DCAEA28009D3374 /* LMCouponBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E88861D1DCAEA28009D3374 /* LMCouponBody.m */; };
+		8E8886211DCAEA29009D3374 /* LMCouponList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E88861F1DCAEA28009D3374 /* LMCouponList.m */; };
+		8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886231DCB018B009D3374 /* MessageUI.framework */; };
+		8E88862A1DCB046C009D3374 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */; };
 		8EC998A01DC83A1000448997 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC9989F1DC83A1000448997 /* HBShareView.m */; };
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
 		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
-		8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */; };
+		8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.mm */; };
 		8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */; };
 		8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */; };
 		8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */; };
@@ -504,9 +509,6 @@
 		3547F4591D9904C70068F04E /* FitUserInfoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitUserInfoManager.m; sourceTree = "<group>"; };
 		3547F45B1D9904C70068F04E /* FitUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitUserManager.h; sourceTree = "<group>"; };
 		3547F45C1D9904C70068F04E /* FitUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitUserManager.m; sourceTree = "<group>"; };
-		3547F4651D9904D90068F04E /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
-		3547F4661D9904D90068F04E /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
-		3547F4671D9904D90068F04E /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
 		3547F4831D9904D90068F04E /* MJPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhoto.h; sourceTree = "<group>"; };
 		3547F4841D9904D90068F04E /* MJPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhoto.m; sourceTree = "<group>"; };
 		3547F4851D9904D90068F04E /* MJPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoBrowser.h; sourceTree = "<group>"; };
@@ -831,6 +833,18 @@
 		8E0760271DC892AE001D7098 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8E39411A1DC71546000740DB /* LMLiveRoomNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomNameCell.h; sourceTree = "<group>"; };
 		8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomNameCell.m; sourceTree = "<group>"; };
+		8E8886181DCAC672009D3374 /* LMCouponRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponRequest.h; sourceTree = "<group>"; };
+		8E8886191DCAC672009D3374 /* LMCouponRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponRequest.m; sourceTree = "<group>"; };
+		8E88861B1DCAEA28009D3374 /* LMCouponDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponDataModels.h; sourceTree = "<group>"; };
+		8E88861C1DCAEA28009D3374 /* LMCouponBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponBody.h; sourceTree = "<group>"; };
+		8E88861D1DCAEA28009D3374 /* LMCouponBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponBody.m; sourceTree = "<group>"; };
+		8E88861E1DCAEA28009D3374 /* LMCouponList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponList.h; sourceTree = "<group>"; };
+		8E88861F1DCAEA28009D3374 /* LMCouponList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponList.m; sourceTree = "<group>"; };
+		8E8886221DCAFED5009D3374 /* 腰果.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
+		8E8886231DCB018B009D3374 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8E8886271DCB046C009D3374 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		8E8886281DCB046C009D3374 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
+		8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
 		8EC9989E1DC83A1000448997 /* HBShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareView.h; sourceTree = "<group>"; };
 		8EC9989F1DC83A1000448997 /* HBShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareView.m; sourceTree = "<group>"; };
 		8EC998A11DC83B3600448997 /* HBShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareButton.h; sourceTree = "<group>"; };
@@ -838,7 +852,7 @@
 		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMapViewController.h; sourceTree = "<group>"; };
-		8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMapViewController.m; sourceTree = "<group>"; };
+		8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LMMapViewController.mm; sourceTree = "<group>"; };
 		8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -873,6 +887,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
 				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
 				8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */,
@@ -882,6 +897,7 @@
 				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
 				8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */,
 				8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */,
+				8E88862A1DCB046C009D3374 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */,
 				8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */,
 				8EC998A71DC8411900448997 /* Security.framework in Frameworks */,
@@ -916,6 +932,7 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8E8886231DCB018B009D3374 /* MessageUI.framework */,
 				8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */,
 				8ECA2AD81DC98320000CD0AB /* AMap.bundle */,
 				8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */,
@@ -1069,6 +1086,7 @@
 		3547F3301D9901780068F04E /* living */ = {
 			isa = PBXGroup;
 			children = (
+				8E8886221DCAFED5009D3374 /* 腰果.entitlements */,
 				3547F35B1D9904A60068F04E /* Controller */,
 				3547F3AA1D9904BA0068F04E /* Model */,
 				3547F38D1D9904B20068F04E /* View */,
@@ -1120,7 +1138,7 @@
 				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
 				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
 				8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */,
-				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */,
+				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.mm */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1326,6 +1344,7 @@
 		3547F3B71D9904BA0068F04E /* person */ = {
 			isa = PBXGroup;
 			children = (
+				8E8886171DCAC641009D3374 /* LMCouponData */,
 				8ECA2AE71DC9C329000CD0AB /* LMLiveRoomData */,
 				35E40A2D1DACBD3F00DE1807 /* LMUserInfo.h */,
 				35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */,
@@ -1772,35 +1791,17 @@
 		3547F4621D9904D90068F04E /* 3rdLibs */ = {
 			isa = PBXGroup;
 			children = (
+				8E8886251DCB046C009D3374 /* Gtui */,
 				8E0760151DC84B8E001D7098 /* TencentShare */,
 				355E525A1DC1A6D90004FBAF /* MJRefresh */,
 				35FA8E121DB5B31800510A75 /* AliPay */,
 				35FA8DF81DB5B31100510A75 /* weixinPay */,
-				3547F4631D9904D90068F04E /* Gtui */,
 				3547F4821D9904D90068F04E /* MJPhotoBrowser */,
 				3547F48C1D9904D90068F04E /* SSPullToRefresh */,
 				3547F4A01D9904D90068F04E /* TMCache */,
 				3547F4A11D9904D90068F04E /* umeng_ios_social_sdk_4.2.5_arm64_custom */,
 			);
 			path = 3rdLibs;
-			sourceTree = "<group>";
-		};
-		3547F4631D9904D90068F04E /* Gtui */ = {
-			isa = PBXGroup;
-			children = (
-				3547F4641D9904D90068F04E /* include */,
-				3547F4671D9904D90068F04E /* libGeTuiSdk-1.2.1.a */,
-			);
-			path = Gtui;
-			sourceTree = "<group>";
-		};
-		3547F4641D9904D90068F04E /* include */ = {
-			isa = PBXGroup;
-			children = (
-				3547F4651D9904D90068F04E /* GeTuiSdk.h */,
-				3547F4661D9904D90068F04E /* GeTuiSdkError.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		3547F4821D9904D90068F04E /* MJPhotoBrowser */ = {
@@ -2249,6 +2250,8 @@
 				351767851DC328BA00D2D407 /* LM2DcodeRequest.m */,
 				354C0BD41DCA131100869A3D /* LMScanRequest.h */,
 				354C0BD51DCA131100869A3D /* LMScanRequest.m */,
+				8E8886181DCAC672009D3374 /* LMCouponRequest.h */,
+				8E8886191DCAC672009D3374 /* LMCouponRequest.m */,
 			);
 			name = person;
 			sourceTree = "<group>";
@@ -2448,6 +2451,36 @@
 			path = TencentShare;
 			sourceTree = "<group>";
 		};
+		8E8886171DCAC641009D3374 /* LMCouponData */ = {
+			isa = PBXGroup;
+			children = (
+				8E88861B1DCAEA28009D3374 /* LMCouponDataModels.h */,
+				8E88861C1DCAEA28009D3374 /* LMCouponBody.h */,
+				8E88861D1DCAEA28009D3374 /* LMCouponBody.m */,
+				8E88861E1DCAEA28009D3374 /* LMCouponList.h */,
+				8E88861F1DCAEA28009D3374 /* LMCouponList.m */,
+			);
+			path = LMCouponData;
+			sourceTree = "<group>";
+		};
+		8E8886251DCB046C009D3374 /* Gtui */ = {
+			isa = PBXGroup;
+			children = (
+				8E8886261DCB046C009D3374 /* include */,
+				8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */,
+			);
+			path = Gtui;
+			sourceTree = "<group>";
+		};
+		8E8886261DCB046C009D3374 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8E8886271DCB046C009D3374 /* GeTuiSdk.h */,
+				8E8886281DCB046C009D3374 /* GeTuiSdkError.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 		8ECA2ADC1DC98DA2000CD0AB /* mapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2535,6 +2568,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 2BPVM7PZ48;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2749,6 +2787,7 @@
 				351CC6681DAB8FBF008D59D8 /* LMOrderCell.m in Sources */,
 				3547F42E1D9904BD0068F04E /* ImageHelpTool.m in Sources */,
 				350904EF1DC74C540045CC14 /* DALabeledCircularProgressView.m in Sources */,
+				8E8886211DCAEA29009D3374 /* LMCouponList.m in Sources */,
 				3536836D1DC87DD700D067AE /* LMAUTHORList.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
@@ -2785,6 +2824,7 @@
 				351CC6621DAB85B6008D59D8 /* LMBalanceViewController.m in Sources */,
 				353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */,
 				35B61E1B1DB0A9DA00083F30 /* LMEventJoinRequest.m in Sources */,
+				8E8886201DCAEA28009D3374 /* LMCouponBody.m in Sources */,
 				350904F01DC74C540045CC14 /* LICENSE.md in Sources */,
 				3547F3A11D9904B20068F04E /* LMChooseButton.m in Sources */,
 				3509B5F61D9B5302003F4D76 /* LMCommentCell.m in Sources */,
@@ -2793,6 +2833,7 @@
 				352364321DBEF3FA002E6B78 /* LMMy2dcodeViewController.m in Sources */,
 				8ECA2AF31DC9F2B7000CD0AB /* LMMyCouponController.m in Sources */,
 				35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */,
+				8E88861A1DCAC672009D3374 /* LMCouponRequest.m in Sources */,
 				3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
 				355E52781DC203580004FBAF /* LMChangeLivingCell.m in Sources */,
@@ -2857,7 +2898,7 @@
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
 				350904E41DC74C390045CC14 /* SYPhotoBrowser.m in Sources */,
 				351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */,
-				8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */,
+				8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.mm in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,
@@ -2916,8 +2957,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
@@ -2941,7 +2982,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "42dace51-cd9c-4ffe-a3c0-ccb518bb7dc4";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2967,8 +3008,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
@@ -2985,7 +3026,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "42dace51-cd9c-4ffe-a3c0-ccb518bb7dc4";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2997,7 +3038,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				CODE_SIGN_ENTITLEMENTS = "living/腰果.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
@@ -3008,7 +3050,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3017,6 +3059,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/weixinPay",
 					"$(PROJECT_DIR)",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-isystem",
@@ -3085,7 +3128,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				CODE_SIGN_ENTITLEMENTS = "living/腰果.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
@@ -3096,7 +3140,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3105,6 +3149,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/weixinPay",
 					"$(PROJECT_DIR)",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-isystem",

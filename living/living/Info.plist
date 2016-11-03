@@ -35,7 +35,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxe6c31febbd05d58d</string>
+				<string>wx443c64230b24fe24</string>
 			</array>
 		</dict>
 		<dict>
@@ -90,6 +90,8 @@
 	<string>cameraDesciption</string>
 	<key>NSContactsUsageDescription</key>
 	<string>contactsDesciption</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>腰果生活需要定位，否则无法进行定位</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>microphoneDesciption</string>
 	<key>NSPhotoLibraryUsageDescription</key>

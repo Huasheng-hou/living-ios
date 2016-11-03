@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3547F32D1D9901780068F04E"
-               BuildableName = "&#x8170;&#x679c;.app"
+               BuildableName = "&#x8170;&#x679c;&#x751f;&#x6d3b;.app"
                BlueprintName = "living"
                ReferencedContainer = "container:living.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3547F32D1D9901780068F04E"
-            BuildableName = "&#x8170;&#x679c;.app"
+            BuildableName = "&#x8170;&#x679c;&#x751f;&#x6d3b;.app"
             BlueprintName = "living"
             ReferencedContainer = "container:living.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3547F32D1D9901780068F04E"
-            BuildableName = "&#x8170;&#x679c;.app"
+            BuildableName = "&#x8170;&#x679c;&#x751f;&#x6d3b;.app"
             BlueprintName = "living"
             ReferencedContainer = "container:living.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3547F32D1D9901780068F04E"
-            BuildableName = "&#x8170;&#x679c;.app"
+            BuildableName = "&#x8170;&#x679c;&#x751f;&#x6d3b;.app"
             BlueprintName = "living"
             ReferencedContainer = "container:living.xcodeproj">
          </BuildableReference>

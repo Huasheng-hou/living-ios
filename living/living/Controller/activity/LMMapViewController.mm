@@ -13,8 +13,6 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#import "AMapTipAnnotation.h"
-#import "POIAnnotation.h"
 
 @interface LMMapViewController ()
 <
@@ -38,10 +36,7 @@ UISearchBarDelegate
     AMapPOIAroundSearchRequest *request;
     AMapReGeocodeSearchRequest *regeo;
     MAPointAnnotation *pointAnnotation;
-
 }
-@property(nonatomic,strong) MAMapView *mapView;
-@property (nonatomic, strong) AMapSearchAPI *search;
 
 @end
 
@@ -237,32 +232,36 @@ updatingLocation:(BOOL)updatingLocation
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     [self createUI];
 }
 
 -(void)createUI
 {
     [self createNavUI];
-    [self initSearch];
+   [self createMapView];
+     [self initSearch];
+    
     [self initVariable];
-    
-//    创建地图并添加到父view上
-    if (!self.mapView) {
-        self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
-    }
-    _mapView.delegate = self;
-    [self.view addSubview:_mapView];
-    
-    self.mapView.showsUserLocation = YES;
-    
-    [self.mapView setUserTrackingMode:MAUserTrackingModeNone];
-    
     
      table=[[UITableView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 50) style:UITableViewStylePlain];
     [table setDelegate:self];
     [table setDataSource:self];
     [table setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:table];
+}
+
+-(void)createMapView
+{
+    self.mapView.frame = self.view.bounds;
+    
+    _mapView.delegate = self;
+    
+    [self.view addSubview:_mapView];
+    
+    self.mapView.showsUserLocation = YES;
+    
+    [self.mapView setUserTrackingMode:MAUserTrackingModeNone];
 }
 
 - (void)initVariable
@@ -277,18 +276,6 @@ updatingLocation:(BOOL)updatingLocation
 - (void)createNavUI
 {
     self.title=@"地图";
-//    UIButton *leftBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
-    
-//    [leftBt setBackgroundImage:[UIImage imageNamed:@"iconfont-fanhui"] forState:UIControlStateNormal];
-//    
-//    UIBarButtonItem *leftItem=[[UIBarButtonItem alloc]initWithCustomView:leftBt];
-//    
-//    [self.navigationItem setLeftBarButtonItem:leftItem];
-//    
-//    UITapGestureRecognizer   *leftTap     = [[UITapGestureRecognizer alloc]
-//                                             initWithTarget:self action:@selector(returnAction)];
-//    
-//    [leftBt addGestureRecognizer:leftTap];
     
     UIButton *rightBt    =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 20)];
     
@@ -305,9 +292,6 @@ updatingLocation:(BOOL)updatingLocation
 
 - (void)initSearch
 {
-    if (self.search==nil) {
-        self.search     = [[AMapSearchAPI alloc] init];
-    }
     self.search.delegate = self;
 }
 

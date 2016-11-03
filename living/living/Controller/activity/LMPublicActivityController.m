@@ -19,8 +19,12 @@
 #import "BabFilterAgePickerView.h"
 #import "FitPickerThreeLevelView.h"
 #import "LMMapViewController.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface LMPublicActivityController ()<UITableViewDelegate,
+@interface LMPublicActivityController ()
+<
+UITableViewDelegate,
 UITableViewDataSource,
 UITextFieldDelegate,
 UITextViewDelegate,
@@ -54,9 +58,9 @@ selectAddressDelegate
     
     CGFloat _latitude;
     CGFloat _longitude;
-    
-    
 }
+@property(nonatomic,strong) MAMapView *mapView;
+@property (nonatomic, strong) AMapSearchAPI *search;
 
 @end
 
@@ -69,15 +73,43 @@ selectAddressDelegate
     // Do any additional setup after loading the view.
     [self creatUI];
     
+    [self initSearch];
+    
+    [self initMapView];
+    
     projectTitle = [NSMutableArray new];
     projectDsp = [NSMutableArray new];
     imageURL = [NSMutableArray new];
     
 }
 
+- (void)initSearch
+{
+    if (self.search==nil) {
+        self.search     = [[AMapSearchAPI alloc] init];
+    }
+}
+
+-(void)initMapView
+{
+    if (self.mapView==nil) {
+        self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
+    }
+    self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
+
+    
+}
+
+
 -(void)creatUI
 {
-    [super createUI];
+//    [super createUI];
+    
+    _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+    
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     pickImage=[[UIImagePickerController alloc]init];
@@ -281,6 +313,8 @@ selectAddressDelegate
 {
     LMMapViewController *map=[[LMMapViewController alloc]init];
     map.delegate=self;
+    map.mapView=self.mapView;
+    map.search=self.search;
     [self.navigationController pushViewController:map animated:YES];
 }
 
@@ -823,12 +857,17 @@ selectAddressDelegate
     
 }
 
-
-
 #pragma mark  --添加项目
 -(void)addButtonAction:(id)sender
 {
     cellIndex = cellIndex+1;
+    
+    if (cellIndex==5) {
+        [self textStateHUD:@"最多可添加五个项目"];
+        return;
+    }
+    
+    
     [self.tableView reloadData];
     
     [projectTitle addObject:@""];
@@ -839,6 +878,25 @@ selectAddressDelegate
     
 }
 
+- (void)resignCurrentFirstResponder
+{
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    [keyWindow endEditing:YES];
+}
+- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+{
+    CGFloat     keyboardHeight  = 280;
+    
+    if (view && view.superview) {
+        rect    = [self.tableView convertRect:rect fromView:view.superview];
+    }
+    
+    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        return;
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+}
 
 
 

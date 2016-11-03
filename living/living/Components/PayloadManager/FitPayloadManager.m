@@ -25,12 +25,12 @@
         if (payloadDict[@"push_type"]&&payloadDict[@"push_type"]!=[NSNull null]&&[payloadDict[@"push_type"] isKindOfClass:[NSString class]]) {
             
             if ([payloadDict[@"push_type"] isEqualToString:@"1"]) {//公告
-                NSLog(@"收到公告");
+                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_announcement"
                                                                     object:nil];
             }
             if ([payloadDict[@"push_type"] isEqualToString:@"0"]) {//通知
-                NSLog(@"收到通知");
+                
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"getui_notice"
                                                                    object:nil];
             }
