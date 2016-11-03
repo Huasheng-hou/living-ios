@@ -107,7 +107,7 @@
     
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 165, kScreenWidth-30, 160)];
     _mapView.mapType = MKMapTypeStandard;
-    [_mapView setUserInteractionEnabled:NO];
+//    [_mapView setUserInteractionEnabled:NO];
     [self.contentView addSubview:_mapView];
     
     //设置中心坐标点

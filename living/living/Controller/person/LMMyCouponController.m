@@ -9,6 +9,11 @@
 #import "LMMyCouponController.h"
 #import "LMCouponCell.h"
 
+#import "LMCouponRequest.h"
+
+//数据
+#import "LMCouponDataModels.h"
+
 @interface LMMyCouponController ()
 <
 UITableViewDelegate,
@@ -16,6 +21,7 @@ UITableViewDataSource
 >
 {
     UITableView *table;
+    NSMutableArray *cellDataArray;
 }
 @end
 
@@ -23,6 +29,8 @@ UITableViewDataSource
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    cellDataArray=[NSMutableArray arrayWithCapacity:0];
+    [self requestCouponData];
     [self createUI];
 }
 
@@ -77,10 +85,54 @@ UITableViewDataSource
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     
-    
-    
     return cell;
 }
 
+#pragma mark  请求优惠券数据
+
+-(void)requestCouponData
+{
+    LMCouponRequest *request = [[LMCouponRequest alloc] initWithUserUuid:[FitUserManager sharedUserManager].uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(couponDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+    
+}
+
+-(void)couponDataResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    if (!bodyDict) {
+        [self textStateHUD:@"获取数据失败"];
+        return;
+    }
+    
+//    LMCouponBody *body
+    
+    NSLog(@"=========优惠券==bodyDict=============%@",bodyDict);
+    
+    NSString *result    = [bodyDict objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0)
+    {
+        
+        
+    } else {
+        [self textStateHUD:bodyDict[@"description"]];
+    }
+    
+}
 
 @end

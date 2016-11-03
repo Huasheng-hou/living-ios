@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MAMapKit/MAMapKit.h>
 
+#import "AMapTipAnnotation.h"
+#import "POIAnnotation.h"
+#import <AMapSearchKit/AMapSearchKit.h>
 //代理
 @protocol selectAddressDelegate <NSObject>
 
@@ -18,6 +22,9 @@
 @end
 
 @interface LMMapViewController : UIViewController
+
+@property(nonatomic,strong) MAMapView *mapView;
+@property (nonatomic, strong) AMapSearchAPI *search;
 
 @property(nonatomic,assign)id <selectAddressDelegate> delegate;
 
