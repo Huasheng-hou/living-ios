@@ -18,6 +18,10 @@
 
 @property(nonatomic,strong)UITextField *freeTF;
 
+@property(nonatomic,strong)UITextField *VipFreeTF;
+
+@property(nonatomic,strong)UITextField *joincountTF;
+
 @property(nonatomic,strong)LMTimeButton *dateButton;
 
 @property(nonatomic,strong)LMTimeButton *timeButton;

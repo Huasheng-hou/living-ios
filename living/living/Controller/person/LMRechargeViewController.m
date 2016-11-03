@@ -11,6 +11,8 @@
 #import "LMRechargeCell.h"
 #import "LMRePayCell.h"
 
+#import "LMChargeButton.h"
+
 //支付宝
 #import "Order.h"
 #import "DataSigner.h"
@@ -86,8 +88,61 @@ liveNameProtocol
     table.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
     //尾部
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 85)];
-    UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 40, kScreenWidth-30, 45)];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 325)];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 40)];
+    title.text = @"直接选择支付（获取优惠券将在确认订单中直接抵扣金额）";
+    title.font = TEXT_FONT_LEVEL_3;
+    title.textColor = TEXT_COLOR_LEVEL_2;
+    [footView addSubview:title];
+    
+    
+    LMChargeButton *button1 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 40, (kScreenWidth-40)/3, 80)];
+    button1.backgroundColor = [UIColor whiteColor];
+    button1.tag = 1;
+    button1.layer.borderWidth = 0.5;
+    button1.layer.borderColor = LINE_COLOR.CGColor;
+    button1.upLabel.text = @"1000元";
+    button1.downLabel.text = @"升级会员";
+    [button1 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
+    [footView addSubview:button1];
+    
+    
+    
+    LMChargeButton *button2 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)/3+20, 40, (kScreenWidth-40)/3, 80)];
+    button2.backgroundColor = [UIColor whiteColor];
+    button2.tag = 2;
+    button2.layer.borderWidth = 0.5;
+    button2.layer.borderColor = LINE_COLOR.CGColor;
+    button2.upLabel.text = @"3000元";
+    button2.downLabel.text = @"优惠券188元";
+    [button2 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
+    [footView addSubview:button2];
+    
+    LMChargeButton *button3 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)*2/3+25, 40, (kScreenWidth-40)/3, 80)];
+    button3.backgroundColor = [UIColor whiteColor];
+    button3.tag = 3;
+    button3.layer.borderWidth = 0.5;
+    button3.layer.borderColor = LINE_COLOR.CGColor;
+    button3.upLabel.text = @"5000元";
+    button3.downLabel.text = @"优惠券388元";
+    [button3 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
+    [footView addSubview:button3];
+    
+    
+    LMChargeButton *button4 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 130, (kScreenWidth-40)/3, 80)];
+    button4.backgroundColor = [UIColor whiteColor];
+    button4.layer.borderWidth = 0.5;
+    button4.tag = 4;
+    button4.layer.borderColor = LINE_COLOR.CGColor;
+    button4.upLabel.text = @"10000元";
+    button4.downLabel.text = @"优惠券888元";
+    [button4 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
+    [footView addSubview:button4];
+    
+    
+    
+    UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 238, kScreenWidth-30, 45)];
     [loginOut setTitle:@"立即充值" forState:UIControlStateNormal];
     loginOut.titleLabel.textAlignment = NSTextAlignmentCenter;
     loginOut.titleLabel.font = [UIFont systemFontOfSize:17];
@@ -518,6 +573,22 @@ liveNameProtocol
         }
     }
 }
+
+-(void)changeMoney:(LMChargeButton *)button
+{
+    
+
+        button.upLabel.textColor = LIVING_COLOR;
+        button.downLabel.textColor = LIVING_COLOR;
+        button.layer.borderColor = LIVING_COLOR.CGColor;
+        
+        headcell.payNum.text = button.upLabel.text;
+    
+
+}
+
+
+
 
 #pragma mark  UIAlertViewDelegate
 

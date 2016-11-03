@@ -212,6 +212,9 @@ shareTypeDelegate
 #pragma mark  --请求详情数据
 -(void)getHomeDetailDataRequest
 {
+    [self initStateHud];
+    
+    
     LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -224,6 +227,8 @@ shareTypeDelegate
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"获取详情失败"
                                                                    waitUntilDone:YES];
+                                    
+                                               
                                            }];
     [proxy start];
     
@@ -234,6 +239,8 @@ shareTypeDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        [self hideStateHud];
         if (listArray.count>0) {
            [listArray removeAllObjects];
         }
@@ -328,7 +335,7 @@ shareTypeDelegate
                     
                     NSDictionary *dic = arr[i];
                     
-                    CGFloat imageVH = [dic[@"width"] floatValue];
+                    CGFloat imageVH = [dic[@"height"] floatValue];
                     CGFloat imageVW = [dic[@"width"] floatValue];
                     
                     CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
@@ -337,7 +344,7 @@ shareTypeDelegate
                     
                     [hightArray addObject:string];
                     if (i>0) {
-                        hight =[hightArray[i-1] floatValue] +15;
+                        hight =[hightArray[i-1] floatValue] +10;
                     }else{
                         hight = 0;
                     }
@@ -346,7 +353,7 @@ shareTypeDelegate
                 
                 NSInteger index =  arr.count-1;
                 
-                return 110+conHigh+conHigh2 +15 + [hightArray[index] floatValue] ;
+                return 110+conHigh+conHigh2 +10 + [hightArray[index] floatValue] ;
             }
             
         }
@@ -521,7 +528,15 @@ shareTypeDelegate
                 contentLabel.font = [UIFont systemFontOfSize:14.0];
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             }
-            
+            if (contentLabel.text!=nil) {
+                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+                [paragraphStyle setLineSpacing:7];
+                [paragraphStyle setParagraphSpacing:10];
+                [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
+                contentLabel.attributedText = attributedString;
+            }
+
             
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
@@ -562,15 +577,15 @@ shareTypeDelegate
             [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:commentLabel];
             
-            LMCommentButton *shareLabel = [[LMCommentButton alloc] init];
-            shareLabel.headImage.image = [UIImage imageNamed:@"share-small"];
-            shareLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.commentNum];
-            [shareLabel.textLabel sizeToFit];
-            shareLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
-            [shareLabel.headImage sizeToFit];
-            shareLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
-            shareLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
-            [cell.contentView addSubview:shareLabel];
+//            LMCommentButton *shareLabel = [[LMCommentButton alloc] init];
+//            shareLabel.headImage.image = [UIImage imageNamed:@"share-small"];
+//            shareLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.commentNum];
+//            [shareLabel.textLabel sizeToFit];
+//            shareLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
+//            [shareLabel.headImage sizeToFit];
+//            shareLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
+//            shareLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+//            [cell.contentView addSubview:shareLabel];
             
             
             UILabel *type = [UILabel new];
@@ -660,9 +675,9 @@ shareTypeDelegate
                     [headImage addGestureRecognizer:tap];
                     headImage.userInteractionEnabled = YES;
                     if (i>0) {
-                       headImage.frame = CGRectMake(15, 15 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
+                       headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
                     }else{
-                        headImage.frame = CGRectMake(15, 15, kScreenWidth-30, imageViewH);
+                        headImage.frame = CGRectMake(15, 10, kScreenWidth-30, imageViewH);
                     }
                     
                     NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
@@ -683,7 +698,7 @@ shareTypeDelegate
                 contentLabel.frame = CGRectMake(15, 70+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs,shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
+//                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs,shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
 
                 [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
                 
@@ -698,7 +713,7 @@ shareTypeDelegate
                 contentLabel.frame = CGRectMake(15, 60 +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 75+conHigh+conHighs,  commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 75+conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 75+conHigh+conHighs, shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
+//                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 75+conHigh+conHighs, shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
                 [button setFrame:CGRectMake(kScreenWidth-88, 10, 80, 30)];
             }
             
@@ -995,7 +1010,7 @@ shareTypeDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"回复成功"];
-        textIndex = 1;
+//        textIndex = 1;
         [self getHomeDetailDataRequest];
          [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
@@ -1024,10 +1039,12 @@ shareTypeDelegate
     CGRect keyboardFrame = [notifi.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     float duration = [notifi.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
     
-    if (textIndex==0) {
+    if (textIndex!=1) {
         [UIView animateWithDuration:duration animations:^{
             toolBar.transform = CGAffineTransformMakeTranslation(0, keyboardFrame.origin.y - kScreenHeight);
             bgViewY = toolBar.frame.origin.y;
+            NSLog(@"******bgViewY**%f",bgViewY);
+            
         }];
     }
     
@@ -1042,10 +1059,12 @@ shareTypeDelegate
     CGRect end = [[[notif userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
     
     // 第三方键盘回调三次问题，监听仅执行最后一次
-    if (textIndex==0) {
+    if (textIndex!=1) {
         if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
             [UIView animateWithDuration:0.1f animations:^{
                 [toolBar setFrame:CGRectMake(0, kScreenHeight-(curkeyBoardHeight+toolBar.height+contentSize), kScreenWidth, toolBar.height+contentSize)];
+                
+                NSLog(@"****keyboardWasShown****%@",toolBar);
                 
             }];
         }
@@ -1064,6 +1083,7 @@ shareTypeDelegate
     // keyboardWasShown = NO;
     [UIView animateWithDuration:0.1f animations:^{
         [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
+        NSLog(@"***keyboardWasHidden*%@",toolBar);
     }];
 }
 
@@ -1120,8 +1140,12 @@ shareTypeDelegate
 {
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
         //在这里做你响应return键的代码
-        [textcView resignFirstResponder];
-        [self getCommentArticleDataRequest];
+        if ([textView isEqual:textcView]) {
+            [textcView resignFirstResponder];
+            [self getCommentArticleDataRequest];
+        }
+        
+
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
     

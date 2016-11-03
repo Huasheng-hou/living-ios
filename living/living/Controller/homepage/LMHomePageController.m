@@ -153,7 +153,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
-        [listArray removeAllObjects];
+        listArray = [NSMutableArray new];
         [self.tableView headerEndRefreshing];
         ifRefresh = YES;
         self.current=1;
@@ -334,17 +334,17 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
     NSLog(@"%ld",(long)index);
     
-    if ([stateArray[index] isEqualToString:@"event"]) {
-        LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
-        eventVC.hidesBottomBarWhenPushed = YES;
-        eventVC.eventUuid = eventArray[index];
-        [self.navigationController pushViewController:eventVC animated:YES];
-    }else{
-        LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
-        eventVC.hidesBottomBarWhenPushed = YES;
-        eventVC.artcleuuid = eventArray[index];
-        [self.navigationController pushViewController:eventVC animated:YES];
-    }
+//    if ([stateArray[index] isEqualToString:@"event"]) {
+//        LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+//        eventVC.hidesBottomBarWhenPushed = YES;
+//        eventVC.eventUuid = eventArray[index];
+//        [self.navigationController pushViewController:eventVC animated:YES];
+//    }else{
+//        LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
+//        eventVC.hidesBottomBarWhenPushed = YES;
+//        eventVC.artcleuuid = eventArray[index];
+//        [self.navigationController pushViewController:eventVC animated:YES];
+//    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

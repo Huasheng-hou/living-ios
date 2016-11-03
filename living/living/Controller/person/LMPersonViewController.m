@@ -222,20 +222,20 @@
             [cell.contentView addSubview:headerView];
             
             //nick
-            UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,10,30,30)];
+            UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,15,30,30)];
             nicklabel.font = TEXT_FONT_LEVEL_1;
             nicklabel.textColor = TEXT_COLOR_LEVEL_2;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
             
             NSString *str = infoModel.nickName;
             CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-            [nicklabel setFrame:CGRectMake(100, 10, textSize.width, 30)];
+            [nicklabel setFrame:CGRectMake(100, 15, textSize.width, 30)];
             nicklabel.text = str;
             [cell.contentView addSubview:nicklabel];
             
             
             //gender icon
-            UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 17, 16, 16)];
+            UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 22, 16, 16)];
             if (infoModel.gender) {
                 if ([infoModel.gender isEqual:@"1"]) {
                     [genderImage setImage:[UIImage imageNamed:@"gender-man"]];

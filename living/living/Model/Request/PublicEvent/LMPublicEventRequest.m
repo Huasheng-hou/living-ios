@@ -11,17 +11,19 @@
 @implementation LMPublicEventRequest
 
 -(id)initWithevent_name:(NSString *)event_name
-            Contact_phone:(NSString *)contact_phone
-             Contact_name:(NSString *)contact_name
-                 Per_cost:(NSString *)per_cost
-               Start_time:(NSString *)start_time
-                 End_time:(NSString *)end_time
-                  Address:(NSString *)address
-           Address_detail:(NSString *)address_detail
-                Event_img:(NSString *)event_img
+          Contact_phone:(NSString *)contact_phone
+           Contact_name:(NSString *)contact_name
+               Per_cost:(NSString *)per_cost
+               Discount:(NSString *)discount
+             Start_time:(NSString *)start_time
+               End_time:(NSString *)end_time
+                Address:(NSString *)address
+         Address_detail:(NSString *)address_detail
+              Event_img:(NSString *)event_img
              Event_type:(NSString *)event_type
             andLatitude:(NSString *)latitude
-            andLongitude:(NSString *)longitude
+           andLongitude:(NSString *)longitude
+           limit_number:(int)limit_number
 
 {
     self = [super init];
@@ -41,6 +43,9 @@
         }
         if (per_cost){
             [bodyDict setObject:per_cost forKey:@"per_cost"];
+        }
+        if (discount){
+            [bodyDict setObject:discount forKey:@"discount"];
         }
         if (start_time){
             [bodyDict setObject:start_time forKey:@"start_time"];
@@ -67,6 +72,10 @@
             [bodyDict setObject:longitude forKey:@"longitude"];
         }
         
+        if (limit_number!=-1){
+            [bodyDict setObject:[NSString stringWithFormat:@"%d", limit_number] forKey:@"limit_number"];
+        }
+
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];

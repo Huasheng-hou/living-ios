@@ -208,9 +208,9 @@ UITableViewDataSource
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
         headView.backgroundColor = [UIColor whiteColor];
         
-        UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kScreenWidth-30, 30)];
+        UILabel *headLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 40)];
         headLabel.text = @"全部文章";
-        headLabel.font = TEXT_FONT_LEVEL_2;
+        headLabel.font = TEXT_FONT_LEVEL_1;
         headLabel.textColor = LIVING_COLOR;
         [headView addSubview:headLabel];
         
@@ -257,7 +257,7 @@ UITableViewDataSource
             [cell.contentView addSubview:headerView];
 
             //nick
-            UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,10,30,30)];
+            UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,20,30,30)];
             nicklabel.font = TEXT_FONT_LEVEL_1;
             nicklabel.textColor = TEXT_COLOR_LEVEL_2;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
@@ -269,29 +269,29 @@ UITableViewDataSource
         }
         
             CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-            [nicklabel setFrame:CGRectMake(100, 10, textSize.width, 30)];
+            [nicklabel setFrame:CGRectMake(100, 20, textSize.width, 30)];
             nicklabel.text = str;
             [cell.contentView addSubview:nicklabel];
+
+            
+            //gender icon
+            UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 27, 16, 16)];
+            if (infoDic[@"gender"]) {
+                if ([infoDic[@"gender"] isEqual:@"1"]) {
+                    [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
+                }else{
+                    [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
+                }
+            }
+            [cell.contentView addSubview:genderImage];
 //
-//            
-//            //gender icon
-//            UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 17, 16, 16)];
-//            if (infoModel.gender) {
-//                if ([infoModel.gender isEqual:@"1"]) {
-//                    [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
-//                }else{
-//                    [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
-//                }
-//            }
-//            [cell.contentView addSubview:genderImage];
-//            
             //下划线
-            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 40, kScreenWidth-100, 1.0)];
-            lineLabel.backgroundColor = LINE_COLOR;
-            [cell.contentView addSubview:lineLabel];
+//            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 40, kScreenWidth-100, 1.0)];
+//            lineLabel.backgroundColor = LINE_COLOR;
+//            [cell.contentView addSubview:lineLabel];
 
             //地址
-            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 80, 20)];
+            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 52, 80, 20)];
         
         if (infoDic[@"address"]&&![infoDic[@"address"] isEqual:@""]) {
             question.text = [NSString stringWithFormat:@"地址：%@", infoDic[@"address"]];

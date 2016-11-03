@@ -14,6 +14,7 @@
           Contact_phone:(NSString *)contact_phone
            Contact_name:(NSString *)contact_name
                Per_cost:(NSString *)per_cost
+               Discount:(NSString *)discount
              Start_time:(NSString *)start_time
                End_time:(NSString *)end_time
                 Address:(NSString *)address
@@ -21,6 +22,7 @@
               Event_img:(NSString *)event_img
              Event_type:(NSString *)event_type
             andLatitude:(NSString *)latitude
-           andLongitude:(NSString *)longitude;
+           andLongitude:(NSString *)longitude
+           limit_number:(int)limit_number;
 
 @end

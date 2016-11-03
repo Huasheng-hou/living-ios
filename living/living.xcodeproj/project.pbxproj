@@ -158,6 +158,7 @@
 		354C0BD61DCA131100869A3D /* LMScanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354C0BD51DCA131100869A3D /* LMScanRequest.m */; };
 		355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */; };
 		355B39E81DCB228B00163A42 /* LMLivingListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355B39E71DCB228B00163A42 /* LMLivingListRequest.m */; };
+		355B39EB1DCB618C00163A42 /* LMChargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 355B39EA1DCB618C00163A42 /* LMChargeButton.m */; };
 		355E526B1DC1A6D90004FBAF /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */; };
 		355E526C1DC1A6D90004FBAF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E525E1DC1A6D90004FBAF /* MJRefreshBaseView.m */; };
 		355E526D1DC1A6D90004FBAF /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52601DC1A6D90004FBAF /* MJRefreshConst.m */; };
@@ -572,6 +573,8 @@
 		355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingHomeListRequest.m; sourceTree = "<group>"; };
 		355B39E61DCB228B00163A42 /* LMLivingListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingListRequest.h; sourceTree = "<group>"; };
 		355B39E71DCB228B00163A42 /* LMLivingListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingListRequest.m; sourceTree = "<group>"; };
+		355B39E91DCB618C00163A42 /* LMChargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChargeButton.h; sourceTree = "<group>"; };
+		355B39EA1DCB618C00163A42 /* LMChargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChargeButton.m; sourceTree = "<group>"; };
 		355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		355E525C1DC1A6D90004FBAF /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		355E525D1DC1A6D90004FBAF /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -1043,6 +1046,8 @@
 				351767911DC5ABB600D2D407 /* LMBlanceHeadCell.m */,
 				8E39411A1DC71546000740DB /* LMLiveRoomNameCell.h */,
 				8E39411B1DC71546000740DB /* LMLiveRoomNameCell.m */,
+				355B39E91DCB618C00163A42 /* LMChargeButton.h */,
+				355B39EA1DCB618C00163A42 /* LMChargeButton.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -2754,6 +2759,7 @@
 				350AD2201DB7560E00CA181A /* LMFeedBackRequest.m in Sources */,
 				35FA8EAA1DB5FAC900510A75 /* LMAliRechargeRequest.m in Sources */,
 				35B61E151DB0727800083F30 /* LMActivityList.m in Sources */,
+				355B39EB1DCB618C00163A42 /* LMChargeButton.m in Sources */,
 				8ECA2AF01DC9C329000CD0AB /* LMLiveRoomMap.m in Sources */,
 				3530ABF01DC5E500003CB68F /* LMOrderDataOrderInfo.m in Sources */,
 				35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */,

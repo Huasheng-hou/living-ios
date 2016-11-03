@@ -167,6 +167,8 @@ UIAlertViewDelegate
 
 -(void)getEventListDataRequest
 {
+    [self initStateHud];
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -196,7 +198,15 @@ UIAlertViewDelegate
     
     NSLog(@"==========================活动详情:bodyDic:%@",bodyDic);
     
+    if (!bodyDic) {
+        [self textStateHUD:@" 获取详情数据失败"];
+        return;
+    }
+    
+    
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        [self hideStateHud];
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
         if (msgArray.count>0) {

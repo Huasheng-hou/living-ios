@@ -34,6 +34,10 @@
     titleLable.frame = CGRectMake(10, 5, titleLable.bounds.size.width, 30);
     [self.contentView addSubview:titleLable];
     
+    UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(titleLable.bounds.size.width+10, 10, 6, 5)];
+    keyImage.image = [UIImage imageNamed:@"key"];
+    [self.contentView addSubview:keyImage];
+    
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-25-titleW, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView];

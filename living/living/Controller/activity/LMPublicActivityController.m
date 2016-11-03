@@ -175,7 +175,7 @@ selectAddressDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 400 +165;
+        return 490 +165;
     }
     if (indexPath.section==1) {
         return 340;
@@ -196,7 +196,7 @@ selectAddressDelegate
         
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        commentLabel.textColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
+        commentLabel.textColor = LIVING_COLOR;
         commentLabel.text = @"活动信息";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
@@ -225,7 +225,7 @@ selectAddressDelegate
         
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        commentLabel.textColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
+        commentLabel.textColor = LIVING_COLOR;
         commentLabel.text = @"活动介绍";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
@@ -274,6 +274,8 @@ selectAddressDelegate
         msgCell.nameTF.delegate = self;
         msgCell.freeTF.delegate =self;
         msgCell.dspTF.delegate = self;
+        msgCell.VipFreeTF.delegate = self;
+        msgCell.joincountTF.delegate = self;
         
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -717,7 +719,11 @@ selectAddressDelegate
         return;
     }
     if (!(msgCell.freeTF.text.length>0)) {
-        [ self textStateHUD:@"请输入人均费用"];
+        [ self textStateHUD:@"请输入活动费用"];
+        return;
+    }
+    if (!(msgCell.VipFreeTF.text.length>0)) {
+        [ self textStateHUD:@"请输入会员费用"];
         return;
     }
     if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区"]) {
@@ -738,7 +744,7 @@ selectAddressDelegate
         return;
     }
   
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude]];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude] limit_number:[msgCell.joincountTF.text intValue]];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -752,9 +758,6 @@ selectAddressDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
-    
-    [self publicProject];
     
 }
 
@@ -764,8 +767,6 @@ selectAddressDelegate
         [ self textStateHUD:@"请输入活动标题"];
         return;
     }
-    
-
     
     if (![AddEventCell.includeTF isEqual:@""]) {
             [projectDsp addObject:AddEventCell.includeTF.text];
@@ -817,6 +818,7 @@ selectAddressDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
+            NSLog(@"********%@",string);
             eventUUid = string;
             [self publicProject];
         }else{
