@@ -110,27 +110,6 @@
 //    [_mapView setUserInteractionEnabled:NO];
     [self.contentView addSubview:_mapView];
     
-    //设置中心坐标点
-    CLLocationCoordinate2D curLocation;
-    curLocation.latitude = 23.9098099;
-    curLocation.longitude = 112.980980;
-    
-    //设置地图跨度
-    MKCoordinateSpan span;
-    span.latitudeDelta = 0.008;
-    span.longitudeDelta = 0.008;
-    
-    //显示地图
-    MKCoordinateRegion region = {curLocation, span};
-    [self.mapView setRegion:region animated:NO];
-    
-    //点
-    MKPointAnnotation *annotation0 = [[MKPointAnnotation alloc] init];
-    [annotation0 setCoordinate:CLLocationCoordinate2DMake(23.9098099, 112.980980)];
-    [annotation0 setTitle:@"地址位置"];
-//    [annotation0 setSubtitle:@"重庆市巴南区红光大道69号"];
-    [_mapView addAnnotation:annotation0];
-    
     
     
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 325, kScreenWidth-30, 30)];
@@ -142,7 +121,7 @@
     
 }
 
--(void)setValue:(LMEventDetailEventBody *)event
+-(void)setValue:(LMEventDetailEventBody *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude
 {
     _addressLabel.text = event.address;
     
@@ -162,8 +141,28 @@
         _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
     }
 
+    //设置中心坐标点
+    CLLocationCoordinate2D curLocation;
+    curLocation.latitude = [latitude floatValue];
+    curLocation.longitude = [longtitude floatValue];
     
+    //设置地图跨度
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.008;
+    span.longitudeDelta = 0.008;
     
+    //显示地图
+    MKCoordinateRegion region = {curLocation, span};
+    [self.mapView setRegion:region animated:NO];
+    
+    //点
+    MKPointAnnotation *annotation0 = [[MKPointAnnotation alloc] init];
+    [annotation0 setCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];
+    [annotation0 setTitle:event.address];
+    //    [annotation0 setSubtitle:@"重庆市巴南区红光大道69号"];
+    [_mapView addAnnotation:annotation0];
+    
+     [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];
 }
 
 

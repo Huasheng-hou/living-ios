@@ -12,6 +12,8 @@
 
 @property(nonatomic,strong)UIImageView *chooseView;
 
+@property(nonatomic,strong)UIImageView *headImage;
+
 @property(nonatomic,strong)UILabel *nameLabel;
 
 @end

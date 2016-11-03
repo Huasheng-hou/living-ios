@@ -96,8 +96,8 @@ selectAddressDelegate
         self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
     }
     self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
-
     
+    self.mapView.showsUserLocation = YES;
 }
 
 
@@ -121,8 +121,6 @@ selectAddressDelegate
     cellIndex = 1;
     
     [self creatFootView];
-    
-    
 }
 
 -(void)creatFootView
@@ -255,8 +253,6 @@ selectAddressDelegate
     }
     return 0;
 }
-
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

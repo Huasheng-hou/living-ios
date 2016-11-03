@@ -132,7 +132,6 @@ updatingLocation:(BOOL)updatingLocation
     request.location = [AMapGeoPoint locationWithLatitude:coordinate.latitude longitude:coordinate.longitude];
     request.sortrule = 0;
     request.requireExtension = YES;
-    
     //发起周边搜索
     [_search AMapPOIAroundSearch: request];
 }
@@ -259,7 +258,8 @@ updatingLocation:(BOOL)updatingLocation
     
     [self.view addSubview:_mapView];
     
-    self.mapView.showsUserLocation = YES;
+//    self.mapView.showsUserLocation = YES;
+//    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(currLocation.coordinate.latitude, currLocation.coordinate.longitude)];
     
     [self.mapView setUserTrackingMode:MAUserTrackingModeNone];
 }

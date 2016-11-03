@@ -10,7 +10,7 @@
 
 @implementation LMAliRechargeRequest
 
-- (id)initWithAliRecharge:(NSString *)recharge
+- (id)initWithAliRecharge:(NSString *)recharge andLivingUuid:(NSString *)living_uuid
 {
     self = [super init];
     if (self)
@@ -19,6 +19,9 @@
         
         if (recharge) {
             [bodyDict setObject:recharge forKey:@"totalMoney"];
+        }
+        if (living_uuid) {
+            [bodyDict setObject:living_uuid forKey:@"living_uuid"];
         }
         
         NSMutableDictionary     *paramsDict = [self params];

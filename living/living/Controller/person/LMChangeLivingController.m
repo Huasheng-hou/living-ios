@@ -10,6 +10,10 @@
 #import "LMLiveRoomNameCell.h"
 #import "LMLivingListRequest.h"
 
+#import "LMAllDataModels.h"
+
+#import "UIImageView+WebCache.h"
+
 @interface LMChangeLivingController ()
 {
     UIImageView *chooseView;
@@ -36,6 +40,8 @@
 {
     [super createUI];
     self.title = @"选择生活馆";
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     selectedRow=-1;
     
@@ -68,9 +74,23 @@
 -(void)getLivingListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    NSLog(@"***********b**%@",bodyDic);
+    NSLog(@"***********选择生活馆**%@",bodyDic);
+    NSString *result    = [bodyDic objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0)
+    {
+        LMALLBody *bodyData=[[LMALLBody alloc]initWithDictionary:bodyDic];
+        
+        for (int i=0; i<bodyData.list.count; i++) {
+            LMALLList *list=bodyData.list[i];
+            [cellDataArray addObject:list];
+        }
+        [self.tableView reloadData];
+        
+    } else {
+        [self textStateHUD:bodyDic[@"description"]];
+    }
 }
-
 
 -(void)besureAction
 {
@@ -80,7 +100,8 @@
         return;
     }
     
-    [self.delegate backLiveName:cellDataArray[selectedRow]];
+    LMALLList *list=cellDataArray[selectedRow];
+    [self.delegate backLiveName:list.livingName andLiveUuid:list.livingUuid];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -89,6 +110,11 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return cellDataArray.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -108,11 +134,13 @@
         cell.chooseView.image= [UIImage imageNamed:@"choose-no"];
     }
     
-    cell.nameLabel.text=cellDataArray[indexPath.row];
+     LMALLList *list=cellDataArray[indexPath.row];
+    cell.nameLabel.text=list.livingName;
+    
+    [cell.headImage sd_setImageWithURL:[NSURL URLWithString:list.livingImage]];
     
     return cell;
 }
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

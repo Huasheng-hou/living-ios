@@ -267,6 +267,8 @@
 		8E8886211DCAEA29009D3374 /* LMCouponList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E88861F1DCAEA28009D3374 /* LMCouponList.m */; };
 		8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886231DCB018B009D3374 /* MessageUI.framework */; };
 		8E88862A1DCB046C009D3374 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */; };
+		8E8886381DCB425C009D3374 /* LMALLBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886351DCB425C009D3374 /* LMALLBody.m */; };
+		8E8886391DCB425C009D3374 /* LMALLList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886371DCB425C009D3374 /* LMALLList.m */; };
 		8EC998A01DC83A1000448997 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC9989F1DC83A1000448997 /* HBShareView.m */; };
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
@@ -851,6 +853,11 @@
 		8E8886271DCB046C009D3374 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
 		8E8886281DCB046C009D3374 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
 		8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
+		8E8886341DCB425C009D3374 /* LMALLBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMALLBody.h; sourceTree = "<group>"; };
+		8E8886351DCB425C009D3374 /* LMALLBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMALLBody.m; sourceTree = "<group>"; };
+		8E8886361DCB425C009D3374 /* LMALLList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMALLList.h; sourceTree = "<group>"; };
+		8E8886371DCB425C009D3374 /* LMALLList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMALLList.m; sourceTree = "<group>"; };
+		8E88863A1DCB42A6009D3374 /* LMAllDataModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMAllDataModels.h; sourceTree = "<group>"; };
 		8EC9989E1DC83A1000448997 /* HBShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareView.h; sourceTree = "<group>"; };
 		8EC9989F1DC83A1000448997 /* HBShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareView.m; sourceTree = "<group>"; };
 		8EC998A11DC83B3600448997 /* HBShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareButton.h; sourceTree = "<group>"; };
@@ -1352,6 +1359,7 @@
 		3547F3B71D9904BA0068F04E /* person */ = {
 			isa = PBXGroup;
 			children = (
+				8E88862B1DCB2B7C009D3374 /* LMAllLiveRoom */,
 				8E8886171DCAC641009D3374 /* LMCouponData */,
 				8ECA2AE71DC9C329000CD0AB /* LMLiveRoomData */,
 				35E40A2D1DACBD3F00DE1807 /* LMUserInfo.h */,
@@ -2491,6 +2499,18 @@
 			path = include;
 			sourceTree = "<group>";
 		};
+		8E88862B1DCB2B7C009D3374 /* LMAllLiveRoom */ = {
+			isa = PBXGroup;
+			children = (
+				8E88863A1DCB42A6009D3374 /* LMAllDataModels.h */,
+				8E8886341DCB425C009D3374 /* LMALLBody.h */,
+				8E8886351DCB425C009D3374 /* LMALLBody.m */,
+				8E8886361DCB425C009D3374 /* LMALLList.h */,
+				8E8886371DCB425C009D3374 /* LMALLList.m */,
+			);
+			path = LMAllLiveRoom;
+			sourceTree = "<group>";
+		};
 		8ECA2ADC1DC98DA2000CD0AB /* mapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2857,6 +2877,7 @@
 				3530ABE11DC5CDC9003CB68F /* LMBalanceBill.m in Sources */,
 				358460F41DBDA8E90048D176 /* LMCommentReplys.m in Sources */,
 				3547F3FE1D9904BA0068F04E /* FirUploadImageRequest.m in Sources */,
+				8E8886391DCB425C009D3374 /* LMALLList.m in Sources */,
 				35FA8E7E1DB5B39200510A75 /* LMRechargeCell.m in Sources */,
 				3547F3871D9904A60068F04E /* LMPersonViewController.m in Sources */,
 				35E40A321DACBF9700DE1807 /* LMBannerrequest.m in Sources */,
@@ -2871,6 +2892,7 @@
 				3547F3801D9904A60068F04E /* FitTabbarController.m in Sources */,
 				35A448B31D9A13A7001179FC /* LMHomeDetailController.m in Sources */,
 				351767921DC5ABB600D2D407 /* LMBlanceHeadCell.m in Sources */,
+				8E8886381DCB425C009D3374 /* LMALLBody.m in Sources */,
 				35E7B2E81D9DFF780035AFFE /* LMActivityheadCell.m in Sources */,
 				35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */,
 				350904EE1DC74C540045CC14 /* DACircularProgressView.m in Sources */,
@@ -3062,7 +3084,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3152,7 +3174,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

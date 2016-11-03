@@ -9,9 +9,9 @@
 #import "ZYQAssetPickerController.h"
 
 #define IS_IOS7             ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
-#define kThumbnailLength    78.0f
+#define kThumbnailLength     [UIScreen mainScreen].bounds.size.width/4-2
 #define kThumbnailSize      CGSizeMake(kThumbnailLength, kThumbnailLength)
-#define kPopoverContentSize CGSizeMake(320, 480)
+#define kPopoverContentSize CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)
 
 #pragma mark -
 
@@ -250,7 +250,10 @@ static UIColor *titleColor;
 {
     self.asset=asset;
     
-    [_imageView setImage:[UIImage imageWithCGImage:asset.thumbnail]];
+//    [_imageView setImage:[UIImage imageWithCGImage:asset.thumbnail]];
+    [_imageView setImage:[UIImage imageWithCGImage:asset.aspectRatioThumbnail]];
+    [_imageView setContentMode:UIViewContentModeScaleAspectFill];
+    [_imageView setClipsToBounds:YES];
     
     if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
         _videoTitle.hidden=NO;
@@ -693,7 +696,7 @@ static UIColor *titleColor;
     
     CGImageRef posterImage      = assetsGroup.posterImage;
     size_t height               = CGImageGetHeight(posterImage);
-    float scale                 = height / kThumbnailLength;
+    float scale                 = height / 78.0f;
     
     self.imageView.image        = [UIImage imageWithCGImage:posterImage scale:scale orientation:UIImageOrientationUp];
     self.textLabel.text         = [assetsGroup valueForProperty:ALAssetsGroupPropertyName];
@@ -1054,6 +1057,18 @@ static UIColor *titleColor;
 {
     [super viewDidLoad];
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationBar.barTintColor                 = [UIColor colorWithRed:250/255.0 green:108/255.0 blue:35/255.0 alpha:1.0];
+    self.navigationBar.tintColor                    = [UIColor whiteColor];
+    self.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+                                                       NSForegroundColorAttributeName, nil];
+    
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -25,7 +25,6 @@ UITableViewDataSource>
     NSArray *monthArray;
 }
 
-
 @end
 
 @implementation LMBalanceViewController
@@ -292,6 +291,9 @@ UITableViewDataSource>
 -(void)getBlanceListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSLog(@"===========余额明细=bodyDic==============%@",bodyDic);
+    
     if (!bodyDic) {
         [self textStateHUD:@"获取余额列表失败"];
     }else{
