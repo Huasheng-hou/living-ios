@@ -40,10 +40,16 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 60, 70, 71)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 70, 70, 71)];
     imageView.image = [UIImage imageNamed:@"editMsg"];
-    UILabel *msg = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-40, 134, 80, 30)];
-    msg.text = @"腰 果";
+    
+    imageView.layer.cornerRadius = 10;
+    imageView.clipsToBounds = YES;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    
+    UILabel *msg = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-40, 144, 90, 30)];
+    msg.text = @"腰果生活";
     msg.textAlignment = NSTextAlignmentCenter;
     [headView addSubview:msg];
     [headView addSubview:imageView];
@@ -51,7 +57,7 @@
     return headView;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 200;
+    return 230;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

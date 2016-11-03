@@ -9,6 +9,11 @@
 #import "LMMyFriendViewController.h"
 
 @interface LMMyFriendViewController ()
+<
+UITableViewDelegate,
+UITableViewDataSource
+>
+@property (nonatomic,retain)UITableView *tableView;
 
 @end
 
@@ -22,8 +27,42 @@
 -(void)createUI
 {
     self.title = @"我的好友";
-    [super createUI];
+    _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"cellId";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    cell.textLabel.text = @"测试";
+    
+    return cell;
+}
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -43,6 +43,8 @@ WJLoopViewDelegate
     NSMutableArray *cellDataArray;
     
     LMLiveRoomCell *cellInfo;
+    
+    UIView *homeImage;
 }
 
 @end
@@ -62,9 +64,31 @@ WJLoopViewDelegate
     self.title = @"我的生活馆";
     selectType=@"left";
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    [self createUI];
-    [self getLivingHomeListData];
+    
+    if (_livImgUUid==nil ) {
+        homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-150, 200, 100)];
+        
+        UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
+                homeImg.image = [UIImage imageNamed:@"NO-living"];
+                [homeImage addSubview:homeImg];
+                UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 105, 200, 60)];
+                imageLb.numberOfLines = 0;
+                imageLb.text = @"拥有属于自己的生活馆，绝对是很高大上的感觉哦，\n快来参与吧";
+                imageLb.textColor = TEXT_COLOR_LEVEL_3;
+                imageLb.font = TEXT_FONT_LEVEL_2;
+                imageLb.textAlignment = NSTextAlignmentCenter;
+                [homeImage addSubview:imageLb];
+                
+                [self.view addSubview:homeImage];
+
+    }else{
+        [self getLivingHomeListData];
+        [self createUI];
+    }
+    
+    
     listArray = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"reloadEvent" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"rechargeMoney" object:nil];

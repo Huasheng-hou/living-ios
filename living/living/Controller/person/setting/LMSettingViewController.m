@@ -11,7 +11,8 @@
 #import "LMWebViewController.h"
 #import "LMVersionViewController.h"
 
-@interface LMSettingViewController ()
+@interface LMSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property(nonatomic,strong)UITableView *tableView;
 
 @end
 
@@ -25,10 +26,12 @@
 
 -(void)createUI
 {
-    [super createUI];
     
     self.navigationItem.title = @"设置";
-
+    _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
     
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 85)];
     UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 40, kScreenWidth-30, 45)];

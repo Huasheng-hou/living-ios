@@ -30,7 +30,7 @@
     [self addGestureRecognizer:tapGR];
     
     whiteView=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 240)];
-    [whiteView setBackgroundColor:[UIColor whiteColor]];
+    [whiteView setBackgroundColor:BG_GRAY_COLOR];
 //    [whiteView.layer setCornerRadius:5.0f];
 //    [whiteView.layer setMasksToBounds:YES];
     [self addSubview:whiteView];
@@ -40,8 +40,8 @@
     }];
     
     UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, whiteView.frame.size.width, 44)];
-    [titleLabel setText:@"分享"];
-    [titleLabel setFont:TEXT_FONT_LEVEL_2];
+    [titleLabel setText:@"分享文章"];
+    [titleLabel setFont:TEXT_FONT_LEVEL_1];
     [titleLabel setTextAlignment:NSTextAlignmentCenter];
     [whiteView addSubview:titleLabel];
     
@@ -55,11 +55,25 @@
     
 //
     for (int i=0; i<4; i++) {
-        HBShareButton *sharebutton=[[HBShareButton alloc]initWithFrame:CGRectMake(startX+(buttonW+sapce)*i, 80, buttonW, buttonW+50) andIndex:i+1];
+        HBShareButton *sharebutton=[[HBShareButton alloc]initWithFrame:CGRectMake(startX+(buttonW+sapce)*i, 40, buttonW, buttonW+50) andIndex:i+1];
         [sharebutton setTag:i+1];
         [sharebutton addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
         [whiteView addSubview:sharebutton];
     }
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 195, kScreenWidth, 45)];
+    label.backgroundColor = [UIColor whiteColor];
+    label.text = @"取消";
+    label.font = TEXT_FONT_LEVEL_1;
+    label.textColor = [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:1.0];
+    label.textAlignment = NSTextAlignmentCenter;
+    
+    label.userInteractionEnabled = YES;
+    [whiteView addSubview:label];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+    [label addGestureRecognizer:tap];
+    
 }
 
 -(void)dismissSelf

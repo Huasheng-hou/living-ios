@@ -260,7 +260,7 @@ UITableViewDataSource
         [homeImage removeFromSuperview];
     }else{
         [homeImage removeFromSuperview];
-        homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
+        homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-160, 200, 100)];
         
         UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
         homeImg.image = [UIImage imageNamed:@"eventload"];

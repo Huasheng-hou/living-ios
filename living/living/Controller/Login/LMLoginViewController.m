@@ -91,7 +91,7 @@
     hintLbl.font            = TEXT_FONT_LEVEL_3;
 
     
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果服务协议》"];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果生活服务协议》"];
     [str addAttribute:NSForegroundColorAttributeName value:LIVING_REDCOLOR range:NSMakeRange(11,str.length-11)];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
     
@@ -216,7 +216,7 @@
         _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
-        [_loginBtn setBackgroundColor:[UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0]];
+        [_loginBtn setBackgroundColor:LIVING_COLOR];
         _loginBtn.frame  = CGRectMake(15, 40, kScreenWidth - 30, 45);
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;

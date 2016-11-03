@@ -246,40 +246,40 @@
             [cell.contentView addSubview:genderImage];
             
             //下划线
-            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 40, kScreenWidth-100, 1.0)];
+            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 50, kScreenWidth-100, 1.0)];
             lineLabel.backgroundColor = LINE_COLOR;
             [cell.contentView addSubview:lineLabel];
             
             //余额
-            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 80, 20)];
+            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 60, 80, 20)];
             question.text = [NSString stringWithFormat:@"余额 ￥%.0f",infoModel.balance];
             question.font = TEXT_FONT_LEVEL_2;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [question sizeToFit];
-            question.frame = CGRectMake(100, 50, question.bounds.size.width, 20);
+            question.frame = CGRectMake(100, 60, question.bounds.size.width, 20);
             [cell.contentView addSubview:question];
             
             
             
             //订单
-            UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 50, 80, 20)];
+            UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
             reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.orderNumber];
             reward.font = TEXT_FONT_LEVEL_2;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [reward sizeToFit];
-            reward.frame = CGRectMake(120+question.bounds.size.width, 50, reward.bounds.size.width, 20);
+            reward.frame = CGRectMake(120+question.bounds.size.width, 60, reward.bounds.size.width, 20);
             [cell.contentView addSubview:reward];
             
             //生活馆
-            UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 50, 80, 20)];
+            UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
             living.text = [NSString stringWithFormat:@"生活馆 %.0f",infoModel.orderNumber];
             living.font = TEXT_FONT_LEVEL_2;
             living.textColor = TEXT_COLOR_LEVEL_3;
             [living sizeToFit];
-            living.frame = CGRectMake(140+question.bounds.size.width+reward.bounds.size.width, 50, living.bounds.size.width, 20);
+            living.frame = CGRectMake(140+question.bounds.size.width+reward.bounds.size.width, 60, living.bounds.size.width, 20);
             [cell.contentView addSubview:living];
             
-            UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 53, 7, 14)];
+            UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 63, 7, 14)];
             right.image = [UIImage imageNamed:@"turnright"];
             [cell.contentView addSubview:right];
             

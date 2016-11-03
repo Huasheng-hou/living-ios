@@ -403,7 +403,7 @@
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
 		354574781D9CC24600E88D6F /* WJLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJLoopView.m; sourceTree = "<group>"; };
-		3547F32E1D9901780068F04E /* 腰果.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3547F3351D9901780068F04E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1061,7 +1061,7 @@
 		3547F32F1D9901780068F04E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3547F32E1D9901780068F04E /* 腰果.app */,
+				3547F32E1D9901780068F04E /* 腰果生活.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2519,7 +2519,7 @@
 			);
 			name = living;
 			productName = living;
-			productReference = 3547F32E1D9901780068F04E /* 腰果.app */;
+			productReference = 3547F32E1D9901780068F04E /* 腰果生活.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3073,7 +3073,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
-				PRODUCT_NAME = "腰果";
+				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -3161,7 +3161,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
-				PRODUCT_NAME = "腰果";
+				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

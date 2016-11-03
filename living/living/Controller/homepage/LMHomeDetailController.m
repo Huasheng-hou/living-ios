@@ -28,6 +28,9 @@
 
 #import <TencentOpenAPI/QQApiInterface.h>
 
+#define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
+
+
 @interface LMHomeDetailController ()<UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
@@ -42,7 +45,7 @@ shareTypeDelegate
     CGFloat bgViewY;
     UILabel  *tipLabel;
     UIButton *zanButton;
-    UILabel *zanLabel;
+    LMCommentButton *zanLabel;
 
 
     LMArticleBody *articleData;
@@ -59,6 +62,14 @@ shareTypeDelegate
     
     NSMutableArray *imageArray;
     NSMutableArray *hightArray;
+    
+    NSDictionary *attributes;
+    UILabel *contentLabel;
+    NSDictionary *attributes2;
+    UILabel *dspLabel;
+    
+    NSInteger typeIndex;
+    
     
 }
 //@property(nonatomic,strong)TencentOAuth *tencentOAuth;
@@ -89,6 +100,9 @@ shareTypeDelegate
     [self creatFootView];
     hightArray = [NSMutableArray new];
     imageArray = [NSMutableArray new];
+    
+    typeIndex = 2;
+
 }
 
 -(void)creatFootView
@@ -149,6 +163,11 @@ shareTypeDelegate
 
 -(void)zanButtonAction:(id)senser
 {
+    
+    NSLog(@"********点赞");
+    
+    
+    
     LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -175,9 +194,9 @@ shareTypeDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
     {
         [self textStateHUD:@"点赞成功"];
-        int zanNum =[zanLabel.text intValue];
+        int zanNum =[zanLabel.titleLabel.text intValue];
         zanNum = zanNum+1;
-        zanLabel.text = [NSString stringWithFormat:@"%d",zanNum];
+        zanLabel.titleLabel.text = [NSString stringWithFormat:@"%d",zanNum];
         [self getHomeDetailDataRequest];
         NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
         [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
@@ -273,21 +292,36 @@ shareTypeDelegate
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-            CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes5 context:nil].size.height;
             return 75+conHigh;
         }
         if (indexPath.row==1) {
 
             
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            if (typeIndex ==1) {
+                
+                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};
+            }
+            if (typeIndex ==2) {
+                
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            }
+            if (typeIndex ==3) {
+                
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            }
+
             CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+
             CGFloat conHigh2 = [articleData.articleContent boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
             if (!articleData.articleImgs) {
-               return 70+conHigh+conHigh2;
+               return 110+conHigh+conHigh2;
             }else{
                 NSArray *arr = articleData.articleImgs;
                 for (int i = 0; i<arr.count; i++) {
@@ -312,7 +346,7 @@ shareTypeDelegate
                 
                 NSInteger index =  arr.count-1;
                 
-                return 70+conHigh+conHigh2 +15 + [hightArray[index] floatValue] ;
+                return 110+conHigh+conHigh2 +15 + [hightArray[index] floatValue] ;
             }
             
         }
@@ -395,22 +429,16 @@ shareTypeDelegate
             UILabel *titleLabel = [UILabel new];
             titleLabel.font = TEXT_FONT_LEVEL_1;
             titleLabel.numberOfLines=0;
-//            titleLabel.text = articleData.articleTitle;
-            
-//            NSString *content = [[aPlanItem objectAtIndex:0] objectForKey:@"content"];
-//            //替换回车符
-            titleLabel.text = [articleData.articleTitle stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-            
-            
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-            CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            titleLabel.text = articleData.articleTitle;
+            NSDictionary *attributes4 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes4 context:nil].size.height;
             [titleLabel sizeToFit];
             titleLabel.frame = CGRectMake(15, 15, kScreenWidth-30, conHigh);
             [cell.contentView addSubview:titleLabel];
             
             UIImageView *headImage = [UIImageView new];
             [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-            headImage.frame = CGRectMake(15, conHigh+30, 20, 20);
+            headImage.frame = CGRectMake(15, conHigh+25, 20, 20);
             headImage.layer.cornerRadius =10;
             [headImage setClipsToBounds:YES];
             headImage.contentMode = UIViewContentModeScaleToFill;
@@ -420,7 +448,7 @@ shareTypeDelegate
             
             UILabel *nameLabel = [UILabel new];
             nameLabel.font = TEXT_FONT_LEVEL_3;
-            nameLabel.textColor = TEXT_COLOR_LEVEL_3;
+            nameLabel.textColor = LIVING_COLOR;
             if (!articleData.articleName||articleData.articleName ==nil) {
                 nameLabel.text = @"匿名用户";
             }else{
@@ -428,7 +456,7 @@ shareTypeDelegate
             }
             
             [nameLabel sizeToFit];
-            nameLabel.frame = CGRectMake(40, conHigh+30, nameLabel.bounds.size.width,20);
+            nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
             [cell.contentView addSubview:nameLabel];
             
             
@@ -437,7 +465,7 @@ shareTypeDelegate
             timeLabel.textColor = TEXT_COLOR_LEVEL_3;
             timeLabel.text = articleData.publishTime;
             [timeLabel sizeToFit];
-            timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+30, timeLabel.bounds.size.width,20);
+            timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+25, timeLabel.bounds.size.width,20);
             [cell.contentView addSubview:timeLabel];
             
             UIView *line = [UIView new];
@@ -448,62 +476,164 @@ shareTypeDelegate
             
         }
         if (indexPath.row==1) {
-            
-            UILabel *dspLabel = [UILabel new];
-            dspLabel.font = TEXT_FONT_LEVEL_2;
-            dspLabel.textColor = TEXT_COLOR_LEVEL_3;
+
+            dspLabel = [UILabel new];
+            if (typeIndex==1) {
+                dspLabel.font = TEXT_FONT_LEVEL_1;
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            }
+            if (typeIndex==2) {
+                dspLabel.font = TEXT_FONT_LEVEL_2;
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            }
+            if (typeIndex==3) {
+                dspLabel.font = [UIFont systemFontOfSize:12.0];
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            }
+
+            dspLabel.textColor = LIVING_REDCOLOR;
             dspLabel.numberOfLines=0;
             dspLabel.text = articleData.describe;
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            
+
             CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [dspLabel sizeToFit];
 
             [cell.contentView addSubview:dspLabel];
             
             
-            UILabel *contentLabel = [UILabel new];
-            contentLabel.font = TEXT_FONT_LEVEL_1;
+            contentLabel = [UILabel new];
+            
             contentLabel.textColor = TEXT_COLOR_LEVEL_2;
             contentLabel.numberOfLines=0;
             contentLabel.text = articleData.articleContent;
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            
+            contentLabel.text = [articleData.articleContent stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+            if (typeIndex==1) {
+                contentLabel.font = [UIFont systemFontOfSize:18.0];
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};
+            }
+            if (typeIndex==2) {
+                contentLabel.font = TEXT_FONT_LEVEL_1;
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            }
+            if (typeIndex==3) {
+                contentLabel.font = [UIFont systemFontOfSize:14.0];
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            }
+            
+            
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
 
             [cell.contentView addSubview:contentLabel];
             
             
-            UILabel *commentLabel = [UILabel new];
-            commentLabel.font = TEXT_FONT_LEVEL_3;
-            commentLabel.textColor = TEXT_COLOR_LEVEL_3;
-            commentLabel.text = [NSString stringWithFormat:@"评论 %.0f",articleData.commentNum];
+            
+            zanLabel = [LMCommentButton new];
+            
+            if (articleData.hasPraised == YES) {
+                zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
+            }else{
+                zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon"];
+            }
+            zanLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.articlePraiseNum];
+            zanLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+            
+            
+            [zanLabel.textLabel sizeToFit];
+            zanLabel.textLabel.frame = CGRectMake(15, 5, zanLabel.textLabel.bounds.size.width, zanLabel.textLabel.bounds.size.height);
+            [zanLabel sizeToFit];
+            
+            [cell.contentView addSubview:zanLabel];
+            [zanLabel addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            LMCommentButton *commentLabel = [[LMCommentButton alloc] init];
+        
+            commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
+            commentLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.commentNum];
+            [commentLabel.textLabel sizeToFit];
+            commentLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
+            [commentLabel.headImage sizeToFit];
+            commentLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
+            commentLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
             [commentLabel sizeToFit];
-
+            [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:commentLabel];
             
+            LMCommentButton *shareLabel = [[LMCommentButton alloc] init];
+            shareLabel.headImage.image = [UIImage imageNamed:@"share-small"];
+            shareLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.commentNum];
+            [shareLabel.textLabel sizeToFit];
+            shareLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
+            [shareLabel.headImage sizeToFit];
+            shareLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
+            shareLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+            [cell.contentView addSubview:shareLabel];
             
-            zanLabel = [UILabel new];
-            zanLabel.font = TEXT_FONT_LEVEL_3;
-            zanLabel.textColor = TEXT_COLOR_LEVEL_3;
-            zanLabel.text = [NSString stringWithFormat:@"点赞 %.0f",articleData.articlePraiseNum];
-            [zanLabel sizeToFit];
-
-            [cell.contentView addSubview:zanLabel];
             
+            UILabel *type = [UILabel new];
+            type.text = @"字号：";
+            type.font = TEXT_FONT_LEVEL_2;
+            type.textColor =Text_size_color;
+            type.textAlignment = NSTextAlignmentCenter;
+            type.layer.cornerRadius = 3;
+            type.layer.borderColor =Text_size_color.CGColor;
+            type.layer.borderWidth = 0.5;
+            [type sizeToFit];
+            [cell.contentView addSubview:type];
+            
+            UIButton *bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [bigBtn setTitle:@"大" forState:UIControlStateNormal];
+            [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            bigBtn.layer.cornerRadius = 3;
+            bigBtn.layer.borderColor =Text_size_color.CGColor;
+            bigBtn.layer.borderWidth = 0.5;
+            [bigBtn sizeToFit];
+            [cell.contentView addSubview:bigBtn];
+            [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            
+            UIButton *midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [midBtn setTitle:@"中" forState:UIControlStateNormal];
+            [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            midBtn.layer.cornerRadius = 3;
+            midBtn.layer.borderColor =Text_size_color.CGColor;
+            midBtn.layer.borderWidth = 0.5;
+            [midBtn sizeToFit];
+            [cell.contentView addSubview:midBtn];
+            [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            UIButton *smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [smallBtn setTitle:@"小" forState:UIControlStateNormal];
+            [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            smallBtn.layer.cornerRadius = 3;
+            smallBtn.layer.borderColor =Text_size_color.CGColor;
+            smallBtn.layer.borderWidth = 0.5;
+            [smallBtn sizeToFit];
+            [cell.contentView addSubview:smallBtn];
+            [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+   
             
             UIButton *button=[UIButton new];
-            
-            zanLabel.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zanButtonAction:)];
-            [zanLabel addGestureRecognizer:tap];
-            
+            [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
+            [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+            button.layer.cornerRadius = 3;
+            button.layer.borderColor =LIVING_COLOR.CGColor;
+            button.layer.borderWidth = 0.5;
+            [cell.contentView addSubview:button];
             
 
             if (articleData.articleImgs) {
                 
                 NSArray *arr =articleData.articleImgs;
-                
-                
                 hightArray = [NSMutableArray new];
                 for (int i = 0; i<arr.count; i++) {
                     
@@ -535,41 +665,42 @@ shareTypeDelegate
                         headImage.frame = CGRectMake(15, 15, kScreenWidth-30, imageViewH);
                     }
                     
-                    
                     NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
                     
                     [hightArray addObject:string];
                     
-                    
                     [cell.contentView addSubview:headImage];
-     
-                    
-                    
 
                 }
                 
-               
-                dspLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 30+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
-                commentLabel.frame = CGRectMake(15, 45+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
-                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 45+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
-                [button setFrame:CGRectMake(kScreenWidth-100, 20+[hightArray[arr.count-1] floatValue] , 80, 50)];
+                type.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], type.bounds.size.width+10, 30);
+                bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
+                midBtn.frame =CGRectMake(80+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
+                smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
+                
+                
+                dspLabel.frame = CGRectMake(15, 60+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
+                contentLabel.frame = CGRectMake(15, 70+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
+                commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
+                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
+                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs,shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
+
+                [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
                 
             }else{
-                dspLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 20 +conHigh, kScreenWidth-30, conHighs);
-                commentLabel.frame = CGRectMake(15, 35+conHigh+conHighs, commentLabel.bounds.size.width,commentLabel.bounds.size.height);
-                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 35+conHigh+conHighs, zanLabel.bounds.size.width,zanLabel.bounds.size.height);
+                type.frame = CGRectMake(15, 20, type.bounds.size.width+10, 30);
                 
-                [button setFrame:CGRectMake(kScreenWidth-100, 10, 80, 50)];
+                bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20, 40, 30);
+                midBtn.frame =CGRectMake(80+type.bounds.size.width, 20, 40, 30);
+                smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20 , 40, 30);
+                
+                dspLabel.frame = CGRectMake(15, 50, kScreenWidth-30, conHigh);
+                contentLabel.frame = CGRectMake(15, 60 +conHigh, kScreenWidth-30, conHighs);
+                commentLabel.frame = CGRectMake(15, 75+conHigh+conHighs,  commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
+                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 75+conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
+                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 75+conHigh+conHighs, shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
+                [button setFrame:CGRectMake(kScreenWidth-88, 10, 80, 30)];
             }
-            
-            [button setBackgroundColor:[UIColor greenColor]];
-            [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
-            [button setTitle:@"分享" forState:UIControlStateNormal];
-            [cell.contentView addSubview:button];
-            
-            
             
         }
   
@@ -600,6 +731,29 @@ shareTypeDelegate
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
     [self.view addSubview:shareView];
+}
+-(void)bigBtnButton
+{
+    typeIndex = 1;
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+
+}
+
+-(void)midBtnButton
+{
+    typeIndex = 2;
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+
+}
+
+-(void)smallBtnButton
+{
+    typeIndex = 3;
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+
 }
 
 -(void)shareType:(NSInteger)type
@@ -687,9 +841,6 @@ shareTypeDelegate
 #pragma mark  --点击图片放大
 -(void)tapimageAction:(UITapGestureRecognizer *)tap
 {
-    
-    NSLog(@"*******%ld",tap.view.tag);
-    
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
     photoBrowser.initialPageIndex = tap.view.tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
@@ -1019,7 +1170,11 @@ shareTypeDelegate
     
 }
 
-
+-(void)replyAction:(id)sender
+{
+    NSLog(@"*********");
+    [textcView becomeFirstResponder];
+}
 
 
 

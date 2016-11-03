@@ -99,7 +99,7 @@ UIViewControllerTransitioningDelegate
     loginButton.frame = CGRectMake(15, 20, kScreenWidth-30, 45);
     loginButton.titleLabel.font = TEXT_FONT_LEVEL_1;
     [loginButton setTitle:@"提 交" forState:UIControlStateNormal];
-    loginButton.backgroundColor = [UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
+    loginButton.backgroundColor = LIVING_COLOR;
     [loginButton addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
     
     loginButton.layer.cornerRadius = 5;
@@ -155,7 +155,7 @@ UIViewControllerTransitioningDelegate
     if (indexPath.section==0) {
         manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
         manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
-        manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
+        manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
         [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:manButton];
         
@@ -413,7 +413,7 @@ UIViewControllerTransitioningDelegate
 {
     NSLog(@"************man****");
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
-    manButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
+    manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
     womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     genderStr = @"1";
