@@ -44,6 +44,7 @@ liveNameProtocol
     NSString *rechargeOrderUUID;
 
     NSString *liveRoomName;
+    NSString *liveUUID;
 }
 
 @end
@@ -232,9 +233,10 @@ liveNameProtocol
 
 #pragma mark LMChangeLivingController&&liveNameProtocol代理协议
 
--(void)backLiveName:(NSString *)liveRoom
+-(void)backLiveName:(NSString *)liveRoom andLiveUuid:(NSString *)live_uuid
 {
     liveRoomName=liveRoom;
+    liveUUID=live_uuid;
     [table reloadData];
 }
 
@@ -274,7 +276,7 @@ liveNameProtocol
         return;
     }
     [self initStateHud];
-    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text];
+    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:liveUUID];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -402,7 +404,7 @@ liveNameProtocol
         return;
     }
     [self initStateHud];
-    LMAliRechargeRequest *request=[[LMAliRechargeRequest alloc]initWithAliRecharge:headcell.payNum.text];
+    LMAliRechargeRequest *request=[[LMAliRechargeRequest alloc]initWithAliRecharge:headcell.payNum.text andLivingUuid:liveUUID];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

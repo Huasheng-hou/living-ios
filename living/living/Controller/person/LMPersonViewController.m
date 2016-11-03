@@ -41,12 +41,19 @@
 
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self getUserInfoData];
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
 
     infoDic = [NSMutableDictionary new];
-    [self getUserInfoData];
+//    [self getUserInfoData];
     [self creatUI];
     
     //请求获取余额
@@ -442,6 +449,7 @@
         //我的好友
         if (indexPath.row ==3) {
             LMMyFriendViewController *myfVC = [[LMMyFriendViewController alloc] init];
+            [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
         //我的优惠券

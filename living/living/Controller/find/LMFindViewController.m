@@ -7,19 +7,13 @@
 //
 
 #import "LMFindViewController.h"
-#import "LMFindListRequest.h"
-#import "LMFindList.h"
 #import "LMFindCell.h"
-#import "WJLoopView.h"
 
-@interface LMFindViewController ()<
-UITableViewDelegate,
-UITableViewDataSource,
-WJLoopViewDelegate
+@interface LMFindViewController ()<UITableViewDelegate,
+UITableViewDataSource
 >
 {
     UITableView *_tableView;
-    NSMutableArray *listArray;
     
 }
 
@@ -32,8 +26,6 @@ WJLoopViewDelegate
     // Do any additional setup after loading the view.
     
     [self creatUI];
-    [self getHomeDataRequest];
-    listArray = [NSMutableArray new];
 }
 
 -(void)creatUI
@@ -44,71 +36,16 @@ WJLoopViewDelegate
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
-    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:nil placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
-    loopView.location = WJPageControlAlignmentRight;
-    
-    
-    [self.view addSubview:loopView];
-}
-
-
-
--(void)getHomeDataRequest
-{
-    LMFindListRequest *request = [[LMFindListRequest alloc] initWithPageIndex:1 andPageSize:20];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getFindListResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
     
 }
 
--(void)getFindListResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
-        NSArray *array = bodyDic[@"list"];
-        for (int i =0; i<array.count; i++) {
-            LMFindList *list=[[LMFindList alloc]initWithDictionary:array[i]];
-            if (![listArray containsObject:list]) {
-                [listArray addObject:list];
-            }
-
-        }
-        
-        
-        [_tableView reloadData];
-    }else{
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
-    }
-    
-    
-}
-
-#pragma mark scrollview代理函数
-- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
-    NSLog(@"%ld",(long)index);
-
-}
 
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
     UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
-    imageV.image = [UIImage imageNamed:@"findpage"];
+    imageV.image = [UIImage imageNamed:@"112"];
     [headView addSubview:imageV];
     return headView;
 }
@@ -117,7 +54,7 @@ WJLoopViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120;
+    return 150;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -139,7 +76,7 @@ WJLoopViewDelegate
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return listArray.count;
+    return 10;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,9 +85,8 @@ WJLoopViewDelegate
     LMFindCell *cell = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMFindList *list =[listArray objectAtIndex:indexPath.row];
-    [cell setValue:list];
-    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    
+    //[cell setXScale:self.xScale yScale:self.yScaleWithAll];
 
     
     

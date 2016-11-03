@@ -10,14 +10,19 @@
 #import "LMFindList.h"
 
 @interface LMFindCell : UITableViewCell
-@property (nonatomic, strong)NSString *imageUrl;
+//@property (nonatomic, strong)NSString *imageUrl;
 
-@property (nonatomic, strong)NSString *titleString;
+//@property (nonatomic, strong)NSString *titleString;
+//
+//
+//@property (nonatomic, strong)NSString *time;
+//
+//@property (nonatomic, strong)NSString *name;
 
 
-@property (nonatomic, strong)NSString *time;
-
-@property (nonatomic, strong)NSString *name;
+@property(nonatomic, strong) UILabel *titleLabel;
+@property(nonatomic, strong) UILabel *contentLabel;
+@property(nonatomic, strong) UILabel *numLabel;
 
 
 @property (nonatomic, readonly) float xScale;

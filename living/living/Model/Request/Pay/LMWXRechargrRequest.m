@@ -10,7 +10,7 @@
 
 @implementation LMWXRechargrRequest
 
-- (id)initWithWXRecharge:(NSString *)recharge
+- (id)initWithWXRecharge:(NSString *)recharge andLivingUuid:(NSString *)liveUUID
 {
     self = [super init];
     if (self)
@@ -19,6 +19,9 @@
         
         if (recharge) {
             [bodyDict setObject:recharge forKey:@"totalMoney"];
+        }
+        if (liveUUID) {
+            [bodyDict setObject:liveUUID forKey:@"living_uuid"];
         }
         
         NSMutableDictionary     *paramsDict = [self params];

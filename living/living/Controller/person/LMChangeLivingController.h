@@ -10,7 +10,7 @@
 
 @protocol liveNameProtocol <NSObject>
 
--(void)backLiveName:(NSString *)liveRoom;
+-(void)backLiveName:(NSString *)liveRoom andLiveUuid:(NSString *)live_uuid;
 
 @end
 

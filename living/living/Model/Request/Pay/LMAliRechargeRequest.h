@@ -10,6 +10,6 @@
 
 @interface LMAliRechargeRequest : FitBaseRequest
 
-- (id)initWithAliRecharge:(NSString *)recharge;
+- (id)initWithAliRecharge:(NSString *)recharge andLivingUuid:(NSString *)living_uuid;
 
 @end

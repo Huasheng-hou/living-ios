@@ -10,6 +10,6 @@
 
 @interface LMWXRechargrRequest : FitBaseRequest
 
-- (id)initWithWXRecharge:(NSString *)recharge;
+- (id)initWithWXRecharge:(NSString *)recharge andLivingUuid:(NSString *)liveUUID;
 
 @end
