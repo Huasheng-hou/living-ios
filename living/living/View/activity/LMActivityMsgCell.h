@@ -31,7 +31,7 @@
 @property (nonatomic, readonly) float yScale;
 
 
--(void)setValue:(LMEventDetailEventBody *)event;
+-(void)setValue:(LMEventDetailEventBody *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 

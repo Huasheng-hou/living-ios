@@ -54,6 +54,10 @@ UIAlertViewDelegate
     NSString *commitUUid;
     NSMutableDictionary *orderDic;
     
+    NSString *latitude;
+    NSString *longitude;
+    
+    
 }
 
 //@property(nonatomic,strong)UITableView *tableView;
@@ -80,7 +84,6 @@ UIAlertViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.title = @"活动详情";
     [self creatUI];
     [self getEventListDataRequest];
@@ -93,9 +96,8 @@ UIAlertViewDelegate
                                                 name:@"purchase"
                                               object:nil];
     
-
-    
 }
+
 
 -(void)creatUI
 {
@@ -197,6 +199,11 @@ UIAlertViewDelegate
     NSLog(@"==========================活动详情:bodyDic:%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        
+      latitude= bodyDic[@"event_body"][@"latitude"];
+        
+        longitude=bodyDic[@"event_body"][@"longitude"];
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
         if (msgArray.count>0) {
@@ -487,7 +494,9 @@ UIAlertViewDelegate
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [cell setValue:eventDic];
+        
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         return cell;
@@ -501,7 +510,7 @@ UIAlertViewDelegate
        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        [cell setValue:eventDic];
+        [cell setValue:eventDic andLatitude:latitude andLongtitude:longitude];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         UITapGestureRecognizer   *hintLblTap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callTelephone)];

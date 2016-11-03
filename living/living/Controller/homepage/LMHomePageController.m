@@ -78,8 +78,8 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     listArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
     [self getBannerDataRequest];
+    
 }
-
 
 -(void)creatUI
 {
