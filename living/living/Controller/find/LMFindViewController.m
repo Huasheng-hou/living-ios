@@ -8,9 +8,11 @@
 
 #import "LMFindViewController.h"
 #import "LMFindCell.h"
+#import "WJLoopView.h"
 
 @interface LMFindViewController ()<UITableViewDelegate,
-UITableViewDataSource
+UITableViewDataSource,
+WJLoopViewDelegate
 >
 {
     UITableView *_tableView;
@@ -36,6 +38,8 @@ UITableViewDataSource
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     
 }
 
@@ -43,14 +47,20 @@ UITableViewDataSource
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
-    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
-    imageV.image = [UIImage imageNamed:@"112"];
-    [headView addSubview:imageV];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
+    
+    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:nil placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+    loopView.location = WJPageControlAlignmentRight;
+    [headView addSubview:loopView];
     return headView;
 }
 
-
+#pragma mark scrollview代理函数
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
+{
+    NSLog(@"************");
+}
+    
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

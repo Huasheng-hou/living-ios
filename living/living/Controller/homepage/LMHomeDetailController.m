@@ -70,6 +70,8 @@ shareTypeDelegate
     
     NSInteger typeIndex;
     
+    NSString *fakeId;
+    
     
 }
 //@property(nonatomic,strong)TencentOAuth *tencentOAuth;
@@ -247,6 +249,9 @@ shareTypeDelegate
         
         
         articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
+        
+        fakeId = [NSString stringWithFormat:@"%.0f",articleData.fakaid];
+        
         NSMutableArray *array=bodyDic[@"comment_messages"];
         if (array.count>0) {
             homeImage.frame = CGRectMake(0, 0, 0, 0);
@@ -773,17 +778,24 @@ shareTypeDelegate
 
 -(void)shareType:(NSInteger)type
 {
+    
+    NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
+    
     NSLog(@"===========type===========%ld",(long)type);
     switch (type) {
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
-           message.title=@"生活馆";
-            message.description=@"描述";
-            [message setThumbImage:[UIImage imageNamed:@"shareIcon"]];
+           message.title=articleData.articleTitle;
+            message.description=articleData.describe;
+            
+            UIImageView *images = [UIImageView new];
+            [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
+            
+            [message setThumbImage:images.image];
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=@"http://120.26.243.47:3003/001-living-share/article-detail.html";
+            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -796,12 +808,15 @@ shareTypeDelegate
         case 2://微信朋友圈
         {
             WXMediaMessage *message=[WXMediaMessage message];
-            message.title=@"生活馆";
-            message.description=@"描述";
-            [message setThumbImage:[UIImage imageNamed:@"shareIcon"]];
+            message.title=articleData.articleTitle;
+            message.description=articleData.describe;
+            UIImageView *images = [UIImageView new];
+            [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
+            
+            [message setThumbImage:images.image];
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=@"http://120.26.243.47:3003/001-living-share/article-detail.html";
+            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -813,7 +828,7 @@ shareTypeDelegate
             break;
         case 3://qq好友
         {
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:@"http://120.26.243.47:3003/001-living-share/article-detail.html"] title:@"生活馆" description:@"描述" previewImageURL:[NSURL URLWithString:@""]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageArray[0]]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -821,7 +836,7 @@ shareTypeDelegate
             break;
         case 4://qq空间
         {
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:@"http://120.26.243.47:3003/001-living-share/article-detail.html"] title:@"生活馆" description:@"描述" previewImageURL:[NSURL URLWithString:@""]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageArray[0]]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];
@@ -838,10 +853,12 @@ shareTypeDelegate
 //    if (![TencentOAuth iphoneQQInstalled]) {
 //        NSLog(@"请移步App Store去下载腾讯QQ客户端");
 //    }else {
+    NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
+    
         QQApiNewsObject *newsObj = [QQApiNewsObject
-                                    objectWithURL:[NSURL URLWithString:@"https://baidu.com"]
-                                    title:@"生活馆"
-                                    description:@"描述"
+                                    objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]]
+                                    title:articleData.articleTitle
+                                    description:articleData.describe
                                     previewImageURL:nil];
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
         if (scene == 0) {

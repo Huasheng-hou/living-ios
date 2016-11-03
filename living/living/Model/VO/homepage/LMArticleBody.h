@@ -19,6 +19,7 @@
 @property (nonatomic, assign) BOOL hasPraised;
 @property (nonatomic, strong) NSString *publishTime;
 @property (nonatomic, assign) double commentNum;
+@property (nonatomic, assign) double fakaid;
 @property (nonatomic, strong) NSString *articleName;
 @property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *articleUuid;

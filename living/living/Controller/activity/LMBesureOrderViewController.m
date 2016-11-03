@@ -146,7 +146,7 @@
         return 1;
     }
     if (section==1) {
-        return 8;
+        return 7;
     }
     return 0;
 }
@@ -348,20 +348,20 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"活动地点：%@",orderInfos.eventAddress];
                 cell.textLabel.numberOfLines=0;
                 break;
-            case 7:
-            {
-                UILabel *label = [UILabel new];
-                label.text = @"再来一单";
-                [label sizeToFit];
-                label.frame = CGRectMake(0, 0, kScreenWidth, 45);
-                label.font = TEXT_FONT_LEVEL_2;
-                label.textAlignment = NSTextAlignmentCenter;
-                                  
-                label.textColor = LIVING_REDCOLOR;
-                [cell.contentView addSubview:label];
-            }
-                
-                break;
+//            case 7:
+//            {
+//                UILabel *label = [UILabel new];
+//                label.text = @"再来一单";
+//                [label sizeToFit];
+//                label.frame = CGRectMake(0, 0, kScreenWidth, 45);
+//                label.font = TEXT_FONT_LEVEL_2;
+//                label.textAlignment = NSTextAlignmentCenter;
+//                                  
+//                label.textColor = LIVING_REDCOLOR;
+//                [cell.contentView addSubview:label];
+//            }
+//                
+//                break;
                 
             default:
                 break;

@@ -26,8 +26,8 @@
 
 #define umShareAppKey           @"560274c367e58ec5cb004a8d"
 
-#define wxAppID                 @"wx027975c909c0604e"
-#define wxAppSecret             @"1ae2cd63192bd304e10869eeeed1ce8f"
+#define wxAppID                 @"wx443c64230b24fe24"
+#define wxAppSecret             @"434afce230f6a7fb72c2279e3c8dec57"
 
 //------------------界面常量--------------------
 

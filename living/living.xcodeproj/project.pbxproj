@@ -159,6 +159,7 @@
 		355AEFA51DC098670029600B /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355AEFA41DC098670029600B /* LMLivingHomeListRequest.m */; };
 		355B39E81DCB228B00163A42 /* LMLivingListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355B39E71DCB228B00163A42 /* LMLivingListRequest.m */; };
 		355B39EB1DCB618C00163A42 /* LMChargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 355B39EA1DCB618C00163A42 /* LMChargeButton.m */; };
+		355B39EE1DCB7C4B00163A42 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355B39ED1DCB7C4B00163A42 /* LMFriendListRequest.m */; };
 		355E526B1DC1A6D90004FBAF /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */; };
 		355E526C1DC1A6D90004FBAF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E525E1DC1A6D90004FBAF /* MJRefreshBaseView.m */; };
 		355E526D1DC1A6D90004FBAF /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E52601DC1A6D90004FBAF /* MJRefreshConst.m */; };
@@ -577,6 +578,8 @@
 		355B39E71DCB228B00163A42 /* LMLivingListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingListRequest.m; sourceTree = "<group>"; };
 		355B39E91DCB618C00163A42 /* LMChargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChargeButton.h; sourceTree = "<group>"; };
 		355B39EA1DCB618C00163A42 /* LMChargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChargeButton.m; sourceTree = "<group>"; };
+		355B39EC1DCB7C4B00163A42 /* LMFriendListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendListRequest.h; sourceTree = "<group>"; };
+		355B39ED1DCB7C4B00163A42 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
 		355E525B1DC1A6D90004FBAF /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		355E525C1DC1A6D90004FBAF /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		355E525D1DC1A6D90004FBAF /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -2270,6 +2273,8 @@
 				354C0BD51DCA131100869A3D /* LMScanRequest.m */,
 				8E8886181DCAC672009D3374 /* LMCouponRequest.h */,
 				8E8886191DCAC672009D3374 /* LMCouponRequest.m */,
+				355B39EC1DCB7C4B00163A42 /* LMFriendListRequest.h */,
+				355B39ED1DCB7C4B00163A42 /* LMFriendListRequest.m */,
 			);
 			name = person;
 			sourceTree = "<group>";
@@ -2807,6 +2812,7 @@
 				35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */,
 				3547F39F1D9904B20068F04E /* FitPickerView.m in Sources */,
 				35B61DF31DB06DBB00083F30 /* LMRegisterRequest.m in Sources */,
+				355B39EE1DCB7C4B00163A42 /* LMFriendListRequest.m in Sources */,
 				350AD2321DB77B1200CA181A /* LMAliPayRequest.m in Sources */,
 				351CC64F1DAB234E008D59D8 /* LMNoticCell.m in Sources */,
 				351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */,

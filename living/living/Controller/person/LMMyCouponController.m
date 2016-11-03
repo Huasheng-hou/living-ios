@@ -68,7 +68,7 @@ UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return cellDataArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -127,7 +127,7 @@ UITableViewDataSource
     
     if (result && [result intValue] == 0)
     {
-        
+        cellDataArray = [bodyDict objectForKey:@"list"];
         
     } else {
         [self textStateHUD:bodyDict[@"description"]];

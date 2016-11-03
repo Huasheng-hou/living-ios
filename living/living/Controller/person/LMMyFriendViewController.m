@@ -7,13 +7,19 @@
 //
 
 #import "LMMyFriendViewController.h"
+#import "LMFriendListRequest.h"
 
 @interface LMMyFriendViewController ()
 <
 UITableViewDelegate,
 UITableViewDataSource
 >
+{
+    NSMutableArray *listArray;
+    UIView *homeImage;
+}
 @property (nonatomic,retain)UITableView *tableView;
+
 
 @end
 
@@ -22,6 +28,8 @@ UITableViewDataSource
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
+    [self getFriendListRequest];
+    
 }
 
 -(void)createUI
@@ -31,12 +39,67 @@ UITableViewDataSource
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    listArray = [NSMutableArray new];
 
 }
 
+-(void)getFriendListRequest
+{
+    LMFriendListRequest *request = [[LMFriendListRequest alloc] initWithPageIndex:1 andPageSize:20];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getFriendListDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取通知列表失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+
+}
+
+-(void)getFriendListDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"%@",bodyDic);
+    if (!bodyDic) {
+        [self textStateHUD:@"获取好友列表失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            listArray = [bodyDic objectForKey:@"lsit"];
+            if (listArray.count==0) {
+                homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, kScreenHeight/2-160, 300, 100)];
+                
+                UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(105, 20, 90, 75)];
+                homeImg.image = [UIImage imageNamed:@"NO-friend"];
+                [homeImage addSubview:homeImg];
+                UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 300, 60)];
+                imageLb.numberOfLines = 0;
+                imageLb.text = @"手牵手，一起走，如此优秀可爱的你\n怎么可以这么孤单呢";
+                imageLb.textColor = TEXT_COLOR_LEVEL_3;
+                imageLb.font = TEXT_FONT_LEVEL_2;
+                imageLb.textAlignment = NSTextAlignmentCenter;
+                [homeImage addSubview:imageLb];
+                
+                [_tableView addSubview:homeImage];
+            }
+            
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+
+        }
+    }
+    
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return 150;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -46,7 +109,7 @@ UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return listArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

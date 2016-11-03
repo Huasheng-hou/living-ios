@@ -185,17 +185,17 @@
     [_priceLabel sizeToFit];
     [_addressLabel sizeToFit];
  
-    _phoneV.frame = CGRectMake(15, 15, 24, 20);
-    _freeV.frame = CGRectMake(15, 118, 20, 24);
-    _timeV.frame = CGRectMake(15, 48, 22, 24);
-    _addressV.frame = CGRectMake(15, 86, 24, 18);
+    _phoneV.frame = CGRectMake(15, 15, 24, 24);
+    _addressV.frame = CGRectMake(15, 118, 24, 24);
+    _timeV.frame = CGRectMake(15, 48, 24, 24);
+    _freeV.frame = CGRectMake(15, 86, 24, 24);
 
     
-    _numberLabel.frame = CGRectMake(40, 10, kScreenWidth-30, 30);
-    _priceLabel.frame = CGRectMake(40, 115, _priceLabel.bounds.size.width, 30);
-    _timeLabel.frame = CGRectMake(40, 45, _timeLabel.bounds.size.width, 30);
+    _numberLabel.frame = CGRectMake(44, 10, kScreenWidth-30, 30);
+    _addressLabel.frame = CGRectMake(44, 115, _addressLabel.bounds.size.width, 30);
+    _timeLabel.frame = CGRectMake(44, 45, _timeLabel.bounds.size.width, 30);
     
-    _addressLabel.frame = CGRectMake(40, 80, _addressLabel.bounds.size.width, 30);
+    _priceLabel.frame = CGRectMake(44, 80, _priceLabel.bounds.size.width, 30);
 }
 
 

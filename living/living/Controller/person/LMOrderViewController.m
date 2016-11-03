@@ -32,6 +32,8 @@
 
 #import "MJRefresh.h"
 
+#import "LMActivityDetailController.h"
+
 @interface LMOrderViewController ()<UITableViewDelegate,
 UITableViewDataSource,
 UIActionSheetDelegate,
@@ -287,6 +289,15 @@ LMOrderCellDelegate>
     
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LMOrderList *list =[orderArray objectAtIndex:indexPath.row];
+    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    detailVC.eventUuid = list.eventUuid;
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
 
 
 #pragma mark - LMOrderCell delegate -
