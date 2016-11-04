@@ -57,22 +57,13 @@ LMhomePageCellDelegate
 @implementation LMHomePageController
 
 
-static NSString *GLOBAL_TIMEFORMAT = @"yyyy-MM-dd HH:mm:ss";
-static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
-
-//- (NSMutableArray *)taskArr
-//{
-//    if (!listArray) {
-//        listArray = [NSMutableArray array];
-//    }
-//    return listArray;
-//}
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"login" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadHomePage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadlist" object:nil];
 }
 
 - (void)viewDidLoad {
@@ -173,6 +164,11 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
 
+<<<<<<< HEAD
+=======
+        
+
+>>>>>>> 57f6cb567ae0d1ab719d787d8f85601718fc48da
     });
 }
 
@@ -312,8 +308,11 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     NSLog(@"============首页数据请求结果===========%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+<<<<<<< HEAD
        
 
+=======
+>>>>>>> 57f6cb567ae0d1ab719d787d8f85601718fc48da
         
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
@@ -321,7 +320,13 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         }
         
         NSLog(@"%@",bodyDic);
+<<<<<<< HEAD
      
+=======
+
+
+        
+>>>>>>> 57f6cb567ae0d1ab719d787d8f85601718fc48da
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
         if (reload) {
