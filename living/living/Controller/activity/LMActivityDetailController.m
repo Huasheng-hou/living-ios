@@ -60,7 +60,6 @@ UIAlertViewDelegate
     
 }
 
-//@property(nonatomic,strong)UITableView *tableView;
 
 @end
 
@@ -101,14 +100,14 @@ UIAlertViewDelegate
 
 -(void)creatUI
 {
-    [super createUI];
-//    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
-//    self.tableView.delegate=self;
-//    self.tableView.dataSource=self;
-//    [self.view addSubview:self.tableView];
+    
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    self.tableView.delegate=self;
+    self.tableView.dataSource=self;
+    [self.view addSubview:self.tableView];
     
     
-    self.tableView.contentInset     = UIEdgeInsetsMake(64, 0, 12, 0);
+    self.tableView.contentInset     = UIEdgeInsetsMake(0, 0, 12, 0);
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
@@ -291,7 +290,7 @@ UIAlertViewDelegate
         return 230;
     }
     if (indexPath.section==1) {
-        return 155+200;
+        return 190+200;
     }
     
     if (indexPath.section==2) {
@@ -370,17 +369,6 @@ UIAlertViewDelegate
         
         return headView;
     }
-//     if (section==2){
-//         UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 5)];
-////         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
-////         [label setBackgroundColor:[UIColor whiteColor]];
-////         [view addSubview:label];
-//         
-//         [view setBackgroundColor:BG_GRAY_COLOR];
-//         
-//         return view;
-//         
-//     }
     
     if (section==2){
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
@@ -484,9 +472,6 @@ UIAlertViewDelegate
     if (section==1) {
         return 40;
     }
-//    if (section==2) {
-//        return 5;
-//    }
     if (section==2) {
         return 40;
     }
@@ -554,17 +539,6 @@ UIAlertViewDelegate
         return cell;
     }
     
-    
-//    if (indexPath.section==2) {
-//        static NSString *cellId = @"cellIdd";
-//        
-//        LMMapViewCell *cell = [[LMMapViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//        
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//       
-//        
-//        return cell;
-//    }
     
     
         if (indexPath.section==2) {
@@ -656,9 +630,10 @@ UIAlertViewDelegate
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
                                                            [self getEventListDataRequest];
-                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:3];
-                                                           [[self tableView] scrollToRowAtIndexPath:indexPaths
-                                                                                   atScrollPosition:UITableViewScrollPositionTop animated:YES];;
+                                                           NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:3]];
+                                                           [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                                                           
+                                                           
                                                        }else{
                                                            NSString *str = [bodyDic objectForKey:@"description"];
                                                            [self textStateHUD:str];
@@ -1043,26 +1018,26 @@ UIAlertViewDelegate
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
-//- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
-//{
-//    CGFloat     keyboardHeight  = 280;
-//    
-//    if (view && view.superview) {
-//        rect    = [self.tableView convertRect:rect fromView:view.superview];
-//    }
-//    
-//    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
-//        return;
-//    }
-//    
-//    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
-//}
-//
-//- (void)resignCurrentFirstResponder
-//{
-//    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-//    [keyWindow endEditing:YES];
-//}
+- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+{
+    CGFloat     keyboardHeight  = 280;
+    
+    if (view && view.superview) {
+        rect    = [self.tableView convertRect:rect fromView:view.superview];
+    }
+    
+    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        return;
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+}
+
+- (void)resignCurrentFirstResponder
+{
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    [keyWindow endEditing:YES];
+}
 
 - (BOOL)prefersStatusBarHidden
 {

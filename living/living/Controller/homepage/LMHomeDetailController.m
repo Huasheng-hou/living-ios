@@ -27,6 +27,7 @@
 //#import <TencentOpenAPI/TencentOAuth.h>
 
 #import <TencentOpenAPI/QQApiInterface.h>
+#import "LMArticeDeleteRequest.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -250,6 +251,13 @@ shareTypeDelegate
         
         articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
         
+        if ([articleData.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivityRequest:)];
+            self.navigationItem.rightBarButtonItem = rightItem;
+        }
+        
+        
+        
         fakeId = [NSString stringWithFormat:@"%.0f",articleData.fakaid];
         
         NSMutableArray *array=bodyDic[@"comment_messages"];
@@ -310,27 +318,42 @@ shareTypeDelegate
         }
         if (indexPath.row==1) {
 
+            contentLabel.text =articleData.articleContent;
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+            if (contentLabel.text!=nil) {
+                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
+                
+                [paragraphStyle setLineSpacing:7];
+                [paragraphStyle setParagraphSpacing:10];
+                [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
+                contentLabel.attributedText = attributedString;
+                
+                
+                
+            }
+            
             
             if (typeIndex ==1) {
                 
                  attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};
+                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                
             }
             if (typeIndex ==2) {
                 
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
             }
             if (typeIndex ==3) {
                 
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
             }
 
             CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
 
-            CGFloat conHigh2 = [articleData.articleContent boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+            CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
             if (!articleData.articleImgs) {
                return 110+conHigh+conHigh2;
@@ -521,26 +544,28 @@ shareTypeDelegate
             contentLabel.text = articleData.articleContent;
             
             contentLabel.text = [articleData.articleContent stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-            if (typeIndex==1) {
-                contentLabel.font = [UIFont systemFontOfSize:18.0];
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};
-            }
-            if (typeIndex==2) {
-                contentLabel.font = TEXT_FONT_LEVEL_1;
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-            }
-            if (typeIndex==3) {
-                contentLabel.font = [UIFont systemFontOfSize:14.0];
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-            }
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
             if (contentLabel.text!=nil) {
                 NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
-                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+                
                 [paragraphStyle setLineSpacing:7];
                 [paragraphStyle setParagraphSpacing:10];
                 [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
                 contentLabel.attributedText = attributedString;
             }
+            if (typeIndex==1) {
+                contentLabel.font = [UIFont systemFontOfSize:18.0];
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+            }
+            if (typeIndex==2) {
+                contentLabel.font = TEXT_FONT_LEVEL_1;
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+            }
+            if (typeIndex==3) {
+                contentLabel.font = [UIFont systemFontOfSize:14.0];
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+            }
+            
 
             
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
@@ -924,10 +949,9 @@ shareTypeDelegate
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
                                                            [self getHomeDetailDataRequest];
-                                                 
-                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:1];
-                                                           [[self tableView] scrollToRowAtIndexPath:indexPaths
-                                                                                   atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                                                           NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:1]];
+                                                           [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                                                           
                                                        }else{
                                                            NSString *str = [bodyDic objectForKey:@"description"];
                                                            [self textStateHUD:str];
@@ -1053,7 +1077,7 @@ shareTypeDelegate
         [self textStateHUD:@"回复成功"];
 //        textIndex = 1;
         [self getHomeDetailDataRequest];
-         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+        [self.tableView reloadData];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -1244,6 +1268,51 @@ shareTypeDelegate
     NSLog(@"*********");
     [textcView becomeFirstResponder];
 }
+
+
+
+#pragma mark 删除活动  LMActivityDeleteRequest
+-(void)deleteActivityRequest:(NSString *)article_uuid
+{
+    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:articleData.articleUuid ];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除失败"
+                                                                   waitUntilDone:YES];
+                                               
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)deleteActivityResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        NSLog(@"==================删除文章bodyDic：%@",bodyDic);
+        
+        [self textStateHUD:@"删除成功"];
+        
+
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+   
+}
+
+
+
 
 
 

@@ -72,7 +72,9 @@
     {
     
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-20, 115+kScreenWidth)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
+    backView.clipsToBounds = YES;
+    backView.layer.cornerRadius = 20;
     backView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:backView];
     
@@ -85,19 +87,19 @@
     
     
     //nick
-    UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,10,30,30)];
+    UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(110,10,30,30)];
     nicklabel.font = TEXT_FONT_LEVEL_1;
     nicklabel.textColor = TEXT_COLOR_LEVEL_2;
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
     
     NSString *str = _name;
     CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-    [nicklabel setFrame:CGRectMake(100, 20, textSize.width, 30)];
+    [nicklabel setFrame:CGRectMake(110, 25, textSize.width, 30)];
     nicklabel.text = str;
     [backView addSubview:nicklabel];
     
     
-    UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 22, 16, 16)];
+    UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+110, 32.5, 16, 16)];
     if (_gender) {
         if ([_gender intValue] ==1) {
             [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
@@ -114,7 +116,7 @@
     addressLabel.font = TEXT_FONT_LEVEL_2;
     
     [addressLabel sizeToFit];
-    addressLabel.frame = CGRectMake(100, 75, addressLabel.bounds.size.width, 20);
+    addressLabel.frame = CGRectMake(110, 65, addressLabel.bounds.size.width, 20);
     [backView addSubview: addressLabel];
     
     
@@ -149,13 +151,15 @@
         
         UILabel *msgLabel = [UILabel new];
         msgLabel.backgroundColor = [UIColor whiteColor];
+        msgLabel.clipsToBounds = YES;
+        msgLabel.layer.cornerRadius = 5;
         msgLabel.textColor = LIVING_COLOR;
         msgLabel.text = @"你不是轻创客，没有二维码";
         msgLabel.textAlignment = NSTextAlignmentCenter;
         [msgLabel sizeToFit];
         msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
         [self.view addSubview:msgLabel];
-        
+    
         
         
         

@@ -10,7 +10,7 @@
 
 @implementation LMArticeDeleteRequest
 
-- (id)initWithArticle_uuid:(NSArray *)article_uuid
+- (id)initWithArticle_uuid:(NSString *)article_uuid
 {
     self = [super init];
     

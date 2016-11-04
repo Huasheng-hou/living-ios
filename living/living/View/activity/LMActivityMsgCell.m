@@ -101,18 +101,18 @@
     
     
     //分割线
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 155, kScreenWidth, 5)];
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 175, kScreenWidth, 5)];
     [view setBackgroundColor:BG_GRAY_COLOR];
     [self addSubview:view];
     
-    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 165, kScreenWidth-30, 160)];
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 185, kScreenWidth-30, 160)];
     _mapView.mapType = MKMapTypeStandard;
 //    [_mapView setUserInteractionEnabled:NO];
     [self.contentView addSubview:_mapView];
     
     
     
-    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 325, kScreenWidth-30, 30)];
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 350, kScreenWidth-30, 30)];
     [label setText:@"这是地图显示地址"];
     [label setTextColor:TEXT_COLOR_LEVEL_3];
     [label setFont:TEXT_FONT_LEVEL_2];
@@ -186,16 +186,16 @@
     [_addressLabel sizeToFit];
  
     _phoneV.frame = CGRectMake(15, 15, 24, 24);
-    _addressV.frame = CGRectMake(15, 118, 24, 24);
-    _timeV.frame = CGRectMake(15, 48, 24, 24);
-    _freeV.frame = CGRectMake(15, 86, 24, 24);
+    _addressV.frame = CGRectMake(15, 132, 24, 24);
+    _timeV.frame = CGRectMake(15, 54, 24, 24);
+    _freeV.frame = CGRectMake(15, 93, 24, 24);
 
     
     _numberLabel.frame = CGRectMake(44, 10, kScreenWidth-30, 30);
-    _addressLabel.frame = CGRectMake(44, 115, _addressLabel.bounds.size.width, 30);
-    _timeLabel.frame = CGRectMake(44, 45, _timeLabel.bounds.size.width, 30);
+    _addressLabel.frame = CGRectMake(44, 127, _addressLabel.bounds.size.width, 30);
+    _timeLabel.frame = CGRectMake(44, 49, _timeLabel.bounds.size.width, 30);
     
-    _priceLabel.frame = CGRectMake(44, 80, _priceLabel.bounds.size.width, 30);
+    _priceLabel.frame = CGRectMake(44, 88, _priceLabel.bounds.size.width, 30);
 }
 
 

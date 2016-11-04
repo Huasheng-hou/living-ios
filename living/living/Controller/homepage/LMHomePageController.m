@@ -22,7 +22,7 @@
 #import "LMWriterViewController.h"
 #import "LMHomeDetailController.h"
 
-#import "LMArticeDeleteRequest.h"
+
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -55,13 +55,13 @@ LMhomePageCellDelegate
 static NSString *GLOBAL_TIMEFORMAT = @"yyyy-MM-dd HH:mm:ss";
 static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
-- (NSMutableArray *)taskArr
-{
-    if (!listArray) {
-        listArray = [NSMutableArray array];
-    }
-    return listArray;
-}
+//- (NSMutableArray *)taskArr
+//{
+//    if (!listArray) {
+//        listArray = [NSMutableArray array];
+//    }
+//    return listArray;
+//}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -94,11 +94,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     //去分割线
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    
-
-    
-    
-
     
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
@@ -161,11 +156,11 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
         listArray = [NSMutableArray new];
-        [self.tableView headerEndRefreshing];
         ifRefresh = YES;
         self.current=1;
         [self getHomeDataRequest:self.current];
         ifRefresh=YES;
+        [self.tableView headerEndRefreshing];
         
     });
 }
@@ -444,73 +439,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 }
 
 
-//要求委托方的编辑风格在表视图的一个特定的位置。
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCellEditingStyle result = UITableViewCellEditingStyleNone;//默认没有编辑风格
-    if ([tableView isEqual:_tableView]) {
-        result = UITableViewCellEditingStyleDelete;//设置编辑风格为删除风格
-    }
-    return result;
-}
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{//请求数据源提交的插入或删除指定行接收者。
-    
-    if (![CheckUtils isLink]) {
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
-    
-    if (editingStyle ==UITableViewCellEditingStyleDelete) {//如果编辑样式为删除样式
-        if (indexPath.row<[listArray count]) {
-            
-             LMActicleList *list = [listArray objectAtIndex:indexPath.row];
-            NSArray *array=[NSArray arrayWithObject:list.articleUuid];
-            [self deleteActivityRequest:array];
-            
-            deleteIndexPath=indexPath;
-        }
-    }
-}
-
-#pragma mark 删除活动  LMActivityDeleteRequest
--(void)deleteActivityRequest:(NSArray *)article_uuid
-{
-    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:article_uuid ];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除失败"
-                                                                   waitUntilDone:YES];
-                                               [_tableView reloadData];
-                                           }];
-    [proxy start];
-    
-}
-
--(void)deleteActivityResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
-        NSLog(@"==================删除文章bodyDic：%@",bodyDic);
-        
-        [self textStateHUD:@"删除成功"];
-        
-        [listArray removeObjectAtIndex:deleteIndexPath.row];//移除数据源的数据
-        [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:deleteIndexPath] withRowAnimation:UITableViewRowAnimationLeft];//移除tableView中的数据
-        
-    }else{
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
-    }
-    [_tableView reloadData];
-}
 
 @end

@@ -6,9 +6,11 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitTableViewController.h"
+#import "FitBaseViewController.h"
 
-@interface LMActivityDetailController :FitTableViewController
+@interface LMActivityDetailController :FitBaseViewController
+
+@property(nonatomic,strong)UITableView *tableView;
 
 @property(nonatomic, strong) NSString *titleStr;
 @property(nonatomic, strong) NSString *eventUuid;
