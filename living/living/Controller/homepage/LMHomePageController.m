@@ -164,11 +164,7 @@ LMhomePageCellDelegate
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
 
-<<<<<<< HEAD
-=======
-        
 
->>>>>>> 57f6cb567ae0d1ab719d787d8f85601718fc48da
     });
 }
 
@@ -308,11 +304,7 @@ LMhomePageCellDelegate
     NSLog(@"============首页数据请求结果===========%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-<<<<<<< HEAD
-       
 
-=======
->>>>>>> 57f6cb567ae0d1ab719d787d8f85601718fc48da
         
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
@@ -320,13 +312,7 @@ LMhomePageCellDelegate
         }
         
         NSLog(@"%@",bodyDic);
-<<<<<<< HEAD
-     
-=======
 
-
-        
->>>>>>> 57f6cb567ae0d1ab719d787d8f85601718fc48da
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
         if (reload) {
