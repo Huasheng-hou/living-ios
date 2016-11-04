@@ -22,6 +22,8 @@
 #import "LMWriterViewController.h"
 #import "LMHomeDetailController.h"
 
+#import "LMArticeDeleteRequest.h"
+
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
 WJLoopViewDelegate,
@@ -39,6 +41,8 @@ LMhomePageCellDelegate
     int total;
     
     NSMutableArray *stateArray;
+    
+    NSIndexPath *deleteIndexPath;
     
     
 }
@@ -222,7 +226,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
-       NSLog(@"===========轮播图=bodyDic===============%@",bodyDic);
+//       NSLog(@"===========轮播图=bodyDic===============%@",bodyDic);
       
 //        return;
         NSMutableArray *array = [NSMutableArray new];
@@ -436,19 +440,73 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//要求委托方的编辑风格在表视图的一个特定的位置。
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCellEditingStyle result = UITableViewCellEditingStyleNone;//默认没有编辑风格
+    if ([tableView isEqual:_tableView]) {
+        result = UITableViewCellEditingStyleDelete;//设置编辑风格为删除风格
+    }
+    return result;
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{//请求数据源提交的插入或删除指定行接收者。
+    
+    if (![CheckUtils isLink]) {
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    if (editingStyle ==UITableViewCellEditingStyleDelete) {//如果编辑样式为删除样式
+        if (indexPath.row<[listArray count]) {
+            
+             LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+            NSArray *array=[NSArray arrayWithObject:list.articleUuid];
+            [self deleteActivityRequest:array];
+            
+            deleteIndexPath=indexPath;
+        }
+    }
+}
+
+#pragma mark 删除活动  LMActivityDeleteRequest
+-(void)deleteActivityRequest:(NSArray *)article_uuid
+{
+    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:article_uuid ];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除失败"
+                                                                   waitUntilDone:YES];
+                                               [_tableView reloadData];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)deleteActivityResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        NSLog(@"==================删除文章bodyDic：%@",bodyDic);
+        
+        [self textStateHUD:@"删除成功"];
+        
+        [listArray removeObjectAtIndex:deleteIndexPath.row];//移除数据源的数据
+        [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:deleteIndexPath] withRowAnimation:UITableViewRowAnimationLeft];//移除tableView中的数据
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+    [_tableView reloadData];
+}
 
 @end
