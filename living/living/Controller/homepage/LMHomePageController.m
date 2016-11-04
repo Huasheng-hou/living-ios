@@ -95,10 +95,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
-    if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
+
     
     
 
@@ -308,6 +305,12 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 //        if (listArray.count>0) {
 //           [listArray removeAllObjects];
 //        }
+        
+        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
+            self.navigationItem.rightBarButtonItem = rightItem;
+        }
+        
         NSLog(@"%@",bodyDic);
 
      
