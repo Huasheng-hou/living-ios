@@ -30,20 +30,20 @@
 {
     
     //背景圆角白色view
-//    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 135)];
-//    cellView.layer.cornerRadius = 5;
-//    cellView.layer.masksToBounds = YES;
-//    cellView.backgroundColor = [UIColor whiteColor];
-//    [self.contentView addSubview:cellView];
+    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 155)];
+    cellView.layer.cornerRadius = 5;
+    cellView.layer.masksToBounds = YES;
+    cellView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:cellView];
     //标题
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-40, 20)];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 15, kScreenWidth-40, 20)];
     _titleLabel.font = TEXT_FONT_LEVEL_1;
     _titleLabel.textColor = TEXT_COLOR_LEVEL_2;
 //    _titleLabel.text = @"这是新功能标题";
     [self.contentView addSubview:_titleLabel];
     
     
-    _imageview = [[UIImageView alloc] initWithFrame:CGRectMake(10, 35, 100, 80)];
+    _imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 40, 110, 80)];
     
     _imageview.contentMode = UIViewContentModeScaleAspectFill;
     
@@ -56,33 +56,33 @@
     
     
     //内容
-    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 35, kScreenWidth-140, 60)];
+    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 40, kScreenWidth-160, 80)];
     _contentLabel.font = TEXT_FONT_LEVEL_2;
     _contentLabel.textColor = TEXT_COLOR_LEVEL_3;
     _contentLabel.numberOfLines = 0;
 //    _contentLabel.textAlignment = NSTextAlignmentJustified;
-    _contentLabel.text = @"这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题是新功";
+//    _contentLabel.text = @"这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题是新功";
     [self.contentView addSubview:_contentLabel];
     //lineLabel
-    UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, kScreenWidth-40, 0.5)];
+    UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 135, kScreenWidth-40, 0.5)];
     lineLabel.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineLabel];
     //奖杯图标
-    UIImageView *cupIV = [[UIImageView alloc] initWithFrame:CGRectMake(10, 125, 17, 17)];
-    [cupIV setImage:[UIImage imageNamed:@"zanIcon"]];
+    UIImageView *cupIV = [[UIImageView alloc] initWithFrame:CGRectMake(20, 140, 17, 17)];
+    [cupIV setImage:[UIImage imageNamed:@"cupIcon"]];
     [self.contentView addSubview:cupIV];
     //footLabel
-    UILabel *footLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 125, kScreenWidth-100, 17)];
+    UILabel *footLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 140, kScreenWidth-100, 17)];
     footLabel.font = TEXT_FONT_LEVEL_3;
     footLabel.textColor = TEXT_COLOR_LEVEL_4;
     footLabel.text = @"下一个版本你做主";
     [self.contentView addSubview:footLabel];
     //点赞按钮
-    UIImageView *thumbIV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70, 125, 17, 17)];
+    UIImageView *thumbIV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70, 140, 17, 17)];
     [thumbIV setImage:[UIImage imageNamed:@"zanIcon-click"]];
     [self.contentView addSubview:thumbIV];
     //点赞数量
-    _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-50, 125, 15, 117)];
+    _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-50, 140, 120, 17)];
     _numLabel.font = TEXT_FONT_LEVEL_3;
     _numLabel.textColor = TEXT_COLOR_LEVEL_4;
     _numLabel.text = @"300";

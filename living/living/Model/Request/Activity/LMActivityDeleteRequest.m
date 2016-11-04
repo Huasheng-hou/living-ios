@@ -10,7 +10,7 @@
 
 @implementation LMActivityDeleteRequest
 
-- (id)initWithEvent_uuid:(NSArray *)event_uuid
+- (id)initWithEvent_uuid:(NSString *)event_uuid
 {
     self = [super init];
     

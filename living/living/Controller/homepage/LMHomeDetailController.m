@@ -1273,10 +1273,10 @@ shareTypeDelegate
 
 
 
-#pragma mark 删除活动  LMActivityDeleteRequest
+#pragma mark 删除文章
 -(void)deleteActivityRequest:(NSString *)article_uuid
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:@"是否删除"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"

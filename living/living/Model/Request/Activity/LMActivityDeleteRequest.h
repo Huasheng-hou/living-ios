@@ -10,6 +10,6 @@
 
 @interface LMActivityDeleteRequest : FitBaseRequest
 
-- (id)initWithEvent_uuid:(NSArray *)event_uuid;
+- (id)initWithEvent_uuid:(NSString *)event_uuid;
 
 @end

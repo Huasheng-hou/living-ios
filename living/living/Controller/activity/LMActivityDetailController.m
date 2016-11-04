@@ -26,6 +26,7 @@
 #import "LMEventReplys.h"
 #import "APChooseView.h"
 #import "UIImageView+WebCache.h"
+#import "LMActivityDeleteRequest.h"
 
 #import "LMBesureOrderViewController.h"
 
@@ -271,6 +272,10 @@ UIAlertViewDelegate
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
+        if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+            self.navigationItem.rightBarButtonItem = rightItem;
+        }
     
         [self creatHeaderView];
         
@@ -1043,5 +1048,73 @@ UIAlertViewDelegate
 {
     return NO;
 }
+
+
+#pragma mark 删除活动  LMActivityDeleteRequest
+-(void)deleteActivity
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:@"是否删除"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self deleteActivityRequest];
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+    
+    
+    
+}
+
+
+-(void)deleteActivityRequest
+{
+    LMActivityDeleteRequest *request = [[LMActivityDeleteRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除失败"
+                                                                   waitUntilDone:YES];
+                                               [_tableView reloadData];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)deleteActivityResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        NSLog(@"==================删除活动bodyDic：%@",bodyDic);
+        
+        [self textStateHUD:@"删除成功"];
+        
+        
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+    [_tableView reloadData];
+}
+
+
+
+
 
 @end

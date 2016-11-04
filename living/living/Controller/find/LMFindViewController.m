@@ -74,7 +74,7 @@ WJLoopViewDelegate
 {
     NSLog(@"************");
     LMWebViewController *webView = [[LMWebViewController alloc] init];
-    webView.urlString = @"http://115.159.118.160:8080/living-web/apparticle/daoshi";
+    webView.urlString = @"http://115.159.118.160:8080/living-web/apparticle/daoshi1";
     webView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webView animated:YES];
     
