@@ -38,7 +38,7 @@
     keyImage.image = [UIImage imageNamed:@"key"];
     [self.contentView addSubview:keyImage];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-20-titleW-100, 0.5)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-25-titleW, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView];
     
@@ -68,17 +68,12 @@
     imagemsgLable.frame = CGRectMake(15+imageLable.bounds.size.width, 210, imagemsgLable.bounds.size.width, 30);
     [self.contentView addSubview:imagemsgLable];
     
-    _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-20-100, 30)];
+    _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-25, 30)];
     _titleTF.font = TEXT_FONT_LEVEL_2;
     _titleTF.placeholder = @"请输入项目标题";
     _titleTF.returnKeyType = UIReturnKeyDone;
     _titleTF.delegate = self;
     [self.contentView addSubview:_titleTF];
-    
-    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-100, 5, 80, 30)];
-    [_deleteBt setTitle:@"删除" forState:UIControlStateNormal];
-    [_deleteBt setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [self.contentView addSubview:_deleteBt];
     
     
     UIView *TFview = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 50, kScreenWidth- titleW-30, 160)];

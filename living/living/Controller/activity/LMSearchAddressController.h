@@ -1,17 +1,16 @@
 //
-//  LMMapViewController.h
-//  living
+//  FirLawyerContactController.h
+//  firefly
 //
-//  Created by JamHonyZ on 2016/11/2.
-//  Copyright © 2016年 chenle. All rights reserved.
+//  Created by JamHonyZ on 16/1/23.
+//  Copyright © 2016年 Huasheng. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitTableViewController.h"
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #import <MAMapKit/MAMapKit.h>
 
-#import "AMapTipAnnotation.h"
-#import "POIAnnotation.h"
-#import <AMapSearchKit/AMapSearchKit.h>
 //代理
 @protocol selectAddressDelegate <NSObject>
 
@@ -21,7 +20,8 @@
 
 @end
 
-@interface LMMapViewController : FitBaseViewController
+
+@interface LMSearchAddressController : FitTableViewController
 
 @property(nonatomic,strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;

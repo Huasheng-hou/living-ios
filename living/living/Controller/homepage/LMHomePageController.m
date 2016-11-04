@@ -170,18 +170,9 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
-<<<<<<< HEAD
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
-=======
-        listArray = [NSMutableArray new];
-        ifRefresh = YES;
-        self.current=1;
-        [self getHomeDataRequest:self.current];
-        ifRefresh=YES;
-        [self.tableView headerEndRefreshing];
-        
->>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
+
     });
 }
 
@@ -321,13 +312,8 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     NSLog(@"============首页数据请求结果===========%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-<<<<<<< HEAD
        
-=======
-//        NSLog(@"%@",bodyDic);
-//        if (listArray.count>0) {
-//           [listArray removeAllObjects];
-//        }
+
         
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
@@ -335,14 +321,7 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         }
         
         NSLog(@"%@",bodyDic);
-
      
-        NSMutableArray *array=bodyDic[@"list"];
-        for (int i=0; i<array.count; i++) {
-
-        }
->>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
-        
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
         if (reload) {

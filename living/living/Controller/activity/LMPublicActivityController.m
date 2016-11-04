@@ -18,7 +18,7 @@
 #import "ImageHelpTool.h"
 #import "BabFilterAgePickerView.h"
 #import "FitPickerThreeLevelView.h"
-#import "LMMapViewController.h"
+#import "LMSearchAddressController.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
@@ -307,7 +307,7 @@ selectAddressDelegate
 
 -(void)selectLocation
 {
-    LMMapViewController *map=[[LMMapViewController alloc]init];
+    LMSearchAddressController *map=[[LMSearchAddressController alloc]init];
     map.delegate=self;
     map.mapView=self.mapView;
     map.search=self.search;
@@ -319,6 +319,9 @@ selectAddressDelegate
          andLongitude:(CGFloat)longitude
           anddistance:(CGFloat)distance
 {
+    
+    NSLog(@"=======selectAddress============%@    %f    %f",addressName,latitude,longitude);
+    
     msgCell.dspTF.text=addressName;
     _latitude=latitude;
     _longitude=longitude;

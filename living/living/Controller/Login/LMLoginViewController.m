@@ -394,13 +394,11 @@
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
          privileges = [bodyDict objectForKey:@"privileges"];
-<<<<<<< HEAD
         
         
-=======
         franchisee = [bodyDict objectForKey:@"franchisee"];
         vipString =[bodyDict objectForKey:@"sign"];
->>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
+        
         if (is_exist && [is_exist intValue] == 0) {
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
             registerVC.userId = _uuid;
