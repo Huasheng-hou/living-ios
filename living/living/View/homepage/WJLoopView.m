@@ -70,6 +70,7 @@
             imageVIew.userInteractionEnabled = YES;
             
             [imageVIew setContentMode:UIViewContentModeScaleAspectFill];
+            imageVIew.clipsToBounds  = YES;
             
             imageVIew.frame = CGRectMake(scrollW * i, 0, scrollW, scrollH);
             [scrollView addSubview:imageVIew];

@@ -607,16 +607,6 @@ shareTypeDelegate
             [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:commentLabel];
             
-//            LMCommentButton *shareLabel = [[LMCommentButton alloc] init];
-//            shareLabel.headImage.image = [UIImage imageNamed:@"share-small"];
-//            shareLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.commentNum];
-//            [shareLabel.textLabel sizeToFit];
-//            shareLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
-//            [shareLabel.headImage sizeToFit];
-//            shareLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
-//            shareLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
-//            [cell.contentView addSubview:shareLabel];
-            
             
             UILabel *type = [UILabel new];
             type.text = @"字号：";
@@ -761,6 +751,12 @@ shareTypeDelegate
         cell.tag = indexPath.row;
         cell.delegate = self;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+        
+        UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
+        tap.view.tag = indexPath.row;
+        tap.minimumPressDuration = 1.0;
+        [cell.contentView addGestureRecognizer:tap];
+        
         
         return cell;
     }
@@ -1039,7 +1035,7 @@ shareTypeDelegate
 {
     NSLog(@"************");
     if ([commentText.text isEqualToString:@""]) {
-        [self textStateHUD:@"回答内容不能为空"];
+        [self textStateHUD:@"回复内容不能为空"];
         return;
     }
     [self commitDataRequest];
@@ -1209,6 +1205,10 @@ shareTypeDelegate
             [textcView resignFirstResponder];
             [self getCommentArticleDataRequest];
         }
+        if ([textcView isEqual:commentText]) {
+            [commentText resignFirstResponder];
+            [self sendComment];
+        }
         
 
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
@@ -1220,11 +1220,13 @@ shareTypeDelegate
 #pragma mark  --评论文章
 -(void)getCommentArticleDataRequest
 {
+    
+    [self initStateHud];
     if (textcView.text.length<=0) {
         [self textStateHUD:@"请输入评论内容"];
         return;
     }
-    
+    NSLog(@"************%@",textcView.text);
     LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:textcView.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1249,7 +1251,7 @@ shareTypeDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"评论成功"];
         [self getHomeDetailDataRequest];
-        
+        [self hideStateHud];
         textcView.text = @"";
         tipLabel.hidden=NO;
         [textcView resignFirstResponder];
@@ -1338,7 +1340,31 @@ shareTypeDelegate
 }
 
 
-
+-(void)deletCellAction:(UILongPressGestureRecognizer *)tap
+{
+    NSLog(@"**********%ld",tap.view.tag);
+    if (tap.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"***********3333******");
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    NSLog(@"*****删除");
+                                                }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }else{
+        NSLog(@"**********222222*******");
+    }
+}
 
 
 

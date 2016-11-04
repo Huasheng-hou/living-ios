@@ -9,6 +9,7 @@
 #import "LMFindViewController.h"
 #import "LMFindCell.h"
 #import "WJLoopView.h"
+#import "LMWebViewController.h"
 
 @interface LMFindViewController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -72,6 +73,12 @@ WJLoopViewDelegate
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
     NSLog(@"************");
+    LMWebViewController *webView = [[LMWebViewController alloc] init];
+    webView.urlString = @"http://115.159.118.160:8080/living-web/apparticle/daoshi";
+    webView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webView animated:YES];
+    
+    
 }
     
 
@@ -128,6 +135,7 @@ WJLoopViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     
 }
 
