@@ -135,17 +135,28 @@
 
     
     } else {
-        [self textStateHUD:bodyDic[@"description"]];
+//        [self textStateHUD:bodyDic[@"description"]];
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你不是轻创客，没有二维码"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
-                                                               style:UIAlertActionStyleCancel
-                                                             handler:nil];
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你不是轻创客，没有二维码"
+//                                                                       message:nil
+//                                                                preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
+//                                                               style:UIAlertActionStyleCancel
+//                                                             handler:nil];
+//        
+//        [alert addAction:cancelAction];
+//        [self presentViewController:alert animated:YES completion:nil];
         
-        [alert addAction:cancelAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        UILabel *msgLabel = [UILabel new];
+        msgLabel.backgroundColor = [UIColor whiteColor];
+        msgLabel.textColor = LIVING_COLOR;
+        msgLabel.text = @"你不是轻创客，没有二维码";
+        msgLabel.textAlignment = NSTextAlignmentCenter;
+        [msgLabel sizeToFit];
+        msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
+        [self.view addSubview:msgLabel];
+        
+        
         
         
     }

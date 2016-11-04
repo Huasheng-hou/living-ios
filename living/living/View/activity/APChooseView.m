@@ -68,11 +68,19 @@
         [self.productImage setClipsToBounds:YES];
         [headView addSubview:self.productImage];
         //价格
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
-        _titleLabel.text = @"￥:0";
-        _titleLabel.textColor = LIVING_REDCOLOR;
-        _titleLabel.font = [UIFont systemFontOfSize:17];
-        [self.bottomView addSubview:_titleLabel];
+//        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
+//        _titleLabel.text = @"￥:0";
+//        _titleLabel.textColor = LIVING_REDCOLOR;
+//        _titleLabel.font = [UIFont systemFontOfSize:17];
+//        [self.bottomView addSubview:_titleLabel];
+//        
+//        _titleLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
+//        _titleLabel2.text = @"￥:0";
+//        _titleLabel2.textColor = TEXT_COLOR_LEVEL_2;
+//        _titleLabel2.font = [UIFont systemFontOfSize:15];
+//        [self.bottomView addSubview:_titleLabel2];
+        
+        
         
         //活动人数
         _inventory = [[UILabel alloc]initWithFrame:CGRectMake(150, 65, 150, 20)];

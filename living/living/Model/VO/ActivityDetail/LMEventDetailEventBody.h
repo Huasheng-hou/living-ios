@@ -12,19 +12,21 @@
 @interface LMEventDetailEventBody : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *publishName;
-@property (nonatomic, strong) NSString *publishAvatar;
-@property (nonatomic, strong) NSString *contactPhone;
+@property (nonatomic, strong) NSString *discount;
+@property (nonatomic, strong) NSString *contactName;
+@property (nonatomic, assign) double totalNum;
 @property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *eventName;
+@property (nonatomic, strong) NSString *contactPhone;
 @property (nonatomic, strong) NSString *startTime;
-@property (nonatomic, assign) double totalNumber;
-@property (nonatomic, assign) double totalNum;
 @property (nonatomic, strong) NSString *eventImg;
+@property (nonatomic, assign) double totalNumber;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *eventUuid;
 @property (nonatomic, strong) NSString *endTime;
 @property (nonatomic, strong) NSString *perCost;
-@property (nonatomic, strong) NSString *contactName;
+@property (nonatomic, strong) NSString *publishAvatar;
+@property (nonatomic, assign) double status;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

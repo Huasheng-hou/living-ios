@@ -84,6 +84,12 @@ UITableViewDataSource
         cell=[[LMCouponCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
+    if (![[cellDataArray[indexPath.row] objectForKey:@"living_name"] isEqual:@""]&&[cellDataArray[indexPath.row] objectForKey:@"living_name"]) {
+        cell.nameLabel.text =[cellDataArray[indexPath.row] objectForKey:@"living_name"];
+    }
+    
+    
+    
     
     return cell;
 }
@@ -129,6 +135,11 @@ UITableViewDataSource
     {
         cellDataArray = [bodyDict objectForKey:@"list"];
         
+        if (cellDataArray.count==0) {
+            [self visiableBgImage];
+        }
+     
+        [table reloadData];
     } else {
         [self textStateHUD:bodyDict[@"description"]];
     }

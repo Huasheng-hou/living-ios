@@ -33,6 +33,7 @@
 
 
 @property(nonatomic,strong)UILabel *titleLabel;//价格
+@property(nonatomic,strong)UILabel *title2;//价格
 @property(nonatomic,strong)UILabel *inventory;//库存
 
 

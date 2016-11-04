@@ -37,6 +37,10 @@
 @property   (assign, nonatomic)     BOOL            isNew;
 
 @property   (nonatomic,retain)     NSMutableArray    *tagArray;
+@property   (retain, nonatomic)     NSString        *franchisee;
+@property   (retain, nonatomic)     NSString        *vipString;
+
+
 
 - (BOOL)isLogin;
 - (BOOL)logout;

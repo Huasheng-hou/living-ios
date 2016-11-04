@@ -393,4 +393,25 @@ static NSString *const __kPasswordInfoFileName = @"C2BC1692D60AAC29";
 
 }
 
+- (void)setFranchisee:(NSString *)franchisee
+{
+    [self saveUserInnfo:franchisee ForKey:@"franchisee"];
+}
+
+- (NSString *)franchisee
+{
+    return [[self userInfo] objectForKey:@"franchisee"];
+}
+
+- (void)setVipString:(NSString *)vipString
+{
+    [self saveUserInnfo:vipString ForKey:@"vipString"];
+}
+
+- (NSString *)vipString
+{
+    return [[self userInfo] objectForKey:@"vipString"];
+}
+
+
 @end

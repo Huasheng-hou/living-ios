@@ -147,9 +147,34 @@ UIAlertViewDelegate
     countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
     
+    NSString *string = [NSString stringWithFormat:@"%.0f",eventDic.status];
+    
+
+    
+    
+    
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     //        _topBtn.backgroundColor = _COLOR_N(red);
-    [joinButton setTitle:@"报名" forState:UIControlStateNormal];
+    if ([string isEqual:@"1"]) {
+      [joinButton setTitle:@"报名" forState:UIControlStateNormal];
+    }
+    if ([string isEqual:@"2"]) {
+        [joinButton setTitle:@"人满" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
+    }
+    if ([string isEqual:@"3"]) {
+        [joinButton setTitle:@"开始" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
+    }
+    if ([string isEqual:@"4"]) {
+        [joinButton setTitle:@"已完结" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
+    }
+    if ([string isEqual:@"5"]) {
+        [joinButton setTitle:@"删除" forState:UIControlStateNormal];
+    }
+
+    
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
     joinButton.frame = CGRectMake(kScreenWidth-70, 25, 60.f, 50.f);
@@ -779,8 +804,38 @@ UIAlertViewDelegate
     
     
     APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
+    infoView.titleLabel.text = @"￥:0";
+    infoView.titleLabel.textColor = LIVING_REDCOLOR;
+    infoView.titleLabel.font = [UIFont systemFontOfSize:17];
+    [infoView.bottomView addSubview:infoView.titleLabel];
+    
+    infoView.title2 = [UILabel new];
+    infoView.title2.text = @"￥:0";
+    infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
+    infoView.title2.font = [UIFont systemFontOfSize:15];
 
-    infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+    [infoView.bottomView addSubview:infoView.title2];
+    
+    
+    
+
+    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
+        [infoView.titleLabel sizeToFit];
+        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.discount];
+        infoView.titleLabel.frame = CGRectMake(150, 30, infoView.titleLabel.bounds.size.width, 30);
+        [infoView.title2 sizeToFit];
+        infoView.title2.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        infoView.title2.frame = CGRectMake(160+infoView.titleLabel.bounds.size.width, 30, infoView.title2.bounds.size.width, 30);
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(160+infoView.titleLabel.bounds.size.width, 45, infoView.title2.bounds.size.width, 0.5)];
+        
+        [infoView.bottomView addSubview:line];
+        
+    }else{
+       infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+    }
+    
     
     infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
     

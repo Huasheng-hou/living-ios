@@ -91,8 +91,13 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    
+    
+
     
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
@@ -223,13 +228,29 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         NSMutableArray *array = [NSMutableArray new];
         array = bodyDic[@"banners"];
         for (NSDictionary *dic in array) {
+
+            
             NSString *url = dic[@"linkUrl"];
-            [imageUrls addObject:url];
+            if (![url isEqual:@""]&&url) {
+                [imageUrls addObject:url];
+            }
+            
             
             NSString *event = dic[@"event_uuid"];
-            [eventArray addObject:event];
+            if (![event isEqual:@""]&&event) {
+                [eventArray addObject:event];
+            }else{
+                [eventArray addObject:@""];
+            }
+
             
             NSString *state = dic[@"type"];
+            if (![state isEqual:@""]&&state) {
+                [stateArray addObject:state];
+            }else{
+                [stateArray addObject:@""];
+            }
+
             [stateArray addObject:state];
         }
         if (imageUrls.count==0) {

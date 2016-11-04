@@ -69,6 +69,7 @@
 		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */; };
 		353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890E1DB860EC007585F1 /* LMNoticListRequest.m */; };
+		3542B9D51DCC2C6C0039F1B1 /* LMFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3542B9D41DCC2C6C0039F1B1 /* LMFriendCell.m */; };
 		354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574751D9CAFB900E88D6F /* LMCommentButton.m */; };
 		354574791D9CC24600E88D6F /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574781D9CC24600E88D6F /* WJLoopView.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
@@ -409,6 +410,8 @@
 		353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAlipayResultRequest.m; sourceTree = "<group>"; };
 		353B890D1DB860EC007585F1 /* LMNoticListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticListRequest.h; sourceTree = "<group>"; };
 		353B890E1DB860EC007585F1 /* LMNoticListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticListRequest.m; sourceTree = "<group>"; };
+		3542B9D31DCC2C6C0039F1B1 /* LMFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendCell.h; sourceTree = "<group>"; };
+		3542B9D41DCC2C6C0039F1B1 /* LMFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendCell.m; sourceTree = "<group>"; };
 		354574741D9CAFB900E88D6F /* LMCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentButton.h; sourceTree = "<group>"; };
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
@@ -1034,6 +1037,7 @@
 		351CC64C1DAB22C1008D59D8 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				3542B9D21DCC2C1B0039F1B1 /* myfriend */,
 				8ECA2AF41DC9F416000CD0AB /* personCoupon */,
 				8ECA2AE31DC9AFE6000CD0AB /* personMyliveRoom */,
 				351CC64D1DAB234E008D59D8 /* LMNoticCell.h */,
@@ -1081,6 +1085,15 @@
 				3530ABD81DC5C348003CB68F /* SQMenuShowView.m */,
 			);
 			path = SQMenuShowView;
+			sourceTree = "<group>";
+		};
+		3542B9D21DCC2C1B0039F1B1 /* myfriend */ = {
+			isa = PBXGroup;
+			children = (
+				3542B9D31DCC2C6C0039F1B1 /* LMFriendCell.h */,
+				3542B9D41DCC2C6C0039F1B1 /* LMFriendCell.m */,
+			);
+			path = myfriend;
 			sourceTree = "<group>";
 		};
 		3547F3251D9901770068F04E = {
@@ -2750,6 +2763,7 @@
 				3530ABEF1DC5E500003CB68F /* LMOrderDataOrderBody.m in Sources */,
 				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3530ABEA1DC5E354003CB68F /* LMOrderpayRequest.m in Sources */,
+				3542B9D51DCC2C6C0039F1B1 /* LMFriendCell.m in Sources */,
 				3523643E1DBF09B6002E6B78 /* LMRechargeButton.m in Sources */,
 				351767801DC2EB1400D2D407 /* APChooseView.m in Sources */,
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
