@@ -174,7 +174,7 @@
     
     _nameLabel.frame = CGRectMake(40, 0, _nameLabel.bounds.size.width, 30);
     
-    _addressLabel.frame = CGRectMake(kScreenWidth-_addressLabel.bounds.size.width-15, 0, _addressLabel.bounds.size.width, 30);
+    _addressLabel.frame = CGRectMake(70+_nameLabel.bounds.size.width, 0, kScreenWidth-85-_nameLabel.bounds.size.width, 30);
 }
 
 

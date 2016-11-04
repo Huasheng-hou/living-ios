@@ -186,11 +186,11 @@
     _freeV.frame = CGRectMake(15, 93, 24, 24);
 
     
-    _numberLabel.frame = CGRectMake(44, 10, kScreenWidth-30, 30);
-    _addressLabel.frame = CGRectMake(44, 127, _addressLabel.bounds.size.width, 30);
-    _timeLabel.frame = CGRectMake(44, 49, _timeLabel.bounds.size.width, 30);
+    _numberLabel.frame = CGRectMake(44, 12, kScreenWidth-30, 30);
+    _addressLabel.frame = CGRectMake(44, 129.5, _addressLabel.bounds.size.width, 30);
+    _timeLabel.frame = CGRectMake(44, 49+0.5, _timeLabel.bounds.size.width, 30);
     
-    _priceLabel.frame = CGRectMake(44, 88, _priceLabel.bounds.size.width, 30);
+    _priceLabel.frame = CGRectMake(44, 90, _priceLabel.bounds.size.width, 30);
 }
 
 

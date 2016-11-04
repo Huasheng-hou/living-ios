@@ -38,7 +38,7 @@ WJLoopViewDelegate
     titlearray = @[@"腰果 财富现金流养成记",@"腰果 语言课堂",@"腰果 商城"];
     contentarray = @[@"现金流：游戏升级打怪，财商创业思维和个人成长也需要升级，现实版的自我成长养成记，想一起来么。",@"语音课堂：想听倾心已久讲师的经典课程，邀约腰果生活，随时随地用声音传递生活。",@"商场：在商城找到帮助品质生活体验的优质商品，不用到处淘而耗费时间啦."];
 
-    imageURLs =@[@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/%E5%8F%91%E7%8E%B0%E5%8F%8A%E9%A6%96%E9%A1%B5/%E5%9B%9B%E5%A4%A7%E5%88%86%E9%99%A2%E5%81%A5%E5%BA%B7%E6%B5%B7%E6%8A%A5%403x.png",@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/%E5%8F%91%E7%8E%B0%E5%8F%8A%E9%A6%96%E9%A1%B5/%E5%9B%9B%E5%A4%A7%E5%88%86%E9%99%A2%E5%B9%B8%E7%A6%8F%E6%B5%B7%E6%8A%A5%403x.png",@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/%E5%8F%91%E7%8E%B0%E5%8F%8A%E9%A6%96%E9%A1%B5/%E5%9B%9B%E5%A4%A7%E5%88%86%E9%99%A2%E7%BE%8E%E4%B8%BD%E6%B5%B7%E6%8A%A5%403x.png",@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/%E5%8F%91%E7%8E%B0%E5%8F%8A%E9%A6%96%E9%A1%B5/%E5%9B%9B%E5%A4%A7%E5%88%86%E9%99%A2%E7%BE%8E%E9%A3%9F%E6%B5%B7%E6%8A%A5%403x.png"];
+    imageURLs =@[@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/9f8d96ce455e3ce4c168a1a087cfab44.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/dba0b35d39f1513507f0bbac17e90d21.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/c643d748dc1a7c128a8d052def67a92e.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/24437ada0e0fec458a4d4b7bcd6d3b03.jpg"];
     
     
     
@@ -73,8 +73,18 @@ WJLoopViewDelegate
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
     NSLog(@"************");
+    
+    if (index==3) {
+        return;
+    }
+    NSArray *arr = @[@"『腰·美』",@"『腰·吃』",@"『腰·活』",@"『腰·乐』"];
+    NSArray *urlRrray = @[@"http://120.27.147.167/living-web/apparticle/daoshi3",@"http://120.27.147.167/living-web/apparticle/daoshi2",@"http://120.27.147.167/living-web/apparticle/daoshi1"];
+    
+    
+    
     LMWebViewController *webView = [[LMWebViewController alloc] init];
-    webView.urlString = @"http://115.159.118.160:8080/living-web/apparticle/daoshi1";
+    webView.urlString = urlRrray[index];
+    webView.titleString = arr[index];
     webView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webView animated:YES];
     
@@ -84,7 +94,7 @@ WJLoopViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160;
+    return 175;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
