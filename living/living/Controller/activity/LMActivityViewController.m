@@ -357,6 +357,9 @@ UITableViewDataSource
 {
     LMActivityList *list = [listArray objectAtIndex:indexPath.row];
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    
+    detailVC.hidesBottomBarWhenPushed = YES;
+    
     detailVC.eventUuid = list.eventUuid;
     detailVC.titleStr = list.eventName;
     [self.navigationController pushViewController:detailVC animated:YES];

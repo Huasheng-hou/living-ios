@@ -47,6 +47,7 @@ liveNameProtocol
 
     NSString *liveRoomName;
     NSString *liveUUID;
+    UIView *footView;
 }
 
 @end
@@ -89,7 +90,7 @@ liveNameProtocol
     table.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
     //尾部
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 325)];
+    footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 325)];
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 40)];
     title.text = @"直接选择支付（获取优惠券将在确认订单中直接抵扣金额）";
@@ -578,13 +579,20 @@ liveNameProtocol
 
 -(void)changeMoney:(LMChargeButton *)button
 {
-    
+    for (UIView *view in footView.subviews) {
+        if ([view isKindOfClass:[LMChargeButton class]]) {
+            LMChargeButton *btn = (LMChargeButton *)view;
+            btn.upLabel.textColor = TEXT_COLOR_LEVEL_2;
+            btn.downLabel.textColor = TEXT_COLOR_LEVEL_2;
+            button.layer.borderColor = LINE_COLOR.CGColor;
+        }
+    }
 
         button.upLabel.textColor = LIVING_COLOR;
         button.downLabel.textColor = LIVING_COLOR;
         button.layer.borderColor = LIVING_COLOR.CGColor;
-        
-        headcell.payNum.text = button.upLabel.text;
+        NSString *string =[button.upLabel.text substringToIndex:[button.upLabel.text length] - 1];
+        headcell.payNum.text = string;
     
 
 }

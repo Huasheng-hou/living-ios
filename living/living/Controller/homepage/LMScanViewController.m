@@ -12,6 +12,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "LMWebViewController.h"
 #import "LMScanRequest.h"
+#import "LMMyFriendViewController.h"
 
 
 #define DeviceMaxHeight ([UIScreen mainScreen].bounds.size.height)
@@ -190,20 +191,6 @@
 #pragma mark - 扫描结果处理
 - (void)accordingQcode:(NSString *)str
 {
-
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"扫描结果"
-//                                                                           message:str preferredStyle:UIAlertControllerStyleAlert];
-//            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                LMWebViewController *webVC = [[LMWebViewController alloc] init];
-//                [webVC setHidesBottomBarWhenPushed:YES];
-//                webVC.urlString = str;
-//                [self.navigationController pushViewController:webVC animated:YES];
-//                
-//                
-//            }]];
-//    
-//            [self presentViewController:alert animated:YES completion:nil];
-
     LMScanRequest *request = [[LMScanRequest alloc] initWithscanningResult:str];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -232,6 +219,15 @@
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"添加好友成功!"];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                LMMyFriendViewController *friendVC = [[LMMyFriendViewController alloc] init];
+                
+                [self.navigationController pushViewController:friendVC animated:YES];
+                
+            });
+            
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }

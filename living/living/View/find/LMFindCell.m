@@ -10,16 +10,7 @@
 #import "FitConsts.h"
 #import "UIView+frame.h"
 
-@interface LMFindCell (){
-    float _xScale;
-    float _yScale;
-}
-
-//@property(nonatomic,retain)UIImageView *headImage;
-//
-//@property(nonatomic,retain)UILabel *questonLabel;
-//
-//@property(nonatomic,retain)UILabel *numLabel;
+@interface LMFindCell ()
 
 @end
 
@@ -39,63 +30,95 @@
 {
     
     //背景圆角白色view
-    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 135)];
-    cellView.layer.cornerRadius = 5;
-    cellView.layer.masksToBounds = YES;
-    cellView.backgroundColor = [UIColor whiteColor];
-    [self addSubview:cellView];
+//    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 135)];
+//    cellView.layer.cornerRadius = 5;
+//    cellView.layer.masksToBounds = YES;
+//    cellView.backgroundColor = [UIColor whiteColor];
+//    [self.contentView addSubview:cellView];
     //标题
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-40, 20)];
     _titleLabel.font = TEXT_FONT_LEVEL_1;
     _titleLabel.textColor = TEXT_COLOR_LEVEL_2;
-    _titleLabel.text = @"这是新功能标题";
-    [cellView addSubview:_titleLabel];
+//    _titleLabel.text = @"这是新功能标题";
+    [self.contentView addSubview:_titleLabel];
+    
+    
+    _imageview = [[UIImageView alloc] initWithFrame:CGRectMake(10, 35, 100, 80)];
+    
+    _imageview.contentMode = UIViewContentModeScaleAspectFill;
+    
+    _imageview.clipsToBounds = YES;
+    
+    [self.contentView addSubview:_imageview];
+    
+    
+    
+    
+    
     //内容
-    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, kScreenWidth-40, 60)];
+    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 35, kScreenWidth-140, 60)];
     _contentLabel.font = TEXT_FONT_LEVEL_2;
     _contentLabel.textColor = TEXT_COLOR_LEVEL_3;
     _contentLabel.numberOfLines = 0;
-    _contentLabel.textAlignment = NSTextAlignmentJustified;
+//    _contentLabel.textAlignment = NSTextAlignmentJustified;
     _contentLabel.text = @"这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题这是新功能标题是新功";
-    [cellView addSubview:_contentLabel];
+    [self.contentView addSubview:_contentLabel];
     //lineLabel
-    UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 105, kScreenWidth-40, 0.5)];
+    UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, kScreenWidth-40, 0.5)];
     lineLabel.backgroundColor = LINE_COLOR;
-    [cellView addSubview:lineLabel];
+    [self.contentView addSubview:lineLabel];
     //奖杯图标
-    UIImageView *cupIV = [[UIImageView alloc] initWithFrame:CGRectMake(10, 110, 17, 17)];
+    UIImageView *cupIV = [[UIImageView alloc] initWithFrame:CGRectMake(10, 125, 17, 17)];
     [cupIV setImage:[UIImage imageNamed:@"zanIcon"]];
-    [cellView addSubview:cupIV];
+    [self.contentView addSubview:cupIV];
     //footLabel
-    UILabel *footLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 110, kScreenWidth-100, 17)];
+    UILabel *footLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 125, kScreenWidth-100, 17)];
     footLabel.font = TEXT_FONT_LEVEL_3;
     footLabel.textColor = TEXT_COLOR_LEVEL_4;
     footLabel.text = @"下一个版本你做主";
-    [cellView addSubview:footLabel];
+    [self.contentView addSubview:footLabel];
     //点赞按钮
-    UIImageView *thumbIV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70, 110, 17, 17)];
+    UIImageView *thumbIV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70, 125, 17, 17)];
     [thumbIV setImage:[UIImage imageNamed:@"zanIcon-click"]];
-    [cellView addSubview:thumbIV];
+    [self.contentView addSubview:thumbIV];
     //点赞数量
-    _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-50, 110, 15, 117)];
+    _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-50, 125, 15, 117)];
     _numLabel.font = TEXT_FONT_LEVEL_3;
     _numLabel.textColor = TEXT_COLOR_LEVEL_4;
     _numLabel.text = @"300";
-    [cellView addSubview:_numLabel];
+    [self.contentView addSubview:_numLabel];
 }
+
+
+-(void)settitlearray:(NSString *)str
+{
+    _titleLabel.text = str;
+}
+
+-(void)setcontentarray:(NSString *)str
+{
+    _contentLabel.text = str;
+}
+
+-(void)setimagearray:(NSString *)str
+{
+    _imageview.image = [UIImage imageNamed:str];
+}
+
+
 
 -(void)setValue:(LMFindList *)list
 {
 //    _questonLabel.text = list.descrition;
-    _numLabel.text = [NSString stringWithFormat:@"得赞数 %.0f",list.numberOfVotes];
+//    _numLabel.text = [NSString stringWithFormat:@"得赞数 %.0f",list.numberOfVotes];
     
 }
 
-- (void)setXScale:(float)xScale yScale:(float)yScale
-{
-    _xScale = xScale;
-    _yScale = yScale;
-}
+//- (void)setXScale:(float)xScale yScale:(float)yScale
+//{
+//    _xScale = xScale;
+//    _yScale = yScale;
+//}
 
 //-(void)layoutSubviews
 //{

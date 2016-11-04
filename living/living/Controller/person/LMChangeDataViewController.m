@@ -81,6 +81,11 @@ UIViewControllerTransitioningDelegate
     headerView.clipsToBounds=YES;
     
     [backView addSubview:headerView];
+    UIImageView *sendImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2+15, 20+30+18, 15, 12)];
+    sendImage.image = [UIImage imageNamed:@"sendHead"];
+    [backView addSubview:sendImage];
+    
+    
     
     headerView.userInteractionEnabled=YES;
     //headerView tap事件

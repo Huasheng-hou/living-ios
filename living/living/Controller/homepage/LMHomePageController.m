@@ -22,7 +22,7 @@
 #import "LMWriterViewController.h"
 #import "LMHomeDetailController.h"
 
-#import "LMArticeDeleteRequest.h"
+
 
 @interface LMHomePageController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -60,13 +60,13 @@ LMhomePageCellDelegate
 static NSString *GLOBAL_TIMEFORMAT = @"yyyy-MM-dd HH:mm:ss";
 static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 
-- (NSMutableArray *)taskArr
-{
-    if (!listArray) {
-        listArray = [NSMutableArray array];
-    }
-    return listArray;
-}
+//- (NSMutableArray *)taskArr
+//{
+//    if (!listArray) {
+//        listArray = [NSMutableArray array];
+//    }
+//    return listArray;
+//}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -103,19 +103,17 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
     _tableView.tableHeaderView = headView;
     
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, kScreenWidth*3/5+40, 100, 130)];
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*3/5+40, 200, 130)];
     
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(115, 10, 70, 91)];
     homeImg.image = [UIImage imageNamed:@"NO-article"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 60)];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 200, 60)];
+    imageLb.numberOfLines = 0;
     imageLb.text = @"暂无文章,点击右上角按钮，赶紧发布吧！";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.textAlignment = NSTextAlignmentCenter;
@@ -172,8 +170,18 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
+<<<<<<< HEAD
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
+=======
+        listArray = [NSMutableArray new];
+        ifRefresh = YES;
+        self.current=1;
+        [self getHomeDataRequest:self.current];
+        ifRefresh=YES;
+        [self.tableView headerEndRefreshing];
+        
+>>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
     });
 }
 
@@ -238,13 +246,29 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
         NSMutableArray *array = [NSMutableArray new];
         array = bodyDic[@"banners"];
         for (NSDictionary *dic in array) {
+
+            
             NSString *url = dic[@"linkUrl"];
-            [imageUrls addObject:url];
+            if (![url isEqual:@""]&&url) {
+                [imageUrls addObject:url];
+            }
+            
             
             NSString *event = dic[@"event_uuid"];
-            [eventArray addObject:event];
+            if (![event isEqual:@""]&&event) {
+                [eventArray addObject:event];
+            }else{
+                [eventArray addObject:@""];
+            }
+
             
             NSString *state = dic[@"type"];
+            if (![state isEqual:@""]&&state) {
+                [stateArray addObject:state];
+            }else{
+                [stateArray addObject:@""];
+            }
+
             [stateArray addObject:state];
         }
         if (imageUrls.count==0) {
@@ -297,7 +321,27 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     NSLog(@"============首页数据请求结果===========%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+<<<<<<< HEAD
        
+=======
+//        NSLog(@"%@",bodyDic);
+//        if (listArray.count>0) {
+//           [listArray removeAllObjects];
+//        }
+        
+        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
+            self.navigationItem.rightBarButtonItem = rightItem;
+        }
+        
+        NSLog(@"%@",bodyDic);
+
+     
+        NSMutableArray *array=bodyDic[@"list"];
+        for (int i=0; i<array.count; i++) {
+
+        }
+>>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
         
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
@@ -421,73 +465,6 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
 }
 
 
-//要求委托方的编辑风格在表视图的一个特定的位置。
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCellEditingStyle result = UITableViewCellEditingStyleNone;//默认没有编辑风格
-    if ([tableView isEqual:_tableView]) {
-        result = UITableViewCellEditingStyleDelete;//设置编辑风格为删除风格
-    }
-    return result;
-}
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{//请求数据源提交的插入或删除指定行接收者。
-    
-    if (![CheckUtils isLink]) {
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
-    
-    if (editingStyle ==UITableViewCellEditingStyleDelete) {//如果编辑样式为删除样式
-        if (indexPath.row<[listArray count]) {
-            
-             LMActicleList *list = [listArray objectAtIndex:indexPath.row];
-            NSArray *array=[NSArray arrayWithObject:list.articleUuid];
-            [self deleteActivityRequest:array];
-            
-            deleteIndexPath=indexPath;
-        }
-    }
-}
-
-#pragma mark 删除活动  LMActivityDeleteRequest
--(void)deleteActivityRequest:(NSArray *)article_uuid
-{
-    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:article_uuid ];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除失败"
-                                                                   waitUntilDone:YES];
-                                               [_tableView reloadData];
-                                           }];
-    [proxy start];
-    
-}
-
--(void)deleteActivityResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
-        NSLog(@"==================删除文章bodyDic：%@",bodyDic);
-        
-        [self textStateHUD:@"删除成功"];
-        
-        [listArray removeObjectAtIndex:deleteIndexPath.row];//移除数据源的数据
-        [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:deleteIndexPath] withRowAnimation:UITableViewRowAnimationLeft];//移除tableView中的数据
-        
-    }else{
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
-    }
-    [_tableView reloadData];
-}
 
 @end

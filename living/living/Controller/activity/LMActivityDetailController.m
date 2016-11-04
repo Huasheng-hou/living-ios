@@ -60,7 +60,6 @@ UIAlertViewDelegate
     
 }
 
-//@property(nonatomic,strong)UITableView *tableView;
 
 @end
 
@@ -101,14 +100,14 @@ UIAlertViewDelegate
 
 -(void)creatUI
 {
-    [super createUI];
-//    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
-//    self.tableView.delegate=self;
-//    self.tableView.dataSource=self;
-//    [self.view addSubview:self.tableView];
+    
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    self.tableView.delegate=self;
+    self.tableView.dataSource=self;
+    [self.view addSubview:self.tableView];
     
     
-    self.tableView.contentInset     = UIEdgeInsetsMake(64, 0, 12, 0);
+    self.tableView.contentInset     = UIEdgeInsetsMake(0, 0, 12, 0);
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
@@ -147,9 +146,34 @@ UIAlertViewDelegate
     countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
     
+    NSString *string = [NSString stringWithFormat:@"%.0f",eventDic.status];
+    
+
+    
+    
+    
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     //        _topBtn.backgroundColor = _COLOR_N(red);
-    [joinButton setTitle:@"报名" forState:UIControlStateNormal];
+    if ([string isEqual:@"1"]) {
+      [joinButton setTitle:@"报名" forState:UIControlStateNormal];
+    }
+    if ([string isEqual:@"2"]) {
+        [joinButton setTitle:@"人满" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
+    }
+    if ([string isEqual:@"3"]) {
+        [joinButton setTitle:@"开始" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
+    }
+    if ([string isEqual:@"4"]) {
+        [joinButton setTitle:@"已完结" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
+    }
+    if ([string isEqual:@"5"]) {
+        [joinButton setTitle:@"删除" forState:UIControlStateNormal];
+    }
+
+    
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
     joinButton.frame = CGRectMake(kScreenWidth-70, 25, 60.f, 50.f);
@@ -266,7 +290,7 @@ UIAlertViewDelegate
         return 230;
     }
     if (indexPath.section==1) {
-        return 155+200;
+        return 190+200;
     }
     
     if (indexPath.section==2) {
@@ -345,17 +369,6 @@ UIAlertViewDelegate
         
         return headView;
     }
-//     if (section==2){
-//         UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 5)];
-////         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
-////         [label setBackgroundColor:[UIColor whiteColor]];
-////         [view addSubview:label];
-//         
-//         [view setBackgroundColor:BG_GRAY_COLOR];
-//         
-//         return view;
-//         
-//     }
     
     if (section==2){
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
@@ -459,9 +472,6 @@ UIAlertViewDelegate
     if (section==1) {
         return 40;
     }
-//    if (section==2) {
-//        return 5;
-//    }
     if (section==2) {
         return 40;
     }
@@ -529,17 +539,6 @@ UIAlertViewDelegate
         return cell;
     }
     
-    
-//    if (indexPath.section==2) {
-//        static NSString *cellId = @"cellIdd";
-//        
-//        LMMapViewCell *cell = [[LMMapViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//        
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//       
-//        
-//        return cell;
-//    }
     
     
         if (indexPath.section==2) {
@@ -631,9 +630,10 @@ UIAlertViewDelegate
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
                                                            [self getEventListDataRequest];
-                                                           NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:cell.tag inSection:3];
-                                                           [[self tableView] scrollToRowAtIndexPath:indexPaths
-                                                                                   atScrollPosition:UITableViewScrollPositionTop animated:YES];;
+                                                           NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:3]];
+                                                           [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                                                           
+                                                           
                                                        }else{
                                                            NSString *str = [bodyDic objectForKey:@"description"];
                                                            [self textStateHUD:str];
@@ -779,8 +779,38 @@ UIAlertViewDelegate
     
     
     APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
+    infoView.titleLabel.text = @"￥:0";
+    infoView.titleLabel.textColor = LIVING_REDCOLOR;
+    infoView.titleLabel.font = [UIFont systemFontOfSize:17];
+    [infoView.bottomView addSubview:infoView.titleLabel];
+    
+    infoView.title2 = [UILabel new];
+    infoView.title2.text = @"￥:0";
+    infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
+    infoView.title2.font = [UIFont systemFontOfSize:15];
 
-    infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+    [infoView.bottomView addSubview:infoView.title2];
+    
+    
+    
+
+    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
+        [infoView.titleLabel sizeToFit];
+        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.discount];
+        infoView.titleLabel.frame = CGRectMake(150, 30, infoView.titleLabel.bounds.size.width, 30);
+        [infoView.title2 sizeToFit];
+        infoView.title2.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        infoView.title2.frame = CGRectMake(160+infoView.titleLabel.bounds.size.width, 30, infoView.title2.bounds.size.width, 30);
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(160+infoView.titleLabel.bounds.size.width, 45, infoView.title2.bounds.size.width, 0.5)];
+        
+        [infoView.bottomView addSubview:line];
+        
+    }else{
+       infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+    }
+    
     
     infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
     
@@ -988,26 +1018,26 @@ UIAlertViewDelegate
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
-//- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
-//{
-//    CGFloat     keyboardHeight  = 280;
-//    
-//    if (view && view.superview) {
-//        rect    = [self.tableView convertRect:rect fromView:view.superview];
-//    }
-//    
-//    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
-//        return;
-//    }
-//    
-//    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
-//}
-//
-//- (void)resignCurrentFirstResponder
-//{
-//    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-//    [keyWindow endEditing:YES];
-//}
+- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+{
+    CGFloat     keyboardHeight  = 280;
+    
+    if (view && view.superview) {
+        rect    = [self.tableView convertRect:rect fromView:view.superview];
+    }
+    
+    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        return;
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+}
+
+- (void)resignCurrentFirstResponder
+{
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    [keyWindow endEditing:YES];
+}
 
 - (BOOL)prefersStatusBarHidden
 {

@@ -64,15 +64,25 @@ UIViewControllerTransitioningDelegate
     [super createUI];
     self.title = @"填写资料";
     genderStr = @"1";
-    _imgURL = @"";
+//    _imgURL = @"";
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];
     
     
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
+    imageView.image = [UIImage imageNamed:@"headerIcon"];
+    [backView addSubview:imageView];
     headerView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
     headerView.image = [UIImage imageNamed:@"headerIcon"];
+    
+    headerView.layer.cornerRadius = 30;
+    headerView.clipsToBounds=YES;
+    
     [backView addSubview:headerView];
+    UIImageView *sendImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2+15, 20+30+18, 15, 12)];
+    sendImage.image = [UIImage imageNamed:@"sendHead"];
+    [backView addSubview:sendImage];
     
     headerView.userInteractionEnabled=YES;
     //headerView tap事件
@@ -167,9 +177,7 @@ UIViewControllerTransitioningDelegate
         womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
         [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:womanButton];
-        
-
-        
+           
         
     }
     if (indexPath.section==1) {

@@ -22,7 +22,7 @@ UITableViewDataSource>
     UITableView *_tableView;
     NSString *balanceStr;
     NSMutableArray *listArray;
-    NSArray *monthArray;
+    NSMutableArray *monthArray;
 }
 
 @end
@@ -37,7 +37,7 @@ UITableViewDataSource>
     [self creatUI];
     listArray = [NSMutableArray new];
     monthArray = [NSMutableArray new];
-//    monthArray = @[@"9月"];
+
     
     //请求获取余额
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -300,29 +300,12 @@ UITableViewDataSource>
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         NSMutableArray *array=bodyDic[@"list"];
-            if (array.count==0) {
-                
-                UIView * bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight-150)];
-                [bgView setBackgroundColor:BG_GRAY_COLOR];
-                [_tableView addSubview:bgView];
-                
-                UIImageView *bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth/2-45, kScreenHeight/4, 90, 61)];
-                [bgImage setImage:[UIImage imageNamed:@"personNoCoupon"]];
-                [bgView addSubview:bgImage];
-                
-                UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, kScreenHeight/4+60, kScreenWidth, 90)];
-                [label setText:@"天苍苍地茫茫，无优惠好凄凉，快去邀请好友\n参与优惠活动，享受健康生活"];
-                [label setNumberOfLines:2];
-                [label setTextAlignment:NSTextAlignmentCenter];
-                [label setTextColor:TEXT_COLOR_LEVEL_4];
-                [label setFont:TEXT_FONT_LEVEL_1];
-                [bgView addSubview:label];
-            }
+
 
             for (int i=0; i<array.count; i++) {
                 LMBalanceList *list=[[LMBalanceList alloc]initWithDictionary:array[i]];
                 NSString *month = [array[i] objectForKey:@"month"];
-//                [monthArray addObject:month];
+                [monthArray addObject:month];
                 if (![listArray containsObject:list]) {
                     [listArray addObject:list];
                 }

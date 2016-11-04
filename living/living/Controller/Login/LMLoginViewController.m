@@ -33,6 +33,8 @@
     UIButton        *_loginBtn;
     NSString        *gender;
     NSString        *privileges;
+    NSString        *franchisee;
+    NSString        *vipString;
 }
 
 @end
@@ -392,8 +394,13 @@
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
          privileges = [bodyDict objectForKey:@"privileges"];
+<<<<<<< HEAD
         
         
+=======
+        franchisee = [bodyDict objectForKey:@"franchisee"];
+        vipString =[bodyDict objectForKey:@"sign"];
+>>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
         if (is_exist && [is_exist intValue] == 0) {
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
             registerVC.userId = _uuid;
@@ -448,6 +455,14 @@
     
     if (_password) {
         [userInfo setObject:_password forKey:@"password"];
+    }
+    
+    if (franchisee) {
+        [userInfo setObject:franchisee forKey:@"franchisee"];
+    }
+    
+    if (vipString) {
+        [userInfo setObject:vipString forKey:@"vipString"];
     }
     
     NSLog(@"_uuid:%@\n,phone:%@\n,_password:%@\n",_uuid,_phoneTF.text,_password);

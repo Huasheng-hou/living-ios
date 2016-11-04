@@ -20,13 +20,15 @@
 #import "LMUserInfo.h"
 #import "LMScanViewController.h"
 #import "LMMyCouponController.h"
+#import "ImageHelpTool.h"
 
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
-//    LMUserInfo *infoModel;
+    LMUserInfo *infoModels;
     NSString *gender;
     NSMutableDictionary *infoDic;
+    UIImageView *headerView;
 }
 
 
@@ -136,7 +138,7 @@
     
     if (result && [result intValue] == 0)
     {
-//        infoModel = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
+        infoModels = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         infoDic =[bodyDict objectForKey:@"userInfo"];
         
         [_tableView reloadData];
@@ -209,11 +211,12 @@
         
         if (indexPath.row==0) {
             //头像
-            UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
+            headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
             headerView.layer.cornerRadius = 35;
             headerView.backgroundColor = BG_GRAY_COLOR;
             headerView.contentMode = UIViewContentModeScaleAspectFill;
             headerView.clipsToBounds = YES;
+            
             
             
             if (infoModel.avatar ==nil) {
@@ -225,6 +228,12 @@
                 
             }else{
                 [headerView setImageWithURL:[NSURL URLWithString:infoModel.avatar]];
+                
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bigImageAction:)];
+                [headerView addGestureRecognizer:tap];
+                headerView.userInteractionEnabled = YES;
+                
+                
             }
             [cell.contentView addSubview:headerView];
             
@@ -293,40 +302,6 @@
             
             
         }
-        
-//        switch (indexPath.row) {
-//                
-//            case 1:
-//                cell.textLabel.text = @" 绑定号码";
-//                if ([FitUserManager sharedUserManager].phone==nil) {
-//                    cell.detailTextLabel.text = @"- -";
-//                }else{
-//                    cell.detailTextLabel.text = [FitUserManager sharedUserManager].phone;
-//                }
-//                break;
-//                
-//            case 2:
-//                cell.textLabel.text = @" 出生年月";
-//                if (infoModel.birthday==nil) {
-//                    cell.detailTextLabel.text = @"- -";
-//                }else{
-//                    cell.detailTextLabel.text = infoModel.birthday;
-//                }
-//                break;
-//                
-//            case 3:
-//                cell.textLabel.text = @" 所在城市";
-//                if (infoModel.province==nil && infoModel.city==nil) {
-//                    cell.detailTextLabel.text = @"- -";
-//                }else{
-//                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
-//                }
-//                
-//                break;
-//                
-//            default:
-//                break;
-//        }
 
 
     }
@@ -488,14 +463,18 @@
     if (indexPath.section==3) {
         if (indexPath.row==0) {
             LMSettingViewController *setVC = [[LMSettingViewController alloc] init];
-            
+            [setVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:setVC animated:YES];
         }
     }
 }
 
 
-
+-(void)bigImageAction:(UIImageView *)imageV
+{
+    
+    [ImageHelpTool showImage:headerView];
+}
 
 
 
