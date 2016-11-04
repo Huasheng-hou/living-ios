@@ -52,22 +52,13 @@ LMhomePageCellDelegate
 @implementation LMHomePageController
 
 
-static NSString *GLOBAL_TIMEFORMAT = @"yyyy-MM-dd HH:mm:ss";
-static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
-
-//- (NSMutableArray *)taskArr
-//{
-//    if (!listArray) {
-//        listArray = [NSMutableArray array];
-//    }
-//    return listArray;
-//}
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"login" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadHomePage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadlist" object:nil];
 }
 
 - (void)viewDidLoad {

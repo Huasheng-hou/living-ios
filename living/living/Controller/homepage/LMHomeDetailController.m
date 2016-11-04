@@ -1274,6 +1274,28 @@ shareTypeDelegate
 #pragma mark 删除活动  LMActivityDeleteRequest
 -(void)deleteActivityRequest:(NSString *)article_uuid
 {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:@"是否删除"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self getDeleteRequest];
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+    
+  
+    
+}
+
+-(void)getDeleteRequest
+{
     LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:articleData.articleUuid ];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1289,8 +1311,8 @@ shareTypeDelegate
                                                
                                            }];
     [proxy start];
-    
 }
+
 
 -(void)deleteActivityResponse:(NSString *)resp
 {
@@ -1301,7 +1323,11 @@ shareTypeDelegate
         NSLog(@"==================删除文章bodyDic：%@",bodyDic);
         
         [self textStateHUD:@"删除成功"];
-        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadlist" object:nil];
+        });
 
         
     }else{
