@@ -80,7 +80,6 @@ selectAddressDelegate
     projectTitle = [NSMutableArray new];
     projectDsp = [NSMutableArray new];
     imageURL = [NSMutableArray new];
-    
 }
 
 - (void)initSearch
@@ -290,14 +289,13 @@ selectAddressDelegate
         AddEventCell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!AddEventCell) {
             AddEventCell = [[LMPublicEventListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
             AddEventCell.selectionStyle = UITableViewCellSelectionStyleNone;
             AddEventCell.delegate = self;
             AddEventCell.titleTF.delegate = self;
             AddEventCell.includeTF.delegate = self;
             AddEventCell.cellndex = indexPath.row;
             AddEventCell.tag = indexPath.row;
-
-        }
          
         
         return AddEventCell;
@@ -316,11 +314,11 @@ selectAddressDelegate
     [self.navigationController pushViewController:map animated:YES];
 }
 
+//代理方法
 - (void)selectAddress:(NSString *)addressName andLatitude:(CGFloat)latitude
          andLongitude:(CGFloat)longitude
           anddistance:(CGFloat)distance
 {
-    NSLog(@"=============addressName=%@,latitude=%f  longitude=%f",addressName,latitude,longitude);
     msgCell.dspTF.text=addressName;
     _latitude=latitude;
     _longitude=longitude;
@@ -776,12 +774,8 @@ selectAddressDelegate
         }
         
     }
-
-
-    
     
     for (int i =0; i<projectTitle.count; i++) {
-        
         
         LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:projectTitle[i] Project_dsp:projectDsp[i] Project_imgs:imageURL[i]];
 
@@ -799,7 +793,6 @@ selectAddressDelegate
                                                }];
         [proxy start];
     }
-
 }
 
 
@@ -814,7 +807,7 @@ selectAddressDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
-            NSLog(@"********%@",string);
+            NSLog(@"******==========活动介绍*eventUUid==========*%@",string);
             eventUUid = string;
             [self publicProject];
         }else{
@@ -844,7 +837,6 @@ selectAddressDelegate
                                                                     object:nil];
             });
             
-
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];

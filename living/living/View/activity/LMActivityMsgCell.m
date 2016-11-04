@@ -39,6 +39,7 @@
     }
     return self;
 }
+
 -(void)addSubviews
 {
     
@@ -84,9 +85,7 @@
     footView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:footView];
     
-    
     //活动地址
-    
     _addressV = [UIImageView new];
     _addressV.image = [UIImage imageNamed:@"addressV"];
     [self.contentView addSubview:_addressV];
@@ -99,7 +98,6 @@
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_addressLabel];
     
-    
     //分割线
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 155, kScreenWidth, 5)];
     [view setBackgroundColor:BG_GRAY_COLOR];
@@ -107,18 +105,13 @@
     
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 165, kScreenWidth-30, 160)];
     _mapView.mapType = MKMapTypeStandard;
-//    [_mapView setUserInteractionEnabled:NO];
     [self.contentView addSubview:_mapView];
-    
-    
     
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 325, kScreenWidth-30, 30)];
     [label setText:@"这是地图显示地址"];
     [label setTextColor:TEXT_COLOR_LEVEL_3];
     [label setFont:TEXT_FONT_LEVEL_2];
     [self.contentView addSubview:label];
-    
-    
 }
 
 -(void)setValue:(LMEventDetailEventBody *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude
@@ -159,7 +152,6 @@
     MKPointAnnotation *annotation0 = [[MKPointAnnotation alloc] init];
     [annotation0 setCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];
     [annotation0 setTitle:event.address];
-    //    [annotation0 setSubtitle:@"重庆市巴南区红光大道69号"];
     [_mapView addAnnotation:annotation0];
     
      [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];

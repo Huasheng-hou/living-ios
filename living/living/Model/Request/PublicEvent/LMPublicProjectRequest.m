@@ -47,7 +47,7 @@
 
 - (NSString *)methodPath
 {
-    return @"event/publish/project";
+    return @"event/publish/project";//发布活动项目
 }
 
 

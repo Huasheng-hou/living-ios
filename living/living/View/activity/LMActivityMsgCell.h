@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LMEventDetailEventBody.h"
 #import <MapKit/MapKit.h>
+//#import <MAMapKit/MAMapKit.h>
 
 @interface LMActivityMsgCell : UITableViewCell
 

@@ -276,7 +276,7 @@
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
 		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
-		8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.mm */; };
+		8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */; };
 		8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */; };
 		8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */; };
 		8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */; };
@@ -874,7 +874,7 @@
 		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMapViewController.h; sourceTree = "<group>"; };
-		8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LMMapViewController.mm; sourceTree = "<group>"; };
+		8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMapViewController.m; sourceTree = "<group>"; };
 		8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -1162,7 +1162,7 @@
 				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
 				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
 				8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */,
-				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.mm */,
+				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -2950,7 +2950,7 @@
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
 				350904E41DC74C390045CC14 /* SYPhotoBrowser.m in Sources */,
 				351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */,
-				8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.mm in Sources */,
+				8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,

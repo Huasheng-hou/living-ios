@@ -10,7 +10,7 @@
 
 @interface LMHomelistequest : FitBaseRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize;
+-(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize;
 
 
 

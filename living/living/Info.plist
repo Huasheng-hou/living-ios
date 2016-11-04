@@ -90,8 +90,6 @@
 	<string>cameraDesciption</string>
 	<key>NSContactsUsageDescription</key>
 	<string>contactsDesciption</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>高德地图</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>腰果生活需要定位，否则无法进行定位</string>
 	<key>NSMicrophoneUsageDescription</key>
