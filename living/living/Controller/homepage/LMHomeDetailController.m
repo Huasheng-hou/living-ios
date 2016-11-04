@@ -22,7 +22,7 @@
 #import "SYPhotoBrowser.h"
 #import "HBShareView.h"
 #import "WXApi.h"
-
+#import "FitThumbImageHelper.h"
 //qq
 //#import <TencentOpenAPI/TencentOAuth.h>
 
@@ -776,12 +776,23 @@ shareTypeDelegate
 
 }
 
+#pragma mark 对图片尺寸进行压缩
+-(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+
 -(void)shareType:(NSInteger)type
 {
     
     NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
     
-    NSLog(@"===========type===========%ld",(long)type);
     switch (type) {
         case 1://微信好友
         {
@@ -790,9 +801,16 @@ shareTypeDelegate
             message.description=articleData.describe;
             
             UIImageView *images = [UIImageView new];
-            [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
+           [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
             
-            [message setThumbImage:images.image];
+            UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
+            
+            if (imageArray.count==0) {
+                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
+            }else{
+                [message setThumbImage:iconImage];
+            }
+            
             
             WXWebpageObject *web=[WXWebpageObject object];
             web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
@@ -813,7 +831,13 @@ shareTypeDelegate
             UIImageView *images = [UIImageView new];
             [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
             
-            [message setThumbImage:images.image];
+            UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
+            
+            if (imageArray.count==0) {
+                [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
+            }else{
+                [message setThumbImage:iconImage];
+            }
             
             WXWebpageObject *web=[WXWebpageObject object];
             web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
@@ -849,25 +873,25 @@ shareTypeDelegate
 }
 
 // 发送图片文字链接
-- (void)showMediaNewsWithScene:(int)scene {
-//    if (![TencentOAuth iphoneQQInstalled]) {
-//        NSLog(@"请移步App Store去下载腾讯QQ客户端");
-//    }else {
-    NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
-    
-        QQApiNewsObject *newsObj = [QQApiNewsObject
-                                    objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]]
-                                    title:articleData.articleTitle
-                                    description:articleData.describe
-                                    previewImageURL:nil];
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
-        if (scene == 0) {
-            NSLog(@"QQ好友列表分享 - %d",[QQApiInterface sendReq:req]);
-        }else if (scene == 1){
-            NSLog(@"QQ空间分享 - %d",[QQApiInterface SendReqToQZone:req]);
-        }
-//    }
-}
+//- (void)showMediaNewsWithScene:(int)scene {
+////    if (![TencentOAuth iphoneQQInstalled]) {
+////        NSLog(@"请移步App Store去下载腾讯QQ客户端");
+////    }else {
+//    NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
+//    
+//        QQApiNewsObject *newsObj = [QQApiNewsObject
+//                                    objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]]
+//                                    title:articleData.articleTitle
+//                                    description:articleData.describe
+//                                    previewImageURL:nil];
+//        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+//        if (scene == 0) {
+//            NSLog(@"QQ好友列表分享 - %d",[QQApiInterface sendReq:req]);
+//        }else if (scene == 1){
+//            NSLog(@"QQ空间分享 - %d",[QQApiInterface SendReqToQZone:req]);
+//        }
+////    }
+//}
 
 
 #pragma mark  --点击图片放大
