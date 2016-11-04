@@ -584,6 +584,12 @@ UIAlertViewDelegate
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
+        UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
+        tap.view.tag = indexPath.row;
+        tap.minimumPressDuration = 1.0;
+        [cell.contentView addGestureRecognizer:tap];
+        
+        
         return cell;
     }
     
@@ -947,6 +953,7 @@ UIAlertViewDelegate
 
 -(void)besureAction:(id)sender
 {
+    [self initStateHud];
     
     [self.view endEditing:YES];
     
@@ -1113,7 +1120,31 @@ UIAlertViewDelegate
     [_tableView reloadData];
 }
 
-
+-(void)deletCellAction:(UILongPressGestureRecognizer *)tap
+{
+    NSLog(@"**********%ld",tap.view.tag);
+    if (tap.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"***********3333******");
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    NSLog(@"*****删除");
+                                                }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }else{
+        NSLog(@"**********222222*******");
+    }
+}
 
 
 

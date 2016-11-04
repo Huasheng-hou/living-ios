@@ -1346,7 +1346,7 @@ shareTypeDelegate
     if (tap.state == UIGestureRecognizerStateBegan) {
         NSLog(@"***********3333******");
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除"
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
                                                                        message:nil
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"取消"
