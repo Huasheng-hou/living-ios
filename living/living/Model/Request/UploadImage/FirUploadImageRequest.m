@@ -30,7 +30,7 @@
 
 - (NSString *)serverHost
 {
-    return @"http://120.26.64.40:8080/living/";
+    return @"http://yaoguo1818.com/living/";
 }
 
 - (BOOL)isPost

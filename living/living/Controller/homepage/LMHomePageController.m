@@ -104,12 +104,13 @@ static NSString *GLOBAL_TIMEBASE = @"2012-01-01 00:00:00";
     headView.backgroundColor = BG_GRAY_COLOR;
     _tableView.tableHeaderView = headView;
     
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, kScreenWidth*3/5+40, 100, 130)];
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*3/5+40, 200, 130)];
     
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(115, 10, 70, 91)];
     homeImg.image = [UIImage imageNamed:@"NO-article"];
     [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(15, 111, 70, 60)];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 200, 60)];
+    imageLb.numberOfLines = 0;
     imageLb.text = @"暂无文章,点击右上角按钮，赶紧发布吧！";
     imageLb.textColor = TEXT_COLOR_LEVEL_3;
     imageLb.textAlignment = NSTextAlignmentCenter;
