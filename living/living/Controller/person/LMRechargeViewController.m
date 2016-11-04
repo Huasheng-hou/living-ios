@@ -591,8 +591,8 @@ liveNameProtocol
         button.upLabel.textColor = LIVING_COLOR;
         button.downLabel.textColor = LIVING_COLOR;
         button.layer.borderColor = LIVING_COLOR.CGColor;
-        
-        headcell.payNum.text = button.upLabel.text;
+        NSString *string =[button.upLabel.text substringToIndex:[button.upLabel.text length] - 1];
+        headcell.payNum.text = string;
     
 
 }
