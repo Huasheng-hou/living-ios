@@ -44,6 +44,11 @@ LMhomePageCellDelegate
     
     NSIndexPath *deleteIndexPath;
     
+    NSInteger        totalPage;
+    NSInteger        currentPageIndex;
+    NSMutableArray   *pageIndexArray;
+    BOOL                reload;
+    
     
 }
 
@@ -65,6 +70,8 @@ LMhomePageCellDelegate
     [super viewDidLoad];
     self.title = @"首页";
     
+    pageIndexArray=[NSMutableArray arrayWithCapacity:0];
+    
     stateArray=[NSMutableArray arrayWithCapacity:0];
     
     [self creatUI];
@@ -73,8 +80,9 @@ LMhomePageCellDelegate
     listArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
     [self getBannerDataRequest];
-    
 }
+
+
 
 -(void)creatUI
 {
@@ -138,14 +146,25 @@ LMhomePageCellDelegate
     self.tableView.footerRefreshingText = @"正在帮你加载...";
 }
 
+#pragma mark 重新请求单元格数据（通知  投票）
+
+-(void)reloadCellData
+{
+    reload=YES;
+    [self getHomeDataRequest:1];
+}
+
 - (void)headerRereshing
 {
-    
     // 2.0秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
+<<<<<<< HEAD
+        [self reloadCellData];
+         [self.tableView headerEndRefreshing];
+=======
         listArray = [NSMutableArray new];
         ifRefresh = YES;
         self.current=1;
@@ -153,26 +172,28 @@ LMhomePageCellDelegate
         ifRefresh=YES;
         [self.tableView headerEndRefreshing];
         
+>>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
     });
 }
 
 
 - (void)footerRereshing
 {
+    currentPageIndex=listArray.count/20+1;
+    
+    if (currentPageIndex>=totalPage) {
+        [self.tableView footerEndRefreshing];
+        [self textStateHUD:@"没有文章了"];
+        return;
+    }
     
     // 2.0秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.current = self.current+1;
-        
-        ifRefresh=NO;
-        
-        if (total<self.current) {
-            [self textStateHUD:@"没有更多文章"];
-        }else{
-            [self getHomeDataRequest:self.current];
-        }
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        if (listArray.count>0) {
+            [self getHomeDataRequest:currentPageIndex];
+            NSLog(@"=============当前请求的页数=%ld",(long)currentPageIndex);
+        }        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [_tableView footerEndRefreshing];
     });
 }
@@ -257,7 +278,7 @@ LMhomePageCellDelegate
     }
 }
 
--(void)getHomeDataRequest:(int)page
+-(void)getHomeDataRequest:(NSInteger)page
 {
     
     if (![CheckUtils isLink]) {
@@ -286,8 +307,14 @@ LMhomePageCellDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    total = [[bodyDic objectForKey:@"total"] intValue];
+   
+    
+    NSLog(@"============首页数据请求结果===========%@",bodyDic);
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+<<<<<<< HEAD
+       
+=======
 //        NSLog(@"%@",bodyDic);
 //        if (listArray.count>0) {
 //           [listArray removeAllObjects];
@@ -305,32 +332,31 @@ LMhomePageCellDelegate
         for (int i=0; i<array.count; i++) {
 
         }
+>>>>>>> c49534e5fc1c54ca80ba8397c5a6cad40e686f06
         
+         totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
-        if (ifRefresh) {
-            ifRefresh=NO;
+        if (reload) {
+            reload=NO;
+            pageIndexArray=[NSMutableArray arrayWithCapacity:0];
+            currentPageIndex=1;
             listArray=[NSMutableArray arrayWithCapacity:0];
-            
-            NSArray *array = bodyDic[@"list"];
-            for(int i=0;i<[array count];i++){
-                
-                LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
-                if (![listArray containsObject:list]) {
-                    [listArray addObject:list];
-                }
-            }
-            
         }
-        else{
-            NSArray *array = bodyDic[@"list"];
-            
-            for(int i=0;i<[array count];i++){
-                LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
-                if (![listArray containsObject:list]) {
-                    [listArray addObject:list];
-                }
-            }
+        
+        if (![pageIndexArray containsObject:@(currentPageIndex)]) {
+            [pageIndexArray addObject:@(currentPageIndex)];
+        }else{
+            NSLog(@"数组中有该数据");
+            return;
         }
+        
+        NSArray *array = bodyDic[@"list"];
+        
+        for (int i=0; i<array.count; i++) {
+             LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
+            [listArray addObject:list];
+        }
+        
         if (listArray.count!=0) {
             [homeImage removeFromSuperview];
         }else{

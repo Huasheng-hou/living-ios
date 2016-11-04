@@ -8,6 +8,7 @@
 
 #import "LMActivityViewController.h"
 #import "LMActivityDetailController.h"
+
 #import "LMPublicActivityController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
@@ -29,6 +30,11 @@ UITableViewDataSource
     int total;
     
     NSIndexPath *deleteIndexPath;
+    
+    NSInteger        totalPage;
+    NSInteger        currentPageIndex;
+    NSMutableArray   *pageIndexArray;
+    BOOL                reload;
 }
 
 @end
@@ -55,6 +61,8 @@ UITableViewDataSource
     // Do any additional setup after loading the view.
     [self creatUI];
     listArray = [NSMutableArray new];
+     pageIndexArray=[NSMutableArray arrayWithCapacity:0];
+    
     [self setupRefresh];
     NSLog(@"********%@",[FitUserManager sharedUserManager].privileges);
 }
@@ -96,9 +104,10 @@ UITableViewDataSource
     [_tableView addSubview:homeImage];
 }
 
+#pragma mark 发布活动
+
 -(void)publicAction
 {
-    
     LMPublicActivityController *publicVC = [[LMPublicActivityController alloc] init];
     [publicVC setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:publicVC animated:YES];
@@ -124,40 +133,44 @@ UITableViewDataSource
     _tableView.footerRefreshingText = @"正在帮你加载...";
 }
 
+#pragma mark 重新请求单元格数据（通知  投票）
+
+-(void)reloadCellData
+{
+    reload=YES;
+    [self getActivityListDataRequest:1];
+}
+
 - (void)headerRereshing
 {
-    
     // 2.0秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         
-        [_tableView headerEndRefreshing];
-        ifRefresh = YES;
-        self.current=1;
-        [self getActivityListDataRequest:self.current];
-        ifRefresh=YES;
-        
+       [self reloadCellData];
+       [_tableView headerEndRefreshing];
     });
 }
 
 
 - (void)footerRereshing
 {
+    currentPageIndex=listArray.count/20+1;
     
+    if (currentPageIndex>=totalPage) {
+        [_tableView footerEndRefreshing];
+        [self textStateHUD:@"没有活动了"];
+        return;
+    }
+
     // 2.0秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.current = self.current+1;
-        
-        ifRefresh=NO;
-        
-        if (total<self.current) {
-            [self textStateHUD:@"没有更多活动"];
-        }else{
-            [self getActivityListDataRequest:self.current];
+        if (listArray.count>0) {
+            [self getActivityListDataRequest:(int)currentPageIndex];
+            NSLog(@"=============当前请求的页数=%ld",currentPageIndex);
         }
-        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [_tableView footerEndRefreshing];
@@ -220,11 +233,25 @@ UITableViewDataSource
 -(void)getActivityListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
+     NSLog(@"============活动数据请求结果===========%@",bodyDic);
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
+      
+        totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
-        [listArray removeAllObjects];
+        if (reload) {
+            reload=NO;
+            pageIndexArray=[NSMutableArray arrayWithCapacity:0];
+            currentPageIndex=1;
+            listArray=[NSMutableArray arrayWithCapacity:0];
+        }
+        
+        if (![pageIndexArray containsObject:@(currentPageIndex)]) {
+            [pageIndexArray addObject:@(currentPageIndex)];
+        }else{
+            NSLog(@"数组中有该数据");
+            return;
+        }
+        
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
@@ -232,7 +259,7 @@ UITableViewDataSource
                 [listArray addObject:list];
             }
         }
-        [_tableView reloadData];
+        
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
@@ -318,13 +345,10 @@ UITableViewDataSource
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    
     LMActivityList *list = [listArray objectAtIndex:indexPath.row];
     [cell setValue:list];
     
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    
-    
     
     return cell;
 }
