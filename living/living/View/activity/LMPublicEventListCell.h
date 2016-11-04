@@ -26,8 +26,6 @@
 
 @property(nonatomic)NSInteger cellndex;
 
-@property(nonatomic,strong)UIButton *deleteBt;
-
 
 @property (nonatomic, weak) id <LMPublicEventCellDelegate> delegate;
 

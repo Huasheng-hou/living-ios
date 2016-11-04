@@ -276,6 +276,7 @@
 		8E8886391DCB425C009D3374 /* LMALLList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886371DCB425C009D3374 /* LMALLList.m */; };
 		8EA6A4F01DCC228500A6E2C2 /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */; };
 		8EA6A4F91DCC365200A6E2C2 /* LMArticeDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */; };
+		8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */; };
 		8EC998A01DC83A1000448997 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC9989F1DC83A1000448997 /* HBShareView.m */; };
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
@@ -876,6 +877,8 @@
 		8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDeleteRequest.m; sourceTree = "<group>"; };
 		8EA6A4F71DCC365200A6E2C2 /* LMArticeDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArticeDeleteRequest.h; sourceTree = "<group>"; };
 		8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArticeDeleteRequest.m; sourceTree = "<group>"; };
+		8EA6A4FD1DCC920F00A6E2C2 /* LMSearchAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSearchAddressController.h; sourceTree = "<group>"; };
+		8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		8EC9989E1DC83A1000448997 /* HBShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareView.h; sourceTree = "<group>"; };
 		8EC9989F1DC83A1000448997 /* HBShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareView.m; sourceTree = "<group>"; };
 		8EC998A11DC83B3600448997 /* HBShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareButton.h; sourceTree = "<group>"; };
@@ -1182,6 +1185,8 @@
 				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
 				8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */,
 				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */,
+				8EA6A4FD1DCC920F00A6E2C2 /* LMSearchAddressController.h */,
+				8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -2801,6 +2806,7 @@
 				8ECA2AE21DC98DA2000CD0AB /* POIAnnotation.m in Sources */,
 				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
+				8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */,
 				8ECA2AFA1DC9F461000CD0AB /* LMCouponCell.m in Sources */,
 				3517678F1DC5A6BD00D2D407 /* LMBlanceDetailController.m in Sources */,
 				8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */,

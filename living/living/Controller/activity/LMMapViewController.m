@@ -73,7 +73,16 @@ updatingLocation:(BOOL)updatingLocation
     
     if (!ifGetLocation) {
         ifGetLocation=YES;
-        [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude)];
+        [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(currLocation.coordinate.latitude, currLocation.coordinate.longitude)];
+        
+        //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
+        request.location = [AMapGeoPoint locationWithLatitude:currLocation.coordinate.latitude longitude: currLocation.coordinate.longitude];
+        request.sortrule = 0;
+        request.requireExtension = YES;
+        //发起周边搜索
+        [_search AMapPOIAroundSearch: request];
+        
+        
     }
 }
 
@@ -178,10 +187,6 @@ updatingLocation:(BOOL)updatingLocation
     }
     
     [table reloadData];
-    
-    [UIView animateWithDuration:0.5f animations:^{
-        [table setFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
-    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -243,7 +248,7 @@ updatingLocation:(BOOL)updatingLocation
     
     [self initVariable];
     
-     table=[[UITableView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 50) style:UITableViewStylePlain];
+     table=[[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight, kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight)) style:UITableViewStylePlain];
     [table setDelegate:self];
     [table setDataSource:self];
     [table setShowsVerticalScrollIndicator:NO];
