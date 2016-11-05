@@ -177,9 +177,9 @@ UIViewControllerTransitioningDelegate
             
             
             womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-            womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
+            womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
             womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
-            womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
+            womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
             womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
             [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:womanButton];
@@ -193,9 +193,9 @@ UIViewControllerTransitioningDelegate
             
             
             womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-            womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
+            womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
             womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
-            womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
+            womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
             womanButton.roolImage.image = [UIImage imageNamed:@"roolIcon-choose"];
             [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:womanButton];
@@ -323,6 +323,8 @@ UIViewControllerTransitioningDelegate
 - (void)parseCodeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"资料修改失败"];
@@ -466,6 +468,7 @@ UIViewControllerTransitioningDelegate
                                                                       withObject:nil
                                                                    waitUntilDone:YES];
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                               [self logoutAction:resp];
                                                
                                                NSString    *result = [bodyDict objectForKey:@"result"];
                                                
@@ -490,6 +493,8 @@ UIViewControllerTransitioningDelegate
 -(void)saveUserInfoResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     if (!bodyDict)
     {
         [self textStateHUD:@"保存失败"];

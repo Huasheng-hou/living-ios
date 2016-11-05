@@ -28,16 +28,16 @@
     return self;
 }
 
-- (NSString *)serverHost
-{
-
-//    return @"http://120.26.64.40:8080/living/";//内测地址
-    
-    return @"http://yaoguo1818.com/living/";//发布地址
-    
-
-
-}
+//- (NSString *)serverHost
+//{
+//
+////    return @"http://120.26.64.40:8080/living/";//内测地址
+//    
+//    return @"http://yaoguo1818.com/living/";//发布地址
+//    
+//
+//
+//}
 
 - (BOOL)isPost
 {

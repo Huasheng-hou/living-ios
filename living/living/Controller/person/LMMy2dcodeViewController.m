@@ -61,6 +61,8 @@
 -(void)get2DcodeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
         return;
@@ -116,7 +118,7 @@
     addressLabel.font = TEXT_FONT_LEVEL_2;
     
     [addressLabel sizeToFit];
-    addressLabel.frame = CGRectMake(95, 52, addressLabel.bounds.size.width, 20);
+    addressLabel.frame = CGRectMake(91, 52, addressLabel.bounds.size.width, 20);
     [backView addSubview: addressLabel];
     
     

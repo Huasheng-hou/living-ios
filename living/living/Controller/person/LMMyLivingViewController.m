@@ -136,6 +136,8 @@ WJLoopViewDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
+    [self logoutAction:resp];
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"我的生活馆信息bodyDic：%@",bodyDic);
         

@@ -47,6 +47,9 @@ MBProgressHUDDelegate
 - (void)hideStateHud;
 - (void)resignCurrentFirstResponder;
 
+
+-(void)logoutAction:(NSString *)resp;
+
 // * 在利用Keyboard、PickerView等组件编辑内容时，将某一区域滚动到可视范围内，防止被编辑控件遮挡
 //
 - (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view;

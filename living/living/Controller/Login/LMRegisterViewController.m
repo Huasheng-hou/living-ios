@@ -171,9 +171,9 @@ UIViewControllerTransitioningDelegate
         
         
         womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-        womanButton.headImage.frame = CGRectMake(26, 20, 50, 48);
+        womanButton.headImage.frame = CGRectMake(26-1.5, 20, 50, 48);
         womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
-        womanButton.roolImage.frame = CGRectMake(41.5, 90, 15, 15);
+        womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
         womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
         [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:womanButton];

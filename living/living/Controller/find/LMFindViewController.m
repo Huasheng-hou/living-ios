@@ -10,6 +10,7 @@
 #import "LMFindCell.h"
 #import "WJLoopView.h"
 #import "LMWebViewController.h"
+#import "LMFindBannerRequest.h"
 
 @interface LMFindViewController ()<UITableViewDelegate,
 UITableViewDataSource,

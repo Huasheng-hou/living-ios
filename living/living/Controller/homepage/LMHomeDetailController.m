@@ -28,6 +28,9 @@
 
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "LMArticeDeleteRequest.h"
+#import "LMArticleCommentDeleteRequest.h"
+
+
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -97,8 +100,13 @@ shareTypeDelegate
 
 -(void)creatUI
 {
-    [super createUI];
-    self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-45);
+    
+    
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    self.tableView.delegate=self;
+    self.tableView.dataSource=self;
+    [self.view addSubview:self.tableView];
+    
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self creatFootView];
     hightArray = [NSMutableArray new];
@@ -194,6 +202,7 @@ shareTypeDelegate
 -(void)getarticlePraiseDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
     {
         [self textStateHUD:@"点赞成功"];
@@ -240,6 +249,8 @@ shareTypeDelegate
 -(void)getHomeDeatilDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
@@ -937,6 +948,7 @@ shareTypeDelegate
                                                
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                   [self logoutAction:resp];
                                                    if (!bodyDic) {
                                                        [self textStateHUD:@"点赞失败"];
                                                    }else{
@@ -945,8 +957,7 @@ shareTypeDelegate
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
                                                            [self getHomeDetailDataRequest];
-                                                           NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:1]];
-                                                           [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                                  
                                                            
                                                        }else{
                                                            NSString *str = [bodyDic objectForKey:@"description"];
@@ -969,6 +980,7 @@ shareTypeDelegate
 -(void)getPraisecellDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"点赞失败"];
         return;
@@ -1066,6 +1078,7 @@ shareTypeDelegate
 -(void)getEventcommitResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"回复失败"];
     }
@@ -1248,6 +1261,7 @@ shareTypeDelegate
 -(void)getCommentArticleDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"评论成功"];
         [self getHomeDetailDataRequest];
@@ -1298,7 +1312,7 @@ shareTypeDelegate
 
 -(void)getDeleteRequest
 {
-    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:articleData.articleUuid ];
+    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_artcleuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1319,6 +1333,7 @@ shareTypeDelegate
 -(void)deleteActivityResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
@@ -1339,31 +1354,147 @@ shareTypeDelegate
    
 }
 
-
+#pragma mark --删除评论
 -(void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
     NSLog(@"**********%ld",tap.view.tag);
-    if (tap.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"***********3333******");
+    NSInteger index = tap.view.tag;
+    
+    if (listArray[index][@"comment_content"]) {
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                  style:UIAlertActionStyleCancel
-                                                handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                  style:UIAlertActionStyleDestructive
-                                                handler:^(UIAlertAction*action) {
-                                                    NSLog(@"*****删除");
-                                                }]];
+        LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:listArray[index]];
         
-        [self presentViewController:alert animated:YES completion:nil];
-        
-        
-    }else{
-        NSLog(@"**********222222*******");
+        if (tap.state == UIGestureRecognizerStateBegan) {
+            NSLog(@"***********3333******");
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDestructive
+                                                    handler:^(UIAlertAction*action) {
+                                                        NSLog(@"*****删除");
+                                                        
+                                                        [self deleteCommentdata:list.commentUuid];
+                                                        
+                                                        
+                                                    }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+            
+        }else{
+            NSLog(@"**********222222*******");
+        }
+
     }
+    
+    if (listArray[index][@"replyContent"]) {
+        
+        LMCommentReplys *list = [[LMCommentReplys alloc] initWithDictionary:listArray[index]];
+        
+        if (tap.state == UIGestureRecognizerStateBegan) {
+            NSLog(@"***********3333******");
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的回复"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDestructive
+                                                    handler:^(UIAlertAction*action) {
+                                                        NSLog(@"*****删除");
+                                                        
+                                                        [self deleteArticleReply:list.commentUuid];
+                                                        
+                                                        
+                                                    }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+            
+        }else{
+            NSLog(@"**********222222*******");
+        }
+        
+    }
+   
+    
+    
+    
+    }
+
+
+-(void)deleteCommentdata:(NSString *)uuid
+{
+    LMArticleCommentDeleteRequest *request = [[LMArticleCommentDeleteRequest alloc] initWithCommentUUid:uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getdeleteArticlecommentResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除回复失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getdeleteArticlecommentResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"删除失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"删除成功"];
+            
+            [self getHomeDetailDataRequest];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
+
+-(void)deleteArticleReply:(NSString *)uuid
+{
+    [self textStateHUD:@"暂未提供删除接口"];
+}
+
+
+
+
+- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+{
+    CGFloat     keyboardHeight  = 280;
+    
+    if (view && view.superview) {
+        rect    = [self.tableView convertRect:rect fromView:view.superview];
+    }
+    
+    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        return;
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+}
+
+- (void)resignCurrentFirstResponder
+{
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    [keyWindow endEditing:YES];
 }
 
 

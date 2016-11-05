@@ -131,6 +131,9 @@ UITableViewDataSource
 -(void)getauthorDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
+    
     NSLog(@"%@",bodyDic);
     total = [[bodyDic objectForKey:@"total"] intValue];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {

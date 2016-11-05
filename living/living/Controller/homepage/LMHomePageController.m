@@ -98,6 +98,16 @@ LMhomePageCellDelegate
     headView.backgroundColor = BG_GRAY_COLOR;
     _tableView.tableHeaderView = headView;
     
+    [self addBackView];
+
+    
+    [self setupRefresh];
+
+    
+}
+
+-(void)addBackView
+{
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*3/5+40, 200, 130)];
     
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(115, 10, 70, 91)];
@@ -111,11 +121,9 @@ LMhomePageCellDelegate
     [homeImage addSubview:imageLb];
     homeImage.hidden = YES;
     [_tableView addSubview:homeImage];
-    
-    [self setupRefresh];
-
-    
 }
+
+
 
 -(void)sweepAction
 {
@@ -199,6 +207,7 @@ LMhomePageCellDelegate
     }
     
     
+    
     LMBannerrequest *request = [[LMBannerrequest alloc] init];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -211,6 +220,8 @@ LMhomePageCellDelegate
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"获取轮播图失败"
                                                                    waitUntilDone:YES];
+                                               
+                                               
                                            }];
     [proxy start];
     
@@ -221,6 +232,8 @@ LMhomePageCellDelegate
    
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
 //       NSLog(@"===========轮播图=bodyDic===============%@",bodyDic);
@@ -273,6 +286,8 @@ LMhomePageCellDelegate
 -(void)getHomeDataRequest:(NSInteger)page
 {
     
+    NSLog(@"%ld",page);
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -290,6 +305,7 @@ LMhomePageCellDelegate
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"获取列表失败"
                                                                    waitUntilDone:YES];
+                                               [self addBackView];
                                            }];
     [proxy start];
     
@@ -299,7 +315,8 @@ LMhomePageCellDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-   
+    [self logoutAction:resp];
+    
     
     NSLog(@"============首页数据请求结果===========%@",bodyDic);
     
@@ -433,8 +450,6 @@ LMhomePageCellDelegate
     
     
 }
-
-
 
 
 @end

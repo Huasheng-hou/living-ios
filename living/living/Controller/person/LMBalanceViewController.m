@@ -291,6 +291,7 @@ UITableViewDataSource>
 -(void)getBlanceListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     
     NSLog(@"===========余额明细=bodyDic==============%@",bodyDic);
     

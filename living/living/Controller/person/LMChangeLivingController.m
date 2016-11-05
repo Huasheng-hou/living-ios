@@ -74,6 +74,8 @@
 -(void)getLivingListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     NSLog(@"***********选择生活馆**%@",bodyDic);
     NSString *result    = [bodyDic objectForKey:@"result"];
     

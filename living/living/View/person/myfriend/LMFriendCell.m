@@ -8,6 +8,7 @@
 
 #import "LMFriendCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 
 @implementation LMFriendCell
 
@@ -47,6 +48,14 @@
 
     
 }
+
+-(void)setData:(LMFriendList *)list
+{
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    _nameLabel.text = list.nickname;
+    _addressLabel.text = list.address;
+}
+
 
 
 - (void)awakeFromNib {

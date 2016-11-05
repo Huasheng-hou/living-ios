@@ -120,6 +120,8 @@ UITableViewDataSource
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
+    [self logoutAction:resp];
+    
     if (!bodyDict) {
         [self textStateHUD:@"获取数据失败"];
         return;
