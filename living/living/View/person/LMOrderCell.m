@@ -31,6 +31,8 @@
 
 @property(nonatomic, strong)UIButton *payButton;
 
+@property(nonatomic, strong)UILabel *numLabel;
+
 
 
 
@@ -90,10 +92,17 @@
     
     _titleLabel = [UILabel new];
     _titleLabel.text = @"活动🔥名称活动🔥名称活动🔥名称活动🔥名称活动🔥名称活动🔥名称";
-    _titleLabel.textColor = TEXT_COLOR_LEVEL_3;
+    _titleLabel.textColor = TEXT_COLOR_LEVEL_2;
     _titleLabel.font = TEXT_FONT_LEVEL_2;
     _titleLabel.numberOfLines = 2;
     [cellView addSubview:_titleLabel];
+    
+    _numLabel = [UILabel new];
+    _numLabel.text = @"订单金额 ￥300";
+    _numLabel.font = TEXT_FONT_LEVEL_2;
+    _numLabel.textColor = TEXT_COLOR_LEVEL_3;
+    [cellView addSubview:_numLabel];
+    
     
     _priceLabel = [UILabel new];
     _priceLabel.text = @"订单金额 ￥300";
@@ -152,6 +161,8 @@
     _titleLabel.text = list.eventName;
     _orderNumLabel.text = list.orderNumber;
     
+    _numLabel.text =[NSString stringWithFormat:@"x %.0f",list.number];
+    
     
     
     int payNum = [list.payStatus intValue];
@@ -202,6 +213,7 @@
     [_timeLabel sizeToFit];
     [_deleteButton sizeToFit];
     [_payButton sizeToFit];
+    [_numLabel sizeToFit];
     
     
     
@@ -214,6 +226,8 @@
     _deleteButton.frame = CGRectMake(kScreenWidth-_deleteButton.bounds.size.width*2-50, 120, _deleteButton.bounds.size.width, 25);
     
     _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
+    
+    _numLabel.frame = CGRectMake(80, 90, _numLabel.bounds.size.width, 20);
 }
 
 //删除

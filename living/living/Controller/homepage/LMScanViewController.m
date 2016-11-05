@@ -13,6 +13,7 @@
 #import "LMWebViewController.h"
 #import "LMScanRequest.h"
 #import "LMMyFriendViewController.h"
+#import "LMFriendDataRequest.h"
 
 
 #define DeviceMaxHeight ([UIScreen mainScreen].bounds.size.height)
@@ -28,6 +29,8 @@
     
     BOOL isFirst;//第一次进入该页面
     BOOL isPush;//跳转到下一级页面
+    
+    NSString *scanResult;
 }
 
 @property (strong, nonatomic) CIDetector *detector;
@@ -193,14 +196,54 @@
 {
     
     NSLog(@"%@",str);
-    NSString *string = @"";
+    
     if (str.length >9) {
-        string = [str substringFromIndex:9];
+        scanResult = [str substringFromIndex:9];
     }
     
+    [self getMakeFriend];
     
+    LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:scanResult];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getjoinNumResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取好友信息失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+ 
     
-    LMScanRequest *request = [[LMScanRequest alloc] initWithscanningResult:string];
+}
+
+-(void)getjoinNumResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
+    
+    if (!bodyDic) {
+        [self textStateHUD:@"获取好友信息失败"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            NSLog(@"****");
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
+
+
+-(void)getMakeFriend
+{
+    LMScanRequest *request = [[LMScanRequest alloc] initWithscanningResult:scanResult];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -214,10 +257,10 @@
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
-    
-    
 }
+
+
+
 
 -(void)getscanningResponse:(NSString *)resp
 {

@@ -18,7 +18,12 @@
 #import "LMActivityDetailRequest.h"
 #import "LMEventDetailEventBody.h"
 #import "LMEventDetailEventProjectsBody.h"
+
+
 #import "LMEventDetailLeavingMessages.h"
+
+
+
 #import "LMEventJoinRequest.h"
 #import "LMEventLivingMsgRequest.h"
 #import "LMEventpraiseRequest.h"
@@ -31,6 +36,7 @@
 #import "LMBesureOrderViewController.h"
 
 #import "LMEventCommentRequest.h"
+#import "LMEventReplydeleteRequest.h"
 
 @interface LMActivityDetailController ()
 <
@@ -104,11 +110,12 @@ UIAlertViewDelegate
 -(void)creatUI
 {
     
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+10) style:UITableViewStyleGrouped];
+//    self.tableView.contentInset     = UIEdgeInsetsMake(0, 0, 5, 0);
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     [self.view addSubview:self.tableView];
-    
+     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
     self.tableView.contentInset     = UIEdgeInsetsMake(0, 0, 12, 0);
     headerView = [UIView new];
@@ -247,19 +254,11 @@ UIAlertViewDelegate
         if (msgArray.count>0) {
            [msgArray removeAllObjects];
         }
-        
-        for (int i=0; i<array.count; i++) {
-//            LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:array[i]];
-
-                NSDictionary *dic = array[i][@"message"];
-                [msgArray addObject:dic];
-        }
         for (int i =0; i<array.count; i++) {
-            NSMutableArray *replyarr = array[i][@"replys"];
-            for (int j = 0; j<replyarr.count; j++) {
-                NSDictionary *dic = replyarr[j];
-                [msgArray addObject:dic];
-            }
+
+            LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:array[i]];
+            [msgArray addObject:list];
+            
         }
         
         NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
@@ -326,18 +325,10 @@ UIAlertViewDelegate
         
         if (msgArray.count>0) {
             
-            if (msgArray[indexPath.row][@"comment_content"]){
+
                 LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:msgArray[indexPath.row]];
                 return [LMLeavemessagecell cellHigth:list.commentContent];
-                
-            }
 
-            if (msgArray[indexPath.row][@"replyContent"]){
-                LMEventReplys *list = [[LMEventReplys alloc] initWithDictionary:msgArray[indexPath.row]];
-                return [LMLeavemessagecell cellHigth:list.replyContent];
-            }
-            
-            
         }
 
         
@@ -524,7 +515,7 @@ UIAlertViewDelegate
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell setValue:eventDic];
-        
+    
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         return cell;
@@ -563,7 +554,7 @@ UIAlertViewDelegate
             }
             
             [cell setValue:list];
-            
+        
             NSLog(@"%@",list.projectImgs);
             [cell setXScale:self.xScale yScale:self.yScaleNoTab];
 
@@ -578,18 +569,20 @@ UIAlertViewDelegate
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
-//        LMEventDetailLeavingMessages *msgData = msgArray[indexPath.row];
-        [cell setValue:msgArray andIndex:indexPath.row];
-        cell.tag = indexPath.row;
+        LMEventDetailLeavingMessages *list = msgArray[indexPath.row];
         
-//        cell.commentUUid = msgData.commentUuid;
+        [cell setValue:list];
+        
+        
+
         cell.delegate = self;
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
-        tap.view.tag = indexPath.row;
+//        tap.view.tag = indexPath.row;
         tap.minimumPressDuration = 1.0;
+        cell.contentView.tag = indexPath.row;
         [cell.contentView addGestureRecognizer:tap];
         
         
@@ -797,14 +790,14 @@ UIAlertViewDelegate
     
     APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     
-    infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
-    infoView.titleLabel.text = @"￥:0";
+    infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
+    infoView.titleLabel.text = @"￥:10000";
     infoView.titleLabel.textColor = LIVING_REDCOLOR;
     infoView.titleLabel.font = [UIFont systemFontOfSize:17];
     [infoView.bottomView addSubview:infoView.titleLabel];
     
     infoView.title2 = [UILabel new];
-    infoView.title2.text = @"￥:0";
+    infoView.title2.text = @"￥:10000";
     infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
     infoView.title2.font = [UIFont systemFontOfSize:15];
 
@@ -814,18 +807,26 @@ UIAlertViewDelegate
     
 
     if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
-        [infoView.titleLabel sizeToFit];
-        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.discount];
-        infoView.titleLabel.frame = CGRectMake(150, 30, infoView.titleLabel.bounds.size.width, 30);
-        [infoView.title2 sizeToFit];
-        infoView.title2.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
-        infoView.title2.frame = CGRectMake(160+infoView.titleLabel.bounds.size.width, 30, infoView.title2.bounds.size.width, 30);
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(160+infoView.titleLabel.bounds.size.width, 45, infoView.title2.bounds.size.width, 0.5)];
         
+        
+        
+        
+        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.discount];
+        [infoView.titleLabel sizeToFit];
+        infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+        
+        infoView.title2.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        [infoView.title2 sizeToFit];
+        infoView.title2.frame = CGRectMake(155+infoView.titleLabel.bounds.size.width, 25, infoView.title2.bounds.size.width, 30);
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(155+infoView.titleLabel.bounds.size.width, 40, infoView.title2.bounds.size.width+2, 1.5)];
+        line.backgroundColor = TEXT_COLOR_LEVEL_3;
         [infoView.bottomView addSubview:line];
         
     }else{
-       infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        [infoView.titleLabel sizeToFit];
+        infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+       
     }
     
     
@@ -839,7 +840,7 @@ UIAlertViewDelegate
     
     UIView *view = [infoView viewWithTag:1000];
     [UIView animateWithDuration:0.2 animations:^{
-        view.frame = CGRectMake(0, kScreenHeight-465,self.view.bounds.size.width, 465);
+        view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
     }];
     
     
@@ -1022,16 +1023,16 @@ UIAlertViewDelegate
     }
 }
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
-    if ([textView isEqual:commentText]) {
-        [self commitDataRequest];
-    }
-    
-    
-    [self resignCurrentFirstResponder];
-    return YES;
-}
+//-(BOOL)textViewShouldEndEditing:(UITextView *)textView
+//{
+//    if ([textView isEqual:commentText]) {
+//        [self commitDataRequest];
+//    }
+//    
+//    
+//    [self resignCurrentFirstResponder];
+//    return YES;
+//}
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -1103,7 +1104,6 @@ UIAlertViewDelegate
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"删除失败"
                                                                    waitUntilDone:YES];
-                                               [_tableView reloadData];
                                            }];
     [proxy start];
     
@@ -1119,6 +1119,11 @@ UIAlertViewDelegate
         NSLog(@"==================删除活动bodyDic：%@",bodyDic);
         
         [self textStateHUD:@"删除成功"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEventlist" object:nil];
+        });
         
         
         
@@ -1126,8 +1131,8 @@ UIAlertViewDelegate
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    [_tableView reloadData];
 }
+
 
 
 
@@ -1137,12 +1142,18 @@ UIAlertViewDelegate
     NSLog(@"**********%ld",tap.view.tag);
     NSInteger index = tap.view.tag;
     
-    if (msgArray[index][@"comment_content"]) {
+    
+    LMEventDetailLeavingMessages *list= msgArray[index];
+    
+    
+    
+    if (tap.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"***********3333******");
+        NSLog(@"************%@",list.type);
         
-        LMEventDetailLeavingMessages *list=[[LMEventDetailLeavingMessages alloc]initWithDictionary:msgArray[index]];
-        
-        if (tap.state == UIGestureRecognizerStateBegan) {
-            NSLog(@"***********3333******");
+        if ([list.type isEqual:@"comment"]){
+            
+            NSLog(@"%@",list.commentUuid);
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
                                                                            message:nil
@@ -1161,20 +1172,10 @@ UIAlertViewDelegate
                                                     }]];
             
             [self presentViewController:alert animated:YES completion:nil];
-            
-            
-        }else{
-            NSLog(@"**********222222*******");
         }
-        
-    }
-    
-    if (msgArray[index][@"replyContent"]) {
-        
-        LMEventReplys *list = [[LMEventReplys alloc] initWithDictionary:msgArray[index]];
-        
-        if (tap.state == UIGestureRecognizerStateBegan) {
-            NSLog(@"***********3333******");
+        if ([list.type isEqual:@"reply"]) {
+            
+            NSLog(@"%@",list.replyUuid);
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的回复"
                                                                            message:nil
@@ -1187,7 +1188,7 @@ UIAlertViewDelegate
                                                     handler:^(UIAlertAction*action) {
                                                         NSLog(@"*****删除");
                                                         
-                                                        [self deleteeventReply:list.commentUuid];
+                                                        [self deleteArticleReply:list.replyUuid];
                                                         
                                                         
                                                     }]];
@@ -1195,14 +1196,11 @@ UIAlertViewDelegate
             [self presentViewController:alert animated:YES completion:nil];
             
             
-        }else{
-            NSLog(@"**********222222*******");
         }
         
+    }else{
+        NSLog(@"**********222222*******");
     }
-    
-    
-    
     
 }
 
@@ -1219,7 +1217,7 @@ UIAlertViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除回复失败"
+                                                                      withObject:@"删除评论失败"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -1228,6 +1226,7 @@ UIAlertViewDelegate
 -(void)getdeleteArticlecommentResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"删除失败请重试"];
@@ -1244,11 +1243,42 @@ UIAlertViewDelegate
 
 
 
--(void)deleteeventReply:(NSString *)uuid
+-(void)deleteArticleReply:(NSString *)uuid
 {
-    [self textStateHUD:@"暂未提供删除接口"];
+    
+    LMEventReplydeleteRequest *request = [[LMEventReplydeleteRequest alloc] initWithCommentUUid:uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getdeleteArticlereplyResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除回复失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
 }
-
+-(void)getdeleteArticlereplyResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"删除失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"删除成功"];
+            
+            [self getEventListDataRequest];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
 
 
 

@@ -181,7 +181,7 @@
     _freeTF.font = TEXT_FONT_LEVEL_2;
     _freeTF.returnKeyType = UIReturnKeyDone;
     _freeTF.placeholder = @"请输入活动费用";
-    _freeTF.keyboardType = UIKeyboardTypePhonePad;
+    _freeTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_freeTF];
  
     //会员费用
@@ -189,7 +189,7 @@
     _VipFreeTF.font = TEXT_FONT_LEVEL_2;
     _VipFreeTF.returnKeyType = UIReturnKeyDone;
     _VipFreeTF.placeholder = @"请输入会员费用";
-    _VipFreeTF.keyboardType = UIKeyboardTypePhonePad;
+    _VipFreeTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_VipFreeTF];
     
     //参加人数
@@ -197,7 +197,7 @@
     _joincountTF.font = TEXT_FONT_LEVEL_2;
     _joincountTF.returnKeyType = UIReturnKeyDone;
     _joincountTF.placeholder = @"请输入参加人数";
-    _joincountTF.keyboardType = UIKeyboardTypePhonePad;
+    _joincountTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_joincountTF];
     
     

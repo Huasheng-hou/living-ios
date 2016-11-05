@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSString *orderUuid;
 @property (nonatomic, strong) NSString *orderNumber;
 @property (nonatomic, strong) NSString *orderingTime;
+@property (nonatomic, assign) double number;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

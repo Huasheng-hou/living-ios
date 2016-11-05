@@ -18,6 +18,7 @@ NSString *const kLMOrderListPayStatus = @"pay_status";
 NSString *const kLMOrderListOrderUuid = @"order_uuid";
 NSString *const kLMOrderListOrderNumber = @"order_number";
 NSString *const kLMOrderListOrderingTime = @"ordering_time";
+NSString *const kLMOrderListNumber = @"numbers";
 
 
 @interface LMOrderList ()
@@ -38,6 +39,7 @@ NSString *const kLMOrderListOrderingTime = @"ordering_time";
 @synthesize orderUuid = _orderUuid;
 @synthesize orderNumber = _orderNumber;
 @synthesize orderingTime = _orderingTime;
+@synthesize number = _number;
 
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
@@ -62,6 +64,7 @@ NSString *const kLMOrderListOrderingTime = @"ordering_time";
             self.orderUuid = [self objectOrNilForKey:kLMOrderListOrderUuid fromDictionary:dict];
             self.orderNumber = [self objectOrNilForKey:kLMOrderListOrderNumber fromDictionary:dict];
             self.orderingTime = [self objectOrNilForKey:kLMOrderListOrderingTime fromDictionary:dict];
+            self.number = [[self objectOrNilForKey:kLMOrderListNumber fromDictionary:dict] doubleValue];
 
     }
     
@@ -82,6 +85,7 @@ NSString *const kLMOrderListOrderingTime = @"ordering_time";
     [mutableDict setValue:self.orderUuid forKey:kLMOrderListOrderUuid];
     [mutableDict setValue:self.orderNumber forKey:kLMOrderListOrderNumber];
     [mutableDict setValue:self.orderingTime forKey:kLMOrderListOrderingTime];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.number] forKey:kLMOrderListNumber];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -115,6 +119,7 @@ NSString *const kLMOrderListOrderingTime = @"ordering_time";
     self.orderUuid = [aDecoder decodeObjectForKey:kLMOrderListOrderUuid];
     self.orderNumber = [aDecoder decodeObjectForKey:kLMOrderListOrderNumber];
     self.orderingTime = [aDecoder decodeObjectForKey:kLMOrderListOrderingTime];
+    self.number = [aDecoder decodeDoubleForKey:kLMOrderListNumber];
     return self;
 }
 
@@ -131,6 +136,7 @@ NSString *const kLMOrderListOrderingTime = @"ordering_time";
     [aCoder encodeObject:_orderUuid forKey:kLMOrderListOrderUuid];
     [aCoder encodeObject:_orderNumber forKey:kLMOrderListOrderNumber];
     [aCoder encodeObject:_orderingTime forKey:kLMOrderListOrderingTime];
+    [aCoder encodeDouble:_number forKey:kLMOrderListNumber];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -149,6 +155,7 @@ NSString *const kLMOrderListOrderingTime = @"ordering_time";
         copy.orderUuid = [self.orderUuid copyWithZone:zone];
         copy.orderNumber = [self.orderNumber copyWithZone:zone];
         copy.orderingTime = [self.orderingTime copyWithZone:zone];
+        copy.number = self.number;
     }
     
     return copy;

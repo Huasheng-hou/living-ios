@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LMCommentButton.h"
-#import "LMCommentMessages.h"
+#import "LMAriticleCommentMessages.h"
 #import "UIImageView+WebCache.h"
 
 @protocol  LMCommentCellDelegate;
@@ -32,7 +32,7 @@
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
--(void)setValue:(NSMutableArray *)data andIndex:(NSInteger)index;
+-(void)setValue:(LMAriticleCommentMessages *)data;
 
 + (CGFloat)cellHigth:(NSString *)titleString;
 

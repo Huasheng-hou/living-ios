@@ -135,7 +135,10 @@
     _addressLabel.text = listData.address;
     [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
     _titleLabel.text = listData.eventName;
-    _timeLabel.text = listData.startTime;
+    
+   NSString *string = [listData.startTime substringToIndex:16];
+    
+    _timeLabel.text = string;
     
     _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.currentNum,listData.totalnum];
     _priceLabel.text =[NSString stringWithFormat:@"￥%@/人",listData.perCost];

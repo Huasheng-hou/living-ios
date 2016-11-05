@@ -411,7 +411,7 @@ static NSMutableArray *cellDataArray;
     
     currentDate = [NSDate date];
     
-    [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
+    [FitDatePickerView showWithMinimumDate:currentDate
                                MaximumDate:[formatter dateFromString:@"2950-01-01"]
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
@@ -428,10 +428,22 @@ static NSMutableArray *cellDataArray;
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *currentDate;
+    if ([msgCell.dateButton.textLabel.text isEqual:@"请选择活动开始时间"]) {
+        currentDate = [NSDate date];
+    }else{
+        
+        NSString *dateString=msgCell.dateButton.textLabel.text;
+        
+        currentDate=[formatter dateFromString:dateString];
+        
+    }
     
-    currentDate = [NSDate date];
     
-    [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"2010-01-01 00:00:00"]
+    
+    
+    
+    
+    [FitDatePickerView showWithMinimumDate:currentDate
                                MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
@@ -879,7 +891,6 @@ static NSMutableArray *cellDataArray;
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
             NSLog(@"******==========活动介绍*eventUUid==========*%@",string);
             eventUUid = string;
-            
            
             [self publicProject];
             
@@ -981,7 +992,7 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y+15 - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
 }
 
 

@@ -117,82 +117,55 @@
 
 
 
--(void)setValue:(NSMutableArray *)data andIndex:(NSInteger)index;
+-(void)setValue:(LMAriticleCommentMessages *)data
 {
-//    LMCommentMessages *list = data;
-//    [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-//    if (list.nickName == nil) {
-//        _nameLabel.text = @"匿名用户";
-//    }else{
-//        _nameLabel.text = list.nickName;
-//    }
-//    _timeLabel.text = [self getUTCFormateDate:list.commentTime];
-//    _titleLabel.text = list.commentContent;
-//    if (list.hasPraised == YES) {
-//        _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
-//    }else{
-//        _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
-//    }
-//    
-//    _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",list.praiseCount];
-//    
-//    _commentUUid = list.commentUuid;
-//    
-//    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
-//    //参数1 代表文字自适应的范围 2代表 文字自适应的方式前三种 3代表文字在自适应过程中自适应的字体大小
-//    _conHigh = [list.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-//
-    NSLog(@"%@",data[index]);
-    for (int i = 0; i<data.count; i++) {
-        if (data[index][@"comment_content"]) {
-            LMCommentMessages *list=[[LMCommentMessages alloc]initWithDictionary:data[index]];
-                [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-                if (list.nickName == nil) {
+
+        if ([data.type isEqual:@"comment"]) {
+                [_imageV sd_setImageWithURL:[NSURL URLWithString:data.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                if (data.nickName == nil) {
                     _nameLabel.text = @"匿名用户";
                 }else{
-                    _nameLabel.text = list.nickName;
+                    _nameLabel.text = data.nickName;
                 }
-                _timeLabel.text = [self getUTCFormateDate:list.commentTime];
-                _titleLabel.text = list.commentContent;
+                _timeLabel.text = [self getUTCFormateDate:data.commentTime];
+                _titleLabel.text = data.commentContent;
             
             
-                if (list.hasPraised == YES) {
+                if (data.hasPraised == YES) {
                     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
                 }else{
                     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
                 }
-               _addressLabel.text = list.address;
-                _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",list.praiseCount];
+               _addressLabel.text = data.address;
+                _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",data.praiseCount];
             
-                _commentUUid = list.commentUuid;
+                _commentUUid = data.commentUuid;
             
                 NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
                 //参数1 代表文字自适应的范围 2代表 文字自适应的方式前三种 3代表文字在自适应过程中自适应的字体大小
-                _conHigh = [list.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+                _conHigh = [data.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
         }
-        if (data[index][@"replyContent"]){
-            LMCommentReplys *list = [[LMCommentReplys alloc] initWithDictionary:data[index]];
-            [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-            if (list.nickName == nil) {
-                _nameLabel.text = [NSString stringWithFormat:@"匿名用户 回复了 %@",list.respondentNickname];
+        if ([data.type isEqual:@"reply"]){
+
+            [_imageV sd_setImageWithURL:[NSURL URLWithString:data.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+            if (data.nickName == nil) {
+                _nameLabel.text = [NSString stringWithFormat:@"匿名用户 回复了 %@",data.respondentNickname];
             }else{
-                _nameLabel.text = [NSString stringWithFormat:@"%@ 回复了 %@",list.nickName,list.respondentNickname];
+                _nameLabel.text = [NSString stringWithFormat:@"%@ 回复了 %@",data.nickName,data.respondentNickname];
             }
-            _addressLabel.text = list.address;
-            _timeLabel.text = [self getUTCFormateDate:list.replyTime];
-            _titleLabel.text = list.replyContent;
+            _addressLabel.text = data.address;
+            _timeLabel.text = [self getUTCFormateDate:data.replyTime];
+            _titleLabel.text = data.commentContent;
             _zanButton.hidden = YES;
             
             _replyButton.hidden = YES;
-            
-
-            _commentUUid = list.commentUuid;
+        
+            _commentUUid = data.commentUuid;
             
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
             //参数1 代表文字自适应的范围 2代表 文字自适应的方式前三种 3代表文字在自适应过程中自适应的字体大小
-            _conHigh = [list.replyContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            _conHigh = [data.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-        }
         
     }
 
@@ -231,7 +204,7 @@
     _addIcon.frame = CGRectMake(55, 70+_conHigh, _addIcon.bounds.size.width, _addIcon.bounds.size.height);
         _addressLabel.frame =CGRectMake(58+_addIcon.bounds.size.width,70+_conHigh, _addressLabel.bounds.size.width, _addressLabel.bounds.size.height);
     
-    _lineLabel.frame = CGRectMake(15, 75+_conHigh+20, kScreenWidth-30, 0.5);
+    _lineLabel.frame = CGRectMake(15, 75+_conHigh+18, kScreenWidth-30, 0.5);
     
     _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width+20, 30);
     
@@ -243,7 +216,7 @@
 {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    return (75+conHigh+20+0.5);
+    return (75+conHigh+20+12+0.5);
 }
 
 - (void)commentAction:(id)sender

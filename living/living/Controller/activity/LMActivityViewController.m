@@ -52,6 +52,7 @@ UITableViewDataSource
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadEvent" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadEventlist" object:nil];
 }
 
 
@@ -214,7 +215,7 @@ UITableViewDataSource
                                                imageLb.textAlignment = NSTextAlignmentCenter;
                                                [homeImage addSubview:imageLb];
                                                
-                                               UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadingEvent)];
+                                               UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadCellData)];
                                                [_tableView addGestureRecognizer:tap];
                                                [_tableView addSubview:homeImage];
                                                
@@ -275,7 +276,7 @@ UITableViewDataSource
         imageLb.textAlignment = NSTextAlignmentCenter;
         [homeImage addSubview:imageLb];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadingEvent)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadCellData)];
         [_tableView addGestureRecognizer:tap];
         [_tableView addSubview:homeImage];
         

@@ -169,11 +169,6 @@ LMhomePageCellDelegate
         
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 5a41f8e80956907d0ef9c426f877594325ebab25
     });
 }
 
@@ -322,10 +317,7 @@ LMhomePageCellDelegate
     NSLog(@"============首页数据请求结果===========%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 5a41f8e80956907d0ef9c426f877594325ebab25
         
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
@@ -334,10 +326,7 @@ LMhomePageCellDelegate
         
         NSLog(@"%@",bodyDic);
 
-<<<<<<< HEAD
-        
-=======
->>>>>>> 5a41f8e80956907d0ef9c426f877594325ebab25
+
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
         if (reload) {
@@ -438,6 +427,7 @@ LMhomePageCellDelegate
     
     LMActicleList *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+    detailVC.hidesBottomBarWhenPushed = YES;
     detailVC.artcleuuid = list.articleUuid;
     [self.navigationController pushViewController:detailVC animated:YES];
     

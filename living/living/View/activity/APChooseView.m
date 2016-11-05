@@ -42,7 +42,7 @@
         [self addSubview:self.control];
         
         //白板位置
-        self.bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight,self.bounds.size.width , 465)];
+        self.bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight,self.bounds.size.width , 425)];
         self.bottomView.backgroundColor = [UIColor whiteColor];
         self.bottomView.tag = 1000;
         [self addSubview:self.bottomView];
@@ -54,7 +54,7 @@
         [exitButton addTarget:self action:@selector(controlClick) forControlEvents:UIControlEventTouchUpInside];
         [self.bottomView addSubview:exitButton];
         
-        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(15, -25, 120, 120)];
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(15, -25, 106, 106)];
         headView.backgroundColor = [UIColor whiteColor];
         headView.layer.cornerRadius = 5;
         headView.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -62,34 +62,22 @@
         [self.bottomView addSubview:headView];
         
         //图片
-        self.productImage = [[UIImageView alloc]initWithFrame:CGRectMake(3,3 , 114, 114)];
+        self.productImage = [[UIImageView alloc]initWithFrame:CGRectMake(3,3 , 100, 100)];
         self.productImage.layer.cornerRadius = 5;
         [self.productImage setContentMode:UIViewContentModeScaleAspectFill];
         [self.productImage setClipsToBounds:YES];
         [headView addSubview:self.productImage];
-        //价格
-//        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
-//        _titleLabel.text = @"￥:0";
-//        _titleLabel.textColor = LIVING_REDCOLOR;
-//        _titleLabel.font = [UIFont systemFontOfSize:17];
-//        [self.bottomView addSubview:_titleLabel];
-//        
-//        _titleLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 150, 30)];
-//        _titleLabel2.text = @"￥:0";
-//        _titleLabel2.textColor = TEXT_COLOR_LEVEL_2;
-//        _titleLabel2.font = [UIFont systemFontOfSize:15];
-//        [self.bottomView addSubview:_titleLabel2];
-        
+
         
         
         //活动人数
-        _inventory = [[UILabel alloc]initWithFrame:CGRectMake(150, 65, 150, 20)];
+        _inventory = [[UILabel alloc]initWithFrame:CGRectMake(145, 55, 150, 20)];
         _inventory.text = @"活动人数 ";
         _inventory.font = [UIFont systemFontOfSize:14];
         [self.bottomView addSubview:_inventory];
         
         //分界线
-        UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,150, kScreenWidth, 0.5)];
+        UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,130, kScreenWidth, 0.5)];
         lineLabel.backgroundColor = [UIColor lightGrayColor];
         [self.bottomView addSubview:lineLabel];
 
@@ -101,11 +89,11 @@
 //        sizeLabel.textAlignment = NSTextAlignmentCenter;
         sizeLabel.font = [UIFont systemFontOfSize:15];
         [sizeLabel sizeToFit];
-        sizeLabel.frame = CGRectMake(10, 170, sizeLabel.bounds.size.width, 20);
+        sizeLabel.frame = CGRectMake(10, 150, sizeLabel.bounds.size.width, 20);
         [self.bottomView addSubview:sizeLabel];
         
         //
-        colorLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 200, kScreenWidth-30,60)];
+        colorLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 180, kScreenWidth-30,60)];
         colorLabel.numberOfLines = 0;
         colorLabel.text = @"报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知";
         colorLabel.textColor = [UIColor lightGrayColor];
@@ -122,12 +110,12 @@
         countLabel.textAlignment = NSTextAlignmentCenter;
         countLabel.font = [UIFont systemFontOfSize:15];
         [countLabel sizeToFit];
-        countLabel.frame = CGRectMake(10, 300, countLabel.bounds.size.width, 20);
+        countLabel.frame = CGRectMake(10, self.bottomView.frame.size.height-105, countLabel.bounds.size.width, 20);
         
         [self.bottomView addSubview:countLabel];
         //增加按钮
         _addButton = [CustomButton buttonWithType:UIButtonTypeCustom];
-        _addButton.frame = CGRectMake(kScreenWidth-50, 300, 35, 30);
+        _addButton.frame = CGRectMake(kScreenWidth-50, self.bottomView.frame.size.height-105, 35, 30);
         _addButton.titleLabel.font = [UIFont systemFontOfSize:20];
         _addButton.backgroundColor = LIVING_COLOR;
         [_addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -136,7 +124,7 @@
         [self.bottomView addSubview:_addButton];
         //减少
         _reduceButotn = [CustomButton buttonWithType:UIButtonTypeCustom];
-        _reduceButotn.frame = CGRectMake(kScreenWidth-155, 300, 35, 30);
+        _reduceButotn.frame = CGRectMake(kScreenWidth-155, self.bottomView.frame.size.height-105, 35, 30);
         [_reduceButotn setTitle:@"-" forState:0];
         _reduceButotn.backgroundColor = LIVING_COLOR;
         [_reduceButotn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -144,7 +132,7 @@
         [_reduceButotn addTarget:self action:@selector(reduceButotnClick) forControlEvents:UIControlEventTouchUpInside];
         [self.bottomView addSubview:_reduceButotn];
         
-        _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-110, 300, 50, 30)];
+        _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-110, self.bottomView.frame.size.height-105, 50, 30)];
         _numLabel.text = @"1";
         _numLabel.backgroundColor = LIVING_COLOR;
         _numLabel.textColor = [UIColor whiteColor];
@@ -247,48 +235,6 @@
     
 }
 
-
-#pragma mark 计算价格方法
-
-//-(NSString *)calcutePrice
-//{
-//    if ([style isEqualToString:@"buyout"]) {//买断
-//         NSNumber *priceNumber=(NSNumber *)self.priceArray[0];
-//        return [NSString stringWithFormat:@"￥%.2f",[priceNumber floatValue]];
-//    }else if ([style isEqualToString:@"consignment"])//代销
-//    {
-//       NSNumber *priceNumber=(NSNumber *)self.priceArray[1];
-//       return [NSString stringWithFormat:@"￥%.2f",[priceNumber floatValue]];
-//    }
-//    return @"￥0";
-//}
-
-
-#pragma mark 显示价格及库存
-
-//-(void)visiablePriceAndStock
-//{
-////    NSString *priceString=[self calcutePrice];
-//    _titleLabel.text=priceString;
-//    //库存
-//    _inventory.text=[NSString stringWithFormat:@"库存 %@件",stock];
-//    
-////     NSLog(@"==========picture===========%@  %ld   %ld",stock,(long)sizeValue,(long)colorValue);
-//    if ([stock integerValue]!=0&&sizeValue>=0&&colorValue>=0) {
-//       
-////        NSLog(@"满足条件%@",self.allGoodsInfo);
-//        for (NSDictionary *dic in self.allGoodsInfo) {
-//            if ([dic[@"goodsColor"] isEqualToString: _styleArray[colorValue]]&&[dic[@"goodsSize"] isEqualToString:_sizeArray[sizeValue]]) {
-////                NSLog(@"==========picture===========%@",dic[@"picture"]);
-//                
-//                if (dic[@"picture"]) {//图片
-//                    [self.productImage sd_setImageWithURL:[NSURL URLWithString:dic[@"picture"]]];
-//                }
-//
-//            }
-//        }
-//    }
-//}
 
 - (void)textStateHUD:(NSString *)text
 {
