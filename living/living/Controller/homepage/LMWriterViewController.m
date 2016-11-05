@@ -9,7 +9,7 @@
 #import "LMWriterViewController.h"
 #import "LMhomePageCell.h"
 #import "LMWriterDataRequest.h"
-#import "LMActicleList.h"
+#import "LMActicleVO.h"
 #import "MJRefresh.h"
 #import "LMHomeDetailController.h"
 
@@ -148,7 +148,7 @@ UITableViewDataSource
             NSArray *array = bodyDic[@"list"];
             for(int i=0;i<[array count];i++){
                 
-                LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
+                LMActicleVO *list=[[LMActicleVO alloc]initWithDictionary:array[i]];
                 if (![listArray containsObject:list]) {
                     [listArray addObject:list];
                 }
@@ -159,7 +159,7 @@ UITableViewDataSource
             NSArray *array = bodyDic[@"list"];
             
             for(int i=0;i<[array count];i++){
-                LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
+                LMActicleVO *list=[[LMActicleVO alloc]initWithDictionary:array[i]];
                 if (![listArray containsObject:list]) {
                     [listArray addObject:list];
                 }
@@ -327,7 +327,7 @@ UITableViewDataSource
         
         cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+        LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
         [cell setValue:list];
         
         return cell;
@@ -339,7 +339,7 @@ UITableViewDataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
     detailVC.artcleuuid = list.articleUuid;
     [self.navigationController pushViewController:detailVC animated:YES];

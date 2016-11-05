@@ -10,8 +10,10 @@
 #import "LMOrederDeleteRequest.h"
 #import "APChooseView.h"
 #import "LMOrderpayRequest.h"
-#import "LMOrderDataOrderInfo.h"
-#import "LMOrderDataOrderBody.h"
+
+
+#import "LMOrderBodyVO.h"
+#import "LMOrderInfoVO.h"
 
 //支付宝
 #import "Order.h"
@@ -33,8 +35,8 @@
 
 @interface LMBesureOrderViewController ()
 {
-    LMOrderDataOrderInfo *orderInfos;
-    LMOrderDataOrderBody *orderdata;
+    LMOrderInfoVO *orderInfos;
+    LMOrderBodyVO *orderdata;
     NSString *rechargeOrderUUID;
     LMEventDetailEventBody *eventDic;
 }
@@ -118,8 +120,8 @@
         [self textStateHUD:@"获取数据失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            orderInfos = [[LMOrderDataOrderInfo alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
-            orderdata = [[LMOrderDataOrderBody alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
+            orderInfos = [[LMOrderInfoVO alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
+            orderdata = [[LMOrderBodyVO alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
             [self.tableView reloadData];
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -240,14 +242,9 @@
         perCost.textColor = TEXT_COLOR_LEVEL_3;
         
         NSString *string = [NSString stringWithFormat:@"￥%@",orderdata.price];
-        NSString *string2 = [NSString stringWithFormat:@"%.0f/人",orderdata.number];
+        NSString *string2 = [NSString stringWithFormat:@"%d/人",orderdata.number];
         
-//        NSString *strs = [NSString stringWithFormat:@"￥%@x%.0f/人",orderdata.price,orderdata.number];
-//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"%@",orderdata.price];
-//
-//        [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_2 range:NSMakeRange(0,4)];
-//        [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(4,str.length-4)];
-//        perCost.attributedText = str;
+        
         perCost.text = [NSString stringWithFormat:@"%@%@",string,string2];
         [perCost sizeToFit];
         perCost.frame = CGRectMake(40, 85, perCost.bounds.size.width, 25);
@@ -313,7 +310,7 @@
                 break;
             case 2:
                 cell.textLabel.text = @"参加人数:";
-                cell.detailTextLabel.text =[NSString stringWithFormat:@"%.0f人",orderInfos.joinNumber];
+                cell.detailTextLabel.text =[NSString stringWithFormat:@"%d人",orderInfos.joinNumber];
                 break;
             case 3:
                 cell.textLabel.text = @"平均价格:";

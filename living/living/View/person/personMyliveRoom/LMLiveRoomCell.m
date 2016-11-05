@@ -27,15 +27,14 @@
     //生活馆名称
     _roomName=[[UILabel alloc]initWithFrame:CGRectMake(15, 5, kScreenWidth-30, 30)];
     [_roomName setText:@"我的生活馆"];
-    [_roomName setFont:TEXT_FONT_LEVEL_2];
+    [_roomName setFont:TEXT_FONT_LEVEL_1];
     [self addSubview:_roomName];
     
     //生活馆介绍
-    _roomIntro=[[UITextView alloc]initWithFrame:CGRectMake(10, 30, kScreenWidth-20, 60)];
+    _roomIntro=[[UILabel alloc]initWithFrame:CGRectMake(10, 30, kScreenWidth-20, 60)];
     [_roomIntro setText:@"他的借我号啥地方好速度发哈快速的防护见客户上的看法噶岁哦度奥是打飞机阿贾克斯的发哈可视电话发牢骚的拉伸地方还是爱上对方会拉丝的合法乐山大佛看我奥迪和说服力阿斯顿和覅拉伸到哈里斯的法海欧迪芬"];
     [_roomIntro setFont:TEXT_FONT_LEVEL_2];
    
-    [_roomIntro setUserInteractionEnabled:NO];
     
     [self addSubview:_roomIntro];
     
@@ -81,9 +80,9 @@
     [self addSubview:_payButton];
     
     //分割线
-    UILabel *line=[[UILabel alloc]initWithFrame:CGRectMake(15, 140, kScreenWidth-15, 0.5)];
-    [line setBackgroundColor:LINE_COLOR];
-    [self addSubview:line];
+    _line=[[UIView alloc]initWithFrame:CGRectMake(15, 140, kScreenWidth-15, 0.5)];
+    [_line setBackgroundColor:LINE_COLOR];
+    [self addSubview:_line];
     
     //地图
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 150, kScreenWidth-30, 160)];
@@ -96,22 +95,6 @@
     curLocation.latitude = 23.9098099;
     curLocation.longitude = 112.980980;
     
-//    //设置地图跨度
-//    MKCoordinateSpan span;
-//    span.latitudeDelta = 0.008;
-//    span.longitudeDelta = 0.008;
-//    
-//    //显示地图
-//    MKCoordinateRegion region = {curLocation, span};
-//    [self.mapView setRegion:region animated:NO];
-//    
-//    //点
-//    MKPointAnnotation *annotation0 = [[MKPointAnnotation alloc] init];
-//    [annotation0 setCoordinate:CLLocationCoordinate2DMake(23.9098099, 112.980980)];
-//    [annotation0 setTitle:@"地址位置"];
-//    //    [annotation0 setSubtitle:@"重庆市巴南区红光大道69号"];
-//    [_mapView addAnnotation:annotation0];
-    
     //地址显示
     _address=[[UILabel alloc]initWithFrame:CGRectMake(15, 310, kScreenWidth-30, 30)];
     [_address setText:@"这是地图显示地址安条路那个地区多少号"];
@@ -120,7 +103,7 @@
     [self addSubview:_address];
 }
 
--(void)setCellData:(LMLiveRoomLivingInfo *)info
+-(void)setCellData:(LMLivingInfoVO *)info
 {
 //    名字
     _roomName.text=info.livingName;
@@ -137,6 +120,46 @@
     
 //    地址
     _address.text=info.address;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    _dspHight = [_roomIntro.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    
+    
+    
+    
 }
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    [_roomName sizeToFit];
+    [_roomIntro sizeToFit];
+    [_balance sizeToFit];
+    [_address sizeToFit];
+    [_mapView sizeToFit];
+    [_address sizeToFit];
+    [_payButton sizeToFit];
+    [_line sizeToFit];
+
+    _roomName.frame =CGRectMake(15, 5, kScreenWidth-30, 30);
+    _roomIntro.frame =CGRectMake(15, 30, kScreenWidth-30, _dspHight);
+    _balance.frame =CGRectMake(15, 40+_dspHight, 200, 30);
+    
+    _line.frame = CGRectMake(15, 80+_dspHight, kScreenWidth-15, 0.5);
+    
+    _mapView.frame = CGRectMake(15, 90+_dspHight, kScreenWidth-30, 160);
+    _payButton.frame = CGRectMake(kScreenWidth-100, 40+_dspHight, 80, 30);
+    _address.frame = CGRectMake(15, 260+_dspHight, kScreenWidth-30, 30);
+
+}
+
++ (CGFloat)cellHigth:(NSString *)titleString
+{
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    return 300+conHigh;
+}
+
+
 
 @end

@@ -147,7 +147,7 @@
     
 }
 
--(void)setValue:(LMOrderList *)list
+-(void)setValue:(LMOrderVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
     _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
@@ -161,7 +161,7 @@
     _titleLabel.text = list.eventName;
     _orderNumLabel.text = list.orderNumber;
     
-    _numLabel.text =[NSString stringWithFormat:@"x %.0f",list.number];
+    _numLabel.text =[NSString stringWithFormat:@"x %d",list.number];
     
     
     
@@ -227,7 +227,7 @@
     
     _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
     
-    _numLabel.frame = CGRectMake(80, 90, _numLabel.bounds.size.width, 20);
+    _numLabel.frame = CGRectMake(80, 90, _numLabel.bounds.size.width,  _priceLabel.bounds.size.height);
 }
 
 //删除

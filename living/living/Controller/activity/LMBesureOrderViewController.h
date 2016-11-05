@@ -13,6 +13,6 @@
 
 @property(nonatomic,strong)NSString *orderUUid;
 
-@property(nonatomic,strong)NSDictionary *dict;
+@property(nonatomic,strong)NSMutableDictionary *dict;
 
 @end

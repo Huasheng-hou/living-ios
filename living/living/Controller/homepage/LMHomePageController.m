@@ -13,9 +13,12 @@
 #import "LMHomelistequest.h"
 #import "UIView+frame.h"
 #import "LMhomePageCell.h"
-#import "LMActicleList.h"
+
+#import "LMActicleVO.h"
+
+
 #import "WJLoopView.h"
-#import "FitUserManager.h"
+//#import "FitUserManager.h"
 #import "LMScanViewController.h"
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
@@ -116,44 +119,7 @@ LMhomePageCellDelegate
     
     [self setupRefresh];
 
-//    [self getimage];
-}
 
--(void)getimage
-{
-FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-    
-    UIImage *image=[UIImage imageNamed:@"editMsg"];
-    
-request.imageData   = UIImageJPEGRepresentation(image, 1);
-
-[self initStateHud];
-HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                       completed:^(NSString *resp, NSStringEncoding encoding){
-                                           
-                                           [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                  withObject:nil
-                                                               waitUntilDone:YES];
-                                           NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                           
-                                           [self logoutAction:resp];
-                                           
-                                           NSString    *result = [bodyDict objectForKey:@"result"];
-                                           
-                                           NSLog(@"--------bodyDict--------%@",bodyDict);
-                                           
-                                           if (result && [result isKindOfClass:[NSString class]]
-                                               && [result isEqualToString:@"0"]) {
-                                               NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                               if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                   
-                                                   
-                                               }
-                                           }
-                                       } failed:^(NSError *error) {
-                                           [self hideStateHud];
-                                       }];
-[proxy start];
 }
 
 
@@ -401,7 +367,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
         NSArray *array = bodyDic[@"list"];
         
         for (int i=0; i<array.count; i++) {
-             LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
+             LMActicleVO *list=[[LMActicleVO alloc]initWithDictionary:array[i]];
             [listArray addObject:list];
         }
         
@@ -469,7 +435,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
     LMhomePageCell *cell = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
     [cell setValue:list];
     cell.tag = indexPath.row;
     cell.delegate = self;
@@ -480,7 +446,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
     detailVC.hidesBottomBarWhenPushed = YES;
     detailVC.artcleuuid = list.articleUuid;
@@ -493,7 +459,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
 
 -(void)cellWillClick:(LMhomePageCell *)cell
 {
-    LMActicleList *list = [listArray objectAtIndex:cell.tag];
+    LMActicleVO *list = [listArray objectAtIndex:cell.tag];
     
     NSLog(@"文章作者点击");
     LMWriterViewController *writerVC = [[LMWriterViewController alloc] init];

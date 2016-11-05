@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-#import "LMLiveRoomLivingInfo.h"
+#import "LMLivingInfoVO.h"
 
 @interface LMLiveRoomCell : UITableViewCell
 
 @property(nonatomic,strong)UILabel *roomName;
 
-@property(nonatomic,strong)UITextView *roomIntro;
+@property(nonatomic,strong)UILabel *roomIntro;
 
 @property(nonatomic,strong)UILabel *balance;
 
@@ -25,6 +25,13 @@
 
 @property(nonatomic,strong)MKMapView *mapView;
 
--(void)setCellData:(LMLiveRoomLivingInfo *)info;
+@property(nonatomic,strong)UIView *line;
+
+@property(nonatomic)CGFloat dspHight;
+
+-(void)setCellData:(LMLivingInfoVO *)info;
+
+
++ (CGFloat)cellHigth:(NSString *)titleString;
 
 @end
