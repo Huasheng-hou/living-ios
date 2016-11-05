@@ -280,15 +280,10 @@ shareTypeDelegate
             [homeImage removeFromSuperview];
         }
         for (int i =0; i<array.count; i++) {
-<<<<<<< HEAD
+
             LMAriticleCommentMessages *list = [[LMAriticleCommentMessages alloc] initWithDictionary:array[i]];
             [listArray addObject:list];
-=======
-            NSDictionary *dic = array[i][@"message"];
-            
-            
-            [listArray addObject:dic];
->>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
+
 
         }
         [self.tableView reloadData];
@@ -304,25 +299,12 @@ shareTypeDelegate
 {
     if (indexPath.section==1) {
         if (listArray.count>0) {
-<<<<<<< HEAD
+
 
         LMAriticleCommentMessages *list = [[LMAriticleCommentMessages alloc] initWithDictionary:listArray[indexPath.row]];
         return [LMCommentCell cellHigth:list.commentContent];
 
-=======
-            
-            if (listArray[indexPath.row][@"comment_content"]){
-                LMCommentMessages *list = [[LMCommentMessages alloc] initWithDictionary:listArray[indexPath.row]];
-                return [LMCommentCell cellHigth:list.commentContent];
-     
-            }
-            
-            if (listArray[indexPath.row][@"replyContent"]){
-                LMCommentReplys *list = [[LMCommentReplys alloc] initWithDictionary:listArray[indexPath.row]];
-                return [LMCommentCell cellHigth:list.replyContent];
-            }
-            
->>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
+
         }
     }
     

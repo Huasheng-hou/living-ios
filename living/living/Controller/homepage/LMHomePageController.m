@@ -209,10 +209,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
         
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
-<<<<<<< HEAD
-=======
 
->>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
     });
 }
 
@@ -367,13 +364,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
             self.navigationItem.rightBarButtonItem = rightItem;
         }
-        
-<<<<<<< HEAD
-        NSLog(@"%@",bodyDic);
 
-
-=======
->>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
         if (reload) {
