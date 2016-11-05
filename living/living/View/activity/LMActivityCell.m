@@ -10,7 +10,8 @@
 #import "UIImageView+WebCache.h"
 #import "FitConsts.h"
 
-@interface LMActivityCell () {
+@interface LMActivityCell ()
+{
     float _xScale;
     float _yScale;
 }
@@ -121,29 +122,39 @@
     
 }
 
--(void)setValue:(LMActivityList *)list
+- (void)setActivityList:(ActivityListVO *)ActivityList
 {
-    LMActivityList *listData = list;
-    if (listData.nickNname==nil) {
-        _nameLabel.text = @"匿名商户";
-    }else{
-        _nameLabel.text = listData.nickNname;
+    if (!ActivityList || ![ActivityList isKindOfClass:[ActivityListVO class]]) {
+        return;
     }
     
+    _ActivityList   = ActivityList;
     
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.eventImg]];
-    _addressLabel.text = listData.address;
-    [_headV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-    _titleLabel.text = listData.eventName;
+    if (!_ActivityList.NickName) {
+        
+        _nameLabel.text = @"匿名商户";
+    } else {
+        
+        _nameLabel.text = _ActivityList.NickName;
+    }
     
-   NSString *string = [listData.startTime substringToIndex:16];
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
+    _addressLabel.text  = _ActivityList.Address;
+    [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+    _titleLabel.text = _ActivityList.EventName;
     
-    _timeLabel.text = string;
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     
-    _countLabel.text = [NSString stringWithFormat:@"%.0f/%.0f人已报名参加",listData.currentNum,listData.totalnum];
-    _priceLabel.text =[NSString stringWithFormat:@"￥%@/人",listData.perCost];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    if (_ActivityList.StartTime && [_ActivityList.StartTime isKindOfClass:[NSDate class]]) {
+        
+        _timeLabel.text = [formatter stringFromDate:_ActivityList.StartTime];
+    }
+    
+    _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
+    _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
 }
-
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
 {

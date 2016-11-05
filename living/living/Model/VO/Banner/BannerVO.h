@@ -22,9 +22,9 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-@property(nonatomic, assign) NSString       *ImgUrl;
-@property(nonatomic, assign) NSString       *LinkUrl;
-@property(nonatomic, assign) NSString       *KeyUUID;
-@property(nonatomic, assign) NSString       *Type;
+@property(nonatomic, retain) NSString       *ImgUrl;
+@property(nonatomic, retain) NSString       *LinkUrl;
+@property(nonatomic, retain) NSString       *KeyUUID;
+@property(nonatomic, retain) NSString       *Type;
 
 @end

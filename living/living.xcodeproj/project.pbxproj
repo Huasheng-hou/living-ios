@@ -292,6 +292,7 @@
 		8EA6A4F91DCC365200A6E2C2 /* LMArticeDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */; };
 		8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */; };
 		8EB8C3C01DCE360C0054A4BA /* BannerVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C3BF1DCE360C0054A4BA /* BannerVO.m */; };
+		8EB8C3C31DCE3EA10054A4BA /* ActivityListVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C3C21DCE3EA10054A4BA /* ActivityListVO.m */; };
 		8EC998A01DC83A1000448997 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC9989F1DC83A1000448997 /* HBShareView.m */; };
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
@@ -920,6 +921,8 @@
 		8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		8EB8C3BE1DCE35BA0054A4BA /* BannerVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerVO.h; sourceTree = "<group>"; };
 		8EB8C3BF1DCE360C0054A4BA /* BannerVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerVO.m; sourceTree = "<group>"; };
+		8EB8C3C11DCE3E950054A4BA /* ActivityListVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityListVO.h; sourceTree = "<group>"; };
+		8EB8C3C21DCE3EA10054A4BA /* ActivityListVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityListVO.m; sourceTree = "<group>"; };
 		8EC9989E1DC83A1000448997 /* HBShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareView.h; sourceTree = "<group>"; };
 		8EC9989F1DC83A1000448997 /* HBShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareView.m; sourceTree = "<group>"; };
 		8EC998A11DC83B3600448997 /* HBShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareButton.h; sourceTree = "<group>"; };
@@ -2260,6 +2263,8 @@
 			children = (
 				35B61E131DB0727800083F30 /* LMActivityList.h */,
 				35B61E141DB0727800083F30 /* LMActivityList.m */,
+				8EB8C3C11DCE3E950054A4BA /* ActivityListVO.h */,
+				8EB8C3C21DCE3EA10054A4BA /* ActivityListVO.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -3032,6 +3037,7 @@
 				350904EE1DC74C540045CC14 /* DACircularProgressView.m in Sources */,
 				350769271DB9FEBF00487341 /* LMVersionViewController.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
+				8EB8C3C31DCE3EA10054A4BA /* ActivityListVO.m in Sources */,
 				35DE3FA51DCDDBC5006CE145 /* LMFriendDataRequest.m in Sources */,
 				35FA8E9D1DB5CF3D00510A75 /* LMRefundRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,

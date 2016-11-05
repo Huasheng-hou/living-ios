@@ -49,20 +49,20 @@
 - (void)setState:(SSPullToRefreshViewState)state withPullToRefreshView:(SSPullToRefreshView *)view {	
 	switch (state) {
 		case SSPullToRefreshViewStateReady: {
-			self.statusLabel.text = NSLocalizedString(@"(￣～￣)  松开萤火…", nil);
+			self.statusLabel.text = NSLocalizedString(@"(￣～￣)  松开腰果…", nil);
 			[self.activityIndicatorView stopAnimating];
 			break;
 		}
 			
 		case SSPullToRefreshViewStateNormal: {
-			self.statusLabel.text = NSLocalizedString(@"*\\(^o^)/*  下拉萤火…", nil);
+			self.statusLabel.text = NSLocalizedString(@"*\\(^o^)/*  下拉腰果…", nil);
 			[self.activityIndicatorView stopAnimating];
 			break;
 		}
 		
 		case SSPullToRefreshViewStateLoading:
 		case SSPullToRefreshViewStateClosing: {
-			self.statusLabel.text = NSLocalizedString(@"(>﹏<)  萤火正在卖力加载…", nil);
+			self.statusLabel.text = NSLocalizedString(@"(>﹏<)  腰果正在卖力加载…", nil);
 			[self.activityIndicatorView startAnimating];
 			break;
 		}
