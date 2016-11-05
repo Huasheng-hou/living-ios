@@ -107,16 +107,7 @@
     _mapView.mapType = MKMapTypeStandard;
     [self.contentView addSubview:_mapView];
     
-<<<<<<< HEAD
-
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 350, kScreenWidth-30, 30)];
-
-=======
-    
-    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 350, kScreenWidth-30, 30)];
-
-
->>>>>>> 5a41f8e80956907d0ef9c426f877594325ebab25
     [label setText:@"这是地图显示地址"];
     [label setTextColor:TEXT_COLOR_LEVEL_3];
     [label setFont:TEXT_FONT_LEVEL_2];

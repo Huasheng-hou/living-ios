@@ -220,7 +220,7 @@
     _endDateButton.layer.cornerRadius = 5;
     _endDateButton.layer.borderColor = LINE_COLOR.CGColor;
     _endDateButton.layer.borderWidth = 0.5;
-    _endDateButton.textLabel.text =  @"请选择活动结束日期";
+    _endDateButton.textLabel.text =  @"请选择活动结束时间";
     [_endDateButton.textLabel sizeToFit];
     _endDateButton.textLabel.frame = CGRectMake(5, 0, _endDateButton.textLabel.bounds.size.width+30, 30);
     [_endDateButton sizeToFit];

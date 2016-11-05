@@ -1,7 +1,7 @@
 //
 //  LMFindList.m
 //
-//  Created by   on 16/10/17
+//  Created by   on 2016/11/5
 //  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
 //
 
@@ -9,9 +9,11 @@
 
 
 NSString *const kLMFindListNumberOfVotes = @"number_of_votes";
+NSString *const kLMFindListHasPraised = @"has_praised";
 NSString *const kLMFindListDescrition = @"descrition";
 NSString *const kLMFindListTitle = @"title";
 NSString *const kLMFindListFindUuid = @"find_uuid";
+NSString *const kLMFindListImages = @"images";
 
 
 @interface LMFindList ()
@@ -23,9 +25,11 @@ NSString *const kLMFindListFindUuid = @"find_uuid";
 @implementation LMFindList
 
 @synthesize numberOfVotes = _numberOfVotes;
+@synthesize hasPraised = _hasPraised;
 @synthesize descrition = _descrition;
 @synthesize title = _title;
 @synthesize findUuid = _findUuid;
+@synthesize images = _images;
 
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
@@ -41,9 +45,11 @@ NSString *const kLMFindListFindUuid = @"find_uuid";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.numberOfVotes = [[self objectOrNilForKey:kLMFindListNumberOfVotes fromDictionary:dict] doubleValue];
+            self.hasPraised = [[self objectOrNilForKey:kLMFindListHasPraised fromDictionary:dict] boolValue];
             self.descrition = [self objectOrNilForKey:kLMFindListDescrition fromDictionary:dict];
             self.title = [self objectOrNilForKey:kLMFindListTitle fromDictionary:dict];
             self.findUuid = [self objectOrNilForKey:kLMFindListFindUuid fromDictionary:dict];
+            self.images = [self objectOrNilForKey:kLMFindListImages fromDictionary:dict];
 
     }
     
@@ -55,9 +61,11 @@ NSString *const kLMFindListFindUuid = @"find_uuid";
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:[NSNumber numberWithDouble:self.numberOfVotes] forKey:kLMFindListNumberOfVotes];
+    [mutableDict setValue:[NSNumber numberWithBool:self.hasPraised] forKey:kLMFindListHasPraised];
     [mutableDict setValue:self.descrition forKey:kLMFindListDescrition];
     [mutableDict setValue:self.title forKey:kLMFindListTitle];
     [mutableDict setValue:self.findUuid forKey:kLMFindListFindUuid];
+    [mutableDict setValue:self.images forKey:kLMFindListImages];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -82,9 +90,11 @@ NSString *const kLMFindListFindUuid = @"find_uuid";
     self = [super init];
 
     self.numberOfVotes = [aDecoder decodeDoubleForKey:kLMFindListNumberOfVotes];
+    self.hasPraised = [aDecoder decodeBoolForKey:kLMFindListHasPraised];
     self.descrition = [aDecoder decodeObjectForKey:kLMFindListDescrition];
     self.title = [aDecoder decodeObjectForKey:kLMFindListTitle];
     self.findUuid = [aDecoder decodeObjectForKey:kLMFindListFindUuid];
+    self.images = [aDecoder decodeObjectForKey:kLMFindListImages];
     return self;
 }
 
@@ -92,9 +102,11 @@ NSString *const kLMFindListFindUuid = @"find_uuid";
 {
 
     [aCoder encodeDouble:_numberOfVotes forKey:kLMFindListNumberOfVotes];
+    [aCoder encodeBool:_hasPraised forKey:kLMFindListHasPraised];
     [aCoder encodeObject:_descrition forKey:kLMFindListDescrition];
     [aCoder encodeObject:_title forKey:kLMFindListTitle];
     [aCoder encodeObject:_findUuid forKey:kLMFindListFindUuid];
+    [aCoder encodeObject:_images forKey:kLMFindListImages];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -104,9 +116,11 @@ NSString *const kLMFindListFindUuid = @"find_uuid";
     if (copy) {
 
         copy.numberOfVotes = self.numberOfVotes;
+        copy.hasPraised = self.hasPraised;
         copy.descrition = [self.descrition copyWithZone:zone];
         copy.title = [self.title copyWithZone:zone];
         copy.findUuid = [self.findUuid copyWithZone:zone];
+        copy.images = [self.images copyWithZone:zone];
     }
     
     return copy;

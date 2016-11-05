@@ -280,6 +280,8 @@ shareTypeDelegate
 //        NSMutableArray *msgArray = [NSMutableArray new];
         for (int i =0; i<array.count; i++) {
             NSDictionary *dic = array[i][@"message"];
+            
+            
             [listArray addObject:dic];
 
         }
@@ -317,7 +319,6 @@ shareTypeDelegate
                 return [LMCommentCell cellHigth:list.replyContent];
             }
             
-
         }
     }
     
@@ -832,14 +833,15 @@ shareTypeDelegate
            message.title=articleData.articleTitle;
             message.description=articleData.describe;
             
-            UIImageView *images = [UIImageView new];
-           [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
-            
-            UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
-            
             if (imageArray.count==0) {
                  [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
             }else{
+                
+                UIImageView *images = [UIImageView new];
+                [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
+                
+                UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
+                
                 [message setThumbImage:iconImage];
             }
             
@@ -860,14 +862,16 @@ shareTypeDelegate
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=articleData.articleTitle;
             message.description=articleData.describe;
-            UIImageView *images = [UIImageView new];
-            [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
-            
-            UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
+           
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
             }else{
+                
+                UIImageView *images = [UIImageView new];
+                [images sd_setImageWithURL:[NSURL URLWithString:imageArray[0]]];
+                
+                UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
                 [message setThumbImage:iconImage];
             }
             
@@ -884,7 +888,17 @@ shareTypeDelegate
             break;
         case 3://qq好友
         {
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageArray[0]]];
+//          //默认占位图  http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg
+            
+            
+            NSString *imageUrl;
+            if (imageArray.count==0) {
+                imageUrl=@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg";
+            }else{
+                imageUrl=imageArray[0];
+            }
+            
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -892,7 +906,14 @@ shareTypeDelegate
             break;
         case 4://qq空间
         {
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageArray[0]]];
+            NSString *imageUrl;
+            if (imageArray.count==0) {
+                imageUrl=@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg";
+            }else{
+                imageUrl=imageArray[0];
+            }
+            
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];
