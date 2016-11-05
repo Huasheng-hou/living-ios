@@ -837,6 +837,22 @@ static NSMutableArray *cellDataArray;
         [ self textStateHUD:@"请输入会员费用"];
         return;
     }
+    
+    if (!(msgCell.joincountTF.text.length>0)) {
+        [ self textStateHUD:@"请输入活动人数"];
+        return;
+    }
+    
+    if ([startstring isEqual:@"请选择活动开始时间"]) {
+        [ self textStateHUD:@"请选择开始时间"];
+        return;
+    }
+    if ([endString isEqual:@"请选择活动结束时间"]) {
+        [ self textStateHUD:@"请选择结束时间"];
+        return;
+    }
+    
+    
     if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区"]) {
         [ self textStateHUD:@"请选择活动地址"];
         return;
@@ -846,14 +862,13 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    if ([startstring isEqual:@"请选择活动开始时间"]) {
-        [ self textStateHUD:@"请选择开始时间"];
+    
+    
+    if (!msgCell.imgView.image) {
+        [ self textStateHUD:@"请选择封面图片"];
         return;
     }
-    if ([endString isEqual:@"请选择活动开始时间"]) {
-        [ self textStateHUD:@"请选择开始时间"];
-        return;
-    }
+    
     
     if (![self judgeProjectTitle]) {
         [self textStateHUD:@"活动项目标题不能为空"];

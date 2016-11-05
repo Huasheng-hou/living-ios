@@ -21,6 +21,7 @@
     self    = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        [self setBackgroundColor:BG_GRAY_COLOR];
         [self addSubviews];
     }
     return self;
@@ -78,15 +79,18 @@
     footLabel.text = @"下一个版本你做主";
     [self.contentView addSubview:footLabel];
     //点赞按钮
-    UIImageView *thumbIV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70, 140, 17, 17)];
-    [thumbIV setImage:[UIImage imageNamed:@"zanIcon-click"]];
-    [self.contentView addSubview:thumbIV];
+    _thumbIV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70, 140, 17, 17)];
+    [self.contentView addSubview:_thumbIV];
     //点赞数量
-    _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-50, 140, 120, 17)];
+    _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-50, 140, 40, 17)];
     _numLabel.font = TEXT_FONT_LEVEL_3;
     _numLabel.textColor = TEXT_COLOR_LEVEL_4;
     _numLabel.text = @"300";
     [self.contentView addSubview:_numLabel];
+    
+    _praiseBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-70, 140, 60, 17)];
+    [self addSubview:_praiseBt];
+    
 }
 
 

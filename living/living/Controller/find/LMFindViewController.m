@@ -12,7 +12,17 @@
 #import "LMWebViewController.h"
 #import "LMFindBannerRequest.h"
 
-@interface LMFindViewController ()<UITableViewDelegate,
+#import "LMFindListRequest.h"
+#import "LMFindDataModels.h"
+
+#import "MJRefresh.h"
+#import "UIImageView+WebCache.h"
+
+#import "LMfindPraiseRequest.h"
+
+@interface LMFindViewController ()
+<
+UITableViewDelegate,
 UITableViewDataSource,
 WJLoopViewDelegate
 >
@@ -22,6 +32,12 @@ WJLoopViewDelegate
     NSArray *titlearray;
     NSArray *contentarray;
     NSArray *imageURLs;
+    
+    NSMutableArray *cellDataArray;
+    NSInteger        totalPage;
+    NSInteger        currentPageIndex;
+    NSMutableArray   *pageIndexArray;
+    BOOL                reload;
     
 }
 
@@ -33,7 +49,12 @@ WJLoopViewDelegate
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    cellDataArray=[NSMutableArray arrayWithCapacity:0];
+    pageIndexArray=[NSMutableArray arrayWithCapacity:0];
+    
     [self creatUI];
+    
+    [self getFindDataRequest:1];
     
     imagearray = @[@"12.jpg",@"13.jpg",@"14.jpg"];
     titlearray = @[@"腰果 财富现金流养成记",@"腰果 语言课堂",@"腰果 商城"];
@@ -55,9 +76,8 @@ WJLoopViewDelegate
     
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    
+    [self setupRefresh];
 }
-
 
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -117,54 +137,222 @@ WJLoopViewDelegate
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return cellDataArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    LMFindCell *cell = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    cell.backgroundColor = [UIColor clearColor];
+    LMFindCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+    if (cell==nil) {
+        cell = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//
+    LMFindList *list=cellDataArray[indexPath.row];
+    
+    cell.titleLabel.text=list.title;
+    cell.contentLabel.text=list.descrition;
+    cell.numLabel.text=[NSString stringWithFormat:@"%.0f",list.numberOfVotes];
+    
+    [cell.imageview sd_setImageWithURL:[NSURL URLWithString:list.images]];
     
     
+    [cell.praiseBt addTarget:self action:@selector(praiseBtton:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.praiseBt setTag:indexPath.row];
     
-    
-    [cell setimagearray:imagearray[indexPath.row]];
-    [cell settitlearray:titlearray[indexPath.row]];
-    [cell setcontentarray:contentarray[indexPath.row]];
-    
-//    cell.imageView.image =[UIImage imageNamed:imagearray[indexPath.row]];
-//    cell.titleLabel.text = titlearray[indexPath.row];
-//    cell.contentLabel.text = contentarray[indexPath.row];
-    
-
-    
+    if (list.hasPraised==0) {
+       
+        [cell.thumbIV setImage:[UIImage imageNamed:@"zanIcon"]];
+    }else{
+        
+        [cell.thumbIV setImage:[UIImage imageNamed:@"zanIcon-click"]];
+    }
     
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)praiseBtton:(UIButton *)button{
+    
+    NSInteger row=button.tag;
+    LMFindList *list=cellDataArray[row];
+    
+    [self praiseRequest:list.findUuid];
+    
+}
+
+#pragma mark 刷新加载部分
+
+- (void)setupRefresh
 {
+    [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
     
+    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.headerPullToRefreshText = @"下拉可以刷新";
+    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
+    _tableView.headerRefreshingText = @"正在帮你刷新...";
+    
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
+    _tableView.footerRefreshingText = @"正在帮你加载...";
+}
+
+#pragma mark 重新请求单元格数据（通知  投票）
+
+-(void)reloadCellData
+{
+    reload=YES;
+   [self getFindDataRequest:1];
+}
+
+
+#pragma mark 开始进入刷新状态
+
+- (void)headerRereshing{
+    // 2.2秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self reloadCellData];
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [_tableView headerEndRefreshing];
+    });
+}
+
+- (void)footerRereshing
+{
+    currentPageIndex=cellDataArray.count/20+1;
+    
+    if (currentPageIndex>=totalPage) {
+        [_tableView footerEndRefreshing];
+        [self textStateHUD:@"没有内容了"];
+        return;
+    }
+    // 2.0秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
+                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (cellDataArray.count>0) {
+           [self getFindDataRequest:currentPageIndex];
+            NSLog(@"=============当前请求的页数=%ld",(long)currentPageIndex);
+        }
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [_tableView footerEndRefreshing];
+    });
+}
+
+#pragma mark 数据列表
+
+-(void)getFindDataRequest:(NSInteger)page
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMFindListRequest *request = [[LMFindListRequest alloc] initWithPageIndex:page andPageSize:20];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(findDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"获取数据失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
     
 }
 
+-(void)findDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSLog(@"============发现数据请求结果===========%@",bodyDic);
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        if (reload) {
+            reload=NO;
+            pageIndexArray=[NSMutableArray arrayWithCapacity:0];
+            currentPageIndex=1;
+            cellDataArray=[NSMutableArray arrayWithCapacity:0];
+        }
+        
+        if (![pageIndexArray containsObject:@(currentPageIndex)]) {
+            [pageIndexArray addObject:@(currentPageIndex)];
+        }else{
+            NSLog(@"数组中有该数据");
+            return;
+        }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+        LMFindBody *bodyData=[[LMFindBody alloc]initWithDictionary:bodyDic];
+        
+        totalPage=bodyData.total;
+        
+        NSArray *array=bodyData.list;
+        
+        for (int i=0; i<array.count; i++) {
+            LMFindList *list=array[i];
+            [cellDataArray addObject:list];
+        }
+        
+        [_tableView reloadData];
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)praiseRequest:(NSString *)uuid
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMfindPraiseRequest *request = [[LMfindPraiseRequest alloc] initWithPageFindUUID:uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(praiseDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"投票失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
 }
-*/
+
+-(void)praiseDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSLog(@"============点赞数据请求结果===========%@",bodyDic);
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        [self textStateHUD:@"投票成功"];
+        
+         [self reloadCellData];
+        
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
+}
+
 
 @end

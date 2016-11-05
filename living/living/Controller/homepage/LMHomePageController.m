@@ -22,6 +22,8 @@
 #import "LMWriterViewController.h"
 #import "LMHomeDetailController.h"
 
+#import "FirUploadImageRequest.h"
+
 @interface LMHomePageController ()
 <
 UITableViewDelegate,
@@ -101,8 +103,46 @@ LMhomePageCellDelegate
     
     [self setupRefresh];
 
-    
+    [self getimage];
 }
+
+-(void)getimage
+{
+FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+    
+    UIImage *image=[UIImage imageNamed:@"editMsg"];
+    
+request.imageData   = UIImageJPEGRepresentation(image, 1);
+
+[self initStateHud];
+HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                       completed:^(NSString *resp, NSStringEncoding encoding){
+                                           
+                                           [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                  withObject:nil
+                                                               waitUntilDone:YES];
+                                           NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                           
+                                           [self logoutAction:resp];
+                                           
+                                           NSString    *result = [bodyDict objectForKey:@"result"];
+                                           
+                                           NSLog(@"--------bodyDict--------%@",bodyDict);
+                                           
+                                           if (result && [result isKindOfClass:[NSString class]]
+                                               && [result isEqualToString:@"0"]) {
+                                               NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                               if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+                                                   
+                                                   
+                                               }
+                                           }
+                                       } failed:^(NSError *error) {
+                                           [self hideStateHud];
+                                       }];
+[proxy start];
+}
+
 
 -(void)addBackView
 {
@@ -169,6 +209,10 @@ LMhomePageCellDelegate
         
         [self reloadCellData];
          [self.tableView headerEndRefreshing];
+<<<<<<< HEAD
+=======
+
+>>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
     });
 }
 
@@ -324,9 +368,12 @@ LMhomePageCellDelegate
             self.navigationItem.rightBarButtonItem = rightItem;
         }
         
+<<<<<<< HEAD
         NSLog(@"%@",bodyDic);
 
 
+=======
+>>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
          totalPage = [[bodyDic objectForKey:@"total"] integerValue];
         
         if (reload) {

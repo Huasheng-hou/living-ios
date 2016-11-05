@@ -19,6 +19,10 @@
 
 @property(nonatomic,strong) UIImageView *imageview;
 
+@property(nonatomic,strong)UIButton *praiseBt;
+
+@property(nonatomic,strong)UIImageView *thumbIV;
+
 
 //- (void)setXScale:(float)xScale yScale:(float)yScale;
 -(void)setValue:(LMFindList *)list;

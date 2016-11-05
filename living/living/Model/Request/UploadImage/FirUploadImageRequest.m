@@ -28,6 +28,7 @@
     return self;
 }
 
+<<<<<<< HEAD
 //- (NSString *)serverHost
 //{
 
@@ -38,6 +39,8 @@
 //    
 
 //}
+=======
+>>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
 
 - (BOOL)isPost
 {

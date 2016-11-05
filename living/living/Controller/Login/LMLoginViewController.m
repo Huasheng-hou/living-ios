@@ -398,9 +398,14 @@
         
         franchisee = [bodyDict objectForKey:@"franchisee"];
         vipString =[bodyDict objectForKey:@"sign"];
+<<<<<<< HEAD
 
 
 
+=======
+        
+        
+>>>>>>> e00cf5dd1ade8974a5360d63c9bcce08bcfa04a7
         if (is_exist && [is_exist intValue] == 0) {
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
             registerVC.userId = _uuid;

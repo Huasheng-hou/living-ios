@@ -206,7 +206,6 @@
 		35D8FC261DB47DBE00AD469E /* FitPickerThreeLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC251DB47DBE00AD469E /* FitPickerThreeLevelView.m */; };
 		35D8FC291DB4AAC700AD469E /* LMPublicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC281DB4AAC700AD469E /* LMPublicProjectRequest.m */; };
 		35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */; };
-		35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC331DB4CD3C00AD469E /* LMFindList.m */; };
 		35D8FC361DB4DD9900AD469E /* findpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FC351DB4DD9900AD469E /* findpage.png */; };
 		35D8FC3A1DB4E03400AD469E /* LMOrderListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */; };
 		35D8FC3E1DB4E26300AD469E /* LMOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC3D1DB4E26300AD469E /* LMOrderList.m */; };
@@ -287,6 +286,9 @@
 		8E8886391DCB425C009D3374 /* LMALLList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886371DCB425C009D3374 /* LMALLList.m */; };
 		8EA4160A1DCD85DB0033299B /* LMPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA416091DCD85DB0033299B /* LMPublishViewController.m */; };
 		8EA4160D1DCD99CB0033299B /* LMProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA4160C1DCD99CB0033299B /* LMProjectCell.m */; };
+		8EA416141DCDC6380033299B /* LMFindBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA416101DCDC6380033299B /* LMFindBody.m */; };
+		8EA416151DCDC6380033299B /* LMFindList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA416131DCDC6380033299B /* LMFindList.m */; };
+		8EA416181DCDCC9D0033299B /* LMfindPraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA416171DCDCC9D0033299B /* LMfindPraiseRequest.m */; };
 		8EA6A4F01DCC228500A6E2C2 /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */; };
 		8EA6A4F91DCC365200A6E2C2 /* LMArticeDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */; };
 		8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */; };
@@ -685,8 +687,6 @@
 		35D8FC281DB4AAC700AD469E /* LMPublicProjectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicProjectRequest.m; sourceTree = "<group>"; };
 		35D8FC2E1DB4CBFD00AD469E /* LMFindListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindListRequest.h; sourceTree = "<group>"; };
 		35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindListRequest.m; sourceTree = "<group>"; };
-		35D8FC321DB4CD3800AD469E /* LMFindList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFindList.h; sourceTree = "<group>"; };
-		35D8FC331DB4CD3C00AD469E /* LMFindList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindList.m; sourceTree = "<group>"; };
 		35D8FC351DB4DD9900AD469E /* findpage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = findpage.png; sourceTree = "<group>"; };
 		35D8FC381DB4E03400AD469E /* LMOrderListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrderListRequest.h; sourceTree = "<group>"; };
 		35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderListRequest.m; sourceTree = "<group>"; };
@@ -908,6 +908,13 @@
 		8EA416091DCD85DB0033299B /* LMPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublishViewController.m; sourceTree = "<group>"; };
 		8EA4160B1DCD99CB0033299B /* LMProjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMProjectCell.h; sourceTree = "<group>"; };
 		8EA4160C1DCD99CB0033299B /* LMProjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMProjectCell.m; sourceTree = "<group>"; };
+		8EA4160F1DCDC6380033299B /* LMFindBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindBody.h; sourceTree = "<group>"; };
+		8EA416101DCDC6380033299B /* LMFindBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindBody.m; sourceTree = "<group>"; };
+		8EA416111DCDC6380033299B /* LMFindDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindDataModels.h; sourceTree = "<group>"; };
+		8EA416121DCDC6380033299B /* LMFindList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindList.h; sourceTree = "<group>"; };
+		8EA416131DCDC6380033299B /* LMFindList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindList.m; sourceTree = "<group>"; };
+		8EA416161DCDCC9D0033299B /* LMfindPraiseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMfindPraiseRequest.h; sourceTree = "<group>"; };
+		8EA416171DCDCC9D0033299B /* LMfindPraiseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMfindPraiseRequest.m; sourceTree = "<group>"; };
 		8EA6A4EE1DCC228500A6E2C2 /* LMActivityDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDeleteRequest.h; sourceTree = "<group>"; };
 		8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDeleteRequest.m; sourceTree = "<group>"; };
 		8EA6A4F71DCC365200A6E2C2 /* LMArticeDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArticeDeleteRequest.h; sourceTree = "<group>"; };
@@ -1427,6 +1434,7 @@
 		3547F3AA1D9904BA0068F04E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8EA4160E1DCDC6380033299B /* LMFind */,
 				35E40A251DAC9B6600DE1807 /* HTTPProxy.h */,
 				35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */,
 				3547F3AB1D9904BA0068F04E /* dot */,
@@ -1542,7 +1550,6 @@
 			isa = PBXGroup;
 			children = (
 				35D8FC3B1DB4E24300AD469E /* Order */,
-				35D8FC311DB4CD2200AD469E /* Find */,
 				35B61E121DB0727800083F30 /* Activity */,
 				35B61DFA1DB06F7E00083F30 /* ActivityDetail */,
 				35F004171DADCA8900F59CB2 /* homepage */,
@@ -2277,15 +2284,8 @@
 				35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */,
 				35DE3FA01DCDBCF0006CE145 /* LMFindBannerRequest.h */,
 				35DE3FA11DCDBCF0006CE145 /* LMFindBannerRequest.m */,
-			);
-			path = Find;
-			sourceTree = "<group>";
-		};
-		35D8FC311DB4CD2200AD469E /* Find */ = {
-			isa = PBXGroup;
-			children = (
-				35D8FC321DB4CD3800AD469E /* LMFindList.h */,
-				35D8FC331DB4CD3C00AD469E /* LMFindList.m */,
+				8EA416161DCDCC9D0033299B /* LMfindPraiseRequest.h */,
+				8EA416171DCDCC9D0033299B /* LMfindPraiseRequest.m */,
 			);
 			path = Find;
 			sourceTree = "<group>";
@@ -2626,6 +2626,18 @@
 			path = LMAllLiveRoom;
 			sourceTree = "<group>";
 		};
+		8EA4160E1DCDC6380033299B /* LMFind */ = {
+			isa = PBXGroup;
+			children = (
+				8EA4160F1DCDC6380033299B /* LMFindBody.h */,
+				8EA416101DCDC6380033299B /* LMFindBody.m */,
+				8EA416111DCDC6380033299B /* LMFindDataModels.h */,
+				8EA416121DCDC6380033299B /* LMFindList.h */,
+				8EA416131DCDC6380033299B /* LMFindList.m */,
+			);
+			path = LMFind;
+			sourceTree = "<group>";
+		};
 		8ECA2ADC1DC98DA2000CD0AB /* mapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2872,7 +2884,6 @@
 				3523643E1DBF09B6002E6B78 /* LMRechargeButton.m in Sources */,
 				351767801DC2EB1400D2D407 /* APChooseView.m in Sources */,
 				35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */,
-				35D8FC341DB4CD3C00AD469E /* LMFindList.m in Sources */,
 				350AD2261DB76EE200CA181A /* LMEventCommitReplyRequset.m in Sources */,
 				8ECA2AE11DC98DA2000CD0AB /* AMapTipAnnotation.m in Sources */,
 				35DE3FB31DCDF87E006CE145 /* LMAriticleCommentMessages.m in Sources */,
@@ -2911,6 +2922,7 @@
 				3530ABF01DC5E500003CB68F /* LMOrderDataOrderInfo.m in Sources */,
 				35D8FC301DB4CBFD00AD469E /* LMFindListRequest.m in Sources */,
 				3547F4BF1D9904D90068F04E /* SSPullToRefreshView.m in Sources */,
+				8EA416181DCDCC9D0033299B /* LMfindPraiseRequest.m in Sources */,
 				358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */,
 				35FA8EAD1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m in Sources */,
 				35FA8E0C1DB5B31100510A75 /* WXApiManager.m in Sources */,
@@ -3013,6 +3025,7 @@
 				35FA8E7E1DB5B39200510A75 /* LMRechargeCell.m in Sources */,
 				3547F3871D9904A60068F04E /* LMPersonViewController.m in Sources */,
 				35E40A321DACBF9700DE1807 /* LMBannerrequest.m in Sources */,
+				8EA416141DCDC6380033299B /* LMFindBody.m in Sources */,
 				35FA8E0E1DB5B31100510A75 /* WXApiResponseHandler.m in Sources */,
 				3523642C1DBEE928002E6B78 /* LMNoticDeleteRequest.m in Sources */,
 				3547F4B91D9904D90068F04E /* MJPhotoToolbar.m in Sources */,
@@ -3036,6 +3049,7 @@
 				3523643B1DBEFAA9002E6B78 /* LMMyLivingHomeCell.m in Sources */,
 				35E7B2EB1D9E11160035AFFE /* LMActivityMsgCell.m in Sources */,
 				354C0BD01DC98FD400869A3D /* LMLivingLivingInfo.m in Sources */,
+				8EA416151DCDC6380033299B /* LMFindList.m in Sources */,
 				35F004161DADC6D900F59CB2 /* LMHomeDetailRequest.m in Sources */,
 				8EC998A01DC83A1000448997 /* HBShareView.m in Sources */,
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
