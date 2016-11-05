@@ -15,8 +15,8 @@
 
 #import "LMRegisterViewController.h"
 
-
 #define TOKEN @"dirty2016"
+
 @interface LMLoginViewController ()<UITextFieldDelegate>
 {
     UITextField     *_phoneTF;
@@ -77,8 +77,7 @@
     [super createUI];
     
     self.tableView.keyboardDismissMode  = UIScrollViewKeyboardDismissModeOnDrag;
-    self.tableView.separatorInset   = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
-//    self.tableView.backgroundColor  = [UIColor whiteColor];
+    self.tableView.separatorInset       = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
     
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
     self.tableView.tableHeaderView = headView;
@@ -238,9 +237,9 @@
 
 - (void)timeFireMethod
 {
-    
     codeBtn.font                  = [UIFont systemFontOfSize:13];
     codeBtn.text                  = [NSString stringWithFormat:@"%ds后重新发送",_number--];
+    
     if (_number == 0)
     {
         [_timer invalidate];
@@ -278,11 +277,7 @@
     
     [self initStateHud];
     
-    //    倒计时60秒 同时 发送验证码按钮失去响应
-    _timer                                            = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
-    codeBtn.userInteractionEnabled                    = NO ;
-    
-     LMGetCaptchaRequest   *request    = [[LMGetCaptchaRequest alloc] initWithPhone:_phoneTF.text];
+    LMGetCaptchaRequest   *request    = [[LMGetCaptchaRequest alloc] initWithPhone:_phoneTF.text];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -293,7 +288,7 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取验证码失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -316,6 +311,15 @@
         
         [self textStateHUD:@"验证码已发送"];
         
+        //    倒计时60秒 同时 发送验证码按钮失去响应
+        _timer  = [NSTimer scheduledTimerWithTimeInterval:1
+                                                   target:self
+                                                 selector:@selector(timeFireMethod)
+                                                 userInfo:nil
+                                                  repeats:YES];
+        
+        codeBtn.userInteractionEnabled      = NO ;
+        
         [_codeTF becomeFirstResponder];
         
     } else {
@@ -330,7 +334,6 @@
 }
 
 #pragma mark 立即登录按钮执行函数
-
 
 - (void)submitBtnPressed
 {
@@ -353,10 +356,8 @@
     
     [self initStateHud];
     
-    
     LMloginRequest *request    = [[LMloginRequest alloc] initWithPhone:_phoneTF.text andPassword:_password andCaptcha:_codeTF.text];
     
-    NSLog(@"%@",_codeTF);
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -366,7 +367,7 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"登录失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -401,8 +402,12 @@
         franchisee = [bodyDict objectForKey:@"franchisee"];
         vipString =[bodyDict objectForKey:@"sign"];
 
+        [self setUserInfo];
+        
         if (is_exist && [is_exist intValue] == 0) {
+            
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
+            
             registerVC.userId = _uuid;
             registerVC.passWord = _password;
             registerVC.numberString = _phoneTF.text;
@@ -410,21 +415,15 @@
             [self.navigationController pushViewController:registerVC animated:YES];
         }else{
                     
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
-             
-                                                                object:nil];
-
-             [self dismissViewControllerAnimated:YES completion:nil];
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"login" object:nil];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
-        [self setUserInfo];
-       
     } else {
+        
         NSString *string = [bodyDict objectForKey:@"description"];
         [self textStateHUD:string];
     }
 }
-
 
 #pragma mark  密码生成方法
 
@@ -483,21 +482,5 @@
     [self.navigationController pushViewController:webVC animated:YES];
     
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

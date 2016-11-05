@@ -304,9 +304,6 @@ UIViewControllerTransitioningDelegate
         infoDic = [bodyDict objectForKey:@"user_info"];
         
         _uuid = [infoDic objectForKey:@"user_uuid"];
-        
-//        [self setUserInfo];
-
         [self gotoHomepage];
         [self textStateHUD:@"资料填写成功"];
         
@@ -317,7 +314,7 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark 填写资料完成跳转到首页
 
--(void)gotoHomepage
+- (void)gotoHomepage
 {
     FitTabbarController *tabbar = [[FitTabbarController alloc] init];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
@@ -328,49 +325,15 @@ UIViewControllerTransitioningDelegate
 
 }
 
-
-//#pragma mark 登记用户信息
-//
-//- (void)setUserInfo{
-//    
-//    
-//    NSMutableDictionary *userInfo   = [NSMutableDictionary new];
-//    
-//    if (_uuid) {
-//        [userInfo setObject:_uuid forKey:@"uuid"];
-//    }
-//    
-//    if (_numberString) {
-//        [userInfo setObject:_numberString forKey:@"phone"];
-//    }
-//    
-//    if (_passWord) {
-//        [userInfo setObject:_passWord forKey:@"password"];
-//    }
-//    
-//    
-//    if (genderStr) {
-//        [userInfo setObject:genderStr forKey:@"gender"];
-//    }
-//
-//    
-//    [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
-//}
-
-
-
-
 #pragma mark pickerView选择日期
 
--(void)timeChooseAction
+- (void)timeChooseAction
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *currentDate;
     
     currentDate = [NSDate date];
-    
-    
     
     [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
                                MaximumDate:[NSDate date]

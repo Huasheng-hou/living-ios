@@ -84,7 +84,7 @@ WJLoopViewDelegate
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     
-    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:imageURLs placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:imageURLs placeholderImage:nil timeInterval:3 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
     loopView.location = WJPageControlAlignmentRight;
     [headView addSubview:loopView];
     return headView;
@@ -98,10 +98,9 @@ WJLoopViewDelegate
     if (index==3) {
         return;
     }
+    
     NSArray *arr = @[@"『腰·美』",@"『腰·吃』",@"『腰·活』",@"『腰·乐』"];
     NSArray *urlRrray = @[@"http://120.27.147.167/living-web/apparticle/daoshi3",@"http://120.27.147.167/living-web/apparticle/daoshi2",@"http://120.27.147.167/living-web/apparticle/daoshi1"];
-    
-    
     
     LMWebViewController *webView = [[LMWebViewController alloc] init];
     webView.urlString = urlRrray[index];
@@ -111,36 +110,33 @@ WJLoopViewDelegate
     
     
 }
-    
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 175;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return kScreenWidth*3/5;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01;
 }
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return cellDataArray.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     LMFindCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
@@ -172,13 +168,12 @@ WJLoopViewDelegate
     return cell;
 }
 
--(void)praiseBtton:(UIButton *)button{
+- (void)praiseBtton:(UIButton *)button{
     
     NSInteger row=button.tag;
     LMFindList *list=cellDataArray[row];
     
     [self praiseRequest:list.findUuid];
-    
 }
 
 #pragma mark 刷新加载部分

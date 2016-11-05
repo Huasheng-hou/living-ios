@@ -136,7 +136,7 @@
         cell.chooseView.image= [UIImage imageNamed:@"choose-no"];
     }
     
-     LMALLList *list=cellDataArray[indexPath.row];
+    LMALLList *list=cellDataArray[indexPath.row];
     cell.nameLabel.text=list.livingName;
     
     [cell.headImage sd_setImageWithURL:[NSURL URLWithString:list.livingImage]];
@@ -144,13 +144,10 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     selectedRow=indexPath.row;
     [self.tableView reloadData];
 }
-
-
-
 
 @end

@@ -32,8 +32,7 @@ MBProgressHUDDelegate
 - (void)initStateHud;
 - (void)hideStateHud;
 
--(void)logoutAction:(NSString *)resp;
-
-//- (void)resignCurrentFirstResponder;
+- (void)logoutAction:(NSString *)resp;
+- (void)resignCurrentFirstResponder;
 
 @end

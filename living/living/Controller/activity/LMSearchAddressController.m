@@ -134,7 +134,7 @@ updatingLocation:(BOOL)updatingLocation
 {
     [super createUI];
     
-     self.title=@"位置";
+     self.title = @"选择位置";
     
     self.tableView.contentInset     = UIEdgeInsetsMake(114, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(114, 0, 0, 0);

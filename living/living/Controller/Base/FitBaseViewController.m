@@ -56,11 +56,11 @@
     [stateHud hide:YES];
 }
 
-//- (void)resignCurrentFirstResponder
-//{
-//    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-//    [keyWindow endEditing:YES];
-//}
+- (void)resignCurrentFirstResponder
+{
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    [keyWindow endEditing:YES];
+}
 
 - (void)popSelf
 {

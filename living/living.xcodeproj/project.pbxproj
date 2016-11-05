@@ -229,7 +229,6 @@
 		35F0041A1DADCACC00F59CB2 /* LMArticleBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F004191DADCACC00F59CB2 /* LMArticleBody.m */; };
 		35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F0041F1DADEA0400F59CB2 /* LMArtclePariseRequest.m */; };
 		35F004231DAE0C0200F59CB2 /* LMCommentPraiseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F004221DAE0C0200F59CB2 /* LMCommentPraiseRequest.m */; };
-		35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */; };
 		35FA0A3F1DAA324C00688713 /* LMPublicMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */; };
 		35FA0A421DAA3EF300688713 /* LMTimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA0A411DAA3EF300688713 /* LMTimeButton.m */; };
 		35FA8DF71DB5B27800510A75 /* LMRechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FA8DF61DB5B27800510A75 /* LMRechargeViewController.m */; };
@@ -297,7 +296,6 @@
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
 		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
-		8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */; };
 		8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */; };
 		8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */; };
 		8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */; };
@@ -733,8 +731,6 @@
 		35F0041F1DADEA0400F59CB2 /* LMArtclePariseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtclePariseRequest.m; sourceTree = "<group>"; };
 		35F004211DAE0C0200F59CB2 /* LMCommentPraiseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentPraiseRequest.h; sourceTree = "<group>"; };
 		35F004221DAE0C0200F59CB2 /* LMCommentPraiseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentPraiseRequest.m; sourceTree = "<group>"; };
-		35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicActivityController.h; sourceTree = "<group>"; };
-		35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicActivityController.m; sourceTree = "<group>"; };
 		35FA0A3E1DAA324C00688713 /* LMPublicMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicMsgCell.m; sourceTree = "<group>"; };
 		35FA0A401DAA3EF200688713 /* LMTimeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTimeButton.h; sourceTree = "<group>"; };
 		35FA0A411DAA3EF300688713 /* LMTimeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTimeButton.m; sourceTree = "<group>"; };
@@ -929,8 +925,6 @@
 		8EC998A21DC83B3600448997 /* HBShareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareButton.m; sourceTree = "<group>"; };
 		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMapViewController.h; sourceTree = "<group>"; };
-		8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMapViewController.m; sourceTree = "<group>"; };
 		8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8ECA2ACC1DC981D2000CD0AB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
@@ -1244,12 +1238,8 @@
 				35E7B2E41D9DF7580035AFFE /* LMActivityDetailController.m */,
 				351767871DC3359B00D2D407 /* LMBesureOrderViewController.h */,
 				351767881DC3359B00D2D407 /* LMBesureOrderViewController.m */,
-				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
-				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
 				8EA416081DCD85DB0033299B /* LMPublishViewController.h */,
 				8EA416091DCD85DB0033299B /* LMPublishViewController.m */,
-				8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */,
-				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */,
 				8EA6A4FD1DCC920F00A6E2C2 /* LMSearchAddressController.h */,
 				8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */,
 			);
@@ -2872,7 +2862,6 @@
 				35FA8E761DB5B31800510A75 /* DataVerifier.m in Sources */,
 				3547F4B81D9904D90068F04E /* MJPhotoBrowser.m in Sources */,
 				3530ABEF1DC5E500003CB68F /* LMOrderDataOrderBody.m in Sources */,
-				35F62DD21DA87F2400D81286 /* LMPublicActivityController.m in Sources */,
 				3530ABEA1DC5E354003CB68F /* LMOrderpayRequest.m in Sources */,
 				3542B9D51DCC2C6C0039F1B1 /* LMFriendCell.m in Sources */,
 				3523643E1DBF09B6002E6B78 /* LMRechargeButton.m in Sources */,
@@ -3078,7 +3067,6 @@
 				3507690E1DB9A33A00487341 /* LMScanViewController.m in Sources */,
 				350904E41DC74C390045CC14 /* SYPhotoBrowser.m in Sources */,
 				351767831DC2ECBF00D2D407 /* CustomButton.m in Sources */,
-				8ECA2AC31DC97CB2000CD0AB /* LMMapViewController.m in Sources */,
 				35E40A3E1DACCD8800DE1807 /* LMActicleList.m in Sources */,
 				3547F3EF1D9904BA0068F04E /* UIBarButtonItem+Badge.m in Sources */,
 				3547F4BD1D9904D90068F04E /* SSPullToRefreshDefaultContentView.m in Sources */,
