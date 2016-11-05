@@ -63,9 +63,9 @@ LMhomePageCellDelegate
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"login" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadHomePage" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRereshing) name:@"reloadlist" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"login" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadHomePage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadlist" object:nil];
 }
 
 - (void)viewDidLoad {
@@ -103,7 +103,7 @@ LMhomePageCellDelegate
     
     [self setupRefresh];
 
-    [self getimage];
+//    [self getimage];
 }
 
 -(void)getimage
@@ -323,7 +323,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
 -(void)getHomeDataRequest:(NSInteger)page
 {
     
-    NSLog(@"%ld",page);
+//    NSLog(@"%ld",page);
     
     if (![CheckUtils isLink]) {
         

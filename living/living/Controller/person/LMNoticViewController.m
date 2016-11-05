@@ -23,6 +23,7 @@ UITableViewDataSource
     NSMutableArray *listArray;
     BOOL isSelected;
     NSString *Estring;
+    NSMutableArray *cellArray;
 }
 
 @end
@@ -35,6 +36,7 @@ UITableViewDataSource
     [self getNoticListData];
     [self creatUI];
     listArray = [NSMutableArray new];
+    cellArray = [NSMutableArray new];
 }
 
 -(void)creatUI
@@ -86,6 +88,7 @@ UITableViewDataSource
 -(void)getNoticListDataResponse:(NSString *)resp
 {
     NSDictionary    *bodyDic = [VOUtil parseBody:resp];
+    listArray = [NSMutableArray new];
     
     [self logoutAction:resp];
     
@@ -164,9 +167,9 @@ UITableViewDataSource
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                                style:UIAlertActionStyleDestructive
                                                              handler:^(UIAlertAction*action) {
-                                                                 [listArray removeObjectAtIndex:indexPath.row];
+//                                                                 [listArray removeObjectAtIndex:indexPath.row];
                                                                  [self getNoticDeleteRequest:indexPath.row];
-                                                                 [_tableView reloadData];
+                                                                 
                                                              }]];
 
         [self presentViewController:alert animated:YES completion:nil];
@@ -189,8 +192,8 @@ UITableViewDataSource
 {
     LMNoticeList *list = [listArray objectAtIndex:sender];
     
-    
-    LMNoticDeleteRequest *request = [[LMNoticDeleteRequest alloc] initWithNoticeuuid:list.noticeUuid];
+    [cellArray addObject:list.noticeUuid];
+    LMNoticDeleteRequest *request = [[LMNoticDeleteRequest alloc] initWithNoticeuuid:cellArray];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -222,7 +225,10 @@ UITableViewDataSource
     
     if (result && [result intValue] == 0)
     {
-        [self textStateHUD:@"description"];
+        [self textStateHUD:@"删除成功"];
+        
+        [self getNoticListData];
+        
     }else {
         [self textStateHUD:bodyDic[@"description"]];
     }

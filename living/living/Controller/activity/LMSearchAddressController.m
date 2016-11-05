@@ -238,8 +238,43 @@ updatingLocation:(BOOL)updatingLocation
 
 
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        [self getsearch];
+        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+    }
+    
+    return YES;
+}
 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+
+-(void)getsearch
+{
+
+        [_geocoder geocodeAddressString:_searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
+            //取得第一个地标，地标中存储了详细的地址信息，注意：一个地名可能搜索出多个地址
+            CLPlacemark *placemark=[placemarks firstObject];
+            CLLocation *location=placemark.location;//位置
+            locationX=location.coordinate.latitude;
+            locationY=location.coordinate.longitude;
+            
+            //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
+            request.location = [AMapGeoPoint locationWithLatitude:locationX longitude: locationY];
+            request.sortrule = 0;
+            request.requireExtension = YES;
+            //发起周边搜索
+            [_search AMapPOIAroundSearch: request];
+            
+            [activity startAnimating];
+        }];
+    
+
+}
+
+
+
+
+-(void)searchBarSearchButtonClicked
 {
     
     [self.view endEditing:YES];

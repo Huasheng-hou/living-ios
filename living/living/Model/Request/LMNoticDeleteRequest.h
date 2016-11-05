@@ -10,6 +10,6 @@
 
 @interface LMNoticDeleteRequest : FitBaseRequest
 
-- (id)initWithNoticeuuid:(NSString *)notice_uuid;
+- (id)initWithNoticeuuid:(NSArray *)notice_uuid;
 
 @end

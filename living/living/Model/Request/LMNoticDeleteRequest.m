@@ -10,7 +10,7 @@
 
 @implementation LMNoticDeleteRequest
 
-- (id)initWithNoticeuuid:(NSString *)notice_uuid
+- (id)initWithNoticeuuid:(NSArray *)notice_uuid
 {
     self = [super init];
     
