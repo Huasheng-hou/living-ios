@@ -25,7 +25,7 @@
 #import "LMWriterViewController.h"
 #import "LMHomeDetailController.h"
 
-#import "FirUploadImageRequest.h"
+#import "BannerVO.h"
 
 @interface LMHomePageController ()
 <
@@ -38,14 +38,10 @@ LMhomePageCellDelegate
     UIView *headView;
     
     UIBarButtonItem *backItem;
-    NSMutableArray *imageUrls;
     NSMutableArray *listArray;
-    NSMutableArray *eventArray;
     UIImageView *homeImage;
     BOOL ifRefresh;
     int total;
-    
-    NSMutableArray *stateArray;
     
     NSIndexPath *deleteIndexPath;
     
@@ -54,7 +50,7 @@ LMhomePageCellDelegate
     NSMutableArray   *pageIndexArray;
     BOOL                reload;
     
-    
+    NSArray         *_bannerArray;
 }
 
 @end
@@ -66,41 +62,34 @@ LMhomePageCellDelegate
     self = [super init];
     if (self) {
         
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"login" object:nil];
-
     }
     
     return self;
 }
 
-
-
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadHomePage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadlist" object:nil];
-   
-
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
     self.title = @"首页";
     
     pageIndexArray=[NSMutableArray arrayWithCapacity:0];
     
-    stateArray=[NSMutableArray arrayWithCapacity:0];
-    
     [self creatUI];
     ifRefresh = YES;
-    imageUrls = [NSMutableArray new];
     listArray = [NSMutableArray new];
-    eventArray = [NSMutableArray new];
     [self getBannerDataRequest];
 }
 
--(void)creatUI
+- (void)creatUI
 {
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
@@ -115,15 +104,19 @@ LMhomePageCellDelegate
     _tableView.tableHeaderView = headView;
     
     [self addBackView];
-
-    
     [self setupRefresh];
+<<<<<<< HEAD
 
 
 }
 
 
 -(void)addBackView
+=======
+}
+
+- (void)addBackView
+>>>>>>> 764ce2d7fbdd5cc460fc40b69eda425579b78c3f
 {
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*3/5+40, 200, 130)];
     
@@ -137,15 +130,12 @@ LMhomePageCellDelegate
     imageLb.textAlignment = NSTextAlignmentCenter;
     [homeImage addSubview:imageLb];
     homeImage.hidden = YES;
+
     [_tableView addSubview:homeImage];
 }
 
-
-
--(void)sweepAction
+- (void)sweepAction
 {
-    NSLog(@"********发布");
-    
     LMPublicArticleController *scanVC = [[LMPublicArticleController alloc] init];
     
     [scanVC setHidesBottomBarWhenPushed:YES];
@@ -175,7 +165,6 @@ LMhomePageCellDelegate
 
 -(void)reloadCellData
 {
-    
     reload=YES;
     [self getHomeDataRequest:1];
 }
@@ -192,7 +181,6 @@ LMhomePageCellDelegate
 
     });
 }
-
 
 - (void)footerRereshing
 {
@@ -223,88 +211,68 @@ LMhomePageCellDelegate
         return;
     }
     
-    
-    
     LMBannerrequest *request = [[LMBannerrequest alloc] init];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
+
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   
+                                                   NSDictionary *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString     *result     = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
+                                                       
+                                                       _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
+                                                   
+                                                       if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
+                                                           
+                                                           headView.backgroundColor = BG_GRAY_COLOR;
+                                                       } else {
+                                                           
+                                                           for (UIView *subView in headView.subviews) {
+                                                               
+                                                               [subView removeFromSuperview];
+                                                           }
+                                                           
+                                                           NSMutableArray   *imgUrls    = [NSMutableArray new];
+                                                           
+                                                           for (BannerVO *vo in _bannerArray) {
+                                                               
+                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
+                                                                   
+                                                                   [imgUrls addObject:vo.LinkUrl];
+                                                               }
+                                                            }
+                                                           
+                                                           WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
+                                                                                                           delegate:self
+                                                                                                          imageURLs:imgUrls
+                                                                                                   placeholderImage:nil
+                                                                                                       timeInterval:3
+                                                                                     currentPageIndicatorITintColor:nil
+                                                                                             pageIndicatorTintColor:nil];
+                                                           
+                                                           loopView.location = WJPageControlAlignmentRight;
+                                                           
+                                                           [headView addSubview:loopView];
+                                                       }
+                                                   }
+                                               });
                                                
-                                               [self performSelectorOnMainThread:@selector(getBannerResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"获取轮播图失败"
                                                                    waitUntilDone:YES];
-                                               
-                                               
                                            }];
     [proxy start];
     
 }
 
--(void)getBannerResponse:(NSString *)resp
+- (void)getHomeDataRequest:(NSInteger)page
 {
-   
-    
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-//    [self logoutAction:resp];
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
-//       NSLog(@"===========轮播图=bodyDic===============%@",bodyDic);
-      
-//        return;
-        NSMutableArray *array = [NSMutableArray new];
-        array = bodyDic[@"banners"];
-        for (NSDictionary *dic in array) {
-
-            
-            NSString *url = dic[@"linkUrl"];
-            if (![url isEqual:@""]&&url) {
-                [imageUrls addObject:url];
-            }
-            
-            
-            NSString *event = dic[@"event_uuid"];
-            if (![event isEqual:@""]&&event) {
-                [eventArray addObject:event];
-            }else{
-                [eventArray addObject:@""];
-            }
-
-            
-            NSString *state = dic[@"type"];
-            if (![state isEqual:@""]&&state) {
-                [stateArray addObject:state];
-            }else{
-                [stateArray addObject:@""];
-            }
-
-            [stateArray addObject:state];
-        }
-        if (imageUrls.count==0) {
-            headView.backgroundColor = BG_GRAY_COLOR;
-        }else{
-            WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:imageUrls placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
-            loopView.location = WJPageControlAlignmentRight;
-            
-            
-            [headView addSubview:loopView];
-        }
-        [_tableView reloadData];
-    }else{
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
-    }
-}
-
--(void)getHomeDataRequest:(NSInteger)page
-{
-    
-//    NSLog(@"%ld",page);
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -384,10 +352,9 @@ LMhomePageCellDelegate
     }
 }
 
-
 #pragma mark scrollview代理函数
-- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index {
-    NSLog(@"%ld",(long)index);
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
+{
     
 //    if ([stateArray[index] isEqualToString:@"event"]) {
 //        LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];

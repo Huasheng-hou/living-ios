@@ -57,7 +57,7 @@ UNUserNotificationCenterDelegate
     
     // * 启动个推
     //
-    [self GexinProcess:launchOptions];
+//    [self GexinProcess:launchOptions];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -130,12 +130,12 @@ UNUserNotificationCenterDelegate
     
     [standDefaults synchronize];
     
-    [GeTuiSdk registerDeviceToken:_deviceToken];
+//    [GeTuiSdk registerDeviceToken:_deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-    [GeTuiSdk registerDeviceToken:@""];
+//    [GeTuiSdk registerDeviceToken:@""];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userinfo
@@ -161,62 +161,62 @@ UNUserNotificationCenterDelegate
 
 #pragma mark - Getui Process
 
-- (void)GexinProcess:(NSDictionary *)launchOptions
-{
-    // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
-    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self error:nil];
-    
-    // [2]:注册APNS
-    [self registerRemoteNotification];
-    
-    // [2-EXT]: 获取启动时收到的APN
-    NSDictionary* message = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (message) {
-        //        NSString *payloadMsg = [message objectForKey:@"payload"];
-        //        NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
-        //        if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
-        //            [[hcb_PayloadManager sharedPayloadManager] processPayload:payloadMsg];
-        //        }
-    }
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-}
-
-#pragma mark - GexinSdkDelegate
-
-//SDK启动成功返回cid
-- (void) GeTuiSdkDidRegisterClient:(NSString *)clientId
-{
-    [[FitClientIDManager sharedClientIDManager] saveClientID:clientId];
-    NSLog(@"--------clientId:%@",clientId);
-}
-
-//SDK收到透传消息回调
-- (void) GeTuiSdkDidReceivePayload:(NSString *)payloadId
-                         andTaskId:(NSString*) taskId
-                      andMessageId:(NSString*)aMsgId
-                   fromApplication:(NSString *)appId
-{
-    // [4]: 收到个推消息
-    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
-    NSString *payloadMsg = nil;
-    if (payload) {
-        
-        
-        
-        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
-                                              length:payload.length
-                                            encoding:NSUTF8StringEncoding];
-    }
-    
-    if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
-        
-        NSLog(@"---------payloadMsg------------%@",payloadMsg);
-        
-        [FitPayloadManager processTransPayload:payloadMsg];
-    }
-}
+//- (void)GexinProcess:(NSDictionary *)launchOptions
+//{
+//    // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
+//    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self error:nil];
+//    
+//    // [2]:注册APNS
+//    [self registerRemoteNotification];
+//    
+//    // [2-EXT]: 获取启动时收到的APN
+//    NSDictionary* message = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+//    if (message) {
+//        //        NSString *payloadMsg = [message objectForKey:@"payload"];
+//        //        NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
+//        //        if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+//        //            [[hcb_PayloadManager sharedPayloadManager] processPayload:payloadMsg];
+//        //        }
+//    }
+//    
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+//    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+//}
+//
+//#pragma mark - GexinSdkDelegate
+//
+////SDK启动成功返回cid
+//- (void) GeTuiSdkDidRegisterClient:(NSString *)clientId
+//{
+//    [[FitClientIDManager sharedClientIDManager] saveClientID:clientId];
+//    NSLog(@"--------clientId:%@",clientId);
+//}
+//
+////SDK收到透传消息回调
+//- (void) GeTuiSdkDidReceivePayload:(NSString *)payloadId
+//                         andTaskId:(NSString*) taskId
+//                      andMessageId:(NSString*)aMsgId
+//                   fromApplication:(NSString *)appId
+//{
+//    // [4]: 收到个推消息
+//    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
+//    NSString *payloadMsg = nil;
+//    if (payload) {
+//        
+//        
+//        
+//        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
+//                                              length:payload.length
+//                                            encoding:NSUTF8StringEncoding];
+//    }
+//    
+//    if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+//        
+//        NSLog(@"---------payloadMsg------------%@",payloadMsg);
+//        
+//        [FitPayloadManager processTransPayload:payloadMsg];
+//    }
+//}
 
 
 #pragma mark - UNUserNotificationCenterDelegate
@@ -230,7 +230,7 @@ UNUserNotificationCenterDelegate
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
-    [GeTuiSdk enterBackground];
+//    [GeTuiSdk enterBackground];
 }
 
 

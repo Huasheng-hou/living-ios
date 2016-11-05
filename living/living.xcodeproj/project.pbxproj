@@ -281,7 +281,6 @@
 		8E8886201DCAEA28009D3374 /* LMCouponBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E88861D1DCAEA28009D3374 /* LMCouponBody.m */; };
 		8E8886211DCAEA29009D3374 /* LMCouponList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E88861F1DCAEA28009D3374 /* LMCouponList.m */; };
 		8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886231DCB018B009D3374 /* MessageUI.framework */; };
-		8E88862A1DCB046C009D3374 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */; };
 		8E8886381DCB425C009D3374 /* LMALLBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886351DCB425C009D3374 /* LMALLBody.m */; };
 		8E8886391DCB425C009D3374 /* LMALLList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886371DCB425C009D3374 /* LMALLList.m */; };
 		8EA4160A1DCD85DB0033299B /* LMPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA416091DCD85DB0033299B /* LMPublishViewController.m */; };
@@ -292,6 +291,8 @@
 		8EA6A4F01DCC228500A6E2C2 /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */; };
 		8EA6A4F91DCC365200A6E2C2 /* LMArticeDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */; };
 		8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */; };
+		8EB8C3C01DCE360C0054A4BA /* BannerVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C3BF1DCE360C0054A4BA /* BannerVO.m */; };
+		8EB8C3C31DCE3EA10054A4BA /* ActivityListVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C3C21DCE3EA10054A4BA /* ActivityListVO.m */; };
 		8EC998A01DC83A1000448997 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC9989F1DC83A1000448997 /* HBShareView.m */; };
 		8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC998A21DC83B3600448997 /* HBShareButton.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
@@ -896,9 +897,6 @@
 		8E88861F1DCAEA28009D3374 /* LMCouponList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponList.m; sourceTree = "<group>"; };
 		8E8886221DCAFED5009D3374 /* 腰果.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		8E8886231DCB018B009D3374 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		8E8886271DCB046C009D3374 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
-		8E8886281DCB046C009D3374 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
-		8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
 		8E8886341DCB425C009D3374 /* LMALLBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMALLBody.h; sourceTree = "<group>"; };
 		8E8886351DCB425C009D3374 /* LMALLBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMALLBody.m; sourceTree = "<group>"; };
 		8E8886361DCB425C009D3374 /* LMALLList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMALLList.h; sourceTree = "<group>"; };
@@ -921,6 +919,10 @@
 		8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArticeDeleteRequest.m; sourceTree = "<group>"; };
 		8EA6A4FD1DCC920F00A6E2C2 /* LMSearchAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSearchAddressController.h; sourceTree = "<group>"; };
 		8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
+		8EB8C3BE1DCE35BA0054A4BA /* BannerVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerVO.h; sourceTree = "<group>"; };
+		8EB8C3BF1DCE360C0054A4BA /* BannerVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerVO.m; sourceTree = "<group>"; };
+		8EB8C3C11DCE3E950054A4BA /* ActivityListVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityListVO.h; sourceTree = "<group>"; };
+		8EB8C3C21DCE3EA10054A4BA /* ActivityListVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityListVO.m; sourceTree = "<group>"; };
 		8EC9989E1DC83A1000448997 /* HBShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareView.h; sourceTree = "<group>"; };
 		8EC9989F1DC83A1000448997 /* HBShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBShareView.m; sourceTree = "<group>"; };
 		8EC998A11DC83B3600448997 /* HBShareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBShareButton.h; sourceTree = "<group>"; };
@@ -973,7 +975,6 @@
 				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
 				8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */,
 				8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */,
-				8E88862A1DCB046C009D3374 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */,
 				8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */,
 				8EC998A71DC8411900448997 /* Security.framework in Frameworks */,
@@ -1552,6 +1553,7 @@
 				35D8FC3B1DB4E24300AD469E /* Order */,
 				35B61E121DB0727800083F30 /* Activity */,
 				35B61DFA1DB06F7E00083F30 /* ActivityDetail */,
+				8EB8C3BD1DCE35A30054A4BA /* Banner */,
 				35F004171DADCA8900F59CB2 /* homepage */,
 				3547F3DE1D9904BA0068F04E /* Head */,
 				3547F3E21D9904BA0068F04E /* Payload */,
@@ -1911,7 +1913,6 @@
 		3547F4621D9904D90068F04E /* 3rdLibs */ = {
 			isa = PBXGroup;
 			children = (
-				8E8886251DCB046C009D3374 /* Gtui */,
 				8E0760151DC84B8E001D7098 /* TencentShare */,
 				355E525A1DC1A6D90004FBAF /* MJRefresh */,
 				35FA8E121DB5B31800510A75 /* AliPay */,
@@ -2260,6 +2261,8 @@
 			children = (
 				35B61E131DB0727800083F30 /* LMActivityList.h */,
 				35B61E141DB0727800083F30 /* LMActivityList.m */,
+				8EB8C3C11DCE3E950054A4BA /* ActivityListVO.h */,
+				8EB8C3C21DCE3EA10054A4BA /* ActivityListVO.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -2661,24 +2664,6 @@
 			path = LMCouponData;
 			sourceTree = "<group>";
 		};
-		8E8886251DCB046C009D3374 /* Gtui */ = {
-			isa = PBXGroup;
-			children = (
-				8E8886261DCB046C009D3374 /* include */,
-				8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */,
-			);
-			path = Gtui;
-			sourceTree = "<group>";
-		};
-		8E8886261DCB046C009D3374 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				8E8886271DCB046C009D3374 /* GeTuiSdk.h */,
-				8E8886281DCB046C009D3374 /* GeTuiSdkError.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
 		8E88862B1DCB2B7C009D3374 /* LMAllLiveRoom */ = {
 			isa = PBXGroup;
 			children = (
@@ -2701,6 +2686,15 @@
 				8EA416131DCDC6380033299B /* LMFindList.m */,
 			);
 			path = LMFind;
+			sourceTree = "<group>";
+		};
+		8EB8C3BD1DCE35A30054A4BA /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				8EB8C3BE1DCE35BA0054A4BA /* BannerVO.h */,
+				8EB8C3BF1DCE360C0054A4BA /* BannerVO.m */,
+			);
+			path = Banner;
 			sourceTree = "<group>";
 		};
 		8ECA2ADC1DC98DA2000CD0AB /* mapView */ = {
@@ -3110,6 +3104,7 @@
 				350904EE1DC74C540045CC14 /* DACircularProgressView.m in Sources */,
 				350769271DB9FEBF00487341 /* LMVersionViewController.m in Sources */,
 				3547F4321D9904BD0068F04E /* FitReachability.m in Sources */,
+				8EB8C3C31DCE3EA10054A4BA /* ActivityListVO.m in Sources */,
 				35DE3FA51DCDDBC5006CE145 /* LMFriendDataRequest.m in Sources */,
 				35FA8E9D1DB5CF3D00510A75 /* LMRefundRequest.m in Sources */,
 				3547F4021D9904BA0068F04E /* PayloadVO.m in Sources */,
@@ -3121,6 +3116,7 @@
 				3547F3821D9904A60068F04E /* LMFindViewController.m in Sources */,
 				3547F4311D9904BD0068F04E /* HcbObjectTable.m in Sources */,
 				3547F4351D9904BD0068F04E /* NSString+StringHelper.m in Sources */,
+				8EB8C3C01DCE360C0054A4BA /* BannerVO.m in Sources */,
 				35DE3FAB1DCDEC65006CE145 /* LMArticeDeleteReplyRequst.m in Sources */,
 				3547F42B1D9904BD0068F04E /* FitColorConvertFactory.m in Sources */,
 				355E526C1DC1A6D90004FBAF /* MJRefreshBaseView.m in Sources */,

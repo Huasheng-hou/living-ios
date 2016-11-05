@@ -6,11 +6,9 @@
 //  Copyright © 2016年 Huasheng. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitStatefulTableViewController.h"
 
-@interface LMActivityViewController : FitBaseViewController
-
-@property (nonatomic)           int     current;
+@interface LMActivityViewController : FitStatefulTableViewController
 
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;
