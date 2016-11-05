@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMFriendList.h"
 
 @interface LMFriendCell : UITableViewCell
 
@@ -16,6 +17,9 @@
 @property (nonatomic, strong)UILabel *addressLabel;
 
 @property (nonatomic, strong)UILabel *nameLabel;
+
+-(void)setData:(LMFriendList *)list;
+
 
 
 @end

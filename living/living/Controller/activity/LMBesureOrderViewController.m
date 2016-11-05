@@ -113,6 +113,7 @@
 -(void)getOrderDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
     }else{
@@ -423,6 +424,8 @@
 -(void)getdeleteDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"删除失败"];
     }else{
@@ -490,17 +493,7 @@
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
-        
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
-                                                     message:reLoginTip
-                                                    delegate:self
-                                           cancelButtonTitle:nil
-                                           otherButtonTitles:@"确定", nil];
-        [alert show];
-        alert.tag=10;
-        return;
-    }
+   [self logoutAction:resp];
     //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
     
     if (!bodyDict) {
@@ -562,17 +555,7 @@
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
-        
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
-                                                     message:reLoginTip
-                                                    delegate:self
-                                           cancelButtonTitle:nil
-                                           otherButtonTitles:@"确定", nil];
-        [alert show];
-        alert.tag=10;
-        return;
-    }
+[self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -624,17 +607,7 @@
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
-        
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
-                                                     message:reLoginTip
-                                                    delegate:self
-                                           cancelButtonTitle:nil
-                                           otherButtonTitles:@"确定", nil];
-        [alert show];
-        alert.tag=10;
-        return;
-    }
+[self logoutAction:resp];
     //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -697,17 +670,7 @@
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-    if ([bodyDict[@"returnCode"] isEqualToString:@"002"]){
-        
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil
-                                                     message:reLoginTip
-                                                    delegate:self
-                                           cancelButtonTitle:nil
-                                           otherButtonTitles:@"确定", nil];
-        [alert show];
-        alert.tag=10;
-        return;
-    }
+[self logoutAction:resp];
     if (!bodyDict) {
         return;
     }

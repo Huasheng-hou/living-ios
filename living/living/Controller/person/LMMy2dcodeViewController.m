@@ -61,6 +61,8 @@
 -(void)get2DcodeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
         return;
@@ -74,11 +76,11 @@
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
     backView.clipsToBounds = YES;
-    backView.layer.cornerRadius = 20;
+    backView.layer.cornerRadius = 5;
     backView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:backView];
     
-    UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 75, 75)];
+    UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
     headImage.backgroundColor = [UIColor lightGrayColor];
     [headImage sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage.layer.cornerRadius = 5;
@@ -87,19 +89,19 @@
     
     
     //nick
-    UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(110,10,30,30)];
+    UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(90,10,30,30)];
     nicklabel.font = TEXT_FONT_LEVEL_1;
-    nicklabel.textColor = TEXT_COLOR_LEVEL_2;
+    nicklabel.textColor = TEXT_COLOR_LEVEL_1;
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
     
     NSString *str = _name;
     CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-    [nicklabel setFrame:CGRectMake(110, 25, textSize.width, 30)];
+    [nicklabel setFrame:CGRectMake(90, 22.5, textSize.width, 30)];
     nicklabel.text = str;
     [backView addSubview:nicklabel];
     
     
-    UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+110, 32.5, 16, 16)];
+    UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+6+90, 30, 16, 16)];
     if (_gender) {
         if ([_gender intValue] ==1) {
             [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
@@ -116,7 +118,7 @@
     addressLabel.font = TEXT_FONT_LEVEL_2;
     
     [addressLabel sizeToFit];
-    addressLabel.frame = CGRectMake(110, 65, addressLabel.bounds.size.width, 20);
+    addressLabel.frame = CGRectMake(91, 52, addressLabel.bounds.size.width, 20);
     [backView addSubview: addressLabel];
     
     
@@ -128,7 +130,7 @@
         [backView addSubview:imageView];
     
     
-    UIImageView *headImage2 = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth-70)/2-37.5, (kScreenWidth-70)/2-37.5, 75, 75)];
+    UIImageView *headImage2 = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth-70)/2-25, (kScreenWidth-70)/2-25, 50, 50)];
     headImage2.backgroundColor = [UIColor lightGrayColor];
     [headImage2 sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage2.layer.cornerRadius = 5;
@@ -137,23 +139,10 @@
 
     
     } else {
-//        [self textStateHUD:bodyDic[@"description"]];
-        
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你不是轻创客，没有二维码"
-//                                                                       message:nil
-//                                                                preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
-//                                                               style:UIAlertActionStyleCancel
-//                                                             handler:nil];
-//        
-//        [alert addAction:cancelAction];
-//        [self presentViewController:alert animated:YES completion:nil];
         
         UILabel *msgLabel = [UILabel new];
-        msgLabel.backgroundColor = [UIColor whiteColor];
-        msgLabel.clipsToBounds = YES;
-        msgLabel.layer.cornerRadius = 5;
-        msgLabel.textColor = LIVING_COLOR;
+
+        msgLabel.textColor = [UIColor whiteColor];
         msgLabel.text = @"你不是轻创客，没有二维码";
         msgLabel.textAlignment = NSTextAlignmentCenter;
         [msgLabel sizeToFit];

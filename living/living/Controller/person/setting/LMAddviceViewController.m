@@ -156,6 +156,7 @@
 - (void)parseResponse:(NSString *)resp
 {
     NSDictionary  *bodyDict   = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     
     if (!bodyDict)
     {

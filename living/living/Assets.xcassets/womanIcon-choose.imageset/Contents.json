@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "女.png",
+      "filename" : "女亮.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "女@2x.png",
+      "filename" : "女亮@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "女@3x.png",
+      "filename" : "女亮@3x.png",
       "scale" : "3x"
     }
   ],

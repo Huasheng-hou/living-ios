@@ -87,6 +87,8 @@ UITableViewDataSource
 {
     NSDictionary    *bodyDic = [VOUtil parseBody:resp];
     
+    [self logoutAction:resp];
+    
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
         return;
@@ -208,6 +210,8 @@ UITableViewDataSource
 -(void)getNoticDeleteResponse:(NSString *)resp
 {
     NSDictionary    *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     
     if (!bodyDic) {
         [self textStateHUD:@"删除通知失败"];

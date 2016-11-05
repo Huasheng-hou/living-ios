@@ -582,6 +582,8 @@ selectAddressDelegate
                                                                        waitUntilDone:YES];
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
+                                                   [self logoutAction:resp];
+                                                   
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
                                                    
                                                    NSLog(@"--------bodyDict--------%@",bodyDict);
@@ -616,6 +618,7 @@ selectAddressDelegate
                                                                                   withObject:nil
                                                                                waitUntilDone:YES];
                                                            NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                                           [self logoutAction:resp];
                                                            
                                                            NSString    *result = [bodyDict objectForKey:@"result"];
                                                            
@@ -802,6 +805,8 @@ selectAddressDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
+    [self logoutAction:resp];
+    
     NSLog(@"***************%@",bodyDic);
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
@@ -823,6 +828,8 @@ selectAddressDelegate
 -(void)getEventPublicProjectDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
     NSLog(@"**********%@",bodyDic);
     if (!bodyDic) {
         [self textStateHUD:@"发布项目失败"];

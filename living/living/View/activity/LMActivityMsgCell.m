@@ -107,9 +107,16 @@
     _mapView.mapType = MKMapTypeStandard;
     [self.contentView addSubview:_mapView];
     
+<<<<<<< HEAD
 
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 350, kScreenWidth-30, 30)];
 
+=======
+    
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 350, kScreenWidth-30, 30)];
+
+
+>>>>>>> 5a41f8e80956907d0ef9c426f877594325ebab25
     [label setText:@"这是地图显示地址"];
     [label setTextColor:TEXT_COLOR_LEVEL_3];
     [label setFont:TEXT_FONT_LEVEL_2];
@@ -185,11 +192,11 @@
     _freeV.frame = CGRectMake(15, 93, 24, 24);
 
     
-    _numberLabel.frame = CGRectMake(44, 10, kScreenWidth-30, 30);
-    _addressLabel.frame = CGRectMake(44, 127, _addressLabel.bounds.size.width, 30);
-    _timeLabel.frame = CGRectMake(44, 49, _timeLabel.bounds.size.width, 30);
+    _numberLabel.frame = CGRectMake(44, 12, kScreenWidth-30, 30);
+    _addressLabel.frame = CGRectMake(44, 129.5, _addressLabel.bounds.size.width, 30);
+    _timeLabel.frame = CGRectMake(44, 49+0.5, _timeLabel.bounds.size.width, 30);
     
-    _priceLabel.frame = CGRectMake(44, 88, _priceLabel.bounds.size.width, 30);
+    _priceLabel.frame = CGRectMake(44, 90, _priceLabel.bounds.size.width, 30);
 }
 
 

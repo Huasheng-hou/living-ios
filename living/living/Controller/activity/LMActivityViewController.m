@@ -228,6 +228,7 @@ UITableViewDataSource
 -(void)getActivityListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
      NSLog(@"============活动数据请求结果===========%@",bodyDic);
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
       

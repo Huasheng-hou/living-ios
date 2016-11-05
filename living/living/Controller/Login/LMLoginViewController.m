@@ -145,7 +145,7 @@
         
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight/3)];
         
-        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6-50, 100, 100)];
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-45, kScreenHeight/6-45, 90, 90)];
         iconView.layer.cornerRadius = 20;
         iconView.clipsToBounds = YES;
         iconView.contentMode = UIViewContentModeScaleAspectFill;
@@ -153,11 +153,11 @@
         [headView addSubview:iconView];
         [cell.contentView addSubview:headView];
         
-        UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6+60, 100, 30)];
+        UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6+65, 100, 30)];
         appName.text = @"腰果生活";
         appName.textColor = TEXT_COLOR_LEVEL_1;
         appName.textAlignment = NSTextAlignmentCenter;
-        appName.font = [UIFont systemFontOfSize:20];
+        appName.font = [UIFont systemFontOfSize:18];
         [cell.contentView addSubview:appName];
         
         
@@ -189,17 +189,17 @@
         
         [cell.contentView addSubview:_codeTF];
         
-        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 118, 10, 10, 50)];
+        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 111, 10, 10, 50)];
         
         lbl.text            = @"/";
         lbl.font            = [UIFont boldSystemFontOfSize:18];
-        lbl.textColor       = [UIColor colorWithRed:91.0/255.0 green:115.0/255.0 blue:192.0/255.0 alpha:1.0];
+        lbl.textColor       = LIVING_REDCOLOR;
         lbl.textAlignment   = NSTextAlignmentCenter;
         [cell.contentView addSubview:lbl];
         
         codeBtn                    = [[UILabel alloc]init];
         codeBtn.layer.cornerRadius = 5;
-        codeBtn.frame              = CGRectMake(kScreenWidth - 115, 10, 100, 50);
+        codeBtn.frame              = CGRectMake(kScreenWidth - 108, 10, 100, 50);
         codeBtn.text               = @"获取验证码";
         codeBtn.textColor          = LIVING_REDCOLOR;
         codeBtn.userInteractionEnabled = YES;
@@ -240,7 +240,7 @@
 {
     
     codeBtn.font                  = [UIFont systemFontOfSize:13];
-    codeBtn.text                  = [NSString stringWithFormat:@"%d后重新发送",_number--];
+    codeBtn.text                  = [NSString stringWithFormat:@"%ds后重新发送",_number--];
     if (_number == 0)
     {
         [_timer invalidate];
@@ -394,6 +394,7 @@
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
          privileges = [bodyDict objectForKey:@"privileges"];
+<<<<<<< HEAD
         
         
         franchisee = [bodyDict objectForKey:@"franchisee"];
@@ -403,6 +404,14 @@
         franchisee = [bodyDict objectForKey:@"franchisee"];
         vipString =[bodyDict objectForKey:@"sign"];
 
+=======
+        
+        franchisee = [bodyDict objectForKey:@"franchisee"];
+        vipString =[bodyDict objectForKey:@"sign"];
+
+        franchisee = [bodyDict objectForKey:@"franchisee"];
+        vipString =[bodyDict objectForKey:@"sign"];
+>>>>>>> 5a41f8e80956907d0ef9c426f877594325ebab25
         if (is_exist && [is_exist intValue] == 0) {
             LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
             registerVC.userId = _uuid;

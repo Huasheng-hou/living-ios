@@ -6,9 +6,12 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitTableViewController.h"
+#import "FitBaseViewController.h"
 
-@interface LMHomeDetailController : FitTableViewController
+@interface LMHomeDetailController : FitBaseViewController
+
+@property(nonatomic,strong)UITableView *tableView;
+
 @property(nonatomic, strong) NSString *artcleuuid;
 
 

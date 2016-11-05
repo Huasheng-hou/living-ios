@@ -125,13 +125,13 @@ UIViewControllerTransitioningDelegate
     [bgView addSubview:line];
     
     //正文
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, bgView.frame.size.height/2)];
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, bgView.frame.size.height/2-45)];
     [textView setDelegate:self];
     [textView setBackgroundColor:[UIColor whiteColor]];
     textView.font = TEXT_FONT_LEVEL_2;//设置字体名字和字体大小
     textView.delegate = self;//设置它的委托方法
     
-    [textView setReturnKeyType:UIReturnKeyDone];
+//    [textView setReturnKeyType:UIReturnKeyDone];
     textView.keyboardType = UIKeyboardTypeDefault;//键盘类型
     textView.scrollEnabled = YES;//是否可以拖动
     textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
@@ -435,14 +435,7 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark UITextViewDelegate
 
--(BOOL)textView:(UITextView *)textV shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    }
-    return YES;
-}
+
 
 -(void)textViewDidBeginEditing:(UITextView *)textV
 {
@@ -455,6 +448,8 @@ UIViewControllerTransitioningDelegate
         [tip setHidden:NO];
     }
 }
+
+
 
 #pragma mark 设置图片位置
 
@@ -609,6 +604,8 @@ UIViewControllerTransitioningDelegate
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
+                                                   [self logoutAction:resp];
+                                                   
                                                    
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
                                                    
@@ -672,6 +669,7 @@ UIViewControllerTransitioningDelegate
 - (void)publishResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"发布失败"];
@@ -683,7 +681,7 @@ UIViewControllerTransitioningDelegate
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
-            [self textStateHUD:@"发布活动成功"];
+            [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];

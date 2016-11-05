@@ -69,10 +69,16 @@
 		353A8E671DB614AA00D829DB /* LMBalanceListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353A8E661DB614AA00D829DB /* LMBalanceListRequest.m */; };
 		353B890C1DB85327007585F1 /* LMAlipayResultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */; };
 		353B890F1DB860EC007585F1 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 353B890E1DB860EC007585F1 /* LMNoticListRequest.m */; };
+		35423A811DCD86D600F51A5D /* LMArticleCommentDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35423A801DCD86D600F51A5D /* LMArticleCommentDeleteRequest.m */; };
+		35423A851DCD936500F51A5D /* LMEventCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35423A841DCD936500F51A5D /* LMEventCommentRequest.m */; };
 		3542B9D51DCC2C6C0039F1B1 /* LMFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3542B9D41DCC2C6C0039F1B1 /* LMFriendCell.m */; };
 		3542B9D71DCC44E40039F1B1 /* 12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9D61DCC44E40039F1B1 /* 12.jpg */; };
 		3542B9D91DCC44EB0039F1B1 /* 13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9D81DCC44EB0039F1B1 /* 13.jpg */; };
 		3542B9DB1DCC44EF0039F1B1 /* 14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9DA1DCC44EF0039F1B1 /* 14.jpg */; };
+		3542B9DD1DCCB7DC0039F1B1 /* 四大分院健康海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9DC1DCCB7DC0039F1B1 /* 四大分院健康海报@3x.png */; };
+		3542B9E11DCCB7E60039F1B1 /* 四大分院美丽海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9DE1DCCB7E60039F1B1 /* 四大分院美丽海报@3x.png */; };
+		3542B9E21DCCB7E60039F1B1 /* 四大分院美食海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9DF1DCCB7E60039F1B1 /* 四大分院美食海报@3x.png */; };
+		3542B9E31DCCB7E60039F1B1 /* 四大分院幸福海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3542B9E01DCCB7E60039F1B1 /* 四大分院幸福海报@3x.png */; };
 		354574761D9CAFB900E88D6F /* LMCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574751D9CAFB900E88D6F /* LMCommentButton.m */; };
 		354574791D9CC24600E88D6F /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 354574781D9CC24600E88D6F /* WJLoopView.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
@@ -205,6 +211,8 @@
 		35D8FC361DB4DD9900AD469E /* findpage.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FC351DB4DD9900AD469E /* findpage.png */; };
 		35D8FC3A1DB4E03400AD469E /* LMOrderListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */; };
 		35D8FC3E1DB4E26300AD469E /* LMOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D8FC3D1DB4E26300AD469E /* LMOrderList.m */; };
+		35DE3F9F1DCDB937006CE145 /* LMFriendList.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DE3F9E1DCDB937006CE145 /* LMFriendList.m */; };
+		35DE3FA21DCDBCF0006CE145 /* LMFindBannerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DE3FA11DCDBCF0006CE145 /* LMFindBannerRequest.m */; };
 		35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */; };
 		35E40A271DAC9B6A00DE1807 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A261DAC9B6A00DE1807 /* HTTPProxy.m */; };
 		35E40A2F1DACBD4300DE1807 /* LMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E40A2E1DACBD4300DE1807 /* LMUserInfo.m */; };
@@ -418,11 +426,19 @@
 		353B890B1DB85327007585F1 /* LMAlipayResultRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAlipayResultRequest.m; sourceTree = "<group>"; };
 		353B890D1DB860EC007585F1 /* LMNoticListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticListRequest.h; sourceTree = "<group>"; };
 		353B890E1DB860EC007585F1 /* LMNoticListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticListRequest.m; sourceTree = "<group>"; };
+		35423A7F1DCD86D600F51A5D /* LMArticleCommentDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArticleCommentDeleteRequest.h; sourceTree = "<group>"; };
+		35423A801DCD86D600F51A5D /* LMArticleCommentDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArticleCommentDeleteRequest.m; sourceTree = "<group>"; };
+		35423A831DCD936500F51A5D /* LMEventCommentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventCommentRequest.h; sourceTree = "<group>"; };
+		35423A841DCD936500F51A5D /* LMEventCommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventCommentRequest.m; sourceTree = "<group>"; };
 		3542B9D31DCC2C6C0039F1B1 /* LMFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendCell.h; sourceTree = "<group>"; };
 		3542B9D41DCC2C6C0039F1B1 /* LMFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendCell.m; sourceTree = "<group>"; };
 		3542B9D61DCC44E40039F1B1 /* 12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 12.jpg; sourceTree = "<group>"; };
 		3542B9D81DCC44EB0039F1B1 /* 13.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 13.jpg; sourceTree = "<group>"; };
 		3542B9DA1DCC44EF0039F1B1 /* 14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 14.jpg; sourceTree = "<group>"; };
+		3542B9DC1DCCB7DC0039F1B1 /* 四大分院健康海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院健康海报@3x.png"; sourceTree = "<group>"; };
+		3542B9DE1DCCB7E60039F1B1 /* 四大分院美丽海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院美丽海报@3x.png"; sourceTree = "<group>"; };
+		3542B9DF1DCCB7E60039F1B1 /* 四大分院美食海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院美食海报@3x.png"; sourceTree = "<group>"; };
+		3542B9E01DCCB7E60039F1B1 /* 四大分院幸福海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院幸福海报@3x.png"; sourceTree = "<group>"; };
 		354574741D9CAFB900E88D6F /* LMCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentButton.h; sourceTree = "<group>"; };
 		354574751D9CAFB900E88D6F /* LMCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentButton.m; sourceTree = "<group>"; };
 		354574771D9CC24200E88D6F /* WJLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJLoopView.h; sourceTree = "<group>"; };
@@ -675,6 +691,10 @@
 		35D8FC391DB4E03400AD469E /* LMOrderListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderListRequest.m; sourceTree = "<group>"; };
 		35D8FC3C1DB4E25F00AD469E /* LMOrderList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMOrderList.h; sourceTree = "<group>"; };
 		35D8FC3D1DB4E26300AD469E /* LMOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderList.m; sourceTree = "<group>"; };
+		35DE3F9D1DCDB933006CE145 /* LMFriendList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFriendList.h; sourceTree = "<group>"; };
+		35DE3F9E1DCDB937006CE145 /* LMFriendList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendList.m; sourceTree = "<group>"; };
+		35DE3FA01DCDBCF0006CE145 /* LMFindBannerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindBannerRequest.h; sourceTree = "<group>"; };
+		35DE3FA11DCDBCF0006CE145 /* LMFindBannerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindBannerRequest.m; sourceTree = "<group>"; };
 		35E40A221DAC9B4700DE1807 /* FitBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FitBaseRequest.h; sourceTree = "<group>"; };
 		35E40A231DAC9B5000DE1807 /* FitBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitBaseRequest.m; sourceTree = "<group>"; };
 		35E40A251DAC9B6600DE1807 /* HTTPProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPProxy.h; sourceTree = "<group>"; };
@@ -1108,6 +1128,24 @@
 			path = SQMenuShowView;
 			sourceTree = "<group>";
 		};
+		35423A7E1DCD866900F51A5D /* delete */ = {
+			isa = PBXGroup;
+			children = (
+				35423A7F1DCD86D600F51A5D /* LMArticleCommentDeleteRequest.h */,
+				35423A801DCD86D600F51A5D /* LMArticleCommentDeleteRequest.m */,
+			);
+			path = delete;
+			sourceTree = "<group>";
+		};
+		35423A821DCD930600F51A5D /* delete */ = {
+			isa = PBXGroup;
+			children = (
+				35423A831DCD936500F51A5D /* LMEventCommentRequest.h */,
+				35423A841DCD936500F51A5D /* LMEventCommentRequest.m */,
+			);
+			path = delete;
+			sourceTree = "<group>";
+		};
 		3542B9D21DCC2C1B0039F1B1 /* myfriend */ = {
 			isa = PBXGroup;
 			children = (
@@ -1352,6 +1390,10 @@
 		3547F3A31D9904B60068F04E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3542B9DE1DCCB7E60039F1B1 /* 四大分院美丽海报@3x.png */,
+				3542B9DF1DCCB7E60039F1B1 /* 四大分院美食海报@3x.png */,
+				3542B9E01DCCB7E60039F1B1 /* 四大分院幸福海报@3x.png */,
+				3542B9DC1DCCB7DC0039F1B1 /* 四大分院健康海报@3x.png */,
 				3542B9D61DCC44E40039F1B1 /* 12.jpg */,
 				3542B9D81DCC44EB0039F1B1 /* 13.jpg */,
 				3542B9DA1DCC44EF0039F1B1 /* 14.jpg */,
@@ -1534,6 +1576,8 @@
 				354C0BCF1DC98FD400869A3D /* LMLivingLivingInfo.m */,
 				354C0BD11DC9951C00869A3D /* LMLivingMap.h */,
 				354C0BD21DC9951F00869A3D /* LMLivingMap.m */,
+				35DE3F9D1DCDB933006CE145 /* LMFriendList.h */,
+				35DE3F9E1DCDB937006CE145 /* LMFriendList.m */,
 			);
 			path = PersonData;
 			sourceTree = "<group>";
@@ -2176,6 +2220,7 @@
 		35B61E081DB0702200083F30 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				35423A821DCD930600F51A5D /* delete */,
 				35B61E091DB0702200083F30 /* LMActivityDetailRequest.h */,
 				35B61E0A1DB0702200083F30 /* LMActivityDetailRequest.m */,
 				35B61E0B1DB0702200083F30 /* LMActivityListRequest.h */,
@@ -2219,6 +2264,8 @@
 			children = (
 				35D8FC2E1DB4CBFD00AD469E /* LMFindListRequest.h */,
 				35D8FC2F1DB4CBFD00AD469E /* LMFindListRequest.m */,
+				35DE3FA01DCDBCF0006CE145 /* LMFindBannerRequest.h */,
+				35DE3FA11DCDBCF0006CE145 /* LMFindBannerRequest.m */,
 			);
 			path = Find;
 			sourceTree = "<group>";
@@ -2277,6 +2324,7 @@
 		35E40A281DACBB0D00DE1807 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				35423A7E1DCD866900F51A5D /* delete */,
 				35E40A301DACBF9700DE1807 /* LMBannerrequest.h */,
 				35E40A311DACBF9700DE1807 /* LMBannerrequest.m */,
 				35E40A331DACC4B500DE1807 /* LMHomelistequest.h */,
@@ -2694,6 +2742,7 @@
 				3547F3A91D9904B60068F04E /* line.png in Resources */,
 				3547F38C1D9904AE0068F04E /* InfoPlist.strings in Resources */,
 				3542B9D71DCC44E40039F1B1 /* 12.jpg in Resources */,
+				3542B9E21DCCB7E60039F1B1 /* 四大分院美食海报@3x.png in Resources */,
 				3547F3A71D9904B60068F04E /* 112.png in Resources */,
 				3547F3A81D9904B60068F04E /* city.plist in Resources */,
 				35D8FC231DB47D4E00AD469E /* area.plist in Resources */,
@@ -2702,14 +2751,17 @@
 				3507691C1DB9B2AD00487341 /* scanLine@3x.png in Resources */,
 				3507691D1DB9B2AD00487341 /* scanscanBg.png in Resources */,
 				3547F42A1D9904BD0068F04E /* city.plist in Resources */,
+				3542B9E11DCCB7E60039F1B1 /* 四大分院美丽海报@3x.png in Resources */,
 				3507691A1DB9B2AD00487341 /* noticeMusic.wav in Resources */,
 				3507691B1DB9B2AD00487341 /* scanLine@2x.png in Resources */,
 				35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */,
 				3547F4E71D9909660068F04E /* UMSocialLocalizable.strings in Resources */,
+				3542B9E31DCCB7E60039F1B1 /* 四大分院幸福海报@3x.png in Resources */,
 				3547F4ED1D9909660068F04E /* UMShareEditViewControlleriPad.xib in Resources */,
 				3547F4F01D9909660068F04E /* UMSShareListController.xib in Resources */,
 				355E526B1DC1A6D90004FBAF /* MJRefresh.bundle in Resources */,
 				350769181DB9B2AD00487341 /* lightNormal.png in Resources */,
+				3542B9DD1DCCB7DC0039F1B1 /* 四大分院健康海报@3x.png in Resources */,
 				3530ABDA1DC5C348003CB68F /* SQMenuShowCell.xib in Resources */,
 				3542B9D91DCC44EB0039F1B1 /* 13.jpg in Resources */,
 				3542B9DB1DCC44EF0039F1B1 /* 14.jpg in Resources */,
@@ -2818,6 +2870,7 @@
 				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
 				8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */,
+				35DE3FA21DCDBCF0006CE145 /* LMFindBannerRequest.m in Sources */,
 				8ECA2AFA1DC9F461000CD0AB /* LMCouponCell.m in Sources */,
 				3517678F1DC5A6BD00D2D407 /* LMBlanceDetailController.m in Sources */,
 				8EC998A31DC83B3600448997 /* HBShareButton.m in Sources */,
@@ -2846,6 +2899,7 @@
 				358460FA1DBDD4C30048D176 /* LMAddviceViewController.m in Sources */,
 				35FA8EAD1DB5FB1A00510A75 /* LMAliRechargeResultRequest.m in Sources */,
 				35FA8E0C1DB5B31100510A75 /* WXApiManager.m in Sources */,
+				35423A851DCD936500F51A5D /* LMEventCommentRequest.m in Sources */,
 				35D8FC3E1DB4E26300AD469E /* LMOrderList.m in Sources */,
 				35E40A241DAC9B5000DE1807 /* FitBaseRequest.m in Sources */,
 				3547F4011D9904BA0068F04E /* HeadVO.m in Sources */,
@@ -2869,6 +2923,7 @@
 				355B39EE1DCB7C4B00163A42 /* LMFriendListRequest.m in Sources */,
 				350AD2321DB77B1200CA181A /* LMAliPayRequest.m in Sources */,
 				351CC64F1DAB234E008D59D8 /* LMNoticCell.m in Sources */,
+				35DE3F9F1DCDB937006CE145 /* LMFriendList.m in Sources */,
 				351CC6651DAB8F70008D59D8 /* LMOrderViewController.m in Sources */,
 				35FA8EA41DB5F80900510A75 /* LMWXRechargrRequest.m in Sources */,
 				35FA8EA01DB5ECDE00510A75 /* LMBalanceRequest.m in Sources */,
@@ -2883,6 +2938,7 @@
 				3536836D1DC87DD700D067AE /* LMAUTHORList.m in Sources */,
 				3547F45F1D9904C70068F04E /* FitPayloadManager.m in Sources */,
 				3547F4FC1D9921370068F04E /* LMActivityCell.m in Sources */,
+				35423A811DCD86D600F51A5D /* LMArticleCommentDeleteRequest.m in Sources */,
 				35FA8DF71DB5B27800510A75 /* LMRechargeViewController.m in Sources */,
 				3517678C1DC59A4C00D2D407 /* LMBlanceListCell.m in Sources */,
 				3507692A1DBA05A100487341 /* LMOrederDeleteRequest.m in Sources */,

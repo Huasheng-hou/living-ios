@@ -191,7 +191,16 @@
 #pragma mark - 扫描结果处理
 - (void)accordingQcode:(NSString *)str
 {
-    LMScanRequest *request = [[LMScanRequest alloc] initWithscanningResult:str];
+    
+    NSLog(@"%@",str);
+    NSString *string = @"";
+    if (str.length >9) {
+        string = [str substringFromIndex:9];
+    }
+    
+    
+    
+    LMScanRequest *request = [[LMScanRequest alloc] initWithscanningResult:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -213,6 +222,9 @@
 -(void)getscanningResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
+    
     if (!bodyDic) {
         [self textStateHUD:@"添加好友失败!"];
     }else{
