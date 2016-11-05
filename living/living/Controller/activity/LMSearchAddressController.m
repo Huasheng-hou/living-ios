@@ -104,6 +104,8 @@ updatingLocation:(BOOL)updatingLocation
 {
     NSLog(@"===========================搜索响应结果=========================");
     
+     [activity stopAnimating];
+    
     _listData=[NSMutableArray arrayWithCapacity:0];
     
     if (response.pois.count == 0)
@@ -119,10 +121,10 @@ updatingLocation:(BOOL)updatingLocation
     
     for (int i=0; i<poiAnnotations.count; i++) {
         
-        [_listData addObject:poiAnnotations[i]];
+        if ( [poiAnnotations[i] title]) {
+             [_listData addObject:poiAnnotations[i]];
+        }
     }
-    
-    [activity stopAnimating];
     
     [self.tableView reloadData];
 }

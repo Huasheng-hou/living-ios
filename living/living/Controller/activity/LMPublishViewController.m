@@ -1,13 +1,13 @@
 //
-//  LMPublicActivityController.m
+//  LMPublishViewController.m
 //  living
 //
-//  Created by Ding on 16/10/8.
+//  Created by JamHonyZ on 2016/11/5.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "LMPublicActivityController.h"
-#import "LMPublicEventListCell.h"
+#import "LMPublishViewController.h"
+#import "LMProjectCell.h"
 #import "LMPublicMsgCell.h"
 #import "LMTimeButton.h"
 #import "FitPickerView.h"
@@ -21,8 +21,9 @@
 #import "LMSearchAddressController.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
+#import "UIImageView+WebCache.h"
 
-@interface LMPublicActivityController ()
+@interface LMPublishViewController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
@@ -34,12 +35,10 @@ UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
 FitPickerViewDelegate,
-LMPublicEventCellDelegate,
 selectAddressDelegate
 >
 {
     LMPublicMsgCell *msgCell;
-    LMPublicEventListCell *AddEventCell;
     UIImagePickerController *pickImage;
     NSString *_imgURL;
     NSString *_imgProURL;
@@ -47,7 +46,7 @@ selectAddressDelegate
     NSInteger timeIndex;
     NSInteger cellIndex;
     NSString                    *districtStr;//设置中间变量，获取县（区）的编码
-    NSInteger imageIndex;
+//    NSInteger imageIndex;
     NSString *eventUUid;
     
     NSInteger projectIndex;
@@ -58,19 +57,35 @@ selectAddressDelegate
     
     CGFloat _latitude;
     CGFloat _longitude;
+    LMProjectCell * cell;
+    NSInteger addImageIndex;
+    
+    NSMutableArray *projectImageArray;
+    
 }
 @property(nonatomic,strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
-
+@property (nonatomic,retain)UITableView *tableView;
 @end
 
-@implementation LMPublicActivityController
+@implementation LMPublishViewController
+
+static NSMutableArray *cellDataArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"发布活动";
     // Do any additional setup after loading the view.
+    cellDataArray=[NSMutableArray arrayWithCapacity:10];
+    projectImageArray=[NSMutableArray arrayWithCapacity:10];
+    
+    for (int i=0; i<10; i++) {
+        [projectImageArray addObject:@""];
+    }
+    
+    [self projectDataStorageWithArrayIndex:0];
+    
     [self creatUI];
     
     [self initSearch];
@@ -102,12 +117,11 @@ selectAddressDelegate
 
 -(void)creatUI
 {
-//    [super createUI];
-    
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -164,7 +178,7 @@ selectAddressDelegate
         return 1;
     }
     if (section==1) {
-        return cellIndex;
+        return cellDataArray.count;
     }
     return 0;
 }
@@ -209,7 +223,7 @@ selectAddressDelegate
         
         headView.backgroundColor = [UIColor clearColor];
         return headView;
-
+        
     }
     
     
@@ -255,7 +269,6 @@ selectAddressDelegate
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.section==0) {
         
         static NSString *cellID = @"cellID";
@@ -272,36 +285,96 @@ selectAddressDelegate
         msgCell.VipFreeTF.delegate = self;
         msgCell.joincountTF.delegate = self;
         
+        msgCell.titleTF.tag = 100;
+        msgCell.phoneTF.tag = 100;
+        msgCell.nameTF.tag = 100;
+        msgCell.freeTF.tag =100;
+        msgCell.dspTF.tag = 100;
+        msgCell.VipFreeTF.tag = 100;
+        msgCell.joincountTF.tag = 100;
+        
+        
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
-
+        
         [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
-
+        
         [msgCell.addressButton addTarget:self action:@selector(addressAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [msgCell.imageButton setTag:0];
         
         [msgCell.mapButton addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
         
-         return msgCell;
+        return msgCell;
     }
     if (indexPath.section==1) {
         
         static NSString *cellId = @"cellId";
-        AddEventCell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        if (!AddEventCell) {
-            AddEventCell = [[LMPublicEventListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (cell==nil) {
+            cell = [[LMProjectCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+             cell.title.delegate = self;
+             cell.includeTF.delegate = self;
         }
-            AddEventCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            AddEventCell.delegate = self;
-            AddEventCell.titleTF.delegate = self;
-            AddEventCell.includeTF.delegate = self;
-            AddEventCell.cellndex = indexPath.row;
-            AddEventCell.tag = indexPath.row;
-         
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        return AddEventCell;
+        [cell.title setTag:indexPath.row];
+        [cell.includeTF setTag:indexPath.row];
+        cell.cellndex = indexPath.row;
+        cell.tag = indexPath.row;
+        
+        cell.title.text=cellDataArray[indexPath.row][@"title"];
+        
+        cell.includeTF.text=cellDataArray[indexPath.row][@"content"];
+        
+        if ([projectImageArray[indexPath.row] isKindOfClass:[UIImage class]]) {
+            UIImage *image=(UIImage *)projectImageArray[indexPath.row];
+            [cell.imgView setImage:image];
+        }else
+        if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+            [cell.imgView setImage:[UIImage imageNamed:@""]];
+        }
+        
+        
+        [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.deleteBt setTag:indexPath.row];
+        
+        [cell.eventButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.eventButton setTag:indexPath.row+10];
+        
+         [cell.deleteBt setHidden:NO];
+        
+        if (cellDataArray.count==1) {
+            if (indexPath.row==0) {
+                [cell.deleteBt setHidden:YES];
+            }else{
+                [cell.deleteBt setHidden:NO];
+            }
+        }
+        
+        if ([cell.includeTF.text isEqualToString:@""]) {
+             [cell.textLab setHidden:NO];
+        }else{
+             [cell.textLab setHidden:YES];
+        }
+        
+        return cell;
     }
     return nil;
 }
+
+
+-(void)closeCell:(UIButton *)button
+{
+    NSInteger row=button.tag;
+    
+    [cellDataArray removeObjectAtIndex:row];
+    
+     [projectImageArray removeObjectAtIndex:row];
+    
+    [self.tableView reloadData];
+}
+
+
 
 #pragma mark 地图选择地址详情
 
@@ -343,7 +416,7 @@ selectAddressDelegate
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
-
+    
 }
 
 -(void)endDateAction:(id)sender
@@ -382,43 +455,25 @@ selectAddressDelegate
     [self.view endEditing:YES];
     NSLog(@"************addressAction");
     
-   [self createPickerView];
+    [self createPickerView];
     
 }
 - (void)didSelectedItems:(NSArray *)items andDistrict:(NSString *)district
 {
-   
-        msgCell.addressButton.textLabel.text = [NSString stringWithFormat:@"%@", items[0]];
-        districtStr=district;
+    
+    msgCell.addressButton.textLabel.text = [NSString stringWithFormat:@"%@", items[0]];
+    districtStr=district;
     
 }
 
-
-
+#pragma mark ======================活动==项目活动增加图片
 
 -(void)imageButtonAction:(UIButton *)button
 {
-    NSLog(@"************imageButtonAction");
-    imageIndex = 0;
+    NSLog(@"==========*******项目图片========================");
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"相册", @"拍照",nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
-    actionSheet = nil;
+    addImageIndex=button.tag;
     
-    
-    
-}
-
--(void)cellWilladdImage:(LMPublicEventListCell *)cell
-{
-    
-    projectIndex =cell.cellndex;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
@@ -442,11 +497,12 @@ selectAddressDelegate
         msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
     }
     if (dateIndex==1) {
-         msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
+        msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
     }
-   
+    
 }
 
+#pragma mark  textView代理方法
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -454,42 +510,23 @@ selectAddressDelegate
         //在这里做你响应return键的代码
         [self.view endEditing:YES];
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-        
     }
+    
+    
+    
     
     return YES;
 }
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return NO;
-}
-
 
 - (void)textViewDidChange:(UITextView *)textView1
 {
-    AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
-    
+
     if (textView1.text.length==0)
     {
-        [AddEventCell.textLab setHidden:NO];
+        [cell.textLab setHidden:NO];
     }else{
-        [AddEventCell.textLab setHidden:YES];
+        [cell.textLab setHidden:YES];
     }
-}
-
-
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
-    AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
-    
-    if (AddEventCell.includeTF.text.length>0) {
-        projectDsp[AddEventCell.tag]  = AddEventCell.includeTF.text;
-    }
-    
-    [self resignCurrentFirstResponder];
-    return YES;
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -497,24 +534,91 @@ selectAddressDelegate
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
--(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+#pragma mark 项目介绍编辑结束
+
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    if ([textField isEqual:AddEventCell.titleTF]&&textField.text.length>0) {
-        AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:AddEventCell.tag inSection:1]];
-        
-        projectTitle[AddEventCell.tag] = AddEventCell.titleTF.text;
-    }
+    NSInteger row=textView.tag;
     
+    [self modifyCellDataContent:row andText:textView.text];
     
-    [self resignCurrentFirstResponder];
     return YES;
 }
 
+#pragma mark 编辑单元格项目介绍
 
+-(void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
+    
+    NSMutableDictionary *dic=cellDataArray[row];
+    
+    if ([text isEqualToString:@""]) {
+        
+        [dic setObject:@"" forKey:@"content"];
+    }else{
+        [dic setObject:text forKey:@"content"];
+    }
+    
+   [_tableView reloadData];
+}
+
+
+#pragma mark  UITextField代理方法
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
+#pragma mark 标题编辑结束
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    
+    if (textField.tag==100) {
+        return YES;
+    }
+     NSInteger row=textField.tag;
+    
+    [self modifyCellDataTitle:row andText:textField.text];
+
+    return YES;
+}
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
+}
+
+#pragma mark 编辑单元格标题
+
+-(void)modifyCellDataTitle:(NSInteger)row andText:(NSString *)text{
+    
+    NSMutableDictionary *dic=cellDataArray[row];
+    
+    if ([text isEqualToString:@""]) {
+        
+        [dic setObject:@"" forKey:@"title"];
+    }else{
+         [dic setObject:text forKey:@"title"];
+    }
+    
+   
+    [_tableView reloadData];
+    
+}
+
+
+#pragma mark 单元格刚创建后的数据
+
+-(void)projectDataStorageWithArrayIndex:(NSInteger)index
+{
+    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
+    [dic setObject:@"" forKey:@"title"];
+    [dic setObject:@"" forKey:@"content"];
+    [dic setObject:@"" forKey:@"image"];
+    
+    [cellDataArray insertObject:dic atIndex:index];
 }
 
 
@@ -528,35 +632,37 @@ selectAddressDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker
         didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
-    if (imageIndex==0) {
+    if (addImageIndex==0) {
         //设置头像图片
-
         msgCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
         msgCell.imgView.clipsToBounds = YES;
         [msgCell.imgView setImage:image];
-        //获取图片的url
-        [self getImageURL:image];
+    }else{
+    
+        [projectImageArray replaceObjectAtIndex:addImageIndex-10 withObject:image];
     }
-    if (imageIndex==1) {
-        //设置头像图片
-        
-        
-        AddEventCell = (LMPublicEventListCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:projectIndex inSection:1]];
-                
-        AddEventCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
-        AddEventCell.imgView.clipsToBounds = YES;
-        [AddEventCell.imgView setImage:image];
-        //获取图片的url
-        [self getImageURL:image];
-      
-
-}
-        
-
+    
+    [_tableView reloadData];
+    
+     [self getImageURL:image];
     
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark 编辑单元格项目活动图片
+
+-(void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSString *)imageUrl{
+    
+    NSMutableDictionary *dic=cellDataArray[row];
+    
+    if (imageUrl) {
+        [dic setObject:imageUrl forKey:@"image"];
+    }else{
+        [dic setObject:@"" forKey:@"image"];
+    }
+    
+    [_tableView reloadData];
+}
 
 #pragma mark 获取头像的url
 
@@ -568,7 +674,10 @@ selectAddressDelegate
         return;
     }
     
-    if (imageIndex==0) {
+    NSLog(@"=============addImageIndex=========%ld",addImageIndex);
+    
+    
+    if (addImageIndex==0) {
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
         UIImage *headImage = [ImageHelpTool scaleImage:image];
         request.imageData   = UIImageJPEGRepresentation(headImage, 1);
@@ -590,67 +699,54 @@ selectAddressDelegate
                                                        && [result isEqualToString:@"0"]) {
                                                        NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-               
+                                                           
                                                            _imgURL=imgUrl;
-                                     
-                                                        }
+                                                           
+                                                       }
                                                    }
                                                } failed:^(NSError *error) {
                                                    [self hideStateHud];
                                                }];
         [proxy start];
-
-    }
-    if (imageIndex==1) {
+    }else{
+        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+        UIImage *headImage = [ImageHelpTool scaleImage:image];
+        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
-                
-                FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-                UIImage *headImage = [ImageHelpTool scaleImage:image];
-                request.imageData   = UIImageJPEGRepresentation(headImage, 1);
-                
-                [self initStateHud];
-                HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                                       completed:^(NSString *resp, NSStringEncoding encoding){
+        [self initStateHud];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding){
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                          withObject:nil
+                                                                       waitUntilDone:YES];
+                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString    *result = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
+                                                   
+                                                   if (result && [result isKindOfClass:[NSString class]]
+                                                       && [result isEqualToString:@"0"]) {
+                                                       NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                       if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
-                                                           [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                                  withObject:nil
-                                                                               waitUntilDone:YES];
-                                                           NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                                           
-                                                           NSString    *result = [bodyDict objectForKey:@"result"];
-                                                           
-                                                           NSLog(@"--------bodyDict--------%@",bodyDict);
-                                                           
-                                                           if (result && [result isKindOfClass:[NSString class]]
-                                                               && [result isEqualToString:@"0"]) {
-                                                               NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                                               if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                                   
-                                                                   _imgProURL=imgUrl;
-                                                                   
-                                                                   imageURL[projectIndex] = _imgProURL;
-                                                                   
-                                                                   
-                                                               }
-                                                           }
-                                                       } failed:^(NSError *error) {
-                                                           [self hideStateHud];
-                                                       }];
-                [proxy start];
-                
-
-        
-
-
+                                                           [self modifyCellDataImage:addImageIndex-10 andImageUrl:imgUrl];
+                                                       }
+                                                   }
+                                               } failed:^(NSError *error) {
+                                                   [self hideStateHud];
+                                               }];
+        [proxy start];
+ 
     }
-    
 }
 
 
 
 
 
-#pragma mark UIActionSheet 代理函数
+#pragma mark UIActionSheet ======================代理函数
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -681,26 +777,34 @@ selectAddressDelegate
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
                                                                    style:UIAlertActionStyleCancel
                                                                  handler:nil];
-        
+            
             [alert addAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
-            
-            
-            
         }
     }
 }
 
+#pragma mark 判断项目标题是否为空
 
+-(BOOL)judgeProjectTitle
+{
+    for (NSDictionary *dic in cellDataArray) {
+        if ([dic[@"title"] isEqualToString:@""]) {
+            return NO;
+        }
+    }
+    return YES;
+}
 
-#pragma mark  --确认并发布按钮
+#pragma mark  --====================================确认并发布按钮
 
 -(void)publishButtonAction:(id)sender
 {
-    NSLog(@"**************发布");
+    [self.view endEditing:YES];
+
     NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
-
+    
     if (!(msgCell.titleTF.text.length>0)) {
         [ self textStateHUD:@"请输入活动标题"];
         return;
@@ -738,7 +842,14 @@ selectAddressDelegate
         [ self textStateHUD:@"请选择开始时间"];
         return;
     }
-  
+    
+    if (![self judgeProjectTitle]) {
+        [self textStateHUD:@"活动项目标题不能为空"];
+        return;
+    }
+    
+    [self initStateHud];
+    
     LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude] limit_number:[msgCell.joincountTF.text intValue]];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -749,54 +860,12 @@ selectAddressDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
+                                                                      withObject:@"发布失败"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
     
 }
-
--(void)publicProject
-{
-    if (!(AddEventCell.titleTF.text.length>0)) {
-        [ self textStateHUD:@"请输入活动标题"];
-        return;
-    }
-    
-    if (![AddEventCell.includeTF isEqual:@""]) {
-            [projectDsp addObject:AddEventCell.includeTF.text];
-    }else{
-            [projectDsp addObject:@""];
-    }
-    
-    if (imageURL.count<projectTitle.count) {
-        for (int i = 0; projectTitle.count-imageURL.count; i++) {
-           [imageURL addObject:@""];
-        }
-        
-    }
-    
-    for (int i =0; i<projectTitle.count; i++) {
-        
-        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:projectTitle[i] Project_dsp:projectDsp[i] Project_imgs:imageURL[i]];
-
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
-                                                                          withObject:resp
-                                                                       waitUntilDone:YES];
-                                               } failed:^(NSError *error) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"获取列表失败"
-                                                                       waitUntilDone:YES];
-                                               }];
-        [proxy start];
-    }
-}
-
-
 
 -(void)getEventDataResponse:(NSString *)resp
 {
@@ -810,14 +879,46 @@ selectAddressDelegate
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
             NSLog(@"******==========活动介绍*eventUUid==========*%@",string);
             eventUUid = string;
+            
+           
             [self publicProject];
+            
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
         }
     }
-
 }
+
+
+#pragma mark ====================================发布活动项目执行请求
+
+-(void)publicProject
+{
+    
+    for (int i =0; i<cellDataArray.count; i++) {
+        
+        NSDictionary *dic=cellDataArray[i];
+        
+        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"发布失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
+}
+
+
 
 
 -(void)getEventPublicProjectDataResponse:(NSString *)resp
@@ -825,12 +926,12 @@ selectAddressDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     NSLog(@"**********%@",bodyDic);
     if (!bodyDic) {
-        [self textStateHUD:@"发布项目失败"];
+        [self textStateHUD:@"发布失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"发布项目成功"];
+            [self textStateHUD:@"发布成功"];
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
@@ -844,29 +945,23 @@ selectAddressDelegate
             [self textStateHUD:string];
         }
     }
-        
+    
     
 }
 
 #pragma mark  --添加项目
 -(void)addButtonAction:(id)sender
 {
-    cellIndex = cellIndex+1;
+    NSInteger length=cellDataArray.count;
     
-    if (cellIndex==5) {
+    if (length==5) {
         [self textStateHUD:@"最多可添加五个项目"];
         return;
     }
     
+    [self projectDataStorageWithArrayIndex:length];
     
     [self.tableView reloadData];
-    
-    [projectTitle addObject:@""];
-    [projectDsp addObject:@""];
-    [imageURL addObject:@""];
-    
-    
-    
 }
 
 - (void)resignCurrentFirstResponder
@@ -889,22 +984,5 @@ selectAddressDelegate
     [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
 }
 
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

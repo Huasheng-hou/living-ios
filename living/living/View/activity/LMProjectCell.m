@@ -1,16 +1,17 @@
 //
-//  LMPublicEventListCell.m
+//  LMProjectCell.m
 //  living
 //
-//  Created by Ding on 16/10/14.
+//  Created by JamHonyZ on 2016/11/5.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "LMPublicEventListCell.h"
+#import "LMProjectCell.h"
 #import "FitConsts.h"
 
+@implementation LMProjectCell
+
 #define titleW titleLable.bounds.size.width
-@implementation LMPublicEventListCell 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -18,7 +19,7 @@
     if (self)
     {
         [self addSubviews];
-
+        
     }
     return self;
 }
@@ -32,15 +33,30 @@
     titleLable.textColor = TEXT_COLOR_LEVEL_2;
     [titleLable sizeToFit];
     titleLable.frame = CGRectMake(10, 5, titleLable.bounds.size.width, 30);
-    [self.contentView addSubview:titleLable];
+    [self addSubview:titleLable];
     
+    //梅花
     UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(titleLable.bounds.size.width+10, 10, 6, 5)];
     keyImage.image = [UIImage imageNamed:@"key"];
-    [self.contentView addSubview:keyImage];
+    [self addSubview:keyImage];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-25-titleW, 0.5)];
+    _title = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-25-50, 30)];
+    _title.font = TEXT_FONT_LEVEL_2;
+    _title.placeholder = @"请输入项目标题";
+    [_title setKeyboardType:UIKeyboardTypeDefault];
+    _title.returnKeyType = UIReturnKeyDone;
+    //    _titleTF.delegate = self;
+    [self addSubview:_title];
+    
+    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-30, 9, 22, 22)];
+    [_deleteBt setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [self addSubview:_deleteBt];
+    
+    
+    //分割线
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 40, kScreenWidth-25-titleW-50, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
-    [self.contentView addSubview:lineView];
+    [self addSubview:lineView];
     
     //项目介绍
     UILabel *phoneLable = [UILabel new];
@@ -49,7 +65,7 @@
     phoneLable.textColor = TEXT_COLOR_LEVEL_2;
     [phoneLable sizeToFit];
     phoneLable.frame = CGRectMake(10, 50, titleW, 30);
-    [self.contentView addSubview:phoneLable];
+    [self addSubview:phoneLable];
     
     //项目图片
     UILabel *imageLable = [UILabel new];
@@ -58,7 +74,7 @@
     imageLable.textColor = TEXT_COLOR_LEVEL_2;
     [imageLable sizeToFit];
     imageLable.frame = CGRectMake(10, 210, imageLable.bounds.size.width, 30);
-    [self.contentView addSubview:imageLable];
+    [self addSubview:imageLable];
     
     UILabel *imagemsgLable = [UILabel new];
     imagemsgLable.text = @"(建议尺寸：750*330)";
@@ -66,26 +82,17 @@
     imagemsgLable.textColor = TEXT_COLOR_LEVEL_3;
     [imagemsgLable sizeToFit];
     imagemsgLable.frame = CGRectMake(15+imageLable.bounds.size.width, 210, imagemsgLable.bounds.size.width, 30);
-    [self.contentView addSubview:imagemsgLable];
-    
-    
-    _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-25, 30)];
-    _titleTF.font = TEXT_FONT_LEVEL_2;
-    _titleTF.placeholder = @"请输入项目标题";
-    _titleTF.returnKeyType = UIReturnKeyDone;
-//    _titleTF.delegate = self;
-    [self.contentView addSubview:_titleTF];
+    [self addSubview:imagemsgLable];
     
     
     UIView *TFview = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 50, kScreenWidth- titleW-30, 160)];
     TFview.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
-    [self.contentView addSubview:TFview];
+    [self addSubview:TFview];
     
     _includeTF = [[UITextView alloc] initWithFrame:CGRectMake(5, 0, kScreenWidth- titleW-35, 160)];
     _includeTF.backgroundColor = [UIColor clearColor];
     _includeTF.returnKeyType = UIReturnKeyDone;
     _includeTF.font = TEXT_FONT_LEVEL_2;
-//    _includeTF.delegate = self;
     
     _textLab = [UILabel new];
     _textLab.text = @"请输入项目详情";
@@ -100,55 +107,24 @@
     UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(10, 240, 70, 70)];
     imgBackView.layer.borderColor = LINE_COLOR.CGColor;
     imgBackView.layer.borderWidth=0.5;
-    [self.contentView addSubview:imgBackView];
+    [self addSubview:imgBackView];
     
     UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(25, 23, 20, 22)];
     image.image = [UIImage imageNamed:@"publicProgram"];
     [imgBackView addSubview:image];
     
     
-    _eventButton = [UIButton buttonWithType:UIButtonTypeSystem];
-
-    _eventButton.frame = CGRectMake(10, 240, 70, 70);
-    [self.contentView addSubview:_eventButton];
-    [_eventButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 240, 70, 70)];
-    [self.contentView addSubview:_imgView];
-    
+    [self addSubview:_imgView];
+
+    _eventButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 240, 70, 70)];
+    [self addSubview:_eventButton];
+   
+
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 330, kScreenWidth, 10)];
     footView.backgroundColor = BG_GRAY_COLOR;
     [self.contentView addSubview:footView];
 }
 
-- (void)addImage:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(cellWilladdImage:)]) {
-        [_delegate cellWilladdImage:self];
-    }
-}
-
-- (void)textViewDidChange:(UITextView *)textView1
-{
-    if (textView1.text.length==0)
-    {
-        [_textLab setHidden:NO];
-    }else{
-        [_textLab setHidden:YES];
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        [self endEditing:YES];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-        
-    }
-    
-    return YES;
-}
 
 @end

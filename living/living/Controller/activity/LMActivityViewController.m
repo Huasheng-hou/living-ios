@@ -9,7 +9,7 @@
 #import "LMActivityViewController.h"
 #import "LMActivityDetailController.h"
 
-#import "LMPublicActivityController.h"
+#import "LMPublishViewController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
 #import "LMActivityList.h"
@@ -51,7 +51,7 @@ UITableViewDataSource
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadingEvent) name:@"reloadEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadEvent" object:nil];
 }
 
 
@@ -108,7 +108,7 @@ UITableViewDataSource
 
 -(void)publicAction
 {
-    LMPublicActivityController *publicVC = [[LMPublicActivityController alloc] init];
+    LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
     [publicVC setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:publicVC animated:YES];
     
@@ -177,11 +177,6 @@ UITableViewDataSource
     });
 }
 
--(void)reloadingEvent
-{
-    [listArray removeAllObjects];
-    [self getActivityListDataRequest:1];
-}
 
 -(void)getActivityListDataRequest:(int)page
 {

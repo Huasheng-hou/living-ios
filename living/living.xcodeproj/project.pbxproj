@@ -274,6 +274,8 @@
 		8E88862A1DCB046C009D3374 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886291DCB046C009D3374 /* libGeTuiSdk-1.2.1.a */; };
 		8E8886381DCB425C009D3374 /* LMALLBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886351DCB425C009D3374 /* LMALLBody.m */; };
 		8E8886391DCB425C009D3374 /* LMALLList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E8886371DCB425C009D3374 /* LMALLList.m */; };
+		8EA4160A1DCD85DB0033299B /* LMPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA416091DCD85DB0033299B /* LMPublishViewController.m */; };
+		8EA4160D1DCD99CB0033299B /* LMProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA4160C1DCD99CB0033299B /* LMProjectCell.m */; };
 		8EA6A4F01DCC228500A6E2C2 /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */; };
 		8EA6A4F91DCC365200A6E2C2 /* LMArticeDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4F81DCC365200A6E2C2 /* LMArticeDeleteRequest.m */; };
 		8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6A4FE1DCC920F00A6E2C2 /* LMSearchAddressController.m */; };
@@ -873,6 +875,10 @@
 		8E8886361DCB425C009D3374 /* LMALLList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMALLList.h; sourceTree = "<group>"; };
 		8E8886371DCB425C009D3374 /* LMALLList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMALLList.m; sourceTree = "<group>"; };
 		8E88863A1DCB42A6009D3374 /* LMAllDataModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMAllDataModels.h; sourceTree = "<group>"; };
+		8EA416081DCD85DB0033299B /* LMPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublishViewController.h; sourceTree = "<group>"; };
+		8EA416091DCD85DB0033299B /* LMPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublishViewController.m; sourceTree = "<group>"; };
+		8EA4160B1DCD99CB0033299B /* LMProjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMProjectCell.h; sourceTree = "<group>"; };
+		8EA4160C1DCD99CB0033299B /* LMProjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMProjectCell.m; sourceTree = "<group>"; };
 		8EA6A4EE1DCC228500A6E2C2 /* LMActivityDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityDeleteRequest.h; sourceTree = "<group>"; };
 		8EA6A4EF1DCC228500A6E2C2 /* LMActivityDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDeleteRequest.m; sourceTree = "<group>"; };
 		8EA6A4F71DCC365200A6E2C2 /* LMArticeDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArticeDeleteRequest.h; sourceTree = "<group>"; };
@@ -1183,6 +1189,8 @@
 				351767881DC3359B00D2D407 /* LMBesureOrderViewController.m */,
 				35F62DD01DA87F2400D81286 /* LMPublicActivityController.h */,
 				35F62DD11DA87F2400D81286 /* LMPublicActivityController.m */,
+				8EA416081DCD85DB0033299B /* LMPublishViewController.h */,
+				8EA416091DCD85DB0033299B /* LMPublishViewController.m */,
 				8ECA2AC11DC97CB2000CD0AB /* LMMapViewController.h */,
 				8ECA2AC21DC97CB2000CD0AB /* LMMapViewController.m */,
 				8EA6A4FD1DCC920F00A6E2C2 /* LMSearchAddressController.h */,
@@ -2110,6 +2118,8 @@
 				351767821DC2ECBF00D2D407 /* CustomButton.m */,
 				8E0760241DC89056001D7098 /* LMMapViewCell.h */,
 				8E0760251DC89056001D7098 /* LMMapViewCell.m */,
+				8EA4160B1DCD99CB0033299B /* LMProjectCell.h */,
+				8EA4160C1DCD99CB0033299B /* LMProjectCell.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -2804,6 +2814,7 @@
 				35B61E011DB06F7E00083F30 /* LMEventDetailEventBody.m in Sources */,
 				35FA8E781DB5B31800510A75 /* NSDataEx.m in Sources */,
 				8ECA2AE21DC98DA2000CD0AB /* POIAnnotation.m in Sources */,
+				8EA4160D1DCD99CB0033299B /* LMProjectCell.m in Sources */,
 				350904F11DC74C540045CC14 /* README.md in Sources */,
 				35B61DF61DB06EC800083F30 /* LMEventMsgCell.m in Sources */,
 				8EA6A4FF1DCC920F00A6E2C2 /* LMSearchAddressController.m in Sources */,
@@ -2916,6 +2927,7 @@
 				35F004201DADEA0400F59CB2 /* LMArtclePariseRequest.m in Sources */,
 				8E88861A1DCAC672009D3374 /* LMCouponRequest.m in Sources */,
 				3523642F1DBEEFD1002E6B78 /* LMNoticeList.m in Sources */,
+				8EA4160A1DCD85DB0033299B /* LMPublishViewController.m in Sources */,
 				3547F3841D9904A60068F04E /* LMLoginViewController.m in Sources */,
 				355E52781DC203580004FBAF /* LMChangeLivingCell.m in Sources */,
 				35B61E111DB070BD00083F30 /* LMCommentArticleRequest.m in Sources */,
