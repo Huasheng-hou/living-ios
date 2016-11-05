@@ -10,14 +10,14 @@
 
 #import <QuickLook/QuickLook.h>
 #import <MBProgressHUD.h>
-#import "GeTuiSdk.h"
+//#import "GeTuiSdk.h"
 
 @interface AppDelegate : UIResponder
 <
 UIApplicationDelegate,
 QLPreviewControllerDataSource,
-MBProgressHUDDelegate,
-GeTuiSdkDelegate
+MBProgressHUDDelegate
+//GeTuiSdkDelegate
 >
 
 @property (strong, nonatomic) UIWindow  *window;
