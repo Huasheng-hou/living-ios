@@ -392,6 +392,8 @@
     {
         
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
+        
+        
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
          privileges = [bodyDict objectForKey:@"privileges"];
         

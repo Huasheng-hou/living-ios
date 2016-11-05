@@ -58,14 +58,27 @@ LMhomePageCellDelegate
 
 @implementation LMHomePageController
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"login" object:nil];
+
+    }
+    
+    return self;
+}
+
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"login" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadHomePage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadlist" object:nil];
+   
+
 }
 
 - (void)viewDidLoad {
@@ -196,6 +209,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
 
 -(void)reloadCellData
 {
+    
     reload=YES;
     [self getHomeDataRequest:1];
 }
@@ -270,7 +284,7 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
+//    [self logoutAction:resp];
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
 //       NSLog(@"===========轮播图=bodyDic===============%@",bodyDic);
@@ -330,6 +344,9 @@ HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
+    
+    
     LMHomelistequest *request = [[LMHomelistequest alloc] initWithPageIndex:page andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
