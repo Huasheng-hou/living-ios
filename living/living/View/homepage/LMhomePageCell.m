@@ -88,17 +88,17 @@
     
 }
 
--(void)setValue:(LMActicleList *)list
+-(void)setValue:(LMActicleVO *)list
 {
-    LMActicleList *listData = list;
-    
-    _titleLabel.text = listData.articleTitle;
-    _nameLabel.text = listData.articleName;
-    _contentLabel.text = listData.articleContent;
     
     
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:listData.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
-    _timeLabel.text = [self getUTCFormateDate:listData.publishTime];
+    _titleLabel.text = list.articleTitle;
+    _nameLabel.text = list.articleName;
+    _contentLabel.text = list.articleContent;
+    
+    
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+    _timeLabel.text = [self getUTCFormateDate:list.publishTime];
 }
 
 

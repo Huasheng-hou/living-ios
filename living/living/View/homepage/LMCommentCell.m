@@ -117,7 +117,7 @@
 
 
 
--(void)setValue:(LMAriticleCommentMessages *)data
+-(void)setValue:(LMActicleCommentVO *)data
 {
 
         if ([data.type isEqual:@"comment"]) {
@@ -137,7 +137,7 @@
                     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
                 }
                _addressLabel.text = data.address;
-                _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",data.praiseCount];
+                _zanButton.textLabel.text = [NSString stringWithFormat:@"%d",data.praiseCount];
             
                 _commentUUid = data.commentUuid;
             

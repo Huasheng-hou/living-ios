@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMActicleList.h"
+#import "LMActicleVO.h"
 
 @protocol  LMhomePageCellDelegate;
 
@@ -16,7 +16,7 @@
 
 @property (nonatomic, weak) id <LMhomePageCellDelegate> delegate;
 
--(void)setValue:(LMActicleList *)list;
+-(void)setValue:(LMActicleVO *)list;
 
 @end
 

@@ -10,9 +10,10 @@
 #import "LMHomeDetailRequest.h"
 #import "LMArtclePariseRequest.h"
 #import "LMCommentPraiseRequest.h"
-#import "LMArticleBody.h"
+//#import "LMArticleBody.h"
+#import "LMArticleBodyVO.h"
+#import "LMActicleCommentVO.h"
 
-#import "LMAriticleCommentMessages.h"
 
 
 #import "LMCommentCell.h"
@@ -55,7 +56,7 @@ shareTypeDelegate
     LMCommentButton *zanLabel;
 
 
-    LMArticleBody *articleData;
+    LMArticleBodyVO *articleData;
     NSMutableArray *listArray;
     
     UIView *commentsView;
@@ -263,7 +264,7 @@ shareTypeDelegate
         }
         
         
-        articleData = [[LMArticleBody alloc] initWithDictionary:bodyDic[@"article_body"]];
+        articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
         
         if ([articleData.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivityRequest:)];
@@ -272,7 +273,7 @@ shareTypeDelegate
         
         
         
-        fakeId = [NSString stringWithFormat:@"%.0f",articleData.fakaid];
+        fakeId = [NSString stringWithFormat:@"%d",articleData.fakaid];
         
         NSMutableArray *array=bodyDic[@"comment_messages"];
         if (array.count>0) {
@@ -281,7 +282,7 @@ shareTypeDelegate
         }
         for (int i =0; i<array.count; i++) {
 
-            LMAriticleCommentMessages *list = [[LMAriticleCommentMessages alloc] initWithDictionary:array[i]];
+            LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:array[i]];
             [listArray addObject:list];
 
 
@@ -301,7 +302,7 @@ shareTypeDelegate
         if (listArray.count>0) {
 
 
-        LMAriticleCommentMessages *list = [[LMAriticleCommentMessages alloc] initWithDictionary:listArray[indexPath.row]];
+        LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:listArray[indexPath.row]];
         return [LMCommentCell cellHigth:list.commentContent];
 
 
@@ -325,11 +326,9 @@ shareTypeDelegate
                 [paragraphStyle setParagraphSpacing:10];
                 [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
                 contentLabel.attributedText = attributedString;
-                
-                
+       
                 
             }
-            
             
             if (typeIndex ==1) {
                 
@@ -580,7 +579,7 @@ shareTypeDelegate
             }else{
                 zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon"];
             }
-            zanLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.articlePraiseNum];
+            zanLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
             zanLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
             
             
@@ -595,7 +594,7 @@ shareTypeDelegate
             LMCommentButton *commentLabel = [[LMCommentButton alloc] init];
         
             commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
-            commentLabel.textLabel.text = [NSString stringWithFormat:@"%.0f",articleData.commentNum];
+            commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
             [commentLabel.textLabel sizeToFit];
             commentLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
             [commentLabel.headImage sizeToFit];
@@ -745,7 +744,7 @@ shareTypeDelegate
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMAriticleCommentMessages *list = listArray[indexPath.row];
+        LMActicleCommentVO *list = listArray[indexPath.row];
         
 
         [cell setValue:list];
@@ -1372,7 +1371,7 @@ shareTypeDelegate
     NSInteger index = tap.view.tag;
     
 
-         LMAriticleCommentMessages *list= listArray[index];
+         LMActicleCommentVO *list= listArray[index];
    
     
         

@@ -13,9 +13,12 @@
 #import "LMHomelistequest.h"
 #import "UIView+frame.h"
 #import "LMhomePageCell.h"
-#import "LMActicleList.h"
+
+#import "LMActicleVO.h"
+
+
 #import "WJLoopView.h"
-#import "FitUserManager.h"
+//#import "FitUserManager.h"
 #import "LMScanViewController.h"
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
@@ -104,7 +107,8 @@ LMhomePageCellDelegate
     [self setupRefresh];
 }
 
-- (void)addBackView
+
+-(void)addBackView
 {
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*3/5+40, 200, 130)];
     
@@ -323,7 +327,7 @@ LMhomePageCellDelegate
         NSArray *array = bodyDic[@"list"];
         
         for (int i=0; i<array.count; i++) {
-             LMActicleList *list=[[LMActicleList alloc]initWithDictionary:array[i]];
+             LMActicleVO *list=[[LMActicleVO alloc]initWithDictionary:array[i]];
             [listArray addObject:list];
         }
         
@@ -390,7 +394,7 @@ LMhomePageCellDelegate
     LMhomePageCell *cell = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
     [cell setValue:list];
     cell.tag = indexPath.row;
     cell.delegate = self;
@@ -401,7 +405,7 @@ LMhomePageCellDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    LMActicleList *list = [listArray objectAtIndex:indexPath.row];
+    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
     detailVC.hidesBottomBarWhenPushed = YES;
     detailVC.artcleuuid = list.articleUuid;
@@ -414,7 +418,7 @@ LMhomePageCellDelegate
 
 -(void)cellWillClick:(LMhomePageCell *)cell
 {
-    LMActicleList *list = [listArray objectAtIndex:cell.tag];
+    LMActicleVO *list = [listArray objectAtIndex:cell.tag];
     
     NSLog(@"文章作者点击");
     LMWriterViewController *writerVC = [[LMWriterViewController alloc] init];

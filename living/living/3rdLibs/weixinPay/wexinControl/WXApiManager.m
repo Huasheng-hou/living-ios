@@ -20,11 +20,6 @@
     return instance;
 }
 
-- (void)dealloc {
-    self.delegate = nil;
-    [super dealloc];
-}
-
 #pragma mark - WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {

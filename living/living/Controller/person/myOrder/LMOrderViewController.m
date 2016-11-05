@@ -9,7 +9,10 @@
 #import "LMOrderViewController.h"
 #import "LMOrderListRequest.h"
 #import "LMOrderCell.h"
-#import "LMOrderList.h"
+
+#import "LMOrderVO.h"
+
+
 #import "LMRefundRequest.h"
 #import "LMOrederDeleteRequest.h"
 
@@ -217,9 +220,7 @@ LMOrderCellDelegate>
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
-//        if (orderArray.count>0) {
-//            [orderArray removeAllObjects];
-//        }
+
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             
@@ -233,7 +234,7 @@ LMOrderCellDelegate>
             NSArray *array = bodyDic[@"list"];           
             for(int i=0;i<[array count];i++){
                 
-                LMOrderList *list=[[LMOrderList alloc]initWithDictionary:array[i]];
+                LMOrderVO *list=[[LMOrderVO alloc]initWithDictionary:array[i]];
                 if (![orderArray containsObject:list]) {
                     [orderArray addObject:list];
                 }
@@ -281,7 +282,7 @@ LMOrderCellDelegate>
     LMOrderCell *cell = [[LMOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
-    LMOrderList *list =[orderArray objectAtIndex:indexPath.row];
+    LMOrderVO *list =[orderArray objectAtIndex:indexPath.row];
     [cell setValue:list];
     cell.Orderuuid = list.orderUuid;
     cell.priceStr = list.orderAmount;
@@ -294,7 +295,7 @@ LMOrderCellDelegate>
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LMOrderList *list =[orderArray objectAtIndex:indexPath.row];
+    LMOrderVO *list =[orderArray objectAtIndex:indexPath.row];
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
     detailVC.eventUuid = list.eventUuid;
     [self.navigationController pushViewController:detailVC animated:YES];

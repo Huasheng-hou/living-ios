@@ -12,7 +12,9 @@
 #import "LMRechargeViewController.h"
 #import "LMActivityCell.h"
 #import "WJLoopView.h"
-#import "LMLivingLivingInfo.h"
+
+#import "LMLivingInfoVO.h"
+
 #import "LMLivingMap.h"
 
 #import "LMLiveRoomCell.h"
@@ -34,7 +36,7 @@ WJLoopViewDelegate
     BOOL ifRefresh;
     int total;
     UITableView *_tableView;
-    LMLivingLivingInfo*livingInfo;
+    LMLivingInfoVO *livingInfo;
     LMLivingMap *numInfo;
     
     LMLiveRoomBody *bodyData;
@@ -142,14 +144,14 @@ WJLoopViewDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"我的生活馆信息bodyDic：%@",bodyDic);
         
-        bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
+//        bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
         
          NSLog(@"==============bodyData.list=============：%@",bodyData.list);
         
         cellDataArray=(NSMutableArray *)bodyData.list;
         
         
-        livingInfo = [[LMLivingLivingInfo alloc] initWithDictionary:bodyDic[@"livingInfo"]];
+        livingInfo = [[LMLivingInfoVO alloc] initWithDictionary:bodyDic[@"livingInfo"]];
         numInfo = [[LMLivingMap alloc] initWithDictionary:bodyDic[@"map"]];
         
         NSMutableArray *array=bodyDic[@"list"];
@@ -161,33 +163,14 @@ WJLoopViewDelegate
         }
         [_tableView reloadData];
         
-        [self locationWithName:bodyData.livingInfo.address];
+        [self locationWithName:livingInfo.address];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
         
-//        [homeImage removeFromSuperview];
-        
     }
-//    if (listArray.count>0) {
-//        [homeImage removeFromSuperview];
-//    }else{
-//        homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-130, 200, 100)];
-//        
-//        UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(60, 20, 80, 80)];
-//        homeImg.image = [UIImage imageNamed:@"NO-living"];
-//        [homeImage addSubview:homeImg];
-//        UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 200, 60)];
-//        imageLb.numberOfLines = 0;
-//        imageLb.text = @"拥有属于自己的生活馆，绝对是很高大上的感觉哦，快来参与吧";
-//        imageLb.textColor = TEXT_COLOR_LEVEL_3;
-//        imageLb.font = TEXT_FONT_LEVEL_2;
-//        imageLb.textAlignment = NSTextAlignmentCenter;
-//        [homeImage addSubview:imageLb];
-//        
-//        [_tableView addSubview:homeImage];
-//    }
+
 }
 
 -(void)locationWithName:(NSString *)name
@@ -228,10 +211,8 @@ WJLoopViewDelegate
 {
     if (section==0) {
         
-        LMLiveRoomLivingInfo *info=bodyData.livingInfo;
-        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
-        WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:info.livingImage placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+        WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:livingInfo.livingImage placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
         loopView.location = WJPageControlAlignmentRight;
         
         
@@ -243,9 +224,6 @@ WJLoopViewDelegate
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         headView.backgroundColor = [UIColor whiteColor];
         
-//        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 5)];
-//        [label setBackgroundColor:BG_GRAY_COLOR];
-//        [headView addSubview:label];
         
         LMLiveRoomMap *map=bodyData.map;
         
@@ -335,6 +313,10 @@ WJLoopViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==0) {
+        return [LMLiveRoomCell cellHigth:livingInfo.livingTitle];
+    }
+    
     if (indexPath.section==1) {
         return 210;
     }
@@ -377,8 +359,7 @@ WJLoopViewDelegate
             [cellInfo setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         
-        LMLiveRoomLivingInfo *info=bodyData.livingInfo;
-        [cellInfo setCellData:info];
+        [cellInfo setCellData:livingInfo];
         [cellInfo.payButton addTarget:self action:@selector(cellbuttonPay) forControlEvents:UIControlEventTouchUpInside];
         
         return cellInfo;

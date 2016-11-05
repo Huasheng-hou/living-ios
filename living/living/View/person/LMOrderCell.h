@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMOrderList.h"
+#import "LMOrderVO.h"
 
 @protocol LMOrderCellDelegate;
 
@@ -25,7 +25,7 @@
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
--(void)setValue:(LMOrderList *)list;
+-(void)setValue:(LMOrderVO *)list;
 @end
 
 @protocol LMOrderCellDelegate <NSObject>
