@@ -364,6 +364,7 @@ shareTypeDelegate
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==1) {
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
         
         UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
@@ -385,14 +386,13 @@ shareTypeDelegate
         line.frame =CGRectMake(0, 10+1, 3.f, commentLabel.bounds.size.height-2);
         [commentView addSubview:line];
         
-    
         headView.backgroundColor = [UIColor clearColor];
         return headView;
     }
     return nil;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==1) {
         return 40;
@@ -400,19 +400,17 @@ shareTypeDelegate
     return 0.01;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01;
 }
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
 
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 2;
@@ -703,7 +701,7 @@ shareTypeDelegate
                 contentLabel.frame = CGRectMake(15, 60 +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 75+conHigh+conHighs,  commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 75+conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-//                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 75+conHigh+conHighs, shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
+
                 [button setFrame:CGRectMake(kScreenWidth-88, 10, 80, 30)];
             }
             
@@ -782,10 +780,8 @@ shareTypeDelegate
     return newImage;
 }
 
-
--(void)shareType:(NSInteger)type
+- (void)shareType:(NSInteger)type
 {
-    
     NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
     
     switch (type) {
@@ -937,7 +933,7 @@ shareTypeDelegate
     
 }
 
--(void)getPraisecellDataResponse:(NSString *)resp
+- (void)getPraisecellDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -953,10 +949,10 @@ shareTypeDelegate
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-
 }
+
 //回复
--(void)cellWillReply:(LMCommentCell *)cell
+- (void)cellWillReply:(LMCommentCell *)cell
 {
     NSLog(@"**********回复");
     
@@ -968,13 +964,16 @@ shareTypeDelegate
     [UIView setAnimationDuration:0.75];
     [self showCommentText];
     [UIView commitAnimations];
-
 }
-- (void)showCommentText {
+
+- (void)showCommentText
+{
     [self createCommentsView];
     [commentText becomeFirstResponder];//再次让textView成为第一响应者（第二次）这次键盘才成功显示
 }
-- (void)createCommentsView {
+
+- (void)createCommentsView
+{
     if (!commentsView) {
         commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
         commentsView.backgroundColor = [UIColor whiteColor];
@@ -1032,9 +1031,9 @@ shareTypeDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
--(void)getEventcommitResponse:(NSString *)resp
+
+- (void)getEventcommitResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -1074,7 +1073,8 @@ shareTypeDelegate
                                                object:nil];
 }
 
-- (void)keyboardChangeFrame:(NSNotification *)notifi{
+- (void)keyboardChangeFrame:(NSNotification *)notifi
+{
     CGRect keyboardFrame = [notifi.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     float duration = [notifi.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
     
@@ -1373,17 +1373,15 @@ shareTypeDelegate
                 
                 
             }
+        } else {
             
-        }else{
-            NSLog(@"**********222222*******");
         }
-    
 }
 
-
--(void)deleteCommentdata:(NSString *)uuid
+- (void)deleteCommentdata:(NSString *)uuid
 {
     LMArticleCommentDeleteRequest *request = [[LMArticleCommentDeleteRequest alloc] initWithCommentUUid:uuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1399,7 +1397,7 @@ shareTypeDelegate
     [proxy start];
 }
 
--(void)getdeleteArticlecommentResponse:(NSString *)resp
+- (void)getdeleteArticlecommentResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     

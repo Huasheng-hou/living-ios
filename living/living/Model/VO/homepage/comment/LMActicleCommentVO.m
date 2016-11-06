@@ -69,7 +69,7 @@
         }
         
         if (nil != [dictionary objectForKey:@"has_praised"] && ![[dictionary objectForKey:@"has_praised"] isEqual:[NSNull null]]) {
-            self.hasPraised = [(NSNumber *)[dictionary objectForKey:@"is_joined"] boolValue];
+            self.hasPraised = [(NSNumber *)[dictionary objectForKey:@"has_praised"] boolValue];
         }
         
         if (nil != [dictionary objectForKey:@"comment_time"] && ![[dictionary objectForKey:@"comment_time"] isEqual:[NSNull null]]
@@ -116,16 +116,10 @@
         if (nil != [dictionary objectForKey:@"comment_content"] && ![[dictionary objectForKey:@"comment_content"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"comment_content"] isKindOfClass:[NSString class]]) {
             self.commentContent = [dictionary objectForKey:@"comment_content"];
-        }
-
-
-        
-        
+        }    
     }
+    
     return self;
 }
-
-
-
 
 @end

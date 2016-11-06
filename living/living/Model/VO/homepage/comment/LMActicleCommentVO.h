@@ -23,7 +23,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-
 @property (nonatomic, retain) NSString *replyTime;
 @property (nonatomic, assign) int praiseCount;
 @property (nonatomic, retain) NSString *replyUuid;
