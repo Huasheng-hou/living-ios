@@ -27,6 +27,8 @@
 
 #import "BannerVO.h"
 
+#define PAGER_SIZE      20
+
 @interface LMHomePageController ()
 <
 UITableViewDelegate,
@@ -38,17 +40,12 @@ LMhomePageCellDelegate
     UIView *headView;
     
     UIBarButtonItem *backItem;
-    NSMutableArray *listArray;
-    UIImageView *homeImage;
-    BOOL ifRefresh;
-    int total;
     
     NSIndexPath *deleteIndexPath;
     
     NSInteger        totalPage;
     NSInteger        currentPageIndex;
     NSMutableArray   *pageIndexArray;
-    BOOL                reload;
     
     NSArray         *_bannerArray;
 }
@@ -59,9 +56,15 @@ LMhomePageCellDelegate
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         
+        self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
+        self.hidesBottomBarWhenPushed   = NO;
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
     }
     
     return self;
@@ -70,9 +73,13 @@ LMhomePageCellDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadHomePage" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadlist" object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self loadNoState];
+    [self getBannerDataRequest];
 }
 
 - (void)viewDidLoad
@@ -84,46 +91,24 @@ LMhomePageCellDelegate
     pageIndexArray=[NSMutableArray arrayWithCapacity:0];
     
     [self creatUI];
-    ifRefresh = YES;
-    listArray = [NSMutableArray new];
+
     [self getBannerDataRequest];
+    [self loadNewer];
 }
 
 - (void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [self.view addSubview:_tableView];
-    //去分割线
-    _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
+    [super createUI];
+    
+    self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
+    self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
+    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
-    _tableView.tableHeaderView = headView;
-    
-    [self addBackView];
-    [self setupRefresh];
-}
-
-
--(void)addBackView
-{
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*3/5+40, 200, 130)];
-    
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(115, 10, 70, 91)];
-    homeImg.image = [UIImage imageNamed:@"NO-article"];
-    [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 200, 60)];
-    imageLb.numberOfLines = 0;
-    imageLb.text = @"暂无文章,点击右上角按钮，赶紧发布吧！";
-    imageLb.textColor = TEXT_COLOR_LEVEL_3;
-    imageLb.textAlignment = NSTextAlignmentCenter;
-    [homeImage addSubview:imageLb];
-    homeImage.hidden = YES;
-
-    [_tableView addSubview:homeImage];
+    self.tableView.tableHeaderView = headView;
 }
 
 - (void)sweepAction
@@ -135,67 +120,7 @@ LMhomePageCellDelegate
     [self.navigationController pushViewController:scanVC animated:YES];
 }
 
-- (void)setupRefresh
-{
-    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
-    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    //tableView刚出现时，进行刷新操作
-    [self.tableView headerBeginRefreshing];
-    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
-    self.tableView.headerPullToRefreshText = @"下拉可以刷新";
-    self.tableView.headerReleaseToRefreshText = @"松开马上刷新";
-    self.tableView.headerRefreshingText = @"正在帮你刷新...";
-    
-    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
-    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
-    self.tableView.footerRefreshingText = @"正在帮你加载...";
-}
-
-#pragma mark 重新请求单元格数据（通知  投票）
-
--(void)reloadCellData
-{
-    reload=YES;
-    [self getHomeDataRequest:1];
-}
-
-- (void)headerRereshing
-{
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        
-        [self reloadCellData];
-         [self.tableView headerEndRefreshing];
-
-    });
-}
-
-- (void)footerRereshing
-{
-    currentPageIndex=listArray.count/20+1;
-    
-    if (currentPageIndex>=totalPage) {
-        [self.tableView footerEndRefreshing];
-        [self textStateHUD:@"没有文章了"];
-        return;
-    }
-    
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (listArray.count>0) {
-            [self getHomeDataRequest:currentPageIndex];
-            NSLog(@"=============当前请求的页数=%ld",(long)currentPageIndex);
-        }        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        [_tableView footerEndRefreshing];
-    });
-}
-
--(void)getBannerDataRequest
+- (void)getBannerDataRequest
 {
     if (![CheckUtils isLink]) {
         
@@ -260,90 +185,53 @@ LMhomePageCellDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
 
-- (void)getHomeDataRequest:(NSInteger)page
+- (FitBaseRequest *)request
 {
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
+    LMHomelistequest    *request    = [[LMHomelistequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
     
-    
-    
-    LMHomelistequest *request = [[LMHomelistequest alloc] initWithPageIndex:page andPageSize:20];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getHomeDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
-                                                                   waitUntilDone:YES];
-                                               [self addBackView];
-                                           }];
-    [proxy start];
-    
+    return request;
 }
 
-- (void)getHomeDataResponse:(NSString *)resp
+- (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
+    NSString    *result         = [bodyDic objectForKey:@"result"];
+    NSString    *description    = [bodyDic objectForKey:@"description"];
     
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-    
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
+        
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
-            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
-            self.navigationItem.rightBarButtonItem = rightItem;
-        }
-
-         totalPage = [[bodyDic objectForKey:@"total"] integerValue];
-        
-        if (reload) {
-            reload=NO;
-            pageIndexArray=[NSMutableArray arrayWithCapacity:0];
-            currentPageIndex=1;
-            listArray=[NSMutableArray arrayWithCapacity:0];
-        }
-        
-        if (![pageIndexArray containsObject:@(currentPageIndex)]) {
-            [pageIndexArray addObject:@(currentPageIndex)];
-        }else{
-            NSLog(@"数组中有该数据");
-            return;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(sweepAction)];
+                
+                self.navigationItem.rightBarButtonItem = rightItem;
+            });
         }
         
-        NSArray *array = bodyDic[@"list"];
+        self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
-        for (int i=0; i<array.count; i++) {
-             LMActicleVO *list=[[LMActicleVO alloc]initWithDictionary:array[i]];
-            [listArray addObject:list];
-        }
+        return [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];
         
-        if (listArray.count!=0) {
-            [homeImage removeFromSuperview];
-        }else{
-            homeImage.hidden = NO;
-        }
+    } else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
         
-        [_tableView reloadData];
-    }else{
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
+    
+    return nil;
 }
 
 #pragma mark scrollview代理函数
+
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
-    
 //    if ([stateArray[index] isEqualToString:@"event"]) {
 //        LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
 //        eventVC.hidesBottomBarWhenPushed = YES;
@@ -357,12 +245,19 @@ LMhomePageCellDelegate
 //    }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    
+    if (h) {
+        
+        return h;
+    }
+    
     return 130;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0.01;
 }
@@ -372,59 +267,87 @@ LMhomePageCellDelegate
     return 0.01;
 }
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return listArray.count;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
   
-    LMhomePageCell *cell = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    UITableViewCell *cell   = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (cell) {
+        
+        return cell;
+    }
     
-    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
+    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
     
-    [cell setValue:list];
+    if (!cell) {
+        
+        cell    = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+    if (self.listData.count > indexPath.row) {
+        
+        LMActicleVO     *vo = self.listData[indexPath.row];
+        
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            [(LMhomePageCell *)cell setValue:vo];
+        }
+    }
+    
     cell.tag = indexPath.row;
-    cell.delegate = self;
+    [(LMhomePageCell *)cell setDelegate:self];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.listData.count > indexPath.row) {
+        
+        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
     
-    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
-    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-    
-    detailVC.hidesBottomBarWhenPushed = YES;
-    detailVC.artcleuuid = list.articleUuid;
-    
-    [self.navigationController pushViewController:detailVC animated:YES];
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+            
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.artcleuuid = vo.articleUuid;
+            
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+    }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark  --cell click delegat
 
 - (void)cellWillClick:(LMhomePageCell *)cell
 {
-    LMActicleVO *list = [listArray objectAtIndex:cell.tag];
-    
-    NSLog(@"文章作者点击");
-    LMWriterViewController *writerVC = [[LMWriterViewController alloc] init];
-    writerVC.hidesBottomBarWhenPushed = YES;
-    writerVC.writerUUid = list.userUuid;
-    [self.navigationController pushViewController:writerVC animated:YES];
+    if (self.listData.count > cell.tag) {
+        
+        LMActicleVO *vo     = [self.listData objectAtIndex:cell.tag];
+        
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            LMWriterViewController *writerVC = [[LMWriterViewController alloc] init];
+            writerVC.hidesBottomBarWhenPushed = YES;
+            writerVC.writerUUid = vo.articleUuid;
+            
+            [self.navigationController pushViewController:writerVC animated:YES];
+        }
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0
+        && self.statefulState == FitStatefulTableViewControllerStateIdle
+        && [self canLoadMore]) {
+        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+    }
 }
 
 @end

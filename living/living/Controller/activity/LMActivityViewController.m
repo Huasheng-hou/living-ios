@@ -45,6 +45,7 @@
     if (self) {
         
         self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
     }
     
@@ -57,15 +58,17 @@
     [self creatUI];
 
     [self loadNewer];
-    
-    NSLog(@"********%@",[FitUserManager sharedUserManager].privileges);
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadEvent" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCellData) name:@"reloadEventlist" object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self loadNoState];
 }
 
 - (void)creatUI
@@ -85,6 +88,7 @@
 }
 
 #pragma mark 发布活动
+
 - (void)publicAction
 {
     LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
@@ -109,6 +113,8 @@
     NSString        *result     = [bodyDict objectForKey:@"result"];
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
+        
+        self.max    = [[bodyDict objectForKey:@"total"] intValue];
         
         NSArray *resultArr  = [ActivityListVO ActivityListVOListWithArray:[bodyDict objectForKey:@"list"]];
         
@@ -201,6 +207,15 @@
     }
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0
+        && self.statefulState == FitStatefulTableViewControllerStateIdle
+        && [self canLoadMore]) {
+        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+    }
 }
 
 @end

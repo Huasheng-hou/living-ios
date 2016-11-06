@@ -6,12 +6,8 @@
 //  Copyright © 2016年 Huasheng. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitStatefulTableViewController.h"
 
-
-@interface LMHomePageController :FitBaseViewController
-
-@property (nonatomic,retain)UITableView *tableView;
-@property (nonatomic)           int     current;
+@interface LMHomePageController : FitStatefulTableViewController
 
 @end
