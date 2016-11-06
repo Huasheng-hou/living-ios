@@ -35,8 +35,8 @@
 - (NSString *)serverHost
 {
     //测试
-    return @"http://yaoguo1818.com/living/";
-//    return @"http://120.26.64.40:8080/living/";
+//    return @"http://yaoguo1818.com/living/";
+    return @"http://120.26.64.40:8080/living/";
 }
 
 - (NSString *)methodPath
