@@ -15,7 +15,7 @@
 
 #import "LMLivingInfoVO.h"
 
-#import "LMLivingMap.h"
+#import "LMLivingMapVO.h"
 
 #import "LMLiveRoomCell.h"
 
@@ -37,7 +37,7 @@ WJLoopViewDelegate
     int total;
     UITableView *_tableView;
     LMLivingInfoVO *livingInfo;
-    LMLivingMap *numInfo;
+    LMLivingMapVO *numInfo;
     
     LMLiveRoomBody *bodyData;
     
@@ -152,7 +152,7 @@ WJLoopViewDelegate
         
         
         livingInfo = [[LMLivingInfoVO alloc] initWithDictionary:bodyDic[@"livingInfo"]];
-        numInfo = [[LMLivingMap alloc] initWithDictionary:bodyDic[@"map"]];
+        numInfo = [[LMLivingMapVO alloc] initWithDictionary:bodyDic[@"map"]];
         
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {

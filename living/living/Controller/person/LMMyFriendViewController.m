@@ -11,7 +11,7 @@
 #import "LMFriendCell.h"
 #import "LMScanViewController.h"
 #import "MJRefresh.h"
-#import "LMFriendList.h"
+#import "LMFriendVO.h"
 
 @interface LMMyFriendViewController ()
 <
@@ -175,7 +175,7 @@ UITableViewDataSource
             NSArray *array = bodyDic[@"list"];
             
             for (int i=0; i<array.count; i++) {
-                LMFriendList *list=[[LMFriendList alloc]initWithDictionary:array[i]];
+                LMFriendVO *list=[[LMFriendVO alloc]initWithDictionary:array[i]];
                 [listArray addObject:list];
             }
             
@@ -252,7 +252,7 @@ UITableViewDataSource
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMFriendList *list = [listArray objectAtIndex:indexPath.row];
+    LMFriendVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     

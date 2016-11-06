@@ -18,6 +18,12 @@
 		3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C61D9905440068F04E /* CoreText.framework */; };
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
+		35B9FD4D1DCEF3AB00CF1F3D /* LMWXLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD4C1DCEF3AB00CF1F3D /* LMWXLoginRequest.m */; };
+		35B9FD511DCEF57B00CF1F3D /* LMNoticVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD501DCEF57B00CF1F3D /* LMNoticVO.m */; };
+		35B9FD541DCEF7F500CF1F3D /* LMLivingMapVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD531DCEF7F500CF1F3D /* LMLivingMapVO.m */; };
+		35B9FD581DCEFA5200CF1F3D /* LMFriendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD571DCEFA5200CF1F3D /* LMFriendVO.m */; };
+		35B9FD5C1DCEFCF100CF1F3D /* LMBanlanceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */; };
+		35B9FD621DCEFD2E00CF1F3D /* LMBalanceBillVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -234,11 +240,6 @@
 		8EB8C73D1DCE58750054A4BA /* LMOrderVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5EC1DCE58750054A4BA /* LMOrderVO.m */; };
 		8EB8C73E1DCE58750054A4BA /* PayloadVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5EF1DCE58750054A4BA /* PayloadVO.m */; };
 		8EB8C73F1DCE58750054A4BA /* FirPersonVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5F21DCE58750054A4BA /* FirPersonVO.m */; };
-		8EB8C7401DCE58750054A4BA /* LMBalanceBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5F41DCE58750054A4BA /* LMBalanceBill.m */; };
-		8EB8C7411DCE58750054A4BA /* LMBalanceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5F61DCE58750054A4BA /* LMBalanceList.m */; };
-		8EB8C7421DCE58750054A4BA /* LMFriendList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5F81DCE58750054A4BA /* LMFriendList.m */; };
-		8EB8C7431DCE58750054A4BA /* LMLivingMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5FA1DCE58750054A4BA /* LMLivingMap.m */; };
-		8EB8C7441DCE58750054A4BA /* LMNoticeList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5FC1DCE58750054A4BA /* LMNoticeList.m */; };
 		8EB8C7451DCE58750054A4BA /* UserInfoVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5FF1DCE58750054A4BA /* UserInfoVO.m */; };
 		8EB8C7461DCE58750054A4BA /* VOUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C6021DCE58750054A4BA /* VOUtil.m */; };
 		8EB8C7471DCE58750054A4BA /* 112.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EB8C6041DCE58750054A4BA /* 112.png */; };
@@ -331,6 +332,18 @@
 		3547F4C61D9905440068F04E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3547F4C81D99054C0068F04E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		35B9FD4B1DCEF3AB00CF1F3D /* LMWXLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWXLoginRequest.h; sourceTree = "<group>"; };
+		35B9FD4C1DCEF3AB00CF1F3D /* LMWXLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWXLoginRequest.m; sourceTree = "<group>"; };
+		35B9FD4F1DCEF57B00CF1F3D /* LMNoticVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticVO.h; sourceTree = "<group>"; };
+		35B9FD501DCEF57B00CF1F3D /* LMNoticVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticVO.m; sourceTree = "<group>"; };
+		35B9FD521DCEF7F500CF1F3D /* LMLivingMapVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingMapVO.h; sourceTree = "<group>"; };
+		35B9FD531DCEF7F500CF1F3D /* LMLivingMapVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingMapVO.m; sourceTree = "<group>"; };
+		35B9FD561DCEFA5100CF1F3D /* LMFriendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendVO.h; sourceTree = "<group>"; };
+		35B9FD571DCEFA5200CF1F3D /* LMFriendVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendVO.m; sourceTree = "<group>"; };
+		35B9FD5A1DCEFCF100CF1F3D /* LMBanlanceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBanlanceVO.h; sourceTree = "<group>"; };
+		35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBanlanceVO.m; sourceTree = "<group>"; };
+		35B9FD601DCEFD2E00CF1F3D /* LMBalanceBillVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceBillVO.h; sourceTree = "<group>"; };
+		35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceBillVO.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -821,16 +834,6 @@
 		8EB8C5EF1DCE58750054A4BA /* PayloadVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayloadVO.m; sourceTree = "<group>"; };
 		8EB8C5F11DCE58750054A4BA /* FirPersonVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirPersonVO.h; sourceTree = "<group>"; };
 		8EB8C5F21DCE58750054A4BA /* FirPersonVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirPersonVO.m; sourceTree = "<group>"; };
-		8EB8C5F31DCE58750054A4BA /* LMBalanceBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceBill.h; sourceTree = "<group>"; };
-		8EB8C5F41DCE58750054A4BA /* LMBalanceBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceBill.m; sourceTree = "<group>"; };
-		8EB8C5F51DCE58750054A4BA /* LMBalanceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceList.h; sourceTree = "<group>"; };
-		8EB8C5F61DCE58750054A4BA /* LMBalanceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceList.m; sourceTree = "<group>"; };
-		8EB8C5F71DCE58750054A4BA /* LMFriendList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendList.h; sourceTree = "<group>"; };
-		8EB8C5F81DCE58750054A4BA /* LMFriendList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendList.m; sourceTree = "<group>"; };
-		8EB8C5F91DCE58750054A4BA /* LMLivingMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingMap.h; sourceTree = "<group>"; };
-		8EB8C5FA1DCE58750054A4BA /* LMLivingMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingMap.m; sourceTree = "<group>"; };
-		8EB8C5FB1DCE58750054A4BA /* LMNoticeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticeList.h; sourceTree = "<group>"; };
-		8EB8C5FC1DCE58750054A4BA /* LMNoticeList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticeList.m; sourceTree = "<group>"; };
 		8EB8C5FE1DCE58750054A4BA /* UserInfoVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoVO.h; sourceTree = "<group>"; };
 		8EB8C5FF1DCE58750054A4BA /* UserInfoVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoVO.m; sourceTree = "<group>"; };
 		8EB8C6001DCE58750054A4BA /* VOReflactable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOReflactable.h; sourceTree = "<group>"; };
@@ -1105,6 +1108,35 @@
 				3547F4391D9904C20068F04E /* InfoPlist.strings */,
 			);
 			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		35B9FD4E1DCEF51600CF1F3D /* notic */ = {
+			isa = PBXGroup;
+			children = (
+				35B9FD4F1DCEF57B00CF1F3D /* LMNoticVO.h */,
+				35B9FD501DCEF57B00CF1F3D /* LMNoticVO.m */,
+			);
+			path = notic;
+			sourceTree = "<group>";
+		};
+		35B9FD551DCEFA2B00CF1F3D /* friend */ = {
+			isa = PBXGroup;
+			children = (
+				35B9FD561DCEFA5100CF1F3D /* LMFriendVO.h */,
+				35B9FD571DCEFA5200CF1F3D /* LMFriendVO.m */,
+			);
+			path = friend;
+			sourceTree = "<group>";
+		};
+		35B9FD591DCEFC0900CF1F3D /* balance */ = {
+			isa = PBXGroup;
+			children = (
+				35B9FD5A1DCEFCF100CF1F3D /* LMBanlanceVO.h */,
+				35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */,
+				35B9FD601DCEFD2E00CF1F3D /* LMBalanceBillVO.h */,
+				35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */,
+			);
+			path = balance;
 			sourceTree = "<group>";
 		};
 		8EB8C3C41DCE58740054A4BA /* 3rdLibs */ = {
@@ -1485,10 +1517,10 @@
 		8EB8C4901DCE58750054A4BA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8EB8C4AA1DCE58750054A4BA /* homepage */,
 				8EB8C4911DCE58750054A4BA /* activity */,
 				8EB8C49C1DCE58750054A4BA /* Base */,
 				8EB8C4A71DCE58750054A4BA /* find */,
-				8EB8C4AA1DCE58750054A4BA /* homepage */,
 				8EB8C4B81DCE58750054A4BA /* Login */,
 				8EB8C4BD1DCE58750054A4BA /* person */,
 			);
@@ -1541,10 +1573,10 @@
 		8EB8C4AA1DCE58750054A4BA /* homepage */ = {
 			isa = PBXGroup;
 			children = (
-				8EB8C4AB1DCE58750054A4BA /* LMHomeDetailController.h */,
-				8EB8C4AC1DCE58750054A4BA /* LMHomeDetailController.m */,
 				8EB8C4AD1DCE58750054A4BA /* LMHomePageController.h */,
 				8EB8C4AE1DCE58750054A4BA /* LMHomePageController.m */,
+				8EB8C4AB1DCE58750054A4BA /* LMHomeDetailController.h */,
+				8EB8C4AC1DCE58750054A4BA /* LMHomeDetailController.m */,
 				8EB8C4AF1DCE58750054A4BA /* LMPublicArticleController.h */,
 				8EB8C4B01DCE58750054A4BA /* LMPublicArticleController.m */,
 				8EB8C4B11DCE58750054A4BA /* LMScanViewController.h */,
@@ -1553,16 +1585,8 @@
 				8EB8C4B41DCE58750054A4BA /* LMWebViewController.m */,
 				8EB8C4B51DCE58750054A4BA /* LMWriterViewController.h */,
 				8EB8C4B61DCE58750054A4BA /* LMWriterViewController.m */,
-				8EB8C4B71DCE58750054A4BA /* 发现页轮播海报 */,
 			);
 			path = homepage;
-			sourceTree = "<group>";
-		};
-		8EB8C4B71DCE58750054A4BA /* 发现页轮播海报 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "发现页轮播海报";
 			sourceTree = "<group>";
 		};
 		8EB8C4B81DCE58750054A4BA /* Login */ = {
@@ -1996,6 +2020,8 @@
 				8EB8C5881DCE58750054A4BA /* LMGetCaptchaRequest.m */,
 				8EB8C5891DCE58750054A4BA /* LMloginRequest.h */,
 				8EB8C58A1DCE58750054A4BA /* LMloginRequest.m */,
+				35B9FD4B1DCEF3AB00CF1F3D /* LMWXLoginRequest.h */,
+				35B9FD4C1DCEF3AB00CF1F3D /* LMWXLoginRequest.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -2094,10 +2120,12 @@
 		8EB8C5BC1DCE58750054A4BA /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				35B9FD591DCEFC0900CF1F3D /* balance */,
+				35B9FD551DCEFA2B00CF1F3D /* friend */,
+				35B9FD4E1DCEF51600CF1F3D /* notic */,
 				8EB8C5BD1DCE58750054A4BA /* Activity */,
 				8EB8C5C21DCE58750054A4BA /* ActivityDetail */,
 				8EB8C5CD1DCE58750054A4BA /* Banner */,
-				8EB8C5D01DCE58750054A4BA /* Find */,
 				8EB8C5D11DCE58750054A4BA /* Head */,
 				8EB8C5D41DCE58750054A4BA /* homepage */,
 				8EB8C5E11DCE58750054A4BA /* myLivingHome */,
@@ -2144,13 +2172,6 @@
 				8EB8C5CF1DCE58750054A4BA /* BannerVO.m */,
 			);
 			path = Banner;
-			sourceTree = "<group>";
-		};
-		8EB8C5D01DCE58750054A4BA /* Find */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Find;
 			sourceTree = "<group>";
 		};
 		8EB8C5D11DCE58750054A4BA /* Head */ = {
@@ -2214,6 +2235,8 @@
 			children = (
 				8EB8C5E21DCE58750054A4BA /* LMLivingInfoVO.h */,
 				8EB8C5E31DCE58750054A4BA /* LMLivingInfoVO.m */,
+				35B9FD521DCEF7F500CF1F3D /* LMLivingMapVO.h */,
+				35B9FD531DCEF7F500CF1F3D /* LMLivingMapVO.m */,
 			);
 			path = myLivingHome;
 			sourceTree = "<group>";
@@ -2261,16 +2284,6 @@
 			children = (
 				8EB8C5F11DCE58750054A4BA /* FirPersonVO.h */,
 				8EB8C5F21DCE58750054A4BA /* FirPersonVO.m */,
-				8EB8C5F31DCE58750054A4BA /* LMBalanceBill.h */,
-				8EB8C5F41DCE58750054A4BA /* LMBalanceBill.m */,
-				8EB8C5F51DCE58750054A4BA /* LMBalanceList.h */,
-				8EB8C5F61DCE58750054A4BA /* LMBalanceList.m */,
-				8EB8C5F71DCE58750054A4BA /* LMFriendList.h */,
-				8EB8C5F81DCE58750054A4BA /* LMFriendList.m */,
-				8EB8C5F91DCE58750054A4BA /* LMLivingMap.h */,
-				8EB8C5FA1DCE58750054A4BA /* LMLivingMap.m */,
-				8EB8C5FB1DCE58750054A4BA /* LMNoticeList.h */,
-				8EB8C5FC1DCE58750054A4BA /* LMNoticeList.m */,
 			);
 			path = PersonData;
 			sourceTree = "<group>";
@@ -2692,9 +2705,9 @@
 				8EB8C6D91DCE58750054A4BA /* ImageHelpTool.m in Sources */,
 				8EB8C6EA1DCE58750054A4BA /* LMFindList.m in Sources */,
 				8EB8C6B71DCE58750054A4BA /* LMHomeDetailController.m in Sources */,
+				35B9FD5C1DCEFCF100CF1F3D /* LMBanlanceVO.m in Sources */,
 				8EB8C6791DCE58750054A4BA /* Order.m in Sources */,
 				8EB8C6AF1DCE58750054A4BA /* LMPublishViewController.m in Sources */,
-				8EB8C7411DCE58750054A4BA /* LMBalanceList.m in Sources */,
 				8EB8C7711DCE58760054A4BA /* LMChargeButton.m in Sources */,
 				8EB8C6F81DCE58750054A4BA /* LMEventCommitReplyRequset.m in Sources */,
 				8EB8C7011DCE58750054A4BA /* LMArtcleCommitRequest.m in Sources */,
@@ -2754,7 +2767,6 @@
 				8EB8C70C1DCE58750054A4BA /* LMLivingListRequest.m in Sources */,
 				8EB8C7041DCE58750054A4BA /* LMArticeDeleteReplyRequst.m in Sources */,
 				8EB8C7281DCE58750054A4BA /* LMPublicArticleRequest.m in Sources */,
-				8EB8C7421DCE58750054A4BA /* LMFriendList.m in Sources */,
 				8EB8C6D71DCE58750054A4BA /* README.md in Sources */,
 				8EB8C72D1DCE58750054A4BA /* ActivityListVO.m in Sources */,
 				8EB8C68D1DCE58750054A4BA /* UIView+MJExtension.m in Sources */,
@@ -2764,6 +2776,7 @@
 				8EB8C6A61DCE58750054A4BA /* WXMediaMessage+messageConstruct.m in Sources */,
 				8EB8C7651DCE58760054A4BA /* LMTimeButton.m in Sources */,
 				8EB8C6CB1DCE58750054A4BA /* LMAddviceViewController.m in Sources */,
+				35B9FD621DCEFD2E00CF1F3D /* LMBalanceBillVO.m in Sources */,
 				8EB8C6EF1DCE58750054A4BA /* LMLiveRoomBody.m in Sources */,
 				8EB8C73B1DCE58750054A4BA /* LMOrderBodyVO.m in Sources */,
 				8EB8C72F1DCE58750054A4BA /* LMCommentReplys.m in Sources */,
@@ -2772,6 +2785,7 @@
 				8EB8C6DB1DCE58750054A4BA /* CheckUtils.m in Sources */,
 				8EB8C75C1DCE58750054A4BA /* LMActivityCell.m in Sources */,
 				8EB8C6811DCE58750054A4BA /* RSADataVerifier.m in Sources */,
+				35B9FD511DCEF57B00CF1F3D /* LMNoticVO.m in Sources */,
 				8EB8C7291DCE58750054A4BA /* LMPublicEventRequest.m in Sources */,
 				8EB8C6A81DCE58750054A4BA /* FitClientIDManager.m in Sources */,
 				8EB8C7161DCE58750054A4BA /* LMGetCaptchaRequest.m in Sources */,
@@ -2782,7 +2796,6 @@
 				8EB8C7381DCE58750054A4BA /* LMActicleCommentVO.m in Sources */,
 				8EB8C6841DCE58750054A4BA /* MJPhotoToolbar.m in Sources */,
 				8EB8C6C01DCE58750054A4BA /* LMBlanceDetailController.m in Sources */,
-				8EB8C7431DCE58750054A4BA /* LMLivingMap.m in Sources */,
 				8EB8C6C81DCE58750054A4BA /* LMPersonViewController.m in Sources */,
 				8EB8C68C1DCE58750054A4BA /* UIScrollView+MJRefresh.m in Sources */,
 				8EB8C7121DCE58750054A4BA /* LMFriendListRequest.m in Sources */,
@@ -2794,6 +2807,7 @@
 				8EB8C6FB1DCE58750054A4BA /* LMEventpraiseRequest.m in Sources */,
 				8EB8C7311DCE58750054A4BA /* LMEventDetailEventProjectsBody.m in Sources */,
 				8EB8C6B01DCE58750054A4BA /* LMSearchAddressController.m in Sources */,
+				35B9FD581DCEFA5200CF1F3D /* LMFriendVO.m in Sources */,
 				8EB8C7611DCE58760054A4BA /* LMMapViewCell.m in Sources */,
 				8EB8C7301DCE58750054A4BA /* LMEventDetailEventBody.m in Sources */,
 				8EB8C7681DCE58760054A4BA /* LMFindCell.m in Sources */,
@@ -2815,7 +2829,6 @@
 				8EB8C7641DCE58760054A4BA /* LMPublicMsgCell.m in Sources */,
 				8EB8C7451DCE58750054A4BA /* UserInfoVO.m in Sources */,
 				8EB8C6B21DCE58750054A4BA /* FitNavigationController.m in Sources */,
-				8EB8C7401DCE58750054A4BA /* LMBalanceBill.m in Sources */,
 				8EB8C77A1DCE58760054A4BA /* LMCouponCell.m in Sources */,
 				8EB8C70B1DCE58750054A4BA /* LMLivingHomeListRequest.m in Sources */,
 				8EB8C7251DCE58750054A4BA /* LMWXRechargeResultRequest.m in Sources */,
@@ -2858,6 +2871,7 @@
 				8EB8C6F61DCE58750054A4BA /* LMActivityDetailRequest.m in Sources */,
 				8EB8C7721DCE58760054A4BA /* LMLiveRoomNameCell.m in Sources */,
 				8EB8C67D1DCE58750054A4BA /* MD5DataSigner.m in Sources */,
+				35B9FD4D1DCEF3AB00CF1F3D /* LMWXLoginRequest.m in Sources */,
 				8EB8C7661DCE58760054A4BA /* AMapTipAnnotation.m in Sources */,
 				8EB8C7791DCE58760054A4BA /* LMFriendCell.m in Sources */,
 				8EB8C71F1DCE58750054A4BA /* LMOrederDeleteRequest.m in Sources */,
@@ -2881,8 +2895,8 @@
 				8EB8C73F1DCE58750054A4BA /* FirPersonVO.m in Sources */,
 				8EB8C6F21DCE58750054A4BA /* LMUserInfo.m in Sources */,
 				8EB8C6A71DCE58750054A4BA /* FitSignalCacheManager.m in Sources */,
+				35B9FD541DCEF7F500CF1F3D /* LMLivingMapVO.m in Sources */,
 				8EB8C73D1DCE58750054A4BA /* LMOrderVO.m in Sources */,
-				8EB8C7441DCE58750054A4BA /* LMNoticeList.m in Sources */,
 				8EB8C6EB1DCE58750054A4BA /* LMALLBody.m in Sources */,
 				8EB8C7341DCE58750054A4BA /* BannerVO.m in Sources */,
 				8EB8C7691DCE58760054A4BA /* LMCommentButton.m in Sources */,

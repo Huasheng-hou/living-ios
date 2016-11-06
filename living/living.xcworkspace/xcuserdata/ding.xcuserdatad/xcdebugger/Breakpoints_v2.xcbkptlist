@@ -29,91 +29,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/activity/LMPublicActivityController.m"
-            timestampString = "500015551.104652"
+            filePath = "living/Controller/homepage/LMHomePageController.m"
+            timestampString = "500099891.210321"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "751"
-            endingLineNumber = "751"
-            landmarkName = "-publishButtonAction:"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
+            landmarkName = "-getHomeDataResponse:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LMPublicActivityController publishButtonAction:]"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "500061523.709718"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "752"
-                  endingLineNumber = "752"
-                  offsetFromSymbolStart = "3640">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__50-[LMPublicActivityController publishButtonAction:]_block_invoke"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "500061523.713052"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "752"
-                  endingLineNumber = "752"
-                  offsetFromSymbolStart = "136">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.404"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "500061523.717509"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "752"
-                  endingLineNumber = "752"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.405"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "500061523.721759"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "752"
-                  endingLineNumber = "752"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__50-[LMPublicActivityController publishButtonAction:]_block_invoke.407"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublicActivityController.m"
-                  timestampString = "500061523.725918"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "752"
-                  endingLineNumber = "752"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/homepage/LMHomePageController.m"
+            timestampString = "500100157.494215"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
+            landmarkName = "-getHomeDataResponse:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

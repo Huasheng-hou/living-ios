@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMBalanceBill.h"
+#import "LMBalanceBillVO.h"
 
 @protocol  LMBlanceHeadCellDelegate;
 

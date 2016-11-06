@@ -72,10 +72,17 @@
 }
 
 
--(void)setData:(LMNoticeList *)list
+-(void)setData:(LMNoticVO *)list
 {
     _contentLabel.text = list.content;
-    _timeLabel.text = list.noticeTime;
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+    
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    if (list.noticeTime && [list.noticeTime isKindOfClass:[NSDate class]]) {
+        
+        _timeLabel.text = [formatter stringFromDate:list.noticeTime];
+    }
     
     if ([list.type isEqual:@"praise"]) {
         _typeLabel.text =[NSString stringWithFormat:@"%@赞了你",list.userNick];

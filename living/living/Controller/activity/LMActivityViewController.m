@@ -97,7 +97,7 @@
 
 - (FitBaseRequest *)request
 {
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE];
+    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
     
     return request;
 }

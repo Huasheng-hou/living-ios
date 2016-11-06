@@ -9,7 +9,7 @@
 #import "LMNoticViewController.h"
 #import "LMNoticListRequest.h"
 #import "FitUserManager.h"
-#import "LMNoticeList.h"
+#import "LMNoticVO.h"
 #import "LMNoticCell.h"
 
 #import "LMNoticDeleteRequest.h"
@@ -103,7 +103,7 @@ UITableViewDataSource
     {
         NSArray *array = bodyDic[@"list"];
         for (int i =0; i<array.count; i++) {
-            LMNoticeList *list=[[LMNoticeList alloc]initWithDictionary:array[i]];
+            LMNoticVO *list=[[LMNoticVO alloc]initWithDictionary:array[i]];
             if (![listArray containsObject:list]) {
                 [listArray addObject:list];
             }
@@ -141,7 +141,7 @@ UITableViewDataSource
     static NSString *cellId = @"cellId";
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMNoticeList *list = [listArray objectAtIndex:indexPath.row];
+    LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
@@ -190,7 +190,7 @@ UITableViewDataSource
 
 -(void)getNoticDeleteRequest:(NSInteger)sender
 {
-    LMNoticeList *list = [listArray objectAtIndex:sender];
+    LMNoticVO *list = [listArray objectAtIndex:sender];
     
     [cellArray addObject:list.noticeUuid];
     LMNoticDeleteRequest *request = [[LMNoticDeleteRequest alloc] initWithNoticeuuid:cellArray];
