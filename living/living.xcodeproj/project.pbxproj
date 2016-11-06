@@ -24,6 +24,7 @@
 		35B9FD581DCEFA5200CF1F3D /* LMFriendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD571DCEFA5200CF1F3D /* LMFriendVO.m */; };
 		35B9FD5C1DCEFCF100CF1F3D /* LMBanlanceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */; };
 		35B9FD621DCEFD2E00CF1F3D /* LMBalanceBillVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */; };
+		35B9FD651DCF0C3E00CF1F3D /* LMBalanceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD641DCF0C3E00CF1F3D /* LMBalanceVO.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -162,7 +163,6 @@
 		8EB8C6EF1DCE58750054A4BA /* LMLiveRoomBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5331DCE58750054A4BA /* LMLiveRoomBody.m */; };
 		8EB8C6F01DCE58750054A4BA /* LMLiveRoomLivingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5351DCE58750054A4BA /* LMLiveRoomLivingInfo.m */; };
 		8EB8C6F11DCE58750054A4BA /* LMLiveRoomMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5371DCE58750054A4BA /* LMLiveRoomMap.m */; };
-		8EB8C6F21DCE58750054A4BA /* LMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5391DCE58750054A4BA /* LMUserInfo.m */; };
 		8EB8C6F31DCE58750054A4BA /* LMEventCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C53E1DCE58750054A4BA /* LMEventCommentRequest.m */; };
 		8EB8C6F41DCE58750054A4BA /* LMEventReplydeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5401DCE58750054A4BA /* LMEventReplydeleteRequest.m */; };
 		8EB8C6F51DCE58750054A4BA /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5421DCE58750054A4BA /* LMActivityDeleteRequest.m */; };
@@ -344,6 +344,8 @@
 		35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBanlanceVO.m; sourceTree = "<group>"; };
 		35B9FD601DCEFD2E00CF1F3D /* LMBalanceBillVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceBillVO.h; sourceTree = "<group>"; };
 		35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceBillVO.m; sourceTree = "<group>"; };
+		35B9FD631DCF0C3E00CF1F3D /* LMBalanceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceVO.h; sourceTree = "<group>"; };
+		35B9FD641DCF0C3E00CF1F3D /* LMBalanceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceVO.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -679,8 +681,6 @@
 		8EB8C5351DCE58750054A4BA /* LMLiveRoomLivingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomLivingInfo.m; sourceTree = "<group>"; };
 		8EB8C5361DCE58750054A4BA /* LMLiveRoomMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomMap.h; sourceTree = "<group>"; };
 		8EB8C5371DCE58750054A4BA /* LMLiveRoomMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLiveRoomMap.m; sourceTree = "<group>"; };
-		8EB8C5381DCE58750054A4BA /* LMUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMUserInfo.h; sourceTree = "<group>"; };
-		8EB8C5391DCE58750054A4BA /* LMUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMUserInfo.m; sourceTree = "<group>"; };
 		8EB8C53D1DCE58750054A4BA /* LMEventCommentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventCommentRequest.h; sourceTree = "<group>"; };
 		8EB8C53E1DCE58750054A4BA /* LMEventCommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventCommentRequest.m; sourceTree = "<group>"; };
 		8EB8C53F1DCE58750054A4BA /* LMEventReplydeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventReplydeleteRequest.h; sourceTree = "<group>"; };
@@ -1135,6 +1135,8 @@
 				35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */,
 				35B9FD601DCEFD2E00CF1F3D /* LMBalanceBillVO.h */,
 				35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */,
+				35B9FD631DCF0C3E00CF1F3D /* LMBalanceVO.h */,
+				35B9FD641DCF0C3E00CF1F3D /* LMBalanceVO.m */,
 			);
 			path = balance;
 			sourceTree = "<group>";
@@ -1838,8 +1840,6 @@
 				8EB8C5251DCE58750054A4BA /* LMAllLiveRoom */,
 				8EB8C52B1DCE58750054A4BA /* LMCouponData */,
 				8EB8C5311DCE58750054A4BA /* LMLiveRoomData */,
-				8EB8C5381DCE58750054A4BA /* LMUserInfo.h */,
-				8EB8C5391DCE58750054A4BA /* LMUserInfo.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -2775,6 +2775,7 @@
 				8EB8C6F51DCE58750054A4BA /* LMActivityDeleteRequest.m in Sources */,
 				8EB8C6A61DCE58750054A4BA /* WXMediaMessage+messageConstruct.m in Sources */,
 				8EB8C7651DCE58760054A4BA /* LMTimeButton.m in Sources */,
+				35B9FD651DCF0C3E00CF1F3D /* LMBalanceVO.m in Sources */,
 				8EB8C6CB1DCE58750054A4BA /* LMAddviceViewController.m in Sources */,
 				35B9FD621DCEFD2E00CF1F3D /* LMBalanceBillVO.m in Sources */,
 				8EB8C6EF1DCE58750054A4BA /* LMLiveRoomBody.m in Sources */,
@@ -2893,7 +2894,6 @@
 				8EB8C6CC1DCE58750054A4BA /* LMSettingViewController.m in Sources */,
 				8EB8C7051DCE58750054A4BA /* LMArticeDeleteRequest.m in Sources */,
 				8EB8C73F1DCE58750054A4BA /* FirPersonVO.m in Sources */,
-				8EB8C6F21DCE58750054A4BA /* LMUserInfo.m in Sources */,
 				8EB8C6A71DCE58750054A4BA /* FitSignalCacheManager.m in Sources */,
 				35B9FD541DCEF7F500CF1F3D /* LMLivingMapVO.m in Sources */,
 				8EB8C73D1DCE58750054A4BA /* LMOrderVO.m in Sources */,

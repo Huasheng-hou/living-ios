@@ -10,7 +10,7 @@
 
 @implementation LMWXLoginRequest
 
-- (id)initWithWechatResult:(NSDictionary *)dic {
+- (id)initWithWechatResult:(NSDictionary *)dic  andPassword:(NSString *)password{
     
     self = [super init];
     
@@ -20,6 +20,11 @@
         if (dic) {
             [bodyDict setObject:dic forKey:@"wechatResult"];
         }
+        
+        if (password) {
+            [bodyDict setObject:password forKey:@"password"];
+        }
+        
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];

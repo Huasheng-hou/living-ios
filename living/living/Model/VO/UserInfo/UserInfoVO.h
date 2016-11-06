@@ -24,20 +24,17 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 
-@property(nonatomic, retain) NSString *Avatar;
-@property(nonatomic, retain) NSString *UUID;
-@property(nonatomic, retain) NSString *Username;
-@property(nonatomic, retain) NSString *Name;
-@property(nonatomic, retain) NSString *Address;
-@property(nonatomic, retain) NSString *Firm;
-@property(nonatomic, retain) NSString *Contact;
-@property(nonatomic, retain) NSString *Gender;
-@property(nonatomic, retain) NSString *StaffID;
-@property(nonatomic, retain) NSString *Emp_uuid;
-@property(nonatomic, retain) NSArray  *roleName;
-@property(nonatomic, retain) NSArray  *department;
-@property(nonatomic, retain) NSString *joinDateTime;
-@property(nonatomic, retain) NSString *phone;
-@property(nonatomic, retain) NSString *homePhone;
+@property (nonatomic, strong) NSString *gender;
+@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *eventNum;
+@property (nonatomic, assign) int balance;
+@property (nonatomic, strong) NSString *birthday;
+@property (nonatomic, assign) int orderNumber;
+@property (nonatomic, strong) NSString *totalEventNum;
+@property (nonatomic, strong) NSString *province;
+@property (nonatomic, strong) NSString *livingUuid;
+
 
 @end

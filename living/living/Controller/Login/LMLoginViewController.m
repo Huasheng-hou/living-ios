@@ -81,11 +81,14 @@ WXApiDelegate
     [super viewDidLoad];
     [self createUI];
     _number=60;
+    
+    
 }
 
 - (void)createUI
 {
     [super createUI];
+    [WXApiManager sharedManager].delegate = self;
     
     self.tableView.keyboardDismissMode  = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.separatorInset       = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
@@ -522,11 +525,15 @@ WXApiDelegate
 
 #pragma mark 微信授权后登录
 
-- (void)wxAgreeAction:(NSDictionary *)dic
+- (void)wxAgreeAction:(NSDictionary *)dic code:(NSString *)code
 {
     [self initStateHud];
     
-    LMWXLoginRequest *request = [[LMWXLoginRequest alloc] initWithWechatResult:dic];
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-DD hh:ii:ss"];
+    NSString    *password   = [NSString stringWithFormat:@"%@%@%@", [formatter stringFromDate:[NSDate date]], code, TOKEN];
+    
+    LMWXLoginRequest *request = [[LMWXLoginRequest alloc] initWithWechatResult:dic andPassword:password];
     
     HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
                                          completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -571,7 +578,7 @@ WXApiDelegate
     }
     
     if (response.code&&response.errCode==0) {
-        [self wxAgreeAction:dict];
+        [self wxAgreeAction:dict code:response.code];
     }else{
         [self textStateHUD:@"微信授权失败"];
     }

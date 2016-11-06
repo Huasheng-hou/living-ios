@@ -17,7 +17,7 @@
 #import "LMMyFriendViewController.h"
 #import "LMPersonInfoRequest.h"
 #import "FitUserManager.h"
-#import "LMUserInfo.h"
+#import "UserInfoVO.h"
 #import "LMScanViewController.h"
 #import "LMMyCouponController.h"
 #import "ImageHelpTool.h"
@@ -25,7 +25,7 @@
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_tableView;
-    LMUserInfo *infoModels;
+    UserInfoVO *infoModels;
     NSString *gender;
     NSMutableDictionary *infoDic;
     UIImageView *headerView;
@@ -140,7 +140,7 @@
     
     if (result && [result intValue] == 0)
     {
-        infoModels = [[LMUserInfo alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
+        infoModels = [[UserInfoVO alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         infoDic =[bodyDict objectForKey:@"userInfo"];
         
         [_tableView reloadData];
@@ -209,7 +209,7 @@
     [cell.detailTextLabel setFont:TEXT_FONT_LEVEL_2];
     if (indexPath.section==0) {
 
-        LMUserInfo *infoModel = [[LMUserInfo alloc] initWithDictionary:infoDic];
+        UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
         
         if (indexPath.row==0) {
             //头像
@@ -281,7 +281,7 @@
             
             //订单
             UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
-            reward.text = [NSString stringWithFormat:@"订单 %.0f",infoModel.orderNumber];
+            reward.text = [NSString stringWithFormat:@"订单 %d",infoModel.orderNumber];
             reward.font = TEXT_FONT_LEVEL_2;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [reward sizeToFit];
@@ -290,7 +290,7 @@
             
             //生活馆
             UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
-            living.text = [NSString stringWithFormat:@"生活馆 %.0f",infoModel.orderNumber];
+            living.text = [NSString stringWithFormat:@"生活馆 %d",infoModel.orderNumber];
             living.font = TEXT_FONT_LEVEL_2;
             living.textColor = TEXT_COLOR_LEVEL_3;
             [living sizeToFit];
@@ -385,7 +385,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //修改资料
-    LMUserInfo *infoModel = [[LMUserInfo alloc] initWithDictionary:infoDic];
+    UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
     if (indexPath.section==0) {
         if (indexPath.row==0) {
             

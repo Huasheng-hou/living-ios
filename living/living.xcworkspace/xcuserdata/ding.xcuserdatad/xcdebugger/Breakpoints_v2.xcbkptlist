@@ -29,13 +29,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/homepage/LMHomePageController.m"
-            timestampString = "500099891.210321"
+            filePath = "living/Controller/Login/LMLoginViewController.m"
+            timestampString = "500112629.428842"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
-            landmarkName = "-getHomeDataResponse:"
+            startingLineNumber = "592"
+            endingLineNumber = "592"
+            landmarkName = "-wxAgreeActionResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -45,13 +45,122 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/homepage/LMHomePageController.m"
-            timestampString = "500100157.494215"
+            filePath = "living/Controller/Login/LMLoginViewController.m"
+            timestampString = "500112629.428842"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
-            landmarkName = "-getHomeDataResponse:"
+            startingLineNumber = "543"
+            endingLineNumber = "543"
+            landmarkName = "-wxAgreeAction:code:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[LMLoginViewController wxAgreeAction:code:]"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500114283.396741"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "544"
+                  endingLineNumber = "544"
+                  offsetFromSymbolStart = "596">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__44-[LMLoginViewController wxAgreeAction:code:]_block_invoke"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500114283.399865"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "544"
+                  endingLineNumber = "544"
+                  offsetFromSymbolStart = "136">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.430"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500114283.402977"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "544"
+                  endingLineNumber = "544"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.431"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500114283.406037"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "544"
+                  endingLineNumber = "544"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__44-[LMLoginViewController wxAgreeAction:code:]_block_invoke.433"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500114283.409094"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "544"
+                  endingLineNumber = "544"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/Login/LMLoginViewController.m"
+            timestampString = "500112629.428842"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
+            landmarkName = "-wxAgreeAction:code:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/Login/LMLoginViewController.m"
+            timestampString = "500112629.428842"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "555"
+            endingLineNumber = "555"
+            landmarkName = "-managerDidRecvAuthResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
