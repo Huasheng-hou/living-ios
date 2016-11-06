@@ -228,22 +228,22 @@ UIViewControllerTransitioningDelegate
     CGFloat startX=15;
     CGFloat space=10;
     CGFloat buttonW=(kScreenWidth-startX*2-space*3)/4;
-    CGFloat height=100;
+    CGFloat height=100+45;
     
     if (imageNum<4) {
         NSLog(@".count<=4");
         
-        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45, kScreenWidth,height+buttonW+space*2)];
+        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth,height+buttonW+space*2)];
         
     }else if(imageNum<8) {
         NSLog(@".count<count<=8");
-        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45, kScreenWidth,height+buttonW*2+space*3)];
+        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth,height+buttonW*2+space*3)];
     }else if(imageNum<12){
         NSLog(@".count----else");
-        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45, kScreenWidth, height+buttonW*3+space*4);
+        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth, height+buttonW*3+space*4);
     }else
     {
-        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45, kScreenWidth, height+buttonW*4+space*5);
+        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth, height+buttonW*4+space*5);
     }
     
     
@@ -343,30 +343,7 @@ UIViewControllerTransitioningDelegate
         [self textStateHUD:@"请输入标题"];
         return;
     }
-    
-//    if ([self stringContainsEmoji:titleTF.text]) {
-//       
-//        
-//        NSString *uniStr = [NSString stringWithUTF8String:[titleTF.text UTF8String]];
-//        NSData *uniData = [uniStr dataUsingEncoding:NSNonLossyASCIIStringEncoding];
-//        NSString *goodStr = [[NSString alloc] initWithData:uniData encoding:NSUTF8StringEncoding] ;
-//        titleTF.text=goodStr;
-//        
-//        
-////        NSData *jsonData = [NSData dataWithBytes:jsonString length:strlen(jsonString)];
-////        NSString *goodMsg1 = [[NSString alloc] initWithData:jsonData encoding:NSNonLossyASCIIStringEncoding];
-////        NSLog(@"---解码--->[%@]",goodMsg1);
-//        
-//         NSLog(@"===========包含=============|%@|",titleTF.text);
-//        
-//    }else{
-//        NSLog(@"===========不包含=============");
-//    }
-    
-    
-    
-    
-    
+
     if (discribleTF.text.length ==0) {
         [self textStateHUD:@"请输入描述内容"];
         return;
@@ -625,12 +602,16 @@ UIViewControllerTransitioningDelegate
                                                                [self performSelectorOnMainThread:@selector(publishAction) withObject:nil waitUntilDone:YES];
                                                            }
                                                        }
+                                                   }else{
+                                                       [self textStateHUD:bodyDict[@"description"]];
                                                    }
                                                    
                                                } failed:^(NSError *error) {
                                                    [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                           withObject:nil
                                                                        waitUntilDone:YES];
+                                                   
+//                                                   [imageUrlArray addObject:@"fail"];
                                                }];
         
         

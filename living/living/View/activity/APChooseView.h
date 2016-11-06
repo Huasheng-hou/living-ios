@@ -35,6 +35,7 @@
 @property(nonatomic,strong)UILabel *titleLabel;//价格
 @property(nonatomic,strong)UILabel *title2;//价格
 @property(nonatomic,strong)UILabel *inventory;//库存
+@property(nonatomic,strong)UILabel *dspLabel;
 
 
 @property(nonatomic,strong)NSMutableDictionary *orderInfo;

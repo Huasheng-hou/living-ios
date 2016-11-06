@@ -163,6 +163,8 @@ UIViewControllerTransitioningDelegate
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     
     if (indexPath.section==0) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
         manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
         manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];

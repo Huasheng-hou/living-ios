@@ -29,7 +29,7 @@
 #import "WXApiManager.h"
 #import "LMWXPayRequest.h"
 #import "LMWXPayResultRequest.h"
-#import "LMEventDetailEventBody.h"
+#import "LMEventBodyVO.h"
 #import "UIImageView+WebCache.h"
 
 @interface LMBesureOrderViewController ()
@@ -37,7 +37,7 @@
     LMOrderInfoVO *orderInfos;
     LMOrderBodyVO *orderdata;
     NSString *rechargeOrderUUID;
-    LMEventDetailEventBody *eventDic;
+    LMEventBodyVO *eventDic;
 }
 
 @end
@@ -60,7 +60,7 @@
     [super createUI];
     self.title = @"确认订单";
     
-    eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:_dict];
+    eventDic =[[LMEventBodyVO alloc] initWithDictionary:_dict];
     
     [self getOrderData];
     
@@ -378,7 +378,7 @@
             
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
             
-            infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
+            infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
             
             [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
             

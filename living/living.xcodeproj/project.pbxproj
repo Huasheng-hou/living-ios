@@ -25,6 +25,9 @@
 		35B9FD5C1DCEFCF100CF1F3D /* LMBanlanceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD5B1DCEFCF100CF1F3D /* LMBanlanceVO.m */; };
 		35B9FD621DCEFD2E00CF1F3D /* LMBalanceBillVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */; };
 		35B9FD651DCF0C3E00CF1F3D /* LMBalanceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD641DCF0C3E00CF1F3D /* LMBalanceVO.m */; };
+		35B9FD681DCF3E0F00CF1F3D /* LMEventCommentVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD671DCF3E0F00CF1F3D /* LMEventCommentVO.m */; };
+		35B9FD6E1DCF41B000CF1F3D /* LMEventBodyVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD6D1DCF41B000CF1F3D /* LMEventBodyVO.m */; };
+		35B9FD711DCF852300CF1F3D /* LMProjectBodyVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FD701DCF852300CF1F3D /* LMProjectBodyVO.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -223,11 +226,6 @@
 		8EB8C72C1DCE58750054A4BA /* FirUploadImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5BB1DCE58750054A4BA /* FirUploadImageRequest.m */; };
 		8EB8C72D1DCE58750054A4BA /* ActivityListVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5BF1DCE58750054A4BA /* ActivityListVO.m */; };
 		8EB8C72E1DCE58750054A4BA /* LMActivityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5C11DCE58750054A4BA /* LMActivityList.m */; };
-		8EB8C72F1DCE58750054A4BA /* LMCommentReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5C41DCE58750054A4BA /* LMCommentReplys.m */; };
-		8EB8C7301DCE58750054A4BA /* LMEventDetailEventBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5C61DCE58750054A4BA /* LMEventDetailEventBody.m */; };
-		8EB8C7311DCE58750054A4BA /* LMEventDetailEventProjectsBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5C81DCE58750054A4BA /* LMEventDetailEventProjectsBody.m */; };
-		8EB8C7321DCE58750054A4BA /* LMEventDetailLeavingMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5CA1DCE58750054A4BA /* LMEventDetailLeavingMessages.m */; };
-		8EB8C7331DCE58750054A4BA /* LMEventReplys.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5CC1DCE58750054A4BA /* LMEventReplys.m */; };
 		8EB8C7341DCE58750054A4BA /* BannerVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5CF1DCE58750054A4BA /* BannerVO.m */; };
 		8EB8C7351DCE58750054A4BA /* HeadVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5D31DCE58750054A4BA /* HeadVO.m */; };
 		8EB8C7361DCE58750054A4BA /* LMArticleBodyVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EB8C5D71DCE58750054A4BA /* LMArticleBodyVO.m */; };
@@ -346,6 +344,12 @@
 		35B9FD611DCEFD2E00CF1F3D /* LMBalanceBillVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceBillVO.m; sourceTree = "<group>"; };
 		35B9FD631DCF0C3E00CF1F3D /* LMBalanceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceVO.h; sourceTree = "<group>"; };
 		35B9FD641DCF0C3E00CF1F3D /* LMBalanceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceVO.m; sourceTree = "<group>"; };
+		35B9FD661DCF3E0F00CF1F3D /* LMEventCommentVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventCommentVO.h; sourceTree = "<group>"; };
+		35B9FD671DCF3E0F00CF1F3D /* LMEventCommentVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventCommentVO.m; sourceTree = "<group>"; };
+		35B9FD6C1DCF41B000CF1F3D /* LMEventBodyVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventBodyVO.h; sourceTree = "<group>"; };
+		35B9FD6D1DCF41B000CF1F3D /* LMEventBodyVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventBodyVO.m; sourceTree = "<group>"; };
+		35B9FD6F1DCF852300CF1F3D /* LMProjectBodyVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMProjectBodyVO.h; sourceTree = "<group>"; };
+		35B9FD701DCF852300CF1F3D /* LMProjectBodyVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMProjectBodyVO.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -800,16 +804,6 @@
 		8EB8C5BF1DCE58750054A4BA /* ActivityListVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityListVO.m; sourceTree = "<group>"; };
 		8EB8C5C01DCE58750054A4BA /* LMActivityList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityList.h; sourceTree = "<group>"; };
 		8EB8C5C11DCE58750054A4BA /* LMActivityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityList.m; sourceTree = "<group>"; };
-		8EB8C5C31DCE58750054A4BA /* LMCommentReplys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCommentReplys.h; sourceTree = "<group>"; };
-		8EB8C5C41DCE58750054A4BA /* LMCommentReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCommentReplys.m; sourceTree = "<group>"; };
-		8EB8C5C51DCE58750054A4BA /* LMEventDetailEventBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailEventBody.h; sourceTree = "<group>"; };
-		8EB8C5C61DCE58750054A4BA /* LMEventDetailEventBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailEventBody.m; sourceTree = "<group>"; };
-		8EB8C5C71DCE58750054A4BA /* LMEventDetailEventProjectsBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailEventProjectsBody.h; sourceTree = "<group>"; };
-		8EB8C5C81DCE58750054A4BA /* LMEventDetailEventProjectsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailEventProjectsBody.m; sourceTree = "<group>"; };
-		8EB8C5C91DCE58750054A4BA /* LMEventDetailLeavingMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailLeavingMessages.h; sourceTree = "<group>"; };
-		8EB8C5CA1DCE58750054A4BA /* LMEventDetailLeavingMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailLeavingMessages.m; sourceTree = "<group>"; };
-		8EB8C5CB1DCE58750054A4BA /* LMEventReplys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventReplys.h; sourceTree = "<group>"; };
-		8EB8C5CC1DCE58750054A4BA /* LMEventReplys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventReplys.m; sourceTree = "<group>"; };
 		8EB8C5CE1DCE58750054A4BA /* BannerVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerVO.h; sourceTree = "<group>"; };
 		8EB8C5CF1DCE58750054A4BA /* BannerVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerVO.m; sourceTree = "<group>"; };
 		8EB8C5D21DCE58750054A4BA /* HeadVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadVO.h; sourceTree = "<group>"; };
@@ -2151,16 +2145,12 @@
 		8EB8C5C21DCE58750054A4BA /* ActivityDetail */ = {
 			isa = PBXGroup;
 			children = (
-				8EB8C5C31DCE58750054A4BA /* LMCommentReplys.h */,
-				8EB8C5C41DCE58750054A4BA /* LMCommentReplys.m */,
-				8EB8C5C51DCE58750054A4BA /* LMEventDetailEventBody.h */,
-				8EB8C5C61DCE58750054A4BA /* LMEventDetailEventBody.m */,
-				8EB8C5C71DCE58750054A4BA /* LMEventDetailEventProjectsBody.h */,
-				8EB8C5C81DCE58750054A4BA /* LMEventDetailEventProjectsBody.m */,
-				8EB8C5C91DCE58750054A4BA /* LMEventDetailLeavingMessages.h */,
-				8EB8C5CA1DCE58750054A4BA /* LMEventDetailLeavingMessages.m */,
-				8EB8C5CB1DCE58750054A4BA /* LMEventReplys.h */,
-				8EB8C5CC1DCE58750054A4BA /* LMEventReplys.m */,
+				35B9FD661DCF3E0F00CF1F3D /* LMEventCommentVO.h */,
+				35B9FD671DCF3E0F00CF1F3D /* LMEventCommentVO.m */,
+				35B9FD6C1DCF41B000CF1F3D /* LMEventBodyVO.h */,
+				35B9FD6D1DCF41B000CF1F3D /* LMEventBodyVO.m */,
+				35B9FD6F1DCF852300CF1F3D /* LMProjectBodyVO.h */,
+				35B9FD701DCF852300CF1F3D /* LMProjectBodyVO.m */,
 			);
 			path = ActivityDetail;
 			sourceTree = "<group>";
@@ -2697,6 +2687,7 @@
 				8EB8C75E1DCE58760054A4BA /* LMActivityMsgCell.m in Sources */,
 				8EB8C7021DCE58750054A4BA /* LMArtclePariseRequest.m in Sources */,
 				8EB8C73E1DCE58750054A4BA /* PayloadVO.m in Sources */,
+				35B9FD681DCF3E0F00CF1F3D /* LMEventCommentVO.m in Sources */,
 				8EB8C77E1DCE58760054A4BA /* FitPickerThreeLevelView.m in Sources */,
 				8EB8C7621DCE58760054A4BA /* LMProjectCell.m in Sources */,
 				8EB8C6C51DCE58750054A4BA /* LMMyFriendViewController.m in Sources */,
@@ -2712,7 +2703,6 @@
 				8EB8C6F81DCE58750054A4BA /* LMEventCommitReplyRequset.m in Sources */,
 				8EB8C7011DCE58750054A4BA /* LMArtcleCommitRequest.m in Sources */,
 				8EB8C68B1DCE58750054A4BA /* UIScrollView+MJExtension.m in Sources */,
-				8EB8C7331DCE58750054A4BA /* LMEventReplys.m in Sources */,
 				8EB8C7231DCE58750054A4BA /* LMAliRechargeRequest.m in Sources */,
 				8EB8C7671DCE58760054A4BA /* POIAnnotation.m in Sources */,
 				8EB8C6CD1DCE58750054A4BA /* LMVersionViewController.m in Sources */,
@@ -2771,7 +2761,6 @@
 				8EB8C72D1DCE58750054A4BA /* ActivityListVO.m in Sources */,
 				8EB8C68D1DCE58750054A4BA /* UIView+MJExtension.m in Sources */,
 				8EB8C6DD1DCE58750054A4BA /* FitReachability.m in Sources */,
-				8EB8C7321DCE58750054A4BA /* LMEventDetailLeavingMessages.m in Sources */,
 				8EB8C6F51DCE58750054A4BA /* LMActivityDeleteRequest.m in Sources */,
 				8EB8C6A61DCE58750054A4BA /* WXMediaMessage+messageConstruct.m in Sources */,
 				8EB8C7651DCE58760054A4BA /* LMTimeButton.m in Sources */,
@@ -2780,7 +2769,6 @@
 				35B9FD621DCEFD2E00CF1F3D /* LMBalanceBillVO.m in Sources */,
 				8EB8C6EF1DCE58750054A4BA /* LMLiveRoomBody.m in Sources */,
 				8EB8C73B1DCE58750054A4BA /* LMOrderBodyVO.m in Sources */,
-				8EB8C72F1DCE58750054A4BA /* LMCommentReplys.m in Sources */,
 				8EB8C7241DCE58750054A4BA /* LMAliRechargeResultRequest.m in Sources */,
 				8EB8C76B1DCE58760054A4BA /* LMhomePageCell.m in Sources */,
 				8EB8C6DB1DCE58750054A4BA /* CheckUtils.m in Sources */,
@@ -2789,6 +2777,7 @@
 				35B9FD511DCEF57B00CF1F3D /* LMNoticVO.m in Sources */,
 				8EB8C7291DCE58750054A4BA /* LMPublicEventRequest.m in Sources */,
 				8EB8C6A81DCE58750054A4BA /* FitClientIDManager.m in Sources */,
+				35B9FD711DCF852300CF1F3D /* LMProjectBodyVO.m in Sources */,
 				8EB8C7161DCE58750054A4BA /* LMGetCaptchaRequest.m in Sources */,
 				8EB8C7731DCE58760054A4BA /* LMMyLivingHomeCell.m in Sources */,
 				8EB8C6D81DCE58750054A4BA /* FitConsts.m in Sources */,
@@ -2803,14 +2792,13 @@
 				8EB8C6E11DCE58750054A4BA /* SYPhotoBrowser.m in Sources */,
 				8EB8C77B1DCE58760054A4BA /* LMLiveRoomCell.m in Sources */,
 				8EB8C7191DCE58750054A4BA /* LMAlipayResultRequest.m in Sources */,
+				35B9FD6E1DCF41B000CF1F3D /* LMEventBodyVO.m in Sources */,
 				8EB8C73A1DCE58750054A4BA /* LMLivingInfoVO.m in Sources */,
 				8EB8C6C91DCE58750054A4BA /* LMRechargeViewController.m in Sources */,
 				8EB8C6FB1DCE58750054A4BA /* LMEventpraiseRequest.m in Sources */,
-				8EB8C7311DCE58750054A4BA /* LMEventDetailEventProjectsBody.m in Sources */,
 				8EB8C6B01DCE58750054A4BA /* LMSearchAddressController.m in Sources */,
 				35B9FD581DCEFA5200CF1F3D /* LMFriendVO.m in Sources */,
 				8EB8C7611DCE58760054A4BA /* LMMapViewCell.m in Sources */,
-				8EB8C7301DCE58750054A4BA /* LMEventDetailEventBody.m in Sources */,
 				8EB8C7681DCE58760054A4BA /* LMFindCell.m in Sources */,
 				8EB8C67C1DCE58750054A4BA /* DataVerifier.m in Sources */,
 				8EB8C77C1DCE58760054A4BA /* BabFilterAgePickerView.m in Sources */,

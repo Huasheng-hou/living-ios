@@ -85,7 +85,12 @@
         
         if (nil != [dictionary objectForKey:@"publish_time"] && ![[dictionary objectForKey:@"publish_time"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"publish_time"] isKindOfClass:[NSString class]]) {
-            self.publishTime = [dictionary objectForKey:@"publish_time"];
+            NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
+            
+            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            
+            self.publishTime = [formatter dateFromString:[dictionary objectForKey:@"publish_time"]];
+            
         }
         
         if (nil != [dictionary objectForKey:@"comment_num"] && ![[dictionary objectForKey:@"comment_num"] isEqual:[NSNull null]]

@@ -116,18 +116,20 @@
     [self.contentView addSubview:label];
 }
 
--(void)setValue:(LMEventDetailEventBody *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude
+-(void)setValue:(LMEventBodyVO *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude
 {
     _addressLabel.text = event.address;
     
     if (event.startTime == nil) {
         _timeLabel.text = @"";
     }else{
-        NSString *string = [event.startTime substringToIndex:16];
-        NSString *string2 = [event.startTime substringToIndex:16];
+        NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         
-        
-      _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",string,string2];
+        NSString *start = [formatter stringFromDate:event.startTime];
+        NSString *end = [formatter stringFromDate:event.startTime];
+ 
+      _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",start,end];
     }
     if (event.contactPhone == nil) {
         _numberLabel.text = @"";

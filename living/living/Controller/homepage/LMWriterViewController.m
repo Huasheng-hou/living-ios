@@ -29,6 +29,15 @@ UITableViewDataSource
 
 @implementation LMWriterViewController
 
+-(id)initWithUUid:(NSString *)writerUUid
+{
+    self = [super init];
+    if (self) {
+        _writerUUid = writerUUid;
+    }
+    return self;
+}
+
 - (NSMutableArray *)taskArr
 {
     if (!listArray) {
@@ -280,18 +289,13 @@ UITableViewDataSource
             //gender icon
             UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 27, 16, 16)];
             if (infoDic[@"gender"]) {
-                if ([infoDic[@"gender"] isEqual:@"1"]) {
+                if ([infoDic[@"gender"] isEqual:@"男"]) {
                     [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
                 }else{
                     [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
                 }
             }
             [cell.contentView addSubview:genderImage];
-//
-            //下划线
-//            UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 40, kScreenWidth-100, 1.0)];
-//            lineLabel.backgroundColor = LINE_COLOR;
-//            [cell.contentView addSubview:lineLabel];
 
             //地址
             UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 52, 80, 20)];
@@ -308,11 +312,7 @@ UITableViewDataSource
             [question sizeToFit];
             question.frame = CGRectMake(100, 50, question.bounds.size.width, 20);
             [cell.contentView addSubview:question];
-            
         
-            
-
-            
         return cell;
         
         }

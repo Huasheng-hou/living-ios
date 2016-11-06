@@ -166,7 +166,7 @@ UIViewControllerTransitioningDelegate
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     
     if (indexPath.section==0) {
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if ([_genderStr intValue]== 1) {
             manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
