@@ -163,7 +163,6 @@
      [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];
 }
 
-
 - (void)setXScale:(float)xScale yScale:(float)yScale
 {
     _xScale = xScale;

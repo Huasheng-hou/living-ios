@@ -19,10 +19,7 @@
 #import "LMEventDetailEventBody.h"
 #import "LMEventDetailEventProjectsBody.h"
 
-
 #import "LMEventDetailLeavingMessages.h"
-
-
 
 #import "LMEventJoinRequest.h"
 #import "LMEventLivingMsgRequest.h"
@@ -49,7 +46,6 @@ LMLeavemessagecellDelegate,
 UIAlertViewDelegate
 >
 {
-//    UITableView *_tableView;
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -65,70 +61,67 @@ UIAlertViewDelegate
     
     NSString *latitude;
     NSString *longitude;
-    
-    
 }
-
 
 @end
 
 @implementation LMActivityDetailController
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
     [self scrollViewDidScroll:self.tableView];
-    
 }
 
--(void)viewDidDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.title = @"活动详情";
+    
     [self creatUI];
     [self getEventListDataRequest];
+    
     msgArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
     
     //加入订单
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(joindataRequest:)
-                                                name:@"purchase"
-                                              object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(joindataRequest:)
+                                                 name:@"purchase"
+                                               object:nil];
 }
 
-
--(void)creatUI
+- (void)creatUI
 {
+    self.tableView  = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight + 10)
+                                                   style:UITableViewStyleGrouped];
     
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+10) style:UITableViewStyleGrouped];
-//    self.tableView.contentInset     = UIEdgeInsetsMake(0, 0, 5, 0);
-    self.tableView.delegate=self;
-    self.tableView.dataSource=self;
+    self.tableView.delegate     = self;
+    self.tableView.dataSource   = self;
+    self.tableView.keyboardDismissMode      = UIScrollViewKeyboardDismissModeOnDrag;
+    self.tableView.separatorStyle           = UITableViewCellSeparatorStyleNone;
+    self.tableView.contentInset             = UIEdgeInsetsMake(0, 0, 12, 0);
+    
     [self.view addSubview:self.tableView];
-     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    
-    self.tableView.contentInset     = UIEdgeInsetsMake(0, 0, 12, 0);
+
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     headerView.hidden=YES;
+    
     [self.view addSubview:headerView];
-    
-    
 }
--(void)creatHeaderView
+
+- (void)creatHeaderView
 {
-    
     //活动人头像
     UIImageView *headV = [UIImageView new];
     [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar]];
@@ -157,13 +150,8 @@ UIAlertViewDelegate
     [headerView addSubview:countLabel];
     
     NSString *string = [NSString stringWithFormat:@"%.0f",eventDic.status];
-    
-
-    
-    
-    
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    //        _topBtn.backgroundColor = _COLOR_N(red);
+    
     if ([string isEqual:@"1"]) {
       [joinButton setTitle:@"报名" forState:UIControlStateNormal];
     }
@@ -183,7 +171,6 @@ UIAlertViewDelegate
         [joinButton setTitle:@"删除" forState:UIControlStateNormal];
     }
 
-    
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
     joinButton.frame = CGRectMake(kScreenWidth-70, 25, 60.f, 50.f);
@@ -195,13 +182,9 @@ UIAlertViewDelegate
     [line sizeToFit];
     line.frame = CGRectMake(kScreenWidth-71, 35, 1, 30);
     [headerView addSubview:line];
-    
-    
-    
 }
 
-
--(void)getEventListDataRequest
+- (void)getEventListDataRequest
 {
     [self initStateHud];
     
@@ -228,7 +211,7 @@ UIAlertViewDelegate
 
 }
 
--(void)getEventListDataResponse:(NSString *)resp
+- (void)getEventListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -504,9 +487,8 @@ UIAlertViewDelegate
     return 1;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.section==0) {
         static NSString *cellId = @"cellIdd";
         
@@ -518,11 +500,13 @@ UIAlertViewDelegate
     
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
+        
         return cell;
         }
     
     //生活馆信息   //地图展示
     if (indexPath.section==1) {
+        
         static NSString *cellId = @"cellIddd";
         
         LMActivityMsgCell *cell = [[LMActivityMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -538,9 +522,8 @@ UIAlertViewDelegate
         return cell;
     }
     
-    
-    
         if (indexPath.section==2) {
+    
             static NSString *cellId = @"cellId";
             
             LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -548,8 +531,8 @@ UIAlertViewDelegate
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
             
+            if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
             
-           if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
                 cell.index = 1;
             }
             
@@ -561,51 +544,45 @@ UIAlertViewDelegate
             return cell;
         }
         
-        
     if (indexPath.section==3) {
         static NSString *cellId = @"cellId";
         
         LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
         LMEventDetailLeavingMessages *list = msgArray[indexPath.row];
         
         [cell setValue:list];
-        
-        
-
         cell.delegate = self;
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
-//        tap.view.tag = indexPath.row;
         tap.minimumPressDuration = 1.0;
         cell.contentView.tag = indexPath.row;
         [cell.contentView addGestureRecognizer:tap];
-        
         
         return cell;
     }
     
     return nil;
-    
 }
 
--(void)callTelephone
+- (void)callTelephone
 {
     if (!eventDic.contactPhone) {
         return;
     }
     
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"是否拨打：%@",eventDic.contactPhone] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alert show];
-    alert=nil;
+    UIAlertView *alert  = [[UIAlertView alloc]  initWithTitle:nil
+                                                      message:[NSString stringWithFormat:@"是否拨打：%@",eventDic.contactPhone]
+                                                     delegate:self
+                                            cancelButtonTitle:@"取消"
+                                            otherButtonTitles:@"确定", nil];
     
-   }
+    [alert show];
+    alert   = nil;
+}
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==1) {
          NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
@@ -691,13 +668,16 @@ UIAlertViewDelegate
     [UIView setAnimationDuration:0.75];
     [self showCommentText];
     [UIView commitAnimations];
- 
 }
-- (void)showCommentText {
+
+- (void)showCommentText
+{
     [self createCommentsView];
     [commentText becomeFirstResponder];//再次让textView成为第一响应者（第二次）这次键盘才成功显示
 }
-- (void)createCommentsView {
+
+- (void)createCommentsView
+{
     if (!commentsView) {
         commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
         commentsView.backgroundColor = [UIColor whiteColor];
@@ -726,9 +706,8 @@ UIAlertViewDelegate
     [commentText becomeFirstResponder];//让textView成为第一响应者（第一次）这次键盘并未显示出来
 }
 
--(void)sendComment
+- (void)sendComment
 {
-    NSLog(@"************");
     if ([commentText.text isEqualToString:@""]) {
         [self textStateHUD:@"回答内容不能为空"];
         return;
@@ -1279,7 +1258,5 @@ UIAlertViewDelegate
         }
     }
 }
-
-
 
 @end

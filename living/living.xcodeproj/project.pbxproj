@@ -1553,16 +1553,8 @@
 				8EB8C4B41DCE58750054A4BA /* LMWebViewController.m */,
 				8EB8C4B51DCE58750054A4BA /* LMWriterViewController.h */,
 				8EB8C4B61DCE58750054A4BA /* LMWriterViewController.m */,
-				8EB8C4B71DCE58750054A4BA /* 发现页轮播海报 */,
 			);
 			path = homepage;
-			sourceTree = "<group>";
-		};
-		8EB8C4B71DCE58750054A4BA /* 发现页轮播海报 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "发现页轮播海报";
 			sourceTree = "<group>";
 		};
 		8EB8C4B81DCE58750054A4BA /* Login */ = {
@@ -2097,7 +2089,6 @@
 				8EB8C5BD1DCE58750054A4BA /* Activity */,
 				8EB8C5C21DCE58750054A4BA /* ActivityDetail */,
 				8EB8C5CD1DCE58750054A4BA /* Banner */,
-				8EB8C5D01DCE58750054A4BA /* Find */,
 				8EB8C5D11DCE58750054A4BA /* Head */,
 				8EB8C5D41DCE58750054A4BA /* homepage */,
 				8EB8C5E11DCE58750054A4BA /* myLivingHome */,
@@ -2144,13 +2135,6 @@
 				8EB8C5CF1DCE58750054A4BA /* BannerVO.m */,
 			);
 			path = Banner;
-			sourceTree = "<group>";
-		};
-		8EB8C5D01DCE58750054A4BA /* Find */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Find;
 			sourceTree = "<group>";
 		};
 		8EB8C5D11DCE58750054A4BA /* Head */ = {
