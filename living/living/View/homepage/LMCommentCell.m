@@ -48,7 +48,6 @@
 {
     _imageV = [UIImageView new];
     
-//    _imageV.image = [UIImage imageNamed:@"112"];
     [_imageV sizeToFit];
     _imageV.frame = CGRectMake(15, 15, 30, 30);
      _imageV.layer.cornerRadius =15;
@@ -57,7 +56,6 @@
     [self.contentView addSubview:_imageV];
     
     _nameLabel = [UILabel new];
-//    _nameLabel.text = @"评论者名字";
     _nameLabel.font = [UIFont systemFontOfSize:12.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_3;
     _nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -72,7 +70,6 @@
     [self.contentView addSubview:_timeLabel];
     
     _titleLabel = [UILabel new];
-//    _titleLabel.text = @"果然我问问我吩咐我跟我玩嗡嗡图文无关的身份和她和热稳定";
     _titleLabel.numberOfLines  = 0;
     _titleLabel.font = [UIFont systemFontOfSize:14.f];
     _titleLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -97,7 +94,6 @@
     
     _zanButton = [[LMCommentButton alloc] init];
     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
-//    _zanButton.textLabel.text = @"66";
     _zanButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
     [_zanButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_zanButton];
@@ -110,14 +106,11 @@
     _replyButton.textLabel.text = @"回复";
     _replyButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
     [_replyButton addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.contentView addSubview:_replyButton];
-    
-    
 }
 
-
-
--(void)setValue:(LMActicleCommentVO *)data
+- (void)setValue:(LMActicleCommentVO *)data
 {
 
         if ([data.type isEqual:@"comment"]) {
@@ -164,12 +157,12 @@
             
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
             //参数1 代表文字自适应的范围 2代表 文字自适应的方式前三种 3代表文字在自适应过程中自适应的字体大小
-            _conHigh = [data.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            
-        
+            _conHigh    = [data.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000)
+                                                            options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                         attributes:attributes
+                                                            context:nil].size.height;
     }   
 }
-
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
 {
@@ -177,7 +170,7 @@
     _yScale = yScale;
 }
 
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     [_nameLabel sizeToFit];
@@ -206,7 +199,6 @@
     _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width+20, 30);
     
     _zanButton.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-80-_replyButton.bounds.size.width, 70+_conHigh-5, _zanButton.textLabel.bounds.size.width+20, 30);
-    
 }
 
 + (CGFloat)cellHigth:(NSString *)titleString
@@ -218,7 +210,7 @@
                                              attributes:attributes
                                                 context:nil].size.height;
  
-    return (75+conHigh+20+12+0.5);
+    return (75 + conHigh + 18 + 0.5);
 }
 
 - (void)commentAction:(id)sender
@@ -226,16 +218,16 @@
     if ([_delegate respondsToSelector:@selector(cellWillComment:)]) {
         [_delegate cellWillComment:self];
     }
-    
 }
+
 - (void)replyAction:(id)sender
 {
     if ([_delegate respondsToSelector:@selector(cellWillReply:)]) {
         [_delegate cellWillReply:self];
     }
-    
 }
--(NSString *)getUTCFormateDate:(NSString *)newDate
+
+- (NSString *)getUTCFormateDate:(NSString *)newDate
 {
     NSString *str=[newDate substringWithRange:NSMakeRange(0, 16)];
     
@@ -248,28 +240,13 @@
     
     NSString *dateContent  = nil;
     
-        NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
-        [dateFormatter2 setDateFormat:@"MM-dd HH:mm"];
+    NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
+    [dateFormatter2 setDateFormat:@"MM-dd HH:mm"];
         
-        NSString *str2= [dateFormatter2 stringFromDate:newsDateFormatted];
-        
-        dateContent = str2;
-
+    NSString *str2= [dateFormatter2 stringFromDate:newsDateFormatted];
+    dateContent = str2;
     
     return dateContent;
-}
-
-
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

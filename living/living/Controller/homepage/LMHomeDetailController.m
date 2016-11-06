@@ -74,8 +74,6 @@ shareTypeDelegate
     NSInteger typeIndex;
     
     NSString *fakeId;
-    
-    
 }
 
 @end
@@ -94,9 +92,13 @@ shareTypeDelegate
 
 - (void)creatUI
 {
-    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-45) style:UITableViewStyleGrouped];
-    self.tableView.delegate=self;
-    self.tableView.dataSource=self;
+    self.tableView  = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-45)
+                                                   style:UITableViewStyleGrouped];
+    
+    self.tableView.delegate                 = self;
+    self.tableView.dataSource               = self;
+    self.tableView.keyboardDismissMode      = UIScrollViewKeyboardDismissModeOnDrag;
+    
     [self.view addSubview:self.tableView];
     
     [self creatFootView];
@@ -269,11 +271,14 @@ shareTypeDelegate
 {
     if (indexPath.section==1) {
         
-        if (listArray.count>0) {
+        if (listArray.count > indexPath.row) {
 
-            LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:listArray[indexPath.row]];
+            LMActicleCommentVO *list = listArray[indexPath.row];
             
-            return [LMCommentCell cellHigth:list.commentContent];
+            if (list && [list isKindOfClass:[LMActicleCommentVO class]]) {
+                
+                return [LMCommentCell cellHigth:list.commentContent];
+            }
         }
     }
     

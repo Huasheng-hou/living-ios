@@ -98,13 +98,15 @@
     
     hintLbl.attributedText = str;
     
-    
-    
-    
     [footerView addSubview:hintLbl];
-       [footerView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+    [footerView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
                                                                              action:@selector(lookProtocol)]];
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@""] style:UIBarButtonItemStylePlain target:self action:nil];
+    
+    UIBarButtonItem *leftButton     = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@""]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:nil];
+    
     self.navigationItem.leftBarButtonItem = leftButton;
     self.tableView.tableFooterView  = footerView;
 }
@@ -385,8 +387,6 @@
         return;
     }
     
-    NSLog(@"========bodyDict========%@",bodyDict);
-    
     NSString *result    = [bodyDict objectForKey:@"result"];
     
     if (result && [result intValue] == 0)
@@ -464,9 +464,6 @@
         [userInfo setObject:vipString forKey:@"vipString"];
     }
     
-    NSLog(@"_uuid:%@\n,phone:%@\n,_password:%@\n",_uuid,_phoneTF.text,_password);
-    
-    
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
 }
 
@@ -480,7 +477,6 @@
     webVC.titleString = @"隐私协议";
     
     [self.navigationController pushViewController:webVC animated:YES];
-    
 }
 
 @end
