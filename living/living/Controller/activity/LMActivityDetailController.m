@@ -798,11 +798,11 @@ UIAlertViewDelegate
     if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
         
         
-        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.discount];
+        infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
         [infoView.titleLabel sizeToFit];
         infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
         
-        infoView.title2.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        infoView.title2.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
         [infoView.title2 sizeToFit];
         infoView.title2.frame = CGRectMake(155+infoView.titleLabel.bounds.size.width, 25, infoView.title2.bounds.size.width, 30);
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(155+infoView.titleLabel.bounds.size.width, 40, infoView.title2.bounds.size.width+2, 1.5)];
@@ -810,7 +810,7 @@ UIAlertViewDelegate
         [infoView.bottomView addSubview:line];
         
     }else{
-        infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
+        infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
         [infoView.titleLabel sizeToFit];
         infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
         
@@ -1261,7 +1261,8 @@ UIAlertViewDelegate
 }
 
 #pragma mark -活动大图
--(void)cellClickImage:(LMActivityheadCell *)cell
+
+- (void)cellClickImage:(LMActivityheadCell *)cell
 {
     [ImageHelpTool showImage:cell.imageV];
     
@@ -1276,9 +1277,5 @@ UIAlertViewDelegate
     photoBrowser.initialPageIndex = cell.tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
-
-
-
-
 
 @end
