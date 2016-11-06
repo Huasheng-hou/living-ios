@@ -111,7 +111,7 @@ UIAlertViewDelegate
     self.tableView.contentInset             = UIEdgeInsetsMake(0, 0, 12, 0);
     
     [self.view addSubview:self.tableView];
-
+    
     headerView = [UIView new];
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
@@ -137,7 +137,7 @@ UIAlertViewDelegate
     nameLabel.textColor = [UIColor whiteColor];
     nameLabel.textAlignment = NSTextAlignmentCenter;
     [nameLabel sizeToFit];
-       nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
+    nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
     [headerView addSubview:nameLabel];
     
     //费用
@@ -153,7 +153,7 @@ UIAlertViewDelegate
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
     if ([string isEqual:@"1"]) {
-      [joinButton setTitle:@"报名" forState:UIControlStateNormal];
+        [joinButton setTitle:@"报名" forState:UIControlStateNormal];
     }
     if ([string isEqual:@"2"]) {
         [joinButton setTitle:@"人满" forState:UIControlStateNormal];
@@ -170,7 +170,7 @@ UIAlertViewDelegate
     if ([string isEqual:@"5"]) {
         [joinButton setTitle:@"删除" forState:UIControlStateNormal];
     }
-
+    
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
     joinButton.frame = CGRectMake(kScreenWidth-70, 25, 60.f, 50.f);
@@ -208,7 +208,7 @@ UIAlertViewDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 
 - (void)getEventListDataResponse:(NSString *)resp
@@ -229,16 +229,16 @@ UIAlertViewDelegate
         [self hideStateHud];
         
         
-      latitude= bodyDic[@"event_body"][@"latitude"];
+        latitude= bodyDic[@"event_body"][@"latitude"];
         
         longitude=bodyDic[@"event_body"][@"longitude"];
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
         if (msgArray.count>0) {
-           [msgArray removeAllObjects];
+            [msgArray removeAllObjects];
         }
         for (int i =0; i<array.count; i++) {
-
+            
             LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:array[i]];
             [msgArray addObject:list];
             
@@ -261,7 +261,7 @@ UIAlertViewDelegate
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
             self.navigationItem.rightBarButtonItem = rightItem;
         }
-    
+        
         [self creatHeaderView];
         
         [self.tableView reloadData];
@@ -284,37 +284,34 @@ UIAlertViewDelegate
     }
     
     if (indexPath.section==2) {
-         LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
-            NSString *string = list.projectTitle;
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-            CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            
-            NSString *string2 = list.projectDsp;
-            NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-            CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+        LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+        NSString *string = list.projectTitle;
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+        CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+        
+        NSString *string2 = list.projectDsp;
+        NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+        CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
         
         if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
             return 60+conHigh+conHigh2;
         }else{
             return 270+conHigh+conHigh2;
         }
-            
-            
+        
+        
         
         
     }
     if (indexPath.section==3) {
-
+        
         
         if (msgArray.count>0) {
             
-
-                LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:msgArray[indexPath.row]];
-                return [LMLeavemessagecell cellHigth:list.commentContent];
-
+            LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:msgArray[indexPath.row]];
+            return [LMLeavemessagecell cellHigth:list.commentContent];
+            
         }
-
-        
     }
     
     return 0;
@@ -380,8 +377,8 @@ UIAlertViewDelegate
         
         return headView;
     }
-
-
+    
+    
     
     
     if (section==3){
@@ -442,7 +439,7 @@ UIAlertViewDelegate
         return headView;
     }
     return nil;
- 
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -460,7 +457,7 @@ UIAlertViewDelegate
     if (section==3) {
         return 150;
     }
-
+    
     return 0;
 }
 
@@ -493,16 +490,16 @@ UIAlertViewDelegate
         static NSString *cellId = @"cellIdd";
         
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-       
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell setValue:eventDic];
-    
+        
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         
         return cell;
-        }
+    }
     
     //生活馆信息   //地图展示
     if (indexPath.section==1) {
@@ -510,7 +507,7 @@ UIAlertViewDelegate
         static NSString *cellId = @"cellIddd";
         
         LMActivityMsgCell *cell = [[LMActivityMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-       
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell setValue:eventDic andLatitude:latitude andLongtitude:longitude];
@@ -522,28 +519,28 @@ UIAlertViewDelegate
         return cell;
     }
     
-        if (indexPath.section==2) {
-    
-            static NSString *cellId = @"cellId";
-            
-            LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
-            
-            if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
-            
-                cell.index = 1;
-            }
-            
-            [cell setValue:list];
+    if (indexPath.section==2) {
         
-            NSLog(@"%@",list.projectImgs);
-            [cell setXScale:self.xScale yScale:self.yScaleNoTab];
-
-            return cell;
+        static NSString *cellId = @"cellId";
+        
+        LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+        
+        if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
+            
+            cell.index = 1;
         }
         
+        [cell setValue:list];
+        
+        NSLog(@"%@",list.projectImgs);
+        [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+        
+        return cell;
+    }
+    
     if (indexPath.section==3) {
         static NSString *cellId = @"cellId";
         
@@ -585,9 +582,9 @@ UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==1) {
-         NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
-         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-
+        NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        
     }
 }
 
@@ -600,7 +597,7 @@ UIAlertViewDelegate
         return;
     }
     
-  
+    
     LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:cell.commentUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -624,10 +621,10 @@ UIAlertViewDelegate
                                                            [self textStateHUD:str];
                                                        }
                                                    }
-
+                                                   
                                                });
-        
-                                              
+                                               
+                                               
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
@@ -713,7 +710,7 @@ UIAlertViewDelegate
         return;
     }
     [self commitDataRequest];
-
+    
     
     [commentText resignFirstResponder];
 }
@@ -739,7 +736,7 @@ UIAlertViewDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 -(void)getEventcommitResponse:(NSString *)resp
 {
@@ -751,7 +748,7 @@ UIAlertViewDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"回复成功"];
         [self getEventListDataRequest];
-         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -779,12 +776,12 @@ UIAlertViewDelegate
     infoView.title2.text = @"￥:10000";
     infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
     infoView.title2.font = [UIFont systemFontOfSize:15];
-
+    
     [infoView.bottomView addSubview:infoView.title2];
     
     
     
-
+    
     if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
         
         
@@ -805,7 +802,7 @@ UIAlertViewDelegate
         infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.perCost];
         [infoView.titleLabel sizeToFit];
         infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
-       
+        
     }
     
     
@@ -814,7 +811,7 @@ UIAlertViewDelegate
     [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
     
     infoView.orderInfo = orderDic;
-
+    
     [self.view addSubview:infoView];
     
     UIView *view = [infoView viewWithTag:1000];
@@ -824,7 +821,7 @@ UIAlertViewDelegate
     
     
     
-
+    
 }
 
 -(void)joindataRequest:(NSNotification *)notice
@@ -855,7 +852,7 @@ UIAlertViewDelegate
                                            }];
     [proxy start];
     
-
+    
 }
 
 
@@ -883,7 +880,7 @@ UIAlertViewDelegate
             FitNavigationController     *navVC  = [[FitNavigationController alloc] initWithRootViewController:OrderVC];
             [self presentViewController:navVC animated:YES completion:nil];
         });
-
+        
     } else {
         
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -935,7 +932,7 @@ UIAlertViewDelegate
         headerView.hidden=YES;
     }
     
-
+    
     
 }
 
@@ -971,7 +968,7 @@ UIAlertViewDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
     
     
 }
@@ -996,8 +993,8 @@ UIAlertViewDelegate
             });
             
             
-
-
+            
+            
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
             [self textStateHUD:str];
@@ -1010,8 +1007,8 @@ UIAlertViewDelegate
 //    if ([textView isEqual:commentText]) {
 //        [self commitDataRequest];
 //    }
-//    
-//    
+//
+//
 //    [self resignCurrentFirstResponder];
 //    return YES;
 //}

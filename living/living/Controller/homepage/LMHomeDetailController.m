@@ -304,8 +304,6 @@ shareTypeDelegate
                 [paragraphStyle setParagraphSpacing:10];
                 [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
                 contentLabel.attributedText = attributedString;
-       
-                
             }
             
             if (typeIndex ==1) {
@@ -719,10 +717,7 @@ shareTypeDelegate
         static NSString *cellId = @"cellId";
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         LMActicleCommentVO *list = listArray[indexPath.row];
-        
-
         [cell setValue:list];
-//        cell.tag = indexPath.row;
         cell.delegate = self;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
