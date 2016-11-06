@@ -29,12 +29,11 @@
 #import "LMArticleCommentDeleteRequest.h"
 #import "LMArticeDeleteReplyRequst.h"
 
-
-
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
-
-@interface LMHomeDetailController ()<UITableViewDelegate,
+@interface LMHomeDetailController ()
+<
+UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
 LMCommentCellDelegate,
@@ -98,6 +97,7 @@ shareTypeDelegate
     self.tableView.delegate                 = self;
     self.tableView.dataSource               = self;
     self.tableView.keyboardDismissMode      = UIScrollViewKeyboardDismissModeOnDrag;
+    self.tableView.separatorStyle           = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:self.tableView];
     
@@ -284,9 +284,14 @@ shareTypeDelegate
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
+
             NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-            CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes5 context:nil].size.height;
-            return 75+conHigh;
+            
+            CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                                                     options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                                  attributes:attributes5
+                                                                     context:nil].size.height;
+            return 65 + conHigh;
         }
         if (indexPath.row==1) {
 
@@ -713,8 +718,6 @@ shareTypeDelegate
     if (indexPath.section==1) {
         static NSString *cellId = @"cellId";
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMActicleCommentVO *list = listArray[indexPath.row];
         
 
