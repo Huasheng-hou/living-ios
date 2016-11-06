@@ -34,6 +34,7 @@
 
 #import "LMEventCommentRequest.h"
 #import "LMEventReplydeleteRequest.h"
+#import "ImageHelpTool.h"
 
 @interface LMActivityDetailController ()
 <
@@ -1258,5 +1259,16 @@ UIAlertViewDelegate
         }
     }
 }
+
+#pragma mark -活动大图
+-(void)cellClickImage:(LMActivityheadCell *)cell
+{
+    [ImageHelpTool showImage:cell.imageV];
+    
+}
+
+
+
+
 
 @end
