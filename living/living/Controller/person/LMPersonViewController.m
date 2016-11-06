@@ -31,24 +31,22 @@
     UIImageView *headerView;
 }
 
-
 @end
 
 @implementation LMPersonViewController
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
 
 }
 
--(void)viewDidAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self getUserInfoData];
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,23 +58,14 @@
     
     //请求获取余额
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(getUserInfoData)
-     
                                                  name:@"rechargeMoney"
-     
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(getUserInfoData)
-     
                                                  name:@"reloadData"
-     
                                                object:nil];
-    
-    
-    
 }
 
 -(void)creatUI
@@ -88,9 +77,6 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notic"] style:UIBarButtonItemStylePlain target:self action:@selector(noticAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
-    
-    
-
 }
 
 -(void)noticAction
@@ -270,7 +256,7 @@
             
             //余额
             UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 60, 80, 20)];
-            question.text = [NSString stringWithFormat:@"余额 ￥%.0f",infoModel.balance];
+            question.text = [NSString stringWithFormat:@"余额 ￥%d",infoModel.balance];
             question.font = TEXT_FONT_LEVEL_2;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [question sizeToFit];
@@ -290,7 +276,7 @@
             
             //生活馆
             UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
-            living.text = [NSString stringWithFormat:@"生活馆 %d",infoModel.orderNumber];
+            living.text = [NSString stringWithFormat:@"生活馆 %d",infoModel.livingNumber];
             living.font = TEXT_FONT_LEVEL_2;
             living.textColor = TEXT_COLOR_LEVEL_3;
             [living sizeToFit];
@@ -459,8 +445,6 @@
             [self.navigationController pushViewController:setVC animated:YES];
         }
     }
-
-    
     
     if (indexPath.section==3) {
         if (indexPath.row==0) {
@@ -471,36 +455,15 @@
     }
 }
 
-
--(void)bigImageAction:(UIImageView *)imageV
+- (void)bigImageAction:(UIImageView *)imageV
 {
     
     [ImageHelpTool showImage:headerView];
 }
 
-
-
-
-
--(void)action
+- (void)action
 {
     
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

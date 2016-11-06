@@ -23,7 +23,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, strong) NSString *nickName;
 @property (nonatomic, strong) NSString *city;
@@ -35,6 +34,6 @@
 @property (nonatomic, strong) NSString *totalEventNum;
 @property (nonatomic, strong) NSString *province;
 @property (nonatomic, strong) NSString *livingUuid;
-
+@property (nonatomic, assign) int livingNumber;
 
 @end
