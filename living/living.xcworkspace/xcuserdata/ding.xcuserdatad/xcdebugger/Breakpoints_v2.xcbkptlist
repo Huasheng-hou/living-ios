@@ -37,6 +37,83 @@
             endingLineNumber = "592"
             landmarkName = "-wxAgreeActionResponse:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[LMLoginViewController wechatLogin:OpenId:UnionId:]_block_invoke"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500143031.545022"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "592"
+                  endingLineNumber = "592"
+                  offsetFromSymbolStart = "676">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[LMLoginViewController wechatLogin:OpenId:UnionId:]_block_invoke_2"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500143031.5489"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "592"
+                  endingLineNumber = "592"
+                  offsetFromSymbolStart = "136">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.423"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500143031.552891"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "592"
+                  endingLineNumber = "592"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.424"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500143031.556803"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "592"
+                  endingLineNumber = "592"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[LMLoginViewController wechatLogin:OpenId:UnionId:]_block_invoke.426"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
+                  timestampString = "500143031.560615"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "592"
+                  endingLineNumber = "592"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -53,83 +130,6 @@
             endingLineNumber = "543"
             landmarkName = "-wxAgreeAction:code:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LMLoginViewController wxAgreeAction:code:]"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
-                  timestampString = "500140298.744745"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "544"
-                  endingLineNumber = "544"
-                  offsetFromSymbolStart = "596">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__44-[LMLoginViewController wxAgreeAction:code:]_block_invoke"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
-                  timestampString = "500140298.747864"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "544"
-                  endingLineNumber = "544"
-                  offsetFromSymbolStart = "136">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.430"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
-                  timestampString = "500140298.750974"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "544"
-                  endingLineNumber = "544"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.431"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
-                  timestampString = "500140298.754173"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "544"
-                  endingLineNumber = "544"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__44-[LMLoginViewController wxAgreeAction:code:]_block_invoke.433"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Login/LMLoginViewController.m"
-                  timestampString = "500140298.75729"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "544"
-                  endingLineNumber = "544"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

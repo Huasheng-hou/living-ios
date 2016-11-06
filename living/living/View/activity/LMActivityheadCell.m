@@ -14,7 +14,7 @@
     float _yScale;
 }
 
-@property (nonatomic, strong) UIImageView *imageV;
+
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
@@ -47,6 +47,11 @@
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
     _imageV.clipsToBounds = YES;
     [self.contentView addSubview:_imageV];
+    _imageV.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
+    [_imageV addGestureRecognizer:tapImage];
+    
     
     //标题
     _titleLabel = [UILabel new];
@@ -152,6 +157,14 @@
     }
     
 }
+
+-(void)clickImage:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellClickImage:)]) {
+        [_delegate cellClickImage:self];
+    }
+}
+
 
 
 

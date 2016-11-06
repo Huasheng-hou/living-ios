@@ -14,16 +14,7 @@
 
 @interface LMActivityheadCell : UITableViewCell
 
-@property (nonatomic, strong)NSString *imageUrl;
-
-@property (nonatomic, strong)NSString *titleString;
-
-@property (nonatomic, strong)NSString *headUrl;
-
-@property (nonatomic, strong)NSString *name;
-
-@property (nonatomic, strong)NSString *joinCount;
-
+@property (nonatomic, strong) UIImageView *imageV;
 
 @property (nonatomic, weak) id <LMActivityheadCellDelegate> delegate;
 
@@ -40,5 +31,7 @@
 
 @optional
 - (void)cellWillApply:(LMActivityheadCell *)cell;
+
+- (void)cellClickImage:(LMActivityheadCell *)cell;
 
 @end

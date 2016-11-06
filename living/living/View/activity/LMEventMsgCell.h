@@ -9,12 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "LMProjectBodyVO.h"
 
+@protocol  LMEventMsgCellDelegate;
+
 @interface LMEventMsgCell : UITableViewCell
 
 @property (nonatomic)CGFloat conHigh;
 @property (nonatomic)CGFloat dspHigh;
 
 @property (nonatomic)NSInteger index;
+
+@property (nonatomic, weak) id <LMEventMsgCellDelegate> delegate;
 
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
@@ -24,5 +28,14 @@
 -(void)setValue:(LMProjectBodyVO *)data;
 
 //+ (CGFloat)cellHigth:(NSString *)titleString;
+
+@end
+
+
+@protocol LMEventMsgCellDelegate <NSObject>
+
+@optional
+
+- (void)cellProjectImage:(LMEventMsgCell *)cell;
 
 @end

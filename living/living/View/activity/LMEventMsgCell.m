@@ -23,8 +23,6 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 
 
-
-
 @end
 
 @implementation LMEventMsgCell
@@ -47,8 +45,11 @@
     _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
     [_headImage setClipsToBounds:YES];
+    _headImage.userInteractionEnabled = YES;
     
     [self.contentView addSubview:_headImage];
+    UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
+    [_headImage addGestureRecognizer:tapImage];
     
     
     
@@ -118,10 +119,15 @@
        _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 210);
     }
 
-    
-    
     _contentLabel.frame = CGRectMake(15, 30+_headImage.bounds.size.height +_conHigh, kScreenWidth-30, _dspHigh);
 
+}
+
+-(void)clickImage:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellProjectImage:)]) {
+        [_delegate cellProjectImage:self];
+    }
 }
 
 
