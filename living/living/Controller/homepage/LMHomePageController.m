@@ -332,9 +332,8 @@ LMhomePageCellDelegate
         
         if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
             
-            LMWriterViewController *writerVC = [[LMWriterViewController alloc] init];
+            LMWriterViewController *writerVC = [[LMWriterViewController alloc] initWithUUid:vo.userUuid];
             writerVC.hidesBottomBarWhenPushed = YES;
-            writerVC.writerUUid = vo.articleUuid;
             
             [self.navigationController pushViewController:writerVC animated:YES];
         }

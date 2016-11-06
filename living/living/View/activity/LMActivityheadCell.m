@@ -99,7 +99,7 @@
     
 }
 
--(void)setValue:(LMEventDetailEventBody *)event
+-(void)setValue:(LMEventBodyVO *)event
 {
     [_imageV sd_setImageWithURL:[NSURL URLWithString:event.eventImg]];
 
@@ -110,7 +110,7 @@
     }
 //    _titleLabel.text = event.eventName;
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
-    _countLabel.text = [NSString stringWithFormat:@"活动人数：%.0f/%.0f人",event.totalNumber,event.totalNum];
+    _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
     
 }
 

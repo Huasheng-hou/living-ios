@@ -31,7 +31,7 @@
 @property (nonatomic, retain) NSString *articleContent;
 @property (nonatomic, retain) NSString *describe;
 @property (nonatomic, assign) BOOL hasPraised;
-@property (nonatomic, retain) NSString *publishTime;
+@property (nonatomic, retain) NSDate *publishTime;
 @property (nonatomic, assign) int commentNum;
 @property (nonatomic, assign) int fakaid;
 @property (nonatomic, retain) NSString *articleName;

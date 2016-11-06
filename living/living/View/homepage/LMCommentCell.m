@@ -7,7 +7,6 @@
 //
 
 #import "LMCommentCell.h"
-#import "LMCommentReplys.h"
 #import "FitConsts.h"
 
 @interface LMCommentCell () {

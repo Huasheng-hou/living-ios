@@ -14,4 +14,7 @@
 
 @property (nonatomic)           int     current;
 
+
+-(id)initWithUUid:(NSString *)writerUUid;
+
 @end

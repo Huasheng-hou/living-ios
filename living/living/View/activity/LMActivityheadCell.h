@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImageView+WebCache.h"
-#import "LMEventDetailEventBody.h"
+#import "LMEventBodyVO.h"
 
 @protocol  LMActivityheadCellDelegate;
 
@@ -32,7 +32,7 @@
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
--(void)setValue:(LMEventDetailEventBody *)event;
+-(void)setValue:(LMEventBodyVO *)event;
 
 @end
 

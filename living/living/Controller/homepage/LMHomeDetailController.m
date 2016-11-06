@@ -28,6 +28,7 @@
 #import "LMArticeDeleteRequest.h"
 #import "LMArticleCommentDeleteRequest.h"
 #import "LMArticeDeleteReplyRequst.h"
+#import "LMWriterViewController.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -449,7 +450,10 @@ shareTypeDelegate
             [headImage setClipsToBounds:YES];
             headImage.contentMode = UIViewContentModeScaleToFill;
             [cell.contentView addSubview:headImage];
+            headImage.userInteractionEnabled = YES;
             
+            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+            [headImage addGestureRecognizer:tapImage];
             
             
             UILabel *nameLabel = [UILabel new];
@@ -464,12 +468,20 @@ shareTypeDelegate
             [nameLabel sizeToFit];
             nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
             [cell.contentView addSubview:nameLabel];
+            nameLabel.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+            [nameLabel addGestureRecognizer:tap];
+            
             
             
             UILabel *timeLabel = [UILabel new];
             timeLabel.font = TEXT_FONT_LEVEL_3;
             timeLabel.textColor = TEXT_COLOR_LEVEL_3;
-            timeLabel.text = articleData.publishTime;
+            
+            NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            timeLabel.text = [formatter stringFromDate:articleData.publishTime];;
             [timeLabel sizeToFit];
             timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+25, timeLabel.bounds.size.width,20);
             [cell.contentView addSubview:timeLabel];
@@ -1468,5 +1480,17 @@ shareTypeDelegate
     
     [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
 }
+
+#pragma mark --跳转writerVC
+
+-(void)WriterVC
+{
+    LMWriterViewController *VC = [[LMWriterViewController alloc] initWithUUid:articleData.userUuid];
+    VC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:VC animated:YES];
+    
+}
+
+
 
 @end

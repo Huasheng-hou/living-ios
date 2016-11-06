@@ -93,14 +93,14 @@
         [self.bottomView addSubview:sizeLabel];
         
         //
-        colorLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 180, kScreenWidth-30,60)];
-        colorLabel.numberOfLines = 0;
-        colorLabel.text = @"报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知";
-        colorLabel.textColor = [UIColor lightGrayColor];
+        _dspLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 180, kScreenWidth-30,60)];
+        _dspLabel.numberOfLines = 0;
+        _dspLabel.text = @"报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知";
+        _dspLabel.textColor = [UIColor lightGrayColor];
         
 //        colorLabel.textAlignment = NSTextAlignmentCenter;
-        colorLabel.font = [UIFont systemFontOfSize:15];
-        [self.bottomView addSubview:colorLabel];
+        _dspLabel.font = [UIFont systemFontOfSize:15];
+        [self.bottomView addSubview:_dspLabel];
         
         
         //数量

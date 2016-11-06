@@ -116,7 +116,7 @@
 
 
 
--(void)setValue:(LMEventDetailLeavingMessages *)data
+-(void)setValue:(LMEventCommentVO *)data
 {
     
 
@@ -136,7 +136,7 @@
     }else{
         _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
     }
-    _zanButton.textLabel.text = [NSString stringWithFormat:@"%.0f",data.praiseCount];
+    _zanButton.textLabel.text = [NSString stringWithFormat:@"%d",data.praiseCount];
     
     _commentUUid = data.commentUuid;
     
@@ -203,7 +203,7 @@
     _addIcon.frame = CGRectMake(55, 70+_conHigh, _addIcon.bounds.size.width, _addIcon.bounds.size.height);
     _addressLabel.frame =CGRectMake(58+_addIcon.bounds.size.width,70+_conHigh, _addressLabel.bounds.size.width, _addressLabel.bounds.size.height);
     
-    _lineLabel.frame = CGRectMake(15, 75+_conHigh+18, kScreenWidth-30, 0.5);
+    _lineLabel.frame = CGRectMake(15, 75+_conHigh+19.5, kScreenWidth-30, 0.5);
     
     _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width+20, 30);
     
@@ -215,7 +215,7 @@
 {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    return (75+conHigh+20+14);
+    return (75+conHigh+20);
 }
 
 - (void)commentAction:(id)sender

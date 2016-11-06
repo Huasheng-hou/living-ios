@@ -16,16 +16,15 @@
 #import "LMMapViewCell.h"
 
 #import "LMActivityDetailRequest.h"
-#import "LMEventDetailEventBody.h"
-#import "LMEventDetailEventProjectsBody.h"
 
-#import "LMEventDetailLeavingMessages.h"
+#import "LMEventCommentVO.h"
+#import "LMEventBodyVO.h"
+#import "LMProjectBodyVO.h"
 
 #import "LMEventJoinRequest.h"
 #import "LMEventLivingMsgRequest.h"
 #import "LMEventpraiseRequest.h"
 #import "LMEventCommitReplyRequset.h"
-#import "LMEventReplys.h"
 #import "APChooseView.h"
 #import "UIImageView+WebCache.h"
 #import "LMActivityDeleteRequest.h"
@@ -53,7 +52,7 @@ UIAlertViewDelegate
     UIView *headerView;
     NSMutableArray *msgArray;
     NSMutableArray *eventArray;
-    LMEventDetailEventBody *eventDic;
+    LMEventBodyVO *eventDic;
     UIView *commentsView;
     UITextView *commentText;
     UIView *backView;
@@ -149,7 +148,7 @@ UIAlertViewDelegate
     countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
     
-    NSString *string = [NSString stringWithFormat:@"%.0f",eventDic.status];
+    NSString *string = [NSString stringWithFormat:@"%d",eventDic.status];
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
     if ([string isEqual:@"1"]) {
@@ -234,12 +233,11 @@ UIAlertViewDelegate
         longitude=bodyDic[@"event_body"][@"longitude"];
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
-        if (msgArray.count>0) {
-            [msgArray removeAllObjects];
-        }
+        msgArray = [NSMutableArray new];
+        
         for (int i =0; i<array.count; i++) {
             
-            LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:array[i]];
+            LMEventCommentVO *list = [LMEventCommentVO LMEventCommentVOWithDictionary:array[i]];
             [msgArray addObject:list];
             
         }
@@ -247,13 +245,13 @@ UIAlertViewDelegate
         NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
         [eventArray removeAllObjects];
         for (int i=0; i<eveArray.count; i++) {
-            LMEventDetailEventProjectsBody *Projectslist=[[LMEventDetailEventProjectsBody alloc]initWithDictionary:eveArray[i]];
+            LMProjectBodyVO *Projectslist=[[LMProjectBodyVO alloc]initWithDictionary:eveArray[i]];
             if (![eventArray containsObject:Projectslist]) {
                 [eventArray addObject:Projectslist];
             }
         }
         
-        eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:bodyDic[@"event_body"]];
+        eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
@@ -284,7 +282,7 @@ UIAlertViewDelegate
     }
     
     if (indexPath.section==2) {
-        LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+        LMProjectBodyVO *list = eventArray[indexPath.row];
         NSString *string = list.projectTitle;
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
         CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
@@ -306,11 +304,14 @@ UIAlertViewDelegate
     if (indexPath.section==3) {
         
         
-        if (msgArray.count>0) {
+        if (msgArray.count > indexPath.row) {
             
-            LMEventDetailLeavingMessages *list = [[LMEventDetailLeavingMessages alloc] initWithDictionary:msgArray[indexPath.row]];
-            return [LMLeavemessagecell cellHigth:list.commentContent];
+            LMEventCommentVO *list = msgArray[indexPath.row];
             
+            if (list && [list isKindOfClass:[LMEventCommentVO class]]) {
+                
+                return [LMLeavemessagecell cellHigth:list.commentContent];
+            }
         }
     }
     
@@ -526,7 +527,7 @@ UIAlertViewDelegate
         LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMEventDetailEventProjectsBody *list = eventArray[indexPath.row];
+        LMProjectBodyVO *list = eventArray[indexPath.row];
         
         if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
             
@@ -545,7 +546,7 @@ UIAlertViewDelegate
         static NSString *cellId = @"cellId";
         
         LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        LMEventDetailLeavingMessages *list = msgArray[indexPath.row];
+        LMEventCommentVO *list = msgArray[indexPath.row];
         
         [cell setValue:list];
         cell.delegate = self;
@@ -785,8 +786,6 @@ UIAlertViewDelegate
     if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
         
         
-        
-        
         infoView.titleLabel.text = [NSString stringWithFormat:@"￥:%@", eventDic.discount];
         [infoView.titleLabel sizeToFit];
         infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
@@ -804,9 +803,13 @@ UIAlertViewDelegate
         infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
         
     }
+    if (eventDic.notices==nil) {
+        infoView.dspLabel.text = @"暂无报名须知";
+    }else{
+        infoView.dspLabel.text = eventDic.notices;
+    }
     
-    
-    infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %.0f/%.0f人",eventDic.totalNumber,eventDic.totalNum];
+    infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
     
     [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
     
@@ -1118,11 +1121,10 @@ UIAlertViewDelegate
 #pragma mark --删除评论
 -(void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
-    NSLog(@"**********%ld",tap.view.tag);
     NSInteger index = tap.view.tag;
     
     
-    LMEventDetailLeavingMessages *list= msgArray[index];
+    LMEventCommentVO *list= msgArray[index];
     
     
     
