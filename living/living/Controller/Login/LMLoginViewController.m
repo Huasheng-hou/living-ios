@@ -17,7 +17,18 @@
 
 #define TOKEN @"dirty2016"
 
-@interface LMLoginViewController ()<UITextFieldDelegate>
+//微信授权
+#import "WXApiRequestHandler.h"
+#import "WXApiManager.h"
+#import "Constant.h"
+#import "LMWXLoginRequest.h"
+
+@interface LMLoginViewController ()
+<
+UITextFieldDelegate,
+WXApiManagerDelegate,
+WXApiDelegate
+>
 {
     UITextField     *_phoneTF;
     UITextField     *_codeTF;
@@ -113,7 +124,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -125,7 +136,10 @@
         return 90;
     }
     if (indexPath.row == 2) {
-        return 100;
+        return 60;
+    }
+    if (indexPath.row == 3) {
+        return 60;
     }
     
     return 0;
@@ -223,7 +237,7 @@
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
         [_loginBtn setBackgroundColor:LIVING_COLOR];
-        _loginBtn.frame  = CGRectMake(15, 40, kScreenWidth - 30, 45);
+        _loginBtn.frame  = CGRectMake(15, 15, kScreenWidth - 30, 45);
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;
         
@@ -232,6 +246,22 @@
         
         [cell.contentView addSubview:_loginBtn];
     }
+    
+    if (indexPath.row == 3) {
+        cell.backgroundColor = [UIColor clearColor];
+        _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
+        _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
+        [_loginBtn setBackgroundColor:LIVING_COLOR];
+        _loginBtn.frame  = CGRectMake(15, 15, kScreenWidth - 30, 45);
+        _loginBtn.layer.cornerRadius    = 5.0f;
+        _loginBtn.clipsToBounds         = YES;
+        
+        [_loginBtn setTitle:@"微信授权登陆" forState:UIControlStateNormal];
+        [_loginBtn addTarget:self action:@selector(wxinLoginAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell.contentView addSubview:_loginBtn];
+    }
+    
     return cell;
 }
 
@@ -435,7 +465,6 @@
     return password.md5;
 }
 
-
 #pragma mark 登记用户信息
 
 - (void)setUserInfo{
@@ -478,5 +507,114 @@
     
     [self.navigationController pushViewController:webVC animated:YES];
 }
+
+#pragma mark --微信授权登陆
+
+-(void)wxinLoginAction
+{
+    NSLog(@"**登陆**");
+    //构造SendAuthReq结构体
+    SendAuthReq* req =[[SendAuthReq alloc ] init ];
+    req.scope = @"snsapi_userinfo" ;//获取用户个人信息字段
+    req.state = @"wx" ;
+    [WXApi sendReq:req];
+}
+
+#pragma mark 微信授权后登录
+
+- (void)wxAgreeAction:(NSDictionary *)dic
+{
+    [self initStateHud];
+    
+    LMWXLoginRequest *request = [[LMWXLoginRequest alloc] initWithWechatResult:dic];
+    
+    HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             
+                                             [self performSelectorOnMainThread:@selector(wxAgreeActionResponse:)
+                                                                    withObject:resp
+                                                                 waitUntilDone:YES];
+                                         } failed:^(NSError *error) {
+                                             
+                                             [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                    withObject:@"授权登录失败"
+                                                                 waitUntilDone:YES];
+                                         }];
+    [proxy start];
+}
+
+#pragma mark - WXApiManagerDelegate
+
+- (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
+    
+    NSMutableDictionary *dict=[NSMutableDictionary dictionaryWithCapacity:0];
+    
+    if (response.code) {
+        [dict setObject:response.code forKey:@"code"];
+    }
+    
+    [dict setObject:@(response.errCode) forKey:@"errCode"];
+    
+    if (response.country) {
+        [dict setObject:response.country forKey:@"country"];
+    }else{
+        [dict setObject:@"中国" forKey:@"country"];
+    }
+    
+    if (response.lang) {
+        [dict setObject:response.lang forKey:@"lang"];
+    }else{
+        [dict setObject:@"zh-CN" forKey:@"lang"];
+    }
+    if (response.state) {
+        [dict setObject:response.state forKey:@"state"];
+    }
+    
+    if (response.code&&response.errCode==0) {
+        [self wxAgreeAction:dict];
+    }else{
+        [self textStateHUD:@"微信授权失败"];
+    }
+    NSLog(@"=微信授权登录=dict=======%@",dict);
+}
+
+#pragma mark 立即登录按钮的响应函数
+
+- (void)wxAgreeActionResponse:(NSString *)resp
+{
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    if (!bodyDict) {
+        [self textStateHUD:@"授权登录失败"];
+        return;
+    }
+    
+    NSLog(@"====微信授权===登录bodyDict=======%@",bodyDict);
+    
+    NSString *result    = [bodyDict objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0)
+    {
+        [self hideStateHud];
+        
+        _uuid = [bodyDict objectForKey:@"accountID"];
+        
+        [self setUserInfo];
+        
+//        if ([bodyDict[@"status"] isEqualToString:@"yes"]) {
+//            
+//            [self gotoHomepage];
+//            
+//        }else{
+//            
+//            CncpPhoneLoginController *phoneVC=[[CncpPhoneLoginController alloc]init];
+//            phoneVC.type=@"weixin";
+//            [self.navigationController pushViewController:phoneVC animated:YES];
+//        }
+    }
+    
+    [self textStateHUD:bodyDict[@"description"]];
+}
+
 
 @end

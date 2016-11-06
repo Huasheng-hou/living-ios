@@ -166,7 +166,7 @@
 
 -(void)setDic:(NSDictionary *)dic
 {
-    LMBalanceBill *dict = [[LMBalanceBill alloc] initWithDictionary:dic];
+    LMBalanceBillVO *dict = [[LMBalanceBillVO alloc] initWithDictionary:dic];
     _payOutLabel.text = dict.expenditure;
     _chargeLabel.text = dict.recharges;
     _payCount.text = dict.eventsBill;

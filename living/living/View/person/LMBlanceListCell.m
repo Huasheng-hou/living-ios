@@ -61,11 +61,19 @@
     
 }
 
--(void)setModel:(LMBalanceList *)list
+-(void)setModel:(LMBanlanceVO *)list
 {
     _titleLabel.text = list.name;
     _detailLable.text = list.title;
-    _timeLabel.text = list.datetime;
+    
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    if (list.datetime && [list.datetime isKindOfClass:[NSDate class]]) {
+        
+        _timeLabel.text = [formatter stringFromDate:list.datetime];
+    }
     if (list.amount==nil) {
         _balanceLabel.text = @"";
     }else{

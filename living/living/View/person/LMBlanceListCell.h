@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMBalanceList.h"
+#import "LMBanlanceVO.h"
 
 @interface LMBlanceListCell : UITableViewCell
 
--(void)setModel:(LMBalanceList *)list;
+-(void)setModel:(LMBanlanceVO *)list;
 
 @end

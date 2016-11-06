@@ -11,7 +11,6 @@
 #import "APChooseView.h"
 #import "LMOrderpayRequest.h"
 
-
 #import "LMOrderBodyVO.h"
 #import "LMOrderInfoVO.h"
 
@@ -45,24 +44,21 @@
 
 @implementation LMBesureOrderViewController
 
-
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setHidden:NO];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self createUI];
 }
 
--(void)createUI
+- (void)createUI
 {
     [super createUI];
     self.title = @"确认订单";
-    
     
     eventDic =[[LMEventDetailEventBody alloc] initWithDictionary:_dict];
     
@@ -85,11 +81,21 @@
      
                                                object:nil];
     
+    UIBarButtonItem     *leftItem   = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(dismissitemPressed)];
+
+    self.navigationItem.leftBarButtonItem   = leftItem;
 }
 
--(void)getOrderData
+- (void)dismissitemPressed
 {
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)getOrderData
+{
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -111,50 +117,49 @@
     [proxy start];
 }
 
-
--(void)getOrderDataResponse:(NSString *)resp
+- (void)getOrderDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+  
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"获取数据失败"];
-    }else{
+    } else {
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+         
             orderInfos = [[LMOrderInfoVO alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
             orderdata = [[LMOrderBodyVO alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
+            
             [self.tableView reloadData];
-        }else{
+        } else {
+            
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
-            
     }
-    
-    
-    
-
-    
-    
 }
 
-
-
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0) {
+    if (section == 0) {
+        
         return 1;
     }
-    if (section==1) {
+    if (section == 1) {
+        
         return 7;
     }
     return 0;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return 150;
@@ -683,24 +688,5 @@
         }
     }
 }
-
-
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

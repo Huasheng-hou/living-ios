@@ -49,7 +49,7 @@
     
 }
 
--(void)setData:(LMFriendList *)list
+-(void)setData:(LMFriendVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
     _nameLabel.text = list.nickname;

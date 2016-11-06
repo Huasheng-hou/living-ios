@@ -31,6 +31,7 @@
 #import "LMActivityDeleteRequest.h"
 
 #import "LMBesureOrderViewController.h"
+#import "FitNavigationController.h"
 
 #import "LMEventCommentRequest.h"
 #import "LMEventReplydeleteRequest.h"
@@ -71,7 +72,6 @@ UIAlertViewDelegate
 {
     [super viewWillAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    
     [self scrollViewDidScroll:self.tableView];
 }
 
@@ -872,21 +872,24 @@ UIAlertViewDelegate
         NSString *orderID = [bodyDic objectForKey:@"order_uuid"];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
             LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
-//            [OrderVC setHidesBottomBarWhenPushed:YES];
-            OrderVC.orderUUid = orderID;
-            OrderVC.dict = orderDic;
-            [self.navigationController pushViewController:OrderVC animated:YES];
+            
+            OrderVC.orderUUid   = orderID;
+            OrderVC.dict        = orderDic;
+            
+            self.navigationController.navigationBar.hidden  = NO;
+            
+            FitNavigationController     *navVC  = [[FitNavigationController alloc] initWithRootViewController:OrderVC];
+            [self presentViewController:navVC animated:YES completion:nil];
         });
 
+    } else {
         
-    }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
 }
-
-
 
 #pragma mark UITextFieldDelegate
 
@@ -913,8 +916,8 @@ UIAlertViewDelegate
 }
 
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
         
         self.navigationController.navigationBar.hidden=YES;
@@ -1180,11 +1183,9 @@ UIAlertViewDelegate
     }else{
         NSLog(@"**********222222*******");
     }
-    
 }
 
-
--(void)deleteCommentdata:(NSString *)uuid
+- (void)deleteCommentdata:(NSString *)uuid
 {
     LMEventCommentRequest *request = [[LMEventCommentRequest alloc] initWithCommentUUid:uuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request

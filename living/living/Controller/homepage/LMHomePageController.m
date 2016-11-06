@@ -384,13 +384,17 @@ LMhomePageCellDelegate
     return listArray.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
+  
     LMhomePageCell *cell = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    
     cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
+    
     [cell setValue:list];
     cell.tag = indexPath.row;
     cell.delegate = self;
@@ -398,21 +402,21 @@ LMhomePageCellDelegate
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+    
     detailVC.hidesBottomBarWhenPushed = YES;
     detailVC.artcleuuid = list.articleUuid;
-    [self.navigationController pushViewController:detailVC animated:YES];
     
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
-
 
 #pragma mark  --cell click delegat
 
--(void)cellWillClick:(LMhomePageCell *)cell
+- (void)cellWillClick:(LMhomePageCell *)cell
 {
     LMActicleVO *list = [listArray objectAtIndex:cell.tag];
     
@@ -421,9 +425,6 @@ LMhomePageCellDelegate
     writerVC.hidesBottomBarWhenPushed = YES;
     writerVC.writerUUid = list.userUuid;
     [self.navigationController pushViewController:writerVC animated:YES];
-    
-    
 }
-
 
 @end

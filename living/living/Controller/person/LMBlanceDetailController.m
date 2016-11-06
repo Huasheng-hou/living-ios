@@ -10,9 +10,9 @@
 #import "LMBlanceHeadCell.h"
 #import "LMBlanceListCell.h"
 #import "SQMenuShowView.h"
-#import "LMBalanceList.h"
+#import "LMBanlanceVO.h"
 #import "LMBalanceMonthRequest.h"
-#import "LMBalanceBill.h"
+#import "LMBalanceBillVO.h"
 
 @interface LMBlanceDetailController ()<LMBlanceHeadCellDelegate>
 @property (strong, nonatomic)  SQMenuShowView *showView;
@@ -117,8 +117,8 @@
         static NSString *cellID = @"cellID";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        LMBalanceList *list = [_listArray objectAtIndex:indexPath.row];
-//        [cell setModel:list];
+        LMBanlanceVO *list = [_listArray objectAtIndex:indexPath.row];
+        [cell setModel:list];
         
         return cell;
     }
@@ -194,7 +194,7 @@
 //            NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
             NSMutableArray *array=bodyDic[@"list"];
             for (int i=0; i<array.count; i++) {
-                LMBalanceList *list=[[LMBalanceList alloc]initWithDictionary:array[i]];
+                LMBanlanceVO *list=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
                 if (![_listArray containsObject:list]) {
                     [_listArray addObject:list];
                 }

@@ -12,7 +12,7 @@
 #import "LMBalanceListRequest.h"
 #import "LMBlanceDetailController.h"
 #import "LMBlanceListCell.h"
-#import "LMBalanceList.h"
+#import "LMBanlanceVO.h"
 
 
 @interface LMBalanceViewController ()
@@ -187,8 +187,8 @@ UITableViewDataSource>
         static NSString *cellID = @"cellId";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        LMBalanceList *list = [listArray objectAtIndex:indexPath.row];
-//        [cell setModel:list];
+        LMBanlanceVO *list = [listArray objectAtIndex:indexPath.row];
+        [cell setModel:list];
         return cell;
         
     }
@@ -304,7 +304,7 @@ UITableViewDataSource>
 
 
             for (int i=0; i<array.count; i++) {
-                LMBalanceList *list=[[LMBalanceList alloc]initWithDictionary:array[i]];
+                LMBanlanceVO *list=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
                 NSString *month = [array[i] objectForKey:@"month"];
                 [monthArray addObject:month];
                 if (![listArray containsObject:list]) {
