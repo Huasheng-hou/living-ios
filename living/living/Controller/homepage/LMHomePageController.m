@@ -167,7 +167,7 @@ LMhomePageCellDelegate
                                                                                                            delegate:self
                                                                                                           imageURLs:imgUrls
                                                                                                    placeholderImage:nil
-                                                                                                       timeInterval:5
+                                                                                                       timeInterval:8
                                                                                      currentPageIndicatorITintColor:nil
                                                                                              pageIndicatorTintColor:nil];
                                                            

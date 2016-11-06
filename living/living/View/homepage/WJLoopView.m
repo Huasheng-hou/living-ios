@@ -108,7 +108,7 @@
     }
 }
 - (void)addTimer {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -125,12 +125,12 @@
     if (currentPage == self.imageURLs.count - 1) {
         [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
         currentPage=0;
-        [UIView animateWithDuration:0.8 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             [weakSelf.scrollView setContentOffset:CGPointMake(scrollW, 0) animated:NO];
         }];
     }else{
         currentPage++;
-        [UIView animateWithDuration:0.8 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             [weakSelf.scrollView setContentOffset:CGPointMake(scrollW * (currentPage + 1), 0) animated:NO];
         }];
     }
