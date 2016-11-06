@@ -62,7 +62,7 @@ UNUserNotificationCenterDelegate
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    FitTabbarController  *rootVC     = [[FitTabbarController alloc]init];
+    FitTabbarController  *rootVC     = [[FitTabbarController alloc] init];
     
     [self.window setRootViewController:rootVC];
     [self.window makeKeyAndVisible];

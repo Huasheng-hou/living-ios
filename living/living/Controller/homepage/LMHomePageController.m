@@ -291,18 +291,14 @@ LMhomePageCellDelegate
     
 }
 
--(void)getHomeDataResponse:(NSString *)resp
+- (void)getHomeDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
     
-    
-    NSLog(@"============首页数据请求结果===========%@",bodyDic);
-    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-
-        
+    
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
             self.navigationItem.rightBarButtonItem = rightItem;

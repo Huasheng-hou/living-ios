@@ -23,11 +23,13 @@
     
     return nil;
 }
+
 + (LMAuthorVO *)LMAuthorVOWithDictionary:(NSDictionary *)dictionary
 {
     LMAuthorVO *instance = [[LMAuthorVO alloc] initWithDictionary:dictionary];
     return JSONAutoRelease(instance);
 }
+
 + (NSArray *)LMAuthorVOListWithArray:(NSArray *)array
 {
     if (!array || ![array isKindOfClass:[NSArray class]]) {
@@ -71,13 +73,11 @@
             && [[dictionary objectForKey:@"cover"] isKindOfClass:[NSString class]]) {
             self.cover = [dictionary objectForKey:@"cover"];
         }
-
         
         if (nil != [dictionary objectForKey:@"nickname"] && ![[dictionary objectForKey:@"nickname"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"nickname"] isKindOfClass:[NSString class]]) {
             self.nickname = [dictionary objectForKey:@"nickname"];
         }
-        
         
         if (nil != [dictionary objectForKey:@"author_uuid"] && ![[dictionary objectForKey:@"author_uuid"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"author_uuid"] isKindOfClass:[NSString class]]) {
@@ -88,15 +88,9 @@
             && [[dictionary objectForKey:@"publish_time"] isKindOfClass:[NSString class]]) {
             self.publishTime = [dictionary objectForKey:@"publish_time"];
         }
-        
-        
     }
     
     return self;
-    
 }
-
-
-
 
 @end

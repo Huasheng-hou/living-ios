@@ -58,12 +58,8 @@
     [LMLoginViewController presentInViewController:self Animated:NO];
 }
 
-
-
 - (void)createUI
 {
- 
-   
     [self.tabBar setTintColor:LIVING_COLOR];
     [[UITabBarItem appearance]setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10]}
                                             forState:UIControlStateNormal];

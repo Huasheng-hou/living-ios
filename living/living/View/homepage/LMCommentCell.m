@@ -167,10 +167,7 @@
             _conHigh = [data.commentContent boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
         
-    }
-
-
-    
+    }   
 }
 
 
@@ -214,8 +211,13 @@
 
 + (CGFloat)cellHigth:(NSString *)titleString
 {
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
-    CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    NSDictionary *attributes    = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    
+    CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000)
+                                                options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                             attributes:attributes
+                                                context:nil].size.height;
+ 
     return (75+conHigh+20+12+0.5);
 }
 

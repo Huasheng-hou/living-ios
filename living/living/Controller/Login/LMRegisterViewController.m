@@ -17,8 +17,8 @@
 #import "FitTabbarController.h"
 #import "ImageHelpTool.h"
 
-
 #define TOKEN @"dirty2016"
+
 @interface LMRegisterViewController ()
 <
 UITextFieldDelegate,
@@ -532,30 +532,15 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark UITextFieldDelegate
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [nickTF resignFirstResponder];
     return YES;
 }
--(void)textFieldDidBeginEditing:(UITextField *)textField
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

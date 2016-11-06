@@ -10,11 +10,8 @@
 #import "LMHomeDetailRequest.h"
 #import "LMArtclePariseRequest.h"
 #import "LMCommentPraiseRequest.h"
-//#import "LMArticleBody.h"
 #import "LMArticleBodyVO.h"
 #import "LMActicleCommentVO.h"
-
-
 
 #import "LMCommentCell.h"
 #import "UIImageView+WebCache.h"
@@ -26,8 +23,6 @@
 #import "HBShareView.h"
 #import "WXApi.h"
 #import "FitThumbImageHelper.h"
-//qq
-//#import <TencentOpenAPI/TencentOAuth.h>
 
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "LMArticeDeleteRequest.h"
@@ -82,45 +77,36 @@ shareTypeDelegate
     
     
 }
-//@property(nonatomic,strong)TencentOAuth *tencentOAuth;
 
 @end
 
 @implementation LMHomeDetailController
 
-
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.title = @"文章详情";
     [self creatUI];
     listArray = [NSMutableArray new];
     [self getHomeDetailDataRequest];
     [self registerForKeyboardNotifications];
-    
-    
 }
 
--(void)creatUI
+- (void)creatUI
 {
-    
-    
     self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-45) style:UITableViewStyleGrouped];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     [self.view addSubview:self.tableView];
     
-//    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self creatFootView];
     hightArray = [NSMutableArray new];
     imageArray = [NSMutableArray new];
     
     typeIndex = 2;
-
 }
 
--(void)creatFootView
+- (void)creatFootView
 {
     toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
     toolBar. barStyle = UIBarButtonItemStylePlain ;
@@ -167,22 +153,12 @@ shareTypeDelegate
     [homeImage addSubview:imageLb];
     
     self.tableView.tableFooterView = homeImage;
-
-    
-    
-    
 }
-
 
 #pragma mark --文章点赞
 
--(void)zanButtonAction:(id)senser
+- (void)zanButtonAction:(id)senser
 {
-    
-    NSLog(@"********点赞");
-    
-    
-    
     LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -197,16 +173,14 @@ shareTypeDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
-
 }
 
-
-
--(void)getarticlePraiseDataResponse:(NSString *)resp
+- (void)getarticlePraiseDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     [self logoutAction:resp];
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
     {
         [self textStateHUD:@"点赞成功"];
@@ -220,16 +194,12 @@ shareTypeDelegate
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-        
 }
 
-
-
 #pragma mark  --请求详情数据
--(void)getHomeDetailDataRequest
+- (void)getHomeDetailDataRequest
 {
     [self initStateHud];
-    
     
     LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -243,14 +213,11 @@ shareTypeDelegate
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"获取详情失败"
                                                                    waitUntilDone:YES];
-                                    
-                                               
                                            }];
     [proxy start];
-    
 }
 
--(void)getHomeDeatilDataResponse:(NSString *)resp
+- (void)getHomeDeatilDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -267,11 +234,14 @@ shareTypeDelegate
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
         
         if ([articleData.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivityRequest:)];
+         
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除"
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(deleteActivityRequest:)];
+            
             self.navigationItem.rightBarButtonItem = rightItem;
         }
-        
-        
         
         fakeId = [NSString stringWithFormat:@"%d",articleData.fakaid];
         
@@ -280,32 +250,30 @@ shareTypeDelegate
             homeImage.frame = CGRectMake(0, 0, 0, 0);
             [homeImage removeFromSuperview];
         }
+        
         for (int i =0; i<array.count; i++) {
 
             LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:array[i]];
             [listArray addObject:list];
-
-
         }
+        
         [self.tableView reloadData];
-    }else{
+    } else {
+     
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
-    
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
+        
         if (listArray.count>0) {
 
-
-        LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:listArray[indexPath.row]];
-        return [LMCommentCell cellHigth:list.commentContent];
-
-
+            LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:listArray[indexPath.row]];
+            
+            return [LMCommentCell cellHigth:list.commentContent];
         }
     }
     
@@ -877,13 +845,13 @@ shareTypeDelegate
             break;
         case 3://qq好友
         {
-//          //默认占位图  http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg
-            
-            
             NSString *imageUrl;
+            
             if (imageArray.count==0) {
+            
                 imageUrl=@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg";
-            }else{
+            } else {
+                
                 imageUrl=imageArray[0];
             }
             
@@ -914,37 +882,14 @@ shareTypeDelegate
     }
 }
 
-// 发送图片文字链接
-//- (void)showMediaNewsWithScene:(int)scene {
-////    if (![TencentOAuth iphoneQQInstalled]) {
-////        NSLog(@"请移步App Store去下载腾讯QQ客户端");
-////    }else {
-//    NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
-//    
-//        QQApiNewsObject *newsObj = [QQApiNewsObject
-//                                    objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]]
-//                                    title:articleData.articleTitle
-//                                    description:articleData.describe
-//                                    previewImageURL:nil];
-//        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
-//        if (scene == 0) {
-//            NSLog(@"QQ好友列表分享 - %d",[QQApiInterface sendReq:req]);
-//        }else if (scene == 1){
-//            NSLog(@"QQ空间分享 - %d",[QQApiInterface SendReqToQZone:req]);
-//        }
-////    }
-//}
-
-
 #pragma mark  --点击图片放大
--(void)tapimageAction:(UITapGestureRecognizer *)tap
+- (void)tapimageAction:(UITapGestureRecognizer *)tap
 {
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+
     photoBrowser.initialPageIndex = tap.view.tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
-
-
 
 #pragma mark - LMCommentCell delegate -评论点赞
 - (void)cellWillComment:(LMCommentCell *)cell
@@ -1053,9 +998,8 @@ shareTypeDelegate
     [commentText becomeFirstResponder];//让textView成为第一响应者（第一次）这次键盘并未显示出来
 }
 
--(void)sendComment
+- (void)sendComment
 {
-    NSLog(@"************");
     if ([commentText.text isEqualToString:@""]) {
         [self textStateHUD:@"回复内容不能为空"];
         return;
@@ -1089,25 +1033,24 @@ shareTypeDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"回复失败"];
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+
         [self textStateHUD:@"回复成功"];
-//        textIndex = 1;
+
         [self getHomeDetailDataRequest];
         [self.tableView reloadData];
         
-    }else{
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
 }
-
-
-
-
 
 #pragma mark 键盘部分
 
@@ -1115,8 +1058,15 @@ shareTypeDelegate
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter]  addObserver:self
+                                              selector:@selector(keyboardWasHidden:)
+                                                  name:UIKeyboardWillHideNotification
+                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardChangeFrame:)
+                                                 name:UIKeyboardWillChangeFrameNotification
+                                               object:nil];
 }
 
 - (void)keyboardChangeFrame:(NSNotification *)notifi{
@@ -1131,10 +1081,7 @@ shareTypeDelegate
             
         }];
     }
-    
-
 }
-
 
 - (void) keyboardWasShown:(NSNotification *) notif
 {
@@ -1153,8 +1100,6 @@ shareTypeDelegate
             }];
         }
     }
-    
-   
 }
 
 - (void) keyboardWasHidden:(NSNotification *) notif
@@ -1198,12 +1143,10 @@ shareTypeDelegate
             [textView setContentOffset:CGPointZero animated:YES];
         }
     }
-    
-
 }
 
-
-- (void)changeFrame:(CGFloat)height{
+- (void)changeFrame:(CGFloat)height
+{
     CGRect originalFrame = toolBar.frame;
     originalFrame.size.height = 30 + height ;
     originalFrame.origin.y = bgViewY - height + 30;
@@ -1469,9 +1412,7 @@ shareTypeDelegate
     }
 }
 
-
-
--(void)deleteArticleReply:(NSString *)uuid
+- (void)deleteArticleReply:(NSString *)uuid
 {
     
     LMArticeDeleteReplyRequst *request = [[LMArticeDeleteReplyRequst alloc] initWithArticle_uuid:uuid];
@@ -1488,28 +1429,29 @@ shareTypeDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
 }
--(void)getdeleteArticlereplyResponse:(NSString *)resp
+
+- (void)getdeleteArticlereplyResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
+  
     if (!bodyDic) {
+    
         [self textStateHUD:@"删除失败请重试"];
-    }else{
+    } else {
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"删除成功"];
             
+            [self textStateHUD:@"删除成功"];
             [self getHomeDetailDataRequest];
-        }else{
+        } else {
+            
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
     }
 }
-
-
-
 
 - (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
 {
@@ -1525,23 +1467,5 @@ shareTypeDelegate
     
     [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
 }
-
-- (void)resignCurrentFirstResponder
-{
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    [keyWindow endEditing:YES];
-}
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -23,11 +23,13 @@
     
     return nil;
 }
+
 + (LMArticleBodyVO *)LMArticleBodyVOWithDictionary:(NSDictionary *)dictionary
 {
     LMArticleBodyVO *instance = [[LMArticleBodyVO alloc] initWithDictionary:dictionary];
     return JSONAutoRelease(instance);
 }
+
 + (NSArray *)LMArticleBodyVOListWithArray:(NSArray *)array
 {
     if (!array || ![array isKindOfClass:[NSArray class]]) {
@@ -114,9 +116,6 @@
         if (dictionary[@"article_imgs"] && [dictionary[@"article_imgs"] isKindOfClass:[NSArray class]]) {
             self.articleImgs = dictionary[@"article_imgs"];
         }
-        
-        
-        
     }
     return self;
 }
