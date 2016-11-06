@@ -247,7 +247,7 @@
         perCost.textColor = TEXT_COLOR_LEVEL_3;
         
         NSString *string = [NSString stringWithFormat:@"￥%@",orderdata.price];
-        NSString *string2 = [NSString stringWithFormat:@"%d/人",orderdata.number];
+        NSString *string2 = [NSString stringWithFormat:@"/人"];
         
         
         perCost.text = [NSString stringWithFormat:@"%@%@",string,string2];
@@ -340,7 +340,16 @@
                 if (orderInfos.startTime==nil) {
                     cell.detailTextLabel.text = @"";
                 }else{
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\n至\n%@",orderInfos.startTime,orderInfos.endTime];
+                    
+                    NSDateFormatter     *longFormater   = [[NSDateFormatter alloc] init];
+                    NSDateFormatter     *shortFormatter = [[NSDateFormatter alloc] init];
+                    
+                    [longFormater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    [shortFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+                    
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\n至\n%@",
+                                                 [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.startTime]],
+                                                 [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.endTime]]];
                 }
 
                 break;
@@ -351,20 +360,6 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"活动地点：%@",orderInfos.eventAddress];
                 cell.textLabel.numberOfLines=0;
                 break;
-//            case 7:
-//            {
-//                UILabel *label = [UILabel new];
-//                label.text = @"再来一单";
-//                [label sizeToFit];
-//                label.frame = CGRectMake(0, 0, kScreenWidth, 45);
-//                label.font = TEXT_FONT_LEVEL_2;
-//                label.textAlignment = NSTextAlignmentCenter;
-//                                  
-//                label.textColor = LIVING_REDCOLOR;
-//                [cell.contentView addSubview:label];
-//            }
-//                
-//                break;
                 
             default:
                 break;
@@ -372,13 +367,10 @@
         return cell;
     }
     
-    
-    
     return nil;
-    
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
         if (indexPath.row==7) {

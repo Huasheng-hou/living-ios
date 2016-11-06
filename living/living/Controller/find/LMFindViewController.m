@@ -84,7 +84,7 @@ WJLoopViewDelegate
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     
-    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:imageURLs placeholderImage:nil timeInterval:3 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
+    WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:imageURLs placeholderImage:nil timeInterval:5 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
     loopView.location = WJPageControlAlignmentRight;
     [headView addSubview:loopView];
     return headView;
