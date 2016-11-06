@@ -105,8 +105,15 @@
             self.gender = [dictionary objectForKey:@"gender"];
         }
 
-
-       
+        if (nil != [dictionary objectForKey:@"order_number"] && ![[dictionary objectForKey:@"order_number"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"order_number"] isKindOfClass:[NSNumber class]]) {
+            self.orderNumber =[(NSNumber *) [dictionary objectForKey:@"order_number"] intValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"living_nums"] && ![[dictionary objectForKey:@"living_nums"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"living_nums"] isKindOfClass:[NSNumber class]]) {
+            self.livingNumber =[(NSNumber *) [dictionary objectForKey:@"living_nums"] intValue];
+        }
     }
     
     return self;
