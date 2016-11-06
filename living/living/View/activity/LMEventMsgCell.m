@@ -73,14 +73,11 @@
     _contentLabel.numberOfLines=0;
 
     [self.contentView addSubview:_contentLabel];
-    
-    
-    
 }
 
--(void)setValue:(LMEventDetailEventProjectsBody *)data
+-(void)setValue:(LMProjectBodyVO *)list
 {
-    LMEventDetailEventProjectsBody *list = data;
+
     _dspLabel.text = list.projectTitle;
     _contentLabel.text = list.projectDsp;
     

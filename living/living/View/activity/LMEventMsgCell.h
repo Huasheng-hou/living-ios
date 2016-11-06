@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMEventDetailEventProjectsBody.h"
+#import "LMProjectBodyVO.h"
 
 @interface LMEventMsgCell : UITableViewCell
 
@@ -21,7 +21,7 @@
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
--(void)setValue:(LMEventDetailEventProjectsBody *)data;
+-(void)setValue:(LMProjectBodyVO *)data;
 
 //+ (CGFloat)cellHigth:(NSString *)titleString;
 

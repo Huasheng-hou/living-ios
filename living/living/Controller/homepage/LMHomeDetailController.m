@@ -450,7 +450,10 @@ shareTypeDelegate
             [headImage setClipsToBounds:YES];
             headImage.contentMode = UIViewContentModeScaleToFill;
             [cell.contentView addSubview:headImage];
+            headImage.userInteractionEnabled = YES;
             
+            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+            [headImage addGestureRecognizer:tapImage];
             
             
             UILabel *nameLabel = [UILabel new];
