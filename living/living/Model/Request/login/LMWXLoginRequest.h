@@ -10,6 +10,6 @@
 
 @interface LMWXLoginRequest : FitBaseRequest
 
-- (id)initWithWechatResult:(NSDictionary *)dic ;
+- (id)initWithWechatResult:(NSDictionary *)dic  andPassword:(NSString *)password;
 
 @end

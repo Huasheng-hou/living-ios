@@ -12,7 +12,7 @@
 #import "LMBalanceListRequest.h"
 #import "LMBlanceDetailController.h"
 #import "LMBlanceListCell.h"
-#import "LMBanlanceVO.h"
+#import "LMBalanceVO.h"
 
 
 @interface LMBalanceViewController ()
@@ -23,6 +23,7 @@ UITableViewDataSource>
     NSString *balanceStr;
     NSMutableArray *listArray;
     NSMutableArray *monthArray;
+    NSMutableArray *voArray;
 }
 
 @end
@@ -37,6 +38,8 @@ UITableViewDataSource>
     [self creatUI];
     listArray = [NSMutableArray new];
     monthArray = [NSMutableArray new];
+    
+    voArray = [NSMutableArray new];
 
     
     //请求获取余额
@@ -99,9 +102,9 @@ UITableViewDataSource>
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
     
          UILabel *headLb = [UILabel new];
-        for (int i = 0; i<monthArray.count; i++) {
+        for (int i = 0; i<voArray.count; i++) {
             if (section==i) {
-                headLb.text =@"本月";
+                headLb.text =monthArray[i];
             }
         }
 
@@ -138,6 +141,7 @@ UITableViewDataSource>
 -(void)sectionclickAction:(UITapGestureRecognizer *)tap
 {
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
+
     DetailVC.monthArr = monthArray;
     [self.navigationController pushViewController:DetailVC animated:YES];
 }
@@ -146,7 +150,7 @@ UITableViewDataSource>
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return monthArray.count+1;
+    return voArray.count+1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -187,6 +191,13 @@ UITableViewDataSource>
         static NSString *cellID = @"cellId";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        LMBalanceVO *vo = voArray[indexPath.section-1];
+        for (LMBanlanceVO *balanVO in vo.Banlance) {
+//            LMBanlanceVO *balanVO = [LMBanlanceVO LMBanlanceVOWithDictionary:dic];
+            [listArray addObject:balanVO];
+        }
+        
         LMBanlanceVO *list = [listArray objectAtIndex:indexPath.row];
         [cell setModel:list];
         return cell;
@@ -301,19 +312,20 @@ UITableViewDataSource>
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         NSMutableArray *array=bodyDic[@"list"];
-
-
-            for (int i=0; i<array.count; i++) {
-                LMBanlanceVO *list=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
-                NSString *month = [array[i] objectForKey:@"month"];
-                [monthArray addObject:month];
-                if (![listArray containsObject:list]) {
-                    [listArray addObject:list];
-                }
-                
-                
+        
+            
+            for (NSDictionary *dic in array) {
+                LMBalanceVO *vo = [LMBalanceVO LMBalanceVOWithDictionary:dic];
+                [voArray addObject:vo];
                 
             }
+            
+            for (LMBalanceVO *vo in voArray) {
+                NSString *month = vo.month;
+                [monthArray addObject:month];
+            }
+            
+            
             
             
         }

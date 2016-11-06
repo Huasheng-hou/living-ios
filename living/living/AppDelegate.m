@@ -38,6 +38,8 @@ TencentSessionDelegate,
 QQApiInterfaceDelegate,
 TencentLoginDelegate,
 TencentSessionDelegate,
+WXApiManagerDelegate,
+WXApiDelegate,
 UNUserNotificationCenterDelegate
 >
 
@@ -95,6 +97,8 @@ UNUserNotificationCenterDelegate
     
     return YES;
 }
+
+
 
 #pragma mark - APNS Process
 
@@ -297,9 +301,9 @@ UNUserNotificationCenterDelegate
     }else{
         return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
     }
+    
     return YES;
 }
-
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
