@@ -15,16 +15,18 @@
     self = [super init];
     
     if (self) {
-        NSMutableDictionary *bodyDict = [NSMutableDictionary new];
         
-        if (dic) {
-            [bodyDict setObject:dic forKey:@"wechatResult"];
+        NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
+        
+        if (dic && [dic isKindOfClass:[NSDictionary class]]) {
+            
+            bodyDict    = [NSMutableDictionary dictionaryWithDictionary:dic];
         }
         
-        if (password) {
+        if (password && [password isKindOfClass:[NSString class]]) {
+            
             [bodyDict setObject:password forKey:@"password"];
         }
-        
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
@@ -32,14 +34,14 @@
     return self;
 }
 
-- (BOOL)isPost {
-    
+- (BOOL)isPost
+{
     return YES;
 }
 
 - (NSString *)methodPath {
     
-    return @"wechat/login";
+    return @"wx/login";
 }
 
 @end

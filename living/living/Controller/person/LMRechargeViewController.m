@@ -24,8 +24,6 @@
 //微信支付
 #import "WXApiObject.h"
 #import "WXApi.h"
-#import "WXApiRequestHandler.h"
-#import "WXApiManager.h"
 
 #import "LMWXRechargrRequest.h"
 #import "LMWXRechargeResultRequest.h"
@@ -375,7 +373,7 @@ liveNameProtocol
 
 -(void)senderWeiXinPay:(NSDictionary *)dic
 {
-    [WXApiRequestHandler jumpToBizPay:dic];
+//    [WXApiRequestHandler jumpToBizPay:dic];
 }
 
 #pragma mark 微信支付结果确认
