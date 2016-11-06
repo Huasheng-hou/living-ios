@@ -47,6 +47,7 @@
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
     _imageV.clipsToBounds = YES;
     [self.contentView addSubview:_imageV];
+    _imageV.userInteractionEnabled = YES;
     
     UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
     [_imageV addGestureRecognizer:tapImage];

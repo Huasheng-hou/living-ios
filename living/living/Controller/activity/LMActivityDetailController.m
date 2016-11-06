@@ -36,6 +36,8 @@
 #import "LMEventReplydeleteRequest.h"
 #import "ImageHelpTool.h"
 
+#import "SYPhotoBrowser.h"
+
 @interface LMActivityDetailController ()
 <
 UITableViewDelegate,
@@ -44,6 +46,7 @@ UITextViewDelegate,
 UITextViewDelegate,
 LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate,
+LMEventMsgCellDelegate,
 UIAlertViewDelegate
 >
 {
@@ -62,6 +65,8 @@ UIAlertViewDelegate
     
     NSString *latitude;
     NSString *longitude;
+    
+    NSMutableArray *imageArray;
 }
 
 @end
@@ -91,6 +96,7 @@ UIAlertViewDelegate
     
     msgArray = [NSMutableArray new];
     eventArray = [NSMutableArray new];
+    imageArray = [NSMutableArray new];
     
     //加入订单
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -250,6 +256,8 @@ UIAlertViewDelegate
             if (![eventArray containsObject:Projectslist]) {
                 [eventArray addObject:Projectslist];
             }
+            
+            [imageArray addObject: Projectslist.projectImgs];
         }
         
         eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
@@ -534,6 +542,9 @@ UIAlertViewDelegate
             
             cell.index = 1;
         }
+        cell.tag = indexPath.row;
+        
+        cell.delegate = self;
         
         [cell setValue:list];
         
@@ -1006,17 +1017,6 @@ UIAlertViewDelegate
     }
 }
 
-//-(BOOL)textViewShouldEndEditing:(UITextView *)textView
-//{
-//    if ([textView isEqual:commentText]) {
-//        [self commitDataRequest];
-//    }
-//
-//
-//    [self resignCurrentFirstResponder];
-//    return YES;
-//}
-
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
@@ -1265,6 +1265,16 @@ UIAlertViewDelegate
 {
     [ImageHelpTool showImage:cell.imageV];
     
+}
+
+#pragma mark --项目大图
+
+-(void)cellProjectImage:(LMEventMsgCell *)cell
+{
+    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+    
+    photoBrowser.initialPageIndex = cell.tag;
+    [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 
 
