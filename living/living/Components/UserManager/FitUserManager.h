@@ -40,7 +40,11 @@
 @property   (retain, nonatomic)     NSString        *franchisee;
 @property   (retain, nonatomic)     NSString        *vipString;
 
+// * 微信登录
+//
 
+@property   (retain, nonatomic)     NSString        *openId;
+@property   (retain, nonatomic)     NSString        *unionId;
 
 - (BOOL)isLogin;
 - (BOOL)logout;

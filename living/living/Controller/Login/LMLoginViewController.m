@@ -14,19 +14,19 @@
 #import "LMloginRequest.h"
 
 #import "LMRegisterViewController.h"
+#import "WXApi.h"
+#import "WXApiObject.h"
 
 #define TOKEN @"dirty2016"
 
 //微信授权
-#import "WXApiRequestHandler.h"
-#import "WXApiManager.h"
-#import "Constant.h"
+
 #import "LMWXLoginRequest.h"
+#import "WechatInfoVO.h"
 
 @interface LMLoginViewController ()
 <
 UITextFieldDelegate,
-WXApiManagerDelegate,
 WXApiDelegate
 >
 {
@@ -52,7 +52,6 @@ WXApiDelegate
 
 @implementation LMLoginViewController
 
-
 + (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated
 {
     if (!viewController) {
@@ -71,7 +70,13 @@ WXApiDelegate
 {
     self = [super init];
     if (self) {
+        
         self.title  = @"登录";
+    
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didFinishedWechatLogin:)
+                                                     name:LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION
+                                                   object:nil];
     }
     return self;
 }
@@ -80,15 +85,13 @@ WXApiDelegate
 {
     [super viewDidLoad];
     [self createUI];
+    
     _number=60;
-    
-    
 }
 
 - (void)createUI
 {
     [super createUI];
-    [WXApiManager sharedManager].delegate = self;
     
     self.tableView.keyboardDismissMode  = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.separatorInset       = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
@@ -426,7 +429,7 @@ WXApiDelegate
     {
         
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
-        
+        _password   = [bodyDict objectForKey:@"password"];
         
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
          privileges = [bodyDict objectForKey:@"privileges"];
@@ -523,105 +526,79 @@ WXApiDelegate
     [WXApi sendReq:req];
 }
 
-#pragma mark 微信授权后登录
-
-- (void)wxAgreeAction:(NSDictionary *)dic code:(NSString *)code
+// * 微信登录通知响应
+//
+- (void)didFinishedWechatLogin:(NSNotification *)notification
 {
-    [self initStateHud];
+    NSString    *code   = [[notification userInfo] objectForKey:@"code"];
     
-    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-DD hh:ii:ss"];
-    NSString    *password   = [NSString stringWithFormat:@"%@%@%@", [formatter stringFromDate:[NSDate date]], code, TOKEN];
-    
-    LMWXLoginRequest *request = [[LMWXLoginRequest alloc] initWithWechatResult:dic andPassword:password];
-    
-    HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
-                                         completed:^(NSString *resp, NSStringEncoding encoding) {
-                                             
-                                             [self performSelectorOnMainThread:@selector(wxAgreeActionResponse:)
-                                                                    withObject:resp
-                                                                 waitUntilDone:YES];
-                                         } failed:^(NSError *error) {
-                                             
-                                             [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                    withObject:@"授权登录失败"
-                                                                 waitUntilDone:YES];
-                                         }];
-    [proxy start];
+    if (code && [code isKindOfClass:[NSString class]]) {
+        
+        NSURL   *tokenUrl   = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", wxAppID, wxAppSecret, code]];
+        
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:tokenUrl]
+                                           queue:[NSOperationQueue currentQueue]
+                               completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+            
+                                   NSDictionary *responseObj    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                                   
+                                   if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
+                                       
+                                       return;
+                                   }
+                                   
+                                   NSString     *accessToken    = [responseObj objectForKey:@"access_token"];
+                                   NSString     *openId         = [responseObj objectForKey:@"openid"];
+                                   NSString     *unionId        = [responseObj objectForKey:@"unionid"];
+                                   
+                                   if (accessToken && ![accessToken isEqual:[NSNull null]] && [accessToken isKindOfClass:[NSString class]]) {
+                                       
+                                       [self wechatLogin:accessToken OpenId:openId UnionId:unionId];
+                                   }
+                               }];
+    }
 }
 
-#pragma mark - WXApiManagerDelegate
-
-- (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
-    
-    NSMutableDictionary *dict=[NSMutableDictionary dictionaryWithCapacity:0];
-    
-    if (response.code) {
-        [dict setObject:response.code forKey:@"code"];
-    }
-    
-    [dict setObject:@(response.errCode) forKey:@"errCode"];
-    
-    if (response.country) {
-        [dict setObject:response.country forKey:@"country"];
-    }else{
-        [dict setObject:@"中国" forKey:@"country"];
-    }
-    
-    if (response.lang) {
-        [dict setObject:response.lang forKey:@"lang"];
-    }else{
-        [dict setObject:@"zh-CN" forKey:@"lang"];
-    }
-    if (response.state) {
-        [dict setObject:response.state forKey:@"state"];
-    }
-    
-    if (response.code&&response.errCode==0) {
-        [self wxAgreeAction:dict code:response.code];
-    }else{
-        [self textStateHUD:@"微信授权失败"];
-    }
-    NSLog(@"=微信授权登录=dict=======%@",dict);
-}
-
-#pragma mark 立即登录按钮的响应函数
-
-- (void)wxAgreeActionResponse:(NSString *)resp
+- (void)wechatLogin:(NSString *)accessToken OpenId:(NSString *)openId UnionId:(NSString *)unionId
 {
-    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    NSURL   *infoUrl    = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@", accessToken, openId]];
     
-    if (!bodyDict) {
-        [self textStateHUD:@"授权登录失败"];
-        return;
-    }
-    
-    NSLog(@"====微信授权===登录bodyDict=======%@",bodyDict);
-    
-    NSString *result    = [bodyDict objectForKey:@"result"];
-    
-    if (result && [result intValue] == 0)
-    {
-        [self hideStateHud];
-        
-        _uuid = [bodyDict objectForKey:@"accountID"];
-        
-        [self setUserInfo];
-        
-//        if ([bodyDict[@"status"] isEqualToString:@"yes"]) {
-//            
-//            [self gotoHomepage];
-//            
-//        }else{
-//            
-//            CncpPhoneLoginController *phoneVC=[[CncpPhoneLoginController alloc]init];
-//            phoneVC.type=@"weixin";
-//            [self.navigationController pushViewController:phoneVC animated:YES];
-//        }
-    }
-    
-    [self textStateHUD:bodyDict[@"description"]];
-}
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:infoUrl]
+                                       queue:[NSOperationQueue currentQueue]
+                           completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+                               
+                               NSDictionary *responseObj    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                               
+                               if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
+                                   
+                                   return;
+                               }
 
+                               WechatInfoVO     *vo = [WechatInfoVO WechatInfoVOWithDictionary:responseObj];
+                               
+//                               NSLog(@"wechatInfo:%@", [vo description]);
+                               if (vo.OpenId) {
+                                   
+                                   NSString *password   = [self generatePassword:vo.OpenId];
+                                   
+                                   LMWXLoginRequest     *request    = [[LMWXLoginRequest alloc] initWithWechatResult:responseObj andPassword:password];
+                                   
+                                   HTTPProxy    *proxy  = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+                                       
+                                       [self performSelectorOnMainThread:@selector(parseCodeResponse:)
+                                                              withObject:resp
+                                                           waitUntilDone:YES];
+                                       
+                                   } failed:^(NSError *error) {
+                                       
+                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                              withObject:@"网络错误"
+                                                           waitUntilDone:YES];
+                                   }];
+                                   
+                                   [proxy start];
+                               }
+                           }];
+}
 
 @end

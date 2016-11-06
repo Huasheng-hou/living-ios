@@ -40,7 +40,7 @@ static NSString *const __kPasswordInfoFileName = @"C2BC1692D60AAC29";
     NSDictionary *info = [self userInfo];
     
     if (![[info objectForKey:@"uuid"]  isEqualToString:@""]) {
-        if ([info objectForKey:@"uuid"] && [info objectForKey:@"password"] && [info objectForKey:@"phone"]) {
+        if ([info objectForKey:@"uuid"] && [info objectForKey:@"password"]) {
             return YES;
         }
     }
@@ -413,5 +413,24 @@ static NSString *const __kPasswordInfoFileName = @"C2BC1692D60AAC29";
     return [[self userInfo] objectForKey:@"vipString"];
 }
 
+- (void)setOpenId:(NSString *)openId
+{
+    [self saveUserInnfo:openId ForKey:@"openId"];
+}
+
+- (NSString *)openId
+{
+    return [[self userInfo] objectForKey:@"openId"];
+}
+
+- (void)setUnionId:(NSString *)unionId
+{
+    [self saveUserInnfo:unionId ForKey:@"unionId"];
+}
+
+- (NSString *)unionId
+{
+    return [[self userInfo] objectForKey:@"unionId"];
+}
 
 @end

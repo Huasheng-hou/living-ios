@@ -54,5 +54,4 @@
 #define     FIR_SELECTED_TEXT_NOTIFICATION          @"Fir_Selected_Notification_Name"
 
 #define     FIR_LOADHOMEPAGE_NOTIFICATION           @"Fir_ReloadHomePage_Notification_Name"
-
-
+#define     LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION   @"Lm_Wechat_Login_Callback_Notification_Name"   // 微信登录回调

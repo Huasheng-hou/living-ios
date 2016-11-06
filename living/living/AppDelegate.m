@@ -18,7 +18,6 @@
 #import <AlipaySDK/AlipaySDK.h>
 //微信支付
 #import "WXApi.h"
-#import "WXApiManager.h"
 
 //qqSDK
 #import <TencentOpenAPI/TencentOAuth.h>
@@ -38,7 +37,6 @@ TencentSessionDelegate,
 QQApiInterfaceDelegate,
 TencentLoginDelegate,
 TencentSessionDelegate,
-WXApiManagerDelegate,
 WXApiDelegate,
 UNUserNotificationCenterDelegate
 >
@@ -237,29 +235,9 @@ UNUserNotificationCenterDelegate
 //    [GeTuiSdk enterBackground];
 }
 
-
-// NOTE: 9.0以后使用新API接口
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
-{
-    
-    if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
-        [QQApiInterface handleOpenURL:url delegate:self];
-        return [TencentOAuth HandleOpenURL:url];
-        
-    }
-   
-    //    if ([url.host isEqualToString:@"safepay"]) {
-    //        //跳转支付宝钱包进行支付，处理支付结果
-    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"===AppDelegate 支付宝支付9.0以后处理支付结果====result = %@",resultDic);
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
-    }];
-    return YES;
-}
-
 //登录完成后，会调用TencentSessionDelegate中关于登录的协议方法。
-- (void)tencentDidLogin{
+- (void)tencentDidLogin
+{
     NSLog(@"登录完成");
     if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length]){
         // 记录登录用户的OpenID、Token以及过期时间
@@ -271,7 +249,8 @@ UNUserNotificationCenterDelegate
 }
 
 //非网络错误导致登录失败
--(void)tencentDidNotLogin:(BOOL)cancelled{
+-(void)tencentDidNotLogin:(BOOL)cancelled
+{
     if (cancelled){
         NSLog(@"用户取消登录");
     }
@@ -297,18 +276,40 @@ UNUserNotificationCenterDelegate
     
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
         [QQApiInterface handleOpenURL:url delegate:self];
+        
         return [TencentOAuth HandleOpenURL:url];
-    }else{
-        return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    } else {
+        
+        return  [WXApi handleOpenURL:url delegate:self];
     }
     
     return YES;
 }
 
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
     
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
+        
+        [QQApiInterface handleOpenURL:url delegate:self];
+        return [TencentOAuth HandleOpenURL:url];
+        
+    }
+    
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        NSLog(@"===AppDelegate 支付宝支付9.0以后处理支付结果====result = %@",resultDic);
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
+    }];
+    
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
+ 
         [QQApiInterface handleOpenURL:url delegate:self];
         return [TencentOAuth HandleOpenURL:url];
     }
@@ -318,17 +319,92 @@ UNUserNotificationCenterDelegate
         NSLog(@"AppDelegate 支付宝支付，处理支付结果result = %@",resultDic);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
     }];
-    return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    
+    return [WXApi handleOpenURL:url delegate:self];
 }
 
+/**
+ 微信SDK回调
+ */
+- (void)onReq:(BaseReq *)req
+{
+    
+}
+
+- (void)onResp:(BaseResp *)resp
+{
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
+        
+        SendAuthResp    *authResp   = (SendAuthResp *)resp;
+        
+        if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
+            
+//            WXSuccess           = 0,    /**< 成功    */
+//            WXErrCodeCommon     = -1,   /**< 普通错误类型    */
+//            WXErrCodeUserCancel = -2,   /**< 用户点击取消并返回    */
+//            WXErrCodeSentFail   = -3,   /**< 发送失败    */
+//            WXErrCodeAuthDeny   = -4,   /**< 授权失败    */
+//            WXErrCodeUnsupport  = -5,   /**< 微信不支持    */
+            
+            switch (authResp.errCode) {
+                
+                case WXSuccess:                 /**< 成功    */
+                {
+                    if (authResp.code && [authResp.code isKindOfClass:[NSString class]]) {
+                        
+                        NSDictionary    *userInfo   = [NSDictionary dictionaryWithObject:authResp.code forKey:@"code"];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION
+                                                                            object:nil
+                                                                          userInfo:userInfo];
+                    }
+                }
+                    break;
+                 
+                case WXErrCodeCommon:           /**< 普通错误类型    */
+                {
+                    
+                }
+                    break;
+                    
+                case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
+                {
+                    
+                }
+                    break;
+                    
+                case WXErrCodeSentFail:         /**< 发送失败    */
+                {
+                    
+                }
+                    break;
+                    
+                case WXErrCodeAuthDeny:         /**< 授权失败    */
+                {
+                    
+                }
+                    break;
+                    
+                case WXErrCodeUnsupport:        /**< 微信不支持    */
+                {
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
+}
 
 /**
  处理QQ在线状态的回调
  */
-- (void)isOnlineResponse:(NSDictionary *)response{
+- (void)isOnlineResponse:(NSDictionary *)response
+{
     
 }
-
 
 - (void)textStateHUD:(NSString *)text
 {
@@ -344,29 +420,30 @@ UNUserNotificationCenterDelegate
 }
 
 //当程序正在运行时 收到提醒事件时触发
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[notification.userInfo objectForKey:@"id"] message:notification.alertBody delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:notification.alertAction, nil];
     [alert show];
 }
 
-
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    
 }
 
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+
 }
 
 @end
