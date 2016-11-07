@@ -1,0 +1,25 @@
+//
+//  LMMonthDetailBody.h
+//
+//  Created by   on 2016/11/7
+//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@class LMMonthDetailBill;
+
+@interface LMMonthDetailBody : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, strong) NSString *result;
+@property (nonatomic, strong) LMMonthDetailBill *bill;
+@property (nonatomic, strong) NSArray *list;
+@property (nonatomic, strong) NSString *bodyDescription;
+@property (nonatomic, assign) double total;
+@property (nonatomic, assign) double page;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

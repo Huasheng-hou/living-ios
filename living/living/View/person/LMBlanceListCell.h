@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "LMBanlanceVO.h"
 
+
+//#import "LMBalanceDataModels.h"
+
 @interface LMBlanceListCell : UITableViewCell
 
 -(void)setModel:(LMBanlanceVO *)list;
+
 
 @end

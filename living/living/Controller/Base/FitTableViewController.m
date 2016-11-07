@@ -34,6 +34,8 @@
     return self;
 }
 
+//重新加载数据
+
 - (void)refreshData
 {
     dispatch_async(dispatch_get_main_queue(), ^{

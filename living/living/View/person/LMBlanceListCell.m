@@ -61,6 +61,10 @@
     
 }
 
+
+
+//所有月份余额明细
+
 -(void)setModel:(LMBanlanceVO *)list
 {
     _titleLabel.text = list.name;
@@ -68,7 +72,7 @@
     
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
 
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [formatter setDateFormat:@"MM月dd日 HH:mm"];
     
     if (list.datetime && [list.datetime isKindOfClass:[NSDate class]]) {
         
@@ -77,9 +81,24 @@
     if (list.amount==nil) {
         _balanceLabel.text = @"";
     }else{
-        _balanceLabel.text = [NSString stringWithFormat:@"￥ %@",list.amount];
+        
+        if ([list.amount containsString:@"+"]) {
+            NSString *addString=list.amount;
+            
+            NSString *value=[addString stringByReplacingOccurrencesOfString:@"+" withString:@""];
+             _balanceLabel.text = [NSString stringWithFormat:@"￥%@",value];
+            [_balanceLabel setTextColor:LIVING_REDCOLOR];
+            [_detailLable setTextColor:LIVING_REDCOLOR];
+        }
+        
+        if ([list.amount containsString:@"-"]) {
+            NSString *addString=list.amount;
+            
+            NSString *value=[addString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+            _balanceLabel.text = [NSString stringWithFormat:@"￥%@",value];
+        }
+        
     }
-    
 }
 
 
@@ -100,17 +119,5 @@
     
 }
 
-
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end
