@@ -60,8 +60,8 @@
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-        <string>weixin</string>
-        <string>wechat</string>
+		<string>weixin</string>
+		<string>wechat</string>
 		<string>mqqapi</string>
 		<string>mqq</string>
 		<string>mqqOpensdkSSoLogin</string>
@@ -93,7 +93,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>contactsDesciption</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>腰果生活需要定位，否则无法进行定位</string>
+	<string>腰果生活需要在您使用该App期间允许使用定位，否则无法进行定位</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>microphoneDesciption</string>
 	<key>NSPhotoLibraryUsageDescription</key>

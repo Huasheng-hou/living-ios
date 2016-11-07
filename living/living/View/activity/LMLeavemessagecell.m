@@ -128,7 +128,7 @@
     }else{
         _nameLabel.text = data.nickName;
     }
-            _timeLabel.text = [self getUTCFormateDate:data.commentTime];
+    _timeLabel.text = [self getUTCFormateDate:data.commentTime];
     _titleLabel.text = data.commentContent;
             _addressLabel.text = data.address;
     if (data.hasPraised == YES) {

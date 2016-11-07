@@ -107,6 +107,11 @@
             self.praiseCount = [(NSNumber *)[dictionary objectForKey:@"praise_count"] intValue];
         }
         
+        if (nil != [dictionary objectForKey:@"comment_time"] && ![[dictionary objectForKey:@"comment_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"comment_time"] isKindOfClass:[NSString class]]) {
+            self.commentTime= [dictionary objectForKey:@"comment_time"];
+        }
+        
         
     }
     return self;

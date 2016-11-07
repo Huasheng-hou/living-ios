@@ -10,4 +10,9 @@
 
 @interface LMRechargeViewController : FitBaseViewController
 
+@property(nonatomic,strong)    NSString *liveRoomName;
+@property(nonatomic,strong)    NSString *liveUUID;
+@property(nonatomic)NSInteger index;
+
+
 @end

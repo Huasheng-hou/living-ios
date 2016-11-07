@@ -19,6 +19,7 @@
 		3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C61D9905440068F04E /* CoreText.framework */; };
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
+		354DB3E51DD07CF10041D502 /* OSTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 354DB3E41DD07CF10041D502 /* OSTextField.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -326,6 +327,8 @@
 		3547F4C61D9905440068F04E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3547F4C81D99054C0068F04E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		354DB3E31DD07CD90041D502 /* OSTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSTextField.h; sourceTree = "<group>"; };
+		354DB3E41DD07CF10041D502 /* OSTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSTextField.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1428,10 +1431,10 @@
 		8737931C1DCF8A0F00A2ACD7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				873793361DCF8A0F00A2ACD7 /* homepage */,
 				8737931D1DCF8A0F00A2ACD7 /* activity */,
 				873793281DCF8A0F00A2ACD7 /* Base */,
 				873793331DCF8A0F00A2ACD7 /* find */,
-				873793361DCF8A0F00A2ACD7 /* homepage */,
 				873793441DCF8A0F00A2ACD7 /* Login */,
 				873793491DCF8A0F00A2ACD7 /* person */,
 			);
@@ -1496,16 +1499,8 @@
 				873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */,
 				873793411DCF8A0F00A2ACD7 /* LMWriterViewController.h */,
 				873793421DCF8A0F00A2ACD7 /* LMWriterViewController.m */,
-				873793431DCF8A0F00A2ACD7 /* 发现页轮播海报 */,
 			);
 			path = homepage;
-			sourceTree = "<group>";
-		};
-		873793431DCF8A0F00A2ACD7 /* 发现页轮播海报 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "发现页轮播海报";
 			sourceTree = "<group>";
 		};
 		873793441DCF8A0F00A2ACD7 /* Login */ = {
@@ -1588,6 +1583,8 @@
 		873793701DCF8A1000A2ACD7 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				354DB3E31DD07CD90041D502 /* OSTextField.h */,
+				354DB3E41DD07CF10041D502 /* OSTextField.m */,
 				873793711DCF8A1000A2ACD7 /* city.plist */,
 				873793721DCF8A1000A2ACD7 /* ColorConvert */,
 				873793771DCF8A1000A2ACD7 /* DACircularProgress */,
@@ -2672,6 +2669,7 @@
 				873795441DCF8A1000A2ACD7 /* LMScanViewController.m in Sources */,
 				873795B41DCF8A1000A2ACD7 /* LMPublicProjectRequest.m in Sources */,
 				873796041DCF8A1000A2ACD7 /* LMCouponCell.m in Sources */,
+				354DB3E51DD07CF10041D502 /* OSTextField.m in Sources */,
 				873795631DCF8A1000A2ACD7 /* ImageHelpTool.m in Sources */,
 				873795A01DCF8A1000A2ACD7 /* LMloginRequest.m in Sources */,
 				873795B61DCF8A1000A2ACD7 /* FirUploadImageRequest.m in Sources */,

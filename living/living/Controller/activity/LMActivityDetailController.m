@@ -558,6 +558,7 @@ UIAlertViewDelegate
         static NSString *cellId = @"cellId";
         
         LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMEventCommentVO *list = msgArray[indexPath.row];
         
         [cell setValue:list];
@@ -676,6 +677,7 @@ UIAlertViewDelegate
     [UIView  beginAnimations:nil context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.75];
+    self.tableView.userInteractionEnabled = NO;
     [self showCommentText];
     [UIView commitAnimations];
 }
@@ -726,6 +728,7 @@ UIAlertViewDelegate
     
     
     [commentText resignFirstResponder];
+    self.tableView.userInteractionEnabled = YES;
 }
 
 -(void)commitDataRequest
@@ -734,8 +737,12 @@ UIAlertViewDelegate
     NSLog(@"%@",_eventUuid);
     NSLog(@"%@",commitUUid);
     NSLog(@"%@",commentText.text);
-    
-    LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:commentText.text];
+
+    NSString *string;
+    if ([suggestTF.text containsString:@"""" ]) {
+        string =[suggestTF.text stringByReplacingOccurrencesOfString:@"""" withString:@""];
+    }
+    LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -969,7 +976,13 @@ UIAlertViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:suggestTF.text];
+    NSString *string;
+    if ([suggestTF.text containsString:@"""" ]) {
+        string =[suggestTF.text stringByReplacingOccurrencesOfString:@"""" withString:@""];
+    }
+    
+    
+    LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1126,7 +1139,10 @@ UIAlertViewDelegate
     
     
     LMEventCommentVO *list= msgArray[index];
-    
+    if (![list.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
+        return;
+        
+    }else{
     
     
     if (tap.state == UIGestureRecognizerStateEnded) {
@@ -1182,6 +1198,7 @@ UIAlertViewDelegate
         
     }else{
         NSLog(@"**********222222*******");
+    }
     }
 }
 

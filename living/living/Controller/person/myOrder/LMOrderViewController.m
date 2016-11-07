@@ -369,7 +369,16 @@ LMOrderCellDelegate>
     Orderuuid = cell.Orderuuid;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
-                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];      [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"余额支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"******余额支付");
+//        [self wxRechargeRequest];
+        [self textStateHUD:@"暂无接口"];
+        
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******微信支付");
         [self wxRechargeRequest];
 

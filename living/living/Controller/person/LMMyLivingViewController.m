@@ -390,6 +390,11 @@ WJLoopViewDelegate
 {
     NSLog(@"***********立即支付");
     LMRechargeViewController *chargeVC = [[LMRechargeViewController alloc] init];
+    
+    chargeVC.liveRoomName =livingInfo.livingName;
+    chargeVC.liveUUID = livingInfo.livingUuid;
+    chargeVC.index = 1;
+    
     chargeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:chargeVC animated:YES];
 }

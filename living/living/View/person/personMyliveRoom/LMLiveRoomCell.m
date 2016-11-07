@@ -55,18 +55,20 @@
     [self addSubview:_balance];
     
     
-    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
+    UILabel *label=[[UILabel new]initWithFrame:CGRectMake(5, 0, 60, 30)];
     [label setText:@"立即充值"];
     [label setTextColor:[UIColor colorWithRed:0 green:142/255.0f blue:232/255.0f alpha:1.0f]];
     [label setFont:TEXT_FONT_LEVEL_2];
     [label setTextAlignment:NSTextAlignmentCenter];
+    [label sizeToFit];
+    label.frame = CGRectMake(5, 0, label.bounds.size.width, 30);
     
-    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(60+3, 8, 14, 14)];
+    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(label.bounds.size.width+8, 8, 14, 14)];
     [imageV setImage:[UIImage imageNamed:@"personRecharge"]];
     
     
     //充值按钮
-    _payButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-100, 100, 80, 30)];
+    _payButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-label.bounds.size.width+5+14, 100, label.bounds.size.width+8+14, 30)];
 //    [_payButton setTitle:@"立即充值" forState:UIControlStateNormal];
     [_payButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
     [_payButton.layer setCornerRadius:5.0f];
@@ -148,7 +150,7 @@
     _line.frame = CGRectMake(15, 80+_dspHight, kScreenWidth-15, 0.5);
     
     _mapView.frame = CGRectMake(15, 90+_dspHight, kScreenWidth-30, 160);
-    _payButton.frame = CGRectMake(kScreenWidth-100, 40+_dspHight, 80, 30);
+    _payButton.frame = CGRectMake(kScreenWidth-105, 40+_dspHight, 90, 30);
     _address.frame = CGRectMake(15, 260+_dspHight, kScreenWidth-30, 30);
 
 }

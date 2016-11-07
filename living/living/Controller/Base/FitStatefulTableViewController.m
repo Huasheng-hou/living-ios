@@ -51,6 +51,7 @@ static const int kLoadingCellTag = 2571;
     return self;
 }
 
+
 - (void)loadView
 {
     [super loadView];
@@ -88,7 +89,7 @@ static const int kLoadingCellTag = 2571;
 // 隐藏状态提示文字
 - (void)hideHUDView
 {
-    [stateHud hide:YES afterDelay:0.3];
+    [stateHud hideAnimated:YES afterDelay:0.3];
 }
 
 // 滚动表格到底部

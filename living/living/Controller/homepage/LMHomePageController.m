@@ -110,11 +110,8 @@ LMhomePageCellDelegate
 
 - (void)publicAction
 {
-    LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
-    
-    [publicVC setHidesBottomBarWhenPushed:YES];
-    
-    [self.navigationController presentViewController:publicVC animated:NO completion:nil];
+
+    [LMPublicArticleController presentInViewController:self Animated:NO];
     
 }
 
