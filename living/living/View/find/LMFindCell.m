@@ -9,6 +9,7 @@
 #import "LMFindCell.h"
 #import "FitConsts.h"
 #import "UIView+frame.h"
+#import "UIImageView+WebCache.h"
 
 @interface LMFindCell ()
 
@@ -91,51 +92,49 @@
     _praiseBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-70, 140, 60, 17)];
     [self addSubview:_praiseBt];
     
-}
-
-
--(void)settitlearray:(NSString *)str
-{
-    _titleLabel.text = str;
-}
-
--(void)setcontentarray:(NSString *)str
-{
-    _contentLabel.text = str;
-}
-
--(void)setimagearray:(NSString *)str
-{
-    _imageview.image = [UIImage imageNamed:str];
-}
-
-
-
--(void)setValue:(LMFindList *)list
-{
-//    _questonLabel.text = list.descrition;
-//    _numLabel.text = [NSString stringWithFormat:@"得赞数 %.0f",list.numberOfVotes];
+    [_praiseBt addTarget:self action:@selector(praiseBtton:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
-//- (void)setXScale:(float)xScale yScale:(float)yScale
-//{
-//    _xScale = xScale;
-//    _yScale = yScale;
-//}
 
-//-(void)layoutSubviews
-//{
-//    [super layoutSubviews];
-//    [_headImage sizeToFit];
-//    [_questonLabel sizeToFit];
-//    [_numLabel sizeToFit];
-//
-//    _headImage.frame =CGRectMake(22.5, 22.5, 50, 50);
-//    _questonLabel.frame =CGRectMake(10, 5, kScreenWidth-116-20-15, 60);
-//    _numLabel.frame =CGRectMake(0, 75, kScreenWidth-131-10, 20);
-//    
-//}
+-(void)setValue:(LMFindVO *)list
+{
+    [_imageview sd_setImageWithURL:[NSURL URLWithString:list.images] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+    
+    _titleLabel.text = list.title;
+    
+    _contentLabel.text = list.descrition;
+    
+    _numLabel.text = [NSString stringWithFormat:@"%d",list.numberOfVotes];
+    
+    if (list.hasPraised==0) {
+        
+        [_thumbIV setImage:[UIImage imageNamed:@"zanIcon"]];
+    }else{
+        
+        [_thumbIV setImage:[UIImage imageNamed:@"zanIcon-click"]];
+    }
+    
+}
+
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    
+    
+}
+
+
+-(void)praiseBtton:(id)sender
+{
+
+    if ([_delegate respondsToSelector:@selector(cellWillClick:)]) {
+        [_delegate cellWillClick:self];
+    }
+    
+}
 
 
 

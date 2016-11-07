@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMFindList.h"
+#import "LMFindVO.h"
 
+@protocol  LMFindCellDelegate;
 @interface LMFindCell : UITableViewCell
-
-
 
 @property(nonatomic, strong) UILabel *titleLabel;
 @property(nonatomic, strong) UILabel *contentLabel;
@@ -24,13 +23,16 @@
 @property(nonatomic,strong)UIImageView *thumbIV;
 
 
-//- (void)setXScale:(float)xScale yScale:(float)yScale;
--(void)setValue:(LMFindList *)list;
+@property (nonatomic, weak) id <LMFindCellDelegate> delegate;
+- (void)setXScale:(float)xScale yScale:(float)yScale;
+-(void)setValue:(LMFindVO *)list;
 
--(void)setimagearray:(NSString *)str;
--(void)settitlearray:(NSString *)str;
--(void)setcontentarray:(NSString *)str;
+@end
 
 
+@protocol LMFindCellDelegate <NSObject>
+
+@optional
+- (void)cellWillClick:(LMFindCell *)cell;
 
 @end

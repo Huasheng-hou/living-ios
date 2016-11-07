@@ -45,7 +45,6 @@ LMhomePageCellDelegate
     
     NSInteger        totalPage;
     NSInteger        currentPageIndex;
-    NSMutableArray   *pageIndexArray;
     
     NSArray         *_bannerArray;
 }
@@ -88,8 +87,6 @@ LMhomePageCellDelegate
     
     self.title = @"首页";
     
-    pageIndexArray=[NSMutableArray arrayWithCapacity:0];
-    
     [self creatUI];
 
     [self getBannerDataRequest];
@@ -111,13 +108,14 @@ LMhomePageCellDelegate
     self.tableView.tableHeaderView = headView;
 }
 
-- (void)sweepAction
+- (void)publicAction
 {
-    LMPublicArticleController *scanVC = [[LMPublicArticleController alloc] init];
+    LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
     
-    [scanVC setHidesBottomBarWhenPushed:YES];
+    [publicVC setHidesBottomBarWhenPushed:YES];
     
-    [self.navigationController pushViewController:scanVC animated:YES];
+    [self.navigationController presentViewController:publicVC animated:NO completion:nil];
+    
 }
 
 - (void)getBannerDataRequest
@@ -210,7 +208,7 @@ LMhomePageCellDelegate
                 UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
-                                                                             action:@selector(sweepAction)];
+                                                                             action:@selector(publicAction)];
                 
                 self.navigationItem.rightBarButtonItem = rightItem;
             });

@@ -9,7 +9,7 @@
 #import "LMPublicArticleController.h"
 #import "FirUploadImageRequest.h"
 #import "ZYQAssetPickerController.h"
-
+#import "FitNavigationController.h"
 #import "LMPublicArticleRequest.h"
 
 #import "ImageHelpTool.h"
@@ -62,9 +62,31 @@ UIViewControllerTransitioningDelegate
 
 @implementation LMPublicArticleController
 
++ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated
+{
+    if (!viewController) {
+        return;
+    }
+    
+    LMPublicArticleController      *publicVC    = [[LMPublicArticleController alloc] init];
+    FitNavigationController *navVC      = [[FitNavigationController alloc] initWithRootViewController:publicVC];
+    
+    [viewController presentViewController:navVC animated:animated completion:^{
+        
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    
     [self createUI];
     
     imageArray      = [NSMutableArray arrayWithCapacity:0];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3519F1851DD0111C00013892 /* LMFindVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3519F1841DD0111C00013892 /* LMFindVO.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
 		3547F3361D9901780068F04E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3351D9901780068F04E /* AppDelegate.m */; };
 		3547F33E1D9901780068F04E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3547F33D1D9901780068F04E /* Assets.xcassets */; };
@@ -137,8 +138,6 @@
 		873795701DCF8A1000A2ACD7 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793A51DCF8A1000A2ACD7 /* UIButton+Badge.m */; };
 		873795711DCF8A1000A2ACD7 /* UITabBar+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793A71DCF8A1000A2ACD7 /* UITabBar+Badge.m */; };
 		873795721DCF8A1000A2ACD7 /* HTTPProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793A91DCF8A1000A2ACD7 /* HTTPProxy.m */; };
-		873795731DCF8A1000A2ACD7 /* LMFindBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793AC1DCF8A1000A2ACD7 /* LMFindBody.m */; };
-		873795741DCF8A1000A2ACD7 /* LMFindList.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793AF1DCF8A1000A2ACD7 /* LMFindList.m */; };
 		873795751DCF8A1000A2ACD7 /* LMALLBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793B31DCF8A1000A2ACD7 /* LMALLBody.m */; };
 		873795761DCF8A1000A2ACD7 /* LMALLList.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793B61DCF8A1000A2ACD7 /* LMALLList.m */; };
 		873795771DCF8A1000A2ACD7 /* LMCouponBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793B91DCF8A1000A2ACD7 /* LMCouponBody.m */; };
@@ -206,7 +205,6 @@
 		873795B51DCF8A1000A2ACD7 /* LMRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794441DCF8A1000A2ACD7 /* LMRegisterRequest.m */; };
 		873795B61DCF8A1000A2ACD7 /* FirUploadImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794471DCF8A1000A2ACD7 /* FirUploadImageRequest.m */; };
 		873795B71DCF8A1000A2ACD7 /* ActivityListVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737944B1DCF8A1000A2ACD7 /* ActivityListVO.m */; };
-		873795B81DCF8A1000A2ACD7 /* LMActivityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737944D1DCF8A1000A2ACD7 /* LMActivityList.m */; };
 		873795B91DCF8A1000A2ACD7 /* LMEventBodyVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794501DCF8A1000A2ACD7 /* LMEventBodyVO.m */; };
 		873795BA1DCF8A1000A2ACD7 /* LMEventCommentVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794521DCF8A1000A2ACD7 /* LMEventCommentVO.m */; };
 		873795BB1DCF8A1000A2ACD7 /* LMProjectBodyVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794541DCF8A1000A2ACD7 /* LMProjectBodyVO.m */; };
@@ -312,6 +310,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3519F1831DD0111C00013892 /* LMFindVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindVO.h; sourceTree = "<group>"; };
+		3519F1841DD0111C00013892 /* LMFindVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindVO.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -623,11 +623,6 @@
 		873793A71DCF8A1000A2ACD7 /* UITabBar+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Badge.m"; sourceTree = "<group>"; };
 		873793A81DCF8A1000A2ACD7 /* HTTPProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPProxy.h; sourceTree = "<group>"; };
 		873793A91DCF8A1000A2ACD7 /* HTTPProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPProxy.m; sourceTree = "<group>"; };
-		873793AB1DCF8A1000A2ACD7 /* LMFindBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindBody.h; sourceTree = "<group>"; };
-		873793AC1DCF8A1000A2ACD7 /* LMFindBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindBody.m; sourceTree = "<group>"; };
-		873793AD1DCF8A1000A2ACD7 /* LMFindDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindDataModels.h; sourceTree = "<group>"; };
-		873793AE1DCF8A1000A2ACD7 /* LMFindList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindList.h; sourceTree = "<group>"; };
-		873793AF1DCF8A1000A2ACD7 /* LMFindList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindList.m; sourceTree = "<group>"; };
 		873793B21DCF8A1000A2ACD7 /* LMALLBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMALLBody.h; sourceTree = "<group>"; };
 		873793B31DCF8A1000A2ACD7 /* LMALLBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMALLBody.m; sourceTree = "<group>"; };
 		873793B41DCF8A1000A2ACD7 /* LMAllDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAllDataModels.h; sourceTree = "<group>"; };
@@ -763,8 +758,6 @@
 		873794471DCF8A1000A2ACD7 /* FirUploadImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadImageRequest.m; sourceTree = "<group>"; };
 		8737944A1DCF8A1000A2ACD7 /* ActivityListVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityListVO.h; sourceTree = "<group>"; };
 		8737944B1DCF8A1000A2ACD7 /* ActivityListVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityListVO.m; sourceTree = "<group>"; };
-		8737944C1DCF8A1000A2ACD7 /* LMActivityList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityList.h; sourceTree = "<group>"; };
-		8737944D1DCF8A1000A2ACD7 /* LMActivityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityList.m; sourceTree = "<group>"; };
 		8737944F1DCF8A1000A2ACD7 /* LMEventBodyVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventBodyVO.h; sourceTree = "<group>"; };
 		873794501DCF8A1000A2ACD7 /* LMEventBodyVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventBodyVO.m; sourceTree = "<group>"; };
 		873794511DCF8A1000A2ACD7 /* LMEventCommentVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventCommentVO.h; sourceTree = "<group>"; };
@@ -1025,6 +1018,15 @@
 				79D069E18A025DABE98552EA /* libPods-living.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3519F1821DD010C800013892 /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				3519F1831DD0111C00013892 /* LMFindVO.h */,
+				3519F1841DD0111C00013892 /* LMFindVO.m */,
+			);
+			path = Find;
 			sourceTree = "<group>";
 		};
 		3547F3251D9901770068F04E = {
@@ -1713,7 +1715,6 @@
 				873793A11DCF8A1000A2ACD7 /* dot */,
 				873793A81DCF8A1000A2ACD7 /* HTTPProxy.h */,
 				873793A91DCF8A1000A2ACD7 /* HTTPProxy.m */,
-				873793AA1DCF8A1000A2ACD7 /* LMFind */,
 				873793B01DCF8A1000A2ACD7 /* person */,
 				873793C41DCF8A1000A2ACD7 /* Request */,
 				873794481DCF8A1000A2ACD7 /* VO */,
@@ -1735,18 +1736,6 @@
 				873793A71DCF8A1000A2ACD7 /* UITabBar+Badge.m */,
 			);
 			path = dot;
-			sourceTree = "<group>";
-		};
-		873793AA1DCF8A1000A2ACD7 /* LMFind */ = {
-			isa = PBXGroup;
-			children = (
-				873793AB1DCF8A1000A2ACD7 /* LMFindBody.h */,
-				873793AC1DCF8A1000A2ACD7 /* LMFindBody.m */,
-				873793AD1DCF8A1000A2ACD7 /* LMFindDataModels.h */,
-				873793AE1DCF8A1000A2ACD7 /* LMFindList.h */,
-				873793AF1DCF8A1000A2ACD7 /* LMFindList.m */,
-			);
-			path = LMFind;
 			sourceTree = "<group>";
 		};
 		873793B01DCF8A1000A2ACD7 /* person */ = {
@@ -2035,6 +2024,7 @@
 		873794481DCF8A1000A2ACD7 /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				3519F1821DD010C800013892 /* Find */,
 				873794491DCF8A1000A2ACD7 /* Activity */,
 				8737944E1DCF8A1000A2ACD7 /* ActivityDetail */,
 				873794551DCF8A1000A2ACD7 /* balance */,
@@ -2058,8 +2048,6 @@
 			children = (
 				8737944A1DCF8A1000A2ACD7 /* ActivityListVO.h */,
 				8737944B1DCF8A1000A2ACD7 /* ActivityListVO.m */,
-				8737944C1DCF8A1000A2ACD7 /* LMActivityList.h */,
-				8737944D1DCF8A1000A2ACD7 /* LMActivityList.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -2653,6 +2641,7 @@
 				873795C01DCF8A1000A2ACD7 /* LMFriendVO.m in Sources */,
 				873795901DCF8A1000A2ACD7 /* LMCommentArticleRequest.m in Sources */,
 				8737955E1DCF8A1000A2ACD7 /* DACircularProgressView.m in Sources */,
+				3519F1851DD0111C00013892 /* LMFindVO.m in Sources */,
 				873795A31DCF8A1000A2ACD7 /* LMAlipayResultRequest.m in Sources */,
 				873795341DCF8A1000A2ACD7 /* FitUserInfoManager.m in Sources */,
 				873795531DCF8A1000A2ACD7 /* LMRechargeViewController.m in Sources */,
@@ -2698,7 +2687,6 @@
 				873795551DCF8A1000A2ACD7 /* LMAddviceViewController.m in Sources */,
 				873795351DCF8A1000A2ACD7 /* FitUserManager.m in Sources */,
 				873795F51DCF8A1000A2ACD7 /* LMhomePageCell.m in Sources */,
-				873795B81DCF8A1000A2ACD7 /* LMActivityList.m in Sources */,
 				873795911DCF8A1000A2ACD7 /* LMCommentPraiseRequest.m in Sources */,
 				8737950E1DCF8A1000A2ACD7 /* openssl_wrapper.m in Sources */,
 				873795841DCF8A1000A2ACD7 /* LMEventpraiseRequest.m in Sources */,
@@ -2714,7 +2702,6 @@
 				8737960B1DCF8A1100A2ACD7 /* LMChooseButton.m in Sources */,
 				873795E91DCF8A1000A2ACD7 /* LMEventMsgCell.m in Sources */,
 				8737955A1DCF8A1000A2ACD7 /* SQMenuShowView.m in Sources */,
-				873795731DCF8A1000A2ACD7 /* LMFindBody.m in Sources */,
 				873795311DCF8A1000A2ACD7 /* FitSignalCacheManager.m in Sources */,
 				873795991DCF8A1000A2ACD7 /* LMFeedBackRequest.m in Sources */,
 				873795601DCF8A1000A2ACD7 /* LICENSE.md in Sources */,
@@ -2854,7 +2841,6 @@
 				873795C81DCF8A1000A2ACD7 /* LMNoticVO.m in Sources */,
 				3547F3331D9901780068F04E /* main.m in Sources */,
 				873795BF1DCF8A1000A2ACD7 /* BannerVO.m in Sources */,
-				873795741DCF8A1000A2ACD7 /* LMFindList.m in Sources */,
 				873796011DCF8A1000A2ACD7 /* LMRechargeCell.m in Sources */,
 				873795A41DCF8A1000A2ACD7 /* LMBalanceListRequest.m in Sources */,
 				873795F41DCF8A1000A2ACD7 /* LMCommentCell.m in Sources */,

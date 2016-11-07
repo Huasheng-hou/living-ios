@@ -10,4 +10,6 @@
 
 @interface LMPublicArticleController : FitTableViewController
 
++ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated;
+
 @end

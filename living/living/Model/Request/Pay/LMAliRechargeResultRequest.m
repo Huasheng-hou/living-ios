@@ -40,7 +40,7 @@
 
 - (NSString *)methodPath
 {
-    return @"ap/confirm";//支付宝支付结果确认
+    return @"alipayRecharge/result";//支付宝充值结果确认
 }
 
 @end

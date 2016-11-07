@@ -12,7 +12,7 @@
 #import "LMPublishViewController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
-#import "LMActivityList.h"
+
 #import "LMActivityDeleteRequest.h"
 
 #import "ActivityListVO.h"

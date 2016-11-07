@@ -22,6 +22,7 @@
 #import "LMLiveRoomBody.h"
 #import "LMLiveRoomLivingInfo.h"
 #import "LMLiveRoomMap.h"
+#import "ActivityListVO.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -156,7 +157,7 @@ WJLoopViewDelegate
         
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
-            LMActivityList *list=[[LMActivityList alloc]initWithDictionary:array[i]];
+            ActivityListVO *list=[[ActivityListVO alloc]initWithDictionary:array[i]];
             if (![listArray containsObject:list]) {
                 [listArray addObject:list];
             }
