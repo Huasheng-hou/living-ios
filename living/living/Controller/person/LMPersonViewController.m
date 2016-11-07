@@ -404,10 +404,14 @@
         }
         //生活馆
         if (indexPath.row ==2) {
-            LMMyLivingViewController *myVC = [[LMMyLivingViewController alloc] init];
-            myVC.hidesBottomBarWhenPushed = YES;
-            myVC.livImgUUid = infoModel.livingUuid;
-            [self.navigationController pushViewController:myVC animated:YES];
+            if (infoModel.livingUuid&&infoModel.livingUuid!=nil) {
+                LMMyLivingViewController *myVC = [[LMMyLivingViewController alloc] init];
+                myVC.hidesBottomBarWhenPushed = YES;
+                myVC.livImgUUid = infoModel.livingUuid;
+                [self.navigationController pushViewController:myVC animated:YES];
+            }
+            
+
         }
         //我的好友
         if (indexPath.row ==3) {

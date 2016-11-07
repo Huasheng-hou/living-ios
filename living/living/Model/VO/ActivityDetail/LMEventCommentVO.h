@@ -37,5 +37,6 @@
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, assign) BOOL hasPraised;
 @property (nonatomic, assign) int praiseCount;
+@property (nonatomic, strong) NSString *replyContent;
 
 @end

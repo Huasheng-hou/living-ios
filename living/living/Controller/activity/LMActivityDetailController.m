@@ -563,7 +563,7 @@ UIAlertViewDelegate
         
         [cell setValue:list];
         cell.delegate = self;
-        
+        cell.tag = indexPath.row;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
@@ -611,8 +611,10 @@ UIAlertViewDelegate
         return;
     }
     
+    LMEventCommentVO *list = msgArray[cell.tag];
     
-    LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:cell.commentUUid];
+    
+    LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:list.commentUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                dispatch_async(dispatch_get_main_queue(), ^{
@@ -673,7 +675,11 @@ UIAlertViewDelegate
 {
     NSLog(@"**********回复");
     
-    commitUUid = cell.commentUUid;
+    NSLog(@"%ld",cell.tag);
+    
+    LMEventCommentVO *list = msgArray[cell.tag];
+    
+    commitUUid = list.commentUuid;
     [UIView  beginAnimations:nil context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.75];
