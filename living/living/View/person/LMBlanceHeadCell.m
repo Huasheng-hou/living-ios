@@ -172,11 +172,22 @@
     _payCount.text = dict.eventsBill;
     _chargeCount.text = dict.rechargesBill;
     _refundCount.text = dict.refundsBill;
-    
 }
 
 
-
+-(void)setValue:(LMMonthDetailBill *)bill
+{
+    //支出
+    _payOutLabel.text = bill.expenditure;
+    //充值
+    _chargeLabel.text = bill.recharges;
+    //活动支出
+    _payCount.text=bill.eventsBill;
+    //充值进账
+    _chargeCount.text =bill.rechargesBill;
+    //退款金额
+    _refundCount.text =bill.refundsBill;
+}
 
 -(void)layoutSubviews
 {

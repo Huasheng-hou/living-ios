@@ -14,7 +14,14 @@
 #import "LMBalanceMonthRequest.h"
 #import "LMBalanceBillVO.h"
 
+#import "LMMonthDetailDataModels.h"
+
 @interface LMBlanceDetailController ()<LMBlanceHeadCellDelegate>
+{
+    NSString *DateString;
+    LMMonthDetailBody *bodyData;
+
+}
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
 @property (nonatomic,strong) NSMutableArray *listArray;
@@ -26,8 +33,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    DateString=self.curMonth;
+    
     [self createUI];
-    [self getBlanceData];
+    [self getBlanceData:self.curMonth];
 }
 
 -(void)createUI
@@ -37,9 +47,9 @@
     __weak typeof(self) weakSelf = self;
     [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
         weakSelf.isShow = NO;
-        NSLog(@"点击第%ld个item",index+1);
-        
-        [self getBlanceData];
+        NSLog(@"点击第%ld个item",index);
+        DateString=_monthArr[index];
+        [self getBlanceData:_monthArr[index]];
         
         
     }];
@@ -53,7 +63,8 @@
     if (section==0) {
         return 1;
     }
-    return 6;
+    
+    return bodyData.list.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -93,12 +104,10 @@
         lineView.backgroundColor = LINE_COLOR;
         [headView addSubview:lineView];
         
-        
         return headView;
     }
     return nil;
 }
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -108,17 +117,24 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-        [cell setDic:_billDic];
+//        [cell setDic:_billDic];
+        
+        [cell setValue:bodyData.bill];
+        
+        cell.timeLabel.text=DateString;
         
         return cell;
-        
     }
     if (indexPath.section) {
         static NSString *cellID = @"cellID";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMBanlanceVO *list = [_listArray objectAtIndex:indexPath.row];
-        [cell setModel:list];
+        
+        for (int i=0; i<bodyData.list.count; i++) {
+            
+            LMBanlanceVO  *list=bodyData.list[i];
+            [cell setModel:list];
+        }
         
         return cell;
     }
@@ -143,14 +159,34 @@
     [self.showView dismissView];
 }
 
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.showView dismissView];
+}
+
+
 - (SQMenuShowView *)showView{
     
     if (_showView) {
         return _showView;
     }
     
+    NSMutableArray *array=[NSMutableArray arrayWithCapacity:0];
+    
+    for (int i=0; i<_monthArr.count; i++) {
+        NSString *timeString=_monthArr[i];
+        NSString *needStr=[timeString stringByReplacingOccurrencesOfString:@"-" withString:@"年"];
+        NSString *needString=[NSString stringWithFormat:@"%@月",needStr];
+        [array addObject:needString];
+    }
+    
+    if (array.count<1) {
+        return nil;
+    }
+    
+    
     _showView = [[SQMenuShowView alloc]initWithFrame:(CGRect){CGRectGetWidth(self.view.frame)-100-10,64+35,100,0}
-                                               items:_monthArr
+                                               items:array
                                            showPoint:(CGPoint){CGRectGetWidth(self.view.frame)-25,10}];
     _showView.sq_backGroundColor = [UIColor whiteColor];
     [self.view addSubview:_showView];
@@ -158,7 +194,7 @@
 }
 
 #pragma mark  --获取余额数据
--(void)getBlanceData
+-(void)getBlanceData:(NSString *)timeDate
 {
     if (![CheckUtils isLink]) {
         
@@ -166,7 +202,7 @@
         return;
     }
     
-    LMBalanceMonthRequest *request = [[LMBalanceMonthRequest alloc] initWithPageIndex:1 andPageSize:20 andMonth:@"2016-10"];
+    LMBalanceMonthRequest *request = [[LMBalanceMonthRequest alloc] initWithPageIndex:1 andPageSize:20 andMonth:timeDate];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -190,6 +226,12 @@
     if (!bodyDic) {
         [self textStateHUD:@"获取余额失败"];
     }else{
+        
+//        NSLog(@"==============余额明细详情===bodyDic============%@",bodyDic);
+        
+        bodyData=[[LMMonthDetailBody alloc]initWithDictionary:bodyDic];
+        
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
 //            NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
             NSMutableArray *array=bodyDic[@"list"];
@@ -198,7 +240,6 @@
                 if (![_listArray containsObject:list]) {
                     [_listArray addObject:list];
                 }
-
             }
             _billDic = [bodyDic objectForKey:@"bill"];
 
@@ -208,23 +249,5 @@
         }
     }
 }
-
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -14,16 +14,26 @@
 #import "LMBlanceListCell.h"
 #import "LMBalanceVO.h"
 
+#import "LMBlanceDetailController.h"
+
+//数据
+#import "LMBalanceDataModels.h"
 
 @interface LMBalanceViewController ()
-<UITableViewDelegate,
-UITableViewDataSource>
+<
+UITableViewDelegate,
+UITableViewDataSource
+>
 {
     UITableView *_tableView;
     NSString *balanceStr;
     NSMutableArray *listArray;
     NSMutableArray *monthArray;
     NSMutableArray *voArray;
+    
+    LMBalanceBody *bodyData;
+    
+    NSMutableArray *sectionArray;
 }
 
 @end
@@ -33,6 +43,7 @@ UITableViewDataSource>
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"余额明细";
+    sectionArray=[NSMutableArray arrayWithCapacity:0];
     [self getData];
  
     [self creatUI];
@@ -60,7 +71,7 @@ UITableViewDataSource>
 
 -(void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+44) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -71,18 +82,15 @@ UITableViewDataSource>
 {
     
     if (indexPath.section==0) {
-        return 60;
+        return 50;
     }
     
-    return 75;
+    return 80;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         return 0.01;
-    }
-    if (section==1) {
-        return 30;
     }
     return 30;
 }
@@ -96,18 +104,32 @@ UITableViewDataSource>
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section!=0) {
-        
  
-    
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
     
          UILabel *headLb = [UILabel new];
-        for (int i = 0; i<voArray.count; i++) {
-            if (section==i) {
-                headLb.text =monthArray[i];
+        
+        NSInteger length=sectionArray.count;
+        
+        NSInteger row=length-section;
+        
+        NSString *str=sectionArray[row];
+        
+        NSInteger lengthString=[str length];
+        
+        if (section==1) {
+            headLb.text = @"本月";
+        }else{
+
+            if (lengthString>5) {
+            
+                NSString *needStr=[str substringWithRange:NSMakeRange(5, lengthString-5)];
+        
+                headLb.text=[NSString stringWithFormat:@"%@月",needStr];
             }
         }
-
+    
+        
     headLb.font = TEXT_FONT_LEVEL_2;
     headLb.textColor = TEXT_COLOR_LEVEL_2;
     [headLb sizeToFit];
@@ -116,7 +138,20 @@ UITableViewDataSource>
     
     
     UILabel *detal = [UILabel new];
-    detal.text = @"本月明细";
+        
+        if (section==1) {
+            detal.text = @"本月明细";
+        }else{
+            
+            if (lengthString>5) {
+                
+                NSString *needStr=[str substringWithRange:NSMakeRange(5, lengthString-5)];
+                
+                detal.text=[NSString stringWithFormat:@"%@月明细",needStr];
+            }
+        }
+        
+        
     detal.font = TEXT_FONT_LEVEL_2;
     detal.textColor = TEXT_COLOR_LEVEL_2;
     [detal sizeToFit];
@@ -132,7 +167,6 @@ UITableViewDataSource>
         [headView addGestureRecognizer:tap];
         tap.view.tag = section;
     return headView;
-        
     }
     return nil;
         
@@ -140,9 +174,18 @@ UITableViewDataSource>
 
 -(void)sectionclickAction:(UITapGestureRecognizer *)tap
 {
+    
+    
+    NSInteger row=tap.view.tag-1;
+   
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
-
-    DetailVC.monthArr = monthArray;
+    
+    NSInteger length=sectionArray.count;
+    
+    NSInteger index=length-row-1;
+    
+    DetailVC.curMonth=sectionArray[index];
+    DetailVC.monthArr = sectionArray;
     [self.navigationController pushViewController:DetailVC animated:YES];
 }
 
@@ -186,7 +229,6 @@ UITableViewDataSource>
         }
         return cell;
         
-        
     }else{
         static NSString *cellID = @"cellId";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
@@ -211,6 +253,7 @@ UITableViewDataSource>
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.section==0) {
         if (indexPath.row==1) {
             LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
@@ -218,8 +261,9 @@ UITableViewDataSource>
             [reVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:reVC animated:YES];
         }
+    }else{
+        
     }
-    
 }
 
 #pragma mark  --获取余额数据
@@ -251,8 +295,12 @@ UITableViewDataSource>
 -(void)getBlanceDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+//    NSLog(@"==========余额====bodyDic===========%@",bodyDic);
+    
     if (!bodyDic) {
         [self textStateHUD:@"获取余额失败"];
+        return;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
@@ -304,16 +352,25 @@ UITableViewDataSource>
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
     
-    NSLog(@"===========余额明细=bodyDic==============%@",bodyDic);
+//    NSLog(@"===========余额明细=bodyDic==============%@",bodyDic);
     
     if (!bodyDic) {
         [self textStateHUD:@"获取余额列表失败"];
+        return;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
-        NSMutableArray *array=bodyDic[@"list"];
-        
             
+            bodyData=[[LMBalanceBody alloc]initWithDictionary:bodyDic];
+            
+            for (int i=0; i<bodyData.list.count; i++) {
+                LMBalanceList *list=bodyData.list[i];
+                [sectionArray addObject:list.month];
+            }
+            
+            
+          NSMutableArray *array=bodyDic[@"list"];
+        
             for (NSDictionary *dic in array) {
                 LMBalanceVO *vo = [LMBalanceVO LMBalanceVOWithDictionary:dic];
                 [voArray addObject:vo];
@@ -324,9 +381,6 @@ UITableViewDataSource>
                 NSString *month = vo.month;
                 [monthArray addObject:month];
             }
-            
-            
-            
             
         }
         [_tableView reloadData];

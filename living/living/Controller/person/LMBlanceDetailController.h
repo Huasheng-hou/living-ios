@@ -12,4 +12,6 @@
 
 @property(nonatomic,strong)NSMutableArray *monthArr;
 
+@property(nonatomic,strong)NSString *curMonth;
+
 @end

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "LMBalanceBillVO.h"
 
+#import "LMMonthDetailBill.h"
+
 @protocol  LMBlanceHeadCellDelegate;
 
 @interface LMBlanceHeadCell : UITableViewCell
@@ -18,6 +20,10 @@
 
 
 -(void)setDic:(NSDictionary *)dic;
+
+
+-(void)setValue:(LMMonthDetailBill *)bill;
+
 
 @end
 
