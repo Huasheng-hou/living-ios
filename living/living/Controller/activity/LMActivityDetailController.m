@@ -731,17 +731,14 @@ UIAlertViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
--(void)commitDataRequest
+- (void)commitDataRequest
 {
-    
     NSLog(@"%@",_eventUuid);
     NSLog(@"%@",commitUUid);
     NSLog(@"%@",commentText.text);
 
-    NSString *string;
-    if ([suggestTF.text containsString:@"""" ]) {
-        string =[suggestTF.text stringByReplacingOccurrencesOfString:@"""" withString:@""];
-    }
+    NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    
     LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -976,11 +973,8 @@ UIAlertViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    NSString *string;
-    if ([suggestTF.text containsString:@"""" ]) {
-        string =[suggestTF.text stringByReplacingOccurrencesOfString:@"""" withString:@""];
-    }
     
+    NSString *string    = [suggestTF.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
     LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request

@@ -1039,13 +1039,10 @@ shareTypeDelegate
 
 -(void)commitDataRequest
 {
+    NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
-    NSString *string;
-    if ([commentText.text containsString:@"""" ]) {
-        string =[commentText.text stringByReplacingOccurrencesOfString:@"""" withString:@""];
-    }
+    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:string];
     
-    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:commentText.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1225,13 +1222,8 @@ shareTypeDelegate
         [self textStateHUD:@"请输入评论内容"];
         return;
     }
-    NSString *string;
-    if ([textcView.text containsString:@"""" ]) {
-        string =[textcView.text stringByReplacingOccurrencesOfString:@"""" withString:@""];
-    }
     
-
-    
+    NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
     NSLog(@"************%@",textcView.text);
     LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
