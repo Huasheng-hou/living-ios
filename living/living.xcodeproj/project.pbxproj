@@ -305,6 +305,7 @@
 		8E92944A1DD04CEE00A00829 /* LMMonthDetailBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E9294441DD04CEE00A00829 /* LMMonthDetailBill.m */; };
 		8E92944B1DD04CEE00A00829 /* LMMonthDetailBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E9294461DD04CEE00A00829 /* LMMonthDetailBody.m */; };
 		8E92944C1DD04CEE00A00829 /* LMMonthDetailList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E9294491DD04CEE00A00829 /* LMMonthDetailList.m */; };
+		8E948AFC1DD16E35002805DD /* LMToolTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E948AFB1DD16E35002805DD /* LMToolTipView.m */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
 		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
 		8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */; };
@@ -948,6 +949,8 @@
 		8E9294471DD04CEE00A00829 /* LMMonthDetailDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMonthDetailDataModels.h; sourceTree = "<group>"; };
 		8E9294481DD04CEE00A00829 /* LMMonthDetailList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMonthDetailList.h; sourceTree = "<group>"; };
 		8E9294491DD04CEE00A00829 /* LMMonthDetailList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMonthDetailList.m; sourceTree = "<group>"; };
+		8E948AFA1DD16E35002805DD /* LMToolTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMToolTipView.h; sourceTree = "<group>"; };
+		8E948AFB1DD16E35002805DD /* LMToolTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMToolTipView.m; sourceTree = "<group>"; };
 		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8ECA2ACA1DC981A7000CD0AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -2396,6 +2399,7 @@
 		873794D31DCF8A1000A2ACD7 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				8E948AF91DD16D99002805DD /* ToolTipView */,
 				873794D41DCF8A1000A2ACD7 /* LMBlanceHeadCell.h */,
 				873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */,
 				873794D61DCF8A1000A2ACD7 /* LMBlanceListCell.h */,
@@ -2517,6 +2521,15 @@
 				8E9294491DD04CEE00A00829 /* LMMonthDetailList.m */,
 			);
 			path = LMMonthDetailData;
+			sourceTree = "<group>";
+		};
+		8E948AF91DD16D99002805DD /* ToolTipView */ = {
+			isa = PBXGroup;
+			children = (
+				8E948AFA1DD16E35002805DD /* LMToolTipView.h */,
+				8E948AFB1DD16E35002805DD /* LMToolTipView.m */,
+			);
+			path = ToolTipView;
 			sourceTree = "<group>";
 		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
@@ -2833,6 +2846,7 @@
 				8737951E1DCF8A1000A2ACD7 /* Readme.markdown in Sources */,
 				8737960D1DCF8A1100A2ACD7 /* HBShareButton.m in Sources */,
 				873795761DCF8A1000A2ACD7 /* LMALLList.m in Sources */,
+				8E948AFC1DD16E35002805DD /* LMToolTipView.m in Sources */,
 				873795161DCF8A1000A2ACD7 /* MJRefreshBaseView.m in Sources */,
 				873795A61DCF8A1000A2ACD7 /* LMBalanceRequest.m in Sources */,
 				873795401DCF8A1000A2ACD7 /* LMFindViewController.m in Sources */,
