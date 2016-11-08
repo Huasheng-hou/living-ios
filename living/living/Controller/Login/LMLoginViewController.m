@@ -375,6 +375,11 @@ WXApiDelegate
 
 - (void)submitBtnPressed
 {
+    if ([_phoneTF.text isEqualToString:@""]) {
+        [self textStateHUD:@"请输入手机号"];
+        return;
+    }
+    
     //      验证码正则
     NSString    *verCodeRegex     = @"[0-9]{6}";
     NSPredicate *verCodePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", verCodeRegex];
@@ -415,13 +420,14 @@ WXApiDelegate
 
 - (void)parseCodeResponse:(NSString *)resp
 {
-    [self hideStateHud];
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"登录失败"];
         return;
     }
+    
+    NSLog(@"========直接登录====bodyDict============%@",bodyDict);
     
     NSString *result    = [bodyDict objectForKey:@"result"];
     
@@ -440,20 +446,26 @@ WXApiDelegate
 
         [self setUserInfo];
         
-        if (is_exist && [is_exist intValue] == 0) {
-            
-            LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
-            
-            registerVC.userId = _uuid;
-            registerVC.passWord = _password;
-            registerVC.numberString = _phoneTF.text;
+        [self textStateHUD:@"登录成功"];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
            
-            [self.navigationController pushViewController:registerVC animated:YES];
-        }else{
+                if (is_exist && [is_exist intValue] == 0) {
+            
+                    LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
+            
+                    registerVC.userId = _uuid;
+                    registerVC.passWord = _password;
+                    registerVC.numberString = _phoneTF.text;
+           
+                    [self.navigationController pushViewController:registerVC animated:YES];
+             }else{
                     
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"login" object:nil];
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"login" object:nil];
+                 [self dismissViewControllerAnimated:YES completion:nil];
+             }
+        });
+        
     } else {
         
         NSString *string = [bodyDict objectForKey:@"description"];
@@ -518,12 +530,17 @@ WXApiDelegate
 
 -(void)wxinLoginAction
 {
+   
     NSLog(@"**登陆**");
-    //构造SendAuthReq结构体
-    SendAuthReq* req =[[SendAuthReq alloc ] init ];
-    req.scope = @"snsapi_userinfo" ;//获取用户个人信息字段
-    req.state = @"wx" ;
-    [WXApi sendReq:req];
+     [self initStateHud];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+         //构造SendAuthReq结构体
+        SendAuthReq* req =[[SendAuthReq alloc ] init ];
+        req.scope = @"snsapi_userinfo" ;//获取用户个人信息字段
+        req.state = @"wx" ;
+        [WXApi sendReq:req];
+    });
 }
 
 // * 微信登录通知响应
@@ -544,6 +561,7 @@ WXApiDelegate
                                    
                                    if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
                                        
+                                       [self textStateHUD:@"微信授权失败"];
                                        return;
                                    }
                                    
@@ -571,6 +589,7 @@ WXApiDelegate
                                
                                if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
                                    
+                                   [self textStateHUD:@"微信授权失败"];
                                    return;
                                }
 

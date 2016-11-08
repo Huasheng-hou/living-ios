@@ -268,9 +268,6 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-
-    
-    
     LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -285,8 +282,6 @@ UIViewControllerTransitioningDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
-    
 }
 
 - (void)parseCodeResponse:(NSString *)resp

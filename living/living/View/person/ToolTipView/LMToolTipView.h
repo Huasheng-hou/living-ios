@@ -18,4 +18,5 @@
 
 @property(nonatomic,assign)id<buttonTypeDelegate>delegate;
 
+- (id)initWithHeadImage:(NSString *)image andNickName:(NSString *)nickName;
 @end

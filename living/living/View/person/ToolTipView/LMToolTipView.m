@@ -9,6 +9,7 @@
 
 #import "LMToolTipView.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 
 #define WhiteviewHeight   220
 
@@ -17,12 +18,12 @@
 {
     UIView *whiteView;
     
-    UIImage *_headImage;
+    NSString *_headImage;
     NSString *_nickName;
     
 }
 
-- (instancetype)initWithHeadImage:(UIImage *)image andNickName:(NSString *)nickName
+- (id)initWithHeadImage:(NSString *)image andNickName:(NSString *)nickName
 {
     self = [super init];
     if (self) {
@@ -72,7 +73,7 @@
     
     //头像
     UIImageView *headImageV=[[UIImageView alloc]initWithFrame:CGRectMake(whiteView.frame.size.width/2-30, 60, 60, 60)];
-    [headImageV setImage:_headImage];
+    [headImageV sd_setImageWithURL:[NSURL URLWithString:_headImage]];
     [headImageV.layer setCornerRadius:30.0f];
     [headImageV.layer setMasksToBounds:YES];
     [whiteView addSubview:headImageV];
@@ -82,6 +83,7 @@
     [name setText:_nickName];
     [name setFont:TEXT_FONT_LEVEL_2];
     [name setTextColor:TEXT_COLOR_LEVEL_3];
+    [name setTextAlignment:NSTextAlignmentCenter];
     [whiteView addSubview:name];
     
     
@@ -103,7 +105,7 @@
     
     for (int i=0; i<2; i++) {
         UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(buttonW*i, whiteView.frame.size.height-44, buttonW, 44)];
-        [button setTag:i+1];
+        [button setTag:i];
         [button setTitle:titleArray[i] forState:UIControlStateNormal];
         [button.titleLabel setFont:TEXT_FONT_LEVEL_2];
         if (i==0) {

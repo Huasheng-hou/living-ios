@@ -15,6 +15,8 @@
 #import "LMMyFriendViewController.h"
 #import "LMFriendDataRequest.h"
 
+#import "LMToolTipView.h"
+
 
 #define DeviceMaxHeight ([UIScreen mainScreen].bounds.size.height)
 #define DeviceMaxWidth ([UIScreen mainScreen].bounds.size.width)
@@ -23,7 +25,7 @@
 
 
 @interface LMScanViewController ()
-<QRCodeReaderViewDelegate,AVCaptureMetadataOutputObjectsDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate>
+<QRCodeReaderViewDelegate,AVCaptureMetadataOutputObjectsDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,buttonTypeDelegate>
 {
     QRCodeReaderView * readview;//二维码扫描对象
     
@@ -136,7 +138,7 @@
     readview.is_Anmotion = YES;
     
     NSArray *features = [self.detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
-    if (features.count >=1) {
+    if (features.count >=1) {    
         
         [picker dismissViewControllerAnimated:YES completion:^{
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
@@ -199,9 +201,9 @@
     
     if (str.length >9) {
         scanResult = [str substringFromIndex:9];
+    }else{
+        scanResult=@"123456789";
     }
-    
-    [self getMakeFriend];
     
     LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:scanResult];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -221,6 +223,10 @@
     
 }
 
+
+
+
+
 -(void)getjoinNumResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
@@ -231,15 +237,50 @@
         [self textStateHUD:@"获取好友信息失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            NSLog(@"****");
+            NSLog(@"=======扫码之后展示加盟商信息==bodyDic======%@",bodyDic);
+            
+            NSDictionary *dic=bodyDic[@"map"];
+            
+            NSString *avatar;
+            
+            if (dic[@"avatar"]) {
+                avatar=dic[@"avatar"];
+            }else{
+                avatar=@"http://";
+            }
+            
+             NSString *nickname;
+            if (dic[@"nickname"]) {
+                nickname=dic[@"nickname"];
+            }else{
+                nickname=@" ";
+            }
+            
+             [readview stop];
+            LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
+            [tipView setDelegate:self];
+            [self.view addSubview:tipView];
+            
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
     }
 }
 
+#pragma mark LMToolTipView代理方法
+
+-(void)buttonType:(NSInteger)type
+{
+    if (type==1) {//确定
+    
+        [self getMakeFriend];
+    }else{
+        [readview start];
+    }
+}
 
 
+#pragma mark 扫码加好友
 
 -(void)getMakeFriend
 {
@@ -253,8 +294,9 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取二维码信息失败"
+                                                                      withObject:@"添加好友失败"
                                                                    waitUntilDone:YES];
+                                                [readview start];
                                            }];
     [proxy start];
 }
@@ -270,6 +312,7 @@
     
     if (!bodyDic) {
         [self textStateHUD:@"添加好友失败!"];
+         [readview start];
     }else{
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
@@ -284,6 +327,7 @@
             });
             
         }else{
+             [readview start];
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
         
