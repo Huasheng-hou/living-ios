@@ -39,7 +39,7 @@ LMhomePageCellDelegate
 {
     UIView *headView;
     UIBarButtonItem *backItem;
-    
+
     NSIndexPath *deleteIndexPath;
     
     NSInteger        totalPage;
@@ -85,8 +85,6 @@ LMhomePageCellDelegate
     [super viewDidLoad];
     
     self.title = @"首页";
-    
-//    pageIndexArray=[NSMutableArray arrayWithCapacity:0];
     
     [self creatUI];
 

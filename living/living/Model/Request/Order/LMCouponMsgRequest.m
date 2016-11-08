@@ -1,16 +1,16 @@
 //
-//  LMArtclePariseRequest.m
+//  LMCouponMsgRequest.m
 //  living
 //
-//  Created by Ding on 16/10/12.
+//  Created by Ding on 2016/11/8.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "LMArtclePariseRequest.h"
+#import "LMCouponMsgRequest.h"
 
-@implementation LMArtclePariseRequest
+@implementation LMCouponMsgRequest
 
-- (id)initWithArticle_uuid:(NSString *)article_uuid
+-(id)initWithOrder_uuid:(NSString *)order_uuid
 {
     self = [super init];
     
@@ -18,14 +18,13 @@
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-        if (article_uuid){
-            [bodyDict setObject:article_uuid forKey:@"article_uuid"];
+        if (order_uuid){
+            [bodyDict setObject:order_uuid forKey:@"order_uuid"];
         }
+        
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
-        
-        
     }
     return self;
 }
@@ -37,8 +36,7 @@
 
 - (NSString *)methodPath
 {
-    return @"article/praise";
+    return @"order/discount";
 }
-
 
 @end

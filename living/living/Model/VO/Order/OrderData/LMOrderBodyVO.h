@@ -31,6 +31,7 @@
 @property (nonatomic, retain) NSString *orderUuid;
 @property (nonatomic, retain) NSString *eventUuid;
 @property (nonatomic, retain) NSString *orderTime;
+@property (nonatomic, retain) NSString *balance;
 
 
 @end

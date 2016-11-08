@@ -16,6 +16,7 @@
 #import "LMRefundRequest.h"
 #import "LMOrederDeleteRequest.h"
 
+#import "LMBalanceChargeRequest.h"
 
 //支付宝
 #import "Order.h"
@@ -34,6 +35,8 @@
 #import "MJRefresh.h"
 
 #import "LMActivityDetailController.h"
+
+#import "LMCouponMsgRequest.h"
 
 @interface LMOrderViewController ()<UITableViewDelegate,
 UITableViewDataSource,
@@ -367,14 +370,34 @@ LMOrderCellDelegate>
 {
     NSLog(@"**********付款");
     Orderuuid = cell.Orderuuid;
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:Orderuuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(balancemessageResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                           }];
+    [proxy start];
+    
+    
+    
+    
+    
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
                                                                    message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"余额支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******余额支付");
-//        [self wxRechargeRequest];
-        [self textStateHUD:@"暂无接口"];
+        [self balanceChargeRequest];
         
     }]];
     
@@ -399,6 +422,13 @@ LMOrderCellDelegate>
     
     
 }
+
+-(void)balancemessageResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"%@",bodyDic);
+}
+
 - (void)cellWillfinish:(LMOrderCell *)cell
 {
     NSLog(@"**********完成");
@@ -684,6 +714,61 @@ LMOrderCellDelegate>
     }
 }
 
+#pragma mark  --余额支付
+
+-(void)balanceChargeRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMBalanceChargeRequest *request = [[LMBalanceChargeRequest alloc] initWithOrder_uuid:Orderuuid useBalance:_useBalance];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(balanceChargeResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"余额支付失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)balanceChargeResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"余额支付失败"];
+    }else{
+        NSString        *result     = [bodyDic objectForKey:@"result"];
+        
+        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
+            
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您已成功付款"
+                                                                           message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSLog(@"******确定");
+                [self reloadingHomePage];
+
+                
+                
+            }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }else{
+            [self textStateHUD:@"支付失败，请重试"];
+        }
+
+    }
+    
+}
 
 
 
