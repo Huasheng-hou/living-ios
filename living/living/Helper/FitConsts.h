@@ -26,8 +26,15 @@
 
 #define umShareAppKey           @"560274c367e58ec5cb004a8d"
 
-#define wxAppID                 @"wx443c64230b24fe24"
-#define wxAppSecret             @"434afce230f6a7fb72c2279e3c8dec57"
+
+//暂时的，换车吧
+#define wxAppID                 @"wxe6c31febbd05d58d"
+#define wxAppSecret             @"efbbec4b7b7440e339f1192d0733082b"
+
+
+//#define wxAppID                 @"wx443c64230b24fe24"
+//#define wxAppSecret             @"434afce230f6a7fb72c2279e3c8dec57"
+
 
 //------------------界面常量--------------------
 

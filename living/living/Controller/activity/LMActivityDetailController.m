@@ -38,6 +38,9 @@
 
 #import "SYPhotoBrowser.h"
 
+//地图导航
+#import "LMNavMapViewController.h"
+
 @interface LMActivityDetailController ()
 <
 UITableViewDelegate,
@@ -526,6 +529,9 @@ UIAlertViewDelegate
         UITapGestureRecognizer   *hintLblTap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callTelephone)];
         [cell.numberLabel addGestureRecognizer:hintLblTap];
         
+        UITapGestureRecognizer   *tapMap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(transitionMapView)];
+        [cell.addressLabel addGestureRecognizer:tapMap];
+        
         return cell;
     }
     
@@ -577,6 +583,8 @@ UIAlertViewDelegate
     return nil;
 }
 
+#pragma mark 拨打电话
+
 - (void)callTelephone
 {
     if (!eventDic.contactPhone) {
@@ -592,6 +600,35 @@ UIAlertViewDelegate
     [alert show];
     alert   = nil;
 }
+
+#pragma mark 跳转到地图
+
+-(void)transitionMapView
+{
+    
+    if (!eventDic.address&&![eventDic.address isEqualToString:@""]) {
+        return;
+    }
+    
+    if ([latitude floatValue]<=0||[longitude floatValue]<=0){
+        return;
+    }
+    
+    if (!latitude||!longitude){
+        return;
+    }
+    
+    LMNavMapViewController *mapVC=[[LMNavMapViewController alloc]init];
+        
+    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
+    
+    [dic setObject:eventDic.address forKey:@"addressName"];
+    [dic setObject:latitude forKey:@"latitude"];
+    [dic setObject:longitude forKey:@"longitude"];
+    mapVC.infoDic=dic;
+    [self.navigationController pushViewController:mapVC animated:YES];
+}
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

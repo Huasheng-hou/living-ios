@@ -39,7 +39,7 @@
 @property   (nonatomic,retain)     NSMutableArray    *tagArray;
 @property   (retain, nonatomic)     NSString        *franchisee;
 @property   (retain, nonatomic)     NSString        *vipString;
-
+@property   (retain, nonatomic)     NSString        *userId;
 // * 微信登录
 //
 

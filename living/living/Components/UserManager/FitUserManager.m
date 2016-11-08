@@ -433,4 +433,14 @@ static NSString *const __kPasswordInfoFileName = @"C2BC1692D60AAC29";
     return [[self userInfo] objectForKey:@"unionId"];
 }
 
+- (void)setUserId:(NSString *)userId
+{
+    [self saveUserInnfo:userId ForKey:@"userId"];
+}
+
+- (NSString *)userId
+{
+    return [[self userInfo] objectForKey:@"userId"];
+}
+
 @end

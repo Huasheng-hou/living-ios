@@ -68,7 +68,7 @@ UNUserNotificationCenterDelegate
     [self.window makeKeyAndVisible];
     
     //向微信注册
-    [WXApi registerApp:@"wx443c64230b24fe24"];
+    [WXApi registerApp:@"wxe6c31febbd05d58d"];
     
 //    1104875913
    _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
@@ -95,8 +95,6 @@ UNUserNotificationCenterDelegate
     
     return YES;
 }
-
-
 
 #pragma mark - APNS Process
 
@@ -333,9 +331,22 @@ UNUserNotificationCenterDelegate
 
 - (void)onResp:(BaseResp *)resp
 {
+    
+    
+    
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         
         SendAuthResp    *authResp   = (SendAuthResp *)resp;
+        
+        NSLog(@"=================%d===============%@",authResp.errCode,authResp.state);
+        
+        
+        if (authResp.errCode==-2) {//用户返回，由于返回的state为空，在这写
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"userCancel"
+                                                                object:nil
+                                                              userInfo:nil];
+        }
+        
         
         if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
             
@@ -345,6 +356,8 @@ UNUserNotificationCenterDelegate
 //            WXErrCodeSentFail   = -3,   /**< 发送失败    */
 //            WXErrCodeAuthDeny   = -4,   /**< 授权失败    */
 //            WXErrCodeUnsupport  = -5,   /**< 微信不支持    */
+            
+           
             
             switch (authResp.errCode) {
                 

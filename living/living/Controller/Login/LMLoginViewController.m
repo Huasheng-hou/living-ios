@@ -46,6 +46,8 @@ WXApiDelegate
     NSString        *privileges;
     NSString        *franchisee;
     NSString        *vipString;
+    
+    NSString        *_Id;
 }
 
 @end
@@ -76,6 +78,11 @@ WXApiDelegate
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didFinishedWechatLogin:)
                                                      name:LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userLoginCancel)
+                                                     name:@"userCancel"
                                                    object:nil];
     }
     return self;
@@ -440,6 +447,7 @@ WXApiDelegate
         NSString *is_exist = [bodyDict objectForKey:@"has_profile"];
          privileges = [bodyDict objectForKey:@"privileges"];
         
+        _Id         = [bodyDict objectForKey:@"userId"];
         
         franchisee = [bodyDict objectForKey:@"franchisee"];
         vipString =[bodyDict objectForKey:@"sign"];
@@ -511,6 +519,10 @@ WXApiDelegate
         [userInfo setObject:vipString forKey:@"vipString"];
     }
     
+    if (_Id) {
+        [userInfo setObject:_Id forKey:@"userId"];
+    }
+    
     [[FitUserManager sharedUserManager] updateUserInfo:userInfo];
 }
 
@@ -543,13 +555,27 @@ WXApiDelegate
     });
 }
 
+
+-(void)userLoginCancel
+{
+    [self textStateHUD:@"已取消授权，请重新登录"];
+    return;
+}
+
+
 // * 微信登录通知响应
 //
 - (void)didFinishedWechatLogin:(NSNotification *)notification
 {
+    NSLog(@"===========didFinishedWechatLogin===============%@",notification);
+    
     NSString    *code   = [[notification userInfo] objectForKey:@"code"];
     
     if (code && [code isKindOfClass:[NSString class]]) {
+        
+            [self textStateHUD:@"微信授权失败"];
+            return;
+
         
         NSURL   *tokenUrl   = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", wxAppID, wxAppSecret, code]];
         

@@ -8,6 +8,8 @@
 
 
 #import <MAMapKit/MAMapKit.h>
+
+#import <AMapNaviKit/AMapNaviKit.h>
 #import <AMapSearchKit/AMapCommonObj.h>
 
 @interface POIAnnotation : NSObject <MAAnnotation>

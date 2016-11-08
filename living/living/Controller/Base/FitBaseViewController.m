@@ -37,7 +37,7 @@
     stateHud.label.text = text;
     stateHud.label.font = [UIFont systemFontOfSize:12.0f];
     [stateHud showAnimated:YES];
-    [stateHud hideAnimated:YES afterDelay:0.8];
+    [stateHud hideAnimated:YES afterDelay:1.2];
 }
 
 - (void)initStateHud

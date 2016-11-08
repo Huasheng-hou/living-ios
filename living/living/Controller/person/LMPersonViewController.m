@@ -249,6 +249,17 @@
             }
             [cell.contentView addSubview:genderImage];
             
+            //id
+            UILabel *idLabel=[[UILabel alloc]initWithFrame:CGRectMake(textSize.width+5+100+23, 22, kScreenWidth-(textSize.width+5+100+23)-15, 16)];
+            NSString *userID=[FitUserManager sharedUserManager].userId;
+            if (userID) {
+                 [idLabel setText:[NSString stringWithFormat:@"ID:%@",userID]];
+            }
+            [idLabel setFont:TEXT_FONT_LEVEL_1];
+             idLabel.textColor = TEXT_COLOR_LEVEL_2;
+            [cell.contentView addSubview:idLabel];
+            
+            
             //下划线
             UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 50, kScreenWidth-100, 0.5)];
             lineLabel.backgroundColor = LINE_COLOR;
@@ -356,13 +367,8 @@
         cell.imageView.image = [UIImage imageNamed:@"setting"];
         
     }
-    
-    
     return cell;
-
 }
-
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
