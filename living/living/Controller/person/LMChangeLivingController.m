@@ -76,7 +76,7 @@
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
-    NSLog(@"***********选择生活馆**%@",bodyDic);
+//    NSLog(@"***********选择生活馆**%@",bodyDic);
     NSString *result    = [bodyDic objectForKey:@"result"];
     
     if (result && [result intValue] == 0)

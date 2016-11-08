@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AMapSearchKit/AMapCommonObj.h>
+
+#import <AMapNaviKit/AMapNaviKit.h>
 #import <MAMapKit/MAMapKit.h>
 
 @interface AMapTipAnnotation : NSObject <MAAnnotation>

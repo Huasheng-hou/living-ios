@@ -24,8 +24,6 @@
 
 @property (nonatomic, strong) UILabel *priceLabel;
 
-@property (nonatomic, strong) UILabel *addressLabel;
-
 @end
 
 @implementation LMActivityMsgCell
@@ -95,6 +93,7 @@
 //    _addressLabel.text = @"浙江省杭州市西湖区万塘路";
     _addressLabel.textAlignment = NSTextAlignmentRight;
     _addressLabel.font = [UIFont systemFontOfSize:13.f];
+    [_addressLabel setUserInteractionEnabled:YES];
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_addressLabel];
     

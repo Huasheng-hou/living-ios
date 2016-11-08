@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) UILabel *numberLabel;
 
+@property (nonatomic, strong) UILabel *addressLabel;//地址
+
 @property(nonatomic,strong)MKMapView *mapView;
 
 @property (nonatomic, readonly) float xScale;
