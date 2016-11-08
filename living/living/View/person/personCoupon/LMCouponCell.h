@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMCouponVO.h"
 
 @interface LMCouponCell : UITableViewCell
 
@@ -15,5 +16,9 @@
 @property(nonatomic,strong)UITextView *contentLabel;
 
 @property(nonatomic,strong)UILabel *priceLabel;
+@property(nonatomic,strong)UIImageView *imageV;
+
+
+-(void)setValue:(LMCouponVO *)list;
 
 @end

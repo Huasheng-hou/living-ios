@@ -347,10 +347,6 @@
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-
- 
-        
-        
     }
     if (indexPath.section==3) {
         
@@ -398,8 +394,10 @@
         }
         //订单
         if (indexPath.row==1) {
+            UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
             LMOrderViewController *orderVC = [[LMOrderViewController alloc] init];
             [orderVC setHidesBottomBarWhenPushed:YES];
+            orderVC.useBalance = [NSString stringWithFormat:@"%d",infoModel.balance];
             [self.navigationController pushViewController:orderVC animated:YES];
         }
         //生活馆

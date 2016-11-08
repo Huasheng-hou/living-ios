@@ -25,6 +25,8 @@
 #import "WXApiObject.h"
 #import "WXApi.h"
 
+#import "LMBalanceChargeRequest.h"
+
 #import "LMWXPayRequest.h"
 #import "LMWXPayResultRequest.h"
 #import "LMEventBodyVO.h"
@@ -117,6 +119,7 @@
 
 - (void)getOrderDataResponse:(NSString *)resp
 {
+    
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
   
     [self logoutAction:resp];
@@ -437,7 +440,15 @@
 -(void)payAction
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
-                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];      [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"余额支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"******余额支付");
+        [self balanceChargeRequest];
+        
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******微信支付");
         [self wxRechargeRequest];
         
@@ -562,7 +573,6 @@
                 [self textStateHUD:@"支付成功！"];
             
                 
-                
             }else{
                 [self textStateHUD:@"支付失败！"];
             }
@@ -678,5 +688,60 @@
         }
     }
 }
+
+#pragma mark  --余额支付
+
+-(void)balanceChargeRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMBalanceChargeRequest *request = [[LMBalanceChargeRequest alloc] initWithOrder_uuid:orderInfos.orderUuid useBalance:orderdata.balance];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(balanceChargeResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"余额支付失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)balanceChargeResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"余额支付失败"];
+    }else{
+        NSString        *result     = [bodyDic objectForKey:@"result"];
+        
+        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
+            
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您已成功付款"
+                                                                           message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSLog(@"******确定");
+                
+            }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }else{
+            [self textStateHUD:@"支付失败，请重试"];
+        }
+        
+    }
+    
+}
+
+
 
 @end

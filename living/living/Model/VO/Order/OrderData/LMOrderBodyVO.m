@@ -88,6 +88,11 @@
             self.orderTime = [dictionary objectForKey:@"order_time"];
         }
         
+        if (nil != [dictionary objectForKey:@"balance"] && ![[dictionary objectForKey:@"balance"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"balance"] isKindOfClass:[NSString class]]) {
+            self.balance = [dictionary objectForKey:@"balance"];
+        }
+        
         
         
     }

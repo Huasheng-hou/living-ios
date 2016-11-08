@@ -24,24 +24,24 @@
 -(void)addSubviews
 {
     //背景图片
-    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 90)];
-    [imageV setImage:[UIImage imageNamed:@"personCouponBg"]];
-    [self addSubview:imageV];
+    _imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 90)];
+    [_imageV setImage:[UIImage imageNamed:@"CouponOR"]];
+    [self addSubview:_imageV];
     
 //    名字
-    _nameLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 10, imageV.bounds.size.width*2/3-30, 30)];
+    _nameLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, 10, _imageV.bounds.size.width*2/3-30, 30)];
     [_nameLabel setText:@"这是生活馆名字"];
     [_nameLabel setTextColor:[UIColor whiteColor]];
     [_nameLabel setFont:TEXT_FONT_LEVEL_1];
-    [imageV addSubview:_nameLabel];
+    [_imageV addSubview:_nameLabel];
     
     //内容
-    _contentLabel=[[UITextView alloc]initWithFrame:CGRectMake(10, 35, imageV.bounds.size.width*2/3-20, 40)];
+    _contentLabel=[[UITextView alloc]initWithFrame:CGRectMake(10, 35, _imageV.bounds.size.width*2/3-20, 40)];
     [_contentLabel setText:@"这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动"];
     [_contentLabel setBackgroundColor:[UIColor clearColor]];
     [_contentLabel setFont:TEXT_FONT_LEVEL_2];
     [_contentLabel setUserInteractionEnabled:NO];
-    [imageV addSubview:_contentLabel];
+    [_imageV addSubview:_contentLabel];
     
     //段落间隔
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:_contentLabel.text];;
@@ -54,16 +54,44 @@
      [_contentLabel setTextColor:[UIColor whiteColor]];
 
     //价格
-    _priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(imageV.bounds.size.width*2/3, 5, imageV.bounds.size.width/3, 80)];
+    _priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(_imageV.bounds.size.width*2/3, 5, _imageV.bounds.size.width/3, 80)];
     [_priceLabel setText:@"抵￥30"];
     [_priceLabel setTextColor:[UIColor redColor]];
     [_priceLabel setTextAlignment:NSTextAlignmentCenter];
     [_priceLabel setFont:[UIFont systemFontOfSize:20]];
-    [imageV addSubview:_priceLabel];
+    [_imageV addSubview:_priceLabel];
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
     [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_2 range:NSMakeRange(0, 1)];
     _priceLabel.attributedText = str;
+}
+
+
+-(void)setValue:(LMCouponVO *)list
+{
+    _nameLabel.text = list.livingName;
+    
+    _contentLabel.text = list.eventName;
+    
+    
+    if ([list.amount isEqual:@"188"]) {
+        [_imageV setImage:[UIImage imageNamed:@"CouponOR"]];
+    }
+    
+    if ([list.amount isEqual:@"388"]) {
+        [_imageV setImage:[UIImage imageNamed:@"CouponRed1"]];
+    }
+    if ([list.amount isEqual:@"888"]) {
+        [_imageV setImage:[UIImage imageNamed:@"CouponRed2"]];
+    }
+    if ([list.amount isEqual:@"30"]) {
+        [_imageV setImage:[UIImage imageNamed:@"CouponBule"]];
+    }
+    
+    
+    
+    _priceLabel.text =[NSString stringWithFormat:@"抵%@",list.amount];
+    
 }
 
 @end

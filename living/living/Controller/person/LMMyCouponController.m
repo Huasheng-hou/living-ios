@@ -12,7 +12,7 @@
 #import "LMCouponRequest.h"
 
 //数据
-#import "LMCouponDataModels.h"
+#import "LMCouponVO.h"
 
 @interface LMMyCouponController ()
 <
@@ -84,8 +84,14 @@ UITableViewDataSource
         cell=[[LMCouponCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    if (![[cellDataArray[indexPath.row] objectForKey:@"living_name"] isEqual:@""]&&[cellDataArray[indexPath.row] objectForKey:@"living_name"]) {
-        cell.nameLabel.text =[cellDataArray[indexPath.row] objectForKey:@"living_name"];
+    if (cellDataArray.count > indexPath.row) {
+        
+        LMCouponVO     *vo = cellDataArray[indexPath.row];
+        
+        if (vo && [vo isKindOfClass:[LMCouponVO class]]) {
+            
+            [(LMCouponCell *)cell setValue:vo];
+        }
     }
     
     
@@ -127,18 +133,20 @@ UITableViewDataSource
         return;
     }
     
-//    LMCouponBody *body
-    
     NSLog(@"=========优惠券==bodyDict=============%@",bodyDict);
     
     NSString *result    = [bodyDict objectForKey:@"result"];
     
     if (result && [result intValue] == 0)
     {
-        cellDataArray = [bodyDict objectForKey:@"list"];
-        
-        if (cellDataArray.count==0) {
+        NSArray *array = [LMCouponVO LMCouponVOListWithArray:[bodyDict objectForKey:@"list"]];
+        if (!array || ![array isKindOfClass:[NSArray class]] || array.count < 1) {
+            
             [self visiableBgImage];
+        }else{
+            for (LMCouponVO *vo in array) {
+                [cellDataArray addObject:vo];
+            }
         }
      
         [table reloadData];

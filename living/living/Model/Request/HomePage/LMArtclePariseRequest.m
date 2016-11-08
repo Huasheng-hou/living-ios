@@ -25,8 +25,6 @@
             [bodyDict setObject:article_uuid forKey:@"article_uuid"];
         }
         
-        
-        
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
 
