@@ -72,9 +72,9 @@
             self.commentContent= [dictionary objectForKey:@"comment_content"];
         }
         
-        if (nil != [dictionary objectForKey:@"userUuid"] && ![[dictionary objectForKey:@"userUuid"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"userUuid"] isKindOfClass:[NSString class]]) {
-            self.userUuid = [dictionary objectForKey:@"userUuid"];
+        if (nil != [dictionary objectForKey:@"user_uuid"] && ![[dictionary objectForKey:@"user_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"user_uuid"] isKindOfClass:[NSString class]]) {
+            self.userUuid = [dictionary objectForKey:@"user_uuid"];
         }
         
         if (nil != [dictionary objectForKey:@"reply_uuid"] && ![[dictionary objectForKey:@"reply_uuid"] isEqual:[NSNull null]]
@@ -105,6 +105,21 @@
         if (nil != [dictionary objectForKey:@"praise_count"] && ![[dictionary objectForKey:@"praise_count"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"praise_count"] isKindOfClass:[NSNumber class]]) {
             self.praiseCount = [(NSNumber *)[dictionary objectForKey:@"praise_count"] intValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"comment_time"] && ![[dictionary objectForKey:@"comment_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"comment_time"] isKindOfClass:[NSString class]]) {
+            self.commentTime= [dictionary objectForKey:@"comment_time"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"nick_name"] && ![[dictionary objectForKey:@"nick_name"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"nick_name"] isKindOfClass:[NSString class]]) {
+            self.nickName= [dictionary objectForKey:@"nick_name"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"replyContent"] && ![[dictionary objectForKey:@"replyContent"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"replyContent"] isKindOfClass:[NSString class]]) {
+            self.replyContent= [dictionary objectForKey:@"replyContent"];
         }
         
         

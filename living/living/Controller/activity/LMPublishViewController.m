@@ -351,7 +351,7 @@ static NSMutableArray *cellDataArray;
             }
         }
         
-        if ([cell.includeTF.text isEqualToString:@""]) {
+        if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
              [cell.textLab setHidden:NO];
         }else{
              [cell.textLab setHidden:YES];
@@ -524,21 +524,30 @@ static NSMutableArray *cellDataArray;
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
     
-    
-    
-    
     return YES;
 }
 
 - (void)textViewDidChange:(UITextView *)textView1
 {
 
-    if (textView1.text.length==0)
-    {
-        [cell.textLab setHidden:NO];
-    }else{
-        [cell.textLab setHidden:YES];
+    NSLog(@"========textViewDidChange=========");
+
+    NSArray *array = self.tableView.visibleCells;
+    
+    for (UIView * view in array) {
+        if ([view isKindOfClass:[LMProjectCell class]]) {
+            LMProjectCell * cells = (LMProjectCell *)view;
+            if (textView1.text.length==0)
+            {
+                [cells.textLab setHidden:NO];
+            }else{
+                [cells.textLab setHidden:YES];
+            }
+        }
+
     }
+    
+
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -672,6 +681,11 @@ static NSMutableArray *cellDataArray;
     }else{
         [dic setObject:@"" forKey:@"image"];
     }
+<<<<<<< HEAD
+=======
+    
+//    [_tableView reloadData];
+>>>>>>> 4729e368f868f76ffaee9da3ce135bdd0d3477f5
 }
 
 #pragma mark 获取头像的url
@@ -719,11 +733,12 @@ static NSMutableArray *cellDataArray;
                                                }];
         [proxy start];
     }else{
+        [self initStateHud];
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
         UIImage *headImage = [ImageHelpTool scaleImage:image];
         request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
-        [self initStateHud];
+        
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    

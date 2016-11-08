@@ -80,6 +80,14 @@ shareTypeDelegate
 
 @implementation LMHomeDetailController
 
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+     [[UIApplication sharedApplication].keyWindow endEditing:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -143,19 +151,7 @@ shareTypeDelegate
     [textcView addSubview:tipLabel];
     
     [toolBar addSubview:textcView];
-    
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, 0, 100, 160)];
-    
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
-    homeImg.image = [UIImage imageNamed:@"NO-article"];
-    [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 100,30)];
-    imageLb.text = @"没有评论";
-    imageLb.textColor = TEXT_COLOR_LEVEL_3;
-    imageLb.textAlignment = NSTextAlignmentCenter;
-    [homeImage addSubview:imageLb];
-    
-    self.tableView.tableFooterView = homeImage;
+
 }
 
 #pragma mark --文章点赞
@@ -249,15 +245,29 @@ shareTypeDelegate
         fakeId = [NSString stringWithFormat:@"%d",articleData.fakaid];
         
         NSMutableArray *array=bodyDic[@"comment_messages"];
-        if (array.count>0) {
-            homeImage.frame = CGRectMake(0, 0, 0, 0);
-            [homeImage removeFromSuperview];
-        }
+
         
         for (int i =0; i<array.count; i++) {
 
             LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:array[i]];
             [listArray addObject:list];
+        }
+        if (listArray.count>0) {
+            
+            [homeImage removeFromSuperview];
+        }else{
+            homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, 0, 100, 160)];
+            
+            UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 70, 91)];
+            homeImg.image = [UIImage imageNamed:@"NO-article"];
+            [homeImage addSubview:homeImg];
+            UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 100,30)];
+            imageLb.text = @"没有评论";
+            imageLb.textColor = TEXT_COLOR_LEVEL_3;
+            imageLb.textAlignment = NSTextAlignmentCenter;
+            [homeImage addSubview:imageLb];
+            
+            self.tableView.tableFooterView = homeImage;
         }
         
         [self.tableView reloadData];
@@ -701,7 +711,7 @@ shareTypeDelegate
                 contentLabel.frame = CGRectMake(15, 70+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-//                shareLabel.frame = CGRectMake(45+commentLabel.bounds.size.width+zanLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs,shareLabel.textLabel.bounds.size.width+20,shareLabel.bounds.size.height);
+
 
                 [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
                 
@@ -728,6 +738,7 @@ shareTypeDelegate
     if (indexPath.section==1) {
         static NSString *cellId = @"cellId";
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMActicleCommentVO *list = listArray[indexPath.row];
         [cell setValue:list];
         cell.delegate = self;
@@ -972,6 +983,7 @@ shareTypeDelegate
     [UIView  beginAnimations:nil context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.75];
+    self.tableView.userInteractionEnabled = NO;
     [self showCommentText];
     [UIView commitAnimations];
 }
@@ -1008,7 +1020,7 @@ shareTypeDelegate
         [commentText addSubview:sureButton];
         [commentsView addSubview:commentText];
     }
-    [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
+    [[UIApplication sharedApplication].keyWindow addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
     [commentText becomeFirstResponder];//让textView成为第一响应者（第一次）这次键盘并未显示出来
 }
 
@@ -1027,7 +1039,10 @@ shareTypeDelegate
 
 -(void)commitDataRequest
 {
-    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:commentText.text];
+    NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    
+    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:string];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1207,8 +1222,11 @@ shareTypeDelegate
         [self textStateHUD:@"请输入评论内容"];
         return;
     }
+    
+    NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    
     NSLog(@"************%@",textcView.text);
-    LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:textcView.text];
+    LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1329,7 +1347,12 @@ shareTypeDelegate
     NSInteger index = tap.view.tag;
     
 
+
          LMActicleCommentVO *list= listArray[index];
+    if (![list.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
+        return;
+        
+    }else{
    
     
         
@@ -1384,8 +1407,9 @@ shareTypeDelegate
                 
             }
         } else {
-            
+            NSLog(@"failed");
         }
+    }
 }
 
 - (void)deleteCommentdata:(NSString *)uuid
@@ -1491,6 +1515,16 @@ shareTypeDelegate
     
 }
 
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    [self.view endEditing:YES];
+    return YES;
+}
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
 
 
 @end

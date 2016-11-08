@@ -9,12 +9,11 @@
 #import "LMPublicArticleController.h"
 #import "FirUploadImageRequest.h"
 #import "ZYQAssetPickerController.h"
-
+#import "FitNavigationController.h"
 #import "LMPublicArticleRequest.h"
 
 #import "ImageHelpTool.h"
 #import "UIView+frame.h"
-
 
 
 @interface LMPublicArticleController ()
@@ -48,13 +47,17 @@ UIViewControllerTransitioningDelegate
     
     NSInteger deleImageIndex;
     
-    UIView *grayView1;
-    
-    UIView *grayView2;
-    UIButton *publish;
-    
     UITextField *titleTF;
     UITextField *discribleTF;
+    
+    UIScrollView *scrollview;
+    
+    CGFloat textHight;
+    
+    UIView *backView;
+    
+    UIToolbar *toolBar;
+    UIButton *zanButton;
     
 }
 
@@ -62,21 +65,98 @@ UIViewControllerTransitioningDelegate
 
 @implementation LMPublicArticleController
 
++ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated
+{
+    if (!viewController) {
+        return;
+    }
+    
+    LMPublicArticleController      *publicVC    = [[LMPublicArticleController alloc] init];
+    FitNavigationController *navVC      = [[FitNavigationController alloc] initWithRootViewController:publicVC];
+    
+    [viewController presentViewController:navVC animated:animated completion:^{
+        
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self registerForKeyboardNotifications];
+    
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStylePlain target:self action:@selector(publishArtcle)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
+    
     [self createUI];
     
     imageArray      = [NSMutableArray arrayWithCapacity:0];
     imageUrlArray = [NSMutableArray arrayWithCapacity:0];
+    
+
 }
+
+#pragma mark 键盘部分
+
+- (void) registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter]  addObserver:self
+                                              selector:@selector(keyboardWasHidden:)
+                                                  name:UIKeyboardWillHideNotification
+                                                object:nil];
+    
+}
+
+
+- (void) keyboardWasShown:(NSNotification *) notif
+{
+    toolBar = [UIToolbar new];
+    CGFloat curkeyBoardHeight = [[[notif userInfo] objectForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue].size.height;
+    CGRect begin = [[[notif userInfo] objectForKey:@"UIKeyboardFrameBeginUserInfoKey"] CGRectValue];
+    CGRect end = [[[notif userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    
+    // 第三方键盘回调三次问题，监听仅执行最后一次
+
+        if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
+            [UIView animateWithDuration:0.1f animations:^{
+                [toolBar setFrame:CGRectMake(0, kScreenHeight-curkeyBoardHeight+toolBar.height, kScreenWidth, toolBar.height)];
+                
+                NSLog(@"****keyboardWasShown****%@",toolBar);
+                
+            }];
+        }
+}
+
+- (void) keyboardWasHidden:(NSNotification *) notif
+{
+    NSDictionary *info = [notif userInfo];
+    
+    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGSize keyboardSize = [value CGRectValue].size;
+    NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
+    // keyboardWasShown = NO;
+    [UIView animateWithDuration:0.1f animations:^{
+        [toolBar setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
+        NSLog(@"***keyboardWasHidden*%@",toolBar);
+    }];
+}
+
 
 - (void)createUI
 {
-    [super createUI];
-    [self.tableView setBackgroundColor:BG_GRAY_COLOR];
+
     self.title = @"发布文章";
-//    [self setAutomaticallyAdjustsScrollViewInsets:NO];
+    
+    toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
+    toolBar. barStyle = UIBarButtonItemStylePlain ;
+    
+    [[UIApplication sharedApplication].keyWindow addSubview :toolBar];
     
     pickImage=[[UIImagePickerController alloc]init];
     
@@ -85,16 +165,20 @@ UIViewControllerTransitioningDelegate
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setAllowsEditing:YES];
     
-    UIScrollView *scroll=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-    [scroll setBackgroundColor:BG_GRAY_COLOR];
-    [scroll setContentSize:CGSizeMake(kScreenWidth, 800)];
-    [scroll setDelegate:self];
-    [self.tableView addSubview:scroll];
+    zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
+    zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [zanButton setTitle:@"隐藏键盘" forState:UIControlStateNormal];
+    [zanButton setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+    [zanButton addTarget:self action:@selector(hiddenKeyboard) forControlEvents:UIControlEventTouchUpInside];
+    zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
+    
+    [toolBar addSubview:zanButton];
+    
     
     //
-    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight/2+50+45)];
+    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 65, kScreenWidth, kScreenHeight/2+50+45)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
-    [scroll addSubview:bgView];
+    [self.view addSubview:bgView];
     //
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5, kScreenWidth, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
@@ -120,18 +204,18 @@ UIViewControllerTransitioningDelegate
     discribleTF.font = TEXT_FONT_LEVEL_2;
     [bgView addSubview:discribleTF];
 
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5+45, kScreenWidth, 0.5)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5+45, kScreenWidth, 0.5)];
     line.backgroundColor = LINE_COLOR;
     [bgView addSubview:line];
     
     //正文
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, bgView.frame.size.height/2-45)];
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, (kScreenHeight-95-65)/3-20)];
+    textHight =(kScreenHeight-95-65)/3-20;
     [textView setDelegate:self];
     [textView setBackgroundColor:[UIColor whiteColor]];
     textView.font = TEXT_FONT_LEVEL_2;//设置字体名字和字体大小
     textView.delegate = self;//设置它的委托方法
-    
-//    [textView setReturnKeyType:UIReturnKeyDone];
+    textView.inputAccessoryView = toolBar;
     textView.keyboardType = UIKeyboardTypeDefault;//键盘类型
     textView.scrollEnabled = YES;//是否可以拖动
     textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
@@ -145,7 +229,15 @@ UIViewControllerTransitioningDelegate
     [bgView addSubview:tip];
     
     //加载图片，父视图是scroll
-    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight/4+50+45, kScreenWidth, bgView.frame.size.height/2+50)];
+    scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, (kScreenHeight-95-65)/3+95+20, kScreenWidth, (kScreenHeight-95-65)*2/3+20)];
+    scrollview.backgroundColor = [UIColor whiteColor];
+    scrollview.scrollEnabled = YES;
+    [scrollview setContentSize:CGSizeMake(kScreenWidth, (kScreenHeight-95-65)*2/3)];
+    [scrollview setDelegate:self];
+    [bgView addSubview:scrollview];
+    
+    
+    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, (kScreenHeight-95-65)*2/3)];
     [viewScroll setBackgroundColor:[UIColor whiteColor]];
     
     addImageBt=[[UIButton alloc]initWithFrame:[self setupImageFrame:0]];
@@ -153,27 +245,8 @@ UIViewControllerTransitioningDelegate
     [addImageBt setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
     [addImageBt addTarget:self action:@selector(selectImage) forControlEvents:UIControlEventTouchUpInside];
     [viewScroll addSubview:addImageBt];
-    [scroll addSubview:viewScroll];
+    [scrollview addSubview:viewScroll];
     
-    //按钮上边的灰色部分
-    grayView1=[[UIView alloc]initWithFrame:CGRectMake(0, viewScroll.frame.size.height-45-45, kScreenWidth, 45)];
-    [grayView1 setBackgroundColor:BG_GRAY_COLOR];
-    [viewScroll addSubview:grayView1];
-   
-    //和按钮同一y轴
-    grayView2=[[UIView alloc]initWithFrame:CGRectMake(0, viewScroll.frame.size.height-45+45, kScreenWidth, 45)];
-    [grayView2 setBackgroundColor:BG_GRAY_COLOR];
-    [viewScroll addSubview:grayView2];
-    
-    //发布按钮
-    publish=[[UIButton alloc]initWithFrame:CGRectMake(10, viewScroll.frame.size.height-45, kScreenWidth-20, 45)];
-    [publish setBackgroundColor:LIVING_COLOR];
-    
-    [publish.layer setCornerRadius:5.0f];
-    [publish.layer setMasksToBounds:YES];
-    [publish setTitle:@"发布" forState:UIControlStateNormal];
-    [publish addTarget:self action:@selector(publishQuestion) forControlEvents:UIControlEventTouchUpInside];
-    [viewScroll addSubview:publish];
 }
 
 -(void)selectImage
@@ -233,26 +306,23 @@ UIViewControllerTransitioningDelegate
     if (imageNum<4) {
         NSLog(@".count<=4");
         
-        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth,height+buttonW+space*2)];
+        [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW+space*2)];
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW+space*2)];
         
     }else if(imageNum<8) {
         NSLog(@".count<count<=8");
-        [viewScroll setFrame:CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth,height+buttonW*2+space*3)];
+        [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW*2+space*3)];
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*2+space*3)];
     }else if(imageNum<12){
         NSLog(@".count----else");
-        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth, height+buttonW*3+space*4);
+        viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*3+space*4);
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*3+space*4)];
     }else
     {
-        viewScroll.frame = CGRectMake(0, kScreenHeight/4+45+45, kScreenWidth, height+buttonW*4+space*5);
+        viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*4+space*5);
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*4+space*5)];
     }
     
-    
-    
-    [grayView1 setFrame:CGRectMake(0, viewScroll.frame.size.height-45-45, kScreenWidth, 45)];
-    
-    [grayView2 setFrame:CGRectMake(0, viewScroll.frame.size.height-45, kScreenWidth, 45)];
-    
-    [publish setFrame:CGRectMake(10, viewScroll.frame.size.height-45, kScreenWidth-20, 45)];
 }
 
 
@@ -283,10 +353,6 @@ UIViewControllerTransitioningDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-//    pickImage=[[UIImagePickerController alloc]init];
-//    
-//    [pickImage setDelegate:self];
-    //    [pickImage setAllowsEditing:YES];
 
     if (buttonIndex==0)
     {//图库
@@ -333,7 +399,7 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark 发布成功后等待跳转的页面
 
--(void)publishQuestion
+-(void)publishArtcle
 {
     NSLog(@"=======publishQuestion=========");
     
@@ -411,21 +477,6 @@ UIViewControllerTransitioningDelegate
 }
 
 #pragma mark UITextViewDelegate
-
-
-
--(void)textViewDidBeginEditing:(UITextView *)textV
-{
-    [tip setHidden:YES];
-}
-
--(void)textViewDidEndEditing:(UITextView *)textV
-{
-    if (textView.text.length==0) {
-        [tip setHidden:NO];
-    }
-}
-
 
 
 #pragma mark 设置图片位置
@@ -665,7 +716,7 @@ UIViewControllerTransitioningDelegate
             [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController dismissViewControllerAnimated:NO completion:nil];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
             });
@@ -686,12 +737,45 @@ UIViewControllerTransitioningDelegate
     return YES;
 }
 
-
--(void)textFieldDidBeginEditing:(UITextField *)textField
+-(void)closeAction
 {
-    [self scrollEditingRectToVisible:textField.frame EditingView:textField];
+    [self.navigationController dismissViewControllerAnimated:NO completion:nil];
 }
 
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+     [self.view endEditing:YES];
+}
+
+//获取textView高度
+
+- (void)textViewDidChange:(UITextView *)textV{
+    
+    if ([textV isEqual:textView]) {
+        if (textView.text.length==0) {
+            tip.hidden=NO;
+        }else{
+            tip.hidden=YES;
+        }
+        
+        CGRect textFrame=[[textView layoutManager]usedRectForTextContainer:[textView textContainer]];
+        CGFloat height = textFrame.size.height;
+        NSLog(@"****************textview 高度****%.f",height);
+        
+
+    }
+}
+
+
+
+
+-(void)hiddenKeyboard
+{
+    NSLog(@"**hiddenKeyboard****");
+    
+    [self.view endEditing:YES];
+}
 
 
 

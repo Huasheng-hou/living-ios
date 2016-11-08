@@ -12,6 +12,7 @@
 #import "LMActicleVO.h"
 #import "MJRefresh.h"
 #import "LMHomeDetailController.h"
+#import "ImageHelpTool.h"
 
 @interface LMWriterViewController ()<UITableViewDelegate,
 UITableViewDataSource
@@ -22,6 +23,7 @@ UITableViewDataSource
     NSMutableDictionary *infoDic;
     BOOL ifRefresh;
     int total;
+    UIImageView *headerView;
 }
 
 
@@ -48,7 +50,7 @@ UITableViewDataSource
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"他的空间";
+    self.title = @"TA的空间";
     [self creatUI];
     ifRefresh = YES;
 }
@@ -256,15 +258,18 @@ UITableViewDataSource
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
             //头像
-            UIImageView *headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
+            headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
             headerView.layer.cornerRadius = 5;
             headerView.backgroundColor = BG_GRAY_COLOR;
             headerView.contentMode = UIViewContentModeScaleAspectFill;
             headerView.clipsToBounds = YES;
-            
-            
+        headerView.userInteractionEnabled = YES;
+        
             if (![infoDic[@"avatar"] isEqual:@""]&&infoDic[@"avatar"]) {
                 [headerView setImageWithURL:[NSURL URLWithString:infoDic[@"avatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                UITapGestureRecognizer *tapClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headClick)];
+                [headerView addGestureRecognizer:tapClick];
+                
             }
             [cell.contentView addSubview:headerView];
 
@@ -339,13 +344,21 @@ UITableViewDataSource
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
-    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-    detailVC.artcleuuid = list.articleUuid;
-    [self.navigationController pushViewController:detailVC animated:YES];
+    if (indexPath.section==1) {
+        LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
+        LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+        detailVC.artcleuuid = list.articleUuid;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
+    
+
     
 }
 
+-(void)headClick
+{
+    [ImageHelpTool showImage:headerView];
+}
 
 
 /*

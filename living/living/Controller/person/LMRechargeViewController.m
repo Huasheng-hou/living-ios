@@ -42,9 +42,6 @@ liveNameProtocol
     UITableView *table;
     LMRePayCell *headcell;
     NSString *rechargeOrderUUID;
-
-    NSString *liveRoomName;
-    NSString *liveUUID;
     UIView *footView;
 }
 
@@ -78,7 +75,11 @@ liveNameProtocol
 {
     self.title=@"余额充值";
     
-    liveRoomName=@"添加充值生活馆";
+    if (_index!=1) {
+        _liveRoomName=@"添加充值生活馆";
+    }
+    
+    
     
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
     [table setBackgroundColor:BG_GRAY_COLOR];
@@ -229,7 +230,7 @@ liveNameProtocol
         }
         addcell.imageView.image = [UIImage imageNamed:@"addLiving"];
         
-        addcell.textLabel.text = liveRoomName;
+        addcell.textLabel.text = _liveRoomName;
         addcell.textLabel.textColor = LIVING_COLOR;
         [addcell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
@@ -289,8 +290,8 @@ liveNameProtocol
 
 -(void)backLiveName:(NSString *)liveRoom andLiveUuid:(NSString *)live_uuid
 {
-    liveRoomName=liveRoom;
-    liveUUID=live_uuid;
+    _liveRoomName=liveRoom;
+    _liveUUID=live_uuid;
     [table reloadData];
 }
 
@@ -330,7 +331,7 @@ liveNameProtocol
         return;
     }
     [self initStateHud];
-    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:liveUUID];
+    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -438,7 +439,7 @@ liveNameProtocol
         return;
     }
     [self initStateHud];
-    LMAliRechargeRequest *request=[[LMAliRechargeRequest alloc]initWithAliRecharge:headcell.payNum.text andLivingUuid:liveUUID];
+    LMAliRechargeRequest *request=[[LMAliRechargeRequest alloc]initWithAliRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

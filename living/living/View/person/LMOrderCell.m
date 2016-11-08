@@ -87,7 +87,7 @@
     _headImage.clipsToBounds = YES;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
     
-    _headImage.backgroundColor = [UIColor grayColor];
+    _headImage.backgroundColor = BG_GRAY_COLOR;
     [cellView addSubview:_headImage];
     
     _titleLabel = [UILabel new];
@@ -149,7 +149,7 @@
 
 -(void)setValue:(LMOrderVO *)list
 {
-    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
     _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
     NSString *textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
     

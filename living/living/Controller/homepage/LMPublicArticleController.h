@@ -6,8 +6,10 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitTableViewController.h"
+#import "FitBaseViewController.h"
 
-@interface LMPublicArticleController : FitTableViewController
+@interface LMPublicArticleController :FitBaseViewController
+
++ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated;
 
 @end

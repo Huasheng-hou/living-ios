@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LMActivityList.h"
 #import "ActivityListVO.h"
 
 @interface LMActivityCell : UITableViewCell

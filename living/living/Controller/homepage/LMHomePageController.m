@@ -39,6 +39,15 @@ LMhomePageCellDelegate
 {
     UIView *headView;
     UIBarButtonItem *backItem;
+<<<<<<< HEAD
+=======
+    
+    NSIndexPath *deleteIndexPath;
+    
+    NSInteger        totalPage;
+    NSInteger        currentPageIndex;
+    
+>>>>>>> 4729e368f868f76ffaee9da3ce135bdd0d3477f5
     NSArray         *_bannerArray;
 }
 
@@ -80,8 +89,11 @@ LMhomePageCellDelegate
     
     self.title = @"首页";
     
+<<<<<<< HEAD
 //    pageIndexArray=[NSMutableArray arrayWithCapacity:0];
     
+=======
+>>>>>>> 4729e368f868f76ffaee9da3ce135bdd0d3477f5
     [self creatUI];
 
     [self getBannerDataRequest];
@@ -103,13 +115,11 @@ LMhomePageCellDelegate
     self.tableView.tableHeaderView = headView;
 }
 
-- (void)sweepAction
+- (void)publicAction
 {
-    LMPublicArticleController *scanVC = [[LMPublicArticleController alloc] init];
+
+    [LMPublicArticleController presentInViewController:self Animated:NO];
     
-    [scanVC setHidesBottomBarWhenPushed:YES];
-    
-    [self.navigationController pushViewController:scanVC animated:YES];
 }
 
 - (void)getBannerDataRequest
@@ -202,7 +212,7 @@ LMhomePageCellDelegate
                 UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
-                                                                             action:@selector(sweepAction)];
+                                                                             action:@selector(publicAction)];
                 
                 self.navigationItem.rightBarButtonItem = rightItem;
             });

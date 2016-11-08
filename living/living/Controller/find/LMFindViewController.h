@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Huasheng. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitStatefulTableViewController.h"
 
-@interface LMFindViewController : FitBaseViewController
+@interface LMFindViewController : FitStatefulTableViewController
 
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;
