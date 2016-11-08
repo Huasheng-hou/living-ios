@@ -672,8 +672,6 @@ static NSMutableArray *cellDataArray;
     }else{
         [dic setObject:@"" forKey:@"image"];
     }
-    
-    [_tableView reloadData];
 }
 
 #pragma mark 获取头像的url
