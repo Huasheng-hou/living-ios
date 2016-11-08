@@ -10,7 +10,6 @@
 #import "LMOrederDeleteRequest.h"
 #import "APChooseView.h"
 #import "LMOrderpayRequest.h"
-
 #import "LMOrderBodyVO.h"
 #import "LMOrderInfoVO.h"
 
@@ -32,12 +31,21 @@
 #import "LMEventBodyVO.h"
 #import "UIImageView+WebCache.h"
 
+#import "FitPickerView.h"
+#import "LMCouponMsgRequest.h"
+#import "LMCouponUseRequest.h"
+
 @interface LMBesureOrderViewController ()
+<
+FitPickerViewDelegate
+>
 {
     LMOrderInfoVO *orderInfos;
     LMOrderBodyVO *orderdata;
     NSString *rechargeOrderUUID;
     LMEventBodyVO *eventDic;
+    NSMutableArray *couponList;
+    NSMutableArray *couponIDList;
 }
 
 @end
@@ -134,6 +142,10 @@
             orderInfos = [[LMOrderInfoVO alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
             orderdata = [[LMOrderBodyVO alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
             
+            if (orderdata.coupons &&orderdata.coupons>0) {
+                [self getCouponListRequest];
+            }
+            
             [self.tableView reloadData];
         } else {
             
@@ -163,7 +175,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 150;
+        if (orderdata.coupons &&orderdata.coupons>0) {
+            return 190;
+        }else{
+            return 150;
+            
+        }
+        
     }
     if (indexPath.section==1) {
         if (indexPath.row==5) {
@@ -246,15 +264,22 @@
         
         UILabel *perCost = [UILabel new];
         perCost.textColor = TEXT_COLOR_LEVEL_3;
-        
+        perCost.font = TEXT_FONT_LEVEL_1;
         NSString *string = [NSString stringWithFormat:@"￥%@",orderdata.price];
-        NSString *string2 = [NSString stringWithFormat:@"/人"];
-        
-        
-        perCost.text = [NSString stringWithFormat:@"%@%@",string,string2];
+        perCost.text = [NSString stringWithFormat:@"%@",string];
         [perCost sizeToFit];
         perCost.frame = CGRectMake(40, 85, perCost.bounds.size.width, 25);
         [cell.contentView addSubview:perCost];
+        
+        UILabel *perNum = [UILabel new];
+        perNum.textColor = TEXT_COLOR_LEVEL_3;
+        perNum.font  = TEXT_FONT_LEVEL_3;
+        NSString *string2 = [NSString stringWithFormat:@"x%d/人",orderdata.number];
+        perNum.text = [NSString stringWithFormat:@"%@",string2];
+        [perNum sizeToFit];
+        perNum.frame = CGRectMake(40+perCost.bounds.size.width, 85, perNum.bounds.size.width, 25);
+        [cell.contentView addSubview:perNum];
+        
         
         UILabel *priceLabel = [UILabel new];
         priceLabel.text = [NSString stringWithFormat:@"￥ %@",orderdata.totalMoney];
@@ -263,7 +288,6 @@
         [priceLabel sizeToFit];
         priceLabel.frame = CGRectMake(kScreenWidth-15-priceLabel.bounds.size.width, 85, priceLabel.bounds.size.width, 25);
         [cell.contentView addSubview:priceLabel];
-        
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 115, kScreenWidth, 0.5)];
         line.backgroundColor = LINE_COLOR;
@@ -290,10 +314,81 @@
         
         
         [payButton addTarget:self action:@selector(payAction) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        
         [cell.contentView addSubview:payButton];
+        
+        if (orderdata.coupons&&orderdata.coupons>0) {
+            
+            UILabel *couponLabel = [UILabel new];
+            NSString *couponString = [NSString stringWithFormat:@"优惠券 x%d",orderdata.coupons];
+            
+            NSMutableAttributedString *cStr = [[NSMutableAttributedString alloc] initWithString:couponString];
+            
+            [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
+            [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
+            couponLabel.attributedText = cStr;
+            couponLabel.textColor = TEXT_COLOR_LEVEL_3;
+            [cell.contentView addSubview:couponLabel];
+            
+            UILabel *cPLabel = [UILabel new];
+            
+            
+            if (orderdata.couponPrice==0) {
+                cPLabel.textColor = TEXT_COLOR_LEVEL_3;
+                cPLabel.text = @"未使用优惠券";
+                cPLabel.font = TEXT_FONT_LEVEL_2;
+            }else{
+                cPLabel.textColor = LIVING_REDCOLOR;
+                NSString *cpString =[NSString stringWithFormat:@"抵￥%@",orderdata.couponPrice];
+                
+                NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:cpString];
+                
+                [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(0,1)];
+                [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(1,cpString.length-1)];
+                cPLabel.attributedText = str;
+            }
+            
+
+            [cell.contentView addSubview:cPLabel];
+            
+            
+            UILabel *cPMoneyLabel = [UILabel new];
+            cPMoneyLabel.text = [NSString stringWithFormat:@"￥%@",orderdata.couponMoney];
+            cPMoneyLabel.font = [UIFont systemFontOfSize:20];
+            cPMoneyLabel.textColor = LIVING_REDCOLOR;
+            [cell.contentView addSubview:cPMoneyLabel];
+            
+            
+            [couponLabel sizeToFit];
+            couponLabel.frame = CGRectMake(40, 115+2, couponLabel.bounds.size.width, 30);
+            [cPLabel sizeToFit];
+            cPLabel.frame = CGRectMake(50+couponLabel.bounds.size.width, 117, cPLabel.bounds.size.width, 30);
+            
+            [cPMoneyLabel sizeToFit];
+            cPMoneyLabel.frame = CGRectMake(kScreenWidth-15-cPMoneyLabel.bounds.size.width, 117, cPMoneyLabel.bounds.size.width, 30);
+            
+            
+            
+            priceLabel.textColor = TEXT_COLOR_LEVEL_2;
+            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 12, priceLabel.bounds.size.width, 1.0)];
+            lineView.backgroundColor = TEXT_COLOR_LEVEL_2;
+            [priceLabel addSubview:lineView];
+            line.frame = CGRectMake(0, 112+40, kScreenWidth, 0.5);
+            cancel.frame = CGRectMake(0, 112.5+40, kScreenWidth/2, 34.5);
+            line2.frame = CGRectMake(kScreenWidth/2-0.5, 112+40, 0.5, 35);
+            payButton.frame = CGRectMake(kScreenWidth/2+0.25, 112.5+40, kScreenWidth/2-0.25, 34.5);
+            
+            UIView *clickView = [[UIView alloc] initWithFrame:CGRectMake(0, 110, kScreenWidth/2, 42)];
+            clickView.userInteractionEnabled = YES;
+            [cell.contentView addSubview:clickView];
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(CouponChose)];
+            [clickView addGestureRecognizer:tap];
+            
+            
+            
+            
+        }
+        
         
         return cell;
         
@@ -717,6 +812,7 @@
 -(void)balanceChargeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"余额支付失败"];
     }else{
@@ -741,6 +837,122 @@
     }
     
 }
+
+#pragma mark --选择优惠券
+
+-(void)CouponChose
+{
+
+    
+    [FitPickerView showWithData:@[couponList] Delegate:self OffSets:@[@"0"]];
+}
+- (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
+{
+    NSString *uuidString = items[0];
+    if ([uuidString isEqual:@"不抵扣"]) {
+        [self useCouponreload:@"0" couponUUid:@"0"];
+    }else{
+        NSString *couponUUid = couponIDList[row];
+        NSString *coupon = [couponList[0] substringFromIndex:8];
+        [self useCouponreload:coupon couponUUid:couponUUid];
+    }
+    
+
+
+    NSLog(@"*********");
+    
+}
+
+
+-(void)getCouponListRequest
+{
+    LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:_orderUUid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getCouponListResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self textStateHUD:@"获取优惠券信息失败"];
+                                           }];
+    [proxy start];
+    
+    
+}
+
+-(void)getCouponListResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    couponList = [NSMutableArray new];
+    couponIDList = [NSMutableArray new];
+    if (!bodyDic) {
+        [self textStateHUD:@"余额支付失败"];
+    }else{
+        NSString        *result     = [bodyDic objectForKey:@"result"];
+        
+        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
+            
+            NSArray *array = [bodyDic objectForKey:@"list"];
+            for (NSDictionary *dic in array) {
+                NSString *string = [NSString stringWithFormat:@"使用优惠券抵扣：%@",dic[@"amount"]];
+                [couponList addObject:string];
+                NSString *idStr = dic[@"coupon_uuid"];
+                [couponIDList addObject:idStr];
+            }
+            NSString *strings = @"不抵扣";
+            [couponList addObject:strings];
+            [couponIDList addObject:@""];
+            
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+        
+    }
+    
+}
+
+
+-(void)useCouponreload:(NSString *)couponPrice couponUUid:(NSString *)uuid;
+{
+
+    NSLog(@"%@",_orderUUid);
+    LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(useCouponResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               [self textStateHUD:@"使用优惠券失败"];
+                                           }];
+    [proxy start];
+}
+
+-(void)useCouponResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"暂不能使用该优惠券"];
+    }else{
+        NSString        *result     = [bodyDic objectForKey:@"result"];
+        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
+            
+            [self getOrderData];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+        
+
+        
+    }
+}
+
+
+
+
 
 
 

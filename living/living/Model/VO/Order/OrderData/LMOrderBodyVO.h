@@ -32,6 +32,9 @@
 @property (nonatomic, retain) NSString *eventUuid;
 @property (nonatomic, retain) NSString *orderTime;
 @property (nonatomic, retain) NSString *balance;
+@property (nonatomic, assign) int coupons;
+@property (nonatomic, retain) NSString *couponPrice;
+@property (nonatomic, retain) NSString *couponMoney;
 
 
 @end

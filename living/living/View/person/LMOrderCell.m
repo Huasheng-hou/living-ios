@@ -137,11 +137,11 @@
     
     
     _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_payButton setTitle:@"付款" forState:UIControlStateNormal];
+    
     [_payButton setTintColor:LIVING_COLOR];
     _payButton.showsTouchWhenHighlighted = YES;
     _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
-    [_payButton addTarget:self action:@selector(payCell:) forControlEvents:UIControlEventTouchUpInside];
+    
     [cellView addSubview:_payButton];
     
     
@@ -169,6 +169,8 @@
         switch (payNum) {
             case 0:
                 _paytypeLabel.text = @"待支付";
+                [_payButton setTitle:@"付款" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(payCell:) forControlEvents:UIControlEventTouchUpInside];
                 break;
             case 1:
                 _paytypeLabel.text = @"待确认";

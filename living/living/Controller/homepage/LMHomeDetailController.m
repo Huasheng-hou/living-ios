@@ -80,13 +80,12 @@ shareTypeDelegate
 
 @implementation LMHomeDetailController
 
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-     [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    [commentText resignFirstResponder];
 }
+
 
 - (void)viewDidLoad
 {
@@ -115,6 +114,16 @@ shareTypeDelegate
     imageArray = [NSMutableArray new];
     
     typeIndex = 2;
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(deleteActivityRequest:)];
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    
+    
 }
 
 - (void)creatFootView
@@ -647,9 +656,6 @@ shareTypeDelegate
             [cell.contentView addSubview:smallBtn];
             [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
             
-            
-   
-            
             UIButton *button=[UIButton new];
             [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
             [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
@@ -671,7 +677,7 @@ shareTypeDelegate
                     CGFloat imageVW = [dic[@"width"] floatValue];
                     
                     CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                    
+                    imageArray = [NSMutableArray new];
 
                     [imageArray addObject:[dic objectForKey:@"url"]];
                     
@@ -997,9 +1003,11 @@ shareTypeDelegate
 - (void)createCommentsView
 {
     if (!commentsView) {
-        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
-        commentsView.backgroundColor = [UIColor whiteColor];
-        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 20.0)];
+        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 200.0, kScreenWidth, 200.0)];
+        commentsView.layer.borderColor = LINE_COLOR.CGColor;
+        commentsView.layer.borderWidth= 0.5;
+        commentsView.backgroundColor = BG_GRAY_COLOR;
+        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 40.0)];
         commentText.layer.borderWidth   = 0.5;
         commentText.layer.borderColor   = LINE_COLOR.CGColor;
         commentText.layer.cornerRadius  = 5.0;
@@ -1011,16 +1019,27 @@ shareTypeDelegate
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        sureButton.frame = CGRectMake(kScreenWidth-90, 160-60, 72, 24);
+        sureButton.frame = CGRectMake(kScreenWidth-90, 160-70, 72, 24);
         sureButton.layer.cornerRadius = 5;
         [sureButton setTitle:@"确认" forState:UIControlStateNormal];
         sureButton.backgroundColor = BLUE_COLOR;
         sureButton.tintColor = [UIColor whiteColor];
         [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
         [commentText addSubview:sureButton];
+        
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        closeButton.frame = CGRectMake(kScreenWidth-38, 9, 22, 22);
+        closeButton.layer.cornerRadius = 5;
+        [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+        closeButton.tintColor = BLUE_COLOR;
+        [closeButton addTarget:self action:@selector(closeComment) forControlEvents:UIControlEventTouchUpInside];
+        [commentsView addSubview:closeButton];
+        
+        
+        
         [commentsView addSubview:commentText];
     }
-    [[UIApplication sharedApplication].keyWindow addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
+    [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
     [commentText becomeFirstResponder];//让textView成为第一响应者（第一次）这次键盘并未显示出来
 }
 
@@ -1072,7 +1091,6 @@ shareTypeDelegate
         [self textStateHUD:@"回复成功"];
 
         [self getHomeDetailDataRequest];
-        [self.tableView reloadData];
         
     } else {
         
@@ -1201,7 +1219,8 @@ shareTypeDelegate
             [textcView resignFirstResponder];
             [self getCommentArticleDataRequest];
         }
-        if ([textcView isEqual:commentText]) {
+        if ([textView isEqual:commentText]) {
+            self.tableView.userInteractionEnabled = YES;
             [commentText resignFirstResponder];
             [self sendComment];
         }
@@ -1518,12 +1537,21 @@ shareTypeDelegate
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
     return YES;
 }
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+
+-(void)closeComment
+{
+   [commentText resignFirstResponder];
+    self.tableView.userInteractionEnabled = YES;
 }
 
 

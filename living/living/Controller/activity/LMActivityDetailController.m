@@ -73,6 +73,13 @@ UIAlertViewDelegate
 
 @implementation LMActivityDetailController
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [commentText resignFirstResponder];
+}
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -251,6 +258,7 @@ UIAlertViewDelegate
         
         NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
         [eventArray removeAllObjects];
+        imageArray = [NSMutableArray new];
         for (int i=0; i<eveArray.count; i++) {
             LMProjectBodyVO *Projectslist=[[LMProjectBodyVO alloc]initWithDictionary:eveArray[i]];
             if (![eventArray containsObject:Projectslist]) {
@@ -697,9 +705,11 @@ UIAlertViewDelegate
 - (void)createCommentsView
 {
     if (!commentsView) {
-        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
-        commentsView.backgroundColor = [UIColor whiteColor];
-        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 20.0)];
+        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 200.0, kScreenWidth, 200.0)];
+        commentsView.layer.borderColor = LINE_COLOR.CGColor;
+        commentsView.layer.borderWidth= 0.5;
+        commentsView.backgroundColor = BG_GRAY_COLOR;
+        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 40.0)];
         commentText.layer.borderWidth   = 0.5;
         commentText.layer.borderColor   = LINE_COLOR.CGColor;
         commentText.layer.cornerRadius  = 5.0;
@@ -711,13 +721,22 @@ UIAlertViewDelegate
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        sureButton.frame = CGRectMake(kScreenWidth-90, 160-60, 72, 24);
+        sureButton.frame = CGRectMake(kScreenWidth-90, 160-70, 72, 24);
         sureButton.layer.cornerRadius = 5;
         [sureButton setTitle:@"确认" forState:UIControlStateNormal];
         sureButton.backgroundColor = BLUE_COLOR;
         sureButton.tintColor = [UIColor whiteColor];
         [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
         [commentText addSubview:sureButton];
+        
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        closeButton.frame = CGRectMake(kScreenWidth-38, 9, 22, 22);
+        closeButton.layer.cornerRadius = 5;
+        [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+        closeButton.tintColor = BLUE_COLOR;
+        [closeButton addTarget:self action:@selector(closeComment) forControlEvents:UIControlEventTouchUpInside];
+        [commentsView addSubview:closeButton];
+        
         [commentsView addSubview:commentText];
     }
     [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
@@ -929,9 +948,16 @@ UIAlertViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        [textView  resignFirstResponder];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+        if ([textView isEqual:suggestTF]) {
+            [suggestTF resignFirstResponder];
+            [self besureAction:@""];
+        }
+        if ([textView isEqual:commentText]) {
+            [commentText resignFirstResponder];
+            self.tableView.userInteractionEnabled = YES;
+            [self sendComment];
+        }
+
     }
     
     return YES;
@@ -1294,5 +1320,27 @@ UIAlertViewDelegate
     photoBrowser.initialPageIndex = cell.tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
+
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+    return YES;
+}
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+
+-(void)closeComment
+{
+    [commentText resignFirstResponder];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+
 
 @end

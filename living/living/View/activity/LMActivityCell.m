@@ -154,6 +154,7 @@
     
     _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
     _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+    
 }
 
 - (void)setXScale:(float)xScale yScale:(float)yScale

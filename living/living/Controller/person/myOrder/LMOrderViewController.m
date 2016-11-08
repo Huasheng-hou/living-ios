@@ -288,6 +288,7 @@ LMOrderCellDelegate>
     cell.Orderuuid = list.orderUuid;
     cell.priceStr = list.orderAmount;
     cell.delegate = self;
+    cell.tag = indexPath.row;
     
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];
     
@@ -436,7 +437,7 @@ LMOrderCellDelegate>
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
     NSLog(@"**********退款");
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否退款"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否申请退款"
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******确定");
@@ -470,6 +471,12 @@ LMOrderCellDelegate>
 - (void)cellWillrebook:(LMOrderCell *)cell
 {
     NSLog(@"**********再订");
+    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    detailVC.eventUuid = list.eventUuid;
+    [self.navigationController pushViewController:detailVC animated:YES];
+    
+    
 }
 
 
@@ -483,7 +490,7 @@ LMOrderCellDelegate>
         [self textStateHUD:@"退款申请失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"退款成功"];
+            [self textStateHUD:@"退款申请成功"];
             [self reloadingHomePage];
         }else{
             [self textStateHUD:bodyDic[@"description"]];

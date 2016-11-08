@@ -93,6 +93,21 @@
             self.balance = [dictionary objectForKey:@"balance"];
         }
         
+        if (nil != [dictionary objectForKey:@"coupons"] && ![[dictionary objectForKey:@"coupons"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coupons"] isKindOfClass:[NSNumber class]]) {
+            self.coupons = [(NSNumber *)[dictionary objectForKey:@"coupons"] intValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"couponMoneys"] && ![[dictionary objectForKey:@"couponMoneys"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"couponMoneys"] isKindOfClass:[NSString class]]) {
+            self.couponMoney = [dictionary objectForKey:@"couponMoneys"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"couponPrice"] && ![[dictionary objectForKey:@"couponPrice"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"couponPrice"] isKindOfClass:[NSString class]]) {
+            self.couponPrice = [dictionary objectForKey:@"couponPrice"];
+        }
+        
         
         
     }
