@@ -18,6 +18,9 @@
 		351AF4771DD17B59001F7836 /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4761DD17B59001F7836 /* LMActivityDeleteRequest.m */; };
 		351AF47B1DD19682001F7836 /* LMCouponVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF47A1DD19682001F7836 /* LMCouponVO.m */; };
 		351AF4831DD1E337001F7836 /* LMCouponUseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4821DD1E337001F7836 /* LMCouponUseRequest.m */; };
+		351AF4871DD30DB7001F7836 /* LMCouponChoseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */; };
+		351AF48B1DD338E4001F7836 /* LMEventStartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */; };
+		351AF48E1DD3392C001F7836 /* LMEventEndRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
 		3547F3361D9901780068F04E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3351D9901780068F04E /* AppDelegate.m */; };
 		3547F33E1D9901780068F04E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3547F33D1D9901780068F04E /* Assets.xcassets */; };
@@ -274,7 +277,6 @@
 		873795F71DCF8A1000A2ACD7 /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D21DCF8A1000A2ACD7 /* WJLoopView.m */; };
 		873795F81DCF8A1000A2ACD7 /* LMBlanceHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */; };
 		873795F91DCF8A1000A2ACD7 /* LMBlanceListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D71DCF8A1000A2ACD7 /* LMBlanceListCell.m */; };
-		873795FA1DCF8A1000A2ACD7 /* LMChangeLivingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D91DCF8A1000A2ACD7 /* LMChangeLivingCell.m */; };
 		873795FB1DCF8A1000A2ACD7 /* LMChargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794DB1DCF8A1000A2ACD7 /* LMChargeButton.m */; };
 		873795FC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794DD1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.m */; };
 		873795FD1DCF8A1000A2ACD7 /* LMMyLivingHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794DF1DCF8A1000A2ACD7 /* LMMyLivingHomeCell.m */; };
@@ -355,6 +357,12 @@
 		351AF4811DD1E337001F7836 /* LMCouponUseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponUseRequest.h; sourceTree = "<group>"; };
 		351AF4821DD1E337001F7836 /* LMCouponUseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponUseRequest.m; sourceTree = "<group>"; };
 		351AF4841DD2B9D1001F7836 /* 腰果生活.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
+		351AF4851DD30DB7001F7836 /* LMCouponChoseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponChoseCell.h; sourceTree = "<group>"; };
+		351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponChoseCell.m; sourceTree = "<group>"; };
+		351AF4891DD338E4001F7836 /* LMEventStartRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventStartRequest.h; sourceTree = "<group>"; };
+		351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventStartRequest.m; sourceTree = "<group>"; };
+		351AF48C1DD3392C001F7836 /* LMEventEndRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventEndRequest.h; sourceTree = "<group>"; };
+		351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventEndRequest.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -902,8 +910,6 @@
 		873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlanceHeadCell.m; sourceTree = "<group>"; };
 		873794D61DCF8A1000A2ACD7 /* LMBlanceListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBlanceListCell.h; sourceTree = "<group>"; };
 		873794D71DCF8A1000A2ACD7 /* LMBlanceListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlanceListCell.m; sourceTree = "<group>"; };
-		873794D81DCF8A1000A2ACD7 /* LMChangeLivingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeLivingCell.h; sourceTree = "<group>"; };
-		873794D91DCF8A1000A2ACD7 /* LMChangeLivingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeLivingCell.m; sourceTree = "<group>"; };
 		873794DA1DCF8A1000A2ACD7 /* LMChargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChargeButton.h; sourceTree = "<group>"; };
 		873794DB1DCF8A1000A2ACD7 /* LMChargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChargeButton.m; sourceTree = "<group>"; };
 		873794DC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomNameCell.h; sourceTree = "<group>"; };
@@ -1121,6 +1127,17 @@
 				351AF47A1DD19682001F7836 /* LMCouponVO.m */,
 			);
 			path = coupon;
+			sourceTree = "<group>";
+		};
+		351AF4881DD338AD001F7836 /* eventStatus */ = {
+			isa = PBXGroup;
+			children = (
+				351AF4891DD338E4001F7836 /* LMEventStartRequest.h */,
+				351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */,
+				351AF48C1DD3392C001F7836 /* LMEventEndRequest.h */,
+				351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */,
+			);
+			path = eventStatus;
 			sourceTree = "<group>";
 		};
 		3547F3251D9901770068F04E = {
@@ -1914,6 +1931,7 @@
 		873793C51DCF8A1000A2ACD7 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				351AF4881DD338AD001F7836 /* eventStatus */,
 				873793C61DCF8A1000A2ACD7 /* delete */,
 				873793CD1DCF8A1000A2ACD7 /* LMActivityDetailRequest.h */,
 				873793CE1DCF8A1000A2ACD7 /* LMActivityDetailRequest.m */,
@@ -2402,6 +2420,8 @@
 				873794BD1DCF8A1000A2ACD7 /* LMPublicMsgCell.m */,
 				873794BE1DCF8A1000A2ACD7 /* LMTimeButton.h */,
 				873794BF1DCF8A1000A2ACD7 /* LMTimeButton.m */,
+				351AF4851DD30DB7001F7836 /* LMCouponChoseCell.h */,
+				351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */,
 				873794C01DCF8A1000A2ACD7 /* mapView */,
 			);
 			path = activity;
@@ -2452,8 +2472,6 @@
 				873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */,
 				873794D61DCF8A1000A2ACD7 /* LMBlanceListCell.h */,
 				873794D71DCF8A1000A2ACD7 /* LMBlanceListCell.m */,
-				873794D81DCF8A1000A2ACD7 /* LMChangeLivingCell.h */,
-				873794D91DCF8A1000A2ACD7 /* LMChangeLivingCell.m */,
 				873794DA1DCF8A1000A2ACD7 /* LMChargeButton.h */,
 				873794DB1DCF8A1000A2ACD7 /* LMChargeButton.m */,
 				873794DC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.h */,
@@ -2883,6 +2901,7 @@
 				351AF46E1DD17A8F001F7836 /* LMCouponMsgRequest.m in Sources */,
 				873795EF1DCF8A1000A2ACD7 /* LMTimeButton.m in Sources */,
 				8737950A1DCF8A1000A2ACD7 /* DataSigner.m in Sources */,
+				351AF48E1DD3392C001F7836 /* LMEventEndRequest.m in Sources */,
 				873795791DCF8A1000A2ACD7 /* LMLiveRoomBody.m in Sources */,
 				8737954D1DCF8A1000A2ACD7 /* LMMy2dcodeViewController.m in Sources */,
 				873795F21DCF8A1000A2ACD7 /* LMFindCell.m in Sources */,
@@ -2930,12 +2949,12 @@
 				873795211DCF8A1000A2ACD7 /* SSPullToRefreshView.m in Sources */,
 				873795361DCF8A1000A2ACD7 /* LMActivityDetailController.m in Sources */,
 				8E9294401DD0254300A00829 /* LMBalanceList.m in Sources */,
-				873795FA1DCF8A1000A2ACD7 /* LMChangeLivingCell.m in Sources */,
 				873795EA1DCF8A1000A2ACD7 /* LMLeavemessagecell.m in Sources */,
 				873795C61DCF8A1000A2ACD7 /* LMLivingInfoVO.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
 				8737956C1DCF8A1000A2ACD7 /* SYPhotoViewController.m in Sources */,
 				873796081DCF8A1000A2ACD7 /* FitPickerThreeLevelView.m in Sources */,
+				351AF4871DD30DB7001F7836 /* LMCouponChoseCell.m in Sources */,
 				873796031DCF8A1000A2ACD7 /* LMFriendCell.m in Sources */,
 				873795B31DCF8A1000A2ACD7 /* LMPublicEventRequest.m in Sources */,
 				873795821DCF8A1000A2ACD7 /* LMEventJoinRequest.m in Sources */,
@@ -2996,6 +3015,7 @@
 				873795611DCF8A1000A2ACD7 /* README.md in Sources */,
 				873795CD1DCF8A1000A2ACD7 /* FirPersonVO.m in Sources */,
 				873795A21DCF8A1000A2ACD7 /* LMAliPayRequest.m in Sources */,
+				351AF48B1DD338E4001F7836 /* LMEventStartRequest.m in Sources */,
 				873795771DCF8A1000A2ACD7 /* LMCouponBody.m in Sources */,
 				873795BD1DCF8A1000A2ACD7 /* LMBalanceVO.m in Sources */,
 				873796091DCF8A1000A2ACD7 /* FitPickerView.m in Sources */,

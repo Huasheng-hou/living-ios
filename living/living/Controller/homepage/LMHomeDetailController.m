@@ -1151,11 +1151,13 @@ shareTypeDelegate
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
     NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
-    // keyboardWasShown = NO;
-    [UIView animateWithDuration:0.1f animations:^{
-        [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
-        NSLog(@"***keyboardWasHidden*%@",toolBar);
-    }];
+    if (textIndex!=1) {
+        [UIView animateWithDuration:0.1f animations:^{
+            [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
+            NSLog(@"***keyboardWasHidden*%@",toolBar);
+        }];
+    }
+
 }
 
 #pragma mark UITextFieldDelegate
@@ -1532,6 +1534,17 @@ shareTypeDelegate
 {
     [self.view endEditing:YES];
     self.tableView.userInteractionEnabled = YES;
+    return YES;
+}
+
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView isEqual:textcView]) {
+        textIndex = 2;
+    }
+    if ([textView isEqual:commentText]) {
+        textIndex = 1;
+    }
     return YES;
 }
 

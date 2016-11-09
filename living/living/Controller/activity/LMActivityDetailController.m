@@ -37,6 +37,8 @@
 #import "ImageHelpTool.h"
 
 #import "SYPhotoBrowser.h"
+#import "LMEventEndRequest.h"
+#import "LMEventStartRequest.h"
 
 //地图导航
 #import "LMNavMapViewController.h"
@@ -70,6 +72,8 @@ UIAlertViewDelegate
     NSString *longitude;
     
     NSMutableArray *imageArray;
+    
+    NSString *status;
 }
 
 @end
@@ -177,6 +181,7 @@ UIAlertViewDelegate
     }
     if ([string isEqual:@"3"]) {
         [joinButton setTitle:@"开始" forState:UIControlStateNormal];
+        status = @"开始";
         joinButton.userInteractionEnabled = NO;
     }
     if ([string isEqual:@"4"]) {
@@ -282,8 +287,25 @@ UIAlertViewDelegate
         orderDic = [bodyDic objectForKey:@"event_body"];
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
-            self.navigationItem.rightBarButtonItem = rightItem;
+            
+            if (eventDic.totalNumber==0) {
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+            }
+            
+            if (eventDic.totalNumber>0) {
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+
+            }
+            
+            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+            }
+            
+            
+
         }
         
         [self creatHeaderView];
@@ -1394,6 +1416,91 @@ UIAlertViewDelegate
 {
     [commentText resignFirstResponder];
     self.tableView.userInteractionEnabled = YES;
+}
+
+#pragma mark  --开始活动
+-(void)startActivity
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getstartEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"开始活动失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getstartEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"活动开启失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"活动开启成功"];
+            
+            [self getEventListDataRequest];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
+
+#pragma mark   --结束活动
+
+-(void)endActivity
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getendEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"开始结束失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getendEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"活动结束失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"活动结束成功"];
+            
+            [self getEventListDataRequest];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
 }
 
 

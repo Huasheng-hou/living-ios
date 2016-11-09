@@ -179,7 +179,6 @@ LMOrderCellDelegate>
 
 -(void)reloadingHomePage
 {
-//    [orderArray removeAllObjects];
     [self headerRereshing];
 }
 
@@ -192,6 +191,7 @@ LMOrderCellDelegate>
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    [self initStateHud];
     
     
     LMOrderListRequest *request = [[LMOrderListRequest alloc] initWithPageIndex:page andPageSize:20];
@@ -221,13 +221,8 @@ LMOrderCellDelegate>
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
+        [self hideStateHud];
 
-        NSMutableArray *array=bodyDic[@"list"];
-        for (int i=0; i<array.count; i++) {
-            
-        }
-        
-        
         if (ifRefresh) {
             ifRefresh=NO;
             orderArray=[NSMutableArray arrayWithCapacity:0];
