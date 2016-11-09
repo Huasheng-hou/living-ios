@@ -23,6 +23,7 @@
              Event_type:(NSString *)event_type
             andLatitude:(NSString *)latitude
            andLongitude:(NSString *)longitude
-           limit_number:(int)limit_number;
+           limit_number:(int)limit_number
+                notices:(NSString *)notices;
 
 @end

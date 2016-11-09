@@ -186,7 +186,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +165;
+        return 490 +165+90;
     }
     if (indexPath.section==1) {
         return 340;
@@ -292,6 +292,7 @@ static NSMutableArray *cellDataArray;
         msgCell.dspTF.tag = 100;
         msgCell.VipFreeTF.tag = 100;
         msgCell.joincountTF.tag = 100;
+        msgCell.applyTextView.delegate = self;
         
         
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -516,36 +517,48 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark  textView代理方法
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        [self.view endEditing:YES];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-    }
-    
-    return YES;
-}
+//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+//{
+//    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+//        //在这里做你响应return键的代码
+////        [self.view endEditing:YES];
+//        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+//    }
+//    
+//    return YES;
+//}
 
 - (void)textViewDidChange:(UITextView *)textView1
 {
 
-    NSLog(@"========textViewDidChange=========");
-
-    NSArray *array = self.tableView.visibleCells;
-    
-    for (UIView * view in array) {
-        if ([view isKindOfClass:[LMProjectCell class]]) {
-            LMProjectCell * cells = (LMProjectCell *)view;
-            if (textView1.text.length==0)
-            {
-                [cells.textLab setHidden:NO];
-            }else{
-                [cells.textLab setHidden:YES];
-            }
+    if ([textView1 isEqual:msgCell.applyTextView]) {
+        if (msgCell.applyTextView.text.length>0) {
+            msgCell.msgLabel.hidden = YES;
+        }else{
+            msgCell.msgLabel.hidden  = NO;
         }
-
+        
+        
+        
+    }else{
+        NSLog(@"========textViewDidChange=========");
+        
+        NSArray *array = self.tableView.visibleCells;
+        
+        for (UIView * view in array) {
+            if ([view isKindOfClass:[LMProjectCell class]]) {
+                LMProjectCell * cells = (LMProjectCell *)view;
+                if (textView1.text.length==0)
+                {
+                    [cells.textLab setHidden:NO];
+                }else{
+                    [cells.textLab setHidden:YES];
+                }
+            }
+            
+        }
     }
+
     
 
 }
@@ -559,9 +572,14 @@ static NSMutableArray *cellDataArray;
 
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    NSInteger row=textView.tag;
-    
-    [self modifyCellDataContent:row andText:textView.text];
+    if ([textView isEqual:msgCell.applyTextView]) {
+        NSLog(@"******");
+    }else{
+        NSInteger row=textView.tag;
+        
+        [self modifyCellDataContent:row andText:textView.text];
+    }
+
     
     return YES;
 }
@@ -885,7 +903,7 @@ static NSMutableArray *cellDataArray;
     
     [self initStateHud];
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude] limit_number:[msgCell.joincountTF.text intValue]];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude] limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

@@ -251,6 +251,8 @@ UIAlertViewDelegate
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
         msgArray = [NSMutableArray new];
+        eventArray = [NSMutableArray new];
+        imageArray = [NSMutableArray new];
         
         for (int i =0; i<array.count; i++) {
             
@@ -259,16 +261,20 @@ UIAlertViewDelegate
             
         }
         
-        NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
-        [eventArray removeAllObjects];
-        imageArray = [NSMutableArray new];
+        NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"event_projects_body"]];
+        
+        
+        for (LMProjectBodyVO *vo in eveArray) {
+            [eventArray addObject:vo];
+        }
         for (int i=0; i<eveArray.count; i++) {
-            LMProjectBodyVO *Projectslist=[[LMProjectBodyVO alloc]initWithDictionary:eveArray[i]];
-            if (![eventArray containsObject:Projectslist]) {
-                [eventArray addObject:Projectslist];
+            LMProjectBodyVO *Projectslist=eveArray[i];
+        
+            if (![Projectslist.projectImgs isEqual:@""]) {
+               [imageArray addObject: Projectslist.projectImgs];
             }
             
-            [imageArray addObject: Projectslist.projectImgs];
+            
         }
         
         eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
@@ -1352,9 +1358,21 @@ UIAlertViewDelegate
 
 -(void)cellProjectImage:(LMEventMsgCell *)cell
 {
-    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
     
-    photoBrowser.initialPageIndex = cell.tag;
+
+    
+    NSMutableArray *array = [NSMutableArray new];
+    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+    for (int i = 0; i<cell.tag+1; i++) {
+        LMProjectBodyVO *vo = eventArray[i];
+        if ([vo.projectImgs isEqual:@""]) {
+            [array addObject:vo.projectImgs];
+        }
+        
+    }
+    NSLog(@"%lu",(unsigned long)array.count);
+    
+    photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 

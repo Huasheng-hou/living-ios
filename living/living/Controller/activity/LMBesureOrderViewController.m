@@ -37,6 +37,8 @@
 
 @interface LMBesureOrderViewController ()
 <
+UITableViewDelegate,
+UITableViewDataSource,
 FitPickerViewDelegate
 >
 {
@@ -853,7 +855,7 @@ FitPickerViewDelegate
         [self useCouponreload:@"0" couponUUid:@"0"];
     }else{
         NSString *couponUUid = couponIDList[row];
-        NSString *coupon = [couponList[0] substringFromIndex:8];
+        NSString *coupon = [uuidString substringFromIndex:8];
         [self useCouponreload:coupon couponUUid:couponUUid];
     }
     

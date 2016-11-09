@@ -11,15 +11,10 @@
 #import "LMHomeDetailController.h"
 #import "LMBannerrequest.h"
 #import "LMHomelistequest.h"
-#import "UIView+frame.h"
 #import "LMhomePageCell.h"
-
 #import "LMActicleVO.h"
 
-
 #import "WJLoopView.h"
-//#import "FitUserManager.h"
-#import "LMScanViewController.h"
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
 #import "LMWriterViewController.h"
@@ -66,11 +61,6 @@ LMhomePageCellDelegate
     }
     
     return self;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated

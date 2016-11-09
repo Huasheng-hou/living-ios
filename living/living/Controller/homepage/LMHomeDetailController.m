@@ -115,13 +115,6 @@ shareTypeDelegate
     
     typeIndex = 2;
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除"
-                                                                  style:UIBarButtonItemStylePlain
-                                                                 target:self
-                                                                 action:@selector(deleteActivityRequest:)];
-    
-    self.navigationItem.rightBarButtonItem = rightItem;
-    
     
     
 }
@@ -241,7 +234,7 @@ shareTypeDelegate
         
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
         
-        if ([articleData.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+        if ([articleData.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
          
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除"
                                                                           style:UIBarButtonItemStylePlain
@@ -669,6 +662,7 @@ shareTypeDelegate
                 
                 NSArray *arr =articleData.articleImgs;
                 hightArray = [NSMutableArray new];
+                 
                 for (int i = 0; i<arr.count; i++) {
                     
                     NSDictionary *dic = arr[i];
@@ -677,7 +671,7 @@ shareTypeDelegate
                     CGFloat imageVW = [dic[@"width"] floatValue];
                     
                     CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                    imageArray = [NSMutableArray new];
+                   
 
                     [imageArray addObject:[dic objectForKey:@"url"]];
                     

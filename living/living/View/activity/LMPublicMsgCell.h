@@ -41,6 +41,12 @@
 
 @property(nonatomic,strong)UIImageView *imgView;
 
+
+
+@property(nonatomic,strong)UITextView *applyTextView;
+
+@property(nonatomic,strong)UILabel *msgLabel;
+
 //@property(nonatomic,strong);
 
 
