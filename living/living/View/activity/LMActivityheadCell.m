@@ -127,7 +127,7 @@
             _joinButton.userInteractionEnabled = NO;
             break;
         case 3:
-            [_joinButton setTitle:@"开始" forState:UIControlStateNormal];
+            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
             _joinButton.userInteractionEnabled = NO;
             break;
         case 4:

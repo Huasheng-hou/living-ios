@@ -181,7 +181,7 @@ UIAlertViewDelegate
         joinButton.userInteractionEnabled = NO;
     }
     if ([string isEqual:@"3"]) {
-        [joinButton setTitle:@"开始" forState:UIControlStateNormal];
+        [joinButton setTitle:@"已开始" forState:UIControlStateNormal];
         
         joinButton.userInteractionEnabled = NO;
     }
@@ -191,6 +191,7 @@ UIAlertViewDelegate
     }
     if ([string isEqual:@"5"]) {
         [joinButton setTitle:@"删除" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
     }
     
     [joinButton setTintColor:[UIColor whiteColor]];
