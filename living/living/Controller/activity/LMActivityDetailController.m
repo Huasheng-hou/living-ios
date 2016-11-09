@@ -182,7 +182,7 @@ UIAlertViewDelegate
     }
     if ([string isEqual:@"3"]) {
         [joinButton setTitle:@"开始" forState:UIControlStateNormal];
-        status = @"开始";
+        
         joinButton.userInteractionEnabled = NO;
     }
     if ([string isEqual:@"4"]) {
@@ -287,6 +287,11 @@ UIAlertViewDelegate
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
+        if (eventDic.status==3||eventDic.status==4) {
+            status = @"开始";
+        }
+        
+        
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
             if (eventDic.totalNumber==0) {
@@ -301,6 +306,12 @@ UIAlertViewDelegate
             }
             
             if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+                
+                if (eventDic.status==4) {
+                    [self textStateHUD:@"您已结束活动"];
+                    return;
+                }
+                
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
@@ -749,7 +760,6 @@ UIAlertViewDelegate
 {
     NSLog(@"**********回复");
     
-    NSLog(@"%ld",cell.tag);
     
     LMEventCommentVO *list = msgArray[cell.tag];
     
@@ -1481,7 +1491,7 @@ UIAlertViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"开始结束失败"
+                                                                      withObject:@"活动结束失败"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
