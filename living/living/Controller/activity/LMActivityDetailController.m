@@ -74,6 +74,7 @@ UIAlertViewDelegate
     NSMutableArray *imageArray;
     
     NSString *status;
+    UIBarButtonItem *rightItem;
 }
 
 @end
@@ -289,18 +290,18 @@ UIAlertViewDelegate
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
             if (eventDic.totalNumber==0) {
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+               rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
             if (eventDic.totalNumber>0) {
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
 
             }
             
             if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
