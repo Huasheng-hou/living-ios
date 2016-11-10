@@ -222,12 +222,12 @@ LMOrderCellDelegate>
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
         [self hideStateHud];
-
+        
         if (ifRefresh) {
             ifRefresh=NO;
             orderArray=[NSMutableArray arrayWithCapacity:0];
             
-            NSArray *array = bodyDic[@"list"];           
+            NSArray *array = bodyDic[@"list"];
             for(int i=0;i<[array count];i++){
                 
                 LMOrderVO *list=[[LMOrderVO alloc]initWithDictionary:array[i]];
@@ -235,7 +235,7 @@ LMOrderCellDelegate>
                     [orderArray addObject:list];
                 }
             }
-        
+            
         }
         if (orderArray.count==0) {
             homeImage.hidden = NO;
@@ -246,7 +246,7 @@ LMOrderCellDelegate>
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-
+    
     
 }
 
@@ -398,15 +398,15 @@ LMOrderCellDelegate>
     [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******微信支付");
         [self wxRechargeRequest];
-
+        
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"支付宝支付"
-                                                        style:UIAlertActionStyleDefault
+                                              style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 NSLog(@"******支付宝支付");
                                                 [self aliRechargeRequest];
-                                                        }]];
+                                            }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
@@ -458,7 +458,7 @@ LMOrderCellDelegate>
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
     [self presentViewController:alert animated:YES completion:nil];
-
+    
     
 }
 - (void)cellWillrebook:(LMOrderCell *)cell
@@ -519,7 +519,7 @@ LMOrderCellDelegate>
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
+    [self logoutAction:resp];
     //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
     
     if (!bodyDict) {
@@ -539,7 +539,7 @@ LMOrderCellDelegate>
             if (bodyDict[@"map"][@"wxOrder"]) {
                 [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
             }
-
+            
             
         }else{
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
@@ -551,7 +551,7 @@ LMOrderCellDelegate>
 
 -(void)senderWeiXinPay:(NSDictionary *)dic
 {
-//    [WXApiRequestHandler jumpToBizPay:dic];
+    //    [WXApiRequestHandler jumpToBizPay:dic];
 }
 
 #pragma mark 微信支付结果确认
@@ -581,7 +581,7 @@ LMOrderCellDelegate>
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -634,7 +634,7 @@ LMOrderCellDelegate>
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
+    [self logoutAction:resp];
     //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -696,7 +696,7 @@ LMOrderCellDelegate>
 -(void)aliPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-[self logoutAction:resp];
+    [self logoutAction:resp];
     if (!bodyDict) {
         return;
     }
@@ -755,7 +755,7 @@ LMOrderCellDelegate>
             [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 NSLog(@"******确定");
                 [self reloadingHomePage];
-
+                
                 
                 
             }]];
@@ -765,7 +765,7 @@ LMOrderCellDelegate>
         }else{
             [self textStateHUD:@"支付失败，请重试"];
         }
-
+        
     }
     
 }
@@ -775,13 +775,13 @@ LMOrderCellDelegate>
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
