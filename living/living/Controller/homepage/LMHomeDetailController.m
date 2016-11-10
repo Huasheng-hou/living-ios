@@ -74,6 +74,9 @@ shareTypeDelegate
     NSInteger typeIndex;
     
     NSString *fakeId;
+    UIButton *bigBtn;
+    UIButton *midBtn;
+    UIButton *smallBtn;
 }
 
 @end
@@ -506,17 +509,71 @@ shareTypeDelegate
             
         }
         if (indexPath.row==1) {
+            UILabel *type = [UILabel new];
+            type.text = @"字号：";
+            type.font = TEXT_FONT_LEVEL_2;
+            type.textColor =Text_size_color;
+            type.textAlignment = NSTextAlignmentCenter;
+            type.layer.cornerRadius = 3;
+            type.layer.borderColor =Text_size_color.CGColor;
+            type.layer.borderWidth = 0.5;
+            [type sizeToFit];
+            [cell.contentView addSubview:type];
+            
+            bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [bigBtn setTitle:@"大" forState:UIControlStateNormal];
+            [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            bigBtn.layer.cornerRadius = 3;
+            bigBtn.layer.borderColor =Text_size_color.CGColor;
+            bigBtn.layer.borderWidth = 0.5;
+            [bigBtn sizeToFit];
+            [cell.contentView addSubview:bigBtn];
+            [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            
+            midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [midBtn setTitle:@"中" forState:UIControlStateNormal];
+            [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            midBtn.layer.cornerRadius = 3;
+            midBtn.layer.borderColor =Text_size_color.CGColor;
+            midBtn.layer.borderWidth = 0.5;
+            [midBtn sizeToFit];
+            [cell.contentView addSubview:midBtn];
+            [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [smallBtn setTitle:@"小" forState:UIControlStateNormal];
+            [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            smallBtn.layer.cornerRadius = 3;
+            smallBtn.layer.borderColor =Text_size_color.CGColor;
+            smallBtn.layer.borderWidth = 0.5;
+            [smallBtn sizeToFit];
+            [cell.contentView addSubview:smallBtn];
+            [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
 
             dspLabel = [UILabel new];
             if (typeIndex==1) {
+                bigBtn.backgroundColor = LINE_COLOR;
+                midBtn.backgroundColor = [UIColor clearColor];
+                smallBtn.backgroundColor = [UIColor clearColor];
                 dspLabel.font = TEXT_FONT_LEVEL_1;
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             }
             if (typeIndex==2) {
+                bigBtn.backgroundColor = [UIColor clearColor];
+                midBtn.backgroundColor = LINE_COLOR;
+                smallBtn.backgroundColor = [UIColor clearColor];
                 dspLabel.font = TEXT_FONT_LEVEL_2;
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             }
             if (typeIndex==3) {
+                bigBtn.backgroundColor = [UIColor clearColor];
+                midBtn.backgroundColor = [UIColor clearColor];
+                smallBtn.backgroundColor = LINE_COLOR;
                 dspLabel.font = [UIFont systemFontOfSize:12.0];
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
             }
@@ -603,51 +660,7 @@ shareTypeDelegate
             [cell.contentView addSubview:commentLabel];
             
             
-            UILabel *type = [UILabel new];
-            type.text = @"字号：";
-            type.font = TEXT_FONT_LEVEL_2;
-            type.textColor =Text_size_color;
-            type.textAlignment = NSTextAlignmentCenter;
-            type.layer.cornerRadius = 3;
-            type.layer.borderColor =Text_size_color.CGColor;
-            type.layer.borderWidth = 0.5;
-            [type sizeToFit];
-            [cell.contentView addSubview:type];
-            
-            UIButton *bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [bigBtn setTitle:@"大" forState:UIControlStateNormal];
-            [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-            bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-            bigBtn.layer.cornerRadius = 3;
-            bigBtn.layer.borderColor =Text_size_color.CGColor;
-            bigBtn.layer.borderWidth = 0.5;
-            [bigBtn sizeToFit];
-            [cell.contentView addSubview:bigBtn];
-            [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-            
-            UIButton *midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [midBtn setTitle:@"中" forState:UIControlStateNormal];
-            [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-            midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-            midBtn.layer.cornerRadius = 3;
-            midBtn.layer.borderColor =Text_size_color.CGColor;
-            midBtn.layer.borderWidth = 0.5;
-            [midBtn sizeToFit];
-            [cell.contentView addSubview:midBtn];
-            [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
-            
-            UIButton *smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [smallBtn setTitle:@"小" forState:UIControlStateNormal];
-            [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-            smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-            smallBtn.layer.cornerRadius = 3;
-            smallBtn.layer.borderColor =Text_size_color.CGColor;
-            smallBtn.layer.borderWidth = 0.5;
-            [smallBtn sizeToFit];
-            [cell.contentView addSubview:smallBtn];
-            [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
+
             
             UIButton *button=[UIButton new];
             [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
@@ -769,6 +782,8 @@ shareTypeDelegate
 -(void)bigBtnButton
 {
     typeIndex = 1;
+
+    
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 
@@ -777,6 +792,7 @@ shareTypeDelegate
 -(void)midBtnButton
 {
     typeIndex = 2;
+
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 
@@ -785,6 +801,7 @@ shareTypeDelegate
 -(void)smallBtnButton
 {
     typeIndex = 3;
+
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 

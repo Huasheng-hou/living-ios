@@ -163,7 +163,7 @@ UIViewControllerTransitioningDelegate
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
-    [pickImage setAllowsEditing:YES];
+//    [pickImage setAllowsEditing:YES];
     
     zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;

@@ -24,9 +24,6 @@
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
     
-    BOOL ifRefresh;
-    int total;
-    
     NSIndexPath *deleteIndexPath;
     
     NSInteger        totalPage;
@@ -81,6 +78,8 @@
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
+     
+    
     
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
@@ -108,7 +107,40 @@
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
+    [self logoutAction:resp];
+    
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    NSLog(@"%@",headDic);
+    
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]){
+        if ([headDic[@"privileges"] isEqual:@"special"]) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(publicAction)];
+                
+                self.navigationItem.rightBarButtonItem = rightItem;
+            });
+        }
+        
+    }
+    
+    
+    
+    
+    
     
     NSString        *result     = [bodyDict objectForKey:@"result"];
     
@@ -178,7 +210,7 @@
         
         if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
             
-            [(LMActivityCell *)cell setActivityList:vo];
+            [(LMActivityCell *)cell setActivityList:vo index:0] ;
         }
     }
     

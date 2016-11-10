@@ -18,6 +18,7 @@
 
 //数据
 #import "LMBalanceDataModels.h"
+#define PAGER_SIZE      20
 
 @interface LMBalanceViewController ()
 <
@@ -25,11 +26,10 @@ UITableViewDelegate,
 UITableViewDataSource
 >
 {
-    UITableView *_tableView;
     NSString *balanceStr;
     NSMutableArray *listArray;
     NSMutableArray *monthArray;
-    NSMutableArray *voArray;
+//    NSMutableArray *voArray;
     
     LMBalanceBody *bodyData;
     
@@ -39,6 +39,24 @@ UITableViewDataSource
 @end
 
 @implementation LMBalanceViewController
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        
+        self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
+        self.hidesBottomBarWhenPushed   = NO;
+    }
+    
+    return self;
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self loadNoState];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,15 +66,14 @@ UITableViewDataSource
  
     [self creatUI];
     listArray = [NSMutableArray new];
-    monthArray = [NSMutableArray new];
-    
-    voArray = [NSMutableArray new];
+
+
 
     
     //请求获取余额
     [[NSNotificationCenter defaultCenter] addObserver:self
      
-                                             selector:@selector(getData)
+                                             selector:@selector(loadNoState)
      
                                                  name:@"rechargeMoney"
      
@@ -66,15 +83,15 @@ UITableViewDataSource
 -(void)getData
 {
     [self getBlanceData];
-    [self getBalancelistData];
+    [self loadNewer];
 }
 
 -(void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [self.view addSubview:_tableView];
+    [super createUI];
+    self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
 }
 
 
@@ -109,11 +126,11 @@ UITableViewDataSource
     
          UILabel *headLb = [UILabel new];
         
-        NSInteger length=sectionArray.count;
+        NSInteger length=monthArray.count;
         
         NSInteger row=length-section;
         
-        NSString *str=sectionArray[row];
+        NSString *str=monthArray[row];
         
         NSInteger lengthString=[str length];
         
@@ -180,12 +197,12 @@ UITableViewDataSource
    
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
     
-    NSInteger length=sectionArray.count;
+    NSInteger length=monthArray.count;
     
     NSInteger index=length-row-1;
     
-    DetailVC.curMonth=sectionArray[index];
-    DetailVC.monthArr = sectionArray;
+    DetailVC.curMonth=monthArray[index];
+    DetailVC.monthArr = monthArray;
     [self.navigationController pushViewController:DetailVC animated:YES];
 }
 
@@ -193,14 +210,24 @@ UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return voArray.count+1;
+    return monthArray.count+1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 2;
     }
-    return 3;
+    NSMutableArray *list = [NSMutableArray new];
+    for (int i = 0; i<listArray.count; i++) {
+        if (section == i+1) {
+            NSArray *array = listArray[i];
+            for (LMBanlanceVO *balanVO in array) {
+                [list addObject:balanVO];
+            }
+        }
+    }
+    
+    return list.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -234,14 +261,18 @@ UITableViewDataSource
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        LMBalanceVO *vo = voArray[indexPath.section-1];
-        for (LMBanlanceVO *balanVO in vo.Banlance) {
-//            LMBanlanceVO *balanVO = [LMBanlanceVO LMBanlanceVOWithDictionary:dic];
-            [listArray addObject:balanVO];
+        NSMutableArray *voArray = [NSMutableArray new];
+        for (int i = 0; i<listArray.count; i++) {
+            
+            if (indexPath.section==i+1) {
+                NSArray *array = listArray[i];
+                for (LMBanlanceVO *balanVO in array) {
+                    [voArray addObject:balanVO];
+                }
+                LMBanlanceVO *list = [voArray objectAtIndex:indexPath.row];
+                [cell setModel:list];
+            }
         }
-        
-        LMBanlanceVO *list = [listArray objectAtIndex:indexPath.row];
-        [cell setModel:list];
         return cell;
         
     }
@@ -308,85 +339,62 @@ UITableViewDataSource
             balanceStr =[NSString stringWithFormat:@"%@元",[dic objectForKey:@"balance"]];
 
             
-            [_tableView reloadData];
+            [self.tableView reloadData];
         }
     }
 }
 
 #pragma mark --余额明细列表
-
--(void)getBalancelistData
+- (FitBaseRequest *)request
 {
+    LMBalanceListRequest   *request    = [[LMBalanceListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
     
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
-    
-    NSDate *currentDate = [NSDate date];//获取当前时间，日期
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YYYY-MM"];
-    NSString *dateString = [dateFormatter stringFromDate:currentDate];
-    NSLog(@"dateString:%@",dateString);
-    
-    LMBalanceListRequest *request = [[LMBalanceListRequest alloc] initWithPageIndex:1 andPageSize:20];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getBlanceListDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取余额数据失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
-
+    return request;
 }
 
--(void)getBlanceListDataResponse:(NSString *)resp
+
+- (NSArray *)parseResponse:(NSString *)resp
 {
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     [self logoutAction:resp];
     
-//    NSLog(@"===========余额明细=bodyDic==============%@",bodyDic);
+    NSString        *result     = [bodyDict objectForKey:@"result"];
     
-    if (!bodyDic) {
-        [self textStateHUD:@"获取余额列表失败"];
-        return;
-    }else{
-        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
-            
-            bodyData=[[LMBalanceBody alloc]initWithDictionary:bodyDic];
-            
-            for (int i=0; i<bodyData.list.count; i++) {
-                LMBalanceList *list=bodyData.list[i];
-                [sectionArray addObject:list.month];
-            }
-            
-            
-          NSMutableArray *array=bodyDic[@"list"];
+        self.max    = [[bodyDict objectForKey:@"total"] intValue];
         
-            for (NSDictionary *dic in array) {
-                LMBalanceVO *vo = [LMBalanceVO LMBalanceVOWithDictionary:dic];
-                [voArray addObject:vo];
-                
-            }
-            
-            for (LMBalanceVO *vo in voArray) {
-                NSString *month = vo.month;
-                [monthArray addObject:month];
-            }
+        
+        monthArray = [NSMutableArray new];
+        listArray  = [NSMutableArray new];
+        
+        NSArray *resultArr  = [LMBalanceVO LMBalanceVOListWithArray:[bodyDict objectForKey:@"list"]];
+        for (LMBalanceVO *vo in resultArr) {
+            NSString *month = vo.month;
+            [monthArray addObject:month];
+            NSArray *array = vo.Banlance;
+            [listArray addObject:array];
             
         }
-        [_tableView reloadData];
+        
+        if (resultArr && resultArr.count > 0) {
+            
+            return resultArr;
+        }
     }
     
+    return nil;
 }
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0
+        && self.statefulState == FitStatefulTableViewControllerStateIdle
+        && [self canLoadMore]) {
+        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+    }
+}
+
 
 
 

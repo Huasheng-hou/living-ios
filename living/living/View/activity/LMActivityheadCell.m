@@ -74,7 +74,7 @@
     _headV.layer.cornerRadius = 5.f;
     _headV.contentMode = UIViewContentModeScaleAspectFill;
     _headV.clipsToBounds = YES;
-    _headV.backgroundColor = [UIColor grayColor];
+    _headV.backgroundColor = BG_GRAY_COLOR;
     [self.contentView addSubview:_headV];
     
     //活动人名

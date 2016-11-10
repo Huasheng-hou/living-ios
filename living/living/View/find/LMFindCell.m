@@ -47,6 +47,8 @@
     
     _imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 40, 110, 80)];
     
+    _imageview.backgroundColor = BG_GRAY_COLOR;
+    
     _imageview.contentMode = UIViewContentModeScaleAspectFill;
     
     _imageview.clipsToBounds = YES;

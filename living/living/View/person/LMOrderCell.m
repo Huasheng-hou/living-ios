@@ -33,6 +33,9 @@
 
 @property(nonatomic, strong)UILabel *numLabel;
 
+@property(nonatomic, strong)UIImageView *deductionImage;
+@property(nonatomic, strong)UILabel *couponLabel;
+
 
 
 
@@ -83,6 +86,7 @@
     [cellView addSubview:line2];
     
     _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 45, 60, 60)];
+    _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.layer.cornerRadius=5;
     _headImage.clipsToBounds = YES;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -98,10 +102,22 @@
     [cellView addSubview:_titleLabel];
     
     _numLabel = [UILabel new];
-    _numLabel.text = @"订单金额 ￥300";
+    _numLabel.text = @"x1份";
     _numLabel.font = TEXT_FONT_LEVEL_2;
     _numLabel.textColor = TEXT_COLOR_LEVEL_3;
     [cellView addSubview:_numLabel];
+    
+    
+    _deductionImage = [UIImageView new];
+    [cellView addSubview:_deductionImage];
+    
+    
+    _couponLabel = [UILabel new];
+    _couponLabel.text = @"￥188";
+    _couponLabel.font = TEXT_FONT_LEVEL_2;
+    _couponLabel.textColor = LIVING_REDCOLOR;
+    [cellView addSubview:_couponLabel];
+    
     
     
     _priceLabel = [UILabel new];
@@ -109,6 +125,9 @@
     _priceLabel.font = TEXT_FONT_LEVEL_3;
     _priceLabel.textColor = LIVING_COLOR;
     [cellView addSubview:_priceLabel];
+    
+    
+    
     
     
     UIView *line3 = [[UIView alloc] initWithFrame:CGRectMake(0, 114.5, kScreenWidth-30, 0.5)];
@@ -145,23 +164,37 @@
     [cellView addSubview:_payButton];
     
     
+    
+    
+    
+    
 }
 
 -(void)setValue:(LMOrderVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
     _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
-    NSString *textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
     
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:textstr];
-    [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,4)];
-    [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(4,str.length-4)];
-     _priceLabel.attributedText = str;
+
     
     _titleLabel.text = list.eventName;
     _orderNumLabel.text = list.orderNumber;
     
-    _numLabel.text =[NSString stringWithFormat:@"x %d",list.number];
+    _numLabel.text =[NSString stringWithFormat:@"x %d份",list.number];
+    NSString *textstr;
+    if (list.hasCoupon==YES) {
+        _deductionImage.image = [UIImage imageNamed:@"deduction"];
+        _couponLabel.text = [NSString stringWithFormat:@"￥%@",list.couponMoney];
+        textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.discountMoney];
+    }else{
+        textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
+    }
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:textstr];
+    [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,4)];
+    [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(4,str.length-4)];
+    _priceLabel.attributedText = str;
+    
+
     
     
     
@@ -216,6 +249,8 @@
     [_deleteButton sizeToFit];
     [_payButton sizeToFit];
     [_numLabel sizeToFit];
+    [_deductionImage sizeToFit];
+    [_couponLabel sizeToFit];
     
     
     
@@ -230,6 +265,8 @@
     _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
     
     _numLabel.frame = CGRectMake(80, 90, _numLabel.bounds.size.width,  _priceLabel.bounds.size.height);
+    _deductionImage.frame = CGRectMake(95+_numLabel.bounds.size.width, 90, 16, 16);
+    _couponLabel.frame = CGRectMake(95+_numLabel.bounds.size.width+20, 90, _couponLabel.bounds.size.width, _couponLabel.bounds.size.height);
 }
 
 //删除

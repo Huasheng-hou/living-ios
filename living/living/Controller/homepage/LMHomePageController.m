@@ -180,14 +180,37 @@ LMhomePageCellDelegate
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
+    
+    [self logoutAction:resp];
+    
+    NSString *franchisee;
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    NSLog(@"%@",headDic);
+    NSString    *coderesult         = [bodyDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]){
+        if ([headDic[@"franchisee"] isEqual:@"yes"]) {
+            franchisee = @"yes";
+
+        }
+        
+    }
+    
+    
+    
     
     NSString    *result         = [bodyDic objectForKey:@"result"];
     NSString    *description    = [bodyDic objectForKey:@"description"];
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
-        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]) {
+        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]||[franchisee isEqual:@"yes"]) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                

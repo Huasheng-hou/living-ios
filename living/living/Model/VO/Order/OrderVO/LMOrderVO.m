@@ -107,6 +107,21 @@
             self.number = [(NSNumber *)[dictionary objectForKey:@"numbers"] intValue];
         }
         
+        if (nil != [dictionary objectForKey:@"has_coupon"] && ![[dictionary objectForKey:@"has_coupon"] isEqual:[NSNull null]]) {
+            self.hasCoupon = [(NSNumber *)[dictionary objectForKey:@"has_coupon"] boolValue];
+        }
+        
+        
+        if (nil != [dictionary objectForKey:@"couponMoney"] && ![[dictionary objectForKey:@"couponMoney"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"couponMoney"] isKindOfClass:[NSString class]]) {
+            self.couponMoney = [dictionary objectForKey:@"couponMoney"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"discountMoney"] && ![[dictionary objectForKey:@"discountMoney"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"discountMoney"] isKindOfClass:[NSString class]]) {
+            self.discountMoney = [dictionary objectForKey:@"discountMoney"];
+        }
+        
         
         
         

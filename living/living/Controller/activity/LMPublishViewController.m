@@ -130,7 +130,7 @@ static NSMutableArray *cellDataArray;
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
-    [pickImage setAllowsEditing:YES];
+//    [pickImage setAllowsEditing:YES];
     cellIndex = 1;
     
     [self creatFootView];
@@ -372,7 +372,7 @@ static NSMutableArray *cellDataArray;
     
      [projectImageArray removeObjectAtIndex:row];
     
-    [self.tableView reloadData];
+    [self refreshData];
 }
 
 
@@ -597,7 +597,7 @@ static NSMutableArray *cellDataArray;
         [dic setObject:text forKey:@"content"];
     }
     
-   [_tableView reloadData];
+   [self refreshData];
 }
 
 
@@ -643,7 +643,7 @@ static NSMutableArray *cellDataArray;
     }
     
    
-    [_tableView reloadData];
+    [self refreshData];
     
 }
 
@@ -681,7 +681,7 @@ static NSMutableArray *cellDataArray;
         [projectImageArray replaceObjectAtIndex:addImageIndex-10 withObject:image];
     }
     
-    [_tableView reloadData];
+    [self refreshData];
     
      [self getImageURL:image];
     
@@ -1013,7 +1013,8 @@ static NSMutableArray *cellDataArray;
     
     [self projectDataStorageWithArrayIndex:length];
     
-    [self.tableView reloadData];
+
+    [self refreshData];
 }
 
 - (void)resignCurrentFirstResponder
@@ -1036,5 +1037,12 @@ static NSMutableArray *cellDataArray;
     [self.tableView setContentOffset:CGPointMake(0, rect.origin.y+15 - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
 }
 
+- (void)refreshData
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.tableView reloadData];
+    });
+}
 
 @end

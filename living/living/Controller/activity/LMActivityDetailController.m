@@ -75,6 +75,8 @@ UIAlertViewDelegate
     
     NSString *status;
     UIBarButtonItem *rightItem;
+    
+    NSString *vipString;
 }
 
 @end
@@ -237,6 +239,30 @@ UIAlertViewDelegate
 - (void)getEventListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    NSLog(@"%@",headDic);
+    
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]){
+        if ([headDic[@"sign"] isEqual:@"menber"]) {
+            vipString = @"vipString";
+        }
+        
+    }
+    
+
+    
+    
+    
+    
+    
     [self logoutAction:resp];
     
     NSLog(@"==========================活动详情:bodyDic:%@",bodyDic);
@@ -289,6 +315,9 @@ UIAlertViewDelegate
         orderDic = [bodyDic objectForKey:@"event_body"];
         
         if (eventDic.status==3||eventDic.status==4) {
+            status = @"结束";
+        }
+        if (eventDic.status==1||eventDic.status==2) {
             status = @"开始";
         }
         
@@ -300,18 +329,14 @@ UIAlertViewDelegate
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
-            if (eventDic.totalNumber>0) {
+            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
 
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+            if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
                 
-                if (eventDic.status==4) {
-                    [self textStateHUD:@"您已结束活动"];
-                    return;
-                }
                 
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
@@ -867,7 +892,7 @@ UIAlertViewDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"回复成功"];
         [self getEventListDataRequest];
-        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+//        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -901,7 +926,9 @@ UIAlertViewDelegate
     
     
     
-    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
+    
+    
+    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
         
         
         infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
@@ -1477,6 +1504,8 @@ UIAlertViewDelegate
 
 -(void)endActivity
 {
+    
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];

@@ -237,9 +237,7 @@ LMOrderCellDelegate>
             }
         
         }
-        if (orderArray.count!=0) {
-            [homeImage removeFromSuperview];
-        }else{
+        if (orderArray.count==0) {
             homeImage.hidden = NO;
         }
         

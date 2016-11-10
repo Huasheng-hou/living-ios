@@ -6,11 +6,10 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitStatefulTableViewController.h"
 
-@interface LMOrderViewController : FitBaseViewController
+@interface LMOrderViewController : FitStatefulTableViewController
 
-@property (nonatomic)           int     current;
 @property (nonatomic,strong) NSString *useBalance;
 
 // 带tab, nav, status的y向缩放

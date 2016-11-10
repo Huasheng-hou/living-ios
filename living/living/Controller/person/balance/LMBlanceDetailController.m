@@ -64,7 +64,7 @@
         return 1;
     }
     
-    return bodyData.list.count;
+    return _listArray.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -125,16 +125,16 @@
         
         return cell;
     }
-    if (indexPath.section) {
+    if (indexPath.section==1) {
         static NSString *cellID = @"cellID";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        for (int i=0; i<bodyData.list.count; i++) {
-            
-            LMBanlanceVO  *list=bodyData.list[i];
+//        for (int i=0; i<_listArray.count; i++) {
+        
+            LMBanlanceVO  *list=_listArray[indexPath.row];
             [cell setModel:list];
-        }
+//        }
         
         return cell;
     }
@@ -230,15 +230,15 @@
 //        NSLog(@"==============余额明细详情===bodyDic============%@",bodyDic);
         
         bodyData=[[LMMonthDetailBody alloc]initWithDictionary:bodyDic];
-        
+        _listArray = [NSMutableArray new];
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
 //            NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
             NSMutableArray *array=bodyDic[@"list"];
             for (int i=0; i<array.count; i++) {
-                LMBanlanceVO *list=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
-                if (![_listArray containsObject:list]) {
-                    [_listArray addObject:list];
+                LMBanlanceVO *vo=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
+                if (![_listArray containsObject:vo]) {
+                    [_listArray addObject:vo];
                 }
             }
             _billDic = [bodyDic objectForKey:@"bill"];

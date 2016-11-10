@@ -24,10 +24,10 @@
 - (void)addSubviews
 {
     //图片
-    _payImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12.5, 30, 30)];
+    _payImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 12.5, 30, 30)];
     [self addSubview:_payImg];
     //文字
-    _payLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 0, 80, 55)];
+    _payLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 80, 55)];
     _payLabel.font = TEXT_FONT_LEVEL_2;
     _payLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self addSubview:_payLabel];

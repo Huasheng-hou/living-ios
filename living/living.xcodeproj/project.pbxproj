@@ -21,6 +21,10 @@
 		351AF4871DD30DB7001F7836 /* LMCouponChoseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */; };
 		351AF48B1DD338E4001F7836 /* LMEventStartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */; };
 		351AF48E1DD3392C001F7836 /* LMEventEndRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */; };
+		352B6D121DD4470B00C9DAB5 /* LMMy2dcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D111DD4470B00C9DAB5 /* LMMy2dcodeViewController.m */; };
+		352B6D151DD4473000C9DAB5 /* LMScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D141DD4473000C9DAB5 /* LMScanViewController.m */; };
+		352B6D181DD4492800C9DAB5 /* LMFranchiseeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D171DD4492800C9DAB5 /* LMFranchiseeViewController.m */; };
+		352B6D1B1DD4527F00C9DAB5 /* LMBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D1A1DD4527F00C9DAB5 /* LMBusinessCell.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
 		3547F3361D9901780068F04E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3351D9901780068F04E /* AppDelegate.m */; };
 		3547F33E1D9901780068F04E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3547F33D1D9901780068F04E /* Assets.xcassets */; };
@@ -105,14 +109,12 @@
 		873795411DCF8A1000A2ACD7 /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793381DCF8A0F00A2ACD7 /* LMHomeDetailController.m */; };
 		873795421DCF8A1000A2ACD7 /* LMHomePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737933A1DCF8A0F00A2ACD7 /* LMHomePageController.m */; };
 		873795431DCF8A1000A2ACD7 /* LMPublicArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737933C1DCF8A0F00A2ACD7 /* LMPublicArticleController.m */; };
-		873795441DCF8A1000A2ACD7 /* LMScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737933E1DCF8A0F00A2ACD7 /* LMScanViewController.m */; };
 		873795451DCF8A1000A2ACD7 /* LMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */; };
 		873795461DCF8A1000A2ACD7 /* LMWriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793421DCF8A0F00A2ACD7 /* LMWriterViewController.m */; };
 		873795471DCF8A1000A2ACD7 /* LMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793461DCF8A0F00A2ACD7 /* LMLoginViewController.m */; };
 		873795481DCF8A1000A2ACD7 /* LMRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793481DCF8A0F00A2ACD7 /* LMRegisterViewController.m */; };
 		8737954B1DCF8A1000A2ACD7 /* LMChangeDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737934F1DCF8A0F00A2ACD7 /* LMChangeDataViewController.m */; };
 		8737954C1DCF8A1000A2ACD7 /* LMChangeLivingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793511DCF8A0F00A2ACD7 /* LMChangeLivingController.m */; };
-		8737954D1DCF8A1000A2ACD7 /* LMMy2dcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793531DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.m */; };
 		8737954E1DCF8A1000A2ACD7 /* LMMyCouponController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793551DCF8A0F00A2ACD7 /* LMMyCouponController.m */; };
 		8737954F1DCF8A1000A2ACD7 /* LMMyFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793571DCF8A1000A2ACD7 /* LMMyFriendViewController.m */; };
 		873795501DCF8A1000A2ACD7 /* LMMyLivingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793591DCF8A1000A2ACD7 /* LMMyLivingViewController.m */; };
@@ -363,6 +365,14 @@
 		351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventStartRequest.m; sourceTree = "<group>"; };
 		351AF48C1DD3392C001F7836 /* LMEventEndRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventEndRequest.h; sourceTree = "<group>"; };
 		351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventEndRequest.m; sourceTree = "<group>"; };
+		352B6D101DD4470400C9DAB5 /* LMMy2dcodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMMy2dcodeViewController.h; sourceTree = "<group>"; };
+		352B6D111DD4470B00C9DAB5 /* LMMy2dcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMy2dcodeViewController.m; sourceTree = "<group>"; };
+		352B6D131DD4473000C9DAB5 /* LMScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMScanViewController.h; sourceTree = "<group>"; };
+		352B6D141DD4473000C9DAB5 /* LMScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanViewController.m; sourceTree = "<group>"; };
+		352B6D161DD4492800C9DAB5 /* LMFranchiseeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeViewController.h; sourceTree = "<group>"; };
+		352B6D171DD4492800C9DAB5 /* LMFranchiseeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeViewController.m; sourceTree = "<group>"; };
+		352B6D191DD4527F00C9DAB5 /* LMBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBusinessCell.h; sourceTree = "<group>"; };
+		352B6D1A1DD4527F00C9DAB5 /* LMBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBusinessCell.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -586,8 +596,6 @@
 		8737933A1DCF8A0F00A2ACD7 /* LMHomePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomePageController.m; sourceTree = "<group>"; };
 		8737933B1DCF8A0F00A2ACD7 /* LMPublicArticleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicArticleController.h; sourceTree = "<group>"; };
 		8737933C1DCF8A0F00A2ACD7 /* LMPublicArticleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicArticleController.m; sourceTree = "<group>"; };
-		8737933D1DCF8A0F00A2ACD7 /* LMScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMScanViewController.h; sourceTree = "<group>"; };
-		8737933E1DCF8A0F00A2ACD7 /* LMScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanViewController.m; sourceTree = "<group>"; };
 		8737933F1DCF8A0F00A2ACD7 /* LMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWebViewController.h; sourceTree = "<group>"; };
 		873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWebViewController.m; sourceTree = "<group>"; };
 		873793411DCF8A0F00A2ACD7 /* LMWriterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWriterViewController.h; sourceTree = "<group>"; };
@@ -600,8 +608,6 @@
 		8737934F1DCF8A0F00A2ACD7 /* LMChangeDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeDataViewController.m; sourceTree = "<group>"; };
 		873793501DCF8A0F00A2ACD7 /* LMChangeLivingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeLivingController.h; sourceTree = "<group>"; };
 		873793511DCF8A0F00A2ACD7 /* LMChangeLivingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeLivingController.m; sourceTree = "<group>"; };
-		873793521DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMy2dcodeViewController.h; sourceTree = "<group>"; };
-		873793531DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMy2dcodeViewController.m; sourceTree = "<group>"; };
 		873793541DCF8A0F00A2ACD7 /* LMMyCouponController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyCouponController.h; sourceTree = "<group>"; };
 		873793551DCF8A0F00A2ACD7 /* LMMyCouponController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyCouponController.m; sourceTree = "<group>"; };
 		873793561DCF8A0F00A2ACD7 /* LMMyFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyFriendViewController.h; sourceTree = "<group>"; };
@@ -1140,6 +1146,26 @@
 			path = eventStatus;
 			sourceTree = "<group>";
 		};
+		352B6D0F1DD446C400C9DAB5 /* 2DCode */ = {
+			isa = PBXGroup;
+			children = (
+				352B6D101DD4470400C9DAB5 /* LMMy2dcodeViewController.h */,
+				352B6D111DD4470B00C9DAB5 /* LMMy2dcodeViewController.m */,
+				352B6D131DD4473000C9DAB5 /* LMScanViewController.h */,
+				352B6D141DD4473000C9DAB5 /* LMScanViewController.m */,
+				352B6D161DD4492800C9DAB5 /* LMFranchiseeViewController.h */,
+				352B6D171DD4492800C9DAB5 /* LMFranchiseeViewController.m */,
+			);
+			path = 2DCode;
+			sourceTree = "<group>";
+		};
+		352B6D1C1DD4687C00C9DAB5 /* keepData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = keepData;
+			sourceTree = "<group>";
+		};
 		3547F3251D9901770068F04E = {
 			isa = PBXGroup;
 			children = (
@@ -1606,8 +1632,6 @@
 				8737933A1DCF8A0F00A2ACD7 /* LMHomePageController.m */,
 				8737933B1DCF8A0F00A2ACD7 /* LMPublicArticleController.h */,
 				8737933C1DCF8A0F00A2ACD7 /* LMPublicArticleController.m */,
-				8737933D1DCF8A0F00A2ACD7 /* LMScanViewController.h */,
-				8737933E1DCF8A0F00A2ACD7 /* LMScanViewController.m */,
 				8737933F1DCF8A0F00A2ACD7 /* LMWebViewController.h */,
 				873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */,
 				873793411DCF8A0F00A2ACD7 /* LMWriterViewController.h */,
@@ -1630,13 +1654,12 @@
 		873793491DCF8A0F00A2ACD7 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				352B6D0F1DD446C400C9DAB5 /* 2DCode */,
 				351AF45F1DD16C93001F7836 /* balance */,
 				8737934E1DCF8A0F00A2ACD7 /* LMChangeDataViewController.h */,
 				8737934F1DCF8A0F00A2ACD7 /* LMChangeDataViewController.m */,
 				873793501DCF8A0F00A2ACD7 /* LMChangeLivingController.h */,
 				873793511DCF8A0F00A2ACD7 /* LMChangeLivingController.m */,
-				873793521DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.h */,
-				873793531DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.m */,
 				873793541DCF8A0F00A2ACD7 /* LMMyCouponController.h */,
 				873793551DCF8A0F00A2ACD7 /* LMMyCouponController.m */,
 				873793561DCF8A0F00A2ACD7 /* LMMyFriendViewController.h */,
@@ -2138,6 +2161,7 @@
 		873794481DCF8A1000A2ACD7 /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				352B6D1C1DD4687C00C9DAB5 /* keepData */,
 				351AF4781DD19615001F7836 /* coupon */,
 				3519F1821DD010C800013892 /* Find */,
 				873794491DCF8A1000A2ACD7 /* Activity */,
@@ -2488,6 +2512,8 @@
 				873794E71DCF8A1000A2ACD7 /* LMRechargeCell.m */,
 				873794E81DCF8A1000A2ACD7 /* LMRePayCell.h */,
 				873794E91DCF8A1000A2ACD7 /* LMRePayCell.m */,
+				352B6D191DD4527F00C9DAB5 /* LMBusinessCell.h */,
+				352B6D1A1DD4527F00C9DAB5 /* LMBusinessCell.m */,
 				873794EA1DCF8A1000A2ACD7 /* myfriend */,
 				873794ED1DCF8A1000A2ACD7 /* personCoupon */,
 				873794F01DCF8A1000A2ACD7 /* personMyliveRoom */,
@@ -2870,7 +2896,6 @@
 				873795581DCF8A1000A2ACD7 /* SQMenuShowCell.m in Sources */,
 				8737953D1DCF8A1000A2ACD7 /* FitStatefulTableViewController.m in Sources */,
 				873795391DCF8A1000A2ACD7 /* LMPublishViewController.m in Sources */,
-				873795441DCF8A1000A2ACD7 /* LMScanViewController.m in Sources */,
 				873795B41DCF8A1000A2ACD7 /* LMPublicProjectRequest.m in Sources */,
 				351AF46B1DD16D98001F7836 /* LMBalanceChargeRequest.m in Sources */,
 				873796041DCF8A1000A2ACD7 /* LMCouponCell.m in Sources */,
@@ -2893,6 +2918,7 @@
 				873795F51DCF8A1000A2ACD7 /* LMhomePageCell.m in Sources */,
 				873795911DCF8A1000A2ACD7 /* LMCommentPraiseRequest.m in Sources */,
 				8737950E1DCF8A1000A2ACD7 /* openssl_wrapper.m in Sources */,
+				352B6D1B1DD4527F00C9DAB5 /* LMBusinessCell.m in Sources */,
 				873795841DCF8A1000A2ACD7 /* LMEventpraiseRequest.m in Sources */,
 				873795E51DCF8A1000A2ACD7 /* CustomButton.m in Sources */,
 				873795FD1DCF8A1000A2ACD7 /* LMMyLivingHomeCell.m in Sources */,
@@ -2903,7 +2929,6 @@
 				8737950A1DCF8A1000A2ACD7 /* DataSigner.m in Sources */,
 				351AF48E1DD3392C001F7836 /* LMEventEndRequest.m in Sources */,
 				873795791DCF8A1000A2ACD7 /* LMLiveRoomBody.m in Sources */,
-				8737954D1DCF8A1000A2ACD7 /* LMMy2dcodeViewController.m in Sources */,
 				873795F21DCF8A1000A2ACD7 /* LMFindCell.m in Sources */,
 				8737960B1DCF8A1100A2ACD7 /* LMChooseButton.m in Sources */,
 				873795E91DCF8A1000A2ACD7 /* LMEventMsgCell.m in Sources */,
@@ -2931,6 +2956,7 @@
 				8737951B1DCF8A1000A2ACD7 /* UIScrollView+MJRefresh.m in Sources */,
 				873795461DCF8A1000A2ACD7 /* LMWriterViewController.m in Sources */,
 				351AF4711DD17ADC001F7836 /* LMArticeDeleteReplyRequst.m in Sources */,
+				352B6D121DD4470B00C9DAB5 /* LMMy2dcodeViewController.m in Sources */,
 				873795FC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.m in Sources */,
 				873795541DCF8A1000A2ACD7 /* LMOrderViewController.m in Sources */,
 				8737958B1DCF8A1000A2ACD7 /* LMArtclePariseRequest.m in Sources */,
@@ -2959,6 +2985,7 @@
 				873795B31DCF8A1000A2ACD7 /* LMPublicEventRequest.m in Sources */,
 				873795821DCF8A1000A2ACD7 /* LMEventJoinRequest.m in Sources */,
 				8737951E1DCF8A1000A2ACD7 /* Readme.markdown in Sources */,
+				352B6D181DD4492800C9DAB5 /* LMFranchiseeViewController.m in Sources */,
 				8737960D1DCF8A1100A2ACD7 /* HBShareButton.m in Sources */,
 				873795761DCF8A1000A2ACD7 /* LMALLList.m in Sources */,
 				8E948AFC1DD16E35002805DD /* LMToolTipView.m in Sources */,
@@ -3065,6 +3092,7 @@
 				873796011DCF8A1000A2ACD7 /* LMRechargeCell.m in Sources */,
 				873795A41DCF8A1000A2ACD7 /* LMBalanceListRequest.m in Sources */,
 				8E92944B1DD04CEE00A00829 /* LMMonthDetailBody.m in Sources */,
+				352B6D151DD4473000C9DAB5 /* LMScanViewController.m in Sources */,
 				873795F41DCF8A1000A2ACD7 /* LMCommentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -145,7 +145,7 @@ WJLoopViewDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"我的生活馆信息bodyDic：%@",bodyDic);
         
-//        bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
+        bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
         
          NSLog(@"==============bodyData.list=============：%@",bodyData.list);
         
@@ -154,6 +154,10 @@ WJLoopViewDelegate
         
         livingInfo = [[LMLivingInfoVO alloc] initWithDictionary:bodyDic[@"livingInfo"]];
         numInfo = [[LMLivingMapVO alloc] initWithDictionary:bodyDic[@"map"]];
+        
+        
+        
+        
         
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
@@ -287,6 +291,7 @@ WJLoopViewDelegate
     if ([selectType isEqualToString:@"left"])
     {
         cellDataArray=(NSMutableArray *)bodyData.list;
+        
     }
     if ([selectType isEqualToString:@"right"])
     {
@@ -372,6 +377,22 @@ WJLoopViewDelegate
         if (!cell) {
             cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         }
+        
+        
+        if (listArray.count > indexPath.row) {
+            
+            NSLog(@"********%@",cellDataArray);
+            
+            ActivityListVO  *vo = [listArray objectAtIndex:indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+                
+                [(LMActivityCell *)cell setActivityList:vo index:2];
+            }
+        }
+        
+        [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         

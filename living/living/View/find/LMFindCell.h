@@ -24,7 +24,7 @@
 
 
 @property (nonatomic, weak) id <LMFindCellDelegate> delegate;
-- (void)setXScale:(float)xScale yScale:(float)yScale;
+//- (void)setXScale:(float)xScale yScale:(float)yScale;
 -(void)setValue:(LMFindVO *)list;
 
 @end
