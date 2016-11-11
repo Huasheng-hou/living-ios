@@ -203,8 +203,6 @@ LMhomePageCellDelegate
     }
     
     
-    
-    
     NSString    *result         = [bodyDic objectForKey:@"result"];
     NSString    *description    = [bodyDic objectForKey:@"description"];
     

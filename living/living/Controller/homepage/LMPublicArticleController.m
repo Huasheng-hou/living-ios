@@ -84,7 +84,6 @@ UIViewControllerTransitioningDelegate
     [super viewDidLoad];
     [self registerForKeyboardNotifications];
     
-    
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStylePlain target:self action:@selector(publishArtcle)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -97,7 +96,7 @@ UIViewControllerTransitioningDelegate
     imageArray      = [NSMutableArray arrayWithCapacity:0];
     imageUrlArray = [NSMutableArray arrayWithCapacity:0];
     
-
+    
 }
 
 #pragma mark 键盘部分
@@ -122,15 +121,15 @@ UIViewControllerTransitioningDelegate
     CGRect end = [[[notif userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
     
     // 第三方键盘回调三次问题，监听仅执行最后一次
-
-        if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
-            [UIView animateWithDuration:0.1f animations:^{
-                [toolBar setFrame:CGRectMake(0, kScreenHeight-curkeyBoardHeight+toolBar.height, kScreenWidth, toolBar.height)];
-                
-                NSLog(@"****keyboardWasShown****%@",toolBar);
-                
-            }];
-        }
+    
+    if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
+        [UIView animateWithDuration:0.1f animations:^{
+            [toolBar setFrame:CGRectMake(0, kScreenHeight-curkeyBoardHeight+toolBar.height, kScreenWidth, toolBar.height)];
+            
+            NSLog(@"****keyboardWasShown****%@",toolBar);
+            
+        }];
+    }
 }
 
 - (void) keyboardWasHidden:(NSNotification *) notif
@@ -150,20 +149,18 @@ UIViewControllerTransitioningDelegate
 
 - (void)createUI
 {
-
+    
     self.title = @"发布文章";
     
     toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
     toolBar. barStyle = UIBarButtonItemStylePlain ;
-    
     [[UIApplication sharedApplication].keyWindow addSubview :toolBar];
-    
     pickImage=[[UIImagePickerController alloc]init];
     
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
-//    [pickImage setAllowsEditing:YES];
+    //    [pickImage setAllowsEditing:YES];
     
     zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -203,7 +200,7 @@ UIViewControllerTransitioningDelegate
     discribleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
     discribleTF.font = TEXT_FONT_LEVEL_2;
     [bgView addSubview:discribleTF];
-
+    
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5+45, kScreenWidth, 0.5)];
     line.backgroundColor = LINE_COLOR;
     [bgView addSubview:line];
@@ -353,7 +350,7 @@ UIViewControllerTransitioningDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-
+    
     if (buttonIndex==0)
     {//图库
         picker = [[ZYQAssetPickerController alloc] init];
@@ -401,7 +398,6 @@ UIViewControllerTransitioningDelegate
 
 -(void)publishArtcle
 {
-    NSLog(@"=======publishQuestion=========");
     
     [self.view endEditing:YES];
     
@@ -409,7 +405,7 @@ UIViewControllerTransitioningDelegate
         [self textStateHUD:@"请输入标题"];
         return;
     }
-
+    
     if (discribleTF.text.length ==0) {
         [self textStateHUD:@"请输入描述内容"];
         return;
@@ -429,7 +425,7 @@ UIViewControllerTransitioningDelegate
         [self textStateHUD:@"至少上传一张图片"];
         return;
     }
-
+    
     if (imageArray.count>0) {
         [self performSelectorOnMainThread:@selector(getImageURL) withObject:nil waitUntilDone:YES];
     }else{
@@ -547,9 +543,7 @@ UIViewControllerTransitioningDelegate
 
 -(void)deleteImage:(UIButton*)sender
 {
-    NSLog(@"------------image--tag:%ld",(long)sender.tag);
     deleImageIndex=sender.tag;
-    
     for (UIImageView *iconImage in sender.subviews) {
         [iconImage setHidden:NO];
     }
@@ -607,7 +601,6 @@ UIViewControllerTransitioningDelegate
 
 - (void)getImageURL
 {
-    NSLog(@"======获取图片的url========");
     
     if (![CheckUtils isLink]) {
         
@@ -662,7 +655,7 @@ UIViewControllerTransitioningDelegate
                                                                           withObject:nil
                                                                        waitUntilDone:YES];
                                                    
-//                                                   [imageUrlArray addObject:@"fail"];
+                                                   //                                                   [imageUrlArray addObject:@"fail"];
                                                }];
         
         
@@ -721,9 +714,7 @@ UIViewControllerTransitioningDelegate
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
             });
             
-
             
-
         }else{
             [self textStateHUD:@"发布失败"];
         }
@@ -745,7 +736,7 @@ UIViewControllerTransitioningDelegate
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 //获取textView高度
@@ -763,11 +754,9 @@ UIViewControllerTransitioningDelegate
         CGFloat height = textFrame.size.height;
         NSLog(@"****************textview 高度****%.f",height);
         
-
+        
     }
 }
-
-
 
 
 -(void)hiddenKeyboard

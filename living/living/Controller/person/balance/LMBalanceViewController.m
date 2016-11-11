@@ -126,11 +126,7 @@ UITableViewDataSource
     
          UILabel *headLb = [UILabel new];
         
-        NSInteger length=monthArray.count;
-        
-        NSInteger row=length-section;
-        
-        NSString *str=monthArray[row];
+        NSString *str=monthArray[section-1];
         
         NSInteger lengthString=[str length];
         
@@ -197,11 +193,7 @@ UITableViewDataSource
    
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
     
-    NSInteger length=monthArray.count;
-    
-    NSInteger index=length-row-1;
-    
-    DetailVC.curMonth=monthArray[index];
+    DetailVC.curMonth=monthArray[row];
     DetailVC.monthArr = monthArray;
     [self.navigationController pushViewController:DetailVC animated:YES];
 }

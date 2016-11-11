@@ -10,6 +10,8 @@
 
 @interface LMBlanceDetailController : FitTableViewController
 
+@property (nonatomic)           int     current;
+
 @property(nonatomic,strong)NSMutableArray *monthArr;
 
 @property(nonatomic,strong)NSString *curMonth;

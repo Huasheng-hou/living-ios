@@ -37,5 +37,6 @@
 @property (nonatomic, assign) BOOL hasCoupon;
 @property (nonatomic, retain) NSString *couponMoney;
 @property (nonatomic, retain) NSString *discountMoney;
+@property (nonatomic, assign) int status;
 
 @end

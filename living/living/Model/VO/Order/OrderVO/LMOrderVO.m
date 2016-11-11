@@ -122,6 +122,10 @@
             self.discountMoney = [dictionary objectForKey:@"discountMoney"];
         }
         
+        if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSNumber class]]) {
+            self.status =[(NSNumber *) [dictionary objectForKey:@"status"] intValue];
+        }
         
         
         

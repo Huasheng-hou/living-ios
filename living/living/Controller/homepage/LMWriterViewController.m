@@ -72,9 +72,9 @@ UITableViewDataSource
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
     [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
     // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
-//    _tableView.headerPullToRefreshText = @"下拉可以刷新";
-//    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
-//    _tableView.headerRefreshingText = @"正在帮你刷新...";
+    //    _tableView.headerPullToRefreshText = @"下拉可以刷新";
+    //    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
+    //    _tableView.headerRefreshingText = @"正在帮你刷新...";
     
     _tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
     _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
@@ -136,7 +136,7 @@ UITableViewDataSource
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 
 -(void)getauthorDataResponse:(NSString *)resp
@@ -151,7 +151,7 @@ UITableViewDataSource
         NSLog(@"%@",bodyDic);
         
         infoDic = [bodyDic objectForKey:@"map"];
-    
+        
         if (ifRefresh) {
             ifRefresh=NO;
             listArray=[NSMutableArray arrayWithCapacity:0];
@@ -182,7 +182,7 @@ UITableViewDataSource
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-
+    
     
     
 }
@@ -257,53 +257,53 @@ UITableViewDataSource
         static NSString *cellId = @"cellId";
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            //头像
-            headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
-            headerView.layer.cornerRadius = 5;
-            headerView.backgroundColor = BG_GRAY_COLOR;
-            headerView.contentMode = UIViewContentModeScaleAspectFill;
-            headerView.clipsToBounds = YES;
+        //头像
+        headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
+        headerView.layer.cornerRadius = 5;
+        headerView.backgroundColor = BG_GRAY_COLOR;
+        headerView.contentMode = UIViewContentModeScaleAspectFill;
+        headerView.clipsToBounds = YES;
         headerView.userInteractionEnabled = YES;
         
-            if (![infoDic[@"avatar"] isEqual:@""]&&infoDic[@"avatar"]) {
-                [headerView setImageWithURL:[NSURL URLWithString:infoDic[@"avatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-                UITapGestureRecognizer *tapClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headClick)];
-                [headerView addGestureRecognizer:tapClick];
-                
-            }
-            [cell.contentView addSubview:headerView];
-
-            //nick
-            UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,20,30,30)];
-            nicklabel.font = TEXT_FONT_LEVEL_1;
-            nicklabel.textColor = TEXT_COLOR_LEVEL_2;
-            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
+        if (![infoDic[@"avatar"] isEqual:@""]&&infoDic[@"avatar"]) {
+            [headerView setImageWithURL:[NSURL URLWithString:infoDic[@"avatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+            UITapGestureRecognizer *tapClick = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headClick)];
+            [headerView addGestureRecognizer:tapClick];
+            
+        }
+        [cell.contentView addSubview:headerView];
+        
+        //nick
+        UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,20,30,30)];
+        nicklabel.font = TEXT_FONT_LEVEL_1;
+        nicklabel.textColor = TEXT_COLOR_LEVEL_2;
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
         NSString *str= @"";
         if (infoDic[@"nickename"]&& ![infoDic[@"nickename"] isEqual:@""]) {
-           str =infoDic[@"nickename"];
+            str =infoDic[@"nickename"];
         }else{
             str = @"匿名作者";
         }
         
-            CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-            [nicklabel setFrame:CGRectMake(100, 20, textSize.width, 30)];
-            nicklabel.text = str;
-            [cell.contentView addSubview:nicklabel];
-
-            
-            //gender icon
-            UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 27, 16, 16)];
-            if (infoDic[@"gender"]) {
-                if ([infoDic[@"gender"] isEqual:@"男"]) {
-                    [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
-                }else{
-                    [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
-                }
+        CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
+        [nicklabel setFrame:CGRectMake(100, 20, textSize.width, 30)];
+        nicklabel.text = str;
+        [cell.contentView addSubview:nicklabel];
+        
+        
+        //gender icon
+        UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 27, 16, 16)];
+        if (infoDic[@"gender"]) {
+            if ([infoDic[@"gender"] isEqual:@"男"]) {
+                [genderImage setImage:[UIImage imageNamed:@"gender-man"]];
+            }else{
+                [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
             }
-            [cell.contentView addSubview:genderImage];
-
-            //地址
-            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 52, 80, 20)];
+        }
+        [cell.contentView addSubview:genderImage];
+        
+        //地址
+        UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 52, 80, 20)];
         
         if (infoDic[@"address"]&&![infoDic[@"address"] isEqual:@""]) {
             question.text = [NSString stringWithFormat:@"地址：%@", infoDic[@"address"]];
@@ -312,16 +312,16 @@ UITableViewDataSource
         }
         
         
-            question.font = TEXT_FONT_LEVEL_2;
-            question.textColor = TEXT_COLOR_LEVEL_3;
-            [question sizeToFit];
-            question.frame = CGRectMake(100, 50, question.bounds.size.width, 20);
-            [cell.contentView addSubview:question];
+        question.font = TEXT_FONT_LEVEL_2;
+        question.textColor = TEXT_COLOR_LEVEL_3;
+        [question sizeToFit];
+        question.frame = CGRectMake(100, 50, question.bounds.size.width, 20);
+        [cell.contentView addSubview:question];
         
         return cell;
         
-        }
-
+    }
+    
     
     if (indexPath.section==1) {
         static NSString *cellIdd = @"cellIdd";
@@ -338,7 +338,7 @@ UITableViewDataSource
         return cell;
     }
     return nil;
-
+    
     
 }
 
@@ -351,7 +351,7 @@ UITableViewDataSource
         [self.navigationController pushViewController:detailVC animated:YES];
     }
     
-
+    
     
 }
 
@@ -362,13 +362,13 @@ UITableViewDataSource
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

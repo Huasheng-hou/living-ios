@@ -364,11 +364,31 @@ LMOrderCellDelegate>
 {
     NSLog(@"**********付款");
     Orderuuid = cell.Orderuuid;
+    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    switch (list.status) {
+        case 4:
+            [self textStateHUD:@"活动已完结"];
+            return;
+            break;
+        case 5:
+            [self textStateHUD:@"活动已删除"];
+            return;
+            break;
+            
+        default:
+            break;
+    }
+
+    
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
+
+    
     
     LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:Orderuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -430,6 +450,26 @@ LMOrderCellDelegate>
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
     NSLog(@"**********退款");
+    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    switch (list.status) {
+        case 3:
+            [self textStateHUD:@"活动已开始，不能进行退款"];
+            return;
+            break;
+        case 4:
+            [self textStateHUD:@"活动已结束，不能进行退款"];
+            return;
+            break;
+        case 5:
+            [self textStateHUD:@"活动已删除，不能进行退款"];
+            return;
+            break;
+            
+        default:
+            break;
+    }
+    
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否申请退款"
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

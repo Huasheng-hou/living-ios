@@ -18,17 +18,18 @@
 #import "DataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
 
-#import "LMAliRechargeRequest.h"
-#import "LMAliRechargeResultRequest.h"
-
 //微信支付
 #import "WXApiObject.h"
 #import "WXApi.h"
 
 #import "WXApiRequestHandler.h"
 
-#import "LMWXRechargrRequest.h"
-#import "LMWXRechargeResultRequest.h"
+
+
+#import "LMFranchiseeResultWchatRequest.h"
+#import "LMFranchiseeWchatPayRequest.h"
+#import "LMFranchiseeAliPayRequest.h"
+#import "LMFranchiseeResultAliRequest.h"
 
 @interface LMFranchiseeViewController ()
 <
@@ -339,7 +340,7 @@ liveNameProtocol
         return;
     }
     [self initStateHud];
-    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.NameTF.text andLivingUuid:_liveUUID];
+    LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -398,7 +399,7 @@ liveNameProtocol
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    LMWXRechargeResultRequest *request=[[LMWXRechargeResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID];
+    LMFranchiseeResultWchatRequest *request=[[LMFranchiseeResultWchatRequest alloc]initWithMyOrderUuid:rechargeOrderUUID];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -428,11 +429,9 @@ liveNameProtocol
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
-                [self textStateHUD:@"充值成功！"];
-                //刷新订单数据
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
+                [self textStateHUD:@"加盟成功！"];
             }else{
-                [self textStateHUD:@"充值失败！"];
+                [self textStateHUD:@"加盟失败！"];
             }
         }else{
             [self textStateHUD:bodyDict[@"description"]];
@@ -451,7 +450,7 @@ liveNameProtocol
         return;
     }
     [self initStateHud];
-    LMAliRechargeRequest *request=[[LMAliRechargeRequest alloc]initWithAliRecharge:headcell.NameTF.text andLivingUuid:_liveUUID];
+    LMFranchiseeAliPayRequest *request=[[LMFranchiseeAliPayRequest alloc]initWithAliRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -514,7 +513,7 @@ liveNameProtocol
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    LMAliRechargeResultRequest *request=[[LMAliRechargeResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID andAlipayResult:dic.object];
+    LMFranchiseeResultAliRequest *request=[[LMFranchiseeResultAliRequest alloc]initWithMyOrderUuid:rechargeOrderUUID andAlipayResult:dic.object];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -540,7 +539,7 @@ liveNameProtocol
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
-            [self textStateHUD:@"充值成功！"];
+            [self textStateHUD:@"加盟成功！"];
         }else{
             
             [self textStateHUD:bodyDict[@"description"]];

@@ -33,7 +33,6 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor blackColor];
-    
     self.title = @"二维码";
     [self get2DcodeRequest];
     
@@ -48,16 +47,7 @@
         
         codeSting = [headerData objectForKey:@"code"];
         [self creatImageView];
-
-
     }
-    
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-
-    
-
-    
     
     
 }
@@ -83,7 +73,7 @@
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 
 -(void)get2DcodeResponse:(NSString *)resp
@@ -111,21 +101,21 @@
         userInfo=[[NSMutableDictionary alloc]initWithDictionary:bodyDic];
         [userInfo writeToFile:filename atomically:YES];
         
-    
+        
     } else {
         
         UILabel *msgLabel = [UILabel new];
-
+        
         msgLabel.textColor = [UIColor whiteColor];
         msgLabel.text = @"你不是轻创客，没有二维码";
         msgLabel.textAlignment = NSTextAlignmentCenter;
         [msgLabel sizeToFit];
         msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
         [self.view addSubview:msgLabel];
-    
         
-//        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
-//        self.navigationItem.rightBarButtonItem = rightItem;
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
         
     }
 }
@@ -151,7 +141,6 @@
     nicklabel.font = TEXT_FONT_LEVEL_1;
     nicklabel.textColor = TEXT_COLOR_LEVEL_1;
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
-    
     NSString *str = _name;
     CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
     [nicklabel setFrame:CGRectMake(90, 22.5, textSize.width, 30)];
@@ -164,7 +153,6 @@
     downButton.frame = CGRectMake(kScreenWidth-85, 10, 40, 40);
     [downButton setImage:[UIImage imageNamed:@"down"] forState:UIControlStateNormal];
     [downButton addTarget:self action:@selector(saveImageToAlbum) forControlEvents:UIControlEventTouchUpInside];
-    
     [KeepImage addSubview:downButton];
     
     
@@ -184,7 +172,6 @@
     addressLabel.text = _address;
     addressLabel.textColor = TEXT_COLOR_LEVEL_3;
     addressLabel.font = TEXT_FONT_LEVEL_2;
-    
     [addressLabel sizeToFit];
     addressLabel.frame = CGRectMake(91, 52, addressLabel.bounds.size.width, 20);
     [KeepImage addSubview: addressLabel];
@@ -192,8 +179,6 @@
     
     
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
-    //        imageView.backgroundColor = [UIColor redColor];
-    
     [imageView sd_setImageWithURL:[NSURL URLWithString:codeSting]];
     [KeepImage addSubview:imageView];
     
@@ -213,7 +198,7 @@
 
 -(void)joinAction
 {
-//    NSLog(@"**********");
+    //    NSLog(@"**********");
     LMFranchiseeViewController *joinVC = [[LMFranchiseeViewController alloc] init];
     joinVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:joinVC animated:YES];
@@ -239,11 +224,11 @@
     if (!error) {
         
         [self textStateHUD:@"成功保存到相册"];
-
+        
     }else
     {
         [self textStateHUD :[error description]];
-
+        
     }
     NSLog(@"message is %@",message);
 }

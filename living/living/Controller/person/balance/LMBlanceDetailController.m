@@ -13,14 +13,17 @@
 #import "LMBanlanceVO.h"
 #import "LMBalanceMonthRequest.h"
 #import "LMBalanceBillVO.h"
-
+#import "MJRefresh.h"
 #import "LMMonthDetailDataModels.h"
 
 @interface LMBlanceDetailController ()<LMBlanceHeadCellDelegate>
 {
     NSString *DateString;
     LMMonthDetailBody *bodyData;
-
+    BOOL ifRefresh;
+    int total;
+    NSString *month;
+    
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -37,7 +40,9 @@
     DateString=self.curMonth;
     
     [self createUI];
-    [self getBlanceData:self.curMonth];
+    [self getBlanceData:self.curMonth andPage:self.current];
+    [self setupRefresh];
+    
 }
 
 -(void)createUI
@@ -49,7 +54,7 @@
         weakSelf.isShow = NO;
         NSLog(@"点击第%ld个item",index);
         DateString=_monthArr[index];
-        [self getBlanceData:_monthArr[index]];
+        [self getBlanceData:_monthArr[index] andPage:self.current];
         
         
     }];
@@ -117,7 +122,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
-//        [cell setDic:_billDic];
+        //        [cell setDic:_billDic];
         
         [cell setValue:bodyData.bill];
         
@@ -130,11 +135,11 @@
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-//        for (int i=0; i<_listArray.count; i++) {
+        //        for (int i=0; i<_listArray.count; i++) {
         
-            LMBanlanceVO  *list=_listArray[indexPath.row];
-            [cell setModel:list];
-//        }
+        LMBanlanceVO  *list=_listArray[indexPath.row];
+        [cell setModel:list];
+        //        }
         
         return cell;
     }
@@ -193,8 +198,50 @@
     return _showView;
 }
 
+- (void)setupRefresh
+{
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    //    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
+    //tableView刚出现时，进行刷新操作
+    [self.tableView headerBeginRefreshing];
+    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    //    self.tableView.headerPullToRefreshText = @"下拉可以刷新";
+    //    self.tableView.headerReleaseToRefreshText = @"松开马上刷新";
+    //    self.tableView.headerRefreshingText = @"正在帮你刷新...";
+    
+    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
+    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
+    self.tableView.footerRefreshingText = @"正在帮你加载...";
+}
+
+
+- (void)footerRereshing
+{
+    
+    // 2.0秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
+                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.current = self.current+1;
+        
+        ifRefresh=NO;
+        
+        if (total<self.current) {
+            [self textStateHUD:@"没有更多信息"];
+        }else{
+            [self getBlanceData:DateString andPage:self.current];
+        }
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [self.tableView footerEndRefreshing];
+    });
+}
+
+
+
+
 #pragma mark  --获取余额数据
--(void)getBlanceData:(NSString *)timeDate
+-(void)getBlanceData:(NSString *)timeDate andPage:(NSInteger)page
 {
     if (![CheckUtils isLink]) {
         
@@ -227,13 +274,12 @@
         [self textStateHUD:@"获取余额失败"];
     }else{
         
-//        NSLog(@"==============余额明细详情===bodyDic============%@",bodyDic);
-        
+        //        NSLog(@"==============余额明细详情===bodyDic============%@",bodyDic);
+        total = [[bodyDic objectForKey:@"total"] intValue];
         bodyData=[[LMMonthDetailBody alloc]initWithDictionary:bodyDic];
         _listArray = [NSMutableArray new];
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-//            NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
             NSMutableArray *array=bodyDic[@"list"];
             for (int i=0; i<array.count; i++) {
                 LMBanlanceVO *vo=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
@@ -242,7 +288,7 @@
                 }
             }
             _billDic = [bodyDic objectForKey:@"bill"];
-
+            
             
             
             [self.tableView reloadData];
