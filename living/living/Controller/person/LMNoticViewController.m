@@ -233,7 +233,7 @@ UITableViewDataSource
     if (result && [result intValue] == 0)
     {
         [self textStateHUD:@"删除成功"];
-        Index = 1;
+      
         
         [self getNoticListData];
         
