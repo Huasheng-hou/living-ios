@@ -16,7 +16,6 @@
 
 #import "LMActicleVO.h"
 
-
 #import "WJLoopView.h"
 //#import "FitUserManager.h"
 #import "LMScanViewController.h"
