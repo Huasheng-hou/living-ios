@@ -128,9 +128,16 @@ static const int kLoadingCellTag = 2571;
         [activityIndicatorView startAnimating];
         
         [_loadingView addSubview:activityIndicatorView];
+        
+        [self adjustIndicator:_loadingView];
     }
     
     return _loadingView;
+}
+
+- (void)adjustIndicator:(UIView *)loadingView
+{
+    
 }
 
 - (UIView *)emptyView
@@ -640,8 +647,6 @@ static const int kLoadingCellTag = 2571;
         
         [self presentViewController:alert animated:YES completion:nil];
     }
-    
 }
-
 
 @end

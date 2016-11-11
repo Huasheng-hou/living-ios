@@ -85,7 +85,8 @@ typedef enum {
 // *账号被登陆
 -(void)logoutAction:(NSString *)resp;
 
-
+// * 调整加载指示视图的位置
+- (void)adjustIndicator:(UIView *)loadingView;
 
 @end
 

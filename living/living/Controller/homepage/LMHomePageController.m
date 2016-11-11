@@ -97,6 +97,20 @@ LMhomePageCellDelegate
     self.tableView.tableHeaderView = headView;
 }
 
+- (void)adjustIndicator:(UIView *)loadingView
+{
+    if (loadingView) {
+        
+        for (UIView * subView in loadingView.subviews) {
+            
+            if ([subView isKindOfClass:[UIActivityIndicatorView class]]) {
+                
+                subView.center  = CGPointMake(subView.center.x, subView.center.y + 100);
+            }
+        }
+    }
+}
+
 - (void)publicAction
 {
     [LMPublicArticleController presentInViewController:self Animated:YES];
@@ -181,23 +195,21 @@ LMhomePageCellDelegate
     NSString        *franchisee;
     NSDictionary    *bodyDic        = [VOUtil parseBody:resp];
     
-    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    NSDictionary *respDict = [NSJSONSerialization
-                              JSONObjectWithData:respData
-                              options:NSJSONReadingMutableLeaves
-                              error:nil];
+    NSData          *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary    *respDict = [NSJSONSerialization JSONObjectWithData:respData
+                                                                options:NSJSONReadingMutableLeaves
+                                                                  error:nil];
+    
     NSDictionary *headDic = [respDict objectForKey:@"head"];
-    NSLog(@"%@",headDic);
     NSString    *coderesult         = [bodyDic objectForKey:@"returnCode"];
     
-    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]){
-        if ([headDic[@"franchisee"] isEqual:@"yes"]) {
-            franchisee = @"yes";
-
-        }
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
         
-    }
+        if ([headDic[@"franchisee"] isEqual:@"yes"]) {
     
+            franchisee = @"yes";
+        }
+    }
     
     NSString    *result         = [bodyDic objectForKey:@"result"];
     NSString    *description    = [bodyDic objectForKey:@"description"];
