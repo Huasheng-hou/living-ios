@@ -354,24 +354,13 @@ FitPickerViewDelegate
             
             if (orderdata.coupons&&orderdata.coupons>0) {
                 
-                UILabel *couponLabel = [UILabel new];
-                NSString *couponString = [NSString stringWithFormat:@"优惠券 x%d",orderdata.coupons];
-                
-                NSMutableAttributedString *cStr = [[NSMutableAttributedString alloc] initWithString:couponString];
-                
-                [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
-                [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
-                couponLabel.attributedText = cStr;
-                couponLabel.textColor = TEXT_COLOR_LEVEL_3;
-                [cell.contentView addSubview:couponLabel];
-                
                 UILabel *cPLabel = [UILabel new];
-                
-                
-                if (orderdata.couponPrice==0) {
+                NSString *couponString;
+                if ([orderdata.couponPrice intValue] ==0) {
                     cPLabel.textColor = TEXT_COLOR_LEVEL_3;
                     cPLabel.text = @"未使用优惠券";
                     cPLabel.font = TEXT_FONT_LEVEL_2;
+                    couponString = [NSString stringWithFormat:@"优惠券："];
                 }else{
                     cPLabel.textColor = LIVING_REDCOLOR;
                     NSString *cpString =[NSString stringWithFormat:@"抵￥%@",orderdata.couponPrice];
@@ -386,6 +375,22 @@ FitPickerViewDelegate
                 
                 [cell.contentView addSubview:cPLabel];
                 
+                
+                UILabel *couponLabel = [UILabel new];
+                couponString = [NSString stringWithFormat:@"优惠券 x%d",orderdata.coupons];
+                
+                NSMutableAttributedString *cStr = [[NSMutableAttributedString alloc] initWithString:couponString];
+                
+                [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
+                [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
+                couponLabel.attributedText = cStr;
+                couponLabel.textColor = TEXT_COLOR_LEVEL_3;
+                [cell.contentView addSubview:couponLabel];
+                
+                
+                
+                
+
                 
                 UILabel *cPMoneyLabel = [UILabel new];
                 cPMoneyLabel.text = [NSString stringWithFormat:@"￥%@",orderdata.couponMoney];

@@ -11,13 +11,6 @@
 
 @interface LMNoticCell : UITableViewCell
 
-@property (nonatomic, strong)NSString *titleString;
-
-
-@property (nonatomic, strong)NSString *time;
-
-@property (nonatomic, strong)NSString *name;
-
 @property (nonatomic)NSInteger INDEX;
 
 

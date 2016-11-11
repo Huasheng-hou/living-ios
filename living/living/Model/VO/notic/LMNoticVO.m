@@ -71,7 +71,7 @@
         }
         
         if (nil != [dictionary objectForKey:@"userNick"] && ![[dictionary objectForKey:@"userNick"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"userNick"] isKindOfClass:[NSNumber class]]) {
+            && [[dictionary objectForKey:@"userNick"] isKindOfClass:[NSString class]]) {
             self.userNick = [dictionary objectForKey:@"userNick"];
         }
         

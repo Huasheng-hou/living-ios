@@ -84,6 +84,8 @@
         _timeLabel.text = [formatter stringFromDate:list.noticeTime];
     }
     
+    NSLog(@"%@",list.userNick);
+    
     if ([list.type isEqual:@"praise"]) {
         _typeLabel.text =[NSString stringWithFormat:@"%@赞了你",list.userNick];
         _headImage.image = [UIImage imageNamed:@"no-read"];

@@ -24,6 +24,7 @@ UITableViewDataSource
     BOOL isSelected;
     NSString *Estring;
     NSMutableArray *cellArray;
+    NSInteger Index;
 }
 
 @end
@@ -69,6 +70,11 @@ UITableViewDataSource
 
 -(void)getNoticListData
 {
+    
+    if (Index==1) {
+        [self initStateHud];
+    }
+    
     LMNoticListRequest *request = [[LMNoticListRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -101,6 +107,7 @@ UITableViewDataSource
     
     if (result && [result intValue] == 0)
     {
+        [self hideStateHud];
         NSArray *array = bodyDic[@"list"];
         for (int i =0; i<array.count; i++) {
             LMNoticVO *list=[[LMNoticVO alloc]initWithDictionary:array[i]];
@@ -226,6 +233,7 @@ UITableViewDataSource
     if (result && [result intValue] == 0)
     {
         [self textStateHUD:@"删除成功"];
+        Index = 1;
         
         [self getNoticListData];
         
