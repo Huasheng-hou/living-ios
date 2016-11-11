@@ -41,6 +41,8 @@
 		35864A861DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A851DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m */; };
 		35864A891DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A881DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m */; };
 		35864A8C1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */; };
+		35864A901DD566C10061E9C0 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */; };
+		35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A931DD566F80061E9C0 /* LMFriendListRequest.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -185,11 +187,8 @@
 		873795941DCF8A1000A2ACD7 /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793FB1DCF8A1000A2ACD7 /* LMLivingHomeListRequest.m */; };
 		873795951DCF8A1000A2ACD7 /* LMLivingListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793FD1DCF8A1000A2ACD7 /* LMLivingListRequest.m */; };
 		873795961DCF8A1000A2ACD7 /* LMWriterDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793FF1DCF8A1000A2ACD7 /* LMWriterDataRequest.m */; };
-		873795971DCF8A1000A2ACD7 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794011DCF8A1000A2ACD7 /* LM2DcodeRequest.m */; };
 		873795981DCF8A1000A2ACD7 /* LMCouponRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794031DCF8A1000A2ACD7 /* LMCouponRequest.m */; };
 		873795991DCF8A1000A2ACD7 /* LMFeedBackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794051DCF8A1000A2ACD7 /* LMFeedBackRequest.m */; };
-		8737959A1DCF8A1000A2ACD7 /* LMFriendDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794071DCF8A1000A2ACD7 /* LMFriendDataRequest.m */; };
-		8737959B1DCF8A1000A2ACD7 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794091DCF8A1000A2ACD7 /* LMFriendListRequest.m */; };
 		8737959C1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737940B1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m */; };
 		8737959D1DCF8A1000A2ACD7 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737940D1DCF8A1000A2ACD7 /* LMNoticListRequest.m */; };
 		8737959E1DCF8A1000A2ACD7 /* LMScanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737940F1DCF8A1000A2ACD7 /* LMScanRequest.m */; };
@@ -401,6 +400,10 @@
 		35864A881DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeResultAliRequest.m; sourceTree = "<group>"; };
 		35864A8A1DD55B470061E9C0 /* LMFranchiseeResultWchatRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeResultWchatRequest.h; sourceTree = "<group>"; };
 		35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeResultWchatRequest.m; sourceTree = "<group>"; };
+		35864A8E1DD566C10061E9C0 /* LM2DcodeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DcodeRequest.h; sourceTree = "<group>"; };
+		35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DcodeRequest.m; sourceTree = "<group>"; };
+		35864A921DD566F80061E9C0 /* LMFriendListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendListRequest.h; sourceTree = "<group>"; };
+		35864A931DD566F80061E9C0 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -750,16 +753,10 @@
 		873793FD1DCF8A1000A2ACD7 /* LMLivingListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingListRequest.m; sourceTree = "<group>"; };
 		873793FE1DCF8A1000A2ACD7 /* LMWriterDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWriterDataRequest.h; sourceTree = "<group>"; };
 		873793FF1DCF8A1000A2ACD7 /* LMWriterDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWriterDataRequest.m; sourceTree = "<group>"; };
-		873794001DCF8A1000A2ACD7 /* LM2DcodeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DcodeRequest.h; sourceTree = "<group>"; };
-		873794011DCF8A1000A2ACD7 /* LM2DcodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DcodeRequest.m; sourceTree = "<group>"; };
 		873794021DCF8A1000A2ACD7 /* LMCouponRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponRequest.h; sourceTree = "<group>"; };
 		873794031DCF8A1000A2ACD7 /* LMCouponRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponRequest.m; sourceTree = "<group>"; };
 		873794041DCF8A1000A2ACD7 /* LMFeedBackRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFeedBackRequest.h; sourceTree = "<group>"; };
 		873794051DCF8A1000A2ACD7 /* LMFeedBackRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFeedBackRequest.m; sourceTree = "<group>"; };
-		873794061DCF8A1000A2ACD7 /* LMFriendDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendDataRequest.h; sourceTree = "<group>"; };
-		873794071DCF8A1000A2ACD7 /* LMFriendDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendDataRequest.m; sourceTree = "<group>"; };
-		873794081DCF8A1000A2ACD7 /* LMFriendListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendListRequest.h; sourceTree = "<group>"; };
-		873794091DCF8A1000A2ACD7 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
 		8737940A1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticDeleteRequest.h; sourceTree = "<group>"; };
 		8737940B1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticDeleteRequest.m; sourceTree = "<group>"; };
 		8737940C1DCF8A1000A2ACD7 /* LMNoticListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticListRequest.h; sourceTree = "<group>"; };
@@ -1256,6 +1253,24 @@
 				35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */,
 			);
 			path = Franchisee;
+			sourceTree = "<group>";
+		};
+		35864A8D1DD566870061E9C0 /* 2Dcode */ = {
+			isa = PBXGroup;
+			children = (
+				35864A8E1DD566C10061E9C0 /* LM2DcodeRequest.h */,
+				35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */,
+			);
+			path = 2Dcode;
+			sourceTree = "<group>";
+		};
+		35864A911DD566D10061E9C0 /* friend */ = {
+			isa = PBXGroup;
+			children = (
+				35864A921DD566F80061E9C0 /* LMFriendListRequest.h */,
+				35864A931DD566F80061E9C0 /* LMFriendListRequest.m */,
+			);
+			path = friend;
 			sourceTree = "<group>";
 		};
 		8737925F1DCF8A0F00A2ACD7 /* 3rdLibs */ = {
@@ -1950,16 +1965,10 @@
 				873793D91DCF8A1000A2ACD7 /* Base */,
 				873793DC1DCF8A1000A2ACD7 /* Find */,
 				873793E31DCF8A1000A2ACD7 /* HomePage */,
-				873794001DCF8A1000A2ACD7 /* LM2DcodeRequest.h */,
-				873794011DCF8A1000A2ACD7 /* LM2DcodeRequest.m */,
 				873794021DCF8A1000A2ACD7 /* LMCouponRequest.h */,
 				873794031DCF8A1000A2ACD7 /* LMCouponRequest.m */,
 				873794041DCF8A1000A2ACD7 /* LMFeedBackRequest.h */,
 				873794051DCF8A1000A2ACD7 /* LMFeedBackRequest.m */,
-				873794061DCF8A1000A2ACD7 /* LMFriendDataRequest.h */,
-				873794071DCF8A1000A2ACD7 /* LMFriendDataRequest.m */,
-				873794081DCF8A1000A2ACD7 /* LMFriendListRequest.h */,
-				873794091DCF8A1000A2ACD7 /* LMFriendListRequest.m */,
 				8737940A1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.h */,
 				8737940B1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m */,
 				8737940C1DCF8A1000A2ACD7 /* LMNoticListRequest.h */,
@@ -2141,6 +2150,8 @@
 		873794371DCF8A1000A2ACD7 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				35864A911DD566D10061E9C0 /* friend */,
+				35864A8D1DD566870061E9C0 /* 2Dcode */,
 				35864A801DD557BC0061E9C0 /* Franchisee */,
 				873794381DCF8A1000A2ACD7 /* LMPersonInfoRequest.h */,
 				873794391DCF8A1000A2ACD7 /* LMPersonInfoRequest.m */,
@@ -2882,7 +2893,6 @@
 				873795AC1DCF8A1000A2ACD7 /* LMWXPayResultRequest.m in Sources */,
 				873795421DCF8A1000A2ACD7 /* LMHomePageController.m in Sources */,
 				873795AD1DCF8A1000A2ACD7 /* LMAliRechargeRequest.m in Sources */,
-				8737959A1DCF8A1000A2ACD7 /* LMFriendDataRequest.m in Sources */,
 				873795521DCF8A1000A2ACD7 /* LMPersonViewController.m in Sources */,
 				873795ED1DCF8A1000A2ACD7 /* LMPublicEventListCell.m in Sources */,
 				873795191DCF8A1000A2ACD7 /* MJRefreshHeaderView.m in Sources */,
@@ -2940,7 +2950,6 @@
 				35864A831DD558560061E9C0 /* LMFranchiseeAliPayRequest.m in Sources */,
 				873795511DCF8A1000A2ACD7 /* LMNoticViewController.m in Sources */,
 				873795961DCF8A1000A2ACD7 /* LMWriterDataRequest.m in Sources */,
-				8737959B1DCF8A1000A2ACD7 /* LMFriendListRequest.m in Sources */,
 				873795CC1DCF8A1000A2ACD7 /* PayloadVO.m in Sources */,
 				8737960A1DCF8A1000A2ACD7 /* LMAgeChooseButton.m in Sources */,
 				873795551DCF8A1000A2ACD7 /* LMAddviceViewController.m in Sources */,
@@ -3020,6 +3029,7 @@
 				8737960D1DCF8A1100A2ACD7 /* HBShareButton.m in Sources */,
 				873795761DCF8A1000A2ACD7 /* LMALLList.m in Sources */,
 				8E948AFC1DD16E35002805DD /* LMToolTipView.m in Sources */,
+				35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */,
 				873795161DCF8A1000A2ACD7 /* MJRefreshBaseView.m in Sources */,
 				873795A61DCF8A1000A2ACD7 /* LMBalanceRequest.m in Sources */,
 				873795401DCF8A1000A2ACD7 /* LMFindViewController.m in Sources */,
@@ -3075,13 +3085,13 @@
 				873795CD1DCF8A1000A2ACD7 /* FirPersonVO.m in Sources */,
 				873795A21DCF8A1000A2ACD7 /* LMAliPayRequest.m in Sources */,
 				351AF48B1DD338E4001F7836 /* LMEventStartRequest.m in Sources */,
+				35864A901DD566C10061E9C0 /* LM2DcodeRequest.m in Sources */,
 				873795771DCF8A1000A2ACD7 /* LMCouponBody.m in Sources */,
 				873795BD1DCF8A1000A2ACD7 /* LMBalanceVO.m in Sources */,
 				873796091DCF8A1000A2ACD7 /* FitPickerView.m in Sources */,
 				8737953C1DCF8A1000A2ACD7 /* FitNavigationController.m in Sources */,
 				8737953A1DCF8A1000A2ACD7 /* LMSearchAddressController.m in Sources */,
 				8737960E1DCF8A1100A2ACD7 /* HBShareView.m in Sources */,
-				873795971DCF8A1000A2ACD7 /* LM2DcodeRequest.m in Sources */,
 				873795471DCF8A1000A2ACD7 /* LMLoginViewController.m in Sources */,
 				873795B51DCF8A1000A2ACD7 /* LMRegisterRequest.m in Sources */,
 				873795A91DCF8A1000A2ACD7 /* LMOrederDeleteRequest.m in Sources */,
