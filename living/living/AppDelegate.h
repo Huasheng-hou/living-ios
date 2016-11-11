@@ -15,7 +15,6 @@
 @interface AppDelegate : UIResponder
 <
 UIApplicationDelegate,
-QLPreviewControllerDataSource,
 MBProgressHUDDelegate
 //GeTuiSdkDelegate
 >
@@ -23,6 +22,4 @@ MBProgressHUDDelegate
 @property (strong, nonatomic) UIWindow  *window;
 @property (retain, nonatomic) NSString  *deviceToken;
 
-
 @end
-
