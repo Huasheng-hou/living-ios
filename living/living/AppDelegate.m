@@ -419,19 +419,6 @@ UNUserNotificationCenterDelegate
     
 }
 
-- (void)textStateHUD:(NSString *)text
-{
-    MBProgressHUD *stateHud = [[MBProgressHUD alloc] initWithView:_preController.view];
-    stateHud.delegate = self;
-    [_preController.view addSubview:stateHud];
-    stateHud.mode = MBProgressHUDModeText;
-    stateHud.opacity = 0.4;
-    stateHud.labelText = text;
-    stateHud.labelFont = [UIFont systemFontOfSize:12.0f];
-    [stateHud show:YES];
-    [stateHud hide:YES afterDelay:0.8];
-}
-
 //当程序正在运行时 收到提醒事件时触发
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {

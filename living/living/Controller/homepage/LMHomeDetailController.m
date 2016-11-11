@@ -220,8 +220,6 @@ shareTypeDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
-    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         [self hideStateHud];

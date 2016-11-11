@@ -139,20 +139,18 @@ UITableViewDataSource
     
 }
 
--(void)getauthorDataResponse:(NSString *)resp
+- (void)getauthorDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
-    
-    NSLog(@"%@",bodyDic);
     total = [[bodyDic objectForKey:@"total"] intValue];
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
         
         infoDic = [bodyDic objectForKey:@"map"];
         
         if (ifRefresh) {
+        
             ifRefresh=NO;
             listArray=[NSMutableArray arrayWithCapacity:0];
             
@@ -178,28 +176,20 @@ UITableViewDataSource
         }
         
         [_tableView reloadData];
-    }else{
+        
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
-    
-    
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section==0) {
         return 20;
@@ -207,7 +197,7 @@ UITableViewDataSource
     return 0.01;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==1) {
         return 40;
@@ -216,7 +206,7 @@ UITableViewDataSource
     return 0.01;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==1) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
@@ -230,20 +220,20 @@ UITableViewDataSource
         
         return headView;
     }
+
     return nil;
 }
 
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return 100;
     }
+  
     return 130;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 1;
@@ -251,7 +241,7 @@ UITableViewDataSource
     return listArray.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         static NSString *cellId = @"cellId";
@@ -337,38 +327,25 @@ UITableViewDataSource
         
         return cell;
     }
+    
     return nil;
-    
-    
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
+        
         LMActicleVO *list = [listArray objectAtIndex:indexPath.row];
         LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+        
         detailVC.artcleuuid = list.articleUuid;
         [self.navigationController pushViewController:detailVC animated:YES];
     }
-    
-    
-    
 }
 
--(void)headClick
+- (void)headClick
 {
     [ImageHelpTool showImage:headerView];
 }
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

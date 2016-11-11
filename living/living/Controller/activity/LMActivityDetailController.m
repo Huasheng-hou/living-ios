@@ -250,29 +250,18 @@ UIAlertViewDelegate
     
     NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
     
-    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]){
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
+        
         if ([headDic[@"sign"] isEqual:@"menber"]) {
             vipString = @"vipString";
         }
-        
     }
     
-
-    
-    
-    
-    
-    
-    [self logoutAction:resp];
-    
-    NSLog(@"==========================活动详情:bodyDic:%@",bodyDic);
-    
     if (!bodyDic) {
+       
         [self textStateHUD:@" 获取详情数据失败"];
         return;
     }
-    
-    
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self hideStateHud];

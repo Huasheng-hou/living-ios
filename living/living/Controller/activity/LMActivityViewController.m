@@ -107,8 +107,6 @@
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
-    [self logoutAction:resp];
-    
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
@@ -134,13 +132,7 @@
                 self.navigationItem.rightBarButtonItem = rightItem;
             });
         }
-        
     }
-    
-    
-    
-    
-    
     
     NSString        *result     = [bodyDict objectForKey:@"result"];
     

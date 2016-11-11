@@ -180,11 +180,9 @@ LMhomePageCellDelegate
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
+    NSString        *franchisee;
+    NSDictionary    *bodyDic        = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
-    
-    NSString *franchisee;
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
     NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary *respDict = [NSJSONSerialization
                               JSONObjectWithData:respData

@@ -71,13 +71,11 @@
     [proxy start];
 }
 
--(void)getLivingListResponse:(NSString *)resp
+- (void)getLivingListResponse:(NSString *)resp
 {
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSDictionary *bodyDic   = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
-//    NSLog(@"***********选择生活馆**%@",bodyDic);
-    NSString *result    = [bodyDic objectForKey:@"result"];
+    NSString    *result     = [bodyDic objectForKey:@"result"];
     
     if (result && [result intValue] == 0)
     {

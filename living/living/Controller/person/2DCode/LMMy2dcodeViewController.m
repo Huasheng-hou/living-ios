@@ -76,11 +76,10 @@
     
 }
 
--(void)get2DcodeResponse:(NSString *)resp
+- (void)get2DcodeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
         return;

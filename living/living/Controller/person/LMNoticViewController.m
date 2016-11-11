@@ -91,12 +91,10 @@ UITableViewDataSource
     [proxy start];
 }
 
--(void)getNoticListDataResponse:(NSString *)resp
+- (void)getNoticListDataResponse:(NSString *)resp
 {
     NSDictionary    *bodyDic = [VOUtil parseBody:resp];
     listArray = [NSMutableArray new];
-    
-    [self logoutAction:resp];
     
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
