@@ -100,7 +100,7 @@ LMhomePageCellDelegate
 - (void)publicAction
 {
 
-    [LMPublicArticleController presentInViewController:self Animated:NO];
+    [LMPublicArticleController presentInViewController:self Animated:YES];
     
 }
 

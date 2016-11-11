@@ -730,7 +730,7 @@ UIViewControllerTransitioningDelegate
 
 -(void)closeAction
 {
-    [self.navigationController dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
