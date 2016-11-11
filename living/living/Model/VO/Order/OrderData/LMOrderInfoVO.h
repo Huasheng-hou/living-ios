@@ -35,4 +35,5 @@
 @property (nonatomic, retain) NSString *eventUuid;
 @property (nonatomic, retain) NSString *orderUuid;
 
+
 @end

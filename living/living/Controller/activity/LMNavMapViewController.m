@@ -89,28 +89,24 @@ AMapNaviDriveViewDelegate
 {
     //起点
 
-    self.startPoint   = [AMapNaviPoint locationWithLatitude:currLocation.coordinate.latitude longitude:currLocation.coordinate.longitude];
-    self.endPoint = [AMapNaviPoint locationWithLatitude:location.latitude longitude:location.longitude];
-    
-    
     CLLocationCoordinate2D from;
     
-    from.latitude=currLocation.coordinate.latitude;
-    from.longitude=currLocation.coordinate.longitude;
+    from.latitude=location.latitude;
+    from.longitude=location.longitude;
     
     MKMapItem *fromLocation= [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:from addressDictionary:nil]];
     
-    fromLocation.name=@"当前位置";
+    fromLocation.name=_infoDic[@"addressName"];
     
     //目的地的位置
     CLLocationCoordinate2D to;
     
-    to.latitude=location.latitude;
-    to.longitude=location.longitude;
+    to.latitude=currLocation.coordinate.latitude;
+    to.longitude=currLocation.coordinate.longitude;
     
     MKMapItem *toLocat = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil]];
     
-    toLocat.name = _infoDic[@"addressName"];
+    toLocat.name = @"当前位置";
     
     NSArray *items = [NSArray arrayWithObjects:fromLocation, toLocat, nil];
     

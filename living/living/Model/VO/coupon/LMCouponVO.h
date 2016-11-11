@@ -27,5 +27,6 @@
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, strong) NSString *livingName;
 @property (nonatomic, strong) NSString *eventName;
-
+@property (nonatomic, strong) NSString *couponUuid;
+@property (nonatomic, strong) NSString *createTime;
 @end

@@ -41,7 +41,7 @@
 -(void)addSubviews
 {
     _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 190)];
-    _imgView.backgroundColor = [UIColor grayColor];
+    _imgView.backgroundColor = BG_GRAY_COLOR;
     _imgView.image = [UIImage imageNamed:@"112"];
     [self.contentView addSubview:_imgView];
     

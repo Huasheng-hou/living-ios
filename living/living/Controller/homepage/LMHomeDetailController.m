@@ -49,8 +49,6 @@ shareTypeDelegate
     UILabel  *tipLabel;
     UIButton *zanButton;
     LMCommentButton *zanLabel;
-
-
     LMArticleBodyVO *articleData;
     NSMutableArray *listArray;
     
@@ -65,28 +63,27 @@ shareTypeDelegate
     
     NSMutableArray *imageArray;
     NSMutableArray *hightArray;
-    
     NSDictionary *attributes;
     UILabel *contentLabel;
     NSDictionary *attributes2;
     UILabel *dspLabel;
-    
     NSInteger typeIndex;
-    
     NSString *fakeId;
+    UIButton *bigBtn;
+    UIButton *midBtn;
+    UIButton *smallBtn;
 }
 
 @end
 
 @implementation LMHomeDetailController
 
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-     [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    [commentText resignFirstResponder];
 }
+
 
 - (void)viewDidLoad
 {
@@ -115,6 +112,9 @@ shareTypeDelegate
     imageArray = [NSMutableArray new];
     
     typeIndex = 2;
+    
+    
+    
 }
 
 - (void)creatFootView
@@ -151,7 +151,7 @@ shareTypeDelegate
     [textcView addSubview:tipLabel];
     
     [toolBar addSubview:textcView];
-
+    
 }
 
 #pragma mark --文章点赞
@@ -226,14 +226,13 @@ shareTypeDelegate
         
         [self hideStateHud];
         if (listArray.count>0) {
-           [listArray removeAllObjects];
+            [listArray removeAllObjects];
         }
-        
         
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
         
-        if ([articleData.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-         
+        if ([articleData.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
+            
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除"
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
@@ -245,10 +244,10 @@ shareTypeDelegate
         fakeId = [NSString stringWithFormat:@"%d",articleData.fakaid];
         
         NSMutableArray *array=bodyDic[@"comment_messages"];
-
+        
         
         for (int i =0; i<array.count; i++) {
-
+            
             LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:array[i]];
             [listArray addObject:list];
         }
@@ -272,7 +271,7 @@ shareTypeDelegate
         
         [self.tableView reloadData];
     } else {
-     
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
@@ -283,7 +282,7 @@ shareTypeDelegate
     if (indexPath.section==1) {
         
         if (listArray.count > indexPath.row) {
-
+            
             LMActicleCommentVO *list = listArray[indexPath.row];
             
             if (list && [list isKindOfClass:[LMActicleCommentVO class]]) {
@@ -295,7 +294,7 @@ shareTypeDelegate
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-
+            
             NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             
             CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
@@ -305,7 +304,7 @@ shareTypeDelegate
             return 65 + conHigh;
         }
         if (indexPath.row==1) {
-
+            
             contentLabel.text =articleData.articleContent;
             NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
             if (contentLabel.text!=nil) {
@@ -319,8 +318,8 @@ shareTypeDelegate
             
             if (typeIndex ==1) {
                 
-                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
                 
             }
             if (typeIndex ==2) {
@@ -333,20 +332,19 @@ shareTypeDelegate
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
             }
-
+            
             CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             
-
+            
             CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             
             if (!articleData.articleImgs) {
-               return 110+conHigh+conHigh2;
+                return 110+conHigh+conHigh2;
             }else{
                 NSArray *arr = articleData.articleImgs;
                 for (int i = 0; i<arr.count; i++) {
                     
                     NSDictionary *dic = arr[i];
-                    
                     CGFloat imageVH = [dic[@"height"] floatValue];
                     CGFloat imageVW = [dic[@"width"] floatValue];
                     
@@ -360,7 +358,7 @@ shareTypeDelegate
                     }else{
                         hight = 0;
                     }
-  
+                    
                 }
                 
                 NSInteger index =  arr.count-1;
@@ -461,7 +459,6 @@ shareTypeDelegate
             headImage.contentMode = UIViewContentModeScaleToFill;
             [cell.contentView addSubview:headImage];
             headImage.userInteractionEnabled = YES;
-            
             UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
             [headImage addGestureRecognizer:tapImage];
             
@@ -472,7 +469,7 @@ shareTypeDelegate
             if (!articleData.articleName||articleData.articleName ==nil) {
                 nameLabel.text = @"匿名用户";
             }else{
-               nameLabel.text = articleData.articleName;
+                nameLabel.text = articleData.articleName;
             }
             
             [nameLabel sizeToFit];
@@ -482,8 +479,6 @@ shareTypeDelegate
             
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
             [nameLabel addGestureRecognizer:tap];
-            
-            
             
             UILabel *timeLabel = [UILabel new];
             timeLabel.font = TEXT_FONT_LEVEL_3;
@@ -504,34 +499,87 @@ shareTypeDelegate
             
         }
         if (indexPath.row==1) {
-
+            UILabel *type = [UILabel new];
+            type.text = @"字号：";
+            type.font = TEXT_FONT_LEVEL_2;
+            type.textColor =Text_size_color;
+            type.textAlignment = NSTextAlignmentCenter;
+            type.layer.cornerRadius = 3;
+            type.layer.borderColor =Text_size_color.CGColor;
+            type.layer.borderWidth = 0.5;
+            [type sizeToFit];
+            [cell.contentView addSubview:type];
+            
+            bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [bigBtn setTitle:@"大" forState:UIControlStateNormal];
+            [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            bigBtn.layer.cornerRadius = 3;
+            bigBtn.layer.borderColor =Text_size_color.CGColor;
+            bigBtn.layer.borderWidth = 0.5;
+            [bigBtn sizeToFit];
+            [cell.contentView addSubview:bigBtn];
+            [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            
+            midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [midBtn setTitle:@"中" forState:UIControlStateNormal];
+            [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            midBtn.layer.cornerRadius = 3;
+            midBtn.layer.borderColor =Text_size_color.CGColor;
+            midBtn.layer.borderWidth = 0.5;
+            [midBtn sizeToFit];
+            [cell.contentView addSubview:midBtn];
+            [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
+            smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [smallBtn setTitle:@"小" forState:UIControlStateNormal];
+            [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+            smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+            smallBtn.layer.cornerRadius = 3;
+            smallBtn.layer.borderColor =Text_size_color.CGColor;
+            smallBtn.layer.borderWidth = 0.5;
+            [smallBtn sizeToFit];
+            [cell.contentView addSubview:smallBtn];
+            [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
+            
             dspLabel = [UILabel new];
             if (typeIndex==1) {
+                bigBtn.backgroundColor = LINE_COLOR;
+                midBtn.backgroundColor = [UIColor clearColor];
+                smallBtn.backgroundColor = [UIColor clearColor];
                 dspLabel.font = TEXT_FONT_LEVEL_1;
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             }
             if (typeIndex==2) {
+                bigBtn.backgroundColor = [UIColor clearColor];
+                midBtn.backgroundColor = LINE_COLOR;
+                smallBtn.backgroundColor = [UIColor clearColor];
                 dspLabel.font = TEXT_FONT_LEVEL_2;
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
             }
             if (typeIndex==3) {
+                bigBtn.backgroundColor = [UIColor clearColor];
+                midBtn.backgroundColor = [UIColor clearColor];
+                smallBtn.backgroundColor = LINE_COLOR;
                 dspLabel.font = [UIFont systemFontOfSize:12.0];
                 attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
             }
-
+            
             dspLabel.textColor = LIVING_REDCOLOR;
             dspLabel.numberOfLines=0;
             dspLabel.text = articleData.describe;
             
-
+            
             CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [dspLabel sizeToFit];
-
+            
             [cell.contentView addSubview:dspLabel];
             
             
             contentLabel = [UILabel new];
-            
             contentLabel.textColor = TEXT_COLOR_LEVEL_2;
             contentLabel.numberOfLines=0;
             contentLabel.text = articleData.articleContent;
@@ -559,13 +607,11 @@ shareTypeDelegate
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
             }
             
-
             
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
-
-            [cell.contentView addSubview:contentLabel];
             
+            [cell.contentView addSubview:contentLabel];
             
             
             zanLabel = [LMCommentButton new];
@@ -582,13 +628,11 @@ shareTypeDelegate
             [zanLabel.textLabel sizeToFit];
             zanLabel.textLabel.frame = CGRectMake(15, 5, zanLabel.textLabel.bounds.size.width, zanLabel.textLabel.bounds.size.height);
             [zanLabel sizeToFit];
-            
             [cell.contentView addSubview:zanLabel];
             [zanLabel addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
             
-            
             LMCommentButton *commentLabel = [[LMCommentButton alloc] init];
-        
+            
             commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
             commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
             [commentLabel.textLabel sizeToFit];
@@ -599,56 +643,7 @@ shareTypeDelegate
             [commentLabel sizeToFit];
             [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:commentLabel];
-            
-            
-            UILabel *type = [UILabel new];
-            type.text = @"字号：";
-            type.font = TEXT_FONT_LEVEL_2;
-            type.textColor =Text_size_color;
-            type.textAlignment = NSTextAlignmentCenter;
-            type.layer.cornerRadius = 3;
-            type.layer.borderColor =Text_size_color.CGColor;
-            type.layer.borderWidth = 0.5;
-            [type sizeToFit];
-            [cell.contentView addSubview:type];
-            
-            UIButton *bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [bigBtn setTitle:@"大" forState:UIControlStateNormal];
-            [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-            bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-            bigBtn.layer.cornerRadius = 3;
-            bigBtn.layer.borderColor =Text_size_color.CGColor;
-            bigBtn.layer.borderWidth = 0.5;
-            [bigBtn sizeToFit];
-            [cell.contentView addSubview:bigBtn];
-            [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-            
-            UIButton *midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [midBtn setTitle:@"中" forState:UIControlStateNormal];
-            [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-            midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-            midBtn.layer.cornerRadius = 3;
-            midBtn.layer.borderColor =Text_size_color.CGColor;
-            midBtn.layer.borderWidth = 0.5;
-            [midBtn sizeToFit];
-            [cell.contentView addSubview:midBtn];
-            [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
-            
-            UIButton *smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [smallBtn setTitle:@"小" forState:UIControlStateNormal];
-            [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-            smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-            smallBtn.layer.cornerRadius = 3;
-            smallBtn.layer.borderColor =Text_size_color.CGColor;
-            smallBtn.layer.borderWidth = 0.5;
-            [smallBtn sizeToFit];
-            [cell.contentView addSubview:smallBtn];
-            [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-   
+         
             
             UIButton *button=[UIButton new];
             [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
@@ -658,29 +653,26 @@ shareTypeDelegate
             button.layer.borderWidth = 0.5;
             [cell.contentView addSubview:button];
             
-
+            
             if (articleData.articleImgs) {
                 
                 NSArray *arr =articleData.articleImgs;
                 hightArray = [NSMutableArray new];
+                
                 for (int i = 0; i<arr.count; i++) {
                     
                     NSDictionary *dic = arr[i];
                     
                     CGFloat imageVH = [dic[@"height"] floatValue];
                     CGFloat imageVW = [dic[@"width"] floatValue];
-                    
                     CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
                     
-
                     [imageArray addObject:[dic objectForKey:@"url"]];
-                    
                     UIImageView *headImage = [UIImageView new];
                     [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
                     headImage.backgroundColor = BG_GRAY_COLOR;
                     
                     headImage.contentMode = UIViewContentModeScaleAspectFill;
-                    
                     [headImage setClipsToBounds:YES];
                     
                     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
@@ -688,7 +680,7 @@ shareTypeDelegate
                     [headImage addGestureRecognizer:tap];
                     headImage.userInteractionEnabled = YES;
                     if (i>0) {
-                       headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
+                        headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
                     }else{
                         headImage.frame = CGRectMake(15, 10, kScreenWidth-30, imageViewH);
                     }
@@ -698,21 +690,19 @@ shareTypeDelegate
                     [hightArray addObject:string];
                     
                     [cell.contentView addSubview:headImage];
-
+                    
                 }
                 
                 type.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], type.bounds.size.width+10, 30);
                 bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
                 midBtn.frame =CGRectMake(80+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
                 smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
-                
-                
                 dspLabel.frame = CGRectMake(15, 60+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
                 contentLabel.frame = CGRectMake(15, 70+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-
-
+                
+                
                 [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
                 
             }else{
@@ -721,19 +711,18 @@ shareTypeDelegate
                 bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20, 40, 30);
                 midBtn.frame =CGRectMake(80+type.bounds.size.width, 20, 40, 30);
                 smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20 , 40, 30);
-                
                 dspLabel.frame = CGRectMake(15, 50, kScreenWidth-30, conHigh);
                 contentLabel.frame = CGRectMake(15, 60 +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 75+conHigh+conHighs,  commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 75+conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-
+                
                 [button setFrame:CGRectMake(kScreenWidth-88, 10, 80, 30)];
             }
             
         }
-  
+        
         return cell;
- 
+        
     }
     if (indexPath.section==1) {
         static NSString *cellId = @"cellId";
@@ -745,7 +734,7 @@ shareTypeDelegate
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
-
+        
         tap.minimumPressDuration = 1.0;
         cell.contentView.tag = indexPath.row;
         [cell.contentView addGestureRecognizer:tap];
@@ -771,7 +760,7 @@ shareTypeDelegate
     typeIndex = 1;
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-
+    
 }
 
 -(void)midBtnButton
@@ -779,7 +768,7 @@ shareTypeDelegate
     typeIndex = 2;
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-
+    
 }
 
 -(void)smallBtnButton
@@ -787,7 +776,7 @@ shareTypeDelegate
     typeIndex = 3;
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-
+    
 }
 
 #pragma mark 对图片尺寸进行压缩
@@ -809,11 +798,11 @@ shareTypeDelegate
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
-           message.title=articleData.articleTitle;
+            message.title=articleData.articleTitle;
             message.description=articleData.describe;
             
             if (imageArray.count==0) {
-                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
+                [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
             }else{
                 
                 UIImageView *images = [UIImageView new];
@@ -841,7 +830,7 @@ shareTypeDelegate
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=articleData.articleTitle;
             message.description=articleData.describe;
-           
+            
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -870,7 +859,7 @@ shareTypeDelegate
             NSString *imageUrl;
             
             if (imageArray.count==0) {
-            
+                
                 imageUrl=@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg";
             } else {
                 
@@ -908,7 +897,7 @@ shareTypeDelegate
 - (void)tapimageAction:(UITapGestureRecognizer *)tap
 {
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
-
+    
     photoBrowser.initialPageIndex = tap.view.tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
@@ -919,7 +908,6 @@ shareTypeDelegate
     
     NSLog(@"%@",cell.commentUUid);
     LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
-    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -934,7 +922,7 @@ shareTypeDelegate
                                                        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
                                                            [self textStateHUD:@"点赞成功"];
                                                            [self getHomeDetailDataRequest];
-                                  
+                                                           
                                                            
                                                        }else{
                                                            NSString *str = [bodyDic objectForKey:@"description"];
@@ -942,7 +930,7 @@ shareTypeDelegate
                                                        }
                                                    }
                                                });
-
+                                               
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
@@ -978,7 +966,6 @@ shareTypeDelegate
     NSLog(@"**********回复");
     
     textIndex = 1;
-    
     commitUUid =cell.commentUUid;
     [UIView  beginAnimations:nil context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -997,9 +984,11 @@ shareTypeDelegate
 - (void)createCommentsView
 {
     if (!commentsView) {
-        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
-        commentsView.backgroundColor = [UIColor whiteColor];
-        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 20.0)];
+        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 200.0, kScreenWidth, 200.0)];
+        commentsView.layer.borderColor = LINE_COLOR.CGColor;
+        commentsView.layer.borderWidth= 0.5;
+        commentsView.backgroundColor = BG_GRAY_COLOR;
+        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 40.0)];
         commentText.layer.borderWidth   = 0.5;
         commentText.layer.borderColor   = LINE_COLOR.CGColor;
         commentText.layer.cornerRadius  = 5.0;
@@ -1011,16 +1000,27 @@ shareTypeDelegate
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        sureButton.frame = CGRectMake(kScreenWidth-90, 160-60, 72, 24);
+        sureButton.frame = CGRectMake(kScreenWidth-90, 160-70, 72, 24);
         sureButton.layer.cornerRadius = 5;
         [sureButton setTitle:@"确认" forState:UIControlStateNormal];
         sureButton.backgroundColor = BLUE_COLOR;
         sureButton.tintColor = [UIColor whiteColor];
         [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
         [commentText addSubview:sureButton];
+        
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        closeButton.frame = CGRectMake(kScreenWidth-38, 9, 22, 22);
+        closeButton.layer.cornerRadius = 5;
+        [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+        closeButton.tintColor = BLUE_COLOR;
+        [closeButton addTarget:self action:@selector(closeComment) forControlEvents:UIControlEventTouchUpInside];
+        [commentsView addSubview:closeButton];
+        
+        
+        
         [commentsView addSubview:commentText];
     }
-    [[UIApplication sharedApplication].keyWindow addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
+    [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
     [commentText becomeFirstResponder];//让textView成为第一响应者（第一次）这次键盘并未显示出来
 }
 
@@ -1031,8 +1031,6 @@ shareTypeDelegate
         return;
     }
     [self commitDataRequest];
-    
-    
     [commentText resignFirstResponder];
     self.tableView.userInteractionEnabled = YES;
 }
@@ -1064,15 +1062,14 @@ shareTypeDelegate
     [self logoutAction:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"回复失败"];
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-
+        
         [self textStateHUD:@"回复成功"];
-
+        
         [self getHomeDetailDataRequest];
-        [self.tableView reloadData];
         
     } else {
         
@@ -1135,15 +1132,16 @@ shareTypeDelegate
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
     NSDictionary *info = [notif userInfo];
-    
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
     NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
-    // keyboardWasShown = NO;
-    [UIView animateWithDuration:0.1f animations:^{
-        [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
-        NSLog(@"***keyboardWasHidden*%@",toolBar);
-    }];
+    if (textIndex!=1) {
+        [UIView animateWithDuration:0.1f animations:^{
+            [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
+            NSLog(@"***keyboardWasHidden*%@",toolBar);
+        }];
+    }
+    
 }
 
 #pragma mark UITextFieldDelegate
@@ -1180,7 +1178,6 @@ shareTypeDelegate
     CGRect originalFrame = toolBar.frame;
     originalFrame.size.height = 30 + height ;
     originalFrame.origin.y = bgViewY - height + 30;
-    
     CGRect textViewFrame = textcView.frame;
     textViewFrame.size.height = height;
     
@@ -1201,12 +1198,13 @@ shareTypeDelegate
             [textcView resignFirstResponder];
             [self getCommentArticleDataRequest];
         }
-        if ([textcView isEqual:commentText]) {
+        if ([textView isEqual:commentText]) {
+            self.tableView.userInteractionEnabled = YES;
             [commentText resignFirstResponder];
             [self sendComment];
         }
         
-
+        
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
     
@@ -1240,7 +1238,7 @@ shareTypeDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
     
 }
 
@@ -1261,7 +1259,7 @@ shareTypeDelegate
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-
+    
     
 }
 
@@ -1292,7 +1290,7 @@ shareTypeDelegate
     
     
     
-  
+    
     
 }
 
@@ -1331,13 +1329,13 @@ shareTypeDelegate
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadlist" object:nil];
         });
-
+        
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-   
+    
 }
 
 #pragma mark --删除评论
@@ -1346,15 +1344,15 @@ shareTypeDelegate
     NSLog(@"**********%ld",tap.view.tag);
     NSInteger index = tap.view.tag;
     
-
-
-         LMActicleCommentVO *list= listArray[index];
+    
+    
+    LMActicleCommentVO *list= listArray[index];
     if (![list.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
         return;
         
     }else{
-   
-    
+        
+        
         
         if (tap.state == UIGestureRecognizerStateEnded) {
             NSLog(@"***********3333******");
@@ -1363,29 +1361,29 @@ shareTypeDelegate
             if ([list.type isEqual:@"comment"]){
                 
                 NSLog(@"%@",list.commentUuid);
-            
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
-                                                                           message:nil
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                      style:UIAlertActionStyleCancel
-                                                    handler:nil]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                      style:UIAlertActionStyleDestructive
-                                                    handler:^(UIAlertAction*action) {
-                                                        NSLog(@"*****删除");
-                                                        
-                                                        [self deleteCommentdata:list.commentUuid];
-                                                        
-                                                        
-                                                    }]];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-        }
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
+                                                                               message:nil
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                          style:UIAlertActionStyleCancel
+                                                        handler:nil]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction*action) {
+                                                            NSLog(@"*****删除");
+                                                            
+                                                            [self deleteCommentdata:list.commentUuid];
+                                                            
+                                                            
+                                                        }]];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+            }
             if ([list.type isEqual:@"reply"]) {
                 
                 NSLog(@"%@",list.replyUuid);
-  
+                
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的回复"
                                                                                message:nil
                                                                         preferredStyle:UIAlertControllerStyleAlert];
@@ -1473,9 +1471,9 @@ shareTypeDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
-  
-    if (!bodyDic) {
     
+    if (!bodyDic) {
+        
         [self textStateHUD:@"删除失败请重试"];
     } else {
         
@@ -1518,12 +1516,32 @@ shareTypeDelegate
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+    return YES;
+}
+
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView isEqual:textcView]) {
+        textIndex = 2;
+    }
+    if ([textView isEqual:commentText]) {
+        textIndex = 1;
+    }
     return YES;
 }
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+
+-(void)closeComment
+{
+    [commentText resignFirstResponder];
+    self.tableView.userInteractionEnabled = YES;
 }
 
 

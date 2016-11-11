@@ -114,6 +114,11 @@
             && [[dictionary objectForKey:@"event_name"] isKindOfClass:[NSString class]]) {
             self.EventName = [dictionary objectForKey:@"event_name"];
         }
+        
+        if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            self.Status = [dictionary objectForKey:@"status"];
+        }
     }
     
     return self;

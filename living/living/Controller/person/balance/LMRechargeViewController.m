@@ -218,7 +218,7 @@ liveNameProtocol
     if (indexPath.section==1) {
         return 65;
     }
-    return 55;
+    return 45;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

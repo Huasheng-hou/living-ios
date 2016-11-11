@@ -344,6 +344,7 @@ WXApiDelegate
 - (void)parseResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"获取验证码失败"];
@@ -428,6 +429,7 @@ WXApiDelegate
 - (void)parseCodeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"登录失败"];

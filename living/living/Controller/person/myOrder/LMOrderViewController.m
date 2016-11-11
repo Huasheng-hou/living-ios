@@ -179,7 +179,6 @@ LMOrderCellDelegate>
 
 -(void)reloadingHomePage
 {
-//    [orderArray removeAllObjects];
     [self headerRereshing];
 }
 
@@ -192,6 +191,7 @@ LMOrderCellDelegate>
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    [self initStateHud];
     
     
     LMOrderListRequest *request = [[LMOrderListRequest alloc] initWithPageIndex:page andPageSize:20];
@@ -221,18 +221,13 @@ LMOrderCellDelegate>
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         NSLog(@"%@",bodyDic);
-
-        NSMutableArray *array=bodyDic[@"list"];
-        for (int i=0; i<array.count; i++) {
-            
-        }
-        
+        [self hideStateHud];
         
         if (ifRefresh) {
             ifRefresh=NO;
             orderArray=[NSMutableArray arrayWithCapacity:0];
             
-            NSArray *array = bodyDic[@"list"];           
+            NSArray *array = bodyDic[@"list"];
             for(int i=0;i<[array count];i++){
                 
                 LMOrderVO *list=[[LMOrderVO alloc]initWithDictionary:array[i]];
@@ -240,11 +235,9 @@ LMOrderCellDelegate>
                     [orderArray addObject:list];
                 }
             }
-        
+            
         }
-        if (orderArray.count!=0) {
-            [homeImage removeFromSuperview];
-        }else{
+        if (orderArray.count==0) {
             homeImage.hidden = NO;
         }
         
@@ -253,7 +246,7 @@ LMOrderCellDelegate>
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-
+    
     
 }
 
@@ -288,6 +281,7 @@ LMOrderCellDelegate>
     cell.Orderuuid = list.orderUuid;
     cell.priceStr = list.orderAmount;
     cell.delegate = self;
+    cell.tag = indexPath.row;
     
     [cell setXScale:self.xScale yScale:self.yScaleNoTab];
     
@@ -370,11 +364,31 @@ LMOrderCellDelegate>
 {
     NSLog(@"**********付款");
     Orderuuid = cell.Orderuuid;
+    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    switch (list.status) {
+        case 4:
+            [self textStateHUD:@"活动已完结"];
+            return;
+            break;
+        case 5:
+            [self textStateHUD:@"活动已删除"];
+            return;
+            break;
+            
+        default:
+            break;
+    }
+
+    
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
+
+    
     
     LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:Orderuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -404,15 +418,15 @@ LMOrderCellDelegate>
     [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******微信支付");
         [self wxRechargeRequest];
-
+        
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"支付宝支付"
-                                                        style:UIAlertActionStyleDefault
+                                              style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 NSLog(@"******支付宝支付");
                                                 [self aliRechargeRequest];
-                                                        }]];
+                                            }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
@@ -436,7 +450,27 @@ LMOrderCellDelegate>
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
     NSLog(@"**********退款");
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否退款"
+    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    switch (list.status) {
+        case 3:
+            [self textStateHUD:@"活动已开始，不能进行退款"];
+            return;
+            break;
+        case 4:
+            [self textStateHUD:@"活动已结束，不能进行退款"];
+            return;
+            break;
+        case 5:
+            [self textStateHUD:@"活动已删除，不能进行退款"];
+            return;
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否申请退款"
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"******确定");
@@ -464,12 +498,18 @@ LMOrderCellDelegate>
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
     [self presentViewController:alert animated:YES completion:nil];
-
+    
     
 }
 - (void)cellWillrebook:(LMOrderCell *)cell
 {
     NSLog(@"**********再订");
+    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    detailVC.eventUuid = list.eventUuid;
+    [self.navigationController pushViewController:detailVC animated:YES];
+    
+    
 }
 
 
@@ -483,7 +523,7 @@ LMOrderCellDelegate>
         [self textStateHUD:@"退款申请失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"退款成功"];
+            [self textStateHUD:@"退款申请成功"];
             [self reloadingHomePage];
         }else{
             [self textStateHUD:bodyDic[@"description"]];
@@ -519,7 +559,7 @@ LMOrderCellDelegate>
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
+    [self logoutAction:resp];
     //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
     
     if (!bodyDict) {
@@ -539,7 +579,7 @@ LMOrderCellDelegate>
             if (bodyDict[@"map"][@"wxOrder"]) {
                 [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
             }
-
+            
             
         }else{
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
@@ -551,7 +591,7 @@ LMOrderCellDelegate>
 
 -(void)senderWeiXinPay:(NSDictionary *)dic
 {
-//    [WXApiRequestHandler jumpToBizPay:dic];
+    //    [WXApiRequestHandler jumpToBizPay:dic];
 }
 
 #pragma mark 微信支付结果确认
@@ -581,7 +621,7 @@ LMOrderCellDelegate>
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -634,7 +674,7 @@ LMOrderCellDelegate>
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
+    [self logoutAction:resp];
     //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -696,7 +736,7 @@ LMOrderCellDelegate>
 -(void)aliPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-[self logoutAction:resp];
+    [self logoutAction:resp];
     if (!bodyDict) {
         return;
     }
@@ -755,7 +795,7 @@ LMOrderCellDelegate>
             [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 NSLog(@"******确定");
                 [self reloadingHomePage];
-
+                
                 
                 
             }]];
@@ -765,7 +805,7 @@ LMOrderCellDelegate>
         }else{
             [self textStateHUD:@"支付失败，请重试"];
         }
-
+        
     }
     
 }
@@ -775,13 +815,13 @@ LMOrderCellDelegate>
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -78,6 +78,14 @@
             && [[dictionary objectForKey:@"living_uuid"] isKindOfClass:[NSString class]]) {
             self.livingUuid = [dictionary objectForKey:@"living_uuid"];
         }
+        if (nil != [dictionary objectForKey:@"coupon_uuid"] && ![[dictionary objectForKey:@"coupon_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coupon_uuid"] isKindOfClass:[NSString class]]) {
+            self.couponUuid = [dictionary objectForKey:@"coupon_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"createTime"] && ![[dictionary objectForKey:@"createTime"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"createTime"] isKindOfClass:[NSString class]]) {
+            self.createTime = [dictionary objectForKey:@"createTime"];
+        }
         
     }
     

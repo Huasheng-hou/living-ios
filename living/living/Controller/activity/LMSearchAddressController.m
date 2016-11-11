@@ -209,7 +209,11 @@ updatingLocation:(BOOL)updatingLocation
     
     POIAnnotation *poi=_listData[indexPath.row];
     [self.delegate selectAddress:[_listData[indexPath.row] title] andLatitude:poi.coordinate.latitude andLongitude:poi.coordinate.longitude anddistance:0];
-    [self.navigationController popViewControllerAnimated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+         [self.navigationController popViewControllerAnimated:YES];
+    });
+   
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

@@ -91,7 +91,7 @@
     
     _includeTF = [[UITextView alloc] initWithFrame:CGRectMake(5, 0, kScreenWidth- titleW-35, 160)];
     _includeTF.backgroundColor = [UIColor clearColor];
-    _includeTF.returnKeyType = UIReturnKeyDone;
+//    _includeTF.returnKeyType = UIReturnKeyDone;
     _includeTF.font = TEXT_FONT_LEVEL_2;
     
     _textLab = [UILabel new];

@@ -24,6 +24,7 @@
             andLatitude:(NSString *)latitude
            andLongitude:(NSString *)longitude
            limit_number:(int)limit_number
+                notices:(NSString *)notices
 
 {
     self = [super init];
@@ -74,6 +75,10 @@
         
         if (limit_number!=-1){
             [bodyDict setObject:[NSString stringWithFormat:@"%d", limit_number] forKey:@"limit_number"];
+        }
+        
+        if (notices){
+            [bodyDict setObject:notices forKey:@"notices"];
         }
 
         

@@ -14,28 +14,18 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Helper/KeyBoardTopBar.m"
-            timestampString = "500200207.187085"
+            filePath = "living/Controller/activity/LMActivityDetailController.m"
+            timestampString = "500463296.7838"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "-initWithHight:"
+            startingLineNumber = "1533"
+            endingLineNumber = "1533"
+            landmarkName = "-getendEventResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -45,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/person/myOrder/LMOrderViewController.m"
-            timestampString = "500274473.652093"
+            filePath = "living/Controller/person/2DCode/LMFranchiseeViewController.m"
+            timestampString = "500522301.259634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
-            landmarkName = "-balancemessageResponse:"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
+            landmarkName = "-wxRechargeRequest"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

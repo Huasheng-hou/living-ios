@@ -17,6 +17,14 @@
 		351AF4741DD17AF3001F7836 /* LMArticeDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4731DD17AF3001F7836 /* LMArticeDeleteRequest.m */; };
 		351AF4771DD17B59001F7836 /* LMActivityDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4761DD17B59001F7836 /* LMActivityDeleteRequest.m */; };
 		351AF47B1DD19682001F7836 /* LMCouponVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF47A1DD19682001F7836 /* LMCouponVO.m */; };
+		351AF4831DD1E337001F7836 /* LMCouponUseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4821DD1E337001F7836 /* LMCouponUseRequest.m */; };
+		351AF4871DD30DB7001F7836 /* LMCouponChoseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */; };
+		351AF48B1DD338E4001F7836 /* LMEventStartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */; };
+		351AF48E1DD3392C001F7836 /* LMEventEndRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */; };
+		352B6D121DD4470B00C9DAB5 /* LMMy2dcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D111DD4470B00C9DAB5 /* LMMy2dcodeViewController.m */; };
+		352B6D151DD4473000C9DAB5 /* LMScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D141DD4473000C9DAB5 /* LMScanViewController.m */; };
+		352B6D181DD4492800C9DAB5 /* LMFranchiseeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D171DD4492800C9DAB5 /* LMFranchiseeViewController.m */; };
+		352B6D1B1DD4527F00C9DAB5 /* LMBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B6D1A1DD4527F00C9DAB5 /* LMBusinessCell.m */; };
 		3547F3331D9901780068F04E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3321D9901780068F04E /* main.m */; };
 		3547F3361D9901780068F04E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547F3351D9901780068F04E /* AppDelegate.m */; };
 		3547F33E1D9901780068F04E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3547F33D1D9901780068F04E /* Assets.xcassets */; };
@@ -29,6 +37,13 @@
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
 		354DB3E51DD07CF10041D502 /* OSTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 354DB3E41DD07CF10041D502 /* OSTextField.m */; };
+		35864A831DD558560061E9C0 /* LMFranchiseeAliPayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A821DD558560061E9C0 /* LMFranchiseeAliPayRequest.m */; };
+		35864A861DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A851DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m */; };
+		35864A891DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A881DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m */; };
+		35864A8C1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */; };
+		35864A901DD566C10061E9C0 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */; };
+		35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A931DD566F80061E9C0 /* LMFriendListRequest.m */; };
+		35864A971DD569320061E9C0 /* LMFriendDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A961DD569320061E9C0 /* LMFriendDataRequest.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -101,14 +116,12 @@
 		873795411DCF8A1000A2ACD7 /* LMHomeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793381DCF8A0F00A2ACD7 /* LMHomeDetailController.m */; };
 		873795421DCF8A1000A2ACD7 /* LMHomePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737933A1DCF8A0F00A2ACD7 /* LMHomePageController.m */; };
 		873795431DCF8A1000A2ACD7 /* LMPublicArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737933C1DCF8A0F00A2ACD7 /* LMPublicArticleController.m */; };
-		873795441DCF8A1000A2ACD7 /* LMScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737933E1DCF8A0F00A2ACD7 /* LMScanViewController.m */; };
 		873795451DCF8A1000A2ACD7 /* LMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */; };
 		873795461DCF8A1000A2ACD7 /* LMWriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793421DCF8A0F00A2ACD7 /* LMWriterViewController.m */; };
 		873795471DCF8A1000A2ACD7 /* LMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793461DCF8A0F00A2ACD7 /* LMLoginViewController.m */; };
 		873795481DCF8A1000A2ACD7 /* LMRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793481DCF8A0F00A2ACD7 /* LMRegisterViewController.m */; };
 		8737954B1DCF8A1000A2ACD7 /* LMChangeDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737934F1DCF8A0F00A2ACD7 /* LMChangeDataViewController.m */; };
 		8737954C1DCF8A1000A2ACD7 /* LMChangeLivingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793511DCF8A0F00A2ACD7 /* LMChangeLivingController.m */; };
-		8737954D1DCF8A1000A2ACD7 /* LMMy2dcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793531DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.m */; };
 		8737954E1DCF8A1000A2ACD7 /* LMMyCouponController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793551DCF8A0F00A2ACD7 /* LMMyCouponController.m */; };
 		8737954F1DCF8A1000A2ACD7 /* LMMyFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793571DCF8A1000A2ACD7 /* LMMyFriendViewController.m */; };
 		873795501DCF8A1000A2ACD7 /* LMMyLivingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793591DCF8A1000A2ACD7 /* LMMyLivingViewController.m */; };
@@ -175,11 +188,8 @@
 		873795941DCF8A1000A2ACD7 /* LMLivingHomeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793FB1DCF8A1000A2ACD7 /* LMLivingHomeListRequest.m */; };
 		873795951DCF8A1000A2ACD7 /* LMLivingListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793FD1DCF8A1000A2ACD7 /* LMLivingListRequest.m */; };
 		873795961DCF8A1000A2ACD7 /* LMWriterDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873793FF1DCF8A1000A2ACD7 /* LMWriterDataRequest.m */; };
-		873795971DCF8A1000A2ACD7 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794011DCF8A1000A2ACD7 /* LM2DcodeRequest.m */; };
 		873795981DCF8A1000A2ACD7 /* LMCouponRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794031DCF8A1000A2ACD7 /* LMCouponRequest.m */; };
 		873795991DCF8A1000A2ACD7 /* LMFeedBackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794051DCF8A1000A2ACD7 /* LMFeedBackRequest.m */; };
-		8737959A1DCF8A1000A2ACD7 /* LMFriendDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794071DCF8A1000A2ACD7 /* LMFriendDataRequest.m */; };
-		8737959B1DCF8A1000A2ACD7 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794091DCF8A1000A2ACD7 /* LMFriendListRequest.m */; };
 		8737959C1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737940B1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m */; };
 		8737959D1DCF8A1000A2ACD7 /* LMNoticListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737940D1DCF8A1000A2ACD7 /* LMNoticListRequest.m */; };
 		8737959E1DCF8A1000A2ACD7 /* LMScanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737940F1DCF8A1000A2ACD7 /* LMScanRequest.m */; };
@@ -273,7 +283,6 @@
 		873795F71DCF8A1000A2ACD7 /* WJLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D21DCF8A1000A2ACD7 /* WJLoopView.m */; };
 		873795F81DCF8A1000A2ACD7 /* LMBlanceHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */; };
 		873795F91DCF8A1000A2ACD7 /* LMBlanceListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D71DCF8A1000A2ACD7 /* LMBlanceListCell.m */; };
-		873795FA1DCF8A1000A2ACD7 /* LMChangeLivingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794D91DCF8A1000A2ACD7 /* LMChangeLivingCell.m */; };
 		873795FB1DCF8A1000A2ACD7 /* LMChargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794DB1DCF8A1000A2ACD7 /* LMChargeButton.m */; };
 		873795FC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794DD1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.m */; };
 		873795FD1DCF8A1000A2ACD7 /* LMMyLivingHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794DF1DCF8A1000A2ACD7 /* LMMyLivingHomeCell.m */; };
@@ -351,6 +360,23 @@
 		351AF4761DD17B59001F7836 /* LMActivityDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityDeleteRequest.m; sourceTree = "<group>"; };
 		351AF4791DD19682001F7836 /* LMCouponVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponVO.h; sourceTree = "<group>"; };
 		351AF47A1DD19682001F7836 /* LMCouponVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponVO.m; sourceTree = "<group>"; };
+		351AF4811DD1E337001F7836 /* LMCouponUseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponUseRequest.h; sourceTree = "<group>"; };
+		351AF4821DD1E337001F7836 /* LMCouponUseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponUseRequest.m; sourceTree = "<group>"; };
+		351AF4841DD2B9D1001F7836 /* 腰果生活.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
+		351AF4851DD30DB7001F7836 /* LMCouponChoseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponChoseCell.h; sourceTree = "<group>"; };
+		351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponChoseCell.m; sourceTree = "<group>"; };
+		351AF4891DD338E4001F7836 /* LMEventStartRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventStartRequest.h; sourceTree = "<group>"; };
+		351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventStartRequest.m; sourceTree = "<group>"; };
+		351AF48C1DD3392C001F7836 /* LMEventEndRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventEndRequest.h; sourceTree = "<group>"; };
+		351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventEndRequest.m; sourceTree = "<group>"; };
+		352B6D101DD4470400C9DAB5 /* LMMy2dcodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMMy2dcodeViewController.h; sourceTree = "<group>"; };
+		352B6D111DD4470B00C9DAB5 /* LMMy2dcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMy2dcodeViewController.m; sourceTree = "<group>"; };
+		352B6D131DD4473000C9DAB5 /* LMScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMScanViewController.h; sourceTree = "<group>"; };
+		352B6D141DD4473000C9DAB5 /* LMScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanViewController.m; sourceTree = "<group>"; };
+		352B6D161DD4492800C9DAB5 /* LMFranchiseeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeViewController.h; sourceTree = "<group>"; };
+		352B6D171DD4492800C9DAB5 /* LMFranchiseeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeViewController.m; sourceTree = "<group>"; };
+		352B6D191DD4527F00C9DAB5 /* LMBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBusinessCell.h; sourceTree = "<group>"; };
+		352B6D1A1DD4527F00C9DAB5 /* LMBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBusinessCell.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F3321D9901780068F04E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3547F3341D9901780068F04E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -367,6 +393,20 @@
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		354DB3E31DD07CD90041D502 /* OSTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSTextField.h; sourceTree = "<group>"; };
 		354DB3E41DD07CF10041D502 /* OSTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSTextField.m; sourceTree = "<group>"; };
+		35864A811DD558560061E9C0 /* LMFranchiseeAliPayRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeAliPayRequest.h; sourceTree = "<group>"; };
+		35864A821DD558560061E9C0 /* LMFranchiseeAliPayRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeAliPayRequest.m; sourceTree = "<group>"; };
+		35864A841DD558820061E9C0 /* LMFranchiseeWchatPayRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeWchatPayRequest.h; sourceTree = "<group>"; };
+		35864A851DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeWchatPayRequest.m; sourceTree = "<group>"; };
+		35864A871DD55A800061E9C0 /* LMFranchiseeResultAliRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeResultAliRequest.h; sourceTree = "<group>"; };
+		35864A881DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeResultAliRequest.m; sourceTree = "<group>"; };
+		35864A8A1DD55B470061E9C0 /* LMFranchiseeResultWchatRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeResultWchatRequest.h; sourceTree = "<group>"; };
+		35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeResultWchatRequest.m; sourceTree = "<group>"; };
+		35864A8E1DD566C10061E9C0 /* LM2DcodeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DcodeRequest.h; sourceTree = "<group>"; };
+		35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DcodeRequest.m; sourceTree = "<group>"; };
+		35864A921DD566F80061E9C0 /* LMFriendListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendListRequest.h; sourceTree = "<group>"; };
+		35864A931DD566F80061E9C0 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
+		35864A951DD569320061E9C0 /* LMFriendDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendDataRequest.h; sourceTree = "<group>"; };
+		35864A961DD569320061E9C0 /* LMFriendDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendDataRequest.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -574,8 +614,6 @@
 		8737933A1DCF8A0F00A2ACD7 /* LMHomePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomePageController.m; sourceTree = "<group>"; };
 		8737933B1DCF8A0F00A2ACD7 /* LMPublicArticleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicArticleController.h; sourceTree = "<group>"; };
 		8737933C1DCF8A0F00A2ACD7 /* LMPublicArticleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicArticleController.m; sourceTree = "<group>"; };
-		8737933D1DCF8A0F00A2ACD7 /* LMScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMScanViewController.h; sourceTree = "<group>"; };
-		8737933E1DCF8A0F00A2ACD7 /* LMScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMScanViewController.m; sourceTree = "<group>"; };
 		8737933F1DCF8A0F00A2ACD7 /* LMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWebViewController.h; sourceTree = "<group>"; };
 		873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWebViewController.m; sourceTree = "<group>"; };
 		873793411DCF8A0F00A2ACD7 /* LMWriterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWriterViewController.h; sourceTree = "<group>"; };
@@ -588,8 +626,6 @@
 		8737934F1DCF8A0F00A2ACD7 /* LMChangeDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeDataViewController.m; sourceTree = "<group>"; };
 		873793501DCF8A0F00A2ACD7 /* LMChangeLivingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeLivingController.h; sourceTree = "<group>"; };
 		873793511DCF8A0F00A2ACD7 /* LMChangeLivingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeLivingController.m; sourceTree = "<group>"; };
-		873793521DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMy2dcodeViewController.h; sourceTree = "<group>"; };
-		873793531DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMy2dcodeViewController.m; sourceTree = "<group>"; };
 		873793541DCF8A0F00A2ACD7 /* LMMyCouponController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyCouponController.h; sourceTree = "<group>"; };
 		873793551DCF8A0F00A2ACD7 /* LMMyCouponController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyCouponController.m; sourceTree = "<group>"; };
 		873793561DCF8A0F00A2ACD7 /* LMMyFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyFriendViewController.h; sourceTree = "<group>"; };
@@ -720,16 +756,10 @@
 		873793FD1DCF8A1000A2ACD7 /* LMLivingListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingListRequest.m; sourceTree = "<group>"; };
 		873793FE1DCF8A1000A2ACD7 /* LMWriterDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMWriterDataRequest.h; sourceTree = "<group>"; };
 		873793FF1DCF8A1000A2ACD7 /* LMWriterDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWriterDataRequest.m; sourceTree = "<group>"; };
-		873794001DCF8A1000A2ACD7 /* LM2DcodeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DcodeRequest.h; sourceTree = "<group>"; };
-		873794011DCF8A1000A2ACD7 /* LM2DcodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DcodeRequest.m; sourceTree = "<group>"; };
 		873794021DCF8A1000A2ACD7 /* LMCouponRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCouponRequest.h; sourceTree = "<group>"; };
 		873794031DCF8A1000A2ACD7 /* LMCouponRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCouponRequest.m; sourceTree = "<group>"; };
 		873794041DCF8A1000A2ACD7 /* LMFeedBackRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFeedBackRequest.h; sourceTree = "<group>"; };
 		873794051DCF8A1000A2ACD7 /* LMFeedBackRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFeedBackRequest.m; sourceTree = "<group>"; };
-		873794061DCF8A1000A2ACD7 /* LMFriendDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendDataRequest.h; sourceTree = "<group>"; };
-		873794071DCF8A1000A2ACD7 /* LMFriendDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendDataRequest.m; sourceTree = "<group>"; };
-		873794081DCF8A1000A2ACD7 /* LMFriendListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendListRequest.h; sourceTree = "<group>"; };
-		873794091DCF8A1000A2ACD7 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
 		8737940A1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticDeleteRequest.h; sourceTree = "<group>"; };
 		8737940B1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticDeleteRequest.m; sourceTree = "<group>"; };
 		8737940C1DCF8A1000A2ACD7 /* LMNoticListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticListRequest.h; sourceTree = "<group>"; };
@@ -898,8 +928,6 @@
 		873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlanceHeadCell.m; sourceTree = "<group>"; };
 		873794D61DCF8A1000A2ACD7 /* LMBlanceListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBlanceListCell.h; sourceTree = "<group>"; };
 		873794D71DCF8A1000A2ACD7 /* LMBlanceListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlanceListCell.m; sourceTree = "<group>"; };
-		873794D81DCF8A1000A2ACD7 /* LMChangeLivingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeLivingCell.h; sourceTree = "<group>"; };
-		873794D91DCF8A1000A2ACD7 /* LMChangeLivingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeLivingCell.m; sourceTree = "<group>"; };
 		873794DA1DCF8A1000A2ACD7 /* LMChargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChargeButton.h; sourceTree = "<group>"; };
 		873794DB1DCF8A1000A2ACD7 /* LMChargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChargeButton.m; sourceTree = "<group>"; };
 		873794DC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLiveRoomNameCell.h; sourceTree = "<group>"; };
@@ -1119,6 +1147,37 @@
 			path = coupon;
 			sourceTree = "<group>";
 		};
+		351AF4881DD338AD001F7836 /* eventStatus */ = {
+			isa = PBXGroup;
+			children = (
+				351AF4891DD338E4001F7836 /* LMEventStartRequest.h */,
+				351AF48A1DD338E4001F7836 /* LMEventStartRequest.m */,
+				351AF48C1DD3392C001F7836 /* LMEventEndRequest.h */,
+				351AF48D1DD3392C001F7836 /* LMEventEndRequest.m */,
+			);
+			path = eventStatus;
+			sourceTree = "<group>";
+		};
+		352B6D0F1DD446C400C9DAB5 /* 2DCode */ = {
+			isa = PBXGroup;
+			children = (
+				352B6D101DD4470400C9DAB5 /* LMMy2dcodeViewController.h */,
+				352B6D111DD4470B00C9DAB5 /* LMMy2dcodeViewController.m */,
+				352B6D131DD4473000C9DAB5 /* LMScanViewController.h */,
+				352B6D141DD4473000C9DAB5 /* LMScanViewController.m */,
+				352B6D161DD4492800C9DAB5 /* LMFranchiseeViewController.h */,
+				352B6D171DD4492800C9DAB5 /* LMFranchiseeViewController.m */,
+			);
+			path = 2DCode;
+			sourceTree = "<group>";
+		};
+		352B6D1C1DD4687C00C9DAB5 /* keepData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = keepData;
+			sourceTree = "<group>";
+		};
 		3547F3251D9901770068F04E = {
 			isa = PBXGroup;
 			children = (
@@ -1140,6 +1199,7 @@
 		3547F3301D9901780068F04E /* living */ = {
 			isa = PBXGroup;
 			children = (
+				351AF4841DD2B9D1001F7836 /* 腰果生活.entitlements */,
 				8737931C1DCF8A0F00A2ACD7 /* Controller */,
 				873794A61DCF8A1000A2ACD7 /* View */,
 				873793A01DCF8A1000A2ACD7 /* Model */,
@@ -1181,6 +1241,41 @@
 				3547F4391D9904C20068F04E /* InfoPlist.strings */,
 			);
 			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		35864A801DD557BC0061E9C0 /* Franchisee */ = {
+			isa = PBXGroup;
+			children = (
+				35864A811DD558560061E9C0 /* LMFranchiseeAliPayRequest.h */,
+				35864A821DD558560061E9C0 /* LMFranchiseeAliPayRequest.m */,
+				35864A871DD55A800061E9C0 /* LMFranchiseeResultAliRequest.h */,
+				35864A881DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m */,
+				35864A841DD558820061E9C0 /* LMFranchiseeWchatPayRequest.h */,
+				35864A851DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m */,
+				35864A8A1DD55B470061E9C0 /* LMFranchiseeResultWchatRequest.h */,
+				35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */,
+			);
+			path = Franchisee;
+			sourceTree = "<group>";
+		};
+		35864A8D1DD566870061E9C0 /* 2Dcode */ = {
+			isa = PBXGroup;
+			children = (
+				35864A8E1DD566C10061E9C0 /* LM2DcodeRequest.h */,
+				35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */,
+			);
+			path = 2Dcode;
+			sourceTree = "<group>";
+		};
+		35864A911DD566D10061E9C0 /* friend */ = {
+			isa = PBXGroup;
+			children = (
+				35864A921DD566F80061E9C0 /* LMFriendListRequest.h */,
+				35864A931DD566F80061E9C0 /* LMFriendListRequest.m */,
+				35864A951DD569320061E9C0 /* LMFriendDataRequest.h */,
+				35864A961DD569320061E9C0 /* LMFriendDataRequest.m */,
+			);
+			path = friend;
 			sourceTree = "<group>";
 		};
 		8737925F1DCF8A0F00A2ACD7 /* 3rdLibs */ = {
@@ -1584,8 +1679,6 @@
 				8737933A1DCF8A0F00A2ACD7 /* LMHomePageController.m */,
 				8737933B1DCF8A0F00A2ACD7 /* LMPublicArticleController.h */,
 				8737933C1DCF8A0F00A2ACD7 /* LMPublicArticleController.m */,
-				8737933D1DCF8A0F00A2ACD7 /* LMScanViewController.h */,
-				8737933E1DCF8A0F00A2ACD7 /* LMScanViewController.m */,
 				8737933F1DCF8A0F00A2ACD7 /* LMWebViewController.h */,
 				873793401DCF8A0F00A2ACD7 /* LMWebViewController.m */,
 				873793411DCF8A0F00A2ACD7 /* LMWriterViewController.h */,
@@ -1608,13 +1701,12 @@
 		873793491DCF8A0F00A2ACD7 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				352B6D0F1DD446C400C9DAB5 /* 2DCode */,
 				351AF45F1DD16C93001F7836 /* balance */,
 				8737934E1DCF8A0F00A2ACD7 /* LMChangeDataViewController.h */,
 				8737934F1DCF8A0F00A2ACD7 /* LMChangeDataViewController.m */,
 				873793501DCF8A0F00A2ACD7 /* LMChangeLivingController.h */,
 				873793511DCF8A0F00A2ACD7 /* LMChangeLivingController.m */,
-				873793521DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.h */,
-				873793531DCF8A0F00A2ACD7 /* LMMy2dcodeViewController.m */,
 				873793541DCF8A0F00A2ACD7 /* LMMyCouponController.h */,
 				873793551DCF8A0F00A2ACD7 /* LMMyCouponController.m */,
 				873793561DCF8A0F00A2ACD7 /* LMMyFriendViewController.h */,
@@ -1878,16 +1970,10 @@
 				873793D91DCF8A1000A2ACD7 /* Base */,
 				873793DC1DCF8A1000A2ACD7 /* Find */,
 				873793E31DCF8A1000A2ACD7 /* HomePage */,
-				873794001DCF8A1000A2ACD7 /* LM2DcodeRequest.h */,
-				873794011DCF8A1000A2ACD7 /* LM2DcodeRequest.m */,
 				873794021DCF8A1000A2ACD7 /* LMCouponRequest.h */,
 				873794031DCF8A1000A2ACD7 /* LMCouponRequest.m */,
 				873794041DCF8A1000A2ACD7 /* LMFeedBackRequest.h */,
 				873794051DCF8A1000A2ACD7 /* LMFeedBackRequest.m */,
-				873794061DCF8A1000A2ACD7 /* LMFriendDataRequest.h */,
-				873794071DCF8A1000A2ACD7 /* LMFriendDataRequest.m */,
-				873794081DCF8A1000A2ACD7 /* LMFriendListRequest.h */,
-				873794091DCF8A1000A2ACD7 /* LMFriendListRequest.m */,
 				8737940A1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.h */,
 				8737940B1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m */,
 				8737940C1DCF8A1000A2ACD7 /* LMNoticListRequest.h */,
@@ -1909,6 +1995,7 @@
 		873793C51DCF8A1000A2ACD7 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				351AF4881DD338AD001F7836 /* eventStatus */,
 				873793C61DCF8A1000A2ACD7 /* delete */,
 				873793CD1DCF8A1000A2ACD7 /* LMActivityDetailRequest.h */,
 				873793CE1DCF8A1000A2ACD7 /* LMActivityDetailRequest.m */,
@@ -2044,6 +2131,8 @@
 				351AF46A1DD16D98001F7836 /* LMBalanceChargeRequest.m */,
 				351AF46C1DD17A8F001F7836 /* LMCouponMsgRequest.h */,
 				351AF46D1DD17A8F001F7836 /* LMCouponMsgRequest.m */,
+				351AF4811DD1E337001F7836 /* LMCouponUseRequest.h */,
+				351AF4821DD1E337001F7836 /* LMCouponUseRequest.m */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -2066,6 +2155,9 @@
 		873794371DCF8A1000A2ACD7 /* person */ = {
 			isa = PBXGroup;
 			children = (
+				35864A911DD566D10061E9C0 /* friend */,
+				35864A8D1DD566870061E9C0 /* 2Dcode */,
+				35864A801DD557BC0061E9C0 /* Franchisee */,
 				873794381DCF8A1000A2ACD7 /* LMPersonInfoRequest.h */,
 				873794391DCF8A1000A2ACD7 /* LMPersonInfoRequest.m */,
 			);
@@ -2113,6 +2205,7 @@
 		873794481DCF8A1000A2ACD7 /* VO */ = {
 			isa = PBXGroup;
 			children = (
+				352B6D1C1DD4687C00C9DAB5 /* keepData */,
 				351AF4781DD19615001F7836 /* coupon */,
 				3519F1821DD010C800013892 /* Find */,
 				873794491DCF8A1000A2ACD7 /* Activity */,
@@ -2395,6 +2488,8 @@
 				873794BD1DCF8A1000A2ACD7 /* LMPublicMsgCell.m */,
 				873794BE1DCF8A1000A2ACD7 /* LMTimeButton.h */,
 				873794BF1DCF8A1000A2ACD7 /* LMTimeButton.m */,
+				351AF4851DD30DB7001F7836 /* LMCouponChoseCell.h */,
+				351AF4861DD30DB7001F7836 /* LMCouponChoseCell.m */,
 				873794C01DCF8A1000A2ACD7 /* mapView */,
 			);
 			path = activity;
@@ -2445,8 +2540,6 @@
 				873794D51DCF8A1000A2ACD7 /* LMBlanceHeadCell.m */,
 				873794D61DCF8A1000A2ACD7 /* LMBlanceListCell.h */,
 				873794D71DCF8A1000A2ACD7 /* LMBlanceListCell.m */,
-				873794D81DCF8A1000A2ACD7 /* LMChangeLivingCell.h */,
-				873794D91DCF8A1000A2ACD7 /* LMChangeLivingCell.m */,
 				873794DA1DCF8A1000A2ACD7 /* LMChargeButton.h */,
 				873794DB1DCF8A1000A2ACD7 /* LMChargeButton.m */,
 				873794DC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.h */,
@@ -2463,6 +2556,8 @@
 				873794E71DCF8A1000A2ACD7 /* LMRechargeCell.m */,
 				873794E81DCF8A1000A2ACD7 /* LMRePayCell.h */,
 				873794E91DCF8A1000A2ACD7 /* LMRePayCell.m */,
+				352B6D191DD4527F00C9DAB5 /* LMBusinessCell.h */,
+				352B6D1A1DD4527F00C9DAB5 /* LMBusinessCell.m */,
 				873794EA1DCF8A1000A2ACD7 /* myfriend */,
 				873794ED1DCF8A1000A2ACD7 /* personCoupon */,
 				873794F01DCF8A1000A2ACD7 /* personMyliveRoom */,
@@ -2662,7 +2757,7 @@
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 2BPVM7PZ48;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -2803,7 +2898,6 @@
 				873795AC1DCF8A1000A2ACD7 /* LMWXPayResultRequest.m in Sources */,
 				873795421DCF8A1000A2ACD7 /* LMHomePageController.m in Sources */,
 				873795AD1DCF8A1000A2ACD7 /* LMAliRechargeRequest.m in Sources */,
-				8737959A1DCF8A1000A2ACD7 /* LMFriendDataRequest.m in Sources */,
 				873795521DCF8A1000A2ACD7 /* LMPersonViewController.m in Sources */,
 				873795ED1DCF8A1000A2ACD7 /* LMPublicEventListCell.m in Sources */,
 				873795191DCF8A1000A2ACD7 /* MJRefreshHeaderView.m in Sources */,
@@ -2818,6 +2912,7 @@
 				8737955E1DCF8A1000A2ACD7 /* DACircularProgressView.m in Sources */,
 				3519F1851DD0111C00013892 /* LMFindVO.m in Sources */,
 				873795A31DCF8A1000A2ACD7 /* LMAlipayResultRequest.m in Sources */,
+				351AF4831DD1E337001F7836 /* LMCouponUseRequest.m in Sources */,
 				873795341DCF8A1000A2ACD7 /* FitUserInfoManager.m in Sources */,
 				873795F31DCF8A1000A2ACD7 /* LMCommentButton.m in Sources */,
 				873795431DCF8A1000A2ACD7 /* LMPublicArticleController.m in Sources */,
@@ -2827,6 +2922,7 @@
 				873795081DCF8A1000A2ACD7 /* Order.m in Sources */,
 				873795701DCF8A1000A2ACD7 /* UIButton+Badge.m in Sources */,
 				873795BB1DCF8A1000A2ACD7 /* LMProjectBodyVO.m in Sources */,
+				35864A971DD569320061E9C0 /* LMFriendDataRequest.m in Sources */,
 				8E92944C1DD04CEE00A00829 /* LMMonthDetailList.m in Sources */,
 				873795C11DCF8A1000A2ACD7 /* HeadVO.m in Sources */,
 				8737956B1DCF8A1000A2ACD7 /* SYPhotoBrowser.m in Sources */,
@@ -2844,7 +2940,6 @@
 				873795581DCF8A1000A2ACD7 /* SQMenuShowCell.m in Sources */,
 				8737953D1DCF8A1000A2ACD7 /* FitStatefulTableViewController.m in Sources */,
 				873795391DCF8A1000A2ACD7 /* LMPublishViewController.m in Sources */,
-				873795441DCF8A1000A2ACD7 /* LMScanViewController.m in Sources */,
 				873795B41DCF8A1000A2ACD7 /* LMPublicProjectRequest.m in Sources */,
 				351AF46B1DD16D98001F7836 /* LMBalanceChargeRequest.m in Sources */,
 				873796041DCF8A1000A2ACD7 /* LMCouponCell.m in Sources */,
@@ -2853,13 +2948,14 @@
 				873795A01DCF8A1000A2ACD7 /* LMloginRequest.m in Sources */,
 				873795B61DCF8A1000A2ACD7 /* FirUploadImageRequest.m in Sources */,
 				873795171DCF8A1000A2ACD7 /* MJRefreshConst.m in Sources */,
+				35864A8C1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m in Sources */,
 				873795201DCF8A1000A2ACD7 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				873795691DCF8A1000A2ACD7 /* README.md in Sources */,
 				8E92944A1DD04CEE00A00829 /* LMMonthDetailBill.m in Sources */,
 				873796071DCF8A1000A2ACD7 /* FitDatePickerView.m in Sources */,
+				35864A831DD558560061E9C0 /* LMFranchiseeAliPayRequest.m in Sources */,
 				873795511DCF8A1000A2ACD7 /* LMNoticViewController.m in Sources */,
 				873795961DCF8A1000A2ACD7 /* LMWriterDataRequest.m in Sources */,
-				8737959B1DCF8A1000A2ACD7 /* LMFriendListRequest.m in Sources */,
 				873795CC1DCF8A1000A2ACD7 /* PayloadVO.m in Sources */,
 				8737960A1DCF8A1000A2ACD7 /* LMAgeChooseButton.m in Sources */,
 				873795551DCF8A1000A2ACD7 /* LMAddviceViewController.m in Sources */,
@@ -2867,6 +2963,7 @@
 				873795F51DCF8A1000A2ACD7 /* LMhomePageCell.m in Sources */,
 				873795911DCF8A1000A2ACD7 /* LMCommentPraiseRequest.m in Sources */,
 				8737950E1DCF8A1000A2ACD7 /* openssl_wrapper.m in Sources */,
+				352B6D1B1DD4527F00C9DAB5 /* LMBusinessCell.m in Sources */,
 				873795841DCF8A1000A2ACD7 /* LMEventpraiseRequest.m in Sources */,
 				873795E51DCF8A1000A2ACD7 /* CustomButton.m in Sources */,
 				873795FD1DCF8A1000A2ACD7 /* LMMyLivingHomeCell.m in Sources */,
@@ -2875,8 +2972,8 @@
 				351AF46E1DD17A8F001F7836 /* LMCouponMsgRequest.m in Sources */,
 				873795EF1DCF8A1000A2ACD7 /* LMTimeButton.m in Sources */,
 				8737950A1DCF8A1000A2ACD7 /* DataSigner.m in Sources */,
+				351AF48E1DD3392C001F7836 /* LMEventEndRequest.m in Sources */,
 				873795791DCF8A1000A2ACD7 /* LMLiveRoomBody.m in Sources */,
-				8737954D1DCF8A1000A2ACD7 /* LMMy2dcodeViewController.m in Sources */,
 				873795F21DCF8A1000A2ACD7 /* LMFindCell.m in Sources */,
 				8737960B1DCF8A1100A2ACD7 /* LMChooseButton.m in Sources */,
 				873795E91DCF8A1000A2ACD7 /* LMEventMsgCell.m in Sources */,
@@ -2902,8 +2999,10 @@
 				873795131DCF8A1000A2ACD7 /* MJPhotoToolbar.m in Sources */,
 				873795D01DCF8A1000A2ACD7 /* VOUtil.m in Sources */,
 				8737951B1DCF8A1000A2ACD7 /* UIScrollView+MJRefresh.m in Sources */,
+				35864A861DD558820061E9C0 /* LMFranchiseeWchatPayRequest.m in Sources */,
 				873795461DCF8A1000A2ACD7 /* LMWriterViewController.m in Sources */,
 				351AF4711DD17ADC001F7836 /* LMArticeDeleteReplyRequst.m in Sources */,
+				352B6D121DD4470B00C9DAB5 /* LMMy2dcodeViewController.m in Sources */,
 				873795FC1DCF8A1000A2ACD7 /* LMLiveRoomNameCell.m in Sources */,
 				873795541DCF8A1000A2ACD7 /* LMOrderViewController.m in Sources */,
 				8737958B1DCF8A1000A2ACD7 /* LMArtclePariseRequest.m in Sources */,
@@ -2922,19 +3021,21 @@
 				873795211DCF8A1000A2ACD7 /* SSPullToRefreshView.m in Sources */,
 				873795361DCF8A1000A2ACD7 /* LMActivityDetailController.m in Sources */,
 				8E9294401DD0254300A00829 /* LMBalanceList.m in Sources */,
-				873795FA1DCF8A1000A2ACD7 /* LMChangeLivingCell.m in Sources */,
 				873795EA1DCF8A1000A2ACD7 /* LMLeavemessagecell.m in Sources */,
 				873795C61DCF8A1000A2ACD7 /* LMLivingInfoVO.m in Sources */,
 				3547F3361D9901780068F04E /* AppDelegate.m in Sources */,
 				8737956C1DCF8A1000A2ACD7 /* SYPhotoViewController.m in Sources */,
 				873796081DCF8A1000A2ACD7 /* FitPickerThreeLevelView.m in Sources */,
+				351AF4871DD30DB7001F7836 /* LMCouponChoseCell.m in Sources */,
 				873796031DCF8A1000A2ACD7 /* LMFriendCell.m in Sources */,
 				873795B31DCF8A1000A2ACD7 /* LMPublicEventRequest.m in Sources */,
 				873795821DCF8A1000A2ACD7 /* LMEventJoinRequest.m in Sources */,
 				8737951E1DCF8A1000A2ACD7 /* Readme.markdown in Sources */,
+				352B6D181DD4492800C9DAB5 /* LMFranchiseeViewController.m in Sources */,
 				8737960D1DCF8A1100A2ACD7 /* HBShareButton.m in Sources */,
 				873795761DCF8A1000A2ACD7 /* LMALLList.m in Sources */,
 				8E948AFC1DD16E35002805DD /* LMToolTipView.m in Sources */,
+				35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */,
 				873795161DCF8A1000A2ACD7 /* MJRefreshBaseView.m in Sources */,
 				873795A61DCF8A1000A2ACD7 /* LMBalanceRequest.m in Sources */,
 				873795401DCF8A1000A2ACD7 /* LMFindViewController.m in Sources */,
@@ -2942,6 +3043,7 @@
 				873795BA1DCF8A1000A2ACD7 /* LMEventCommentVO.m in Sources */,
 				873795F81DCF8A1000A2ACD7 /* LMBlanceHeadCell.m in Sources */,
 				873795BE1DCF8A1000A2ACD7 /* LMBanlanceVO.m in Sources */,
+				35864A891DD55A800061E9C0 /* LMFranchiseeResultAliRequest.m in Sources */,
 				873795A81DCF8A1000A2ACD7 /* LMOrderpayRequest.m in Sources */,
 				873795B91DCF8A1000A2ACD7 /* LMEventBodyVO.m in Sources */,
 				873795AB1DCF8A1000A2ACD7 /* LMWXPayRequest.m in Sources */,
@@ -2988,13 +3090,14 @@
 				873795611DCF8A1000A2ACD7 /* README.md in Sources */,
 				873795CD1DCF8A1000A2ACD7 /* FirPersonVO.m in Sources */,
 				873795A21DCF8A1000A2ACD7 /* LMAliPayRequest.m in Sources */,
+				351AF48B1DD338E4001F7836 /* LMEventStartRequest.m in Sources */,
+				35864A901DD566C10061E9C0 /* LM2DcodeRequest.m in Sources */,
 				873795771DCF8A1000A2ACD7 /* LMCouponBody.m in Sources */,
 				873795BD1DCF8A1000A2ACD7 /* LMBalanceVO.m in Sources */,
 				873796091DCF8A1000A2ACD7 /* FitPickerView.m in Sources */,
 				8737953C1DCF8A1000A2ACD7 /* FitNavigationController.m in Sources */,
 				8737953A1DCF8A1000A2ACD7 /* LMSearchAddressController.m in Sources */,
 				8737960E1DCF8A1100A2ACD7 /* HBShareView.m in Sources */,
-				873795971DCF8A1000A2ACD7 /* LM2DcodeRequest.m in Sources */,
 				873795471DCF8A1000A2ACD7 /* LMLoginViewController.m in Sources */,
 				873795B51DCF8A1000A2ACD7 /* LMRegisterRequest.m in Sources */,
 				873795A91DCF8A1000A2ACD7 /* LMOrederDeleteRequest.m in Sources */,
@@ -3037,6 +3140,7 @@
 				873796011DCF8A1000A2ACD7 /* LMRechargeCell.m in Sources */,
 				873795A41DCF8A1000A2ACD7 /* LMBalanceListRequest.m in Sources */,
 				8E92944B1DD04CEE00A00829 /* LMMonthDetailBody.m in Sources */,
+				352B6D151DD4473000C9DAB5 /* LMScanViewController.m in Sources */,
 				873795F41DCF8A1000A2ACD7 /* LMCommentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3118,7 +3222,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
+				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3162,7 +3266,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fembed-bitcode";
-				PROVISIONING_PROFILE = "f90e157f-588b-4909-984d-44e585da4d4c";
+				PROVISIONING_PROFILE = "45336c2a-831f-430b-8578-806263c3dd05";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3174,9 +3278,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "living/腰果.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -3254,8 +3358,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果生活";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "a29ce879-1f32-4847-a1a9-a419dfaf6cae";
+				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
 			};
 			name = Debug;
 		};
@@ -3265,9 +3369,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "living/腰果.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -3345,8 +3449,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果生活";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "a29ce879-1f32-4847-a1a9-a419dfaf6cae";
+				PROVISIONING_PROFILE_SPECIFIER = livinghhh;
 			};
 			name = Release;
 		};

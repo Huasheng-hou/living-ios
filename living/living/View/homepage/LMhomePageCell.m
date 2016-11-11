@@ -42,7 +42,7 @@
 {
     _imageV = [UIImageView new];
     _imageV.image = [UIImage imageNamed:@"112"];
-    _imageV.backgroundColor = [UIColor lightGrayColor];
+    _imageV.backgroundColor = BG_GRAY_COLOR;
     
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
     _imageV.clipsToBounds = YES;

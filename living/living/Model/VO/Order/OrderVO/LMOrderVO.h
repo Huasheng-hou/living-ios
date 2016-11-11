@@ -34,6 +34,9 @@
 @property (nonatomic, retain) NSString *orderingTime;
 @property (nonatomic, retain) NSString *eventImg;
 @property (nonatomic, assign) int number;
-
+@property (nonatomic, assign) BOOL hasCoupon;
+@property (nonatomic, retain) NSString *couponMoney;
+@property (nonatomic, retain) NSString *discountMoney;
+@property (nonatomic, assign) int status;
 
 @end

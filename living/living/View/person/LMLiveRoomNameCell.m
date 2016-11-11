@@ -29,7 +29,7 @@
     [self.contentView addSubview:_chooseView];
     
     _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(40, 10, 30, 30)];
-    _headImage.backgroundColor = [UIColor whiteColor];
+    _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.layer.cornerRadius = 5;
     [_headImage.layer setMasksToBounds:YES];
     [self.contentView addSubview:_headImage];

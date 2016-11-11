@@ -89,13 +89,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>cameraDesciption</string>
+	<string>请同意获取</string>
 	<key>NSContactsUsageDescription</key>
-	<string>contactsDesciption</string>
+	<string>请同意获取</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>腰果生活需要在您使用该App期间允许使用定位，否则无法进行定位</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>microphoneDesciption</string>
+	<string>请同意获取</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请同意获取您的多媒体资料</string>
 	<key>UIRequiredDeviceCapabilities</key>

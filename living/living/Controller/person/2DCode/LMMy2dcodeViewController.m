@@ -9,9 +9,14 @@
 #import "LMMy2dcodeViewController.h"
 #import "LM2DcodeRequest.h"
 #import "UIImageView+WebCache.h"
+#import "LMFranchiseeViewController.h"
 
 
 @interface LMMy2dcodeViewController ()
+{
+    UIImageView *imageView;
+    NSString *codeSting;
+}
 
 @end
 
@@ -28,9 +33,21 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor blackColor];
-    
     self.title = @"二维码";
     [self get2DcodeRequest];
+    
+    //如果有缓存信息 则用缓存信息
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *path = [paths objectAtIndex:0];
+    
+    NSString        *filename   = [path stringByAppendingPathComponent:@"img.plist"];
+    NSDictionary    *headerData = [NSDictionary dictionaryWithContentsOfFile:filename];
+    
+    if (headerData && [headerData isKindOfClass:[NSDictionary class]]) {
+        
+        codeSting = [headerData objectForKey:@"code"];
+        [self creatImageView];
+    }
     
     
 }
@@ -56,7 +73,7 @@
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 
 -(void)get2DcodeResponse:(NSString *)resp
@@ -73,20 +90,50 @@
     
     if (result && [result intValue] == 0)
     {
-    
-    
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
-    backView.clipsToBounds = YES;
-    backView.layer.cornerRadius = 5;
-    backView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:backView];
+        codeSting =  bodyDic[@"code"];
+        
+        [self creatImageView];
+        //将数据缓存到本地
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+        NSString *path = [paths objectAtIndex:0];
+        NSString *filename = [path stringByAppendingPathComponent:@"contact.plist"];
+        NSMutableDictionary *userInfo;
+        userInfo=[[NSMutableDictionary alloc]initWithDictionary:bodyDic];
+        [userInfo writeToFile:filename atomically:YES];
+        
+        
+    } else {
+        
+        UILabel *msgLabel = [UILabel new];
+        
+        msgLabel.textColor = [UIColor whiteColor];
+        msgLabel.text = @"你不是轻创客，没有二维码";
+        msgLabel.textAlignment = NSTextAlignmentCenter;
+        [msgLabel sizeToFit];
+        msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
+        [self.view addSubview:msgLabel];
+        
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+        
+    }
+}
+
+-(void)creatImageView
+{
+    UIView *KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
+    KeepImage.clipsToBounds = YES;
+    KeepImage.layer.cornerRadius = 5;
+    KeepImage.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:KeepImage];
     
     UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
     headImage.backgroundColor = [UIColor lightGrayColor];
     [headImage sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage.layer.cornerRadius = 5;
     headImage.clipsToBounds = YES;
-    [backView addSubview:headImage];
+    [KeepImage addSubview:headImage];
     
     
     //nick
@@ -94,12 +141,20 @@
     nicklabel.font = TEXT_FONT_LEVEL_1;
     nicklabel.textColor = TEXT_COLOR_LEVEL_1;
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],};
-    
     NSString *str = _name;
     CGSize textSize = [str boundingRectWithSize:CGSizeMake(600, 30) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
     [nicklabel setFrame:CGRectMake(90, 22.5, textSize.width, 30)];
     nicklabel.text = str;
-    [backView addSubview:nicklabel];
+    [KeepImage addSubview:nicklabel];
+    
+    
+    
+    UIButton *downButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    downButton.frame = CGRectMake(kScreenWidth-85, 10, 40, 40);
+    [downButton setImage:[UIImage imageNamed:@"down"] forState:UIControlStateNormal];
+    [downButton addTarget:self action:@selector(saveImageToAlbum) forControlEvents:UIControlEventTouchUpInside];
+    [KeepImage addSubview:downButton];
+    
     
     
     UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+6+90, 30, 16, 16)];
@@ -110,25 +165,22 @@
             [genderImage setImage:[UIImage imageNamed:@"gender-woman"]];
         }
     }
-    [backView addSubview:genderImage];
+    [KeepImage addSubview:genderImage];
     
     
     UILabel *addressLabel = [UILabel new];
     addressLabel.text = _address;
     addressLabel.textColor = TEXT_COLOR_LEVEL_3;
     addressLabel.font = TEXT_FONT_LEVEL_2;
-    
     [addressLabel sizeToFit];
     addressLabel.frame = CGRectMake(91, 52, addressLabel.bounds.size.width, 20);
-    [backView addSubview: addressLabel];
+    [KeepImage addSubview: addressLabel];
     
     
     
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
-//        imageView.backgroundColor = [UIColor redColor];
-    
-    [imageView sd_setImageWithURL:[NSURL URLWithString:bodyDic[@"code"]]];
-        [backView addSubview:imageView];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:codeSting]];
+    [KeepImage addSubview:imageView];
     
     
     UIImageView *headImage2 = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth-70)/2-25, (kScreenWidth-70)/2-25, 50, 50)];
@@ -137,24 +189,22 @@
     headImage2.layer.cornerRadius = 5;
     headImage2.clipsToBounds = YES;
     [imageView addSubview:headImage2];
-
-    
-    } else {
-        
-        UILabel *msgLabel = [UILabel new];
-
-        msgLabel.textColor = [UIColor whiteColor];
-        msgLabel.text = @"你不是轻创客，没有二维码";
-        msgLabel.textAlignment = NSTextAlignmentCenter;
-        [msgLabel sizeToFit];
-        msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
-        [self.view addSubview:msgLabel];
-    
-        
-        
-        
-    }
 }
+
+
+
+
+#pragma mark  --成为加盟商
+
+-(void)joinAction
+{
+    //    NSLog(@"**********");
+    LMFranchiseeViewController *joinVC = [[LMFranchiseeViewController alloc] init];
+    joinVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:joinVC animated:YES];
+}
+
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -162,14 +212,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)saveImageToAlbum {
+    UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:), nil);
 }
-*/
+
+
+- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    NSString *message;
+    if (!error) {
+        
+        [self textStateHUD:@"成功保存到相册"];
+        
+    }else
+    {
+        [self textStateHUD :[error description]];
+        
+    }
+    NSLog(@"message is %@",message);
+}
+
 
 @end

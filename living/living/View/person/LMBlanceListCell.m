@@ -82,6 +82,9 @@
         _balanceLabel.text = @"";
     }else{
         
+        int tring = [list.amount intValue];
+        NSLog(@"%d",tring);
+        
         if ([list.amount containsString:@"+"]) {
             NSString *addString=list.amount;
             

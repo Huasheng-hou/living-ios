@@ -82,5 +82,10 @@ typedef enum {
 
 - (void)firstPageLoadedProcess;
 
+// *账号被登陆
+-(void)logoutAction:(NSString *)resp;
+
+
+
 @end
 

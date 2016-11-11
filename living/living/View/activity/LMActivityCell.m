@@ -49,7 +49,7 @@
 {
     //活动图片
     _imageV = [UIImageView new];
-    _imageV.backgroundColor = [UIColor lightGrayColor];
+    _imageV.backgroundColor = BG_GRAY_COLOR;
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
     _imageV.clipsToBounds = YES;
     
@@ -99,7 +99,7 @@
     
     //活动人头像
     _headV = [UIImageView new];
-    _headV.backgroundColor = [UIColor lightGrayColor];
+    _headV.backgroundColor = BG_GRAY_COLOR;
     _headV.clipsToBounds = YES;
     _headV.layer.cornerRadius = 10.f;
     [footView addSubview:_headV];
@@ -118,43 +118,62 @@
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     [footView addSubview:_addressLabel];
     
+
     
     
 }
 
-- (void)setActivityList:(ActivityListVO *)ActivityList
+- (void)setActivityList:(ActivityListVO *)ActivityList index:(NSInteger)index
 {
     if (!ActivityList || ![ActivityList isKindOfClass:[ActivityListVO class]]) {
         return;
     }
     
+
+    
+    
     _ActivityList   = ActivityList;
-    
-    if (!_ActivityList.NickName) {
+    if (index==2) {
+        if (!_ActivityList.NickName) {
+            
+            _nameLabel.text = @"匿名商户";
+        } else {
+            
+            _nameLabel.text = _ActivityList.NickName;
+        }
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        _addressLabel.text  = _ActivityList.Address;
         
-        _nameLabel.text = @"匿名商户";
-    } else {
+    }else{
+        if (!_ActivityList.NickName) {
+            
+            _nameLabel.text = @"匿名商户";
+        } else {
+            
+            _nameLabel.text = _ActivityList.NickName;
+        }
         
-        _nameLabel.text = _ActivityList.NickName;
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
+        _addressLabel.text  = _ActivityList.Address;
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        _titleLabel.text = _ActivityList.EventName;
+        
+        NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        
+        if (_ActivityList.StartTime && [_ActivityList.StartTime isKindOfClass:[NSDate class]]) {
+            
+            _timeLabel.text = [formatter stringFromDate:_ActivityList.StartTime];
+        }
+        
+        _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
+        _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+
     }
     
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
-    _addressLabel.text  = _ActivityList.Address;
-    [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-    _titleLabel.text = _ActivityList.EventName;
-    
-    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    
-    if (_ActivityList.StartTime && [_ActivityList.StartTime isKindOfClass:[NSDate class]]) {
-        
-        _timeLabel.text = [formatter stringFromDate:_ActivityList.StartTime];
     }
-    
-    _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
-    _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
-}
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
 {
@@ -173,7 +192,6 @@
     [_priceLabel sizeToFit];
     [_addressLabel sizeToFit];
     [_headV sizeToFit];
-    
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, 170);
     

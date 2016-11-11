@@ -37,6 +37,8 @@
 #import "ImageHelpTool.h"
 
 #import "SYPhotoBrowser.h"
+#import "LMEventEndRequest.h"
+#import "LMEventStartRequest.h"
 
 //地图导航
 #import "LMNavMapViewController.h"
@@ -70,11 +72,23 @@ UIAlertViewDelegate
     NSString *longitude;
     
     NSMutableArray *imageArray;
+    
+    NSString *status;
+    UIBarButtonItem *rightItem;
+    
+    NSString *vipString;
 }
 
 @end
 
 @implementation LMActivityDetailController
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [commentText resignFirstResponder];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -169,7 +183,8 @@ UIAlertViewDelegate
         joinButton.userInteractionEnabled = NO;
     }
     if ([string isEqual:@"3"]) {
-        [joinButton setTitle:@"开始" forState:UIControlStateNormal];
+        [joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+        
         joinButton.userInteractionEnabled = NO;
     }
     if ([string isEqual:@"4"]) {
@@ -178,6 +193,7 @@ UIAlertViewDelegate
     }
     if ([string isEqual:@"5"]) {
         [joinButton setTitle:@"删除" forState:UIControlStateNormal];
+        joinButton.userInteractionEnabled = NO;
     }
     
     [joinButton setTintColor:[UIColor whiteColor]];
@@ -223,6 +239,30 @@ UIAlertViewDelegate
 - (void)getEventListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    NSLog(@"%@",headDic);
+    
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]){
+        if ([headDic[@"sign"] isEqual:@"menber"]) {
+            vipString = @"vipString";
+        }
+        
+    }
+    
+
+    
+    
+    
+    
+    
     [self logoutAction:resp];
     
     NSLog(@"==========================活动详情:bodyDic:%@",bodyDic);
@@ -244,6 +284,8 @@ UIAlertViewDelegate
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
         msgArray = [NSMutableArray new];
+        eventArray = [NSMutableArray new];
+        imageArray = [NSMutableArray new];
         
         for (int i =0; i<array.count; i++) {
             
@@ -252,24 +294,56 @@ UIAlertViewDelegate
             
         }
         
-        NSMutableArray *eveArray = bodyDic[@"event_projects_body"];
-        [eventArray removeAllObjects];
+        NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"event_projects_body"]];
+        
+        
+        for (LMProjectBodyVO *vo in eveArray) {
+            [eventArray addObject:vo];
+        }
         for (int i=0; i<eveArray.count; i++) {
-            LMProjectBodyVO *Projectslist=[[LMProjectBodyVO alloc]initWithDictionary:eveArray[i]];
-            if (![eventArray containsObject:Projectslist]) {
-                [eventArray addObject:Projectslist];
+            LMProjectBodyVO *Projectslist=eveArray[i];
+        
+            if (![Projectslist.projectImgs isEqual:@""]) {
+               [imageArray addObject: Projectslist.projectImgs];
             }
             
-            [imageArray addObject: Projectslist.projectImgs];
+            
         }
         
         eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
+        if (eventDic.status==3||eventDic.status==4) {
+            status = @"结束";
+        }
+        if (eventDic.status==1||eventDic.status==2) {
+            status = @"开始";
+        }
+        
+        
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
-            self.navigationItem.rightBarButtonItem = rightItem;
+            
+            if (eventDic.totalNumber==0) {
+               rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+            }
+            
+            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+
+            }
+            
+            if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
+                
+                
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+            }
+            
+            
+
         }
         
         [self creatHeaderView];
@@ -712,7 +786,6 @@ UIAlertViewDelegate
 {
     NSLog(@"**********回复");
     
-    NSLog(@"%ld",cell.tag);
     
     LMEventCommentVO *list = msgArray[cell.tag];
     
@@ -734,9 +807,11 @@ UIAlertViewDelegate
 - (void)createCommentsView
 {
     if (!commentsView) {
-        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 180.0, kScreenWidth, 180.0)];
-        commentsView.backgroundColor = [UIColor whiteColor];
-        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 20.0)];
+        commentsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, kScreenHeight - 180 - 200.0, kScreenWidth, 200.0)];
+        commentsView.layer.borderColor = LINE_COLOR.CGColor;
+        commentsView.layer.borderWidth= 0.5;
+        commentsView.backgroundColor = BG_GRAY_COLOR;
+        commentText = [[UITextView alloc] initWithFrame:CGRectInset(commentsView.bounds, 5.0, 40.0)];
         commentText.layer.borderWidth   = 0.5;
         commentText.layer.borderColor   = LINE_COLOR.CGColor;
         commentText.layer.cornerRadius  = 5.0;
@@ -748,13 +823,22 @@ UIAlertViewDelegate
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        sureButton.frame = CGRectMake(kScreenWidth-90, 160-60, 72, 24);
+        sureButton.frame = CGRectMake(kScreenWidth-90, 160-70, 72, 24);
         sureButton.layer.cornerRadius = 5;
         [sureButton setTitle:@"确认" forState:UIControlStateNormal];
         sureButton.backgroundColor = BLUE_COLOR;
         sureButton.tintColor = [UIColor whiteColor];
         [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
         [commentText addSubview:sureButton];
+        
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        closeButton.frame = CGRectMake(kScreenWidth-38, 9, 22, 22);
+        closeButton.layer.cornerRadius = 5;
+        [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+        closeButton.tintColor = BLUE_COLOR;
+        [closeButton addTarget:self action:@selector(closeComment) forControlEvents:UIControlEventTouchUpInside];
+        [commentsView addSubview:closeButton];
+        
         [commentsView addSubview:commentText];
     }
     [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
@@ -808,7 +892,7 @@ UIAlertViewDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"回复成功"];
         [self getEventListDataRequest];
-        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+//        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -842,7 +926,9 @@ UIAlertViewDelegate
     
     
     
-    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]) {
+    
+    
+    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
         
         
         infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
@@ -966,9 +1052,16 @@ UIAlertViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        [textView  resignFirstResponder];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+        if ([textView isEqual:suggestTF]) {
+            [suggestTF resignFirstResponder];
+            [self besureAction:@""];
+        }
+        if ([textView isEqual:commentText]) {
+            [commentText resignFirstResponder];
+            self.tableView.userInteractionEnabled = YES;
+            [self sendComment];
+        }
+
     }
     
     return YES;
@@ -1326,10 +1419,131 @@ UIAlertViewDelegate
 
 -(void)cellProjectImage:(LMEventMsgCell *)cell
 {
-    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
     
-    photoBrowser.initialPageIndex = cell.tag;
+
+    
+    NSMutableArray *array = [NSMutableArray new];
+    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+    for (int i = 0; i<cell.tag+1; i++) {
+        LMProjectBodyVO *vo = eventArray[i];
+        if ([vo.projectImgs isEqual:@""]) {
+            [array addObject:vo.projectImgs];
+        }
+        
+    }
+    NSLog(@"%lu",(unsigned long)array.count);
+    
+    photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
+
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+    return YES;
+}
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+
+-(void)closeComment
+{
+    [commentText resignFirstResponder];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+#pragma mark  --开始活动
+-(void)startActivity
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getstartEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"开始活动失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getstartEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"活动开启失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"活动开启成功"];
+            
+            [self getEventListDataRequest];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
+
+#pragma mark   --结束活动
+
+-(void)endActivity
+{
+    
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:_eventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getendEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"活动结束失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getendEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"活动结束失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"活动结束成功"];
+            
+            [self getEventListDataRequest];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
 
 @end

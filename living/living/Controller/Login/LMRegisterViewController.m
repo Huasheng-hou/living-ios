@@ -122,7 +122,7 @@ UIViewControllerTransitioningDelegate
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setDelegate:self];
-    [pickImage setAllowsEditing:YES];
+//    [pickImage setAllowsEditing:YES];
     
     
 }

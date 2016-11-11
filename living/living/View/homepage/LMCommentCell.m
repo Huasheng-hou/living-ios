@@ -46,7 +46,7 @@
 -(void)addSubviews
 {
     _imageV = [UIImageView new];
-    
+    _imageV.backgroundColor = BG_GRAY_COLOR;
     [_imageV sizeToFit];
     _imageV.frame = CGRectMake(15, 15, 30, 30);
      _imageV.layer.cornerRadius =15;

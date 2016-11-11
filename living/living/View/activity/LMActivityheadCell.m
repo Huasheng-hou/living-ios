@@ -74,7 +74,7 @@
     _headV.layer.cornerRadius = 5.f;
     _headV.contentMode = UIViewContentModeScaleAspectFill;
     _headV.clipsToBounds = YES;
-    _headV.backgroundColor = [UIColor grayColor];
+    _headV.backgroundColor = BG_GRAY_COLOR;
     [self.contentView addSubview:_headV];
     
     //活动人名
@@ -116,6 +116,33 @@
 //    _titleLabel.text = event.eventName;
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
     _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+    
+    
+    switch (event.status) {
+        case 1:
+            [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+            break;
+        case 2:
+            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
+            _joinButton.userInteractionEnabled = NO;
+            break;
+        case 3:
+            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+            _joinButton.userInteractionEnabled = NO;
+            break;
+        case 4:
+            [_joinButton setTitle:@"已完结" forState:UIControlStateNormal];
+            _joinButton.userInteractionEnabled = NO;
+            break;
+        case 5:
+            [_joinButton setTitle:@"删除" forState:UIControlStateNormal];
+            _joinButton.userInteractionEnabled = NO;
+            break;
+            
+        default:
+            break;
+    }
+    
     
 }
 

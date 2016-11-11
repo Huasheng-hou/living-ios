@@ -14,6 +14,9 @@
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 @property (nonatomic, retain)   ActivityListVO  *ActivityList;
+@property (nonatomic)   NSInteger  index;
+
+-(void)setActivityList:(ActivityListVO *)vo index:(NSInteger)index;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
