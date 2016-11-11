@@ -61,6 +61,7 @@
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
     [self.view addSubview:self.tableView];
+
 }
 
 - (void)textStateHUD:(NSString *)text
