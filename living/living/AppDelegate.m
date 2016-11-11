@@ -68,7 +68,7 @@ UNUserNotificationCenterDelegate
     [self.window makeKeyAndVisible];
     
     //向微信注册
-    [WXApi registerApp:@"wxe6c31febbd05d58d"];
+    [WXApi registerApp:wxAppID];
     
 //    1104875913
    _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
