@@ -196,7 +196,7 @@ static const int kLoadingCellTag = 2571;
 - (void)loadNewer
 {
     if (_reloadMask) {
-//        [_reloadMask removeFromSuperview];
+        [_reloadMask removeFromSuperview];
         _reloadMask = nil;
     }
     

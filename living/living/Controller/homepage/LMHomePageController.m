@@ -99,9 +99,7 @@ LMhomePageCellDelegate
 
 - (void)publicAction
 {
-
     [LMPublicArticleController presentInViewController:self Animated:YES];
-    
 }
 
 - (void)getBannerDataRequest
