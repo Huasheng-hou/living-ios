@@ -43,6 +43,7 @@
 		35864A8C1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8B1DD55B480061E9C0 /* LMFranchiseeResultWchatRequest.m */; };
 		35864A901DD566C10061E9C0 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */; };
 		35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A931DD566F80061E9C0 /* LMFriendListRequest.m */; };
+		35864A971DD569320061E9C0 /* LMFriendDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A961DD569320061E9C0 /* LMFriendDataRequest.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -404,6 +405,8 @@
 		35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DcodeRequest.m; sourceTree = "<group>"; };
 		35864A921DD566F80061E9C0 /* LMFriendListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendListRequest.h; sourceTree = "<group>"; };
 		35864A931DD566F80061E9C0 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
+		35864A951DD569320061E9C0 /* LMFriendDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendDataRequest.h; sourceTree = "<group>"; };
+		35864A961DD569320061E9C0 /* LMFriendDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendDataRequest.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1269,6 +1272,8 @@
 			children = (
 				35864A921DD566F80061E9C0 /* LMFriendListRequest.h */,
 				35864A931DD566F80061E9C0 /* LMFriendListRequest.m */,
+				35864A951DD569320061E9C0 /* LMFriendDataRequest.h */,
+				35864A961DD569320061E9C0 /* LMFriendDataRequest.m */,
 			);
 			path = friend;
 			sourceTree = "<group>";
@@ -2917,6 +2922,7 @@
 				873795081DCF8A1000A2ACD7 /* Order.m in Sources */,
 				873795701DCF8A1000A2ACD7 /* UIButton+Badge.m in Sources */,
 				873795BB1DCF8A1000A2ACD7 /* LMProjectBodyVO.m in Sources */,
+				35864A971DD569320061E9C0 /* LMFriendDataRequest.m in Sources */,
 				8E92944C1DD04CEE00A00829 /* LMMonthDetailList.m in Sources */,
 				873795C11DCF8A1000A2ACD7 /* HeadVO.m in Sources */,
 				8737956B1DCF8A1000A2ACD7 /* SYPhotoBrowser.m in Sources */,
