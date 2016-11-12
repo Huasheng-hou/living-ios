@@ -311,7 +311,8 @@ liveNameProtocol
         if (!headcell) {
             
             headcell = [[LMRePayCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
-            headcell.payNum.delegate    = self;
+            headcell.payNum.delegate            = self;
+            headcell.payNum.clearButtonMode     = UITextFieldViewModeAlways;
         }
         
         return headcell;

@@ -87,7 +87,7 @@
         
         if (nil != [dictionary objectForKey:@"balance"] && ![[dictionary objectForKey:@"balance"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"balance"] isKindOfClass:[NSNumber class]]) {
-            self.balance =[(NSNumber *) [dictionary objectForKey:@"balance"] intValue];
+            self.balance =[(NSNumber *) [dictionary objectForKey:@"balance"] floatValue];
         }
         
         if (nil != [dictionary objectForKey:@"total_event_num"] && ![[dictionary objectForKey:@"total_event_num"] isEqual:[NSNull null]]

@@ -263,7 +263,7 @@
             
             //余额
             UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 60, 80, 20)];
-            question.text = [NSString stringWithFormat:@"余额 ￥%d",infoModel.balance];
+            question.text = [NSString stringWithFormat:@"余额 ￥%.2f", infoModel.balance];
             question.font = TEXT_FONT_LEVEL_2;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [question sizeToFit];
@@ -274,7 +274,7 @@
             
             //订单
             UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
-            reward.text = [NSString stringWithFormat:@"订单 %d",infoModel.orderNumber];
+            reward.text = [NSString stringWithFormat:@"订单 %d", infoModel.orderNumber];
             reward.font = TEXT_FONT_LEVEL_2;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [reward sizeToFit];
@@ -283,7 +283,7 @@
             
             //生活馆
             UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
-            living.text = [NSString stringWithFormat:@"生活馆 %d",infoModel.livingNumber];
+            living.text = [NSString stringWithFormat:@"生活馆 %d", infoModel.livingNumber];
             living.font = TEXT_FONT_LEVEL_2;
             living.textColor = TEXT_COLOR_LEVEL_3;
             [living sizeToFit];

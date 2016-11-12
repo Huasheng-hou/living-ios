@@ -12,9 +12,9 @@
 
 + (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    // * 不能仅仅输入0或者"."作为金额的开头
+    // * 不能仅仅输入"."作为金额的开头
     
-    if (range.location == 0 && ([string isEqualToString:@"0"] || [string isEqualToString:@"."])) {
+    if (range.location == 0 && [string isEqualToString:@"."]) {
         
         return NO;
     }

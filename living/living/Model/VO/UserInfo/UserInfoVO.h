@@ -28,7 +28,7 @@
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *eventNum;
-@property (nonatomic, assign) int balance;
+@property (nonatomic, assign) float balance;
 @property (nonatomic, strong) NSString *birthday;
 @property (nonatomic, assign) int orderNumber;
 @property (nonatomic, strong) NSString *totalEventNum;
