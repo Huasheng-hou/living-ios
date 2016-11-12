@@ -976,7 +976,7 @@ static NSMutableArray *cellDataArray;
 -(void)getEventPublicProjectDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    NSLog(@"**********%@",bodyDic);
+    
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
     }else{

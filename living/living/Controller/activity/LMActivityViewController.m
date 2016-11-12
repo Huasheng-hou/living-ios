@@ -44,6 +44,11 @@
         self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loadNoState)
+                                                     name:@"reloadEvent"
+                                                   object:nil];
     }
     
     return self;

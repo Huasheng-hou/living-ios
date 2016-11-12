@@ -426,6 +426,8 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
+    self.navigationItem.rightBarButtonItem.enabled  = NO;
+    
     if (imageArray.count>0) {
         [self performSelectorOnMainThread:@selector(getImageURL) withObject:nil waitUntilDone:YES];
     }else{
@@ -623,10 +625,8 @@ UIViewControllerTransitioningDelegate
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
+                                                   
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   [self logoutAction:resp];
-                                                   
                                                    
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
                                                    
@@ -639,7 +639,6 @@ UIViewControllerTransitioningDelegate
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            imageUrlArray[i] =imgUrl;
                                                            
-                                                           NSLog(@"--------_imgURL--------%@",imgUrl);
                                                            if (![imageUrlArray containsObject:@""]) {
                                                                [self performSelectorOnMainThread:@selector(hideStateHud) withObject:nil waitUntilDone:YES];
                                                                //发布问题
@@ -651,33 +650,31 @@ UIViewControllerTransitioningDelegate
                                                    }
                                                    
                                                } failed:^(NSError *error) {
+                                                  
                                                    [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                           withObject:nil
                                                                        waitUntilDone:YES];
-                                                   
-                                                   //                                                   [imageUrlArray addObject:@"fail"];
                                                }];
-        
-        
         [proxy start];
     }
 }
 
 #pragma mark 发布问题
 
--(void)publishAction
+- (void)publishAction
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
     
     [self initStateHud];
     
-    NSLog(@"----------发布问题-----图片地址数组---------%@",imageUrlArray);
-    
-    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text Article_title:titleTF.text Descrition:discribleTF.text andImageURL:imageUrlArray];
+    LMPublicArticleRequest *request     = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text
+                                                                                   Article_title:titleTF.text
+                                                                                      Descrition:discribleTF.text
+                                                                                     andImageURL:imageUrlArray];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -686,6 +683,7 @@ UIViewControllerTransitioningDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+                                               
                                                [self textStateHUD:@"发布失败"];
                                            }];
     [proxy start];
@@ -721,20 +719,18 @@ UIViewControllerTransitioningDelegate
     }
 }
 
-
--(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     [self resignCurrentFirstResponder];
     return YES;
 }
 
--(void)closeAction
+- (void)closeAction
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
 }
@@ -744,28 +740,22 @@ UIViewControllerTransitioningDelegate
 - (void)textViewDidChange:(UITextView *)textV{
     
     if ([textV isEqual:textView]) {
+        
         if (textView.text.length==0) {
+        
             tip.hidden=NO;
         }else{
             tip.hidden=YES;
         }
         
         CGRect textFrame=[[textView layoutManager]usedRectForTextContainer:[textView textContainer]];
-        CGFloat height = textFrame.size.height;
-        NSLog(@"****************textview 高度****%.f",height);
-        
-        
+//        CGFloat height = textFrame.size.height;
     }
 }
 
-
--(void)hiddenKeyboard
+- (void)hiddenKeyboard
 {
-    NSLog(@"**hiddenKeyboard****");
-    
     [self.view endEditing:YES];
 }
-
-
 
 @end

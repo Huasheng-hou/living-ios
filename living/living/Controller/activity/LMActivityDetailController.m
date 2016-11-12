@@ -1192,18 +1192,15 @@ UIAlertViewDelegate
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
-        NSLog(@"==================删除活动bodyDic：%@",bodyDic);
-        
         [self textStateHUD:@"删除成功"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
             [self.navigationController popViewControllerAnimated:YES];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEventlist" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent" object:nil];
         });
         
+    } else {
         
-        
-    }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
