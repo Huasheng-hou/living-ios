@@ -893,10 +893,9 @@ UIAlertViewDelegate
 
 
 #pragma mark - LMActivityheadCell delegate -活动报名
+
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    
-    
     APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     
     infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
@@ -911,11 +910,6 @@ UIAlertViewDelegate
     infoView.title2.font = [UIFont systemFontOfSize:15];
     
     [infoView.bottomView addSubview:infoView.title2];
-    
-    
-    
-    
-    
     
     if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
         
@@ -952,23 +946,22 @@ UIAlertViewDelegate
     [self.view addSubview:infoView];
     
     UIView *view = [infoView viewWithTag:1000];
+  
     [UIView animateWithDuration:0.2 animations:^{
+    
         view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
     }];
-    
-    
-    
-    
 }
 
--(void)joindataRequest:(NSNotification *)notice
+- (void)joindataRequest:(NSNotification *)notice
 {
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络"];
         return;
     }
+    
+    [self initStateHud];
     
     NSMutableDictionary *orderNum=notice.object;
     
@@ -985,16 +978,13 @@ UIAlertViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"报名参加活动失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
 
-
--(void)getEventjoinDataResponse:(NSString *)resp
+- (void)getEventjoinDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -1006,7 +996,7 @@ UIAlertViewDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
-        [self textStateHUD:@"报名活动成功"];
+        [self textStateHUD:@"报名成功"];
         NSString *orderID = [bodyDic objectForKey:@"order_uuid"];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -1033,9 +1023,11 @@ UIAlertViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView{
     
-    if (textView.text.length==0) {
+    if (textView.text.length == 0) {
+        
         tipLabel.hidden=NO;
-    }else{
+    } else {
+        
         tipLabel.hidden=YES;
     }
 }
@@ -1060,8 +1052,7 @@ UIAlertViewDelegate
     return YES;
 }
 
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
         
@@ -1079,24 +1070,22 @@ UIAlertViewDelegate
         [UIApplication sharedApplication].statusBarHidden = NO;
         headerView.hidden=YES;
     }
-    
-    
-    
 }
 
 #pragma mark  --活动留言或评论
 
--(void)besureAction:(id)sender
+- (void)besureAction:(id)sender
 {
     [self initStateHud];
     
     [self.view endEditing:YES];
     
     if (suggestTF.text.length<=0) {
+    
         [self textStateHUD:@"请输入内容"];
         return;
     }
-    NSLog(@"*******************确认");
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -1115,16 +1104,13 @@ UIAlertViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"评论或建议失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
-    
 }
 
--(void)getEventLivingmsgDataResponse:(NSString *)resp
+- (void)getEventLivingmsgDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -1184,9 +1170,9 @@ UIAlertViewDelegate
     return NO;
 }
 
-
 #pragma mark 删除活动  LMActivityDeleteRequest
--(void)deleteActivity
+
+- (void)deleteActivity
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:@"是否删除"
@@ -1201,17 +1187,12 @@ UIAlertViewDelegate
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
-    
-    
-    
 }
 
-
--(void)deleteActivityRequest
+- (void)deleteActivityRequest
 {
     LMActivityDeleteRequest *request = [[LMActivityDeleteRequest alloc] initWithEvent_uuid:_eventUuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1228,7 +1209,7 @@ UIAlertViewDelegate
     
 }
 
--(void)deleteActivityResponse:(NSString *)resp
+- (void)deleteActivityResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -1252,82 +1233,66 @@ UIAlertViewDelegate
     }
 }
 
-
-
-
 #pragma mark --删除评论
--(void)deletCellAction:(UILongPressGestureRecognizer *)tap
+
+- (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
     NSInteger index = tap.view.tag;
     
-    
     LMEventCommentVO *list= msgArray[index];
     if (![list.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
+        
         return;
         
-    }else{
+    } else {
     
-    
-    if (tap.state == UIGestureRecognizerStateEnded) {
-        NSLog(@"***********3333******");
-        NSLog(@"************%@",list.type);
-        
-        if ([list.type isEqual:@"comment"]){
+        if (tap.state == UIGestureRecognizerStateEnded) {
             
-            NSLog(@"%@",list.commentUuid);
+            if ([list.type isEqual:@"comment"]){
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
+                                                                               message:nil
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                          style:UIAlertActionStyleCancel
+                                                        handler:nil]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction*action) {
+                                                            
+                                                            [self deleteCommentdata:list.commentUuid];
+                                                        }]];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            if ([list.type isEqual:@"reply"]) {
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的回复"
+                                                                               message:nil
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                          style:UIAlertActionStyleCancel
+                                                        handler:nil]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction*action) {
+                                                            
+                                                            [self deleteArticleReply:list.replyUuid];
+                                                        }]];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+            }
             
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
-                                                                           message:nil
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                      style:UIAlertActionStyleCancel
-                                                    handler:nil]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                      style:UIAlertActionStyleDestructive
-                                                    handler:^(UIAlertAction*action) {
-                                                        NSLog(@"*****删除");
-                                                        
-                                                        [self deleteCommentdata:list.commentUuid];
-                                                        
-                                                        
-                                                    }]];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-        if ([list.type isEqual:@"reply"]) {
-            
-            NSLog(@"%@",list.replyUuid);
-            
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的回复"
-                                                                           message:nil
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                      style:UIAlertActionStyleCancel
-                                                    handler:nil]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                      style:UIAlertActionStyleDestructive
-                                                    handler:^(UIAlertAction*action) {
-                                                        NSLog(@"*****删除");
-                                                        
-                                                        [self deleteArticleReply:list.replyUuid];
-                                                        
-                                                        
-                                                    }]];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            
+        } else {
             
         }
-        
-    }else{
-        NSLog(@"**********222222*******");
-    }
     }
 }
 
 - (void)deleteCommentdata:(NSString *)uuid
 {
     LMEventCommentRequest *request = [[LMEventCommentRequest alloc] initWithCommentUUid:uuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1343,7 +1308,7 @@ UIAlertViewDelegate
     [proxy start];
 }
 
--(void)getdeleteArticlecommentResponse:(NSString *)resp
+- (void)getdeleteArticlecommentResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -1491,14 +1456,10 @@ UIAlertViewDelegate
     }
 }
 
-
-
 #pragma mark   --结束活动
 
--(void)endActivity
+- (void)endActivity
 {
-    
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -1520,7 +1481,7 @@ UIAlertViewDelegate
     [proxy start];
 }
 
--(void)getendEventResponse:(NSString *)resp
+- (void)getendEventResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -1536,7 +1497,5 @@ UIAlertViewDelegate
         }
     }
 }
-
-
 
 @end

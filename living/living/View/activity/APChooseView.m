@@ -15,10 +15,6 @@
 {
     NSInteger totalNumber;
     NSInteger totalNum;
-
-    MBProgressHUD *stateHud;
-    
-    NSString *stock;
     
     UILabel *sizeLabel;
     UILabel *colorLabel;
@@ -27,14 +23,13 @@
     
     NSInteger _sizeIndex;
     NSInteger _colorIndex;
-    
 }
-- (id)initWithFrame:(CGRect)frame {
+
+- (id)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         
-
-    
         [self setBackgroundColor:[UIColor colorWithRed:38/255.0f green:38/255.0f blue:38/255.0f alpha:0.6f]];
         //control 点击屏幕上方 View消失
         self.control = [[UIControl alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-280)];
@@ -69,7 +64,6 @@
         [headView addSubview:self.productImage];
 
         
-        
         //活动人数
         _inventory = [[UILabel alloc]initWithFrame:CGRectMake(145, 55, 150, 20)];
         _inventory.text = @"活动人数 ";
@@ -86,19 +80,16 @@
         sizeLabel = [UILabel new];
         sizeLabel.text = @"报名须知";
         sizeLabel.textColor = TEXT_COLOR_LEVEL_1;
-//        sizeLabel.textAlignment = NSTextAlignmentCenter;
         sizeLabel.font = [UIFont systemFontOfSize:15];
         [sizeLabel sizeToFit];
         sizeLabel.frame = CGRectMake(10, 150, sizeLabel.bounds.size.width, 20);
         [self.bottomView addSubview:sizeLabel];
         
-        //
         _dspLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 180, kScreenWidth-30,60)];
         _dspLabel.numberOfLines = 0;
         _dspLabel.text = @"报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知报名须知";
         _dspLabel.textColor = [UIColor lightGrayColor];
         
-//        colorLabel.textAlignment = NSTextAlignmentCenter;
         _dspLabel.font = [UIFont systemFontOfSize:15];
         [self.bottomView addSubview:_dspLabel];
         
@@ -137,8 +128,6 @@
         _numLabel.backgroundColor = LIVING_COLOR;
         _numLabel.textColor = [UIColor whiteColor];
         
-
-
         _numLabel.textAlignment = NSTextAlignmentCenter;
         _numLabel.adjustsFontSizeToFitWidth = YES;
         
@@ -160,21 +149,10 @@
 
 #pragma mark 加入购物车按钮执行方法
 
-- (void)exitButtonClick {
-
+- (void)exitButtonClick
+{
     totalNumber = [[_orderInfo objectForKey:@"total_number"] intValue];
     totalNum = [[_orderInfo objectForKey:@"total_num"] intValue];
-    //订购数量
-    NSInteger num=[_numLabel.text integerValue];
-    //库存
-    NSInteger stockNum=totalNum-totalNumber;
-    
-    
-    if (num>stockNum) {
-        [self textStateHUD:@"剩余活动人数不足"];
-        return;
-    }
-    
     
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithObjectsAndKeys:_numLabel.text,@"num", nil] ;
     //
@@ -183,7 +161,7 @@
     
     UIView *view = [self viewWithTag:1000];
     __weak APChooseView *weakSelf = self;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         
         view.frame = CGRectMake(0, self.bounds.size.height,self.bounds.size.width, 280);
         [weakSelf setAlpha:0.0f];
@@ -191,15 +169,14 @@
         
         [weakSelf removeFromSuperview];
     }];
-    
 }
 
 #pragma mark 关闭按钮
 
-- (void)controlClick {
-    
+- (void)controlClick
+{
     __weak APChooseView *weakSelf = self;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.bottomView.frame = CGRectMake(0, self.bounds.size.height+280, self.bounds.size.width, 280);
         [weakSelf setAlpha:0.0f];
     } completion:^(BOOL finished) {
@@ -207,24 +184,24 @@
     }];
 }
 
-
-
-
-- (void)addButtonClick:(CustomButton *)sender {
-    
+- (void)addButtonClick:(CustomButton *)sender
+{
     count+=1;
     _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];
+ 
     if (_reduceButotn.isRed == NO) {
         
         [_reduceButotn setBackgroundImage:[UIImage imageNamed:@"button_product_numbersub"] forState:UIControlStateNormal];
         _reduceButotn.isRed = YES;
-        
     }
 }
 
-- (void)reduceButotnClick {
-    count-=1;
+- (void)reduceButotnClick
+{
+    count   -= 1;
+
     if (count <=1) {
+        
         [_reduceButotn setBackgroundImage:[UIImage imageNamed:@"button_product_numbersub_enable"] forState:UIControlStateNormal];
         count = 1;
         _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];
@@ -232,28 +209,6 @@
         return;
     }
     _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];
-    
 }
-
-
-- (void)textStateHUD:(NSString *)text
-{
-    if (!text || ![text isKindOfClass:[NSString class]]) {
-        return;
-    }
-    
-    if (!stateHud) {
-        stateHud = [[MBProgressHUD alloc] initWithView:self];
-        [self addSubview:stateHud];
-    }
-    stateHud.mode = MBProgressHUDModeText;
-    stateHud.opacity = 0.4;
-    stateHud.labelText = text;
-    stateHud.labelFont = [UIFont systemFontOfSize:12.0f];
-    [stateHud show:YES];
-    [stateHud hide:YES afterDelay:0.8];
-}
-
-
 
 @end
