@@ -20,7 +20,6 @@
 
 @implementation LMBlanceListCell
 
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self    = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -31,8 +30,7 @@
     return self;
 }
 
-
--(void)addSubviews
+- (void)addSubviews
 {
     _titleLabel = [UILabel new];
     _titleLabel.text = @"这是什么什么活动名称呢？";
@@ -103,8 +101,6 @@
         
     }
 }
-
-
 
 -(void)layoutSubviews
 {

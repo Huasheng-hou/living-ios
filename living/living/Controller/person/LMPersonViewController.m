@@ -133,20 +133,18 @@
 
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
 
     return 20;
 }
 
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 1;
@@ -164,10 +162,12 @@
     return 0;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
+  
         if (indexPath.row==0) {
+        
             return 100;
         }
         return 45;
@@ -175,13 +175,12 @@
     return 45;
 }
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 4;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
@@ -293,12 +292,7 @@
             UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 63, 7, 14)];
             right.image = [UIImage imageNamed:@"turnright"];
             [cell.contentView addSubview:right];
-            
-            
-            
         }
-
-
     }
     if (indexPath.section==1) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -399,7 +393,7 @@
             UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
             LMOrderViewController *orderVC = [[LMOrderViewController alloc] init];
             [orderVC setHidesBottomBarWhenPushed:YES];
-            orderVC.useBalance = [NSString stringWithFormat:@"%d",infoModel.balance];
+            orderVC.useBalance = [NSString stringWithFormat:@"%.2f", infoModel.balance];
             [self.navigationController pushViewController:orderVC animated:YES];
         }
         //生活馆

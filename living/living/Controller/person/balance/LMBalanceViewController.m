@@ -29,7 +29,6 @@ UITableViewDataSource
     NSString *balanceStr;
     NSMutableArray *listArray;
     NSMutableArray *monthArray;
-//    NSMutableArray *voArray;
     
     LMBalanceBody *bodyData;
     
@@ -39,63 +38,56 @@ UITableViewDataSource
 @end
 
 @implementation LMBalanceViewController
+
 - (id)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         
         self.ifRemoveLoadNoState        = NO;
-        self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
+    
+        self.title = @"余额明细";
+        
+        // * 当充值行为发生时，刷新界面
+        //
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loadNoState)
+                                                     name:@"rechargeMoney"
+                                                   object:nil];
     }
     
     return self;
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self loadNoState];
-    
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"余额明细";
-    sectionArray=[NSMutableArray arrayWithCapacity:0];
-    [self getData];
- 
-    [self creatUI];
-    listArray = [NSMutableArray new];
-
-
-
-    
-    //请求获取余额
-    [[NSNotificationCenter defaultCenter] addObserver:self
-     
-                                             selector:@selector(loadNoState)
-     
-                                                 name:@"rechargeMoney"
-     
-                                               object:nil];
-}
-
--(void)getData
+- (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
+    sectionArray=[NSMutableArray arrayWithCapacity:0];
+    listArray = [NSMutableArray new];
+    
+    [self creatUI];
     [self getBlanceData];
     [self loadNewer];
 }
 
--(void)creatUI
+- (void)creatUI
 {
     [super createUI];
+    
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.separatorInset               = UIEdgeInsetsMake(0, 15, 0, 0);
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.section==0) {
@@ -104,7 +96,8 @@ UITableViewDataSource
     
     return 80;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         return 0.01;
@@ -112,27 +105,29 @@ UITableViewDataSource
     return 30;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01;
 }
 
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section!=0) {
  
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-    
-         UILabel *headLb = [UILabel new];
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+        
+            
+        headView.backgroundColor    = BG_GRAY_COLOR;
+        UILabel *headLb = [UILabel new];
         
         NSString *str=monthArray[section-1];
         
         NSInteger lengthString=[str length];
         
-        if (section==1) {
+        if (section == 1) {
+            
             headLb.text = @"本月";
-        }else{
+        } else {
 
             if (lengthString>5) {
             
@@ -141,17 +136,16 @@ UITableViewDataSource
                 headLb.text=[NSString stringWithFormat:@"%@月",needStr];
             }
         }
-    
         
-    headLb.font = TEXT_FONT_LEVEL_2;
-    headLb.textColor = TEXT_COLOR_LEVEL_2;
-    [headLb sizeToFit];
-    headLb.frame = CGRectMake(15, 0, headLb.bounds.size.width, 30);
-    [headView addSubview:headLb];
-    
-    
-    UILabel *detal = [UILabel new];
+        headLb.font = TEXT_FONT_LEVEL_2;
+        headLb.textColor = TEXT_COLOR_LEVEL_2;
+        [headLb sizeToFit];
+        headLb.frame = CGRectMake(15, 0, headLb.bounds.size.width, 30);
+        [headView addSubview:headLb];
         
+        
+        UILabel *detal = [UILabel new];
+            
         if (section==1) {
             detal.text = @"本月明细";
         }else{
@@ -163,32 +157,31 @@ UITableViewDataSource
                 detal.text=[NSString stringWithFormat:@"%@月明细",needStr];
             }
         }
+            
+            
+        detal.font = TEXT_FONT_LEVEL_2;
+        detal.textColor = TEXT_COLOR_LEVEL_2;
+        [detal sizeToFit];
+        detal.frame = CGRectMake(kScreenWidth-27-detal.bounds.size.width, 0, detal.bounds.size.width, 30);
+        [headView addSubview:detal];
         
+        UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 8, 7, 14)];
+        right.image = [UIImage imageNamed:@"turnright"];
+        [headView addSubview:right];
         
-    detal.font = TEXT_FONT_LEVEL_2;
-    detal.textColor = TEXT_COLOR_LEVEL_2;
-    [detal sizeToFit];
-    detal.frame = CGRectMake(kScreenWidth-27-detal.bounds.size.width, 0, detal.bounds.size.width, 30);
-    [headView addSubview:detal];
-    
-    UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 8, 7, 14)];
-    right.image = [UIImage imageNamed:@"turnright"];
-    [headView addSubview:right];
-    
-
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sectionclickAction:)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sectionclickAction:)];
+        
         [headView addGestureRecognizer:tap];
         tap.view.tag = section;
-    return headView;
-    }
-    return nil;
         
+        return headView;
+    }
+    
+    return nil;
 }
 
--(void)sectionclickAction:(UITapGestureRecognizer *)tap
+- (void)sectionclickAction:(UITapGestureRecognizer *)tap
 {
-    
-    
     NSInteger row=tap.view.tag-1;
    
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
@@ -198,13 +191,12 @@ UITableViewDataSource
     [self.navigationController pushViewController:DetailVC animated:YES];
 }
 
-
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return monthArray.count+1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 2;
@@ -270,11 +262,9 @@ UITableViewDataSource
     }
     
     return nil;
-
 }
 
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.section==0) {
@@ -294,7 +284,7 @@ UITableViewDataSource
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
     
@@ -312,14 +302,11 @@ UITableViewDataSource
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
-    
 }
--(void)getBlanceDataResponse:(NSString *)resp
+
+- (void)getBlanceDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-//    NSLog(@"==========余额====bodyDic===========%@",bodyDic);
     
     if (!bodyDic) {
         [self textStateHUD:@"获取余额失败"];
@@ -337,6 +324,7 @@ UITableViewDataSource
 }
 
 #pragma mark --余额明细列表
+
 - (FitBaseRequest *)request
 {
     LMBalanceListRequest   *request    = [[LMBalanceListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
@@ -344,12 +332,9 @@ UITableViewDataSource
     return request;
 }
 
-
 - (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    [self logoutAction:resp];
-    
     NSString        *result     = [bodyDict objectForKey:@"result"];
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
@@ -386,10 +371,5 @@ UITableViewDataSource
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
     }
 }
-
-
-
-
-
 
 @end

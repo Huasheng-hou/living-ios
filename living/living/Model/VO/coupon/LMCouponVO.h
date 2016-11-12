@@ -22,11 +22,12 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-@property (nonatomic, assign) NSString *amount;
-@property (nonatomic, strong) NSString *userUuid;
-@property (nonatomic, strong) NSString *livingUuid;
-@property (nonatomic, strong) NSString *livingName;
-@property (nonatomic, strong) NSString *eventName;
-@property (nonatomic, strong) NSString *couponUuid;
-@property (nonatomic, strong) NSString *createTime;
+@property (nonatomic, retain) NSString *amount;
+@property (nonatomic, retain) NSString *userUuid;
+@property (nonatomic, retain) NSString *livingUuid;
+@property (nonatomic, retain) NSString *livingName;
+@property (nonatomic, retain) NSString *eventName;
+@property (nonatomic, retain) NSString *couponUuid;
+@property (nonatomic, retain) NSString *createTime;
+
 @end

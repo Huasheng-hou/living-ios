@@ -206,7 +206,8 @@ liveNameProtocol
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section==1) {
+    if (section == 1) {
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
         headView.backgroundColor = [UIColor clearColor];
         UILabel *label = [UILabel new];
@@ -219,7 +220,8 @@ liveNameProtocol
         
         return headView;
     }
-    if (section==2) {
+    if (section == 2) {
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
         headView.backgroundColor = [UIColor clearColor];
         UILabel *label = [UILabel new];
@@ -421,12 +423,11 @@ liveNameProtocol
 
 #pragma mark 发起第三方微信支付
 
--(void)senderWeiXinPay:(NSDictionary *)dic
+- (void)senderWeiXinPay:(NSDictionary *)dic
 {
-    NSLog(@"=========发起第三方微信支付=====dic==%@",dic);
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-         [WXApiRequestHandler jumpToBizPay:dic];
+  
+        [WXApiRequestHandler jumpToBizPay:dic];
     });
 }
 
@@ -439,7 +440,8 @@ liveNameProtocol
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    LMWXRechargeResultRequest *request=[[LMWXRechargeResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID];
+    
+    LMWXRechargeResultRequest   *request    = [[LMWXRechargeResultRequest alloc] initWithMyOrderUuid:rechargeOrderUUID];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -451,9 +453,9 @@ liveNameProtocol
                                                [self textStateHUD:@"数据请求失败"];
                                            }];
     [proxy start];
-    
 }
--(void)weixinPaySuccessEnsureResponse:(NSString *)resp
+
+- (void)weixinPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     

@@ -61,9 +61,11 @@
     
     _listArray = [NSMutableArray new];
     _billDic = [NSDictionary new];
+    
+    self.tableView.separatorInset   = UIEdgeInsetsMake(0, 15, 0, 0);
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
         return 1;
@@ -130,24 +132,21 @@
         
         return cell;
     }
-    if (indexPath.section==1) {
+    if (indexPath.section == 1) {
+        
         static NSString *cellID = @"cellID";
         LMBlanceListCell *cell = [[LMBlanceListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        //        for (int i=0; i<_listArray.count; i++) {
-        
         LMBanlanceVO  *list=_listArray[indexPath.row];
         [cell setModel:list];
-        //        }
         
         return cell;
     }
     return nil;
-    
 }
 
--(void)cellWillclick:(LMBlanceHeadCell *)cell
+- (void)cellWillclick:(LMBlanceHeadCell *)cell
 {
     _isShow = !_isShow;
     
@@ -159,16 +158,16 @@
     }
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     _isShow = NO;
     [self.showView dismissView];
 }
 
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.showView dismissView];
 }
-
 
 - (SQMenuShowView *)showView{
     
@@ -237,11 +236,8 @@
     });
 }
 
-
-
-
 #pragma mark  --获取余额数据
--(void)getBlanceData:(NSString *)timeDate andPage:(NSInteger)page
+- (void)getBlanceData:(NSString *)timeDate andPage:(NSInteger)page
 {
     if (![CheckUtils isLink]) {
         
@@ -263,34 +259,35 @@
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
--(void)getBlanceDataResponse:(NSString *)resp
+
+- (void)getBlanceDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    [self logoutAction:resp];
+
     if (!bodyDic) {
+
         [self textStateHUD:@"获取余额失败"];
-    }else{
+    } else {
         
-        //        NSLog(@"==============余额明细详情===bodyDic============%@",bodyDic);
         total = [[bodyDic objectForKey:@"total"] intValue];
-        bodyData=[[LMMonthDetailBody alloc]initWithDictionary:bodyDic];
-        _listArray = [NSMutableArray new];
+        
+        bodyData    = [[LMMonthDetailBody alloc]initWithDictionary:bodyDic];
+        _listArray  = [NSMutableArray new];
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            NSMutableArray *array=bodyDic[@"list"];
-            for (int i=0; i<array.count; i++) {
+            
+            NSMutableArray  *array = bodyDic[@"list"];
+            
+            for (int i = 0; i < array.count; i++) {
+                
                 LMBanlanceVO *vo=[[LMBanlanceVO alloc]initWithDictionary:array[i]];
                 if (![_listArray containsObject:vo]) {
                     [_listArray addObject:vo];
                 }
             }
+            
             _billDic = [bodyDic objectForKey:@"bill"];
-            
-            
-            
             [self.tableView reloadData];
         }
     }

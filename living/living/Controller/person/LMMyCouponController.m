@@ -20,18 +20,21 @@ UITableViewDelegate,
 UITableViewDataSource
 >
 {
-    UITableView *table;
-    NSMutableArray *cellDataArray;
+    UITableView         *table;
+    NSMutableArray      *cellDataArray;
 }
 @end
 
 @implementation LMMyCouponController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    cellDataArray=[NSMutableArray arrayWithCapacity:0];
-    [self requestCouponData];
+
+    cellDataArray   = [NSMutableArray arrayWithCapacity:0];
+    
     [self createUI];
+    [self requestCouponData];
 }
 
 #pragma mark 没有数据时显示的界面
@@ -55,8 +58,7 @@ UITableViewDataSource
     [bgView addSubview:label];
 }
 
-
--(void)createUI
+- (void)createUI
 {
     self.title=@"我的优惠券";
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
@@ -66,7 +68,7 @@ UITableViewDataSource
     [table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return cellDataArray.count;
 }
@@ -79,8 +81,10 @@ UITableViewDataSource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID=@"cellId";
-    LMCouponCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
+    LMCouponCell    *cell  = [tableView dequeueReusableCellWithIdentifier:cellID];
+    
     if (cell==nil) {
+        
         cell=[[LMCouponCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
@@ -94,17 +98,15 @@ UITableViewDataSource
         }
     }
     
-    
-    
-    
     return cell;
 }
 
 #pragma mark  请求优惠券数据
 
--(void)requestCouponData
+- (void)requestCouponData
 {
     LMCouponRequest *request = [[LMCouponRequest alloc] initWithUserUuid:[FitUserManager sharedUserManager].uuid];
+  
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -118,11 +120,9 @@ UITableViewDataSource
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
 
--(void)couponDataResponse:(NSString *)resp
+- (void)couponDataResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
@@ -133,27 +133,28 @@ UITableViewDataSource
         return;
     }
     
-    NSLog(@"=========优惠券==bodyDict=============%@",bodyDict);
-    
     NSString *result    = [bodyDict objectForKey:@"result"];
     
     if (result && [result intValue] == 0)
     {
         NSArray *array = [LMCouponVO LMCouponVOListWithArray:[bodyDict objectForKey:@"list"]];
+        
         if (!array || ![array isKindOfClass:[NSArray class]] || array.count < 1) {
             
             [self visiableBgImage];
         }else{
+        
             for (LMCouponVO *vo in array) {
+            
                 [cellDataArray addObject:vo];
             }
         }
      
         [table reloadData];
     } else {
+        
         [self textStateHUD:bodyDict[@"description"]];
     }
-    
 }
 
 @end
