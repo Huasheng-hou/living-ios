@@ -28,6 +28,7 @@
 //微信支付
 #import "WXApiObject.h"
 #import "WXApi.h"
+#import "WXApiRequestHandler.h"
 
 #import "LMWXPayRequest.h"
 #import "LMWXPayResultRequest.h"
@@ -288,22 +289,19 @@ LMOrderCellDelegate>
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LMOrderVO *list =[orderArray objectAtIndex:indexPath.row];
+    
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
     detailVC.eventUuid = list.eventUuid;
+    
     [self.navigationController pushViewController:detailVC animated:YES];
 }
-
-
 
 #pragma mark - LMOrderCell delegate -
 - (void)cellWilldelete:(LMOrderCell *)cell
 {
-    NSLog(@"%@",cell.Orderuuid);
-    NSLog(@"**********删除");
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除"
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -314,15 +312,12 @@ LMOrderCellDelegate>
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
 }
 
--(void)OrderDeleteRequest:(NSString *)string
+- (void)OrderDeleteRequest:(NSString *)string
 {
-    NSLog(@"%@",string);
-    
     LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -357,12 +352,8 @@ LMOrderCellDelegate>
     }
 }
 
-
-
-
 - (void)cellWillpay:(LMOrderCell *)cell
 {
-    NSLog(@"**********付款");
     Orderuuid = cell.Orderuuid;
     LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
     switch (list.status) {
@@ -379,18 +370,14 @@ LMOrderCellDelegate>
             break;
     }
 
-    
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
     
-
-    
-    
     LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:Orderuuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -398,58 +385,50 @@ LMOrderCellDelegate>
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+    
                                            }];
     [proxy start];
-    
-    
-    
-    
-    
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
                                                                    message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"余额支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"******余额支付");
-        [self balanceChargeRequest];
         
+        [self balanceChargeRequest];
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"******微信支付");
-        [self wxRechargeRequest];
         
+        [self wxRechargeRequest];
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"支付宝支付"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
-                                                NSLog(@"******支付宝支付");
+                                                
                                                 [self aliRechargeRequest];
                                             }]];
+    
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
-    
 }
 
--(void)balancemessageResponse:(NSString *)resp
+- (void)balancemessageResponse:(NSString *)resp
 {
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    NSLog(@"%@",bodyDic);
+//    NSDictionary *bodyDic = [VOUtil parseBody:resp];
 }
 
 - (void)cellWillfinish:(LMOrderCell *)cell
 {
-    NSLog(@"**********完成");
+    
 }
+
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
-    NSLog(@"**********退款");
     LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
     switch (list.status) {
         case 3:
@@ -469,11 +448,10 @@ LMOrderCellDelegate>
             break;
     }
     
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否申请退款"
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"******确定");
+        
         LMRefundRequest *request = [[LMRefundRequest alloc] initWithOrder_uuid:cell.Orderuuid];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -489,32 +467,28 @@ LMOrderCellDelegate>
                                                                        waitUntilDone:YES];
                                                }];
         [proxy start];
-        
-        
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
 }
+
 - (void)cellWillrebook:(LMOrderCell *)cell
 {
-    NSLog(@"**********再订");
     LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+    
     detailVC.eventUuid = list.eventUuid;
     [self.navigationController pushViewController:detailVC animated:YES];
-    
-    
 }
 
-
 #pragma mark  --退款
--(void)getrefundDataResponse:(NSString *)resp
+
+- (void)getrefundDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -531,10 +505,9 @@ LMOrderCellDelegate>
     }
 }
 
-
 #pragma mark 微信充值下单请求
 
--(void)wxRechargeRequest
+- (void)wxRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
@@ -555,12 +528,11 @@ LMOrderCellDelegate>
     [proxy start];
 }
 
--(void)wxRechargeResponse:(NSString *)resp
+- (void)wxRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
-    //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
     
     if (!bodyDict) {
         return;
@@ -573,15 +545,15 @@ LMOrderCellDelegate>
             [self textStateHUD:@"微信充值下单成功"];
             
             if (bodyDict[@"map"][@"myOrderUuid"]) {
+                
                 rechargeOrderUUID=bodyDict[@"map"][@"myOrderUuid"];
-                NSLog(@"==微信支付下单后货物的uuid:%@",rechargeOrderUUID);
             }
             if (bodyDict[@"map"][@"wxOrder"]) {
                 [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
             }
             
+        } else {
             
-        }else{
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
         }
     }
@@ -589,18 +561,18 @@ LMOrderCellDelegate>
 
 #pragma mark 发起第三方微信支付
 
--(void)senderWeiXinPay:(NSDictionary *)dic
+- (void)senderWeiXinPay:(NSDictionary *)dic
 {
-    //    [WXApiRequestHandler jumpToBizPay:dic];
+    [WXApiRequestHandler jumpToBizPay:dic];
 }
 
 #pragma mark 微信支付结果确认
 
--(void)weixinPayEnsure
+- (void)weixinPayEnsure
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
     LMWXPayResultRequest *request=[[LMWXPayResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID];
@@ -615,9 +587,9 @@ LMOrderCellDelegate>
                                                [self textStateHUD:@"数据请求失败"];
                                            }];
     [proxy start];
-    
 }
--(void)weixinPaySuccessEnsureResponse:(NSString *)resp
+
+- (void)weixinPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
@@ -649,15 +621,18 @@ LMOrderCellDelegate>
 
 #pragma mark 支付宝充值下单请求
 
--(void)aliRechargeRequest
+- (void)aliRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
     [self initStateHud];
-    LMAliPayRequest *request=[[LMAliPayRequest alloc]initWithAliRecharge:Orderuuid];
+    
+    LMAliPayRequest     *request    = [[LMAliPayRequest alloc] initWithAliRecharge:Orderuuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -670,12 +645,12 @@ LMOrderCellDelegate>
     [proxy start];
 }
 
--(void)aliRechargeResponse:(NSString *)resp
+- (void)aliRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
-    //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
+    
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
         return;
@@ -703,17 +678,18 @@ LMOrderCellDelegate>
 
 #pragma mark 发起第三方支付宝支付
 
--(void)senderAliPay:(NSString *)payOrderStr
+- (void)senderAliPay:(NSString *)payOrderStr
 {
     NSString *appScheme = @"livingApp";
+  
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        //        NSLog(@"  购物车支付宝支付结果返回reslut = %@",resultDic);
+        
     }];
 }
 
 #pragma mark 支付宝支付结果确认
 
--(void)aliPayEnsure:(NSNotification *)dic
+- (void)aliPayEnsure:(NSNotification *)dic
 {
     if (![CheckUtils isLink]) {
         
@@ -760,9 +736,10 @@ LMOrderCellDelegate>
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+    
     LMBalanceChargeRequest *request = [[LMBalanceChargeRequest alloc] initWithOrder_uuid:Orderuuid useBalance:_useBalance];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -776,52 +753,34 @@ LMOrderCellDelegate>
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
 
--(void)balanceChargeResponse:(NSString *)resp
+- (void)balanceChargeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     if (!bodyDic) {
+        
         [self textStateHUD:@"余额支付失败"];
-    }else{
+    } else {
+        
         NSString        *result     = [bodyDic objectForKey:@"result"];
         
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
             
-            
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您已成功付款"
                                                                            message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                NSLog(@"******确定");
+                
                 [self reloadingHomePage];
-                
-                
-                
             }]];
             
             [self presentViewController:alert animated:YES completion:nil];
             
-        }else{
+        } else {
             [self textStateHUD:@"支付失败，请重试"];
         }
-        
     }
-    
 }
-
-
-
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

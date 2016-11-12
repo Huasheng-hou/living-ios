@@ -23,6 +23,7 @@
 //微信支付
 #import "WXApiObject.h"
 #import "WXApi.h"
+#import "WXApiRequestHandler.h"
 
 #import "LMBalanceChargeRequest.h"
 
@@ -115,7 +116,7 @@ FitPickerViewDelegate
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
     LMOrderpayRequest *request = [[LMOrderpayRequest alloc] initWithOrder_uuid:_orderUUid];
@@ -136,7 +137,6 @@ FitPickerViewDelegate
 
 - (void)getOrderDataResponse:(NSString *)resp
 {
-    
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
   
     [self logoutAction:resp];
@@ -151,7 +151,7 @@ FitPickerViewDelegate
             orderInfos = [[LMOrderInfoVO alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
             orderdata = [[LMOrderBodyVO alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
             
-            if (orderdata.coupons &&orderdata.coupons>0) {
+            if (orderdata.coupons && orderdata.coupons>0) {
                 [self getCouponListRequest];
             }
             
@@ -253,10 +253,7 @@ FitPickerViewDelegate
     return 0.01;
 }
 
-
-
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView==self.tableView){
         static NSString *cellID = @"cellID";
@@ -561,26 +558,23 @@ FitPickerViewDelegate
             }
         }
     }
-    if (tableView==_couponView){
-        NSLog(@"*****inde******%ld",(long)indexPath.row);
+    if (tableView ==_couponView){
+        
         if (indexPath.row<couponList.count) {
+            
             selectedRow=indexPath.row;
             
-        }else{
-            NSLog(@"%ld",(long)indexPath.row);
-            NSLog(@"%ld",(long)couponList.count);
+        } else {
+        
             selectedRow=indexPath.row;
         }
         
         [_couponView reloadData];
     }
-
 }
 
--(void)cancelAction
+- (void)cancelAction
 {
-    NSLog(@"取消订单");
-    
     LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:_orderUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -598,40 +592,42 @@ FitPickerViewDelegate
     
 }
 
--(void)getdeleteDataResponse:(NSString *)resp
+- (void)getdeleteDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"删除失败"];
-    }else{
+    } else {
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
             [self textStateHUD:@"订单取消成功"];
-
-        }else{
+            [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+            
+        } else {
+            
             [self textStateHUD:bodyDic[@"description"]];
         }
     }
 }
 
-
-
-
-
--(void)payAction
+- (void)payAction
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
                                                                    message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"余额支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"******余额支付");
+        
         [self balanceChargeRequest];
         
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"******微信支付");
+        
         [self wxRechargeRequest];
         
     }]];
@@ -639,27 +635,27 @@ FitPickerViewDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"支付宝支付"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
-                                                NSLog(@"******支付宝支付");
+                                                
                                                 [self aliRechargeRequest];
                                             }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
-    [self presentViewController:alert animated:YES completion:nil];
     
-
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark 微信充值下单请求
 
--(void)wxRechargeRequest
+- (void)wxRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
     [self initStateHud];
     LMWXPayRequest *request=[[LMWXPayRequest alloc]initWithWXRecharge:orderInfos.orderUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -674,12 +670,11 @@ FitPickerViewDelegate
     [proxy start];
 }
 
--(void)wxRechargeResponse:(NSString *)resp
+- (void)wxRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-   [self logoutAction:resp];
-    //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         return;
@@ -692,8 +687,8 @@ FitPickerViewDelegate
             [self textStateHUD:@"微信充值下单成功"];
             
             if (bodyDict[@"map"][@"myOrderUuid"]) {
+                
                 rechargeOrderUUID=bodyDict[@"map"][@"myOrderUuid"];
-                NSLog(@"==微信支付下单后货物的uuid:%@",rechargeOrderUUID);
             }
             if (bodyDict[@"map"][@"wxOrder"]) {
                 [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
@@ -710,7 +705,7 @@ FitPickerViewDelegate
 
 -(void)senderWeiXinPay:(NSDictionary *)dic
 {
-//    [WXApiRequestHandler jumpToBizPay:dic];
+    [WXApiRequestHandler jumpToBizPay:dic];
 }
 
 #pragma mark 微信支付结果确认
@@ -719,7 +714,7 @@ FitPickerViewDelegate
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
     LMWXPayResultRequest *request=[[LMWXPayResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID];
@@ -736,11 +731,10 @@ FitPickerViewDelegate
     [proxy start];
     
 }
--(void)weixinPaySuccessEnsureResponse:(NSString *)resp
+
+- (void)weixinPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    
-[self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -766,15 +760,18 @@ FitPickerViewDelegate
 
 #pragma mark 支付宝充值下单请求
 
--(void)aliRechargeRequest
+- (void)aliRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+  
     [self initStateHud];
+    
     LMAliPayRequest *request=[[LMAliPayRequest alloc]initWithAliRecharge:orderInfos.orderUuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -787,12 +784,10 @@ FitPickerViewDelegate
     [proxy start];
 }
 
--(void)aliRechargeResponse:(NSString *)resp
+- (void)aliRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
-    //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
         return;
