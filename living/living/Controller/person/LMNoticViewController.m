@@ -121,27 +121,27 @@ UITableViewDataSource
     }
 }
 
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0.01;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return listArray.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -172,7 +172,7 @@ UITableViewDataSource
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                                style:UIAlertActionStyleDestructive
                                                              handler:^(UIAlertAction*action) {
-//                                                                 [listArray removeObjectAtIndex:indexPath.row];
+
                                                                  [self getNoticDeleteRequest:indexPath.row];
                                                                  
                                                              }]];
@@ -192,8 +192,7 @@ UITableViewDataSource
     return @[action1];
 }
 
-
--(void)getNoticDeleteRequest:(NSInteger)sender
+- (void)getNoticDeleteRequest:(NSInteger)sender
 {
     LMNoticVO *list = [listArray objectAtIndex:sender];
     

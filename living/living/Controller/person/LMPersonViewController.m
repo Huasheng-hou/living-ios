@@ -79,21 +79,19 @@
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
--(void)noticAction
+- (void)noticAction
 {
-    NSLog(@"*******通知");
     LMNoticViewController *noticVC = [[LMNoticViewController alloc] init];
     [noticVC setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:noticVC animated:YES];
     
 }
 
-
 #pragma mark  请求个人数据
--(void)getUserInfoData
+- (void)getUserInfoData
 {
-    NSLog(@"**************%@",[FitUserManager sharedUserManager].uuid);
     LMPersonInfoRequest *request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -107,11 +105,9 @@
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-
 }
 
--(void)getUserInfoResponse:(NSString *)resp
+- (void)getUserInfoResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     

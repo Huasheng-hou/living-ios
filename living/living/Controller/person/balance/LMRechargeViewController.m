@@ -162,8 +162,49 @@ liveNameProtocol
     return YES;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return [HcbAmountChecker textField:textField shouldChangeCharactersInRange:range replacementString:string];
+}
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    CGFloat     amount  = [textField.text floatValue];
+    
+    for (UIView *view in footView.subviews) {
+        
+        if ([view isKindOfClass:[LMChargeButton class]]) {
+        
+            LMChargeButton *btn = (LMChargeButton *)view;
+            
+            btn.upLabel.textColor       = TEXT_COLOR_LEVEL_2;
+            btn.downLabel.textColor     = TEXT_COLOR_LEVEL_2;
+            btn.layer.borderColor       = LINE_COLOR.CGColor;
+        }
+    }
+    
+    if (amount == 1000 || amount == 3000 || amount == 5000 || amount == 10000) {
+        
+        for (UIView *view in footView.subviews) {
+            
+            if ([view isKindOfClass:[LMChargeButton class]]) {
+                
+                LMChargeButton *btn = (LMChargeButton *)view;
+                
+                NSString *string = [btn.upLabel.text substringToIndex:[btn.upLabel.text length] - 1];
+                
+                if ([string isEqualToString:[NSString stringWithFormat:@"%d", (int)amount]]) {
+                    
+                    btn.upLabel.textColor = LIVING_COLOR;
+                    btn.downLabel.textColor = LIVING_COLOR;
+                    btn.layer.borderColor = LIVING_COLOR.CGColor;
+                }
+            }
+        }
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==1) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
@@ -194,15 +235,12 @@ liveNameProtocol
     return nil;
 }
 
-
-
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 3;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==1) {
         return 2;
@@ -210,18 +248,21 @@ liveNameProtocol
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
+        
         return 70;
     }
     if (indexPath.section==1) {
+        
         return 65;
     }
+    
     return 45;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         static NSString *cellIds = @"cellIds";
@@ -262,18 +303,23 @@ liveNameProtocol
         return cell;
 
     }
-    if (indexPath.section==2) {
+    if (indexPath.section == 2) {
+        
         static NSString *cellId = @"cellId";
         headcell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        
         if (!headcell) {
+            
             headcell = [[LMRePayCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+            headcell.payNum.delegate    = self;
         }
+        
         return headcell;
     }
     return nil;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         NSLog(@"***");
@@ -458,7 +504,7 @@ liveNameProtocol
     [proxy start];
 }
 
--(void)aliRechargeResponse:(NSString *)resp
+- (void)aliRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
@@ -542,35 +588,32 @@ liveNameProtocol
     }
 }
 
--(void)changeMoney:(LMChargeButton *)button
+- (void)changeMoney:(LMChargeButton *)button
 {
     for (UIView *view in footView.subviews) {
+
         if ([view isKindOfClass:[LMChargeButton class]]) {
             LMChargeButton *btn = (LMChargeButton *)view;
             btn.upLabel.textColor = TEXT_COLOR_LEVEL_2;
             btn.downLabel.textColor = TEXT_COLOR_LEVEL_2;
-            button.layer.borderColor = LINE_COLOR.CGColor;
+            btn.layer.borderColor = LINE_COLOR.CGColor;
         }
     }
 
-        button.upLabel.textColor = LIVING_COLOR;
-        button.downLabel.textColor = LIVING_COLOR;
-        button.layer.borderColor = LIVING_COLOR.CGColor;
-        NSString *string =[button.upLabel.text substringToIndex:[button.upLabel.text length] - 1];
-        headcell.payNum.text = string;
-    
-
+    button.upLabel.textColor = LIVING_COLOR;
+    button.downLabel.textColor = LIVING_COLOR;
+    button.layer.borderColor = LIVING_COLOR.CGColor;
+    NSString *string =[button.upLabel.text substringToIndex:[button.upLabel.text length] - 1];
+    headcell.payNum.text = string;
 }
-
-
-
 
 #pragma mark  UIAlertViewDelegate
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [[FitUserManager sharedUserManager] logout];
     FitTabbarController *tab=[[FitTabbarController alloc]init];
     [self presentViewController:tab animated:YES completion:nil];
 }
+
 @end

@@ -17,6 +17,7 @@
 #import "CheckUtils.h"
 #import "FitUserManager.h"
 #import "FitTabbarController.h"
+#import "HcbAmountChecker.h"
 //#import <UMengAnalytics/UMMobClick/MobClick.h>
 
 @interface FitBaseViewController : UIViewController

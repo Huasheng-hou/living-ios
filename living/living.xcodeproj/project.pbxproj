@@ -56,6 +56,7 @@
 		35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E941DB5BCBD00510A75 /* QuartzCore.framework */; };
 		35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E961DB5BCE500510A75 /* UIKit.framework */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
+		66AB010A1DD6F839005336C3 /* HcbAmountChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AB01091DD6F839005336C3 /* HcbAmountChecker.m */; };
 		873795081DCF8A1000A2ACD7 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 873792AE1DCF8A0F00A2ACD7 /* Order.m */; };
 		873795091DCF8A1000A2ACD7 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 873792B11DCF8A0F00A2ACD7 /* base64.m */; };
 		8737950A1DCF8A1000A2ACD7 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 873792B41DCF8A0F00A2ACD7 /* DataSigner.m */; };
@@ -418,6 +419,8 @@
 		35FA8E921DB5BC8600510A75 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		35FA8E941DB5BCBD00510A75 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		35FA8E961DB5BCE500510A75 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		66AB01081DD6F82B005336C3 /* HcbAmountChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HcbAmountChecker.h; sourceTree = "<group>"; };
+		66AB01091DD6F839005336C3 /* HcbAmountChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HcbAmountChecker.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		873792621DCF8A0F00A2ACD7 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		873792631DCF8A0F00A2ACD7 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
@@ -1860,6 +1863,8 @@
 			children = (
 				873793941DCF8A1000A2ACD7 /* NSString+StringHelper.h */,
 				873793951DCF8A1000A2ACD7 /* NSString+StringHelper.m */,
+				66AB01081DD6F82B005336C3 /* HcbAmountChecker.h */,
+				66AB01091DD6F839005336C3 /* HcbAmountChecker.m */,
 			);
 			path = StringHelper;
 			sourceTree = "<group>";
@@ -2982,6 +2987,7 @@
 				873795991DCF8A1000A2ACD7 /* LMFeedBackRequest.m in Sources */,
 				8E9294411DD0254300A00829 /* LMBalanceMonthofbalance.m in Sources */,
 				873795601DCF8A1000A2ACD7 /* LICENSE.md in Sources */,
+				66AB010A1DD6F839005336C3 /* HcbAmountChecker.m in Sources */,
 				873795811DCF8A1000A2ACD7 /* LMEventCommitReplyRequset.m in Sources */,
 				873795EE1DCF8A1000A2ACD7 /* LMPublicMsgCell.m in Sources */,
 				8737951C1DCF8A1000A2ACD7 /* UIView+MJExtension.m in Sources */,
