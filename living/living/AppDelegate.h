@@ -8,14 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import <QuickLook/QuickLook.h>
-#import <MBProgressHUD.h>
 //#import "GeTuiSdk.h"
 
 @interface AppDelegate : UIResponder
 <
-UIApplicationDelegate,
-MBProgressHUDDelegate
+UIApplicationDelegate
 //GeTuiSdkDelegate
 >
 

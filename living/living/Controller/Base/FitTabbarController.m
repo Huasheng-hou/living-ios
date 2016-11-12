@@ -24,10 +24,8 @@
 - (id)init
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
     
-
     }
     return self;
 }
@@ -35,8 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     [self createUI];
-
+    [self createUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,11 +48,10 @@
     }
 }
 
--(void)switchAction
+- (void)switchAction
 {
-    NSLog(@"****************");
     self.selectedIndex = 0;
-    [LMLoginViewController presentInViewController:self Animated:NO];
+    [LMLoginViewController presentInViewController:self Animated:YES];
 }
 
 - (void)createUI
@@ -119,26 +115,19 @@
     
     self.viewControllers    = [NSArray arrayWithObjects:homeNav,secondNav,thirdNav, fourthNav, nil];
     
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(addDot)
-     
                                                  name:@"getui_notice"
-     
                                                object:nil];
     
-    
     if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"person_dot"] isEqualToString:@"1"]) {
-        [self.tabBar showBadgeOnItemIndex:3];
-        }
     
+        [self.tabBar showBadgeOnItemIndex:3];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(tongzhi:)
                                                  name:@"getui" object:nil];
-   
 }
 
 - (void)addDot

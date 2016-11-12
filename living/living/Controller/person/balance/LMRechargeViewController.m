@@ -51,37 +51,47 @@ liveNameProtocol
 
 @implementation LMRechargeViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createUI];
     
-    //微信支付结果确认
+    // * 微信支付被用户取消
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
-                                             selector:@selector(weixinPayEnsure)
-     
-                                                 name:@"weixinPayEnsure"
-     
+                                             selector:@selector(wxPayCanceled)
+                                                 name:LM_WECHAT_PAY_CANCEL_NOTIFICATION
                                                object:nil];
-    //支付宝支付结果确认
+    
+    // * 微信支付失败
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
+                                             selector:@selector(wxPayFailed)
+                                                 name:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                               object:nil];
+    
+    // * 微信支付结果确认
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(weixinPayEnsure)
+                                                 name:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
+                                               object:nil];
+    
+    // * 支付宝支付结果确认
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(aliPayEnsure:)
-     
                                                  name:@"aliPayEnsure"
-     
                                                object:nil];
 }
 
--(void)createUI
+- (void)createUI
 {
     self.title=@"余额充值";
     
     if (_index!=1) {
         _liveRoomName=@"添加充值生活馆";
     }
-    
-    
     
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
     [table setBackgroundColor:BG_GRAY_COLOR];
@@ -156,7 +166,7 @@ liveNameProtocol
     [table setTableFooterView:footView];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self.view endEditing:YES];
     return YES;
@@ -325,12 +335,14 @@ liveNameProtocol
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        NSLog(@"***");
+
         LMChangeLivingController *livingVC = [[LMChangeLivingController alloc] init];
         livingVC.delegate=self;
+        
         [self.navigationController pushViewController:livingVC animated:YES];
     }
     if (indexPath.section==1) {
+        
         NSInteger index=indexPath.row;
         selectedIndex=index;
         [table reloadData];
@@ -339,25 +351,28 @@ liveNameProtocol
 
 #pragma mark LMChangeLivingController&&liveNameProtocol代理协议
 
--(void)backLiveName:(NSString *)liveRoom andLiveUuid:(NSString *)live_uuid
+- (void)backLiveName:(NSString *)liveRoom andLiveUuid:(NSString *)live_uuid
 {
-    _liveRoomName=liveRoom;
-    _liveUUID=live_uuid;
+    _liveRoomName   = liveRoom;
+    _liveUUID       = live_uuid;
+  
     [table reloadData];
 }
 
--(void)selectedButton:(UIButton *)sender
+- (void)selectedButton:(UIButton *)sender
 {
-    NSInteger index=sender.tag;
-    selectedIndex=index;
+    NSInteger   index = sender.tag;
+    
+    selectedIndex   = index;
     [table reloadData];
 }
 
 #pragma mark 立即充值按钮方法
 
--(void)rechargeAction
+- (void)rechargeAction
 {
     if ([headcell.payNum.text isEqualToString:@""]) {
+        
         [self textStateHUD:@"请输入充值的金额"];
         return;
     }
@@ -374,15 +389,18 @@ liveNameProtocol
 
 #pragma mark 微信充值下单请求
 
--(void)wxRechargeRequest
+- (void)wxRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+    
     [self initStateHud];
+    
     LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -390,7 +408,8 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"微信充值下单失败"];
+ 
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -398,9 +417,7 @@ liveNameProtocol
 -(void)wxRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    
-[self logoutAction:resp];
-    //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
+    [self logoutAction:resp];
     
     if (!bodyDict) {
         return;
@@ -433,7 +450,27 @@ liveNameProtocol
 
 #pragma mark 微信支付结果确认
 
--(void)weixinPayEnsure
+// * 微信支付被取消
+
+- (void)wxPayCanceled
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self textStateHUD:@"支付失败，用户取消"];
+    });
+}
+
+// * 微信支付失败（其它原因）
+
+- (void)wxPayFailed
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self textStateHUD:@"微信支付失败"];
+    });
+}
+
+- (void)weixinPayEnsure
 {
     if (![CheckUtils isLink]) {
         
@@ -459,8 +496,6 @@ liveNameProtocol
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
-    
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
         return;
@@ -471,30 +506,35 @@ liveNameProtocol
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
+              
                 [self textStateHUD:@"充值成功！"];
                 //刷新订单数据
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
-            }else{
+            } else {
+            
                 [self textStateHUD:@"充值失败！"];
             }
-        }else{
+        } else {
+            
             [self textStateHUD:bodyDict[@"description"]];
         }
     }
 }
 
-
 #pragma mark 支付宝充值下单请求
 
--(void)aliRechargeRequest
+- (void)aliRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
     [self initStateHud];
-    LMAliRechargeRequest *request=[[LMAliRechargeRequest alloc]initWithAliRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
+    
+    LMAliRechargeRequest    *request    = [[LMAliRechargeRequest alloc] initWithAliRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -511,8 +551,6 @@ liveNameProtocol
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
-    //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
         return;
@@ -532,7 +570,8 @@ liveNameProtocol
                 [self senderAliPay:bodyDict[@"aliSignedOrder"]];
             }
             
-        }else{
+        } else {
+            
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
         }
     }
@@ -540,11 +579,11 @@ liveNameProtocol
 
 #pragma mark 发起第三方支付宝支付
 
--(void)senderAliPay:(NSString *)payOrderStr
+- (void)senderAliPay:(NSString *)payOrderStr
 {
     NSString *appScheme = @"livingApp";
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        //        NSLog(@"  购物车支付宝支付结果返回reslut = %@",resultDic);
+        
     }];
 }
 
@@ -566,15 +605,16 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+                                           
                                            }];
+    
     [proxy start];
 }
 
--(void)aliPaySuccessEnsureResponse:(NSString *)resp
+- (void)aliPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
     if (!bodyDict) {
         return;
     }

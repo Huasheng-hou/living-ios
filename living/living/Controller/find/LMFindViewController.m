@@ -41,7 +41,6 @@ LMFindCellDelegate
     NSMutableArray   *pageIndexArray;
     BOOL                reload;
     UIView *headView;
-    
 }
 
 @end
@@ -60,13 +59,19 @@ LMFindCellDelegate
     
     return self;
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self loadNoState];
+    
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -76,16 +81,12 @@ LMFindCellDelegate
     [self creatUI];
     [self loadNewer];
     
-    
     imagearray = @[@"12.jpg",@"13.jpg",@"14.jpg"];
     titlearray = @[@"腰果 财富现金流养成记",@"腰果 语言课堂",@"腰果 商城"];
     contentarray = @[@"现金流：游戏升级打怪，财商创业思维和个人成长也需要升级，现实版的自我成长养成记，想一起来么。",@"语音课堂：想听倾心已久讲师的经典课程，邀约腰果生活，随时随地用声音传递生活。",@"商场：在商城找到帮助品质生活体验的优质商品，不用到处淘而耗费时间啦."];
-
-
-    
 }
 
--(void)creatUI
+- (void)creatUI
 {
     [super createUI];
     
@@ -142,28 +143,27 @@ LMFindCellDelegate
     return nil;
 }
 
-
-
-
 #pragma mark scrollview代理函数
+
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
-    NSLog(@"************");
-    
-    if (index==3) {
+    if (index == 3) {
+        
         return;
     }
     
     NSArray *arr = @[@"『腰·美』",@"『腰·吃』",@"『腰·活』",@"『腰·乐』"];
-    NSArray *urlRrray = @[@"http://120.27.147.167/living-web/apparticle/daoshi3",@"http://120.27.147.167/living-web/apparticle/daoshi2",@"http://120.27.147.167/living-web/apparticle/daoshi1"];
+    NSArray *urlRrray = @[@"http://yaoguo1818.com/living-web/mentor-introduce-beauty.html",
+                          @"http://yaoguo1818.com/living-web/mentor-introduce-food.html",
+                          @"http://yaoguo1818.com/living-web/mentor-introduce-health.html"];
     
-    LMWebViewController *webView = [[LMWebViewController alloc] init];
-    webView.urlString = urlRrray[index];
-    webView.titleString = arr[index];
+    LMWebViewController *webView    = [[LMWebViewController alloc] init];
+    
+    webView.urlString       = urlRrray[index];
+    webView.titleString     = arr[index];
     webView.hidesBottomBarWhenPushed = YES;
+    
     [self.navigationController pushViewController:webView animated:YES];
-    
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -198,7 +198,6 @@ LMFindCellDelegate
     return self.listData.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
@@ -231,15 +230,10 @@ LMFindCellDelegate
     cell.tag = indexPath.row;
     [(LMFindCell *)cell setDelegate:self];
     
-
-    
-
-
-    
     return cell;
 }
 
--(void)cellWillClick:(LMFindCell *)cell
+- (void)cellWillClick:(LMFindCell *)cell
 {
     if (self.listData.count > cell.tag) {
         
@@ -247,18 +241,14 @@ LMFindCellDelegate
         
         if (vo && [vo isKindOfClass:[LMFindVO class]]) {
             
-       [self praiseRequest:vo.findUuid];
+            [self praiseRequest:vo.findUuid];
         }
     }
-
-    
-    
 }
-
 
 #pragma mark
 
--(void)praiseRequest:(NSString *)uuid
+- (void)praiseRequest:(NSString *)uuid
 {
     if (![CheckUtils isLink]) {
         
@@ -280,14 +270,11 @@ LMFindCellDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
 
--(void)praiseDataResponse:(NSString *)resp
+- (void)praiseDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    NSLog(@"============点赞数据请求结果===========%@",bodyDic);
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
@@ -295,11 +282,11 @@ LMFindCellDelegate
         
          [self loadNoState];
         
-    }else{
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
 }
-
 
 @end

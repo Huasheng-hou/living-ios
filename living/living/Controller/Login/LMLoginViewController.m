@@ -82,7 +82,12 @@ WXApiDelegate
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(userLoginCancel)
-                                                     name:@"userCancel"
+                                                     name:LM_WECHAT_LOGIN_CANCEL_NOTIFICATION
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(wxLoginFailed)
+                                                     name:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
                                                    object:nil];
     }
     return self;
@@ -436,12 +441,9 @@ WXApiDelegate
         return;
     }
     
-    NSLog(@"========直接登录====bodyDict============%@",bodyDict);
-    
     NSString *result    = [bodyDict objectForKey:@"result"];
     
-    if (result && [result intValue] == 0)
-    {
+    if (result && [result intValue] == 0) {
         
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         _password   = [bodyDict objectForKey:@"password"];
@@ -547,6 +549,7 @@ WXApiDelegate
 - (void)wxinLoginAction
 {
     [self initStateHud];
+    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:7];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     
@@ -562,15 +565,17 @@ WXApiDelegate
 - (void)userLoginCancel
 {
     [self textStateHUD:@"已取消授权，请重新登录"];
-    return;
+}
+
+- (void)wxLoginFailed
+{
+    [self textStateHUD:@"微信登录失败"];
 }
 
 // * 微信登录通知响应
 //
 - (void)didFinishedWechatLogin:(NSNotification *)notification
-{
-    NSLog(@"===========didFinishedWechatLogin===============%@",notification);
-    
+{   
     NSString    *code   = [[notification userInfo] objectForKey:@"code"];
     
     if (code && [code isKindOfClass:[NSString class]]) {

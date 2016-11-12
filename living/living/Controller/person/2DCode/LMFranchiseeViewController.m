@@ -358,7 +358,6 @@ liveNameProtocol
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
-    //    NSLog(@"-------微信充值下单-bodyDict-----------%@",bodyDict);
     
     if (!bodyDict) {
         return;
@@ -463,12 +462,11 @@ liveNameProtocol
     [proxy start];
 }
 
--(void)aliRechargeResponse:(NSString *)resp
+- (void)aliRechargeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    
     [self logoutAction:resp];
-    //    NSLog(@"-----支付宝充值下单---bodyDict-----------%@",bodyDict);
+    
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
         return;
@@ -500,13 +498,13 @@ liveNameProtocol
 {
     NSString *appScheme = @"livingApp";
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        //        NSLog(@"  购物车支付宝支付结果返回reslut = %@",resultDic);
+    
     }];
 }
 
 #pragma mark 支付宝支付结果确认
 
--(void)aliPayEnsure:(NSNotification *)dic
+- (void)aliPayEnsure:(NSNotification *)dic
 {
     if (![CheckUtils isLink]) {
         
@@ -522,6 +520,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+                                               
                                            }];
     [proxy start];
 }
@@ -530,8 +529,8 @@ liveNameProtocol
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
     if (!bodyDict) {
+    
         return;
     }
     
@@ -539,18 +538,20 @@ liveNameProtocol
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            
             [self textStateHUD:@"加盟成功！"];
-        }else{
+        } else {
             
             [self textStateHUD:bodyDict[@"description"]];
         }
     }
 }
 
--(void)changeMoney:(LMChargeButton *)button
+- (void)changeMoney:(LMChargeButton *)button
 {
     for (UIView *view in footView.subviews) {
         if ([view isKindOfClass:[LMChargeButton class]]) {
+            
             LMChargeButton *btn = (LMChargeButton *)view;
             btn.upLabel.textColor = TEXT_COLOR_LEVEL_2;
             btn.downLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -561,21 +562,19 @@ liveNameProtocol
     button.upLabel.textColor = LIVING_COLOR;
     button.downLabel.textColor = LIVING_COLOR;
     button.layer.borderColor = LIVING_COLOR.CGColor;
+    
     NSString *string =[button.upLabel.text substringToIndex:[button.upLabel.text length] - 1];
     headcell.NameTF.text = string;
-    
-    
 }
-
-
-
 
 #pragma mark  UIAlertViewDelegate
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [[FitUserManager sharedUserManager] logout];
-    FitTabbarController *tab=[[FitTabbarController alloc]init];
+    FitTabbarController     *tab =[[FitTabbarController alloc]init];
+
     [self presentViewController:tab animated:YES completion:nil];
 }
+
 @end

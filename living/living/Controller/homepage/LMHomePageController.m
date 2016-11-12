@@ -66,8 +66,16 @@ LMhomePageCellDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self loadNoState];
-    [self getBannerDataRequest];
+
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
+    
+    if (!_bannerArray || _bannerArray.count == 0) {
+        
+        [self getBannerDataRequest];
+    }
 }
 
 - (void)viewDidLoad

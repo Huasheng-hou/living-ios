@@ -65,21 +65,26 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self loadNoState];
+    
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
 }
 
 - (void)creatUI
 {
     [super createUI];
     
-    NSLog(@"[FitUserManager sharedUserManager].privileges:%@",[FitUserManager sharedUserManager].privileges);
-    
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(publicAction)];
+    
+        UIBarButtonItem     *rightItem  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(publicAction)];
+        
         self.navigationItem.rightBarButtonItem = rightItem;
     }
-     
-    
     
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
@@ -94,8 +99,6 @@
     [publicVC setHidesBottomBarWhenPushed:YES];
     
     [self.navigationController pushViewController:publicVC animated:YES];
-    
-    NSLog(@"********发布活动");
 }
 
 - (FitBaseRequest *)request
@@ -114,8 +117,8 @@
                               JSONObjectWithData:respData
                               options:NSJSONReadingMutableLeaves
                               error:nil];
+    
     NSDictionary *headDic = [respDict objectForKey:@"head"];
-    NSLog(@"%@",headDic);
     
     NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
     

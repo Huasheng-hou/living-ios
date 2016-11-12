@@ -45,7 +45,6 @@ UNUserNotificationCenterDelegate
 
 @implementation AppDelegate
 {
-    QLPreviewController *_preController;
     NSURL               *_dataPath;
     NSString            *_fileName;
     
@@ -240,35 +239,33 @@ UNUserNotificationCenterDelegate
     if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length]){
         // 记录登录用户的OpenID、Token以及过期时间
         NSLog(@"tencent-accessToken:%@",_tencentOAuth.accessToken);
-    }
-    else{
+    } else {
+        
         NSLog(@"登录不成功 没有获取tencent-accesstoken");
     }
 }
 
 //非网络错误导致登录失败
--(void)tencentDidNotLogin:(BOOL)cancelled
+- (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    if (cancelled){
-        NSLog(@"用户取消登录");
-    }
-    else{
-        NSLog(@"登录失败");
+    if (cancelled) {
+
+    } else {
+        
     }
 }
 
 //腾讯代理函数
--(void)tencentDidNotNetWork{
-     NSLog(@"没有网络了， 怎么登录成功呢");
-}
+- (void)tencentDidNotNetWork
+{
 
+}
 
 //禁止横屏
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
     return UIInterfaceOrientationMaskPortrait;
 }
-
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     
@@ -331,33 +328,18 @@ UNUserNotificationCenterDelegate
 
 - (void)onResp:(BaseResp *)resp
 {
-    
-    
+    //    WXSuccess           = 0,    /**< 成功    */
+    //    WXErrCodeCommon     = -1,   /**< 普通错误类型    */
+    //    WXErrCodeUserCancel = -2,   /**< 用户点击取消并返回    */
+    //    WXErrCodeSentFail   = -3,   /**< 发送失败    */
+    //    WXErrCodeAuthDeny   = -4,   /**< 授权失败    */
+    //    WXErrCodeUnsupport  = -5,   /**< 微信不支持    */
     
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         
         SendAuthResp    *authResp   = (SendAuthResp *)resp;
         
-        NSLog(@"=================%d===============%@",authResp.errCode,authResp.state);
-        
-        
-        if (authResp.errCode==-2) {//用户返回，由于返回的state为空，在这写
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"userCancel"
-                                                                object:nil
-                                                              userInfo:nil];
-        }
-        
-        
         if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
-            
-//            WXSuccess           = 0,    /**< 成功    */
-//            WXErrCodeCommon     = -1,   /**< 普通错误类型    */
-//            WXErrCodeUserCancel = -2,   /**< 用户点击取消并返回    */
-//            WXErrCodeSentFail   = -3,   /**< 发送失败    */
-//            WXErrCodeAuthDeny   = -4,   /**< 授权失败    */
-//            WXErrCodeUnsupport  = -5,   /**< 微信不支持    */
-            
-           
             
             switch (authResp.errCode) {
                 
@@ -376,37 +358,105 @@ UNUserNotificationCenterDelegate
                  
                 case WXErrCodeCommon:           /**< 普通错误类型    */
                 {
-                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                        object:nil
+                                                                      userInfo:nil];
                 }
                     break;
                     
                 case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
                 {
-                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_CANCEL_NOTIFICATION
+                                                                        object:nil
+                                                                      userInfo:nil];
                 }
                     break;
                     
                 case WXErrCodeSentFail:         /**< 发送失败    */
                 {
-                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                        object:nil
+                                                                      userInfo:nil];
                 }
                     break;
                     
                 case WXErrCodeAuthDeny:         /**< 授权失败    */
                 {
-                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                        object:nil
+                                                                      userInfo:nil];
                 }
                     break;
                     
                 case WXErrCodeUnsupport:        /**< 微信不支持    */
                 {
-                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                        object:nil
+                                                                      userInfo:nil];
                 }
                     break;
                     
                 default:
                     break;
             }
+        }
+        
+    } else if ([resp isKindOfClass:[PayResp class]]) {
+        
+        switch (resp.errCode) {
+                
+            case WXSuccess:                 /**< 成功    */
+            {
+                NSDictionary    *userInfo   = [NSDictionary dictionaryWithObject:resp forKey:@"payResp"];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:userInfo];
+            }
+                break;
+                
+            case WXErrCodeCommon:           /**< 普通错误类型    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_CANCEL_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeSentFail:         /**< 发送失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeAuthDeny:         /**< 授权失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUnsupport:        /**< 微信不支持    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            default:
+                break;
         }
     }
 }

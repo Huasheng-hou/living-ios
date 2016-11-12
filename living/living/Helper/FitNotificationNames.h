@@ -54,4 +54,16 @@
 #define     FIR_SELECTED_TEXT_NOTIFICATION          @"Fir_Selected_Notification_Name"
 
 #define     FIR_LOADHOMEPAGE_NOTIFICATION           @"Fir_ReloadHomePage_Notification_Name"
-#define     LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION   @"Lm_Wechat_Login_Callback_Notification_Name"   // 微信登录回调
+
+#define     LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION   @"Lm_Wechat_Login_Callback_Notification_Name"   // 微信登录成功回调
+#define     LM_WECHAT_LOGIN_CANCEL_NOTIFICATION     @"Lm_Wechat_Login_Cancel_Notification_Name"     // 微信登录用户取消回调
+#define     LM_WECHAT_LOGIN_FAILED_NOTIFICATION     @"Lm_Wechat_login_Failed_Notification_Name"     // 微信登录其它类型失败回调
+
+#define     LM_WECHAT_PAY_CALLBACK_NOTIFICATION     @"Lm_Wechat_Pay_Callback_Notification_Name"     // 微信支付成功回调
+#define     LM_WECHAT_PAY_CANCEL_NOTIFICATION       @"Lm_Wechat_Pay_Cancel_Notification_Name"       // 微信支付用户取消回调
+#define     LM_WECHAT_PAY_FAILED_NOTIFICATION       @"Lm_Wechat_Pay_Failed_Notification_Name"       // 微信支付其它类型失败回调
+
+
+
+
+

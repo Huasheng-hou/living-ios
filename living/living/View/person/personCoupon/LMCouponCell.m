@@ -39,7 +39,7 @@
     _contentLabel=[[UITextView alloc]initWithFrame:CGRectMake(10, 35, _imageV.bounds.size.width*2/3-20, 40)];
     [_contentLabel setText:@"这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动"];
     [_contentLabel setBackgroundColor:[UIColor clearColor]];
-    [_contentLabel setFont:TEXT_FONT_LEVEL_2];
+    [_contentLabel setFont:TEXT_FONT_LEVEL_3];
     [_contentLabel setUserInteractionEnabled:NO];
     [_imageV addSubview:_contentLabel];
     
@@ -51,7 +51,7 @@
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, _contentLabel.text.length)];
     _contentLabel.attributedText = attributedString;
     
-     [_contentLabel setTextColor:[UIColor whiteColor]];
+    [_contentLabel setTextColor:[UIColor colorWithWhite:1 alpha:0.9]];
 
     //价格
     _priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(_imageV.bounds.size.width*2/3, 5, _imageV.bounds.size.width/3, 80)];
