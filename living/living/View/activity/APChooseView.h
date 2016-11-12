@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomButton.h"
+#import "LMEventBodyVO.h"
 
 @interface APChooseView : UIView
 {
@@ -38,6 +39,7 @@
 @property(nonatomic,strong)UILabel *dspLabel;
 
 @property(nonatomic,strong)NSMutableDictionary *orderInfo;
+@property (nonatomic, retain) LMEventBodyVO     *event;
 
 - (id)initWithFrame:(CGRect)frame;
 

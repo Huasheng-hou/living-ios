@@ -187,6 +187,13 @@
 - (void)addButtonClick:(CustomButton *)sender
 {
     count+=1;
+    
+    if (count > _event.totalNum) {
+        
+        count -= 1;
+        return;
+    }
+    
     _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];
  
     if (_reduceButotn.isRed == NO) {

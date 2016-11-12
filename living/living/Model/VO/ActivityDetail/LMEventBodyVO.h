@@ -26,13 +26,13 @@
 @property (nonatomic, strong) NSString *publishName;
 @property (nonatomic, strong) NSString *discount;
 @property (nonatomic, strong) NSString *contactName;
-@property (nonatomic, assign) int totalNum;
+@property (nonatomic, assign) int totalNum;             // * 总人数
 @property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *eventName;
 @property (nonatomic, strong) NSString *contactPhone;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSString *eventImg;
-@property (nonatomic, assign) int totalNumber;
+@property (nonatomic, assign) int totalNumber;          // * 当前参加人数
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *eventUuid;
 @property (nonatomic, strong) NSDate *endTime;

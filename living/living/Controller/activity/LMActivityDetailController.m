@@ -245,8 +245,8 @@ UIAlertViewDelegate
                               JSONObjectWithData:respData
                               options:NSJSONReadingMutableLeaves
                               error:nil];
+    
     NSDictionary *headDic = [respDict objectForKey:@"head"];
-    NSLog(@"%@",headDic);
     
     NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
     
@@ -259,32 +259,31 @@ UIAlertViewDelegate
     
     if (!bodyDic) {
        
-        [self textStateHUD:@" 获取详情数据失败"];
+        [self textStateHUD:@"获取详情数据失败"];
         return;
     }
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        [self hideStateHud];
         
+        [self hideStateHud];
         
         latitude= bodyDic[@"event_body"][@"latitude"];
         
         longitude=bodyDic[@"event_body"][@"longitude"];
         
         NSMutableArray *array = bodyDic[@"leaving_messages"];
-        msgArray = [NSMutableArray new];
-        eventArray = [NSMutableArray new];
-        imageArray = [NSMutableArray new];
         
-        for (int i =0; i<array.count; i++) {
+        msgArray    = [NSMutableArray new];
+        eventArray  = [NSMutableArray new];
+        imageArray  = [NSMutableArray new];
+        
+        for (int i = 0; i < array.count; i++) {
             
             LMEventCommentVO *list = [LMEventCommentVO LMEventCommentVOWithDictionary:array[i]];
             [msgArray addObject:list];
-            
         }
         
         NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"event_projects_body"]];
-        
         
         for (LMProjectBodyVO *vo in eveArray) {
             [eventArray addObject:vo];
@@ -330,24 +329,19 @@ UIAlertViewDelegate
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
-            
-            
-
         }
         
         [self creatHeaderView];
-        
         [self.tableView reloadData];
-    }else{
+        
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
-    
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return 230;
@@ -367,14 +361,12 @@ UIAlertViewDelegate
         CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
         
         if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
-            return 60+conHigh+conHigh2;
-        }else{
-            return 270+conHigh+conHigh2;
+            
+            return 60 + conHigh + conHigh2;
+        } else {
+            
+            return 270 + conHigh + conHigh2;
         }
-        
-        
-        
-        
     }
     if (indexPath.section==3) {
         
@@ -393,10 +385,10 @@ UIAlertViewDelegate
     return 0;
 }
 
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section==1){
+    if (section == 1) {
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
         
         UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
@@ -450,14 +442,11 @@ UIAlertViewDelegate
         
         headView.backgroundColor = [UIColor clearColor];
         
-        
         return headView;
     }
     
-    
-    
-    
-    if (section==3){
+    if (section == 3) {
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
         
         UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 155)];
@@ -515,10 +504,9 @@ UIAlertViewDelegate
         return headView;
     }
     return nil;
-    
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if(section==0){
         return 0.01;
@@ -537,19 +525,17 @@ UIAlertViewDelegate
     return 0;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01;
 }
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 4;
 }
 
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==2) {
         return eventArray.count;
@@ -616,8 +602,6 @@ UIAlertViewDelegate
         cell.delegate = self;
         
         [cell setValue:list];
-        
-        NSLog(@"%@",list.projectImgs);
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         return cell;
@@ -692,13 +676,12 @@ UIAlertViewDelegate
     [self.navigationController pushViewController:mapVC animated:YES];
 }
 
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex==1) {
+    if (buttonIndex == 1) {
+        
         NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-        
     }
 }
 
@@ -707,7 +690,7 @@ UIAlertViewDelegate
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
     
@@ -748,10 +731,9 @@ UIAlertViewDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
--(void)getEventpraiseDataResponse:(NSString *)resp
+
+- (void)getEventpraiseDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -769,13 +751,9 @@ UIAlertViewDelegate
     }
 }
 
-
 //回复
--(void)cellWillReply:(LMLeavemessagecell *)cell
+- (void)cellWillReply:(LMLeavemessagecell *)cell
 {
-    NSLog(@"**********回复");
-    
-    
     LMEventCommentVO *list = msgArray[cell.tag];
     
     commitUUid = list.commentUuid;
@@ -840,8 +818,8 @@ UIAlertViewDelegate
         [self textStateHUD:@"回答内容不能为空"];
         return;
     }
-    [self commitDataRequest];
     
+    [self commitDataRequest];
     
     [commentText resignFirstResponder];
     self.tableView.userInteractionEnabled = YES;
@@ -849,10 +827,6 @@ UIAlertViewDelegate
 
 - (void)commitDataRequest
 {
-    NSLog(@"%@",_eventUuid);
-    NSLog(@"%@",commitUUid);
-    NSLog(@"%@",commentText.text);
-
     NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
     LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:string];
@@ -871,32 +845,35 @@ UIAlertViewDelegate
     [proxy start];
     
 }
--(void)getEventcommitResponse:(NSString *)resp
+
+- (void)getEventcommitResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+  
     [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"回复失败"];
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
         [self textStateHUD:@"回复成功"];
         [self getEventListDataRequest];
 //        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
         
-    }else{
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
 }
-
-
 
 #pragma mark - LMActivityheadCell delegate -活动报名
 
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
     APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    infoView.event  = eventDic;
     
     infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
     infoView.titleLabel.text = @"￥:10000";
@@ -1465,7 +1442,9 @@ UIAlertViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
     LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:_eventUuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
