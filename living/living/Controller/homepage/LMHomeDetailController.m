@@ -1431,7 +1431,6 @@ shareTypeDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"删除失败请重试"];
     }else{
@@ -1449,6 +1448,7 @@ shareTypeDelegate
 {
     
     LMArticeDeleteReplyRequst *request = [[LMArticeDeleteReplyRequst alloc] initWithArticle_uuid:uuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1467,8 +1467,6 @@ shareTypeDelegate
 - (void)getdeleteArticlereplyResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    [self logoutAction:resp];
     
     if (!bodyDic) {
         
@@ -1491,10 +1489,12 @@ shareTypeDelegate
     CGFloat     keyboardHeight  = 280;
     
     if (view && view.superview) {
+        
         rect    = [self.tableView convertRect:rect fromView:view.superview];
     }
     
     if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        
         return;
     }
     
@@ -1503,7 +1503,7 @@ shareTypeDelegate
 
 #pragma mark --跳转writerVC
 
--(void)WriterVC
+- (void)WriterVC
 {
     LMWriterViewController *VC = [[LMWriterViewController alloc] initWithUUid:articleData.userUuid];
     VC.hidesBottomBarWhenPushed = YES;
@@ -1511,14 +1511,14 @@ shareTypeDelegate
     
 }
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     [self.view endEditing:YES];
     self.tableView.userInteractionEnabled = YES;
     return YES;
 }
 
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView isEqual:textcView]) {
         textIndex = 2;

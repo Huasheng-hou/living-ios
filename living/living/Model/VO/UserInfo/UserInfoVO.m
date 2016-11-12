@@ -114,6 +114,11 @@
             && [[dictionary objectForKey:@"living_nums"] isKindOfClass:[NSNumber class]]) {
             self.livingNumber =[(NSNumber *) [dictionary objectForKey:@"living_nums"] intValue];
         }
+        
+        if (nil != [dictionary objectForKey:@"userId"] && ![[dictionary objectForKey:@"userId"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"userId"] isKindOfClass:[NSNumber class]]) {
+            self.userId =[(NSNumber *) [dictionary objectForKey:@"userId"] intValue];
+        }
     }
     
     return self;

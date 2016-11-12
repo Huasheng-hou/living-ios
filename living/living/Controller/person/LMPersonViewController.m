@@ -245,15 +245,18 @@
             [cell.contentView addSubview:genderImage];
             
             //id
-            UILabel *idLabel=[[UILabel alloc]initWithFrame:CGRectMake(textSize.width+5+100+23, 22, kScreenWidth-(textSize.width+5+100+23)-15, 16)];
-            NSString *userID=[FitUserManager sharedUserManager].userId;
+            
+            UILabel     *idLabel = [[UILabel alloc] initWithFrame:CGRectMake(textSize.width + 5 + 100 + 23, 22, kScreenWidth-(textSize.width+5+100+23)-15, 16)];
+            NSString    *userID  = [NSString stringWithFormat:@"%d", infoModel.userId];
+            
             if (userID) {
-                 [idLabel setText:[NSString stringWithFormat:@"ID:%@",userID]];
+            
+                [idLabel setText:[NSString stringWithFormat:@"ID:%@",userID]];
             }
-            [idLabel setFont:TEXT_FONT_LEVEL_1];
+            
+            [idLabel setFont:TEXT_FONT_LEVEL_3];
              idLabel.textColor = TEXT_COLOR_LEVEL_2;
             [cell.contentView addSubview:idLabel];
-            
             
             //下划线
             UILabel *lineLabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 50, kScreenWidth-100, 0.5)];
@@ -263,7 +266,7 @@
             //余额
             UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 60, 80, 20)];
             question.text = [NSString stringWithFormat:@"余额 ￥%.2f", infoModel.balance];
-            question.font = TEXT_FONT_LEVEL_2;
+            question.font = TEXT_FONT_LEVEL_3;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [question sizeToFit];
             question.frame = CGRectMake(100, 60, question.bounds.size.width, 20);
@@ -274,19 +277,19 @@
             //订单
             UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
             reward.text = [NSString stringWithFormat:@"订单 %d", infoModel.orderNumber];
-            reward.font = TEXT_FONT_LEVEL_2;
+            reward.font = TEXT_FONT_LEVEL_3;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [reward sizeToFit];
-            reward.frame = CGRectMake(120+question.bounds.size.width, 60, reward.bounds.size.width, 20);
+            reward.frame = CGRectMake(115+question.bounds.size.width, 60, reward.bounds.size.width, 20);
             [cell.contentView addSubview:reward];
             
             //生活馆
             UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
             living.text = [NSString stringWithFormat:@"生活馆 %d", infoModel.livingNumber];
-            living.font = TEXT_FONT_LEVEL_2;
+            living.font = TEXT_FONT_LEVEL_3;
             living.textColor = TEXT_COLOR_LEVEL_3;
             [living sizeToFit];
-            living.frame = CGRectMake(140+question.bounds.size.width+reward.bounds.size.width, 60, living.bounds.size.width, 20);
+            living.frame = CGRectMake(130+question.bounds.size.width+reward.bounds.size.width, 60, living.bounds.size.width, 20);
             [cell.contentView addSubview:living];
             
             UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 63, 7, 14)];

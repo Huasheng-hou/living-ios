@@ -809,10 +809,12 @@ FitPickerViewDelegate
             }
             
             if (bodyDict[@"aliSignedOrder"]) {
+            
                 [self senderAliPay:bodyDict[@"aliSignedOrder"]];
             }
             
-        }else{
+        } else {
+            
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
         }
     }
@@ -824,7 +826,7 @@ FitPickerViewDelegate
 {
     NSString *appScheme = @"livingApp";
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        //        NSLog(@"  购物车支付宝支付结果返回reslut = %@",resultDic);
+        
     }];
 }
 
@@ -850,11 +852,10 @@ FitPickerViewDelegate
     [proxy start];
 }
 
--(void)aliPaySuccessEnsureResponse:(NSString *)resp
+- (void)aliPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
-[self logoutAction:resp];
     if (!bodyDict) {
         return;
     }
@@ -877,84 +878,87 @@ FitPickerViewDelegate
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+    
     LMBalanceChargeRequest *request = [[LMBalanceChargeRequest alloc] initWithOrder_uuid:orderInfos.orderUuid useBalance:orderdata.balance];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+    
+    HTTPProxy   *proxy      = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
-                                               [self performSelectorOnMainThread:@selector(balanceChargeResponse:)
+                                                   [self performSelectorOnMainThread:@selector(balanceChargeResponse:)
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"余额支付失败"
+                                               } failed:^(NSError *error) {
+                                               
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
 
--(void)balanceChargeResponse:(NSString *)resp
+- (void)balanceChargeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"余额支付失败"];
-    }else{
+    } else {
+
         NSString        *result     = [bodyDic objectForKey:@"result"];
         
-        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
-            
+        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您已成功付款"
-                                                                           message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                NSLog(@"******确定");
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * _Nonnull action) {
                 
+                                                        [self dismissViewControllerAnimated:YES completion:nil];
             }]];
             
             [self presentViewController:alert animated:YES completion:nil];
             
-        }else{
+        } else {
+            
             [self textStateHUD:@"支付失败，请重试"];
         }
-        
     }
-    
 }
 
 #pragma mark --选择优惠券
 
--(void)CouponChose
+- (void)CouponChose
 {
     [self createTableView];
-
-    
-//    [FitPickerView showWithData:@[couponList] Delegate:self OffSets:@[@"0"]];
 }
+
 - (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
 {
     NSString *uuidString = items[0];
+    
     if ([uuidString isEqual:@"不抵扣"]) {
+        
         [self useCouponreload:@"0" couponUUid:@"0"];
-    }else{
+    } else {
+        
         NSString *couponUUid = couponIDList[row];
         NSString *coupon = [uuidString substringFromIndex:8];
         [self useCouponreload:coupon couponUUid:couponUUid];
     }
-    
-
-
-    NSLog(@"*********");
-    
 }
 
-
--(void)getCouponListRequest
+- (void)getCouponListRequest
 {
     LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:_orderUUid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -962,53 +966,47 @@ FitPickerViewDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+    
                                                [self textStateHUD:@"获取优惠券信息失败"];
                                            }];
     [proxy start];
-    
-    
 }
 
--(void)getCouponListResponse:(NSString *)resp
+- (void)getCouponListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    [self logoutAction:resp];
-    couponList = [NSMutableArray new];
-    couponPriceArray = [NSMutableArray new];
+
+    couponList          = [NSMutableArray new];
+    couponPriceArray 	= [NSMutableArray new];
+    
     if (!bodyDic) {
+        
         [self textStateHUD:@"获取优惠券失败"];
-    }else{
+    } else {
+        
         NSString        *result     = [bodyDic objectForKey:@"result"];
         
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
             
             NSArray *array = bodyDic[@"list"];
             for (int i = 0; i<array.count; i++) {
+                
                 LMCouponVO *vo = [LMCouponVO LMCouponVOWithDictionary:array[i]];
+                
                 [couponList addObject:vo];
-                NSLog(@"%@",vo.amount);
                 [couponPriceArray addObject:vo.amount];
             }
+        } else {
             
-            
-
-
-            
-            
-        }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
-        
     }
-    
 }
 
-
--(void)useCouponreload:(NSString *)couponPrice couponUUid:(NSString *)uuid;
+- (void)useCouponreload:(NSString *)couponPrice couponUUid:(NSString *)uuid;
 {
-
-    NSLog(@"%@",_orderUUid);
     LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuid];
+ 
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1016,32 +1014,34 @@ FitPickerViewDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"使用优惠券失败"];
+                                               
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
 
--(void)useCouponResponse:(NSString *)resp
+- (void)useCouponResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"暂不能使用该优惠券"];
-    }else{
-        NSString        *result     = [bodyDic objectForKey:@"result"];
+    } else {
+        
+        NSString    *result     = [bodyDic objectForKey:@"result"];
+        
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
             
             [self getOrderData];
-        }else{
+        } else {
+            
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
-        
-
-        
     }
 }
 
-
--(void)createTableView
+- (void)createTableView
 {
     backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     backView.backgroundColor = [UIColor blackColor];
@@ -1082,34 +1082,27 @@ FitPickerViewDelegate
     [_couponView reloadData];
 }
 
-
--(void)dismissSelf
+- (void)dismissSelf
 {
-    NSLog(@"****");
     [backView removeFromSuperview];
     [addView removeFromSuperview];
-    
 }
 
--(void)confirmItemPressed
+- (void)confirmItemPressed
 {
-    NSLog(@"*****");
     if (selectedRow==couponList.count) {
+        
         [self useCouponreload:@"0" couponUUid:@"0"];
-    }else{
+    } else {
+        
         LMCouponVO *vo = couponList[selectedRow];
         NSString *string =  couponPriceArray[selectedRow];
+        
         [self useCouponreload:string couponUUid:vo.couponUuid];
     }
     
-
     [backView removeFromSuperview];
     [addView removeFromSuperview];
 }
-
-
-
-
-
 
 @end

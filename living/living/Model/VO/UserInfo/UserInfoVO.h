@@ -35,5 +35,6 @@
 @property (nonatomic, strong) NSString *province;
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, assign) int livingNumber;
+@property (nonatomic, assign) int userId;
 
 @end

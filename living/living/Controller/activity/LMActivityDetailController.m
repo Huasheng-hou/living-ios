@@ -286,16 +286,17 @@ UIAlertViewDelegate
         NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"event_projects_body"]];
         
         for (LMProjectBodyVO *vo in eveArray) {
+            
             [eventArray addObject:vo];
         }
-        for (int i=0; i<eveArray.count; i++) {
+        for (int i = 0; i < eveArray.count; i++) {
+            
             LMProjectBodyVO *Projectslist=eveArray[i];
         
-            if (![Projectslist.projectImgs isEqual:@""]) {
-               [imageArray addObject: Projectslist.projectImgs];
+            if (Projectslist.projectImgs && [Projectslist.projectImgs isKindOfClass:[NSString class]] && ![Projectslist.projectImgs isEqual:@""]) {
+               
+                [imageArray addObject: Projectslist.projectImgs];
             }
-            
-            
         }
         
         eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
@@ -858,8 +859,6 @@ UIAlertViewDelegate
         
         [self textStateHUD:@"回复成功"];
         [self getEventListDataRequest];
-//        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
-        
     } else {
         
         NSString *str = [bodyDic objectForKey:@"description"];
