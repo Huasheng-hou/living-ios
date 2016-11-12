@@ -966,15 +966,16 @@ UIAlertViewDelegate
     
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"暂不能报名"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+    
     NSMutableDictionary *orderNum=notice.object;
-    NSLog(@"%@",orderNum[@"num"]);
     
     NSString *num = [NSString stringWithFormat:@"%@",orderNum[@"num"]];
     
     LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:num];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -996,12 +997,15 @@ UIAlertViewDelegate
 -(void)getEventjoinDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     [self logoutAction:resp];
-    NSLog(@"%@",bodyDic);
+
     if (!bodyDic) {
+
         [self textStateHUD:@"报名失败"];
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
         [self textStateHUD:@"报名活动成功"];
         NSString *orderID = [bodyDic objectForKey:@"order_uuid"];
         

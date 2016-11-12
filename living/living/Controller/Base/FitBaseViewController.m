@@ -70,13 +70,14 @@
 }
 
 #pragma mark - MBProgressHUD Delegate
+
 - (void)hudWasHidden:(MBProgressHUD *)ahud
 {
     [stateHud removeFromSuperview];
     stateHud = nil;
 }
 
--(void)logoutAction:(NSString *)resp
+- (void)logoutAction:(NSString *)resp
 {
     NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary *respDict = [NSJSONSerialization
@@ -109,8 +110,5 @@
     }
 
 }
-
-
-
 
 @end
