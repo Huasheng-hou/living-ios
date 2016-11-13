@@ -102,9 +102,10 @@
             self.orderUuid = [dictionary objectForKey:@"order_uuid"];
         }
         
-
-        
-        
+        if (nil != [dictionary objectForKey:@"validated_price"] && ![[dictionary objectForKey:@"validated_price"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"validated_price"] isKindOfClass:[NSString class]]) {
+            self.validatedPrice = [dictionary objectForKey:@"validated_price"];
+        }
     }
     return self;
 }

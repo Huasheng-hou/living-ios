@@ -316,7 +316,7 @@ FitPickerViewDelegate
             UILabel *perCost = [UILabel new];
             perCost.textColor = TEXT_COLOR_LEVEL_3;
             perCost.font = TEXT_FONT_LEVEL_1;
-            NSString *string = [NSString stringWithFormat:@"￥%@",orderdata.price];
+            NSString *string = [NSString stringWithFormat:@"￥%@", orderInfos.validatedPrice];
             perCost.text = [NSString stringWithFormat:@"%@",string];
             [perCost sizeToFit];
             perCost.frame = CGRectMake(40, 85, perCost.bounds.size.width, 25);
@@ -458,19 +458,27 @@ FitPickerViewDelegate
                     
                     break;
                 case 1:
+                    
                     cell.textLabel.text = @"活动名称:";
                     cell.detailTextLabel.text = orderInfos.eventName;
+                    
                     break;
                 case 2:
+                    
                     cell.textLabel.text = @"参加人数:";
                     cell.detailTextLabel.text =[NSString stringWithFormat:@"%d人",orderInfos.joinNumber];
+                    
                     break;
                 case 3:
+                    
                     cell.textLabel.text = @"平均价格:";
-                    if (orderInfos.averagePrice==nil) {
+                    
+                    if (orderInfos.averagePrice == nil) {
+                    
                         cell.detailTextLabel.text = @"";
-                    }else{
-                        cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%@",orderInfos.averagePrice];
+                    } else {
+                        
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%@",orderInfos.validatedPrice];
                     }
                     
                     break;

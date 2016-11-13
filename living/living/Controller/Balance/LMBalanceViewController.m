@@ -77,6 +77,12 @@ UITableViewDataSource
     [self loadNewer];
 }
 
+- (void)loadNoState
+{
+    [super loadNoState];
+    [self getBlanceData];
+}
+
 - (void)creatUI
 {
     [super createUI];
