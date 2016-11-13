@@ -417,9 +417,11 @@ WXApiDelegate
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
-                                               [self performSelectorOnMainThread:@selector(parseCodeResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                               
+                                                   [self parseCodeResponse:resp];
+                                               });
+                                               
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
@@ -456,31 +458,31 @@ WXApiDelegate
         vipString =[bodyDict objectForKey:@"sign"];
 
         [self setUserInfo];
-        
         [self textStateHUD:@"登录成功"];
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-           
-                if (is_exist && [is_exist intValue] == 0) {
-            
-                    LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
-            
-                    registerVC.userId = _uuid;
-                    registerVC.passWord = _password;
-                    registerVC.numberString = _phoneTF.text;
-           
-                    [self.navigationController pushViewController:registerVC animated:YES];
-             } else {
-                 
-                 NSLog(@"Current thread is:%@", [[NSThread currentThread] name]);
-                 [self dismissViewControllerAnimated:YES completion:nil];
-             }
-        });
+        [self performSelector:@selector(loginSuccessed:) withObject:is_exist afterDelay:0.8];
         
     } else {
         
         NSString *string = [bodyDict objectForKey:@"description"];
         [self textStateHUD:string];
+    }
+}
+
+- (void)loginSuccessed:(NSString *)is_exist
+{
+    if (is_exist && [is_exist intValue] == 0) {
+        
+        LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
+        
+        registerVC.userId = _uuid;
+        registerVC.passWord = _password;
+        registerVC.numberString = _phoneTF.text;
+        
+        [self.navigationController pushViewController:registerVC animated:YES];
+    } else {
+        
+        [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
