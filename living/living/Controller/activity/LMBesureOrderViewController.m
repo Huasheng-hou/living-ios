@@ -383,10 +383,6 @@ FitPickerViewDelegate
                 [cell.contentView addSubview:couponLabel];
                 
                 
-                
-                
-
-                
                 UILabel *cPMoneyLabel = [UILabel new];
                 cPMoneyLabel.text = [NSString stringWithFormat:@"￥%@",orderdata.couponMoney];
                 cPMoneyLabel.font = [UIFont systemFontOfSize:20];
@@ -700,9 +696,8 @@ FitPickerViewDelegate
             if (bodyDict[@"map"][@"wxOrder"]) {
                 [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
             }
+        } else {
             
-            
-        }else{
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
         }
     }
@@ -717,7 +712,7 @@ FitPickerViewDelegate
 
 #pragma mark 微信支付结果确认
 
--(void)weixinPayEnsure
+- (void)weixinPayEnsure
 {
     if (![CheckUtils isLink]) {
         

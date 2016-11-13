@@ -11,8 +11,6 @@
 #import "LMRechargeCell.h"
 #import "LMBusinessCell.h"
 
-#import "LMChargeButton.h"
-
 //支付宝
 #import "Order.h"
 #import "DataSigner.h"
@@ -23,8 +21,6 @@
 #import "WXApi.h"
 
 #import "WXApiRequestHandler.h"
-
-
 
 #import "LMFranchiseeResultWchatRequest.h"
 #import "LMFranchiseeWchatPayRequest.h"
@@ -52,43 +48,38 @@ liveNameProtocol
 
 @implementation LMFranchiseeViewController
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createUI];
     
-    //微信支付结果确认
+    // * 微信支付结果确认
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(weixinPayEnsure)
-     
-                                                 name:@"weixinPayEnsure"
-     
+                                                 name:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
                                                object:nil];
-    //支付宝支付结果确认
+    // * 支付宝支付结果确认
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(aliPayEnsure:)
-     
                                                  name:@"aliPayEnsure"
-     
                                                object:nil];
 }
 
--(void)createUI
+- (void)createUI
 {
     self.title=@"申请加盟商";
     
     if (_index!=1) {
         _liveRoomName=@"添加充值生活馆";
     }
-    
-    
     
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
     [table setBackgroundColor:BG_GRAY_COLOR];
@@ -110,16 +101,14 @@ liveNameProtocol
     [table setTableFooterView:footView];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self.view endEditing:YES];
     return YES;
 }
 
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    
     if (section==1) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
         headView.backgroundColor = [UIColor clearColor];
@@ -146,32 +135,30 @@ liveNameProtocol
         
         return headView;
     }
+
     return nil;
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         return 10;
     }
     return 30;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
 
     return 0.01;
 }
 
-
-
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 3;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==2) {
         return 3;
@@ -179,7 +166,7 @@ liveNameProtocol
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return 70;
@@ -193,9 +180,10 @@ liveNameProtocol
     return 110;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section == 0) {
+       
         static NSString *cellIds = @"cellIds";
         
         UITableViewCell * addcell= [tableView dequeueReusableCellWithIdentifier:cellIds];
@@ -281,7 +269,7 @@ liveNameProtocol
     return nil;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         NSLog(@"***");
@@ -295,7 +283,6 @@ liveNameProtocol
             selectedIndex=index;
             [table reloadData];
         }
-
     }
 }
 
@@ -380,18 +367,37 @@ liveNameProtocol
 
 #pragma mark 发起第三方微信支付
 
--(void)senderWeiXinPay:(NSDictionary *)dic
+- (void)senderWeiXinPay:(NSDictionary *)dic
 {
-    NSLog(@"=========发起第三方微信支付=====dic==%@",dic);
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+      
         [WXApiRequestHandler jumpToBizPay:dic];
     });
 }
 
 #pragma mark 微信支付结果确认
 
--(void)weixinPayEnsure
+// * 微信支付被取消
+
+- (void)wxPayCanceled
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self textStateHUD:@"支付失败，用户取消"];
+    });
+}
+
+// * 微信支付失败（其它原因）
+
+- (void)wxPayFailed
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self textStateHUD:@"微信支付失败"];
+    });
+}
+
+- (void)weixinPayEnsure
 {
     if (![CheckUtils isLink]) {
         
@@ -410,13 +416,11 @@ liveNameProtocol
                                                [self textStateHUD:@"数据请求失败"];
                                            }];
     [proxy start];
-    
 }
--(void)weixinPaySuccessEnsureResponse:(NSString *)resp
+
+- (void)weixinPaySuccessEnsureResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    
-    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"数据请求失败"];
@@ -441,15 +445,21 @@ liveNameProtocol
 
 #pragma mark 支付宝充值下单请求
 
--(void)aliRechargeRequest
+- (void)aliRechargeRequest
 {
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
     [self initStateHud];
-    LMFranchiseeAliPayRequest *request=[[LMFranchiseeAliPayRequest alloc]initWithAliRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
+    
+    LMFranchiseeAliPayRequest   *request = [[LMFranchiseeAliPayRequest alloc] initWithAliRecharge:@"3600"
+                                                                                    andLivingUuid:_liveUUID
+                                                                                         andPhone:headcell.NumTF.text
+                                                                                          andName:headcell.NameTF.text];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -545,26 +555,6 @@ liveNameProtocol
             [self textStateHUD:bodyDict[@"description"]];
         }
     }
-}
-
-- (void)changeMoney:(LMChargeButton *)button
-{
-    for (UIView *view in footView.subviews) {
-        if ([view isKindOfClass:[LMChargeButton class]]) {
-            
-            LMChargeButton *btn = (LMChargeButton *)view;
-            btn.upLabel.textColor = TEXT_COLOR_LEVEL_2;
-            btn.downLabel.textColor = TEXT_COLOR_LEVEL_2;
-            button.layer.borderColor = LINE_COLOR.CGColor;
-        }
-    }
-    
-    button.upLabel.textColor = LIVING_COLOR;
-    button.downLabel.textColor = LIVING_COLOR;
-    button.layer.borderColor = LIVING_COLOR.CGColor;
-    
-    NSString *string =[button.upLabel.text substringToIndex:[button.upLabel.text length] - 1];
-    headcell.NameTF.text = string;
 }
 
 #pragma mark  UIAlertViewDelegate
