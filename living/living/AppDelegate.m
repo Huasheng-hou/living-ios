@@ -339,12 +339,12 @@ UNUserNotificationCenterDelegate
         
         SendAuthResp    *authResp   = (SendAuthResp *)resp;
         
-        if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
+        switch (authResp.errCode) {
             
-            switch (authResp.errCode) {
+            case WXSuccess:                 /**< 成功    */
+            {
+                if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
                 
-                case WXSuccess:                 /**< 成功    */
-                {
                     if (authResp.code && [authResp.code isKindOfClass:[NSString class]]) {
                         
                         NSDictionary    *userInfo   = [NSDictionary dictionaryWithObject:authResp.code forKey:@"code"];
@@ -354,51 +354,51 @@ UNUserNotificationCenterDelegate
                                                                           userInfo:userInfo];
                     }
                 }
-                    break;
-                 
-                case WXErrCodeCommon:           /**< 普通错误类型    */
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
-                                                                        object:nil
-                                                                      userInfo:nil];
-                }
-                    break;
-                    
-                case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_CANCEL_NOTIFICATION
-                                                                        object:nil
-                                                                      userInfo:nil];
-                }
-                    break;
-                    
-                case WXErrCodeSentFail:         /**< 发送失败    */
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
-                                                                        object:nil
-                                                                      userInfo:nil];
-                }
-                    break;
-                    
-                case WXErrCodeAuthDeny:         /**< 授权失败    */
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
-                                                                        object:nil
-                                                                      userInfo:nil];
-                }
-                    break;
-                    
-                case WXErrCodeUnsupport:        /**< 微信不支持    */
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
-                                                                        object:nil
-                                                                      userInfo:nil];
-                }
-                    break;
-                    
-                default:
-                    break;
             }
+                break;
+             
+            case WXErrCodeCommon:           /**< 普通错误类型    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_CANCEL_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeSentFail:         /**< 发送失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeAuthDeny:         /**< 授权失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUnsupport:        /**< 微信不支持    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            default:
+                break;
         }
         
     } else if ([resp isKindOfClass:[PayResp class]]) {

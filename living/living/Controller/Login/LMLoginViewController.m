@@ -434,7 +434,6 @@ WXApiDelegate
 - (void)parseCodeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"登录失败"];
@@ -471,9 +470,8 @@ WXApiDelegate
                     registerVC.numberString = _phoneTF.text;
            
                     [self.navigationController pushViewController:registerVC animated:YES];
-             }else{
-                    
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"login" object:nil];
+             } else {
+                 
                  [self dismissViewControllerAnimated:YES completion:nil];
              }
         });
@@ -564,12 +562,18 @@ WXApiDelegate
 
 - (void)userLoginCancel
 {
-    [self textStateHUD:@"已取消授权，请重新登录"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self textStateHUD:@"已取消授权，请重新登录"];
+    });
 }
 
 - (void)wxLoginFailed
 {
-    [self textStateHUD:@"微信登录失败"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self textStateHUD:@"微信登录失败"];
+    });
 }
 
 // * 微信登录通知响应

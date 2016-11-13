@@ -54,7 +54,8 @@ UIViewControllerTransitioningDelegate
 
 @implementation LMRegisterViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createUI];
 }
@@ -64,7 +65,6 @@ UIViewControllerTransitioningDelegate
     [super createUI];
     self.title = @"填写资料";
     genderStr = @"1";
-//    _imgURL = @"";
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -117,34 +117,43 @@ UIViewControllerTransitioningDelegate
     
     self.tableView.tableFooterView = footView;
     
-    
     pickImage=[[UIImagePickerController alloc]init];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setDelegate:self];
-//    [pickImage setAllowsEditing:YES];
+
+    UIBarButtonItem     *rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"跳过"
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(dismissItemPressed)];
     
-    
+    self.navigationItem.rightBarButtonItem  = rightItem;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (void)dismissItemPressed
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self dismissViewControllerAnimated:YES completion:nil];
+    });
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-
     return 10;
-
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return 130;
@@ -156,8 +165,7 @@ UIViewControllerTransitioningDelegate
     return 0;
 }
 
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -230,16 +238,13 @@ UIViewControllerTransitioningDelegate
         [cityTF addTarget:self action:@selector(addressChooseAction) forControlEvents:UIControlEventTouchUpInside];
         cityTF.textLabel.text = @"请选择所在城市";
         [cell.contentView addSubview:cityTF];
-        
     }
-    
-
     
     return cell;
 }
 
 #pragma mark 登陆
--(void)loginAction
+- (void)loginAction
 {
 
     if ([nickTF.text isEqualToString:@""]) {
@@ -295,16 +300,16 @@ UIViewControllerTransitioningDelegate
     
     NSString *result    = [bodyDict objectForKey:@"result"];
     
-    if (result && [result intValue] == 0)
-    {
+    if (result && [result intValue] == 0) {
         
         infoDic = [bodyDict objectForKey:@"user_info"];
+        _uuid   = [infoDic objectForKey:@"user_uuid"];
         
-        _uuid = [infoDic objectForKey:@"user_uuid"];
         [self gotoHomepage];
         [self textStateHUD:@"资料填写成功"];
         
     } else {
+        
         [self textStateHUD:@"资料填写失败"];
     }
 }
@@ -313,13 +318,7 @@ UIViewControllerTransitioningDelegate
 
 - (void)gotoHomepage
 {
-    FitTabbarController *tabbar = [[FitTabbarController alloc] init];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"login"
-     
-                                                        object:nil];
-    
-    [self presentViewController:tabbar animated:YES completion:nil];
-
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark pickerView选择日期
@@ -364,22 +363,18 @@ UIViewControllerTransitioningDelegate
     [FitPickerView showWithData:@[provinceArr, @[@"北京"]] Delegate:self OffSets:@[@"0", @"0"]];
 }
 
-
 - (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
 {
 
     cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@", items[0], items[1]];
     provinceStr = [NSString stringWithFormat:@"%@",items[0]];
     cityStr = [NSString stringWithFormat:@"%@",items[1]];
-    
 }
-
 
 #pragma mark  性别选择
 
--(void)manAction
+- (void)manAction
 {
-    NSLog(@"************man****");
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
     manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
@@ -387,8 +382,8 @@ UIViewControllerTransitioningDelegate
     genderStr = @"1";
 }
 
--(void)womanAction{
-    NSLog(@"***********woman*****");
+- (void)womanAction
+{
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
     manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
@@ -427,8 +422,10 @@ UIViewControllerTransitioningDelegate
     [self initStateHud];
 
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-    UIImage *headImage = [ImageHelpTool scaleImage:image];
+    
+    UIImage *headImage  = [ImageHelpTool scaleImage:image];
     request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
                                                
@@ -438,8 +435,6 @@ UIViewControllerTransitioningDelegate
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                
                                                NSString    *result = [bodyDict objectForKey:@"result"];
-                                               
-                                               NSLog(@"--------bodyDict--------%@",bodyDict);
                                                
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
@@ -454,24 +449,25 @@ UIViewControllerTransitioningDelegate
     [proxy start];
 }
 
-
 #pragma mark 确定执行方法
 
--(void)saveUserInfoResponse:(NSString *)resp
+- (void)saveUserInfoResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
     if (!bodyDict)
     {
         [self textStateHUD:@"保存失败"];
         return;
     }
+    
     if (bodyDict && [bodyDict objectForKey:@"result"]
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]])
     {
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            
             [self textStateHUD:@"保存成功"];
-            NSLog(@"保存成功");
-//            [self setUserInfo];
+            
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
@@ -495,7 +491,6 @@ UIViewControllerTransitioningDelegate
     [actionSheet showInView:self.view];
     actionSheet = nil;
 }
-
 
 #pragma mark UIActionSheet 代理函数
 
