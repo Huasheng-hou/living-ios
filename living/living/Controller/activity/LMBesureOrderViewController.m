@@ -791,19 +791,22 @@ FitPickerViewDelegate
         [self textStateHUD:@"数据请求失败"];
         return;
     }
+    
     if (bodyDict && [bodyDict objectForKey:@"result"]
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
-                [self textStateHUD:@"支付成功！"];
-            
                 
-            }else{
+                [self textStateHUD:@"支付成功！"];
+                [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+                
+            } else {
+                
                 [self textStateHUD:@"支付失败！"];
             }
-        }else{
+        } else {
             
             [self textStateHUD:bodyDict[@"description"]];
         }
