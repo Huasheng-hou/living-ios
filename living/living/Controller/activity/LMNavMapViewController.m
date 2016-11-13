@@ -27,6 +27,7 @@ AMapNaviDriveViewDelegate
 {
     MAPointAnnotation *point;
     CLLocation *currLocation;
+    UIButton    *_closeBtn;
     
     CLLocationCoordinate2D location;
 }
@@ -207,14 +208,24 @@ AMapNaviDriveViewDelegate
     [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(location.latitude, location.longitude)];
     
     //返回按钮
-     UIButton *backBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 20, 50, 36)];
-    [backBt setBackgroundImage:[UIImage imageNamed:@"activityNavBack"] forState:UIControlStateNormal];
-    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]initWithCustomView:backBt];
-    self.navigationItem.leftBarButtonItem = backItem;
+//     UIButton *backBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 20, 50, 36)];
+//    [backBt setBackgroundImage:[UIImage imageNamed:@"activityNavBack"] forState:UIControlStateNormal];
+//    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]initWithCustomView:backBt];
+//    self.navigationItem.leftBarButtonItem = backItem;
     
-    backItem.width = -16;
-    [backBt addTarget:self action:@selector(backBeforePage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backBt];
+//    backItem.width = -16;
+    
+    [self.navigationItem setHidesBackButton:YES];
+    
+//    self.navigationItem.backBarButtonItem.title = @"";
+    
+    UIButton    *closeBtn   = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, 50, 36)];
+    
+    [closeBtn setBackgroundImage:[UIImage imageNamed:@"activityNavBack"] forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(backBeforePage) forControlEvents:UIControlEventTouchUpInside];
+    _closeBtn   = closeBtn;
+    
+    [[[UIApplication sharedApplication] keyWindow] addSubview:_closeBtn];
 
     //定位
     UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(15, kScreenHeight-100-20-36, 36, 36)];
@@ -282,13 +293,10 @@ updatingLocation:(BOOL)updatingLocation
     actionSheet = nil;
 }
 
-
 #pragma mark UIActionSheet 代理函数
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    NSLog(@"===================buttonIndex====%ld",buttonIndex);
-    
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     if (buttonIndex==0) {
         [self iphoneSelfNav];
     }
@@ -300,14 +308,15 @@ updatingLocation:(BOOL)updatingLocation
 
 #pragma mark 返回上一页
 
--(void)backBeforePage
+- (void)backBeforePage
 {
     //停止导航
      [self.driveManager stopNavi];
     //停止语音
     [[SpeechSynthesizer sharedSpeechSynthesizer] stopSpeak];
     [self.navigationController popViewControllerAnimated:YES];
+    
+    [_closeBtn removeFromSuperview];
 }
-
 
 @end

@@ -39,7 +39,6 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -48,12 +47,12 @@
     [self getUserInfoData];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
-
     infoDic = [NSMutableDictionary new];
-//    [self getUserInfoData];
+
     [self creatUI];
     
     //请求获取余额
@@ -68,7 +67,7 @@
                                                object:nil];
 }
 
--(void)creatUI
+- (void)creatUI
 {
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
@@ -83,8 +82,8 @@
 {
     LMNoticViewController *noticVC = [[LMNoticViewController alloc] init];
     [noticVC setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:noticVC animated:YES];
     
+    [self.navigationController pushViewController:noticVC animated:YES];
 }
 
 #pragma mark  请求个人数据
@@ -193,14 +192,13 @@
         UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
         
         if (indexPath.row==0) {
+            
             //头像
             headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
             headerView.layer.cornerRadius = 35;
             headerView.backgroundColor = BG_GRAY_COLOR;
             headerView.contentMode = UIViewContentModeScaleAspectFill;
             headerView.clipsToBounds = YES;
-            
-            
             
             if (infoModel.avatar ==nil) {
                 if ([infoModel.gender isEqual:@"1"]) {
@@ -363,7 +361,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //修改资料
     UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
@@ -383,7 +381,6 @@
         }
     }
     
-    
     if (indexPath.section==1) {
         //余额
         if (indexPath.row==0) {
@@ -399,16 +396,22 @@
             orderVC.useBalance = [NSString stringWithFormat:@"%.2f", infoModel.balance];
             [self.navigationController pushViewController:orderVC animated:YES];
         }
-        //生活馆
-        if (indexPath.row ==2) {
-            if (infoModel.livingUuid&&infoModel.livingUuid!=nil) {
-                LMMyLivingViewController *myVC = [[LMMyLivingViewController alloc] init];
-                myVC.hidesBottomBarWhenPushed = YES;
-                myVC.livImgUUid = infoModel.livingUuid;
-                [self.navigationController pushViewController:myVC animated:YES];
-            }
+        
+        // * 生活馆
+        if (indexPath.row == 2) {
             
-
+            if (infoModel.livingUuid && infoModel.livingUuid != nil && infoModel.livingNumber > 0) {
+                
+                LMMyLivingViewController    *myVC   = [[LMMyLivingViewController alloc] init];
+                
+                myVC.hidesBottomBarWhenPushed       = YES;
+                myVC.livImgUUid                     = infoModel.livingUuid;
+                
+                [self.navigationController pushViewController:myVC animated:YES];
+            } else {
+                
+                [self textStateHUD:@"你还没有生活馆，赶快充值吧~"];
+            }
         }
         //我的好友
         if (indexPath.row ==3) {
@@ -416,13 +419,14 @@
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
+        
         //我的优惠券
-        if (indexPath.row ==4) {
+        if (indexPath.row == 4) {
+         
             LMMyCouponController *myfVC = [[LMMyCouponController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
-        
     }
     
     if (indexPath.section==2) {

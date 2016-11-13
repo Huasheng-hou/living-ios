@@ -300,6 +300,7 @@ LMOrderCellDelegate
 }
 
 #pragma mark - LMOrderCell delegate -
+
 - (void)cellWilldelete:(LMOrderCell *)cell
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除"
@@ -319,6 +320,7 @@ LMOrderCellDelegate
 - (void)OrderDeleteRequest:(NSString *)string
 {
     LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:string];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -331,8 +333,8 @@ LMOrderCellDelegate
                                                                       withObject:@"删除失败，请重试！"
                                                                    waitUntilDone:YES];
                                            }];
-    [proxy start];
     
+    [proxy start];
 }
 
 - (void)getdeleteDataResponse:(NSString *)resp
@@ -436,6 +438,8 @@ LMOrderCellDelegate
                                                                    message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        [self initStateHud];
+        
         LMRefundRequest *request = [[LMRefundRequest alloc] initWithOrder_uuid:cell.Orderuuid];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -480,13 +484,19 @@ LMOrderCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"退款申请失败"];
-    }else{
+    } else {
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
             [self textStateHUD:@"退款申请成功"];
             [self reloadingHomePage];
-        }else{
+            
+        } else {
+         
             [self textStateHUD:bodyDic[@"description"]];
         }
     }

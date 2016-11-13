@@ -62,6 +62,43 @@ FitPickerViewDelegate
 
 @implementation LMBesureOrderViewController
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        
+        // * 微信支付被用户取消
+        //
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(wxPayCanceled)
+                                                     name:LM_WECHAT_PAY_CANCEL_NOTIFICATION
+                                                   object:nil];
+        
+        // * 微信支付失败
+        //
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(wxPayFailed)
+                                                     name:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                   object:nil];
+        
+        // * 微信支付结果确认
+        //
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(weixinPayEnsure)
+                                                     name:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
+                                                   object:nil];
+        
+        // * 支付宝支付结果确认
+        //
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(aliPayEnsure:)
+                                                     name:@"aliPayEnsure"
+                                                   object:nil];
+    }
+
+    return self;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -81,21 +118,6 @@ FitPickerViewDelegate
     eventDic =[[LMEventBodyVO alloc] initWithDictionary:_dict];
     
     [self getOrderData];
-    
-    // * 微信支付结果确认
-    //
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(weixinPayEnsure)
-                                                 name:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
-                                               object:nil];
-    //支付宝支付结果确认
-    [[NSNotificationCenter defaultCenter] addObserver:self
-     
-                                             selector:@selector(aliPayEnsure:)
-     
-                                                 name:@"aliPayEnsure"
-     
-                                               object:nil];
     
     UIBarButtonItem     *leftItem   = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                        style:UIBarButtonItemStylePlain
@@ -200,7 +222,6 @@ FitPickerViewDelegate
                 return 190;
             }else{
                 return 150;
-                
             }
             
         }
@@ -215,32 +236,31 @@ FitPickerViewDelegate
         return 50;
     }
     return 0;
-    
-
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (tableView==self.tableView) {
-    if (section==1) {
-        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-        UILabel *msgLabel = [UILabel new];
-        msgLabel.text = @"订单信息";
-        msgLabel.font = TEXT_FONT_LEVEL_2;
-        msgLabel.textColor = TEXT_COLOR_LEVEL_3;
-        [msgLabel sizeToFit];
-        msgLabel.frame = CGRectMake(15, 0, kScreenWidth-30, 30);
-        [headView addSubview:msgLabel];
-        return headView;
-    }
+
+        if (section==1) {
+        
+            UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+            UILabel *msgLabel = [UILabel new];
+            msgLabel.text = @"订单信息";
+            msgLabel.font = TEXT_FONT_LEVEL_2;
+            msgLabel.textColor = TEXT_COLOR_LEVEL_3;
+            [msgLabel sizeToFit];
+            msgLabel.frame = CGRectMake(15, 0, kScreenWidth-30, 30);
+            [headView addSubview:msgLabel];
+            
+            return headView;
+        }
     }
     
     return nil;
 }
 
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (tableView==self.tableView) {
     if (section==0) {
@@ -579,6 +599,7 @@ FitPickerViewDelegate
 - (void)cancelAction
 {
     LMOrederDeleteRequest *request = [[LMOrederDeleteRequest alloc] initWithOrder_uuid:_orderUUid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -705,12 +726,32 @@ FitPickerViewDelegate
 
 #pragma mark 发起第三方微信支付
 
--(void)senderWeiXinPay:(NSDictionary *)dic
+- (void)senderWeiXinPay:(NSDictionary *)dic
 {
     [WXApiRequestHandler jumpToBizPay:dic];
 }
 
 #pragma mark 微信支付结果确认
+
+// * 微信支付被取消
+
+- (void)wxPayCanceled
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self textStateHUD:@"支付失败，用户取消"];
+    });
+}
+
+// * 微信支付失败（其它原因）
+
+- (void)wxPayFailed
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self textStateHUD:@"微信支付失败"];
+    });
+}
 
 - (void)weixinPayEnsure
 {
@@ -755,6 +796,7 @@ FitPickerViewDelegate
                 [self textStateHUD:@"支付失败！"];
             }
         }else{
+            
             [self textStateHUD:bodyDict[@"description"]];
         }
     }

@@ -1299,8 +1299,6 @@ UIAlertViewDelegate
     }
 }
 
-
-
 -(void)deleteArticleReply:(NSString *)uuid
 {
     
