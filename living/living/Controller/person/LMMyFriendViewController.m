@@ -179,7 +179,7 @@ UITableViewDataSource
                 imageLb.numberOfLines = 0;
                 imageLb.text = @"手牵手，一起走，如此优秀可爱的你\n怎么可以这么孤单呢";
                 imageLb.textColor = TEXT_COLOR_LEVEL_3;
-                imageLb.font = TEXT_FONT_LEVEL_2;
+                imageLb.font = TEXT_FONT_LEVEL_3;
                 imageLb.textAlignment = NSTextAlignmentCenter;
                 [homeImage addSubview:imageLb];
                 

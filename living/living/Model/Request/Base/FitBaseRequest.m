@@ -118,6 +118,7 @@
 - (NSURLRequest *)req
 {
     NSURL *url = [NSURL URLWithString:[self serverHost]];
+    
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
     httpClient.parameterEncoding    = AFFormURLParameterEncoding;
     

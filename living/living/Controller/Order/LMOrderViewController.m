@@ -72,25 +72,21 @@ LMOrderCellDelegate>
     [self creatUI];
     orderArray = [NSMutableArray new];
     
-    //微信支付结果确认
+    // * 微信支付结果确认
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(weixinPayEnsure)
-     
-                                                 name:@"weixinPayEnsure"
-     
+                                                 name:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
                                                object:nil];
-    //支付宝支付结果确认
+    // * 支付宝支付结果确认
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(aliPayEnsure:)
-     
                                                  name:@"aliPayEnsure"
-     
                                                object:nil];
 }
 
--(void)creatUI
+- (void)creatUI
 {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+36) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
@@ -104,19 +100,21 @@ LMOrderCellDelegate>
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(55, 10, 90, 90)];
     homeImg.image = [UIImage imageNamed:@"NO-order"];
     [homeImage addSubview:homeImg];
+    
     UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 111, 200, 60)];
-    imageLb.numberOfLines = 0;
-    imageLb.text = @"没订单,好枯燥,快来参与活动 享受美好生活";
-    imageLb.textColor = TEXT_COLOR_LEVEL_3;
-    imageLb.textAlignment = NSTextAlignmentCenter;
+    
+    imageLb.numberOfLines   = 0;
+    imageLb.text            = @"没订单,好枯燥,快来参与活动 享受美好生活";
+    imageLb.font            = TEXT_FONT_LEVEL_2;
+    imageLb.textColor       = TEXT_COLOR_LEVEL_3;
+    imageLb.textAlignment   = NSTextAlignmentCenter;
+    
     [homeImage addSubview:imageLb];
     
     [_tableView addSubview:homeImage];
     homeImage.hidden = YES;
     
     [self setupRefresh];
-    
-    
 }
 
 - (void)setupRefresh
@@ -137,10 +135,8 @@ LMOrderCellDelegate>
     _tableView.footerRefreshingText = @"正在帮你加载...";
 }
 
-
 - (void)headerRereshing
 {
-    
     // 2.0秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -155,47 +151,46 @@ LMOrderCellDelegate>
     });
 }
 
-
 - (void)footerRereshing
 {
-    
     // 2.0秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
         self.current = self.current+1;
         
-        ifRefresh=NO;
+        ifRefresh = NO;
         
-        if (total<self.current) {
+        if (total < self.current) {
+            
             [self textStateHUD:@"没有更多订单"];
-        }else{
+        } else {
+            
             [self getOrderListRequest:self.current];
         }
-        
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [_tableView footerEndRefreshing];
     });
 }
 
--(void)reloadingHomePage
+- (void)reloadingHomePage
 {
     [self headerRereshing];
 }
 
-
-
--(void)getOrderListRequest:(int)page
+- (void)getOrderListRequest:(int)page
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+    
     [self initStateHud];
     
+    LMOrderListRequest  *request    = [[LMOrderListRequest alloc] initWithPageIndex:page andPageSize:20];
     
-    LMOrderListRequest *request = [[LMOrderListRequest alloc] initWithPageIndex:page andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -209,10 +204,9 @@ LMOrderCellDelegate>
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
 
--(void)getOrderListResponse:(NSString *)resp
+- (void)getOrderListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -221,7 +215,7 @@ LMOrderCellDelegate>
     total = [[bodyDic objectForKey:@"total"] intValue];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        NSLog(@"%@",bodyDic);
+
         [self hideStateHud];
         
         if (ifRefresh) {
@@ -243,37 +237,37 @@ LMOrderCellDelegate>
         }
         
         [_tableView reloadData];
-    }else{
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
     }
-    
-    
 }
 
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 165;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0.01;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return orderArray.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
+    
     LMOrderCell *cell = [[LMOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
@@ -335,7 +329,7 @@ LMOrderCellDelegate>
     
 }
 
--(void)getdeleteDataResponse:(NSString *)resp
+- (void)getdeleteDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -356,6 +350,7 @@ LMOrderCellDelegate>
 {
     Orderuuid = cell.Orderuuid;
     LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    
     switch (list.status) {
         case 4:
             [self textStateHUD:@"活动已完结"];
@@ -430,6 +425,7 @@ LMOrderCellDelegate>
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
     LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    
     switch (list.status) {
         case 3:
             [self textStateHUD:@"活动已开始，不能进行退款"];
@@ -472,7 +468,10 @@ LMOrderCellDelegate>
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
-                                                [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+                                                
+                                                [alert dismissViewControllerAnimated:YES completion:nil];
+                                            
+                                            }]];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -660,8 +659,9 @@ LMOrderCellDelegate>
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            
             [self textStateHUD:@"下单成功"];
-            //支付宝支付下单后货物的uuid
+            
             if (bodyDict[@"myOrderUuid"]) {
                 rechargeOrderUUID=bodyDict[@"myOrderUuid"];
             }
