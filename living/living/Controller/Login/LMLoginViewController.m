@@ -472,6 +472,7 @@ WXApiDelegate
                     [self.navigationController pushViewController:registerVC animated:YES];
              } else {
                  
+                 NSLog(@"Current thread is:%@", [[NSThread currentThread] name]);
                  [self dismissViewControllerAnimated:YES completion:nil];
              }
         });

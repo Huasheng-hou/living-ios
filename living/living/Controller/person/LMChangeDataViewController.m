@@ -166,24 +166,9 @@ UIViewControllerTransitioningDelegate
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     
     if (indexPath.section==0) {
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if ([_genderStr intValue]== 1) {
-            manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
-            manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
-            manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
-            [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:manButton];
-            
-            
-            womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-            womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
-            womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
-            womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
-            womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
-            [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:womanButton];
-        }
         if ([_genderStr intValue]== 2) {
             manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
             manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
@@ -200,9 +185,24 @@ UIViewControllerTransitioningDelegate
             [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:womanButton];
             
+        } else {
+            
+            manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
+            manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
+            manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
+            [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:manButton];
+            
+            womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
+            womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
+            womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
+            womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
+            womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
+            [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:womanButton];
+            
+            _genderStr  = @"1";
         }
-        
-        
     }
     if (indexPath.section==1) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
