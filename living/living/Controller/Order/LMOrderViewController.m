@@ -39,10 +39,13 @@
 
 #import "LMCouponMsgRequest.h"
 
-@interface LMOrderViewController ()<UITableViewDelegate,
+@interface LMOrderViewController ()
+<
+UITableViewDelegate,
 UITableViewDataSource,
 UIActionSheetDelegate,
-LMOrderCellDelegate>
+LMOrderCellDelegate
+>
 {
     UITableView *_tableView;
     NSMutableArray *orderArray;
@@ -66,10 +69,13 @@ LMOrderCellDelegate>
     return orderArray;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+
     self.title = @"订单";
     [self creatUI];
+    
     orderArray = [NSMutableArray new];
     
     // * 微信支付结果确认
@@ -371,19 +377,6 @@ LMOrderCellDelegate>
         return;
     }
     
-    LMCouponMsgRequest *request = [[LMCouponMsgRequest alloc] initWithOrder_uuid:Orderuuid];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(balancemessageResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-    
-                                           }];
-    [proxy start];
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择支付方式"
                                                                    message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -410,11 +403,6 @@ LMOrderCellDelegate>
                                                 [alert dismissViewControllerAnimated:YES completion:nil];      }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (void)balancemessageResponse:(NSString *)resp
-{
-//    NSDictionary *bodyDic = [VOUtil parseBody:resp];
 }
 
 - (void)cellWillfinish:(LMOrderCell *)cell
@@ -639,6 +627,7 @@ LMOrderCellDelegate>
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+                                              
                                                [self textStateHUD:@"数据请求失败"];
                                            }];
     [proxy start];
@@ -740,7 +729,12 @@ LMOrderCellDelegate>
         return;
     }
     
-    LMBalanceChargeRequest *request = [[LMBalanceChargeRequest alloc] initWithOrder_uuid:Orderuuid useBalance:_useBalance];
+    [self textStateHUD:@"付款中..."];
+    [self initStateHud];
+    
+    LMBalanceChargeRequest *request     = [[LMBalanceChargeRequest alloc] initWithOrder_uuid:Orderuuid
+                                                                                  useBalance:_useBalance];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -748,6 +742,7 @@ LMOrderCellDelegate>
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
+                                               
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"余额支付失败"
                                                                    waitUntilDone:YES];
@@ -767,6 +762,8 @@ LMOrderCellDelegate>
         NSString        *result     = [bodyDic objectForKey:@"result"];
         
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
+            
+            [self hideStateHud];
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您已成功付款"
                                                                            message:nil preferredStyle:UIAlertControllerStyleAlert];

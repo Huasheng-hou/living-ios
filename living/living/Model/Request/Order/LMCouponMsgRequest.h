@@ -10,6 +10,6 @@
 
 @interface LMCouponMsgRequest : FitBaseRequest
 
--(id)initWithOrder_uuid:(NSString *)order_uuid;
+- (id)initWithOrder_uuid:(NSString *)order_uuid;
 
 @end

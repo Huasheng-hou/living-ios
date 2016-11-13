@@ -82,13 +82,11 @@ FitPickerViewDelegate
     
     [self getOrderData];
     
-    //微信支付结果确认
+    // * 微信支付结果确认
+    //
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
                                              selector:@selector(weixinPayEnsure)
-     
-                                                 name:@"weixinPayEnsure"
-     
+                                                 name:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
                                                object:nil];
     //支付宝支付结果确认
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -421,27 +419,27 @@ FitPickerViewDelegate
                 
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(CouponChose)];
                 [clickView addGestureRecognizer:tap];
-                
-                
-                
-                
             }
             
-            
             return cell;
-            
         }
         
-        if (indexPath.section==1) {
+        if (indexPath.section == 1) {
+            
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
-            cell.textLabel.font = TEXT_FONT_LEVEL_2;
-            cell.detailTextLabel.font = TEXT_FONT_LEVEL_2;
+            
+            cell.selectionStyle         = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor    = TEXT_COLOR_LEVEL_2;
+            cell.textLabel.font         = TEXT_FONT_LEVEL_2;
+            cell.detailTextLabel.font   = TEXT_FONT_LEVEL_2;
+            
             switch (indexPath.row) {
+            
                 case 0:
+                
                     cell.textLabel.text = @"订单号:";
                     cell.detailTextLabel.text = orderInfos.orderNumber;
+                    
                     break;
                 case 1:
                     cell.textLabel.text = @"活动名称:";
@@ -469,11 +467,14 @@ FitPickerViewDelegate
                     }
                     break;
                 case 5:
-                    cell.textLabel.text = @"活动时间:";
-                    cell.detailTextLabel.numberOfLines=3;
-                    if (orderInfos.startTime==nil) {
+                    
+                    cell.textLabel.text                 = @"活动时间:";
+                    cell.detailTextLabel.numberOfLines  = 3;
+                    
+                    if (orderInfos.startTime == nil) {
+                        
                         cell.detailTextLabel.text = @"";
-                    }else{
+                    } else {
                         
                         NSDateFormatter     *longFormater   = [[NSDateFormatter alloc] init];
                         NSDateFormatter     *shortFormatter = [[NSDateFormatter alloc] init];
@@ -488,16 +489,22 @@ FitPickerViewDelegate
                     
                     break;
                 case 6:
-                    if (orderInfos.eventAddress==nil) {
+                    
+                    if (orderInfos.eventAddress == nil) {
+                        
                         cell.textLabel.text =@"活动地点：";
                     }
-                    cell.textLabel.text = [NSString stringWithFormat:@"活动地点：%@",orderInfos.eventAddress];
-                    cell.textLabel.numberOfLines=0;
+                    
+                    cell.textLabel.text             = [NSString stringWithFormat:@"活动地点：%@",orderInfos.eventAddress];
+                    cell.textLabel.numberOfLines    = 0;
+                    
                     break;
                     
                 default:
+                    
                     break;
             }
+            
             return cell;
         }
 

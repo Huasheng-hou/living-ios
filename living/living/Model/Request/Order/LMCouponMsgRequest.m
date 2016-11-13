@@ -10,7 +10,7 @@
 
 @implementation LMCouponMsgRequest
 
--(id)initWithOrder_uuid:(NSString *)order_uuid
+- (id)initWithOrder_uuid:(NSString *)order_uuid
 {
     self = [super init];
     
@@ -22,10 +22,10 @@
             [bodyDict setObject:order_uuid forKey:@"order_uuid"];
         }
         
-        
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
     }
+    
     return self;
 }
 
