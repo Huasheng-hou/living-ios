@@ -30,19 +30,18 @@ UITableViewDataSource
     NSMutableArray *stateArray;
     
     NSIndexPath *deleteIndexPath;
-    
 }
-@property (nonatomic,retain)UITableView *tableView;
 
+@property (nonatomic,retain)UITableView *tableView;
 
 @end
 
 @implementation LMMyFriendViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createUI];
-//    [self getFriendListRequest];
     
     pageIndexArray=[NSMutableArray arrayWithCapacity:0];
     
@@ -50,7 +49,7 @@ UITableViewDataSource
     
 }
 
--(void)createUI
+- (void)createUI
 {
     self.title = @"我的好友";
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
@@ -60,9 +59,7 @@ UITableViewDataSource
     listArray = [NSMutableArray new];
     
     [self setupRefresh];
-
 }
-
 
 - (void)setupRefresh
 {
@@ -84,7 +81,7 @@ UITableViewDataSource
 
 #pragma mark 重新请求单元格数据（通知  投票）
 
--(void)reloadCellData
+- (void)reloadCellData
 {
     reload=YES;
     [self getFriendListRequest:1];
@@ -99,11 +96,8 @@ UITableViewDataSource
         
         [self reloadCellData];
         [self.tableView headerEndRefreshing];
-        
-        
     });
 }
-
 
 - (void)footerRereshing
 {
@@ -119,16 +113,14 @@ UITableViewDataSource
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
                                  (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (listArray.count>0) {
+            
             [self getFriendListRequest:currentPageIndex];
-            NSLog(@"=============当前请求的页数=%ld",(long)currentPageIndex);
-        }        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        }
         [_tableView footerEndRefreshing];
     });
 }
 
-
-
--(void)getFriendListRequest:(NSInteger)page
+- (void)getFriendListRequest:(NSInteger)page
 {
     LMFriendListRequest *request = [[LMFriendListRequest alloc] initWithPageIndex:page andPageSize:20];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -144,15 +136,12 @@ UITableViewDataSource
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
 }
 
--(void)getFriendListDataResponse:(NSString *)resp
+- (void)getFriendListDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
-    NSLog(@"%@",bodyDic);
     if (!bodyDic) {
         [self textStateHUD:@"获取好友列表失败"];
     }else{
@@ -168,20 +157,17 @@ UITableViewDataSource
             if (![pageIndexArray containsObject:@(currentPageIndex)]) {
                 [pageIndexArray addObject:@(currentPageIndex)];
             }else{
-                NSLog(@"数组中有该数据");
+                
                 return;
             }
 
             NSArray *array = bodyDic[@"list"];
             
-            for (int i=0; i<array.count; i++) {
+            for (int i = 0; i < array.count; i++) {
+             
                 LMFriendVO *list=[[LMFriendVO alloc]initWithDictionary:array[i]];
                 [listArray addObject:list];
             }
-            
-            
-            
-            
             
             if (listArray.count==0) {
                 homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, kScreenHeight/2-160, 300, 100)];
@@ -199,8 +185,8 @@ UITableViewDataSource
                 
                 [_tableView addSubview:homeImage];
                 
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scan"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
-                self.navigationItem.rightBarButtonItem = rightItem;
+//                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scan"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
+//                self.navigationItem.rightBarButtonItem = rightItem;
                 
                 
             }
@@ -214,68 +200,52 @@ UITableViewDataSource
     
 }
 
--(void)sweepAction
+- (void)sweepAction
 {
     LMScanViewController *setVC = [[LMScanViewController alloc] init];
     [setVC setHidesBottomBarWhenPushed:YES];
+  
     [self.navigationController pushViewController:setVC animated:YES];
 }
 
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01;
 }
 
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return listArray.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
+  
     LMFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    
     if (!cell) {
         cell = [[LMFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     LMFriendVO *list = [listArray objectAtIndex:indexPath.row];
+    
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
-    
     return cell;
 }
-
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

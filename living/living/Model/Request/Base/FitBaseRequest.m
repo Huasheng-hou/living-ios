@@ -102,11 +102,10 @@
     return NO;
 }
 
--(BOOL)isLogin
+- (BOOL)isLogin
 {
     return YES;
 }
-
 
 - (NSMutableDictionary *)params
 {
