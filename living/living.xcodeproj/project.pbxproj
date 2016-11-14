@@ -259,10 +259,6 @@
 		873795DD1DCF8A1000A2ACD7 /* scanLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8737949F1DCF8A1000A2ACD7 /* scanLine@2x.png */; };
 		873795DE1DCF8A1000A2ACD7 /* scanLine@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 873794A01DCF8A1000A2ACD7 /* scanLine@3x.png */; };
 		873795DF1DCF8A1000A2ACD7 /* scanscanBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 873794A11DCF8A1000A2ACD7 /* scanscanBg.png */; };
-		873795E01DCF8A1000A2ACD7 /* 四大分院健康海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 873794A21DCF8A1000A2ACD7 /* 四大分院健康海报@3x.png */; };
-		873795E11DCF8A1000A2ACD7 /* 四大分院幸福海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 873794A31DCF8A1000A2ACD7 /* 四大分院幸福海报@3x.png */; };
-		873795E21DCF8A1000A2ACD7 /* 四大分院美丽海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 873794A41DCF8A1000A2ACD7 /* 四大分院美丽海报@3x.png */; };
-		873795E31DCF8A1000A2ACD7 /* 四大分院美食海报@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 873794A51DCF8A1000A2ACD7 /* 四大分院美食海报@3x.png */; };
 		873795E41DCF8A1000A2ACD7 /* APChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794A91DCF8A1000A2ACD7 /* APChooseView.m */; };
 		873795E51DCF8A1000A2ACD7 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794AB1DCF8A1000A2ACD7 /* CustomButton.m */; };
 		873795E61DCF8A1000A2ACD7 /* LMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873794AD1DCF8A1000A2ACD7 /* LMActivityCell.m */; };
@@ -885,10 +881,6 @@
 		8737949F1DCF8A1000A2ACD7 /* scanLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanLine@2x.png"; sourceTree = "<group>"; };
 		873794A01DCF8A1000A2ACD7 /* scanLine@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scanLine@3x.png"; sourceTree = "<group>"; };
 		873794A11DCF8A1000A2ACD7 /* scanscanBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanscanBg.png; sourceTree = "<group>"; };
-		873794A21DCF8A1000A2ACD7 /* 四大分院健康海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院健康海报@3x.png"; sourceTree = "<group>"; };
-		873794A31DCF8A1000A2ACD7 /* 四大分院幸福海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院幸福海报@3x.png"; sourceTree = "<group>"; };
-		873794A41DCF8A1000A2ACD7 /* 四大分院美丽海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院美丽海报@3x.png"; sourceTree = "<group>"; };
-		873794A51DCF8A1000A2ACD7 /* 四大分院美食海报@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "四大分院美食海报@3x.png"; sourceTree = "<group>"; };
 		873794A81DCF8A1000A2ACD7 /* APChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APChooseView.h; sourceTree = "<group>"; };
 		873794A91DCF8A1000A2ACD7 /* APChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APChooseView.m; sourceTree = "<group>"; };
 		873794AA1DCF8A1000A2ACD7 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
@@ -2443,10 +2435,6 @@
 				8737949F1DCF8A1000A2ACD7 /* scanLine@2x.png */,
 				873794A01DCF8A1000A2ACD7 /* scanLine@3x.png */,
 				873794A11DCF8A1000A2ACD7 /* scanscanBg.png */,
-				873794A21DCF8A1000A2ACD7 /* 四大分院健康海报@3x.png */,
-				873794A31DCF8A1000A2ACD7 /* 四大分院幸福海报@3x.png */,
-				873794A41DCF8A1000A2ACD7 /* 四大分院美丽海报@3x.png */,
-				873794A51DCF8A1000A2ACD7 /* 四大分院美食海报@3x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2800,7 +2788,6 @@
 				873795231DCF8A1000A2ACD7 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				873795D91DCF8A1000A2ACD7 /* lightNormal.png in Resources */,
 				3547F38C1D9904AE0068F04E /* InfoPlist.strings in Resources */,
-				873795E31DCF8A1000A2ACD7 /* 四大分院美食海报@3x.png in Resources */,
 				873795D21DCF8A1000A2ACD7 /* 12.jpg in Resources */,
 				873795D11DCF8A1000A2ACD7 /* 112.png in Resources */,
 				873795D81DCF8A1000A2ACD7 /* findpage.png in Resources */,
@@ -2812,7 +2799,6 @@
 				8737951D1DCF8A1000A2ACD7 /* LICENSE in Resources */,
 				8737952A1DCF8A1000A2ACD7 /* UMShareEditViewControlleriPad.xib in Resources */,
 				873795DD1DCF8A1000A2ACD7 /* scanLine@2x.png in Resources */,
-				873795E21DCF8A1000A2ACD7 /* 四大分院美丽海报@3x.png in Resources */,
 				8E4C98FF1DD1D7DC00B17046 /* AMap.bundle in Resources */,
 				873795DF1DCF8A1000A2ACD7 /* scanscanBg.png in Resources */,
 				873795DB1DCF8A1000A2ACD7 /* line.png in Resources */,
@@ -2822,10 +2808,8 @@
 				873795241DCF8A1000A2ACD7 /* UMSocialLocalizable.strings in Resources */,
 				873795261DCF8A1000A2ACD7 /* UMSCommentDetailController.xib in Resources */,
 				873795271DCF8A1000A2ACD7 /* UMSCommentInputController.xib in Resources */,
-				873795E11DCF8A1000A2ACD7 /* 四大分院幸福海报@3x.png in Resources */,
 				8737952E1DCF8A1000A2ACD7 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */,
-				873795E01DCF8A1000A2ACD7 /* 四大分院健康海报@3x.png in Resources */,
 				3547F33E1D9901780068F04E /* Assets.xcassets in Resources */,
 				873795DE1DCF8A1000A2ACD7 /* scanLine@3x.png in Resources */,
 				873795DC1DCF8A1000A2ACD7 /* noticeMusic.wav in Resources */,
