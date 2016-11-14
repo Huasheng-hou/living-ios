@@ -80,7 +80,7 @@
         }
         
         if (nil != [dictionary objectForKey:@"has_praised"] && ![[dictionary objectForKey:@"has_praised"] isEqual:[NSNull null]]) {
-            self.hasPraised = [(NSNumber *)[dictionary objectForKey:@"is_joined"] boolValue];
+            self.hasPraised = [(NSNumber *)[dictionary objectForKey:@"has_praised"] boolValue];
         }
         
         if (nil != [dictionary objectForKey:@"publish_time"] && ![[dictionary objectForKey:@"publish_time"] isEqual:[NSNull null]]
