@@ -377,7 +377,7 @@ WJLoopViewDelegate
         if (!cell) {
             cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         }
-        
+        cell.backgroundColor = [UIColor clearColor];
         
         if (listArray.count > indexPath.row) {
             
