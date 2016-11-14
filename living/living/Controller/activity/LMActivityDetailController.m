@@ -1013,16 +1013,18 @@ UIAlertViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        
         if ([textView isEqual:suggestTF]) {
+        
             [suggestTF resignFirstResponder];
             [self besureAction:@""];
         }
         if ([textView isEqual:commentText]) {
+            
             [commentText resignFirstResponder];
             self.tableView.userInteractionEnabled = YES;
             [self sendComment];
         }
-
     }
     
     return YES;
@@ -1299,7 +1301,7 @@ UIAlertViewDelegate
     }
 }
 
--(void)deleteArticleReply:(NSString *)uuid
+- (void)deleteArticleReply:(NSString *)uuid
 {
     
     LMEventReplydeleteRequest *request = [[LMEventReplydeleteRequest alloc] initWithCommentUUid:uuid];
@@ -1316,9 +1318,9 @@ UIAlertViewDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
--(void)getdeleteArticlereplyResponse:(NSString *)resp
+
+- (void)getdeleteArticlereplyResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -1346,54 +1348,55 @@ UIAlertViewDelegate
 
 #pragma mark --项目大图
 
--(void)cellProjectImage:(LMEventMsgCell *)cell
+- (void)cellProjectImage:(LMEventMsgCell *)cell
 {
-    
-
-    
     NSMutableArray *array = [NSMutableArray new];
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+    
     for (int i = 0; i<cell.tag+1; i++) {
+    
         LMProjectBodyVO *vo = eventArray[i];
+        
         if ([vo.projectImgs isEqual:@""]) {
+        
             [array addObject:vo.projectImgs];
         }
-        
     }
-    NSLog(@"%lu",(unsigned long)array.count);
     
     photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     [self.view endEditing:YES];
     self.tableView.userInteractionEnabled = YES;
+
     return YES;
 }
 
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [self.view endEditing:YES];
     self.tableView.userInteractionEnabled = YES;
 }
 
-
--(void)closeComment
+- (void)closeComment
 {
     [commentText resignFirstResponder];
     self.tableView.userInteractionEnabled = YES;
 }
 
 #pragma mark  --开始活动
--(void)startActivity
+
+- (void)startActivity
 {
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
+    
     LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:_eventUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1410,7 +1413,7 @@ UIAlertViewDelegate
     [proxy start];
 }
 
--(void)getstartEventResponse:(NSString *)resp
+- (void)getstartEventResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
