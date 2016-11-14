@@ -348,7 +348,7 @@ UIAlertViewDelegate
         return 230;
     }
     if (indexPath.section==1) {
-        return 190+200;
+        return 160+200;
     }
     
     if (indexPath.section==2) {
