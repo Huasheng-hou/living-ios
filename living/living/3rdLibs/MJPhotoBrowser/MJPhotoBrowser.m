@@ -38,7 +38,7 @@
 {
     _statusBarHiddenInited = [UIApplication sharedApplication].isStatusBarHidden;
     // 隐藏状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarHidden:true withAnimation:UIStatusBarAnimationFade];
     self.view = [[UIView alloc] init];
     self.view.frame = [UIScreen mainScreen].bounds;
 	self.view.backgroundColor = [UIColor blackColor];

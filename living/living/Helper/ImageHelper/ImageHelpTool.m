@@ -202,6 +202,7 @@ static CGRect oldframe;
         backgroundView.alpha=0;
     } completion:^(BOOL finished) {
         [backgroundView removeFromSuperview];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }];
 }
 

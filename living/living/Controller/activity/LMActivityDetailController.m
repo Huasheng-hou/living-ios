@@ -1152,11 +1152,6 @@ UIAlertViewDelegate
     [keyWindow endEditing:YES];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return NO;
-}
-
 #pragma mark 删除活动  LMActivityDeleteRequest
 
 - (void)deleteActivity
@@ -1351,6 +1346,7 @@ UIAlertViewDelegate
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
     [ImageHelpTool showImage:cell.imageV];
     
 }

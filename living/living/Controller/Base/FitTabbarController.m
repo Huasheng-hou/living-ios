@@ -162,7 +162,7 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 @end
