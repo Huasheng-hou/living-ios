@@ -51,7 +51,7 @@
     
     CGFloat startX=15;
     CGFloat sapce=20;
-    CGFloat buttonW=(kScreenWidth-startX*2-sapce*3)/4;
+    NSInteger buttonW=(NSInteger)(kScreenWidth-startX*2-sapce*3)/4;
     
 //
     for (int i=0; i<4; i++) {
