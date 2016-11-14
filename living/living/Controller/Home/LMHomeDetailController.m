@@ -391,7 +391,7 @@ shareTypeDelegate
         
         
         UIView *line = [UIView new];
-        line.backgroundColor =[UIColor colorWithRed:0/255.0 green:130/255.0 blue:230.0/255.0 alpha:1.0];
+        line.backgroundColor =LIVING_COLOR;
         [line sizeToFit];
         line.frame =CGRectMake(0, 10+1, 3.f, commentLabel.bounds.size.height-2);
         [commentView addSubview:line];
