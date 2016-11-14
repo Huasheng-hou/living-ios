@@ -31,7 +31,7 @@
     [self addSubview:_roomName];
     
     //生活馆介绍
-    _roomIntro=[[UILabel alloc]initWithFrame:CGRectMake(10, 30, kScreenWidth-20, 60)];
+    _roomIntro=[[UILabel alloc]initWithFrame:CGRectMake(10, 40, kScreenWidth-20, 60)];
     [_roomIntro setText:@"他的借我号啥地方好速度发哈快速的防护见客户上的看法噶岁哦度奥是打飞机阿贾克斯的发哈可视电话发牢骚的拉伸地方还是爱上对方会拉丝的合法乐山大佛看我奥迪和说服力阿斯顿和覅拉伸到哈里斯的法海欧迪芬"];
     [_roomIntro setFont:TEXT_FONT_LEVEL_2];
    
@@ -48,7 +48,7 @@
      [_roomIntro setTextColor:TEXT_COLOR_LEVEL_3];
     
     //余额
-    _balance=[[UILabel alloc]initWithFrame:CGRectMake(15, 100, 200, 30)];
+    _balance=[[UILabel alloc]initWithFrame:CGRectMake(15, 105, 200, 30)];
     [_balance setText:@"余额￥1314"];
     [_balance setFont:[UIFont systemFontOfSize:20]];
     [_balance setTextColor:LIVING_REDCOLOR];
@@ -68,7 +68,7 @@
     
     
     //充值按钮
-    _payButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-label.bounds.size.width+5+14, 100, label.bounds.size.width+8+14, 30)];
+    _payButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-label.bounds.size.width+5+14, 105, label.bounds.size.width+8+14, 30)];
 //    [_payButton setTitle:@"立即充值" forState:UIControlStateNormal];
     [_payButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
     [_payButton.layer setCornerRadius:5.0f];
@@ -82,12 +82,12 @@
     [self addSubview:_payButton];
     
     //分割线
-    _line=[[UIView alloc]initWithFrame:CGRectMake(15, 140, kScreenWidth-15, 0.5)];
+    _line=[[UIView alloc]initWithFrame:CGRectMake(15, 145, kScreenWidth-15, 0.5)];
     [_line setBackgroundColor:LINE_COLOR];
     [self addSubview:_line];
     
     //地图
-    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 150, kScreenWidth-30, 160)];
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 155, kScreenWidth-30, 160)];
     _mapView.mapType = MKMapTypeStandard;
     [_mapView setUserInteractionEnabled:NO];
     [self addSubview:_mapView];
@@ -98,10 +98,11 @@
     curLocation.longitude = 112.980980;
     
     //地址显示
-    _address=[[UILabel alloc]initWithFrame:CGRectMake(15, 310, kScreenWidth-30, 30)];
+    _address=[[UILabel alloc]initWithFrame:CGRectMake(15, 310, kScreenWidth-30, 60)];
+    _address.numberOfLines = 2;
     [_address setText:@"这是地图显示地址安条路那个地区多少号"];
     [_address setTextColor:TEXT_COLOR_LEVEL_3];
-    [_address setFont:TEXT_FONT_LEVEL_3];
+    [_address setFont:TEXT_FONT_LEVEL_2];
     [self addSubview:_address];
 }
 
@@ -123,7 +124,9 @@
 //    地址
     _address.text=info.address;
     
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    [paragraphStyle setLineSpacing:5];
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14] ,NSParagraphStyleAttributeName:paragraphStyle};
     _dspHight = [_roomIntro.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
     
@@ -144,14 +147,14 @@
     [_line sizeToFit];
 
     _roomName.frame =CGRectMake(15, 5, kScreenWidth-30, 30);
-    _roomIntro.frame =CGRectMake(15, 30, kScreenWidth-30, _dspHight);
-    _balance.frame =CGRectMake(15, 40+_dspHight, 200, 30);
+    _roomIntro.frame =CGRectMake(15, 40, kScreenWidth-30, _dspHight);
+    _balance.frame =CGRectMake(15, 50+_dspHight, 200, 30);
     
-    _line.frame = CGRectMake(15, 80+_dspHight, kScreenWidth-15, 0.5);
+    _line.frame = CGRectMake(15, 90+_dspHight, kScreenWidth-15, 0.5);
     
-    _mapView.frame = CGRectMake(15, 90+_dspHight, kScreenWidth-30, 160);
-    _payButton.frame = CGRectMake(kScreenWidth-105, 40+_dspHight, 90, 30);
-    _address.frame = CGRectMake(15, 260+_dspHight, kScreenWidth-30, 30);
+    _mapView.frame = CGRectMake(15, 100+_dspHight, kScreenWidth-30, 160);
+    _payButton.frame = CGRectMake(kScreenWidth-105, 50+_dspHight, 90, 30);
+    _address.frame = CGRectMake(15, 255+_dspHight, kScreenWidth-30, 60);
 
 }
 
@@ -159,7 +162,7 @@
 {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    return 300+conHigh;
+    return 310+conHigh;
 }
 
 
