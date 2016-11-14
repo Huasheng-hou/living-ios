@@ -145,7 +145,7 @@
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    return UIStatusBarAnimationFade;
+    return UIStatusBarAnimationNone;
 }
 
 - (NSMutableArray *)photoViewControllerArray {

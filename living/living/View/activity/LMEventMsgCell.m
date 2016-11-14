@@ -81,13 +81,9 @@
 
     _dspLabel.text = list.projectTitle;
     _contentLabel.text = list.projectDsp;
-    
 
-    
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.projectImgs]];
-    
 
-    
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
      _conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     

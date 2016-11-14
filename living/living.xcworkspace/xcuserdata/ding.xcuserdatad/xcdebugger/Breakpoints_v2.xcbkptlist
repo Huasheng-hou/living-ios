@@ -20,13 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/activity/LMActivityDetailController.m"
-            timestampString = "500463296.7838"
+            timestampString = "500808910.456866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1533"
-            endingLineNumber = "1533"
-            landmarkName = "-getendEventResponse:"
-            landmarkType = "7">
+            startingLineNumber = "1539"
+            endingLineNumber = "1539">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

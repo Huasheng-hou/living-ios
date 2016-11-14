@@ -362,11 +362,20 @@ UIAlertViewDelegate
         CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
         
         if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
+            if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
+               return 30 + conHigh;
+            }else{
+                return 50 + conHigh + conHigh2;
+            }
             
-            return 60 + conHigh + conHigh2;
         } else {
+            if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
+                return 250 + conHigh;
+            }else{
+                return 270 + conHigh + conHigh2;
+            }
             
-            return 270 + conHigh + conHigh2;
+            
         }
     }
     if (indexPath.section==3) {
@@ -1348,9 +1357,6 @@ UIAlertViewDelegate
 
 -(void)cellProjectImage:(LMEventMsgCell *)cell
 {
-    
-
-    
     NSMutableArray *array = [NSMutableArray new];
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
     for (int i = 0; i<cell.tag+1; i++) {

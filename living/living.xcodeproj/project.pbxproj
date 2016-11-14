@@ -2750,7 +2750,7 @@
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 2BPVM7PZ48;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -3270,8 +3270,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3346,10 +3346,10 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
 				PRODUCT_NAME = "腰果生活";
-				PROVISIONING_PROFILE = "4f5d483e-a6a6-40b6-be5f-215e34ddc4fe";
-				PROVISIONING_PROFILE_SPECIFIER = Living_Motherfucker;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3361,8 +3361,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3437,10 +3437,10 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
 				PRODUCT_NAME = "腰果生活";
-				PROVISIONING_PROFILE = "4f5d483e-a6a6-40b6-be5f-215e34ddc4fe";
-				PROVISIONING_PROFILE_SPECIFIER = Living_Motherfucker;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
