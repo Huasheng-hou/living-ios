@@ -591,6 +591,8 @@ UIAlertViewDelegate
         UITapGestureRecognizer   *tapMap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(transitionMapView)];
         [cell.addressLabel addGestureRecognizer:tapMap];
         
+        [cell.mapButton addTarget:self action:@selector(transitionMapView) forControlEvents:UIControlEventTouchUpInside];
+        
         return cell;
     }
     

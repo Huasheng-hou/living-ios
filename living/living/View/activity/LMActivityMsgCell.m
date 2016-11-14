@@ -106,6 +106,9 @@
     _mapView.mapType = MKMapTypeStandard;
     [self.contentView addSubview:_mapView];
     
+    _mapButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreenHeight-30, 160)];
+    [_mapView addSubview:_mapButton];
+    
 }
 
 -(void)setValue:(LMEventBodyVO *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude

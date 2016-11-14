@@ -30,6 +30,8 @@
 
 @property(nonatomic,strong)MKMapView *mapView;
 
+@property(nonatomic,strong) UIButton *mapButton;
+
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 
