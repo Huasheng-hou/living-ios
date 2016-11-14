@@ -631,7 +631,11 @@ shareTypeDelegate
             
             LMCommentButton *commentLabel = [[LMCommentButton alloc] init];
             
-            commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
+            if (articleData.commentNum&&articleData.commentNum!=0 ) {
+                commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
+            }else{
+                commentLabel.headImage.image = [UIImage imageNamed:@"reply"];
+            }
             commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
             [commentLabel.textLabel sizeToFit];
             commentLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
