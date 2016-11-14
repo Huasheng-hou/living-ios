@@ -122,7 +122,7 @@
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         
         NSString *start = [formatter stringFromDate:event.startTime];
-        NSString *end = [formatter stringFromDate:event.startTime];
+        NSString *end = [formatter stringFromDate:event.endTime];
  
       _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",start,end];
     }
