@@ -11,13 +11,16 @@
 #import "FitUserManager.h"
 #import "LMNoticVO.h"
 #import "LMNoticCell.h"
-
 #import "LMNoticDeleteRequest.h"
+#import "LMActivityDetailController.h"
+#import "LMHomeDetailController.h"
 
 @interface LMNoticViewController ()
-<UITableViewDelegate,
+<
+UITableViewDelegate,
 UITableViewDataSource
 >
+
 {
     UITableView *_tableView;
     NSMutableArray *listArray;
@@ -42,13 +45,11 @@ UITableViewDataSource
 
 -(void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+44) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+49) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
-    
     _tableView.editing = NO;
-    
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(EditAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -57,23 +58,17 @@ UITableViewDataSource
 
 -(void)EditAction
 {
-    NSLog(@"**************编辑");
     isSelected = NO;//全选状态的切换
     Estring= !_tableView.editing?@"完成":@"编辑";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:Estring style:UIBarButtonItemStyleDone target:self action:@selector(EditAction)];
     
-   [_tableView reloadData];
+   [self refreshData];
     _tableView.editing = !_tableView.editing;
    
-
 }
 
 -(void)getNoticListData
 {
-    
-    if (Index==1) {
-        [self initStateHud];
-    }
     
     LMNoticListRequest *request = [[LMNoticListRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -85,7 +80,7 @@ UITableViewDataSource
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取通知列表失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -106,15 +101,11 @@ UITableViewDataSource
     if (result && [result intValue] == 0)
     {
         [self hideStateHud];
-        NSArray *array = bodyDic[@"list"];
-        for (int i =0; i<array.count; i++) {
-            LMNoticVO *list=[[LMNoticVO alloc]initWithDictionary:array[i]];
-            if (![listArray containsObject:list]) {
-                [listArray addObject:list];
-            }
-            
+        NSArray *array =[LMNoticVO LMNoticVOListWithArray:bodyDic[@"list"]];
+        for (LMNoticVO *vo in array) {
+            [listArray addObject:vo];
         }
-        [_tableView reloadData];
+        [self refreshData];
         
     } else {
         [self textStateHUD:bodyDic[@"description"]];
@@ -149,7 +140,6 @@ UITableViewDataSource
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
-    
     if ([Estring isEqual:@"完成"]) {
         cell.INDEX = 1;
     }
@@ -180,7 +170,7 @@ UITableViewDataSource
         [self presentViewController:alert animated:YES completion:nil];
              
         
-        [tableView reloadData];
+        [self refreshData];
     };
 
     
@@ -207,7 +197,7 @@ UITableViewDataSource
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除通知失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -230,8 +220,6 @@ UITableViewDataSource
     if (result && [result intValue] == 0)
     {
         [self textStateHUD:@"删除成功"];
-      
-        
         [self getNoticListData];
         
     }else {
@@ -239,20 +227,52 @@ UITableViewDataSource
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (listArray.count > indexPath.row) {
+        
+        LMNoticVO  *vo = [listArray objectAtIndex:indexPath.row];
+        
+        if (vo && [vo isKindOfClass:[LMNoticVO class]]) {
+            
+            if (vo.sign&&[vo.sign isEqual:@"event"] ) {
+                LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                
+                detailVC.eventUuid  = vo.eventUuid;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            if (vo.sign&&[vo.sign isEqualToString:@"article"]) {
+                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                
+                detailVC.artcleuuid  = vo.articleUuid;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+        }
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    
 }
 
-/*
-#pragma mark - Navigation
+//重新加载数据
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)refreshData
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [_tableView reloadData];
+    });
 }
-*/
+
+
 
 @end

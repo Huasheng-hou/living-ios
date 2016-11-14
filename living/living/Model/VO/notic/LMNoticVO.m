@@ -104,6 +104,21 @@
             && [[dictionary objectForKey:@"notice_uuid"] isKindOfClass:[NSString class]]) {
             self.noticeUuid = [dictionary objectForKey:@"notice_uuid"];
         }
+
+        if (nil != [dictionary objectForKey:@"article_title"] && ![[dictionary objectForKey:@"article_title"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"article_title"] isKindOfClass:[NSString class]]) {
+            self.articleTitle = [dictionary objectForKey:@"article_title"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"event_name"] && ![[dictionary objectForKey:@"event_name"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"event_name"] isKindOfClass:[NSString class]]) {
+            self.eventName = [dictionary objectForKey:@"event_name"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
  
     }
     

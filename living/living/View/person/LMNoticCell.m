@@ -84,22 +84,27 @@
         _timeLabel.text = [formatter stringFromDate:list.noticeTime];
     }
     
-    NSLog(@"%@",list.userNick);
-    
     if ([list.type isEqual:@"praise"]) {
-        _typeLabel.text =[NSString stringWithFormat:@"%@赞了你",list.userNick];
-        _headImage.image = [UIImage imageNamed:@"no-read"];
+        if (list.userNick ==nil||[list.userNick isEqual:@""]) {
+           _typeLabel.text =@"匿名访客赞了你";
+        }else{
+            _typeLabel.text =[NSString stringWithFormat:@"%@赞了你",list.userNick];
+            _headImage.image = [UIImage imageNamed:@"no-read"];
+        }
+
     }
     if ([list.type isEqual:@"adopted"]) {
+        if (list.userNick ==nil||[list.userNick isEqual:@""]) {
+            _typeLabel.text =@"匿名访客回复你";
+        }else{
         _typeLabel.text =[NSString stringWithFormat:@"%@回复你",list.userNick];
         _headImage.image = [UIImage imageNamed:@"no-read"];
+        }
     }
     if ([list.type isEqual:@"system"]) {
         _typeLabel.text =[NSString stringWithFormat:@"系统消息"];
         _headImage.image = [UIImage imageNamed:@"settingIcon"];
     }
-    
-    
 }
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
@@ -129,16 +134,5 @@
     
 }
 
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end
