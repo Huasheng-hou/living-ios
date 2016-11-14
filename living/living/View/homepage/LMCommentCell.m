@@ -204,7 +204,7 @@
     
     _lineLabel.frame = CGRectMake(15, 75+_conHigh+18, kScreenWidth-30, 0.5);
     
-    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-45, 60+_conHigh, _replyButton.textLabel.bounds.size.width+30, 35);
+    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-45, 65+_conHigh, _replyButton.textLabel.bounds.size.width+30, 30);
     
     _zanButton.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-80-_replyButton.bounds.size.width, 70+_conHigh-5, _zanButton.textLabel.bounds.size.width+20, 30);
     _backView.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-100-_replyButton.bounds.size.width, 55+_conHigh, _zanButton.textLabel.bounds.size.width+50, 35);
