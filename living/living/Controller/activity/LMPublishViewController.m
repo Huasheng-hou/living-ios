@@ -701,9 +701,6 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    NSLog(@"=============addImageIndex=========%ld",addImageIndex);
-    
-    
     if (addImageIndex==0) {
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
         UIImage *headImage = [ImageHelpTool scaleImage:image];
@@ -719,8 +716,6 @@ static NSMutableArray *cellDataArray;
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
                                                    
                                                    if (result && [result isKindOfClass:[NSString class]]
                                                        && [result isEqualToString:@"0"]) {

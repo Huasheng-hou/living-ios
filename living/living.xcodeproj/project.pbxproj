@@ -1029,9 +1029,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
-				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
 				8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */,
 				8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */,
 				35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */,
@@ -3294,7 +3294,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3360,7 +3360,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3385,7 +3385,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3451,7 +3451,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

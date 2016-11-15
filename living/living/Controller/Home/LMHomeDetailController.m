@@ -1343,22 +1343,13 @@ shareTypeDelegate
 #pragma mark --删除评论
 -(void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
-    NSLog(@"**********%ld",tap.view.tag);
     NSInteger index = tap.view.tag;
-    
-    
-    
     LMActicleCommentVO *list= listArray[index];
     if (![list.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
         return;
         
     }else{
-        
-        
-        
         if (tap.state == UIGestureRecognizerStateEnded) {
-            NSLog(@"***********3333******");
-            NSLog(@"************%@",list.type);
             
             if ([list.type isEqual:@"comment"]){
                 
@@ -1425,7 +1416,7 @@ shareTypeDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除评论失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];

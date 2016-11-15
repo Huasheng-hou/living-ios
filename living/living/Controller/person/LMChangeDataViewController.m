@@ -529,6 +529,7 @@ UIViewControllerTransitioningDelegate
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
     actionSheet = nil;
+    
 }
 
 

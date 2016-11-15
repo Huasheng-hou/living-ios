@@ -52,7 +52,6 @@
     __weak typeof(self) weakSelf = self;
     [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
         weakSelf.isShow = NO;
-        NSLog(@"点击第%ld个item",index);
         DateString=_monthArr[index];
         [self getBlanceData:_monthArr[index] andPage:self.current];
         

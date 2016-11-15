@@ -208,16 +208,8 @@ AMapNaviDriveViewDelegate
     [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(location.latitude, location.longitude)];
     
     //返回按钮
-//     UIButton *backBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 20, 50, 36)];
-//    [backBt setBackgroundImage:[UIImage imageNamed:@"activityNavBack"] forState:UIControlStateNormal];
-//    UIBarButtonItem *backItem=[[UIBarButtonItem alloc]initWithCustomView:backBt];
-//    self.navigationItem.leftBarButtonItem = backItem;
-    
-//    backItem.width = -16;
     
     [self.navigationItem setHidesBackButton:YES];
-    
-//    self.navigationItem.backBarButtonItem.title = @"";
     
     UIButton    *closeBtn   = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, 50, 36)];
     
@@ -282,28 +274,27 @@ updatingLocation:(BOOL)updatingLocation
 
 -(void)selectNavType
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"用iPhone自带地图导航",@"用高德地图导航",nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
-    actionSheet = nil;
-}
-
-#pragma mark UIActionSheet 代理函数
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==0) {
-        [self iphoneSelfNav];
-    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    if (buttonIndex==1) {
+    [alert addAction:[UIAlertAction actionWithTitle:@"用iPhone自带地图导航" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [self iphoneSelfNav];
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"用高德地图导航" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
         [self startNavDrive];
-    }
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                [alert dismissViewControllerAnimated:YES completion:nil];      }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+
 }
 
 #pragma mark 返回上一页

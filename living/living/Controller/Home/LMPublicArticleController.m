@@ -350,7 +350,6 @@ UIViewControllerTransitioningDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-    
     if (buttonIndex==0)
     {//图库
         picker = [[ZYQAssetPickerController alloc] init];
@@ -747,9 +746,6 @@ UIViewControllerTransitioningDelegate
         }else{
             tip.hidden=YES;
         }
-        
-        CGRect textFrame=[[textView layoutManager]usedRectForTextContainer:[textView textContainer]];
-//        CGFloat height = textFrame.size.height;
     }
 }
 

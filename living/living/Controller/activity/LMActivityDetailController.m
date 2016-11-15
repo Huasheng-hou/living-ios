@@ -258,7 +258,7 @@ UIAlertViewDelegate
     }
     
     if (!bodyDic) {
-       
+        
         [self textStateHUD:@"获取详情数据失败"];
         return;
     }
@@ -292,9 +292,9 @@ UIAlertViewDelegate
         for (int i = 0; i < eveArray.count; i++) {
             
             LMProjectBodyVO *Projectslist=eveArray[i];
-        
+            
             if (Projectslist.projectImgs && [Projectslist.projectImgs isKindOfClass:[NSString class]] && ![Projectslist.projectImgs isEqual:@""]) {
-               
+                
                 [imageArray addObject: Projectslist.projectImgs];
             }
         }
@@ -314,14 +314,14 @@ UIAlertViewDelegate
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
             if (eventDic.totalNumber==0) {
-               rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
             if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
-
+                
             }
             
             if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
@@ -363,7 +363,7 @@ UIAlertViewDelegate
         
         if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
             if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
-               return 30 + conHigh;
+                return 30 + conHigh;
             }else{
                 return 50 + conHigh + conHigh2;
             }
@@ -650,14 +650,23 @@ UIAlertViewDelegate
         return;
     }
     
-    UIAlertView *alert  = [[UIAlertView alloc]  initWithTitle:nil
-                                                      message:[NSString stringWithFormat:@"是否拨打：%@",eventDic.contactPhone]
-                                                     delegate:self
-                                            cancelButtonTitle:@"取消"
-                                            otherButtonTitles:@"确定", nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:[NSString stringWithFormat:@"是否拨打：%@",eventDic.contactPhone]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                
+                                                NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
+                                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+                                                
+                                            }]];
     
-    [alert show];
-    alert   = nil;
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 #pragma mark 跳转到地图
@@ -678,7 +687,7 @@ UIAlertViewDelegate
     }
     
     LMNavMapViewController *mapVC=[[LMNavMapViewController alloc]init];
-        
+    
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
     
     [dic setObject:eventDic.address forKey:@"addressName"];
@@ -686,15 +695,6 @@ UIAlertViewDelegate
     [dic setObject:longitude forKey:@"longitude"];
     mapVC.infoDic=dic;
     [self.navigationController pushViewController:mapVC animated:YES];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        
-        NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",eventDic.contactPhone];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    }
 }
 
 #pragma mark - LMLeavemessagecell delegate -点赞
@@ -861,7 +861,7 @@ UIAlertViewDelegate
 - (void)getEventcommitResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-  
+    
     [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"回复失败"];
@@ -933,9 +933,9 @@ UIAlertViewDelegate
     [self.view addSubview:infoView];
     
     UIView *view = [infoView viewWithTag:1000];
-  
-    [UIView animateWithDuration:0.2 animations:^{
     
+    [UIView animateWithDuration:0.2 animations:^{
+        
         view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
     }];
 }
@@ -976,9 +976,9 @@ UIAlertViewDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
-
+    
     if (!bodyDic) {
-
+        
         [self textStateHUD:@"报名失败"];
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
@@ -1033,7 +1033,7 @@ UIAlertViewDelegate
             self.tableView.userInteractionEnabled = YES;
             [self sendComment];
         }
-
+        
     }
     
     return YES;
@@ -1068,7 +1068,7 @@ UIAlertViewDelegate
     [self.view endEditing:YES];
     
     if (suggestTF.text.length<=0) {
-    
+        
         [self textStateHUD:@"请输入内容"];
         return;
     }
@@ -1200,7 +1200,7 @@ UIAlertViewDelegate
         
         [self textStateHUD:@"删除成功"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
+            
             [self.navigationController popViewControllerAnimated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent" object:nil];
         });
@@ -1224,7 +1224,7 @@ UIAlertViewDelegate
         return;
         
     } else {
-    
+        
         if (tap.state == UIGestureRecognizerStateEnded) {
             
             if ([list.type isEqual:@"comment"]){
