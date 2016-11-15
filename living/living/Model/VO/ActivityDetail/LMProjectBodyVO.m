@@ -73,6 +73,16 @@
             self.projectDsp= [dictionary objectForKey:@"project_dsp"];
         }
         
+        if (nil != [dictionary objectForKey:@"width"] && ![[dictionary objectForKey:@"width"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"width"] isKindOfClass:[NSNumber class]]) {
+            self.width=[(NSNumber *) [dictionary objectForKey:@"width"] floatValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"height"] && ![[dictionary objectForKey:@"height"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"height"] isKindOfClass:[NSNumber class]]) {
+            self.height=[(NSNumber *) [dictionary objectForKey:@"height"] floatValue];
+        }
+        
     }
     return self;
 }

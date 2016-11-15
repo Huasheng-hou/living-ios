@@ -370,9 +370,9 @@ UIAlertViewDelegate
             
         } else {
             if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
-                return 250 + conHigh;
+                return list.height*(kScreenWidth-30)/list.width + conHigh+30;
             }else{
-                return 270 + conHigh + conHigh2;
+                return list.height*(kScreenWidth-30)/list.width + conHigh + conHigh2+50;
             }
             
             

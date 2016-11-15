@@ -16,6 +16,10 @@
 @property (nonatomic)CGFloat conHigh;
 @property (nonatomic)CGFloat dspHigh;
 
+@property (nonatomic)CGFloat imageWidth;
+
+@property (nonatomic)CGFloat imageHeight;
+
 @property (nonatomic)NSInteger index;
 
 @property (nonatomic, weak) id <LMEventMsgCellDelegate> delegate;

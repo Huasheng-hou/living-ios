@@ -59,20 +59,15 @@
     _dspLabel.font = TEXT_FONT_LEVEL_2;
     _dspLabel.textColor = LIVING_COLOR;
     _dspLabel.numberOfLines=0;
-
-    [_dspLabel sizeToFit];
-    
     [self.contentView addSubview:_dspLabel];
     
     
     
-    //活动时间
-    
+    //活动内容
     _contentLabel = [UILabel new];
     _contentLabel.font = TEXT_FONT_LEVEL_2;
     _contentLabel.textColor = TEXT_COLOR_LEVEL_3;
     _contentLabel.numberOfLines=0;
-
     [self.contentView addSubview:_contentLabel];
 }
 
@@ -88,6 +83,9 @@
      _conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
     _dspHigh = [_contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    
+    _imageWidth = list.width;
+    _imageHeight = list.height;
     
 }
 
@@ -112,7 +110,7 @@
     if (_index==1) {
         _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 0);
     }else{
-       _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 210);
+       _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, _imageHeight*(kScreenWidth-30)/_imageWidth);
     }
 
     _contentLabel.frame = CGRectMake(15, 30+_headImage.bounds.size.height +_conHigh, kScreenWidth-30, _dspHigh);
