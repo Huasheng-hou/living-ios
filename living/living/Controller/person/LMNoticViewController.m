@@ -70,6 +70,10 @@ UITableViewDataSource
 -(void)getNoticListData
 {
     
+    if (Index==1) {
+        [self initStateHud];
+    }
+    
     LMNoticListRequest *request = [[LMNoticListRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -114,7 +118,7 @@ UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 70;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -184,6 +188,8 @@ UITableViewDataSource
 
 - (void)getNoticDeleteRequest:(NSInteger)sender
 {
+    
+    cellArray = [NSMutableArray new];
     LMNoticVO *list = [listArray objectAtIndex:sender];
     
     [cellArray addObject:list.noticeUuid];
@@ -220,6 +226,7 @@ UITableViewDataSource
     if (result && [result intValue] == 0)
     {
         [self textStateHUD:@"删除成功"];
+        Index = 1;
         [self getNoticListData];
         
     }else {

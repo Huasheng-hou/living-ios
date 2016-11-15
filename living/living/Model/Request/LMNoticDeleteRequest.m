@@ -21,12 +21,8 @@
         if (notice_uuid){
             [bodyDict setObject:notice_uuid forKey:@"notice_uuid"];
         }
-        
-        
         NSMutableDictionary *paramsDict = [self params];
-        [paramsDict setObject:bodyDict forKey:@"body"];
-        
-        
+        [paramsDict setObject:bodyDict forKey:@"body"];    
     }
     return self;
 }
