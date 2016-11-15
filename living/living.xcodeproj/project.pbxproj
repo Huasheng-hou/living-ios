@@ -38,6 +38,7 @@
 		35864A901DD566C10061E9C0 /* LM2DcodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A8F1DD566C10061E9C0 /* LM2DcodeRequest.m */; };
 		35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A931DD566F80061E9C0 /* LMFriendListRequest.m */; };
 		35864A971DD569320061E9C0 /* LMFriendDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A961DD569320061E9C0 /* LMFriendDataRequest.m */; };
+		35F676521DDADFAF00C31448 /* LMPushSendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F676511DDADFAF00C31448 /* LMPushSendRequest.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -392,6 +393,8 @@
 		35864A931DD566F80061E9C0 /* LMFriendListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendListRequest.m; sourceTree = "<group>"; };
 		35864A951DD569320061E9C0 /* LMFriendDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendDataRequest.h; sourceTree = "<group>"; };
 		35864A961DD569320061E9C0 /* LMFriendDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendDataRequest.m; sourceTree = "<group>"; };
+		35F676501DDADFAF00C31448 /* LMPushSendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPushSendRequest.h; sourceTree = "<group>"; };
+		35F676511DDADFAF00C31448 /* LMPushSendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPushSendRequest.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1247,6 +1250,15 @@
 			path = friend;
 			sourceTree = "<group>";
 		};
+		35F6764F1DDADF5800C31448 /* push */ = {
+			isa = PBXGroup;
+			children = (
+				35F676501DDADFAF00C31448 /* LMPushSendRequest.h */,
+				35F676511DDADFAF00C31448 /* LMPushSendRequest.m */,
+			);
+			path = push;
+			sourceTree = "<group>";
+		};
 		66A4F5001DD8220C005C3BB9 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1963,6 +1975,7 @@
 		873793C41DCF8A1000A2ACD7 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				35F6764F1DDADF5800C31448 /* push */,
 				873793C51DCF8A1000A2ACD7 /* Activity */,
 				873793D91DCF8A1000A2ACD7 /* Base */,
 				873793DC1DCF8A1000A2ACD7 /* Find */,
@@ -3111,6 +3124,7 @@
 				873795FB1DCF8A1000A2ACD7 /* LMChargeButton.m in Sources */,
 				873795721DCF8A1000A2ACD7 /* HTTPProxy.m in Sources */,
 				8737959C1DCF8A1000A2ACD7 /* LMNoticDeleteRequest.m in Sources */,
+				35F676521DDADFAF00C31448 /* LMPushSendRequest.m in Sources */,
 				873795941DCF8A1000A2ACD7 /* LMLivingHomeListRequest.m in Sources */,
 				66A4F5601DD8220C005C3BB9 /* LMRechargeViewController.m in Sources */,
 				66A4F57C1DD8220C005C3BB9 /* FitTableViewController.m in Sources */,
@@ -3187,8 +3201,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
@@ -3238,8 +3252,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huasheng Hou (SX992G7Z53)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2BPVM7PZ48;
@@ -3271,7 +3285,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3346,7 +3360,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingHome.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3362,7 +3376,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3437,7 +3451,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingHome.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -125,11 +125,6 @@ static NSMutableArray *cellDataArray;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    pickImage=[[UIImagePickerController alloc]init];
-    
-    [pickImage setDelegate:self];
-    pickImage.transitioningDelegate  = self;
-    pickImage.modalPresentationStyle = UIModalPresentationCustom;
 //    [pickImage setAllowsEditing:YES];
     cellIndex = 1;
     
@@ -439,11 +434,6 @@ static NSMutableArray *cellDataArray;
         
     }
     
-    
-    
-    
-    
-    
     [FitDatePickerView showWithMinimumDate:currentDate
                                MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
                                CurrentDate:currentDate
@@ -563,14 +553,14 @@ static NSMutableArray *cellDataArray;
 
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView
+- (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
 #pragma mark 项目介绍编辑结束
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     if ([textView isEqual:msgCell.applyTextView]) {
         NSLog(@"******");
@@ -586,7 +576,7 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 编辑单元格项目介绍
 
--(void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
+- (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
     
     NSMutableDictionary *dic=cellDataArray[row];
     
@@ -788,6 +778,11 @@ static NSMutableArray *cellDataArray;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    pickImage=[[UIImagePickerController alloc]init];
+    
+    [pickImage setDelegate:self];
+    pickImage.transitioningDelegate  = self;
+    pickImage.modalPresentationStyle = UIModalPresentationCustom;
     
     if (buttonIndex==0)
     {//图库
