@@ -121,7 +121,6 @@
     [cellView addSubview:foot];
     
     _timeLabel = [UILabel new];
-    _timeLabel.text = @"订购时间：2016-12-24 12:30:20";
     _timeLabel.font = TEXT_FONT_LEVEL_3;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
     [cellView addSubview:_timeLabel];
@@ -139,7 +138,13 @@
 - (void)setActivityList:(ActivityListVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.EventImg]];
-    _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.StartTime];
+    
+    if (list.StartTime&&![list.StartTime isEqual:@""]) {
+        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.StartTime];
+    }else{
+        _timeLabel.text =@"创建时间：";
+    }
+    
     
     _titleLabel.text = nil;
     _orderNumLabel.text = list.EventName;
@@ -147,9 +152,14 @@
     if ([list.TotalNumber isEqual:@""]||list.TotalNumber==nil) {
      _numLabel.text = @"报名人数";
     }else{
-       _numLabel.text =[NSString stringWithFormat:@"报名人数：%@/%@",[list.TotalNumber stringValue],[list.joinNum stringValue]];
+       NSString  *text =[NSString stringWithFormat:@"报名人数：%@/%@人",[list.TotalNumber stringValue],[list.joinNum stringValue]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:text];
+        
+        [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,5)];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(5,str.length-5)];
+        
+        _numLabel.attributedText = str;
     }
-
     
     int payNum = [list.Status intValue];
     

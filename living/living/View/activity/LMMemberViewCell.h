@@ -21,6 +21,10 @@
 
 @property (nonatomic, strong)UILabel *numLabel;
 
+@property (nonatomic, strong)UILabel *timeLabel;
+
+@property (nonatomic, strong)UILabel *coupondLabel;
+
 -(void)setData:(LMMemberVO *)list;
 
 @end
