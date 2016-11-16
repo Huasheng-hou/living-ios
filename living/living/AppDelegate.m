@@ -26,6 +26,7 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
 #import <UserNotifications/UserNotifications.h>
+#import "UMMobClick/MobClick.h"
 
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
@@ -65,6 +66,10 @@ UNUserNotificationCenterDelegate
     
     [self.window setRootViewController:rootVC];
     [self.window makeKeyAndVisible];
+    
+    UMConfigInstance.appKey = @"582bb33fcae7e72e10001e57";
+    
+    [MobClick startWithConfigure:UMConfigInstance];
     
     //向微信注册
     [WXApi registerApp:wxAppID];
