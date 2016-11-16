@@ -16,6 +16,7 @@
 #define gtAppSecret             @"ptwM5X0tfF6vySlYyZDCQ1"
 #define gtMasterSecret          @"TOGmGhdrCk8PDty5TGkg62"
 
+
 //------------------高德配置--------------------
 
 #define amapKey                 @"883b5da0b7fdb9f70dde28fd930a8037"

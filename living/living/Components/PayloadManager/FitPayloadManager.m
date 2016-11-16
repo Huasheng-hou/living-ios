@@ -22,18 +22,13 @@
         if (payloadVO) {
         }
         
-        if (payloadDict[@"push_type"]&&payloadDict[@"push_type"]!=[NSNull null]&&[payloadDict[@"push_type"] isKindOfClass:[NSString class]]) {
+        if (payloadDict[@"push_title"]&&payloadDict[@"push_title"]!=[NSNull null]&&[payloadDict[@"push_title"] isKindOfClass:[NSString class]]) {
             
-            if ([payloadDict[@"push_type"] isEqualToString:@"1"]) {//公告
+
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_announcement"
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_message"
                                                                     object:nil];
-            }
-            if ([payloadDict[@"push_type"] isEqualToString:@"0"]) {//通知
-                
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"getui_notice"
-                                                                   object:nil];
-            }
+
             
         }
     }
@@ -48,24 +43,14 @@
 //        PayloadVO *payloadVO = [PayloadVO PayloadVOWithDictionary:payloadDict];
 //        if (payloadVO) {
          NSLog(@"收到----payloadDict----%@",payloadDict);
-            if (payloadDict[@"push_type"]&&payloadDict[@"push_type"]!=[NSNull null]&&[payloadDict[@"push_type"] isKindOfClass:[NSString class]]) {
+            if (payloadDict[@"push_title"]&&payloadDict[@"push_title"]!=[NSNull null]&&[payloadDict[@"push_title"] isKindOfClass:[NSString class]]) {
                 
-                if ([payloadDict[@"push_type"] isEqualToString:@"1"]) {//公告
-                    
-                    NSLog(@"收到公告");
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_announcement"
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_message"
                                       object:nil];
                 }
-                if ([payloadDict[@"push_type"] isEqualToString:@"0"]) {//通知
-                    NSLog(@"收到通知");
-                     [[NSNotificationCenter defaultCenter]postNotificationName:@"getui_notice"
-                                                                        object:nil];
-                }
-                
-                if ([payloadDict[@"push_type"] isEqualToString:@"2"]) {//审批通知
-                    NSLog(@"审批通知");
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getui" object:nil userInfo:payloadDict];
-                }
+
+
                 
 //           }
 
@@ -89,7 +74,7 @@
 //            if ([payloadVO.Type isEqualToString:kPayloadTypeCoachInform]) {
 //                [[NSNotificationCenter defaultCenter] postNotificationName:FIT_CoachInform_NOTIFICATION object:nil];
 //            }
-        }
+        
     }
 }
 

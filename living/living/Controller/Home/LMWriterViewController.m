@@ -61,6 +61,32 @@ UITableViewDataSource
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     [self setupRefresh];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"屏蔽"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(reportAction)];
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+-(void)reportAction
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否屏蔽该该作者"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self textStateHUD:@"您已经屏蔽了该作者"];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 - (void)setupRefresh

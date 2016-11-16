@@ -116,8 +116,8 @@
     self.viewControllers    = [NSArray arrayWithObjects:homeNav,secondNav,thirdNav, fourthNav, nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(addDot)
-                                                 name:@"getui_notice"
+                                             selector:@selector(tongzhi:)
+                                                 name:@"getui_message"
                                                object:nil];
     
     if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"person_dot"] isEqualToString:@"1"]) {
@@ -126,18 +126,27 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(tongzhi:)
-                                                 name:@"getui" object:nil];
+                                             selector:@selector(tongzhi2)
+                                                 name:@"getui_notic"
+                                               object:nil];
+       
+    
 }
 
-- (void)addDot
+-(void)tongzhi2
 {
-    [self.tabBar showBadgeOnItemIndex:3];
-    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"person_dot"];
+    [self.tabBar hideBadgeOnItemIndex:3];
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"person_dot"];
 }
+
+
 
 - (void)tongzhi:(NSNotification *)text
 {
+    
+    [self.tabBar showBadgeOnItemIndex:3];
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"person_dot"];
+    
     NSString *title=text.userInfo[@"push_title"];
     
     NSString *content=text.userInfo[@"push_dsp"];

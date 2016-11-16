@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		351510FB1DDBEB8900925DF0 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 351510FA1DDBEB8900925DF0 /* UMMobClick.framework */; };
+		351511011DDC090500925DF0 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 351511001DDC090500925DF0 /* libGeTuiSdk-1.2.1.a */; };
 		3519F1851DD0111C00013892 /* LMFindVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3519F1841DD0111C00013892 /* LMFindVO.m */; };
 		351AF46B1DD16D98001F7836 /* LMBalanceChargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF46A1DD16D98001F7836 /* LMBalanceChargeRequest.m */; };
 		351AF46E1DD17A8F001F7836 /* LMCouponMsgRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351AF46D1DD17A8F001F7836 /* LMCouponMsgRequest.m */; };
@@ -335,6 +336,9 @@
 
 /* Begin PBXFileReference section */
 		351510FA1DDBEB8900925DF0 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
+		351510FE1DDC090500925DF0 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		351510FF1DDC090500925DF0 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
+		351511001DDC090500925DF0 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
 		3519F1831DD0111C00013892 /* LMFindVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFindVO.h; sourceTree = "<group>"; };
 		3519F1841DD0111C00013892 /* LMFindVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindVO.m; sourceTree = "<group>"; };
 		351AF4691DD16D98001F7836 /* LMBalanceChargeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceChargeRequest.h; sourceTree = "<group>"; };
@@ -1023,6 +1027,7 @@
 			files = (
 				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
+				351511011DDC090500925DF0 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
 				8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */,
 				8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */,
@@ -1106,6 +1111,24 @@
 				79D069E18A025DABE98552EA /* libPods-living.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		351510FC1DDC090500925DF0 /* Gtui */ = {
+			isa = PBXGroup;
+			children = (
+				351510FD1DDC090500925DF0 /* include */,
+				351511001DDC090500925DF0 /* libGeTuiSdk-1.2.1.a */,
+			);
+			path = Gtui;
+			sourceTree = "<group>";
+		};
+		351510FD1DDC090500925DF0 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				351510FE1DDC090500925DF0 /* GeTuiSdk.h */,
+				351510FF1DDC090500925DF0 /* GeTuiSdkError.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		3519F1821DD010C800013892 /* Find */ = {
@@ -1413,6 +1436,7 @@
 		8737925F1DCF8A0F00A2ACD7 /* 3rdLibs */ = {
 			isa = PBXGroup;
 			children = (
+				351510FC1DDC090500925DF0 /* Gtui */,
 				873792601DCF8A0F00A2ACD7 /* AliPay */,
 				873792C11DCF8A0F00A2ACD7 /* MJPhotoBrowser */,
 				873792CA1DCF8A0F00A2ACD7 /* MJRefresh */,

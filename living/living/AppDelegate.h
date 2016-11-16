@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
-//#import "GeTuiSdk.h"
+#import <QuickLook/QuickLook.h>
+#import <MBProgressHUD.h>
+#import "GeTuiSdk.h"
 
 @interface AppDelegate : UIResponder
 <
-UIApplicationDelegate
-//GeTuiSdkDelegate
+UIApplicationDelegate,
+MBProgressHUDDelegate,
+GeTuiSdkDelegate
 >
 
 @property (strong, nonatomic) UIWindow  *window;

@@ -52,7 +52,7 @@ UITextViewDelegate,
 LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate,
 LMEventMsgCellDelegate,
-UIAlertViewDelegate
+LMActivityMsgCellDelegate
 >
 {
     UILabel  *tipLabel;
@@ -345,7 +345,7 @@ UIAlertViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 230;
+        return 60+kScreenWidth*3/5;
     }
     if (indexPath.section==1) {
         return 160+200;
@@ -584,6 +584,8 @@ UIAlertViewDelegate
         
         [cell setValue:eventDic andLatitude:latitude andLongtitude:longitude];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+        
+        cell.delegate = self;
         
         UITapGestureRecognizer   *hintLblTap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callTelephone)];
         [cell.numberLabel addGestureRecognizer:hintLblTap];
@@ -1474,5 +1476,27 @@ UIAlertViewDelegate
         }
     }
 }
+
+//活动举报按钮
+- (void)cellWillreport:(LMActivityMsgCell *)cell
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该活动"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self textStateHUD:@"您已经举报了该活动"];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
+
 
 @end

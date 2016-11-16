@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) UILabel *priceLabel;
 
+@property (nonatomic, strong) UIButton *reportButton;
+
 @end
 
 @implementation LMActivityMsgCell
@@ -46,6 +48,14 @@
     _phoneV.image = [UIImage imageNamed:@"phoneV"];
     [self.contentView addSubview:_phoneV];
     
+    _reportButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_reportButton setTitle:@"举报" forState:UIControlStateNormal];
+    [_reportButton setTintColor:LIVING_COLOR];
+    _reportButton.showsTouchWhenHighlighted = YES;
+    _reportButton.frame = CGRectMake(kScreenWidth-70, 12, 60.f, 30.f);
+    [_reportButton addTarget:self action:@selector(reportAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_reportButton];
+
     
     _numberLabel = [UILabel new];
     _numberLabel.font = [UIFont systemFontOfSize:14.f];
@@ -185,12 +195,22 @@
     _freeV.frame = CGRectMake(15, 93, 24, 24);
 
     
-    _numberLabel.frame = CGRectMake(44, 12, kScreenWidth-30, 30);
+    _numberLabel.frame = CGRectMake(44, 12, _numberLabel.bounds.size.width, 30);
     _addressLabel.frame = CGRectMake(44, 129.5, _addressLabel.bounds.size.width, 30);
     _timeLabel.frame = CGRectMake(44, 49+0.5, _timeLabel.bounds.size.width, 30);
     
     _priceLabel.frame = CGRectMake(44, 90, _priceLabel.bounds.size.width, 30);
 }
+
+
+- (void)reportAction:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellWillreport:)]) {
+        [_delegate cellWillreport:self];
+    }
+    
+}
+
 
 
 @end

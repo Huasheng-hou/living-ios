@@ -10,6 +10,6 @@
 
 @interface LMFriendListRequest : FitBaseRequest
 
--(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize;
+-(id)initWithUserUuid:(NSString *)user_uuid;
 
 @end

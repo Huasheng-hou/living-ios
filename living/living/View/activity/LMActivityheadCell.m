@@ -97,7 +97,7 @@
     UIView *line = [UIView new];
     line.backgroundColor = LINE_COLOR;
     [line sizeToFit];
-    line.frame = CGRectMake(kScreenWidth-71, 185, 1, 30);
+    line.frame = CGRectMake(kScreenWidth-71, kScreenWidth*3/5+15, 1, 30);
     [self.contentView addSubview:line];
     
     
@@ -163,7 +163,7 @@
     [_headV sizeToFit];
     
     
-    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 170);
+    _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
     
     _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height-_titleLabel.bounds.size.height*2, kScreenWidth-30, _titleLabel.bounds.size.height*2);
     
@@ -172,7 +172,7 @@
     _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
     _countLabel.frame = CGRectMake(61, 17+_imageV.bounds.size.height+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _joinButton.frame = CGRectMake(kScreenWidth-70, 170+5, 60, self.contentView.bounds.size.height-180);
+    _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, self.contentView.bounds.size.height-10-kScreenWidth*3/5);
     
 
 }

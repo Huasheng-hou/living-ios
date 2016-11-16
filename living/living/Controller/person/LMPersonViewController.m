@@ -21,6 +21,7 @@
 #import "LMScanViewController.h"
 #import "LMMyCouponController.h"
 #import "ImageHelpTool.h"
+#import "UIBarButtonItem+Badge.h"
 
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -65,6 +66,14 @@
                                              selector:@selector(getUserInfoData)
                                                  name:@"reloadData"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(addDot)
+     
+                                                 name:@"getui_message"
+     
+                                               object:nil];
 }
 
 - (void)creatUI
@@ -76,14 +85,40 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notic"] style:UIBarButtonItemStylePlain target:self action:@selector(noticAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"homeDot"] isEqualToString:@"1"]) {
+        self.navigationItem.rightBarButtonItem.badgeValue = @"1";
+        self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor redColor];
+    }else{
+        self.navigationItem.rightBarButtonItem.badgeValue = @"";
+        self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor clearColor];
+    }
+    
+    
 }
+
+-(void)addDot
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"homeDot"];
+    self.navigationItem.rightBarButtonItem.badgeValue = @"1";
+    self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor redColor];
+}
+
 
 - (void)noticAction
 {
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"homeDot"];
+    self.navigationItem.rightBarButtonItem.badgeValue = @"";
+    self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor clearColor];
+    
     LMNoticViewController *noticVC = [[LMNoticViewController alloc] init];
     [noticVC setHidesBottomBarWhenPushed:YES];
     
     [self.navigationController pushViewController:noticVC animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_notic" object:nil];
+     
+    
 }
 
 #pragma mark  请求个人数据

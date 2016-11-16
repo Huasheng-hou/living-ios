@@ -114,8 +114,35 @@ shareTypeDelegate
     typeIndex = 2;
     
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"举报"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(reportAction)];
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     
 }
+
+-(void)reportAction
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该文章"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self textStateHUD:@"您已经举报了该文章"];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
+}
+
 
 - (void)creatFootView
 {
@@ -965,7 +992,6 @@ shareTypeDelegate
 //回复
 - (void)cellWillReply:(LMCommentCell *)cell
 {
-    NSLog(@"**********回复");
     
     textIndex = 1;
     commitUUid =cell.commentUUid;
@@ -1106,7 +1132,6 @@ shareTypeDelegate
         [UIView animateWithDuration:duration animations:^{
             toolBar.transform = CGAffineTransformMakeTranslation(0, keyboardFrame.origin.y - kScreenHeight);
             bgViewY = toolBar.frame.origin.y;
-            NSLog(@"******bgViewY**%f",bgViewY);
             
         }];
     }
@@ -1123,8 +1148,6 @@ shareTypeDelegate
         if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
             [UIView animateWithDuration:0.1f animations:^{
                 [toolBar setFrame:CGRectMake(0, kScreenHeight-(curkeyBoardHeight+toolBar.height+contentSize), kScreenWidth, toolBar.height+contentSize)];
-                
-                NSLog(@"****keyboardWasShown****%@",toolBar);
                 
             }];
         }
