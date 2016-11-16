@@ -79,6 +79,10 @@
             && [[dictionary objectForKey:@"total_num"] isKindOfClass:[NSNumber class]]) {
             self.TotalNumber = [dictionary objectForKey:@"total_num"];
         }
+        if (nil != [dictionary objectForKey:@"total_number"] && ![[dictionary objectForKey:@"total_number"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"total_number"] isKindOfClass:[NSNumber class]]) {
+            self.joinNum = [dictionary objectForKey:@"total_number"];
+        }
         
         if (nil != [dictionary objectForKey:@"per_cost"] && ![[dictionary objectForKey:@"per_cost"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"per_cost"] isKindOfClass:[NSString class]]) {

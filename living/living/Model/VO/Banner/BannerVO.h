@@ -26,5 +26,7 @@
 @property(nonatomic, retain) NSString       *LinkUrl;
 @property(nonatomic, retain) NSString       *KeyUUID;
 @property(nonatomic, retain) NSString       *Type;
+@property(nonatomic, retain) NSString       *webUrl;
+@property(nonatomic, retain) NSString       *webTitle;
 
 @end

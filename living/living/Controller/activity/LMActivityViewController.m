@@ -14,8 +14,9 @@
 #import "LMActivityCell.h"
 
 #import "LMActivityDeleteRequest.h"
-
+#import "SQMenuShowView.h"
 #import "ActivityListVO.h"
+#import "LMMyPublicViewController.h"
 
 #define PAGER_SIZE      20
 
@@ -31,6 +32,8 @@
     NSMutableArray   *pageIndexArray;
     BOOL                reload;
 }
+@property (strong, nonatomic)  SQMenuShowView *showView;
+@property (assign, nonatomic)  BOOL  isShow;
 
 @end
 
@@ -60,6 +63,24 @@
     [self creatUI];
 
     [self loadNewer];
+    __weak typeof(self) weakSelf = self;
+    [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
+        weakSelf.isShow = NO;
+        if (index==0) {
+            LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
+            [publicVC setHidesBottomBarWhenPushed:YES];
+            
+            [self.navigationController pushViewController:publicVC animated:YES];
+        }
+        
+        if (index==1) {
+            LMMyPublicViewController *myfVC = [[LMMyPublicViewController alloc] init];
+            [myfVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:myfVC animated:YES];
+        }
+        
+        
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -100,10 +121,16 @@
 
 - (void)publicAction
 {
-    LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
-    [publicVC setHidesBottomBarWhenPushed:YES];
+    _isShow = !_isShow;
     
-    [self.navigationController pushViewController:publicVC animated:YES];
+    if (_isShow) {
+        [self.showView showView];
+        
+    }else{
+        [self.showView dismissView];
+    }
+    
+
 }
 
 - (FitBaseRequest *)request
@@ -249,5 +276,32 @@
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
     }
 }
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    _isShow = NO;
+    [self.showView dismissView];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.showView dismissView];
+}
+
+- (SQMenuShowView *)showView{
+    
+    if (_showView) {
+        return _showView;
+    }
+    NSArray *array = @[@"发布活动",@"我的活动"];
+    _showView = [[SQMenuShowView alloc]initWithFrame:(CGRect){CGRectGetWidth(self.view.frame)-100-10,64,100,0}
+                                               items:array
+                                           showPoint:(CGPoint){CGRectGetWidth(self.view.frame)-25,10}];
+    _showView.sq_backGroundColor = [UIColor whiteColor];
+    [self.view addSubview:_showView];
+    return _showView;
+}
+
+
 
 @end

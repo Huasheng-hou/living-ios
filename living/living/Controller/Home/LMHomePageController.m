@@ -19,6 +19,7 @@
 #import "MJRefresh.h"
 #import "LMWriterViewController.h"
 #import "LMHomeDetailController.h"
+#import "LMWebViewController.h"
 
 #import "BannerVO.h"
 
@@ -41,6 +42,7 @@ LMhomePageCellDelegate
     NSInteger        currentPageIndex;
     
     NSArray         *_bannerArray;
+    NSMutableArray  *stateArray;
 }
 
 @end
@@ -158,12 +160,17 @@ LMhomePageCellDelegate
                                                            }
                                                            
                                                            NSMutableArray   *imgUrls    = [NSMutableArray new];
+                                                           stateArray  = [NSMutableArray new];
                                                            
                                                            for (BannerVO *vo in _bannerArray) {
                                                                
                                                                if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
                                                                    
                                                                    [imgUrls addObject:vo.LinkUrl];
+                                                               }
+                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
+                                                                   
+                                                                   [stateArray addObject:vo.KeyUUID];
                                                                }
                                                             }
                                                            
@@ -253,17 +260,36 @@ LMhomePageCellDelegate
 
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
-//    if ([stateArray[index] isEqualToString:@"event"]) {
-//        LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
-//        eventVC.hidesBottomBarWhenPushed = YES;
-//        eventVC.eventUuid = eventArray[index];
-//        [self.navigationController pushViewController:eventVC animated:YES];
-//    }else{
-//        LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
-//        eventVC.hidesBottomBarWhenPushed = YES;
-//        eventVC.artcleuuid = eventArray[index];
-//        [self.navigationController pushViewController:eventVC animated:YES];
-//    }
+    if (_bannerArray.count>index) {
+        BannerVO *vo = _bannerArray[index];
+        
+        if ([vo.Type isEqualToString:@"event"]) {
+            if (vo.KeyUUID&&![vo.KeyUUID isEqual:@""]){
+                LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.eventUuid = vo.KeyUUID;
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        if ([vo.Type isEqualToString:@"article"]){
+            if (vo.KeyUUID&&![vo.KeyUUID isEqual:@""]) {
+                LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.artcleuuid = vo.KeyUUID;
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        
+        if ([vo.Type isEqualToString:@"web"]) {
+            if (vo.webUrl&&![vo.webUrl isEqualToString:@""]) {
+                LMWebViewController *webVC = [[LMWebViewController alloc] init];
+                webVC.hidesBottomBarWhenPushed = YES;
+                webVC.titleString =vo.webTitle ;
+                webVC.urlString = vo.webUrl;
+                [self.navigationController pushViewController:webVC animated:YES];
+            }
+        }
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

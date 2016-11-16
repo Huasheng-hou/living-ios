@@ -73,6 +73,16 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.Type = [dictionary objectForKey:@"type"];
         }
+        
+        if (nil != [dictionary objectForKey:@"webUrl"] && ![[dictionary objectForKey:@"webUrl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"webUrl"] isKindOfClass:[NSString class]]) {
+            self.webUrl = [dictionary objectForKey:@"webUrl"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"webTitle"] && ![[dictionary objectForKey:@"webTitle"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"webTitle"] isKindOfClass:[NSString class]]) {
+            self.webTitle = [dictionary objectForKey:@"webTitle"];
+        }
     }
     
     return self;
