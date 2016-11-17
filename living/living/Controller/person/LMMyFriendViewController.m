@@ -87,11 +87,9 @@ UITableViewDataSource
 
             LMFriendVO *vo = [LMFriendVO LMFriendVOWithDictionary:bodyDic[@"friend"]];
         
-           [listArray addObject:vo];
-//                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scan"] style:UIBarButtonItemStylePlain target:self action:@selector(sweepAction)];
-//                self.navigationItem.rightBarButtonItem = rightItem;
+            [listArray addObject:vo];
             
-
+            [_tableView reloadData];
             
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -111,7 +109,6 @@ UITableViewDataSource
             [_tableView addSubview:homeImage];
             
             [_tableView reloadData];
-
         }
     }
     
@@ -173,7 +170,6 @@ UITableViewDataSource
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
-//    NSInteger index = tap.view.tag;
     if (tap.state == UIGestureRecognizerStateEnded) {
         
             
