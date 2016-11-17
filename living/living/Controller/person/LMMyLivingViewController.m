@@ -147,18 +147,12 @@ WJLoopViewDelegate
         
         bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
         
-         NSLog(@"==============bodyData.list=============：%@",bodyData.list);
-        
         cellDataArray=(NSMutableArray *)bodyData.list;
         
         
         livingInfo = [[LMLivingInfoVO alloc] initWithDictionary:bodyDic[@"livingInfo"]];
         numInfo = [[LMLivingMapVO alloc] initWithDictionary:bodyDic[@"map"]];
-        
-        
-        
-        
-        
+
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             ActivityListVO *list=[[ActivityListVO alloc]initWithDictionary:array[i]];
