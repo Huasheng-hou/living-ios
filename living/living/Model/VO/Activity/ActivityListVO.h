@@ -34,8 +34,10 @@
 @property(nonatomic, retain) NSString       *EventImg;
 @property(nonatomic, retain) NSString       *Avatar;
 @property(nonatomic, retain) NSString       *EventName;
-@property(nonatomic, retain) NSString       *Status;
+@property(nonatomic, retain) NSNumber       *Status;
 @property(nonatomic, retain) NSNumber       *joinNum;
+@property(nonatomic, retain) NSString       *eventDetail;
+@property(nonatomic, retain) NSString       *createTime;
 
 
 @end

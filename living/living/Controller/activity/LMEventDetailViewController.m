@@ -158,29 +158,11 @@ LMActivityMsgCellDelegate
     countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
     
-    NSString *string = [NSString stringWithFormat:@"%d",eventDic.status];
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
-    if ([string isEqual:@"1"]) {
-        [joinButton setTitle:@"报名" forState:UIControlStateNormal];
-    }
-    if ([string isEqual:@"2"]) {
-        [joinButton setTitle:@"人满" forState:UIControlStateNormal];
-        joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"3"]) {
-        [joinButton setTitle:@"已开始" forState:UIControlStateNormal];
-        
-        joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"4"]) {
-        [joinButton setTitle:@"已完结" forState:UIControlStateNormal];
-        joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"5"]) {
-        [joinButton setTitle:@"删除" forState:UIControlStateNormal];
-        joinButton.userInteractionEnabled = NO;
-    }
+    [joinButton setTitle:_type forState:UIControlStateNormal];
+    joinButton.userInteractionEnabled = NO;
+
     
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
@@ -489,8 +471,9 @@ LMActivityMsgCellDelegate
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        [cell setValue:eventDic];
         
+        [cell setValue:eventDic];
+        cell.joinButton.titleLabel.text =_type;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         

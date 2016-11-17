@@ -13,10 +13,6 @@
 
 @interface LMMypublicEventCell : UITableViewCell
 
-@property(nonatomic,strong)NSString *Orderuuid;
-
-@property(nonatomic,strong)NSString *priceStr;
-
 
 @property (nonatomic, weak) id <LMMypublicEventCellDelegate> delegate;
 

@@ -13,6 +13,7 @@
 @interface LMMypublicEventCell () {
     float _xScale;
     float _yScale;
+    UIView *cellView;
 }
 
 @property(nonatomic, strong)UILabel *orderNumLabel;
@@ -34,6 +35,7 @@
 @property(nonatomic, strong)UILabel *numLabel;
 
 @property(nonatomic, strong)UIImageView *deductionImage;
+
 @property(nonatomic, strong)UILabel *couponLabel;
 
 @end
@@ -57,7 +59,7 @@
     [self addSubview:cellbackView];
     
     
-    UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(0.5, 0.5, kScreenWidth-30, 150)];
+    cellView = [[UIView alloc] initWithFrame:CGRectMake(0.5, 0.5, kScreenWidth-30, 150)];
     cellView.backgroundColor = [UIColor whiteColor];
     cellView.layer.cornerRadius = 5;
     [cellbackView addSubview:cellView];
@@ -126,13 +128,7 @@
     [cellView addSubview:_timeLabel];
     
     
-    _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
-    [_payButton setTintColor:LIVING_COLOR];
-    _payButton.showsTouchWhenHighlighted = YES;
-    _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
-    
-    [cellView addSubview:_payButton];
+
 }
 
 - (void)setActivityList:(ActivityListVO *)list
@@ -140,13 +136,13 @@
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.EventImg]];
     
     if (list.StartTime&&![list.StartTime isEqual:@""]) {
-        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.StartTime];
+        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.createTime];
     }else{
         _timeLabel.text =@"创建时间：";
     }
     
     
-    _titleLabel.text = nil;
+    _titleLabel.text = list.eventDetail;
     _orderNumLabel.text = list.EventName;
     
     if ([list.TotalNumber isEqual:@""]||list.TotalNumber==nil) {
@@ -160,21 +156,38 @@
         
         _numLabel.attributedText = str;
     }
+    _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    
+    [_payButton setTintColor:LIVING_COLOR];
+    _payButton.showsTouchWhenHighlighted = YES;
+    _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
+    
+    [cellView addSubview:_payButton];
     
     int payNum = [list.Status intValue];
     
     switch (payNum) {
-        case 0:
+        case 1:
             _paytypeLabel.text = @"正报名";
             [_payButton setTitle:@"开始" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(beginCell:) forControlEvents:UIControlEventTouchUpInside];
             break;
-        case 1:
+        case 2:
+            _paytypeLabel.text = @"正报名";
+            [_payButton setTitle:@"开始" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(beginCell:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        case 3:
             _paytypeLabel.text = @"已开始";
             [_payButton setTitle:@"结束" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(finishCell:) forControlEvents:UIControlEventTouchUpInside];
             break;
-        case 2:
+        case 4:
+            _paytypeLabel.text = @"已结束";
+            [_payButton setTitle:@"删除" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        case 5:
             _paytypeLabel.text = @"已结束";
             [_payButton setTitle:@"删除" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
@@ -205,7 +218,7 @@
     
     _orderNumLabel.frame = CGRectMake(10, 0, _orderNumLabel.bounds.size.width, 35);
     _paytypeLabel.frame = CGRectMake(kScreenWidth-40-_paytypeLabel.bounds.size.width, 0, _paytypeLabel.bounds.size.width, 35);
-    _titleLabel.frame = CGRectMake(80, 45, kScreenWidth-120, _titleLabel.bounds.size.height*2);
+    _titleLabel.frame = CGRectMake(80, 35, kScreenWidth-120, 60);
     _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);
     _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
     _numLabel.frame = CGRectMake(80, 85, _numLabel.bounds.size.width,  _numLabel.bounds.size.height+5);

@@ -74,14 +74,14 @@
             self.Type = [dictionary objectForKey:@"type"];
         }
         
-        if (nil != [dictionary objectForKey:@"webUrl"] && ![[dictionary objectForKey:@"webUrl"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"webUrl"] isKindOfClass:[NSString class]]) {
-            self.webUrl = [dictionary objectForKey:@"webUrl"];
+        if (nil != [dictionary objectForKey:@"weburl"] && ![[dictionary objectForKey:@"weburl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"weburl"] isKindOfClass:[NSString class]]) {
+            self.webUrl = [dictionary objectForKey:@"weburl"];
         }
         
-        if (nil != [dictionary objectForKey:@"webTitle"] && ![[dictionary objectForKey:@"webTitle"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"webTitle"] isKindOfClass:[NSString class]]) {
-            self.webTitle = [dictionary objectForKey:@"webTitle"];
+        if (nil != [dictionary objectForKey:@"title"] && ![[dictionary objectForKey:@"title"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"title"] isKindOfClass:[NSString class]]) {
+            self.webTitle = [dictionary objectForKey:@"title"];
         }
     }
     

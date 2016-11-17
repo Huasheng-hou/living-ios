@@ -120,8 +120,17 @@
         }
         
         if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSNumber class]]) {
             self.Status = [dictionary objectForKey:@"status"];
+        }
+        if (nil != [dictionary objectForKey:@"eventDetail"] && ![[dictionary objectForKey:@"eventDetail"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"eventDetail"] isKindOfClass:[NSString class]]) {
+            self.eventDetail = [dictionary objectForKey:@"eventDetail"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"create_time"] && ![[dictionary objectForKey:@"create_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"create_time"] isKindOfClass:[NSString class]]) {
+            self.createTime = [dictionary objectForKey:@"create_time"];
         }
     }
     

@@ -129,16 +129,10 @@ LMMypublicEventCellDelegate
         return cell;
     }
     
-    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
-    if (!cell) {
-        
-        cell = [[LMMypublicEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
+    cell    = [[LMMypublicEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-    }
+
     if (self.listData.count > indexPath.row) {
         
         ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
@@ -168,7 +162,32 @@ LMMypublicEventCellDelegate
             LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
             
             detailVC.hidesBottomBarWhenPushed = YES;
-            
+            int payNum = [vo.Status intValue];
+            switch (payNum) {
+                case 1:
+                    detailVC.type = @"正报名";
+
+                    break;
+                case 2:
+                    detailVC.type = @"正报名";
+
+                    break;
+                case 3:
+                    detailVC.type = @"已开始";
+
+                    break;
+                case 4:
+                    detailVC.type = @"已结束";
+
+                    break;
+                case 5:
+                    detailVC.type = @"已结束";
+
+                    break;
+                    
+                default:
+                    break;
+            }
             detailVC.eventUuid  = vo.EventUuid;
             detailVC.titleStr   = vo.EventName;
             
@@ -336,11 +355,7 @@ LMMypublicEventCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         [self textStateHUD:@"删除成功"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [self.navigationController popViewControllerAnimated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent" object:nil];
-        });
+        [self loadNoState];
         
     } else {
         
