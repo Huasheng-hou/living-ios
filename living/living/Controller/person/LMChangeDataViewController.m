@@ -120,47 +120,42 @@ UIViewControllerTransitioningDelegate
     
     self.tableView.tableFooterView = footView;
     
-    
     pickImage=[[UIImagePickerController alloc]init];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setDelegate:self];
-//    [pickImage setAllowsEditing:YES];
-    
-    
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    
     return 10;
-    
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section == 0) {
+        
         return 130;
     }
     if (indexPath.section==1) {
+        
         return 160;
     }
     
     return 0;
 }
 
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -213,7 +208,7 @@ UIViewControllerTransitioningDelegate
         [cell.contentView addSubview:nameLabel];
         
         nickTF = [[UITextField alloc] initWithFrame:CGRectMake(90, 10, kScreenWidth-100, 30)];
-//        nickTF.placeholder = @"请输入昵称";
+
         nickTF.text = _nickStr;
         nickTF.returnKeyType = UIReturnKeyDone;
         [nickTF setValue:TEXT_COLOR_LEVEL_3 forKeyPath:@"_placeholderLabel.textColor"];
@@ -237,7 +232,7 @@ UIViewControllerTransitioningDelegate
         ageTF.layer.borderWidth=0.5;
         ageTF.layer.borderColor = LINE_COLOR.CGColor;
         [ageTF addTarget:self action:@selector(timeChooseAction) forControlEvents:UIControlEventTouchUpInside];
-//        ageTF.textLabel.text = @"请选择出生日期";
+
         ageTF.textLabel.text = _ageStr;
         [cell.contentView addSubview:ageTF];
         
@@ -252,25 +247,23 @@ UIViewControllerTransitioningDelegate
         cityTF.layer.borderWidth=0.5;
         cityTF.layer.borderColor = LINE_COLOR.CGColor;
         [cityTF addTarget:self action:@selector(addressChooseAction) forControlEvents:UIControlEventTouchUpInside];
-//        cityTF.textLabel.text = @"请选择所在城市";
-        if (_provinceStr == nil&&_cityStr==nil) {
+
+        if (_provinceStr == nil && _cityStr == nil) {
+            
             cityTF.textLabel.text = @"";
-        }else{
-           cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@",_provinceStr,_cityStr];
+        } else {
+            
+            cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@", _provinceStr, _cityStr];
         }
         
-        
         [cell.contentView addSubview:cityTF];
-        
     }
-    
-    
     
     return cell;
 }
 
 #pragma mark 登陆
--(void)loginAction
+- (void)loginAction
 {
     
     if ([nickTF.text isEqualToString:@""]) {
@@ -299,10 +292,13 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
+    LMRegisterRequest *request  = [[LMRegisterRequest alloc] initWithNickname:nickTF.text
+                                                                    andGender:_genderStr
+                                                                    andAvatar:_imgURL
+                                                                  andBirtyday:ageTF.textLabel.text
+                                                                  andProvince:_provinceStr
+                                                                      andCity:_cityStr];
     
-    
-    
-    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:_genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:_provinceStr andCity:_cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -316,8 +312,6 @@ UIViewControllerTransitioningDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
 
 - (void)parseCodeResponse:(NSString *)resp
@@ -344,25 +338,20 @@ UIViewControllerTransitioningDelegate
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
         });
         
-
-        
     } else {
         [self textStateHUD:bodyDict[@"description"]];
     }
 }
 
-
 #pragma mark pickerView选择日期
 
--(void)timeChooseAction
+- (void)timeChooseAction
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *currentDate;
     
     currentDate = [NSDate date];
-    
-    
     
     [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
                                MaximumDate:[NSDate date]
@@ -381,7 +370,7 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark pickerView选择城市
 
--(void)addressChooseAction
+- (void)addressChooseAction
 {
     [self.view endEditing:YES];
     
@@ -396,7 +385,6 @@ UIViewControllerTransitioningDelegate
     [FitPickerView showWithData:@[provinceArr, @[@"北京"]] Delegate:self OffSets:@[@"0", @"0"]];
 }
 
-
 - (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
 {
     
@@ -409,9 +397,8 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark  性别选择
 
--(void)manAction
+- (void)manAction
 {
-    NSLog(@"************man****");
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
     manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
@@ -419,8 +406,8 @@ UIViewControllerTransitioningDelegate
     _genderStr = @"1";
 }
 
--(void)womanAction{
-    NSLog(@"***********woman*****");
+- (void)womanAction
+{
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
     manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
@@ -459,24 +446,27 @@ UIViewControllerTransitioningDelegate
     [self initStateHud];
     
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+    
     UIImage *headImage = [ImageHelpTool scaleImage:image];
+    
     request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
                                                
                                                [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                       withObject:nil
                                                                    waitUntilDone:YES];
+                                               
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                               [self logoutAction:resp];
                                                
                                                NSString    *result = [bodyDict objectForKey:@"result"];
                                                
-                                               NSLog(@"--------bodyDict--------%@",bodyDict);
-                                               
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
+                                               
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        _imgURL=imgUrl;
                                                    }
@@ -505,8 +495,6 @@ UIViewControllerTransitioningDelegate
     {
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             [self textStateHUD:@"保存成功"];
-            NSLog(@"保存成功");
-            //            [self setUserInfo];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [self dismissViewControllerAnimated:YES completion:nil];

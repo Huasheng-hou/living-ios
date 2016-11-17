@@ -60,6 +60,20 @@ liveNameProtocol
     [super viewDidLoad];
     [self createUI];
     
+    // * 微信支付被用户取消
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(wxPayCanceled)
+                                                 name:LM_WECHAT_PAY_CANCEL_NOTIFICATION
+                                               object:nil];
+    
+    // * 微信支付失败
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(wxPayFailed)
+                                                 name:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                               object:nil];
+    
     // * 微信支付结果确认
     //
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -273,7 +287,7 @@ liveNameProtocol
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        NSLog(@"***");
+        
         LMChangeLivingController *livingVC = [[LMChangeLivingController alloc] init];
         livingVC.delegate=self;
         [self.navigationController pushViewController:livingVC animated:YES];
@@ -325,19 +339,23 @@ liveNameProtocol
     type = @"wx";
     if (![CheckUtils isLink]) {
         
-        [self textStateHUD:@"无网络连接"];
+        [self textStateHUD:@"无网络"];
         return;
     }
-    [self initStateHud];
     
+    [self initStateHud];
+
     LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
+
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
                                                [self performSelectorOnMainThread:@selector(wxRechargeResponse:)
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
+    
                                            } failed:^(NSError *error) {
+                                           
                                                [self textStateHUD:@"微信充值下单失败"];
                                            }];
     [proxy start];

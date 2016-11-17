@@ -189,9 +189,7 @@ static NSMutableArray *cellDataArray;
     return 0;
 }
 
-
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 35)];
@@ -358,8 +356,7 @@ static NSMutableArray *cellDataArray;
     return nil;
 }
 
-
--(void)closeCell:(UIButton *)button
+- (void)closeCell:(UIButton *)button
 {
     NSInteger row=button.tag;
     
@@ -370,11 +367,9 @@ static NSMutableArray *cellDataArray;
     [self refreshData];
 }
 
-
-
 #pragma mark 地图选择地址详情
 
--(void)selectLocation
+- (void)selectLocation
 {
     LMSearchAddressController *map=[[LMSearchAddressController alloc]init];
     map.delegate=self;
@@ -384,23 +379,22 @@ static NSMutableArray *cellDataArray;
 }
 
 //代理方法
-- (void)selectAddress:(NSString *)addressName andLatitude:(CGFloat)latitude
+- (void)selectAddress:(NSString *)addressName
+          andLatitude:(CGFloat)latitude
          andLongitude:(CGFloat)longitude
           anddistance:(CGFloat)distance
 {
+    msgCell.dspTF.text  = addressName;
     
-    NSLog(@"=======selectAddress============%@    %f    %f",addressName,latitude,longitude);
-    
-    msgCell.dspTF.text=addressName;
-    _latitude=latitude;
-    _longitude=longitude;
+    _latitude   = latitude;
+    _longitude  = longitude;
 }
 
--(void)beginDateAction:(id)sender
+- (void)beginDateAction:(id)sender
 {
     [self.view endEditing:YES];
     dateIndex = 0;
-    NSLog(@"************beginDateAction");
+    
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *currentDate;
@@ -412,14 +406,12 @@ static NSMutableArray *cellDataArray;
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
-    
 }
 
--(void)endDateAction:(id)sender
+- (void)endDateAction:(id)sender
 {
     [self.view endEditing:YES];
     dateIndex = 1;
-    NSLog(@"************endDateAction");
     
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -439,99 +431,77 @@ static NSMutableArray *cellDataArray;
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
-    
 }
-
 
 #pragma mark 选择省市区视图
 
--(void)createPickerView
+- (void)createPickerView
 {
-    
     FitPickerThreeLevelView *pickView=[[FitPickerThreeLevelView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 260)];
+  
     pickView.delegate=self;
     [[[[UIApplication sharedApplication] delegate] window] addSubview:pickView];
 }
 
--(void)addressAction:(id)sender
+- (void)addressAction:(id)sender
 {
     [self.view endEditing:YES];
-    NSLog(@"************addressAction");
-    
     [self createPickerView];
-    
 }
+
 - (void)didSelectedItems:(NSArray *)items andDistrict:(NSString *)district
 {
-    
     msgCell.addressButton.textLabel.text = [NSString stringWithFormat:@"%@", items[0]];
     districtStr=district;
-    
 }
 
 #pragma mark ======================活动==项目活动增加图片
 
--(void)imageButtonAction:(UIButton *)button
+- (void)imageButtonAction:(UIButton *)button
 {
-    NSLog(@"==========*******项目图片========================");
-    
     addImageIndex=button.tag;
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"相册", @"拍照",nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"相册", @"拍照",nil];
+    
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
     actionSheet = nil;
-    
 }
 
+#pragma mark - 日期选择
 
-#pragma mark  -日期选择
 - (void)didSelectedDate:(NSDate *)date
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     
-    if (dateIndex==0) {
+    if (dateIndex == 0) {
+        
         msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
     }
-    if (dateIndex==1) {
+    if (dateIndex == 1) {
+       
         msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
     }
-    
 }
 
 #pragma mark  textView代理方法
 
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-//{
-//    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-//        //在这里做你响应return键的代码
-////        [self.view endEditing:YES];
-//        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-//    }
-//    
-//    return YES;
-//}
-
 - (void)textViewDidChange:(UITextView *)textView1
 {
-
     if ([textView1 isEqual:msgCell.applyTextView]) {
+        
         if (msgCell.applyTextView.text.length>0) {
             msgCell.msgLabel.hidden = YES;
-        }else{
+        } else {
             msgCell.msgLabel.hidden  = NO;
         }
         
-        
-        
-    }else{
-        NSLog(@"========textViewDidChange=========");
+    } else {
         
         NSArray *array = self.tableView.visibleCells;
         
@@ -548,9 +518,6 @@ static NSMutableArray *cellDataArray;
             
         }
     }
-
-    
-
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -563,14 +530,14 @@ static NSMutableArray *cellDataArray;
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     if ([textView isEqual:msgCell.applyTextView]) {
-        NSLog(@"******");
-    }else{
+        
+    } else {
+        
         NSInteger row=textView.tag;
         
         [self modifyCellDataContent:row andText:textView.text];
     }
 
-    
     return YES;
 }
 
@@ -590,7 +557,6 @@ static NSMutableArray *cellDataArray;
    [self refreshData];
 }
 
-
 #pragma mark  UITextField代理方法
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -601,7 +567,7 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 标题编辑结束
 
--(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     
     if (textField.tag==100) {
@@ -614,14 +580,14 @@ static NSMutableArray *cellDataArray;
     return YES;
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
 }
 
 #pragma mark 编辑单元格标题
 
--(void)modifyCellDataTitle:(NSInteger)row andText:(NSString *)text{
+- (void)modifyCellDataTitle:(NSInteger)row andText:(NSString *)text{
     
     NSMutableDictionary *dic=cellDataArray[row];
     
@@ -637,10 +603,9 @@ static NSMutableArray *cellDataArray;
     
 }
 
-
 #pragma mark 单元格刚创建后的数据
 
--(void)projectDataStorageWithArrayIndex:(NSInteger)index
+- (void)projectDataStorageWithArrayIndex:(NSInteger)index
 {
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
     [dic setObject:@"" forKey:@"title"];
@@ -649,7 +614,6 @@ static NSMutableArray *cellDataArray;
     
     [cellDataArray insertObject:dic atIndex:index];
 }
-
 
 #pragma mark UIImagePickerController代理函数
 
@@ -700,13 +664,15 @@ static NSMutableArray *cellDataArray;
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    
-    if (addImageIndex==0) {
+
+    if (addImageIndex == 0) {
+
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
         UIImage *headImage = [ImageHelpTool scaleImage:image];
         request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
         [self initStateHud];
+        
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    
@@ -743,11 +709,10 @@ static NSMutableArray *cellDataArray;
                                                    [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                           withObject:nil
                                                                        waitUntilDone:YES];
+                                                   
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
                                                    
                                                    if (result && [result isKindOfClass:[NSString class]]
                                                        && [result isEqualToString:@"0"]) {
@@ -764,10 +729,6 @@ static NSMutableArray *cellDataArray;
  
     }
 }
-
-
-
-
 
 #pragma mark UIActionSheet ======================代理函数
 
@@ -814,7 +775,7 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 判断项目标题是否为空
 
--(BOOL)judgeProjectTitle
+- (BOOL)judgeProjectTitle
 {
     for (NSDictionary *dic in cellDataArray) {
         if ([dic[@"title"] isEqualToString:@""]) {
@@ -878,8 +839,6 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    
-    
     if (!msgCell.imgView.image) {
         [ self textStateHUD:@"请选择封面图片"];
         return;
@@ -910,17 +869,16 @@ static NSMutableArray *cellDataArray;
     
 }
 
--(void)getEventDataResponse:(NSString *)resp
+- (void)getEventDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    NSLog(@"***************%@",bodyDic);
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
-            NSLog(@"******==========活动介绍*eventUUid==========*%@",string);
             eventUUid = string;
            
             [self publicProject];
@@ -932,12 +890,10 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-
 #pragma mark ====================================发布活动项目执行请求
 
--(void)publicProject
+- (void)publicProject
 {
-    
     for (int i =0; i<cellDataArray.count; i++) {
         
         NSDictionary *dic=cellDataArray[i];
@@ -960,10 +916,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-
-
-
--(void)getEventPublicProjectDataResponse:(NSString *)resp
+- (void)getEventPublicProjectDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -987,12 +940,11 @@ static NSMutableArray *cellDataArray;
             [self textStateHUD:string];
         }
     }
-    
-    
 }
 
 #pragma mark  --添加项目
--(void)addButtonAction:(id)sender
+
+- (void)addButtonAction:(id)sender
 {
     NSInteger length=cellDataArray.count;
     
@@ -1002,16 +954,9 @@ static NSMutableArray *cellDataArray;
     }
     
     [self projectDataStorageWithArrayIndex:length];
-    
-
     [self refreshData];
 }
 
-- (void)resignCurrentFirstResponder
-{
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    [keyWindow endEditing:YES];
-}
 - (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
 {
     CGFloat     keyboardHeight  = 280;
