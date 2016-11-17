@@ -23,6 +23,7 @@
 
 #import "LMWXLoginRequest.h"
 #import "WechatInfoVO.h"
+#import "CncpStartTime.h"
 
 @interface LMLoginViewController ()
 <
@@ -142,7 +143,10 @@ WXApiDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    if ([[CncpStartTime shareCncpStartTime] outDate]) {
+        return 4;
+    }
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

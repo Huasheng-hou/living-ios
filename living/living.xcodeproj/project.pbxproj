@@ -50,6 +50,7 @@
 		358F135C1DDD542900D1DA4F /* LMAgreementRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F135B1DDD542900D1DA4F /* LMAgreementRequest.m */; };
 		358F135F1DDD596800D1DA4F /* LMEventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F135E1DDD596800D1DA4F /* LMEventDetailViewController.m */; };
 		358F13621DDD9A8C00D1DA4F /* LMEventChooseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F13611DDD9A8C00D1DA4F /* LMEventChooseButton.m */; };
+		358F13651DDDB52D00D1DA4F /* CncpStartTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F13641DDDB52D00D1DA4F /* CncpStartTime.m */; };
 		35F676521DDADFAF00C31448 /* LMPushSendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F676511DDADFAF00C31448 /* LMPushSendRequest.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
@@ -424,6 +425,8 @@
 		358F135E1DDD596800D1DA4F /* LMEventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMEventDetailViewController.m; path = living/Controller/activity/LMEventDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		358F13601DDD9A8C00D1DA4F /* LMEventChooseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventChooseButton.h; sourceTree = "<group>"; };
 		358F13611DDD9A8C00D1DA4F /* LMEventChooseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventChooseButton.m; sourceTree = "<group>"; };
+		358F13631DDDB52D00D1DA4F /* CncpStartTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CncpStartTime.h; sourceTree = "<group>"; };
+		358F13641DDDB52D00D1DA4F /* CncpStartTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CncpStartTime.m; sourceTree = "<group>"; };
 		35F676501DDADFAF00C31448 /* LMPushSendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPushSendRequest.h; sourceTree = "<group>"; };
 		35F676511DDADFAF00C31448 /* LMPushSendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPushSendRequest.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
@@ -1849,6 +1852,8 @@
 		873793701DCF8A1000A2ACD7 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				358F13631DDDB52D00D1DA4F /* CncpStartTime.h */,
+				358F13641DDDB52D00D1DA4F /* CncpStartTime.m */,
 				354DB3E31DD07CD90041D502 /* OSTextField.h */,
 				354DB3E41DD07CF10041D502 /* OSTextField.m */,
 				873793711DCF8A1000A2ACD7 /* city.plist */,
@@ -3134,6 +3139,7 @@
 				8E948AFC1DD16E35002805DD /* LMToolTipView.m in Sources */,
 				35864A941DD566F80061E9C0 /* LMFriendListRequest.m in Sources */,
 				873795161DCF8A1000A2ACD7 /* MJRefreshBaseView.m in Sources */,
+				358F13651DDDB52D00D1DA4F /* CncpStartTime.m in Sources */,
 				873795A61DCF8A1000A2ACD7 /* LMBalanceRequest.m in Sources */,
 				873795BA1DCF8A1000A2ACD7 /* LMEventCommentVO.m in Sources */,
 				873795F81DCF8A1000A2ACD7 /* LMBlanceHeadCell.m in Sources */,
