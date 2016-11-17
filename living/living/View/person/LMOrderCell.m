@@ -195,6 +195,7 @@
             break;
         case 1:
             _paytypeLabel.text = @"待确认";
+            _deleteButton.hidden = YES;
             break;
         case 2:
             _paytypeLabel.text = @"已付款";
@@ -203,11 +204,28 @@
             break;
         case 3:
             _paytypeLabel.text = @"退款中";
+            _deleteButton.hidden = YES;
             break;
         case 4:
             _paytypeLabel.text = @"已退款";
             [_payButton setTitle:@"再订" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(rebookCell:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        case 5:
+            _paytypeLabel.text = @"失效";
+            [_payButton setTitle:@"删除" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+            _deleteButton.hidden = YES;
+            break;
+        case 6:
+            _paytypeLabel.text = @"进行中";
+            _deleteButton.hidden = YES;
+            break;
+        case 7:
+            _paytypeLabel.text = @"已完结";
+            [_payButton setTitle:@"删除" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+            _deleteButton.hidden = YES;
             break;
             
         default:

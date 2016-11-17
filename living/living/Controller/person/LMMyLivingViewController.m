@@ -23,6 +23,7 @@
 #import "LMLiveRoomLivingInfo.h"
 #import "LMLiveRoomMap.h"
 #import "ActivityListVO.h"
+#import "LMEventChooseButton.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -48,6 +49,9 @@ WJLoopViewDelegate
     LMLiveRoomCell *cellInfo;
     
     UIView *homeImage;
+    LMEventChooseButton *publicLb;
+    LMEventChooseButton *joinLb ;
+    NSInteger  seleIndex;
 }
 
 @end
@@ -69,7 +73,7 @@ WJLoopViewDelegate
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
+    seleIndex =1;
     if (_livImgUUid==nil ) {
         homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-150, 200, 100)];
         
@@ -213,8 +217,6 @@ WJLoopViewDelegate
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
         WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:livingInfo.livingImage placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
         loopView.location = WJPageControlAlignmentRight;
-        
-        
         [headView addSubview:loopView];
         
         return headView;
@@ -222,77 +224,57 @@ WJLoopViewDelegate
     if (section==1) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         headView.backgroundColor = [UIColor whiteColor];
-        
-        
         LMLiveRoomMap *map=bodyData.map;
         
-        UIImageView *publicV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/4-10, 10, 22, 22)];
-        [publicV setImage:[UIImage imageNamed:@"personTotalAct"]];
-//        publicV.backgroundColor = [UIColor lightGrayColor];
-        [headView addSubview:publicV];
+        publicLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 60)];
         
-        UILabel *publicLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, kScreenWidth/2, 20)];
-//        if (numInfo.publishNums) {
-        publicLb.text = [NSString stringWithFormat:@"共发布%.0f次活动",map.publishNums];
-//        }
-        publicLb.textAlignment = NSTextAlignmentCenter;
-        publicLb.textColor = TEXT_COLOR_LEVEL_3;
-        publicLb.font = TEXT_FONT_LEVEL_3;
+
+        publicLb.rightView.image =[UIImage imageNamed:@"personTotalAct"];
+        publicLb.leftLabel.text = [NSString stringWithFormat:@"共发布%.0f次活动",map.publishNums];
+        [publicLb addTarget:self action:@selector(selectCellType) forControlEvents:UIControlEventTouchUpInside];
         [headView addSubview:publicLb];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/2-0.25, 15, 0.5, 30)];
         line.backgroundColor = LINE_COLOR;
         [headView addSubview:line];
         
-        UIImageView *joinV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth*3/4-10, 10, 20, 23)];
-         [joinV setImage:[UIImage imageNamed:@"personJoinAct"]];
-        
-        [headView addSubview:joinV];
-        
-        UILabel *joinLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2, 35, kScreenWidth/2, 20)];
-//        if (numInfo.joinNums) {
-            joinLb.text = [NSString stringWithFormat:@"共参与%.0f次活动",map.joinNums];
-        joinLb.textAlignment = NSTextAlignmentCenter;
-
-        joinLb.textColor = TEXT_COLOR_LEVEL_3;
-        joinLb.font = TEXT_FONT_LEVEL_3;
+        joinLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2,0 , kScreenWidth/2, 60)];
+        joinLb.rightView.image =[UIImage imageNamed:@"personJoinAct"];
+        joinLb.leftLabel.text = [NSString stringWithFormat:@"共参与%.0f次活动",map.joinNums];
+        [joinLb setTitleColor:TEXT_COLOR_LEVEL_2 forState:UIControlStateNormal];
+        [joinLb setTitleColor:LIVING_COLOR forState:UIControlStateSelected];
+        [joinLb addTarget:self action:@selector(selectCellType2) forControlEvents:UIControlEventTouchUpInside];
         [headView addSubview:joinLb];
         
-        for (int i=0; i<2; i++) {
-            UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2*i, 0, kScreenWidth/2, 60)];
-            [button setTag:10+i];
-            [button addTarget:self action:@selector(selectCellType:) forControlEvents:UIControlEventTouchUpInside];
-            [headView addSubview:button];
+        if (seleIndex==1) {
+            publicLb.backgroundColor = BG_GRAY_COLOR;
+            joinLb.backgroundColor = [UIColor whiteColor];
+        }else{
+            joinLb.backgroundColor = BG_GRAY_COLOR;
+            publicLb.backgroundColor = [UIColor whiteColor];
         }
+
         return headView;
     }
     
     return nil;
 }
 
--(void)selectCellType:(UIButton *)sender
+-(void)selectCellType
 {
-    if (sender.tag==10) {
-        selectType=@"left";
-    }
-    
-    if (sender.tag==11) {
-        selectType=@"right";
-    }
-    
+    seleIndex=1;
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
-    
-    if ([selectType isEqualToString:@"left"])
-    {
-        cellDataArray=(NSMutableArray *)bodyData.list;
-        
-    }
-    if ([selectType isEqualToString:@"right"])
-    {
-       cellDataArray=(NSMutableArray *)bodyData.listofUser;
-    }
-    
+    cellDataArray=(NSMutableArray *)bodyData.list;
     [_tableView reloadData];
+
+}
+-(void)selectCellType2
+{
+    seleIndex=2;
+    cellDataArray=[NSMutableArray arrayWithCapacity:0];
+    cellDataArray=(NSMutableArray *)bodyData.listofUser;
+    [_tableView reloadData];
+
 }
 
 
@@ -375,8 +357,6 @@ WJLoopViewDelegate
         
         if (listArray.count > indexPath.row) {
             
-            NSLog(@"********%@",cellDataArray);
-            
             ActivityListVO  *vo = [listArray objectAtIndex:indexPath.row];
             
             if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
@@ -388,9 +368,6 @@ WJLoopViewDelegate
         [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        
-        
         return cell;
     }
     return nil;

@@ -49,6 +49,7 @@
 		35864A971DD569320061E9C0 /* LMFriendDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35864A961DD569320061E9C0 /* LMFriendDataRequest.m */; };
 		358F135C1DDD542900D1DA4F /* LMAgreementRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F135B1DDD542900D1DA4F /* LMAgreementRequest.m */; };
 		358F135F1DDD596800D1DA4F /* LMEventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F135E1DDD596800D1DA4F /* LMEventDetailViewController.m */; };
+		358F13621DDD9A8C00D1DA4F /* LMEventChooseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F13611DDD9A8C00D1DA4F /* LMEventChooseButton.m */; };
 		35F676521DDADFAF00C31448 /* LMPushSendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F676511DDADFAF00C31448 /* LMPushSendRequest.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
@@ -421,6 +422,8 @@
 		358F135B1DDD542900D1DA4F /* LMAgreementRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAgreementRequest.m; sourceTree = "<group>"; };
 		358F135D1DDD596800D1DA4F /* LMEventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMEventDetailViewController.h; path = living/Controller/activity/LMEventDetailViewController.h; sourceTree = SOURCE_ROOT; };
 		358F135E1DDD596800D1DA4F /* LMEventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMEventDetailViewController.m; path = living/Controller/activity/LMEventDetailViewController.m; sourceTree = SOURCE_ROOT; };
+		358F13601DDD9A8C00D1DA4F /* LMEventChooseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventChooseButton.h; sourceTree = "<group>"; };
+		358F13611DDD9A8C00D1DA4F /* LMEventChooseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventChooseButton.m; sourceTree = "<group>"; };
 		35F676501DDADFAF00C31448 /* LMPushSendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPushSendRequest.h; sourceTree = "<group>"; };
 		35F676511DDADFAF00C31448 /* LMPushSendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPushSendRequest.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
@@ -2676,6 +2679,8 @@
 			children = (
 				873794F11DCF8A1000A2ACD7 /* LMLiveRoomCell.h */,
 				873794F21DCF8A1000A2ACD7 /* LMLiveRoomCell.m */,
+				358F13601DDD9A8C00D1DA4F /* LMEventChooseButton.h */,
+				358F13611DDD9A8C00D1DA4F /* LMEventChooseButton.m */,
 			);
 			path = personMyliveRoom;
 			sourceTree = "<group>";
@@ -3177,6 +3182,7 @@
 				873795B71DCF8A1000A2ACD7 /* ActivityListVO.m in Sources */,
 				8737956E1DCF8A1000A2ACD7 /* UIView+frame.m in Sources */,
 				873795951DCF8A1000A2ACD7 /* LMLivingListRequest.m in Sources */,
+				358F13621DDD9A8C00D1DA4F /* LMEventChooseButton.m in Sources */,
 				873795611DCF8A1000A2ACD7 /* README.md in Sources */,
 				873795CD1DCF8A1000A2ACD7 /* FirPersonVO.m in Sources */,
 				873795A21DCF8A1000A2ACD7 /* LMAliPayRequest.m in Sources */,
@@ -3446,7 +3452,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3537,7 +3543,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingRoom.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

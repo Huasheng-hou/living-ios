@@ -113,13 +113,16 @@
 //    描述
     _roomIntro.text=info.livingTitle;
 //    余额
-    _balance.text=[NSString stringWithFormat:@"余额%@",info.balance];
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_balance.text];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, 2)];
-    
-    [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_2 range:NSMakeRange(0, 2)];
-    _balance.attributedText = str;
+    if (info.balance&&![info.balance isEqualToString:@""]) {
+        _balance.text=[NSString stringWithFormat:@"余额%@",info.balance];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_balance.text];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, 2)];
+        
+        [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_2 range:NSMakeRange(0, 2)];
+        _balance.attributedText = str;
+    }else{
+        _balance.text = @"";
+    }
     
 //    地址
     _address.text=info.address;
@@ -128,9 +131,6 @@
     [paragraphStyle setLineSpacing:5];
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14] ,NSParagraphStyleAttributeName:paragraphStyle};
     _dspHight = [_roomIntro.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    
-    
-    
     
 }
 
