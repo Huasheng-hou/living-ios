@@ -58,7 +58,6 @@ UIViewControllerTransitioningDelegate
     
     UIToolbar *toolBar;
     UIButton *zanButton;
-    
 }
 
 @end
@@ -95,8 +94,6 @@ UIViewControllerTransitioningDelegate
     
     imageArray      = [NSMutableArray arrayWithCapacity:0];
     imageUrlArray = [NSMutableArray arrayWithCapacity:0];
-    
-    
 }
 
 #pragma mark 键盘部分
@@ -122,11 +119,10 @@ UIViewControllerTransitioningDelegate
     
     // 第三方键盘回调三次问题，监听仅执行最后一次
     
-    if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
+    if (begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
+        
         [UIView animateWithDuration:0.1f animations:^{
             [toolBar setFrame:CGRectMake(0, kScreenHeight-curkeyBoardHeight+toolBar.height, kScreenWidth, toolBar.height)];
-            
-            NSLog(@"****keyboardWasShown****%@",toolBar);
             
         }];
     }
@@ -134,22 +130,15 @@ UIViewControllerTransitioningDelegate
 
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
-    NSDictionary *info = [notif userInfo];
-    
-    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
-    // keyboardWasShown = NO;
     [UIView animateWithDuration:0.1f animations:^{
+        
         [toolBar setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
-        NSLog(@"***keyboardWasHidden*%@",toolBar);
+        
     }];
 }
 
-
 - (void)createUI
 {
-    
     self.title = @"发布文章";
     
     toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
@@ -164,8 +153,8 @@ UIViewControllerTransitioningDelegate
     
     zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [zanButton setTitle:@"隐藏键盘" forState:UIControlStateNormal];
-    [zanButton setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+    [zanButton setTitle:@"完成" forState:UIControlStateNormal];
+    [zanButton setTitleColor:BLUE_COLOR forState:UIControlStateNormal];
     [zanButton addTarget:self action:@selector(hiddenKeyboard) forControlEvents:UIControlEventTouchUpInside];
     zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
     
@@ -188,6 +177,7 @@ UIViewControllerTransitioningDelegate
     titleTF.delegate = self;
     [titleTF setReturnKeyType:UIReturnKeyDone];
     titleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
+    titleTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     titleTF.font = TEXT_FONT_LEVEL_2;
     [bgView addSubview:titleTF];
     
@@ -197,7 +187,8 @@ UIViewControllerTransitioningDelegate
     discribleTF.delegate = self;
     [discribleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
     [discribleTF setReturnKeyType:UIReturnKeyDone];
-    discribleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
+    discribleTF.keyboardType    = UIKeyboardTypeDefault;//键盘类型
+    discribleTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     discribleTF.font = TEXT_FONT_LEVEL_2;
     [bgView addSubview:discribleTF];
     
@@ -301,27 +292,24 @@ UIViewControllerTransitioningDelegate
     CGFloat height=100+45;
     
     if (imageNum<4) {
-        NSLog(@".count<=4");
-        
+
         [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW+space*2)];
         [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW+space*2)];
         
-    }else if(imageNum<8) {
-        NSLog(@".count<count<=8");
+    } else if (imageNum < 8) {
+        
         [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW*2+space*3)];
         [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*2+space*3)];
-    }else if(imageNum<12){
-        NSLog(@".count----else");
+    } else if (imageNum < 12) {
+        
         viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*3+space*4);
         [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*3+space*4)];
-    }else
-    {
+    } else {
+        
         viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*4+space*5);
         [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*4+space*5)];
     }
-    
 }
-
 
 #pragma mark UIImagePickerController代理函数
 
@@ -472,9 +460,6 @@ UIViewControllerTransitioningDelegate
     
     return returnValue;
 }
-
-#pragma mark UITextViewDelegate
-
 
 #pragma mark 设置图片位置
 
@@ -716,6 +701,16 @@ UIViewControllerTransitioningDelegate
             [self textStateHUD:@"发布失败"];
         }
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == titleTF || textField == discribleTF) {
+        
+        [textField resignFirstResponder];
+    }
+        
+    return YES;
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
