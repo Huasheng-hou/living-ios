@@ -89,6 +89,30 @@
             self.orderAmount = [dictionary objectForKey:@"orderAmount"];
         }
         
+        if (nil != [dictionary objectForKey:@"average_price"] && ![[dictionary objectForKey:@"average_price"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"average_price"] isKindOfClass:[NSString class]]) {
+            self.averagePrice = [dictionary objectForKey:@"average_price"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"couponPrice"] && ![[dictionary objectForKey:@"couponPrice"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"couponPrice"] isKindOfClass:[NSString class]]) {
+            self.couponPrice = [dictionary objectForKey:@"couponPrice"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"order_time"] && ![[dictionary objectForKey:@"order_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"order_time"] isKindOfClass:[NSString class]]) {
+            self.orderTime = [dictionary objectForKey:@"order_time"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"order_uuid"] && ![[dictionary objectForKey:@"order_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"order_uuid"] isKindOfClass:[NSString class]]) {
+            self.orderUuid = [dictionary objectForKey:@"order_uuid"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"coupons"] && ![[dictionary objectForKey:@"coupons"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coupons"] isKindOfClass:[NSNumber class]]) {
+            self.coupons = [(NSNumber *)[dictionary objectForKey:@"coupons"] intValue];
+        }
 
 
     }

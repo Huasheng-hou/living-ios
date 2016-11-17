@@ -7,11 +7,14 @@
 //
 
 #import "LMMyPublicViewController.h"
-#import "LMActivityDetailController.h"
+#import "LMEventDetailViewController.h"
 #import "LMMemberListViewController.h"
 #import "LMCreaterListRequest.h"
 #import "ActivityListVO.h"
 #import "LMMypublicEventCell.h"
+#import "LMEventStartRequest.h"
+#import "LMEventEndRequest.h"
+#import "LMActivityDeleteRequest.h"
 
 #define PAGER_SIZE      20
 @interface LMMyPublicViewController ()<
@@ -148,6 +151,7 @@ LMMypublicEventCellDelegate
         }
     }
     [(LMMypublicEventCell *)cell setDelegate:self];
+    [(LMMypublicEventCell *)cell setTag:indexPath.row];
     [(LMMypublicEventCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
@@ -161,7 +165,7 @@ LMMypublicEventCellDelegate
         
         if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
             
-            LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+            LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
             
             detailVC.hidesBottomBarWhenPushed = YES;
             
@@ -186,10 +190,163 @@ LMMypublicEventCellDelegate
 
 - (void)cellWillclick:(LMMypublicEventCell *)cell
 {
+    ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
     LMMemberListViewController *memberVC = [[LMMemberListViewController alloc] init];
+    memberVC.eventUuid = vo.EventUuid;
     
     [self.navigationController pushViewController:memberVC animated:YES];
     
+}
+
+#pragma mark  --开始活动
+-(void)cellWillbegin:(LMMypublicEventCell *)cell
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
+    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:vo.EventUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getstartEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"开始活动失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+-(void)getstartEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"活动开启失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"活动开启成功"];
+            
+            [self loadNoState];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+#pragma mark   --结束活动
+
+- (void)cellWillfinish:(LMMypublicEventCell *)cell
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
+
+    
+    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:vo.EventUuid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getendEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"活动结束失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+- (void)getendEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"活动结束失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"活动结束成功"];
+            
+            [self loadNoState];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+#pragma mark 删除活动  LMActivityDeleteRequest
+
+- (void)cellWilldelete:(LMMypublicEventCell *)cell
+{
+    ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
+    NSString *uuid = vo.EventUuid;
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:@"是否删除"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self deleteActivityRequest:uuid];
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)deleteActivityRequest:(NSString *)_eventUuid
+{
+    LMActivityDeleteRequest *request = [[LMActivityDeleteRequest alloc] initWithEvent_uuid:_eventUuid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+- (void)deleteActivityResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        [self textStateHUD:@"删除成功"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent" object:nil];
+        });
+        
+    } else {
+        
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
 }
 
 

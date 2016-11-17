@@ -45,6 +45,7 @@ liveNameProtocol
     LMRePayCell *headcell;
     NSString *rechargeOrderUUID;
     UIView *footView;
+    NSString *type;
 }
 
 @end
@@ -396,7 +397,7 @@ liveNameProtocol
         [self textStateHUD:@"无网络"];
         return;
     }
-    
+        
     [self initStateHud];
     
     LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
@@ -433,7 +434,12 @@ liveNameProtocol
             [self senderWeiXinPay:bodyDict[@"wxOrder"]];
             
         }else{
-            [self textStateHUD:[bodyDict objectForKey:@"description"]];
+            if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
+                [self getagreementCharge:@"wx"];
+            }else{
+                [self textStateHUD:[bodyDict objectForKey:@"description"]];
+            }
+            
         }
     }
 }
@@ -572,7 +578,11 @@ liveNameProtocol
             
         } else {
             
-            [self textStateHUD:[bodyDict objectForKey:@"description"]];
+            if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
+                [self getagreementCharge:@"alipay"];
+            }else{
+                [self textStateHUD:[bodyDict objectForKey:@"description"]];
+            }
         }
     }
 }
@@ -658,5 +668,75 @@ liveNameProtocol
     FitTabbarController *tab=[[FitTabbarController alloc]init];
     [self presentViewController:tab animated:YES completion:nil];
 }
+
+//支付协议
+-(void)getagreementCharge:(NSString *)string
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:@"是否同意支付协议"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"不同意"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction*action) {
+                                                return ;
+                                            }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"同意"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                
+                                                if ([string isEqual:@"wx"]) {
+                                                    type = @"wx";
+                                                }else{
+                                                    type = @"ali";
+                                                }
+                                                
+                                                [self getagreementRequest:@"agree"];
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)getagreementRequest:(NSString *)string
+{
+    LMAgreementRequest *request = [[LMAgreementRequest alloc] initWithAgreement:string];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getagreementResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self textStateHUD:@"网络错误"];
+                                           }];
+    [proxy start];
+}
+
+- (void)getagreementResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if (!bodyDic) {
+        
+        [self textStateHUD:@"暂无法同意支付协议"];
+    } else {
+        
+        NSString    *result     = [bodyDic objectForKey:@"result"];
+        
+        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
+            if ([type isEqual:@"wx"]) {
+                [self wxRechargeRequest];
+            }else{
+                [self aliRechargeRequest];
+            }
+            
+            
+        } else {
+            
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
 
 @end

@@ -29,5 +29,10 @@
 @property(nonatomic, assign) int       number;
 @property(nonatomic, retain) NSString       *orderAmount;
 @property(nonatomic, assign) int       userId;
+@property(nonatomic, retain) NSString       *averagePrice;
+@property(nonatomic, retain) NSString       *couponPrice;
+@property(nonatomic, retain) NSString       *orderTime;
+@property(nonatomic, retain) NSString       *orderUuid;
+@property(nonatomic, assign) int       coupons;
 
 @end

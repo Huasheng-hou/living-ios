@@ -19,6 +19,7 @@
 #import "FitTabbarController.h"
 #import "HcbAmountChecker.h"
 //#import <UMengAnalytics/UMMobClick/MobClick.h>
+#import "LMAgreementRequest.h"
 
 @interface FitBaseViewController : UIViewController
 <

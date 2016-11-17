@@ -821,7 +821,7 @@ shareTypeDelegate
 
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://115.159.118.160:8080/living-web/apparticle/article?fakeId=";
+    NSString *urlString = @"http://yaoguo1818.com/living-web/apparticle/article?fakeId=";
     
     switch (type) {
         case 1://微信好友

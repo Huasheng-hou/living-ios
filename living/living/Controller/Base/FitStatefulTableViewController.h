@@ -10,6 +10,7 @@
 #import "FitTableViewController.h"
 #import "FitBaseRequest.h"
 #import "SSPullToRefresh.h"
+#import "LMAgreementRequest.h"
 
 typedef enum {
     FitStatefulTableViewControllerStateIdle = 0,

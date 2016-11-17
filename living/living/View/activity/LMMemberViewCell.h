@@ -24,6 +24,7 @@
 @property (nonatomic, strong)UILabel *timeLabel;
 
 @property (nonatomic, strong)UILabel *coupondLabel;
+@property (nonatomic, strong)UILabel *coupLabel;
 
 -(void)setData:(LMMemberVO *)list;
 
