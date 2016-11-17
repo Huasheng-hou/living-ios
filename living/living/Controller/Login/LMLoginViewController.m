@@ -143,10 +143,10 @@ WXApiDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([[CncpStartTime shareCncpStartTime] outDate]) {
-        return 4;
-    }
-    return 3;
+//    if ([[CncpStartTime shareCncpStartTime] outDate]) {
+//        return 4;
+//    }
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
