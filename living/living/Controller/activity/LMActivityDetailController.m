@@ -147,12 +147,15 @@ LMActivityMsgCellDelegate
 {
     //活动人头像
     UIImageView *headV = [UIImageView new];
-    [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar]];
+    
+    [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar] placeholderImage:[ImageHelpTool imageWithColor:BG_GRAY_COLOR]];
+    
     headV.contentMode           = UIViewContentModeScaleAspectFill;
     headV.clipsToBounds         = YES;
     headV.layer.cornerRadius    = 5.f;
     [headV sizeToFit];
-    headV.frame = CGRectMake(15, 30, 40, 40);
+    headV.frame                 = CGRectMake(15, 30, 40, 40);
+    
     [headerView addSubview:headV];
     
     //活动人名
