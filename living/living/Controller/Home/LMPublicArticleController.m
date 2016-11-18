@@ -528,6 +528,7 @@ UIViewControllerTransitioningDelegate
 -(void)lookBigImage:(UITapGestureRecognizer*)guesture
 {
     UIImageView *image= (UIImageView *)guesture.view;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [ImageHelpTool showImage:image];
 }
 
