@@ -28,6 +28,7 @@ UITableViewDataSource
     NSString *Estring;
     NSMutableArray *cellArray;
     NSInteger Index;
+    UIView *footView;
 }
 
 @end
@@ -38,21 +39,29 @@ UITableViewDataSource
     [super viewDidLoad];
     self.title = @"通知中心";
     [self getNoticListData];
+    Estring = @"编辑";
     [self creatUI];
     listArray = [NSMutableArray new];
     cellArray = [NSMutableArray new];
+
 }
 
 -(void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+49) style:UITableViewStyleGrouped];
+    if ([Estring isEqual:@"编辑"]){
+      _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+40) style:UITableViewStyleGrouped];
+    }
+    if ([Estring isEqual:@"完成"]){
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    }
+    
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
-    _tableView.editing = NO;
+    _tableView.allowsMultipleSelection = YES;
+    _tableView.allowsMultipleSelectionDuringEditing = YES;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(EditAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
-    
     
 }
 
@@ -61,9 +70,23 @@ UITableViewDataSource
     isSelected = NO;//全选状态的切换
     Estring= !_tableView.editing?@"完成":@"编辑";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:Estring style:UIBarButtonItemStyleDone target:self action:@selector(EditAction)];
-    
+    if ([Estring isEqual:@"完成"]) {
+        footView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
+        UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        deleteButton.frame = CGRectMake(0, 0, kScreenWidth, 45);
+        [deleteButton setTitle:@"删除" forState:UIControlStateNormal];
+        [deleteButton addTarget:self action:@selector(getNoticDeleteRequest:) forControlEvents:UIControlEventTouchUpInside];
+        deleteButton.backgroundColor = LIVING_COLOR;
+        [footView addSubview:deleteButton];
+        [self.view addSubview:footView];
+        
+    }else{
+        [footView removeFromSuperview];
+    }
    [self refreshData];
+    cellArray = [NSMutableArray new];
     _tableView.editing = !_tableView.editing;
+    
    
 }
 
@@ -140,7 +163,7 @@ UITableViewDataSource
 {
     static NSString *cellId = @"cellId";
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
@@ -188,11 +211,18 @@ UITableViewDataSource
 
 - (void)getNoticDeleteRequest:(NSInteger)sender
 {
-    
-    cellArray = [NSMutableArray new];
-    LMNoticVO *list = [listArray objectAtIndex:sender];
-    
-    [cellArray addObject:list.noticeUuid];
+    if ([Estring isEqual:@"编辑"]){
+        cellArray = [NSMutableArray new];
+        LMNoticVO *list = [listArray objectAtIndex:sender];
+        [cellArray addObject:list.noticeUuid];
+    }else{
+        if (cellArray.count==0) {
+            [self textStateHUD:@"请选择要删除的通知"];
+        }else{
+            
+        }
+    }
+
     LMNoticDeleteRequest *request = [[LMNoticDeleteRequest alloc] initWithNoticeuuid:cellArray];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -228,6 +258,7 @@ UITableViewDataSource
         [self textStateHUD:@"删除成功"];
         Index = 1;
         [self getNoticListData];
+        cellArray = [NSMutableArray new];
         
     }else {
         [self textStateHUD:bodyDic[@"description"]];
@@ -236,6 +267,11 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([Estring isEqual:@"完成"]) {
+        LMNoticVO  *vo = [listArray objectAtIndex:indexPath.row];
+        [cellArray addObject:vo.noticeUuid];
+        
+    }else{
     if (listArray.count > indexPath.row) {
         
         LMNoticVO  *vo = [listArray objectAtIndex:indexPath.row];
@@ -264,11 +300,19 @@ UITableViewDataSource
 
         }
     }
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
 }
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LMNoticVO  *vo = [listArray objectAtIndex:indexPath.row];
+    [cellArray removeObject:vo.noticeUuid];
+}
+
 
 //重新加载数据
 
