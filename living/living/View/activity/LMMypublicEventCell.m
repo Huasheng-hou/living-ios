@@ -84,7 +84,7 @@
     line2.backgroundColor = LINE_COLOR;
     [cellView addSubview:line2];
     
-    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 45, 60, 60)];
+    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, 60, 60)];
     _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.layer.cornerRadius=5;
     _headImage.clipsToBounds = YES;
@@ -148,7 +148,7 @@
     if ([list.TotalNumber isEqual:@""]||list.TotalNumber==nil) {
      _numLabel.text = @"报名人数";
     }else{
-       NSString  *text =[NSString stringWithFormat:@"报名人数：%@/%@人",[list.TotalNumber stringValue],[list.joinNum stringValue]];
+       NSString  *text =[NSString stringWithFormat:@"报名人数:%@/%@人",[list.TotalNumber stringValue],[list.joinNum stringValue]];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:text];
         
         [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,5)];
@@ -158,7 +158,7 @@
     }
     _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
-    [_payButton setTintColor:LIVING_COLOR];
+    [_payButton setTintColor:[UIColor colorWithRed:0 green:138.0/255.0 blue:238.0/255.0 alpha:1.0]];
     _payButton.showsTouchWhenHighlighted = YES;
     _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
     
@@ -221,7 +221,7 @@
     _titleLabel.frame = CGRectMake(80, 35, kScreenWidth-120, 60);
     _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);
     _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
-    _numLabel.frame = CGRectMake(80, 85, _numLabel.bounds.size.width,  _numLabel.bounds.size.height+5);
+    _numLabel.frame = CGRectMake(80, 82, _numLabel.bounds.size.width,  _numLabel.bounds.size.height+5);
 }
 
 //删除

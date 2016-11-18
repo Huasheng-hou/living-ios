@@ -2854,8 +2854,8 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = PXS9X73T7L;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 2BPVM7PZ48;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -3303,7 +3303,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Sicheng network information technology co., LTD (PXS9X73T7L)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PXS9X73T7L;
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3354,7 +3354,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Sicheng network information technology co., LTD (PXS9X73T7L)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PXS9X73T7L;
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3381,9 +3381,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = PXS9X73T7L;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Sicheng network information technology co., LTD (PXS9X73T7L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3392,7 +3392,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3458,10 +3458,10 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果生活";
-				PROVISIONING_PROFILE = "2e7dcbf9-766b-4df1-94a0-25f29fd23431";
-				PROVISIONING_PROFILE_SPECIFIER = LifeHall.living;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3472,9 +3472,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = PXS9X73T7L;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Sicheng network information technology co., LTD (PXS9X73T7L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2BPVM7PZ48;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3483,7 +3483,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
 				INFOPLIST_FILE = living/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3549,10 +3549,10 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
 				PRODUCT_NAME = "腰果生活";
-				PROVISIONING_PROFILE = "2e7dcbf9-766b-4df1-94a0-25f29fd23431";
-				PROVISIONING_PROFILE_SPECIFIER = LifeHall.living;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
