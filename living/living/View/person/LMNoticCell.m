@@ -51,7 +51,7 @@
     
     _typeLabel = [UILabel new];
     _typeLabel.font = TEXT_FONT_LEVEL_2;
-    _typeLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _typeLabel.textColor = TEXT_COLOR_LEVEL_1;
     _typeLabel.text = @"系统通知";
     [self.contentView addSubview:_typeLabel];
     
@@ -95,6 +95,10 @@
             _titleLabel.text = [NSString stringWithFormat:@"活动:"];
         }
     }
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_titleLabel.text];
+    [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,3)];
+    [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_1 range:NSMakeRange(3,str.length-3)];
+    _titleLabel.attributedText = str;
     
     _contentLabel.text = list.content;
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
@@ -143,18 +147,18 @@
     [_contentLabel sizeToFit];
     [_titleLabel sizeToFit];
     
-    _typeLabel.frame = CGRectMake(70, _timeLabel.bounds.size.height+15, _typeLabel.bounds.size.width,  30);
+    _typeLabel.frame = CGRectMake(72, _timeLabel.bounds.size.height+15, _typeLabel.bounds.size.width,  30);
     
     if (_INDEX==1) {
        _timeLabel.frame = CGRectMake(kScreenWidth-65-_timeLabel.bounds.size.width, 12, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-        _titleLabel.frame = CGRectMake(70, 12, 35+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
+        _titleLabel.frame = CGRectMake(72, 12, 35+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
     }else{
        _timeLabel.frame = CGRectMake(kScreenWidth-15-_timeLabel.bounds.size.width, 12, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-        _titleLabel.frame = CGRectMake(70, 12, 85+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
+        _titleLabel.frame = CGRectMake(72, 12, 85+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
     }
     
 
-    _contentLabel.frame = CGRectMake(70+_typeLabel.bounds.size.width, _timeLabel.bounds.size.height+15, kScreenWidth-85-_typeLabel.bounds.size.width, 30);
+    _contentLabel.frame = CGRectMake(72+_typeLabel.bounds.size.width, _timeLabel.bounds.size.height+15, kScreenWidth-85-_typeLabel.bounds.size.width, 30);
 
     
     

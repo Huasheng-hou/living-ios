@@ -314,7 +314,6 @@
 		35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747071DDE97F3000AFA26 /* HBShareButton.m */; };
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
-		35B7483D1DDECB35000AFA26 /* LMNoticEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7483C1DDECB35000AFA26 /* LMNoticEditCell.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -1022,8 +1021,6 @@
 		35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
 		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
-		35B7483B1DDECB35000AFA26 /* LMNoticEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNoticEditCell.h; sourceTree = "<group>"; };
-		35B7483C1DDECB35000AFA26 /* LMNoticEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNoticEditCell.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -2707,8 +2704,6 @@
 				35B746DC1DDE97F3000AFA26 /* LMMyLivingHomeCell.m */,
 				35B746DD1DDE97F3000AFA26 /* LMNoticCell.h */,
 				35B746DE1DDE97F3000AFA26 /* LMNoticCell.m */,
-				35B7483B1DDECB35000AFA26 /* LMNoticEditCell.h */,
-				35B7483C1DDECB35000AFA26 /* LMNoticEditCell.m */,
 				35B746DF1DDE97F3000AFA26 /* LMOrderCell.h */,
 				35B746E01DDE97F3000AFA26 /* LMOrderCell.m */,
 				35B746E11DDE97F3000AFA26 /* LMRechargeButton.h */,
@@ -3187,7 +3182,6 @@
 				35B747FC1DDE97F4000AFA26 /* WechatInfoVO.m in Sources */,
 				35B7480B1DDE97F4000AFA26 /* LMActivityheadCell.m in Sources */,
 				35B747851DDE97F3000AFA26 /* FitThumbImageHelper.m in Sources */,
-				35B7483D1DDECB35000AFA26 /* LMNoticEditCell.m in Sources */,
 				35B748231DDE97F4000AFA26 /* LMChargeButton.m in Sources */,
 				35B7474C1DDE97F3000AFA26 /* LMPublishViewController.m in Sources */,
 				35B747A41DDE97F3000AFA26 /* LMEventLivingMsgRequest.m in Sources */,
