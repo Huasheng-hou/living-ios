@@ -74,17 +74,12 @@ MAMapViewDelegate
 
 #pragma mark - MAMapViewDelegate
 
-- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
-updatingLocation:(BOOL)updatingLocation
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
    CLLocation *currLocation=userLocation.location;
     
-   
-    
     if (!ifGetLocation) {
         ifGetLocation=YES;
-        
-         NSLog(@"didUpdateUserLocation");
         
         [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(currLocation.coordinate.latitude, currLocation.coordinate.longitude)];
         
@@ -94,6 +89,8 @@ updatingLocation:(BOOL)updatingLocation
         request.requireExtension = YES;
         //发起周边搜索
         [_search AMapPOIAroundSearch: request];
+        
+//        [mapView ]
     }
 }
 
@@ -102,8 +99,6 @@ updatingLocation:(BOOL)updatingLocation
 
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
 {
-    NSLog(@"===========================搜索响应结果=========================");
-    
      [activity stopAnimating];
     
     _listData=[NSMutableArray arrayWithCapacity:0];
@@ -129,7 +124,6 @@ updatingLocation:(BOOL)updatingLocation
     [self.tableView reloadData];
 }
 
-
 - (void)createUI
 {
     [super createUI];
@@ -142,8 +136,7 @@ updatingLocation:(BOOL)updatingLocation
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
     _searchBar.placeholder = @"输入地名";
-//    [_searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];
-//    [_searchBar setBackgroundColor:[UIColor greenColor]];
+
     [self.view addSubview:_searchBar];
     
     _searchBar.backgroundImage = [self imageWithColor:BG_GRAY_COLOR size:_searchBar.bounds.size];
@@ -167,7 +160,6 @@ updatingLocation:(BOOL)updatingLocation
     return image;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _listData.count;
@@ -189,7 +181,6 @@ updatingLocation:(BOOL)updatingLocation
         cell.detailTextLabel.text=[_listData[indexPath.row] subtitle];
         [cell.detailTextLabel setTextColor:TEXT_COLOR_LEVEL_3];
     }
-    
     
     return cell;
 }
@@ -271,31 +262,23 @@ updatingLocation:(BOOL)updatingLocation
             
             [activity startAnimating];
         }];
-    
-
 }
 
-
-
-
--(void)searchBarSearchButtonClicked
+- (void)searchBarSearchButtonClicked
 {
-    
     [self.view endEditing:YES];
-    NSLog(@"=============搜索按钮========点击===============");
     
     if ([_searchBar.text isEqualToString:@""]) {
+        
         return;
-    }else{
-         NSLog(@"=============搜索按钮========点击=开始搜索==============");
+    } else {
+        
         [_geocoder geocodeAddressString:_searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
             //取得第一个地标，地标中存储了详细的地址信息，注意：一个地名可能搜索出多个地址
             CLPlacemark *placemark=[placemarks firstObject];
             CLLocation *location=placemark.location;//位置
             locationX=location.coordinate.latitude;
             locationY=location.coordinate.longitude;
-            
-            NSLog(@"=========searchBarSearchButtonClicked=========获取到经纬度=============");
             
             //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
             request.location = [AMapGeoPoint locationWithLatitude:locationX longitude: locationY];
@@ -309,11 +292,5 @@ updatingLocation:(BOOL)updatingLocation
     }
     
 }
-
-
-
-
-
-
 
 @end

@@ -151,7 +151,7 @@
     
     
     
-    UIButton *downButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    downButton = [UIButton buttonWithType:UIButtonTypeCustom];
     downButton.frame = CGRectMake(kScreenWidth-85, 10, 40, 40);
     [downButton setImage:[UIImage imageNamed:@"down"] forState:UIControlStateNormal];
     [downButton addTarget:self action:@selector(saveImageToAlbum) forControlEvents:UIControlEventTouchUpInside];

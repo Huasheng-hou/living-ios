@@ -109,13 +109,14 @@ static NSMutableArray *cellDataArray;
     if (self.mapView==nil) {
         self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
     }
+
     self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
     
-    self.mapView.showsUserLocation = YES;
+    self.mapView.allowsBackgroundLocationUpdates    = NO;
+    self.mapView.showsUserLocation                  = YES;
 }
 
-
--(void)creatUI
+- (void)creatUI
 {
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;

@@ -22,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"版本信息";
+    self.navigationItem.title = @"关于腰果";
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     
@@ -36,13 +36,9 @@
     copyRight.font = [UIFont systemFontOfSize:11.0f];
     copyRight.textColor = [UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1.0];
     copyRight.textAlignment = NSTextAlignmentCenter;
-    copyRight.text = @"Copyright © 2016 yao guo";
+    copyRight.text = @"Copyright © 2016 腰果控股有限公司";
     [headView addSubview:copyRight];
     _tableView.tableFooterView = headView;
-    
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

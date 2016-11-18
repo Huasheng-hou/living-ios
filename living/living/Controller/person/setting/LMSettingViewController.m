@@ -108,7 +108,7 @@
     if (indexPath.section==1) {
         
         cell.imageView.image = [UIImage imageNamed:@"versionmsg"];
-        [cell.textLabel setText:@"版本信息"];
+        [cell.textLabel setText:@"关于腰果"];
  
     }
     
@@ -151,8 +151,6 @@
     [self.navigationController popViewControllerAnimated:NO];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
-    
-    
 }
 
 @end
