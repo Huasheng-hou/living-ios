@@ -148,7 +148,7 @@
     if ([list.TotalNumber isEqual:@""]||list.TotalNumber==nil) {
      _numLabel.text = @"报名人数";
     }else{
-       NSString  *text =[NSString stringWithFormat:@"报名人数:%@/%@人",[list.TotalNumber stringValue],[list.joinNum stringValue]];
+       NSString  *text =[NSString stringWithFormat:@"报名人数:%@/%@人",[list.joinNum stringValue],[list.TotalNumber stringValue]];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:text];
         
         [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,5)];

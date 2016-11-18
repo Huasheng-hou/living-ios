@@ -279,6 +279,8 @@ shareTypeDelegate
         if (listArray.count>0) {
             
             [homeImage removeFromSuperview];
+            homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+            self.tableView.tableFooterView = homeImage;
         }else{
             homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, 0, 100, 160)];
             
@@ -688,6 +690,7 @@ shareTypeDelegate
                 NSArray *arr =articleData.articleImgs;
                 hightArray = [NSMutableArray new];
                 
+                imageArray = [NSMutableArray new];
                 for (int i = 0; i<arr.count; i++) {
                     
                     NSDictionary *dic = arr[i];
@@ -1245,8 +1248,7 @@ shareTypeDelegate
     }
     
     NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-    
-    NSLog(@"************%@",textcView.text);
+
     LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1257,7 +1259,7 @@ shareTypeDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"评论失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -1272,11 +1274,9 @@ shareTypeDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         [self textStateHUD:@"评论成功"];
         [self getHomeDetailDataRequest];
-        [self hideStateHud];
         textcView.text = @"";
         tipLabel.hidden=NO;
         [textcView resignFirstResponder];
-        
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
