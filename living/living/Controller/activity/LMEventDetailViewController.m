@@ -980,6 +980,8 @@ LMActivityMsgCellDelegate
 
 - (void)showImage:(UIImageView *)avatarImageView{
     [UIApplication sharedApplication].statusBarHidden = YES;
+    hiddenIndex =1;
+    [self scrollViewDidScroll:self.tableView];
     UIImage *image=avatarImageView.image;
     UIWindow *window=[UIApplication sharedApplication].keyWindow;
     UIView *backgroundView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
@@ -1007,6 +1009,8 @@ LMActivityMsgCellDelegate
 
 -(void)hideImage:(UITapGestureRecognizer*)tap{
     [UIApplication sharedApplication].statusBarHidden = NO;
+    hiddenIndex =2;
+    [self scrollViewDidScroll:self.tableView];
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{

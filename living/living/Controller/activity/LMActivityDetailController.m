@@ -1054,10 +1054,13 @@ LMActivityMsgCellDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    NSLog(@"%f",scrollView.contentOffset.y);
+    
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        hiddenIndex=2;
         
     }else{
         if (hiddenIndex==2) {
@@ -1512,6 +1515,8 @@ LMActivityMsgCellDelegate
 }
 
 - (void)showImage:(UIImageView *)avatarImageView{
+    hiddenIndex =1;
+    [self scrollViewDidScroll:self.tableView];
     [UIApplication sharedApplication].statusBarHidden = YES;
     UIImage *image=avatarImageView.image;
     UIWindow *window=[UIApplication sharedApplication].keyWindow;
@@ -1539,6 +1544,8 @@ LMActivityMsgCellDelegate
 }
 
 -(void)hideImage:(UITapGestureRecognizer*)tap{
+    hiddenIndex =2;
+    [self scrollViewDidScroll:self.tableView];
     [UIApplication sharedApplication].statusBarHidden = NO;
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
