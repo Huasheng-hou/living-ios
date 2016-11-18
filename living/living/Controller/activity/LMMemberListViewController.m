@@ -132,7 +132,7 @@
         
         cell = [[LMMemberViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     

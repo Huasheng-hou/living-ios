@@ -512,7 +512,12 @@ UIViewControllerTransitioningDelegate
 {
     UIImageView *image= (UIImageView *)guesture.view;
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [ImageHelpTool showImage:image];
+    if (image) {
+        [ImageHelpTool showImage:image];
+    }else{
+        return;
+    }
+    
 }
 
 #pragma mark 删除图片

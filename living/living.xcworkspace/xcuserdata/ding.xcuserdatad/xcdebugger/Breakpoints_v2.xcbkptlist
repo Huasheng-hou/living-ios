@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/activity/LMActivityDetailController.m"
-            timestampString = "501164362.058792"
+            timestampString = "501165296.736009"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1607"
-            endingLineNumber = "1607">
+            startingLineNumber = "1610"
+            endingLineNumber = "1610">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

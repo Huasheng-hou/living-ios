@@ -53,6 +53,7 @@ UITableViewDataSource
     self.title = @"TA的空间";
     [self creatUI];
     ifRefresh = YES;
+    
 }
 -(void)creatUI
 {
@@ -366,7 +367,11 @@ UITableViewDataSource
 - (void)headClick
 {
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [ImageHelpTool showImage:headerView];
+    if (headerView) {
+        [ImageHelpTool showImage:headerView];
+    }else{
+        return;
+    }
 }
 
 @end

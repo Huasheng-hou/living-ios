@@ -495,7 +495,11 @@
 - (void)bigImageAction:(UIImageView *)imageV
 {
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [ImageHelpTool showImage:headerView];
+    if (headerView) {
+        [ImageHelpTool showImage:headerView];
+    }else{
+        
+    }
 }
 
 

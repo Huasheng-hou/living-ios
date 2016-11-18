@@ -108,7 +108,7 @@ LMActivityMsgCellDelegate
 {
     [super viewDidLoad];
     self.title = @"活动详情";
-    
+    hiddenIndex =2;
     [self creatUI];
     [self getEventListDataRequest];
     
@@ -357,7 +357,7 @@ LMActivityMsgCellDelegate
         CGFloat _cellHight;
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
         _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-        return 140+200;
+        return 150+200;
     }
     
     if (indexPath.section==2) {
@@ -1360,8 +1360,11 @@ LMActivityMsgCellDelegate
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
-    
-    [self showImage:cell.imageV];
+    if (cell.imageV) {
+      [self showImage:cell.imageV];
+    }else{
+        
+    }
     
 }
 

@@ -195,6 +195,7 @@ static CGRect oldframe;
 }
 
 +(void)hideImage:(UITapGestureRecognizer*)tap{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{
@@ -202,7 +203,7 @@ static CGRect oldframe;
         backgroundView.alpha=0;
     } completion:^(BOOL finished) {
         [backgroundView removeFromSuperview];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        
     }];
 }
 
