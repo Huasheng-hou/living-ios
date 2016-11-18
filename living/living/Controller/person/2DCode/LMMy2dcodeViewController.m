@@ -12,7 +12,6 @@
 #import "LMFranchiseeViewController.h"
 #import "UIView+frame.h"
 
-
 @interface LMMy2dcodeViewController ()
 {
     UIImageView *imageView;
@@ -51,11 +50,9 @@
         codeSting = [headerData objectForKey:@"code"];
         [self creatImageView];
     }
-    
-    
 }
 
--(void)get2DcodeRequest
+- (void)get2DcodeRequest
 {
     if (![CheckUtils isLink]) {
         
@@ -72,7 +69,7 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取数据失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -107,7 +104,6 @@
     } else {
         
         UILabel *msgLabel = [UILabel new];
-        
         msgLabel.textColor = [UIColor whiteColor];
         msgLabel.text = @"你不是轻创客，没有二维码";
         msgLabel.textAlignment = NSTextAlignmentCenter;
@@ -137,7 +133,6 @@
     headImage.clipsToBounds = YES;
     [KeepImage addSubview:headImage];
     
-    
     //nick
     UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(90,10,30,30)];
     nicklabel.font = TEXT_FONT_LEVEL_1;
@@ -148,8 +143,6 @@
     [nicklabel setFrame:CGRectMake(90, 22.5, textSize.width, 30)];
     nicklabel.text = str;
     [KeepImage addSubview:nicklabel];
-    
-    
     
     downButton = [UIButton buttonWithType:UIButtonTypeCustom];
     downButton.frame = CGRectMake(kScreenWidth-85, 10, 40, 40);
@@ -169,7 +162,6 @@
     }
     [KeepImage addSubview:genderImage];
     
-    
     UILabel *addressLabel = [UILabel new];
     addressLabel.text = _address;
     addressLabel.textColor = TEXT_COLOR_LEVEL_3;
@@ -177,8 +169,6 @@
     [addressLabel sizeToFit];
     addressLabel.frame = CGRectMake(91, 52, addressLabel.bounds.size.width, 20);
     [KeepImage addSubview: addressLabel];
-    
-    
     
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:codeSting]];
@@ -205,15 +195,6 @@
     joinVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:joinVC animated:YES];
 }
-
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 - (void)saveImageToAlbum {
     [downButton setHidden:YES];
@@ -276,8 +257,6 @@
     
     UIGraphicsEndImageContext();
     return newImage;
-    
-    
     
 }
 

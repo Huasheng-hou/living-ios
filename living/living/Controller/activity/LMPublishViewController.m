@@ -46,7 +46,7 @@ selectAddressDelegate
     NSInteger timeIndex;
     NSInteger cellIndex;
     NSString                    *districtStr;//设置中间变量，获取县（区）的编码
-//    NSInteger imageIndex;
+    //    NSInteger imageIndex;
     NSString *eventUUid;
     
     NSInteger projectIndex;
@@ -109,7 +109,7 @@ static NSMutableArray *cellDataArray;
     if (self.mapView==nil) {
         self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
     }
-
+    
     self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
     
     self.mapView.allowsBackgroundLocationUpdates    = NO;
@@ -126,7 +126,7 @@ static NSMutableArray *cellDataArray;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-//    [pickImage setAllowsEditing:YES];
+    //    [pickImage setAllowsEditing:YES];
     cellIndex = 1;
     
     [self creatFootView];
@@ -307,8 +307,8 @@ static NSMutableArray *cellDataArray;
         cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (cell==nil) {
             cell = [[LMProjectCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-             cell.title.delegate = self;
-             cell.includeTF.delegate = self;
+            cell.title.delegate = self;
+            cell.includeTF.delegate = self;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -325,9 +325,9 @@ static NSMutableArray *cellDataArray;
             UIImage *image=(UIImage *)projectImageArray[indexPath.row];
             [cell.imgView setImage:image];
         }else
-        if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
-            [cell.imgView setImage:[UIImage imageNamed:@""]];
-        }
+            if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+                [cell.imgView setImage:[UIImage imageNamed:@""]];
+            }
         
         
         [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
@@ -336,7 +336,7 @@ static NSMutableArray *cellDataArray;
         [cell.eventButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell.eventButton setTag:indexPath.row+10];
         
-         [cell.deleteBt setHidden:NO];
+        [cell.deleteBt setHidden:NO];
         
         if (cellDataArray.count==1) {
             if (indexPath.row==0) {
@@ -347,9 +347,9 @@ static NSMutableArray *cellDataArray;
         }
         
         if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
-             [cell.textLab setHidden:NO];
+            [cell.textLab setHidden:NO];
         }else{
-             [cell.textLab setHidden:YES];
+            [cell.textLab setHidden:YES];
         }
         
         return cell;
@@ -363,7 +363,7 @@ static NSMutableArray *cellDataArray;
     
     [cellDataArray removeObjectAtIndex:row];
     
-     [projectImageArray removeObjectAtIndex:row];
+    [projectImageArray removeObjectAtIndex:row];
     
     [self refreshData];
 }
@@ -439,7 +439,7 @@ static NSMutableArray *cellDataArray;
 - (void)createPickerView
 {
     FitPickerThreeLevelView *pickView=[[FitPickerThreeLevelView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 260)];
-  
+    
     pickView.delegate=self;
     [[[[UIApplication sharedApplication] delegate] window] addSubview:pickView];
 }
@@ -485,7 +485,7 @@ static NSMutableArray *cellDataArray;
         msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
     }
     if (dateIndex == 1) {
-       
+        
         msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
     }
 }
@@ -538,7 +538,7 @@ static NSMutableArray *cellDataArray;
         
         [self modifyCellDataContent:row andText:textView.text];
     }
-
+    
     return YES;
 }
 
@@ -555,7 +555,7 @@ static NSMutableArray *cellDataArray;
         [dic setObject:text forKey:@"content"];
     }
     
-   [self refreshData];
+    [self refreshData];
 }
 
 #pragma mark  UITextField代理方法
@@ -574,10 +574,10 @@ static NSMutableArray *cellDataArray;
     if (textField.tag==100) {
         return YES;
     }
-     NSInteger row=textField.tag;
+    NSInteger row=textField.tag;
     
     [self modifyCellDataTitle:row andText:textField.text];
-
+    
     return YES;
 }
 
@@ -596,10 +596,10 @@ static NSMutableArray *cellDataArray;
         
         [dic setObject:@"" forKey:@"title"];
     }else{
-         [dic setObject:text forKey:@"title"];
+        [dic setObject:text forKey:@"title"];
     }
     
-   
+    
     [self refreshData];
     
 }
@@ -632,13 +632,13 @@ static NSMutableArray *cellDataArray;
         msgCell.imgView.clipsToBounds = YES;
         [msgCell.imgView setImage:image];
     }else{
-    
+        
         [projectImageArray replaceObjectAtIndex:addImageIndex-10 withObject:image];
     }
     
     [self refreshData];
     
-     [self getImageURL:image];
+    [self getImageURL:image];
     
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
@@ -665,9 +665,9 @@ static NSMutableArray *cellDataArray;
         [self textStateHUD:@"无网络连接"];
         return;
     }
-
+    
     if (addImageIndex == 0) {
-
+        
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
         UIImage *headImage = [ImageHelpTool scaleImage:image];
         request.imageData   = UIImageJPEGRepresentation(headImage, 1);
@@ -727,7 +727,7 @@ static NSMutableArray *cellDataArray;
                                                    [self hideStateHud];
                                                }];
         [proxy start];
- 
+        
     }
 }
 
@@ -774,7 +774,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-#pragma mark 判断项目标题是否为空
+#pragma mark --判断项目标题是否为空
 
 - (BOOL)judgeProjectTitle
 {
@@ -786,12 +786,12 @@ static NSMutableArray *cellDataArray;
     return YES;
 }
 
-#pragma mark  --====================================确认并发布按钮
+#pragma mark  --确认并发布按钮
 
 -(void)publishButtonAction:(id)sender
 {
     [self.view endEditing:YES];
-
+    
     NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
     
@@ -830,7 +830,6 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    
     if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区"]) {
         [ self textStateHUD:@"请选择活动地址"];
         return;
@@ -844,7 +843,6 @@ static NSMutableArray *cellDataArray;
         [ self textStateHUD:@"请选择封面图片"];
         return;
     }
-    
     
     if (![self judgeProjectTitle]) {
         [self textStateHUD:@"活动项目标题不能为空"];
@@ -863,7 +861,7 @@ static NSMutableArray *cellDataArray;
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"发布失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -881,7 +879,7 @@ static NSMutableArray *cellDataArray;
             
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
             eventUUid = string;
-           
+            
             [self publicProject];
             
         }else{
@@ -891,7 +889,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-#pragma mark ====================================发布活动项目执行请求
+#pragma mark --发布活动项目执行请求
 
 - (void)publicProject
 {

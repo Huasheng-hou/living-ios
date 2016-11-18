@@ -143,10 +143,10 @@ WXApiDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if ([[CncpStartTime shareCncpStartTime] outDate]) {
-//        return 4;
-//    }
-    return 4;
+    if ([[CncpStartTime shareCncpStartTime] outDate]) {
+        return 4;
+    }
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -278,7 +278,7 @@ WXApiDelegate
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;
         
-        [_loginBtn setTitle:@"微信登陆" forState:UIControlStateNormal];
+        [_loginBtn setTitle:@"微信登录" forState:UIControlStateNormal];
         [_loginBtn addTarget:self action:@selector(wxinLoginAction) forControlEvents:UIControlEventTouchUpInside];
         
         [cell.contentView addSubview:_loginBtn];

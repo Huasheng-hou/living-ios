@@ -96,7 +96,7 @@ FitPickerViewDelegate
                                                      name:@"aliPayEnsure"
                                                    object:nil];
     }
-
+    
     return self;
 }
 
@@ -124,7 +124,7 @@ FitPickerViewDelegate
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(dismissitemPressed)];
-
+    
     self.navigationItem.leftBarButtonItem   = leftItem;
 }
 
@@ -150,7 +150,7 @@ FitPickerViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"订单详情获取失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -159,16 +159,16 @@ FitPickerViewDelegate
 - (void)getOrderDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-  
+    
     [self logoutAction:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"获取数据失败"];
     } else {
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-         
+            
             orderInfos = [[LMOrderInfoVO alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
             orderdata = [[LMOrderBodyVO alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
             
@@ -242,9 +242,9 @@ FitPickerViewDelegate
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (tableView==self.tableView) {
-
-        if (section==1) {
         
+        if (section==1) {
+            
             UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
             UILabel *msgLabel = [UILabel new];
             msgLabel.text = @"订单信息";
@@ -264,10 +264,10 @@ FitPickerViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (tableView==self.tableView) {
-    if (section==0) {
-        return 5;
-    }
-    return 30;
+        if (section==0) {
+            return 5;
+        }
+        return 30;
     }
     return 0.01;
 }
@@ -451,9 +451,9 @@ FitPickerViewDelegate
             cell.detailTextLabel.font   = TEXT_FONT_LEVEL_2;
             
             switch (indexPath.row) {
-            
+                    
                 case 0:
-                
+                    
                     cell.textLabel.text = @"订单号:";
                     cell.detailTextLabel.text = orderInfos.orderNumber;
                     
@@ -475,7 +475,7 @@ FitPickerViewDelegate
                     cell.textLabel.text = @"平均价格:";
                     
                     if (orderInfos.averagePrice == nil) {
-                    
+                        
                         cell.detailTextLabel.text = @"";
                     } else {
                         
@@ -532,20 +532,20 @@ FitPickerViewDelegate
             
             return cell;
         }
-
+        
     }
     if (tableView ==_couponView) {
         static NSString *cellIDD = @"cellIDD";
         LMCouponChoseCell *cell = [[LMCouponChoseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIDD];
-
+        
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
+        
         if (indexPath.row<couponList.count) {
             LMCouponVO *vo = couponList[indexPath.row];
             [cell setValue:vo];
             [cell setArray:couponPriceArray index:indexPath.row];
-
-
+            
+            
             
         }else{
             cell.nameLabel.text = @"不使用任何优惠券";
@@ -557,7 +557,7 @@ FitPickerViewDelegate
         }else{
             cell.chooseView.image= [UIImage imageNamed:@"choose-no"];
         }
-
+        
         
         return cell;
     }
@@ -567,7 +567,7 @@ FitPickerViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     if (tableView==self.tableView){
         if (indexPath.section==1) {
             if (indexPath.row==7) {
@@ -597,7 +597,7 @@ FitPickerViewDelegate
             selectedRow=indexPath.row;
             
         } else {
-        
+            
             selectedRow=indexPath.row;
         }
         
@@ -632,7 +632,7 @@ FitPickerViewDelegate
     [self logoutAction:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"删除失败"];
     } else {
         
@@ -730,7 +730,7 @@ FitPickerViewDelegate
             if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
                 [self getagreementCharge:@"wx"];
             }else{
-              [self textStateHUD:[bodyDict objectForKey:@"description"]];
+                [self textStateHUD:[bodyDict objectForKey:@"description"]];
             }
             
             
@@ -828,7 +828,7 @@ FitPickerViewDelegate
         [self textStateHUD:@"无网络"];
         return;
     }
-  
+    
     [self initStateHud];
     
     LMAliPayRequest *request=[[LMAliPayRequest alloc]initWithAliRecharge:orderInfos.orderUuid];
@@ -865,7 +865,7 @@ FitPickerViewDelegate
             }
             
             if (bodyDict[@"aliSignedOrder"]) {
-            
+                
                 [self senderAliPay:bodyDict[@"aliSignedOrder"]];
             }
             
@@ -948,16 +948,16 @@ FitPickerViewDelegate
     
     HTTPProxy   *proxy      = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
+                                                   
                                                    [self performSelectorOnMainThread:@selector(balanceChargeResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
                                                } failed:^(NSError *error) {
-                                               
+                                                   
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
     [proxy start];
 }
 
@@ -967,10 +967,10 @@ FitPickerViewDelegate
     [self logoutAction:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"余额支付失败"];
     } else {
-
+        
         NSString        *result     = [bodyDic objectForKey:@"result"];
         
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
@@ -982,9 +982,9 @@ FitPickerViewDelegate
             [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * _Nonnull action) {
-                
+                                                        
                                                         [self dismissViewControllerAnimated:YES completion:nil];
-            }]];
+                                                    }]];
             
             [self presentViewController:alert animated:YES completion:nil];
             
@@ -1028,8 +1028,8 @@ FitPickerViewDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-    
-                                               [self textStateHUD:@"获取优惠券信息失败"];
+                                               
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -1037,7 +1037,7 @@ FitPickerViewDelegate
 - (void)getCouponListResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-
+    
     couponList          = [NSMutableArray new];
     couponPriceArray 	= [NSMutableArray new];
     
@@ -1068,7 +1068,7 @@ FitPickerViewDelegate
 - (void)useCouponreload:(NSString *)couponPrice couponUUid:(NSString *)uuid;
 {
     LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuid];
- 
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1087,7 +1087,7 @@ FitPickerViewDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"暂不能使用该优惠券"];
     } else {
         

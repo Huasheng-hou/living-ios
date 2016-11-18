@@ -140,7 +140,7 @@ shareTypeDelegate
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-
+    
 }
 
 
@@ -195,7 +195,7 @@ shareTypeDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"点赞失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -549,7 +549,6 @@ shareTypeDelegate
             [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
             
             
-            
             midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [midBtn setTitle:@"中" forState:UIControlStateNormal];
             [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
@@ -599,12 +598,10 @@ shareTypeDelegate
             dspLabel.numberOfLines=0;
             dspLabel.text = articleData.describe;
             
-            
             CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
             [dspLabel sizeToFit];
             
             [cell.contentView addSubview:dspLabel];
-            
             
             contentLabel = [UILabel new];
             contentLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -634,7 +631,6 @@ shareTypeDelegate
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
             }
             
-            
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
             [contentLabel sizeToFit];
             
@@ -650,7 +646,6 @@ shareTypeDelegate
             }
             zanLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
             zanLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
-            
             
             [zanLabel.textLabel sizeToFit];
             zanLabel.textLabel.frame = CGRectMake(15, 5, zanLabel.textLabel.bounds.size.width, zanLabel.textLabel.bounds.size.height);
@@ -674,7 +669,6 @@ shareTypeDelegate
             [commentLabel sizeToFit];
             [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:commentLabel];
-         
             
             UIButton *button=[UIButton new];
             [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
@@ -733,7 +727,6 @@ shareTypeDelegate
                 contentLabel.frame = CGRectMake(15, 70+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
                 commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
                 zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-                
                 
                 [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
                 
@@ -844,7 +837,6 @@ shareTypeDelegate
                 
                 [message setThumbImage:iconImage];
             }
-            
             
             WXWebpageObject *web=[WXWebpageObject object];
             web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
@@ -1248,7 +1240,7 @@ shareTypeDelegate
     }
     
     NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-
+    
     LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {

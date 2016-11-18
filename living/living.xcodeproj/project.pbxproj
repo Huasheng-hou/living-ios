@@ -135,7 +135,6 @@
 		35B747841DDE97F3000AFA26 /* SYPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7455F1DDE97F2000AFA26 /* SYPhotoViewController.m */; };
 		35B747851DDE97F3000AFA26 /* FitThumbImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B745621DDE97F2000AFA26 /* FitThumbImageHelper.m */; };
 		35B747861DDE97F3000AFA26 /* UIView+frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B745641DDE97F2000AFA26 /* UIView+frame.m */; };
-		35B747871DDE97F3000AFA26 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B745651DDE97F2000AFA26 /* Info.plist */; };
 		35B747881DDE97F3000AFA26 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B745661DDE97F2000AFA26 /* main.m */; };
 		35B747891DDE97F3000AFA26 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7456A1DDE97F2000AFA26 /* UIBarButtonItem+Badge.m */; };
 		35B7478A1DDE97F3000AFA26 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7456C1DDE97F2000AFA26 /* UIButton+Badge.m */; };
@@ -2835,7 +2834,7 @@
 		3547F3261D9901780068F04E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = chenle;
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
@@ -2888,7 +2887,6 @@
 				35B7476D1DDE97F3000AFA26 /* SQMenuShowCell.xib in Resources */,
 				35B748001DDE97F4000AFA26 /* findpage.png in Resources */,
 				35B748031DDE97F4000AFA26 /* line.png in Resources */,
-				35B747871DDE97F3000AFA26 /* Info.plist in Resources */,
 				35B748061DDE97F4000AFA26 /* scanLine@3x.png in Resources */,
 				35B7471B1DDE97F3000AFA26 /* MJRefresh.bundle in Resources */,
 				35B7473F1DDE97F3000AFA26 /* LaunchScreen.storyboard in Resources */,

@@ -32,30 +32,19 @@ UIViewControllerTransitioningDelegate
 {
     UIImagePickerController *pickImage;
     ZYQAssetPickerController *picker;
-    
-    
     UIView *viewScroll;
-    
     UIButton *addImageBt;
-    
     UILabel *tip;
     UITextView * textView;
-    
     NSMutableArray *imageUrlArray;
     NSMutableArray *imageArray;
     NSUInteger imageNum;
-    
     NSInteger deleImageIndex;
-    
     UITextField *titleTF;
     UITextField *discribleTF;
-    
     UIScrollView *scrollview;
-    
     CGFloat textHight;
-    
     UIView *backView;
-    
     UIToolbar *toolBar;
     UIButton *zanButton;
 }
@@ -157,9 +146,7 @@ UIViewControllerTransitioningDelegate
     [zanButton setTitleColor:BLUE_COLOR forState:UIControlStateNormal];
     [zanButton addTarget:self action:@selector(hiddenKeyboard) forControlEvents:UIControlEventTouchUpInside];
     zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
-    
     [toolBar addSubview:zanButton];
-    
     
     //
     UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 65, kScreenWidth, kScreenHeight)];
@@ -292,7 +279,7 @@ UIViewControllerTransitioningDelegate
     CGFloat height=100+45;
     
     if (imageNum<4) {
-
+        
         [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW+space*2)];
         [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW+space*2)];
         
@@ -388,10 +375,9 @@ UIViewControllerTransitioningDelegate
     }
 }
 
-
 #pragma mark 发布成功后等待跳转的页面
 
--(void)publishArtcle
+- (void)publishArtcle
 {
     
     [self.view endEditing:YES];
@@ -430,7 +416,7 @@ UIViewControllerTransitioningDelegate
     }
 }
 
--(BOOL)stringContainsEmoji:(NSString *)string
+- (BOOL)stringContainsEmoji:(NSString *)string
 {
     __block BOOL returnValue = NO;
     
@@ -471,7 +457,7 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark 设置图片位置
 
--(CGRect)setupImageFrame:(NSInteger)num
+- (CGRect)setupImageFrame:(NSInteger)num
 {
     CGFloat startX=15;
     CGFloat space=10;
@@ -491,21 +477,18 @@ UIViewControllerTransitioningDelegate
     return rect;
 }
 
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES];
 }
 
-
 #pragma mark scroll加载图片
 
--(void)addImageViewFrame:(CGRect)rect andImage:(UIImage *)imag;
+- (void)addImageViewFrame:(CGRect)rect andImage:(UIImage *)imag;
 {
     UIImageView *image=[[UIImageView alloc]initWithFrame:rect];
     image.contentMode = UIViewContentModeScaleAspectFill;
     image.clipsToBounds = YES;
-    
-    
     [image setImage:imag];
     [image setTag:imageNum-1];
     [image setUserInteractionEnabled:YES];
@@ -525,18 +508,16 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark 查看大图
 
--(void)lookBigImage:(UITapGestureRecognizer*)guesture
+- (void)lookBigImage:(UITapGestureRecognizer*)guesture
 {
     UIImageView *image= (UIImageView *)guesture.view;
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [ImageHelpTool showImage:image];
 }
 
-
-
 #pragma mark 删除图片
 
--(void)deleteImage:(UIButton*)sender
+- (void)deleteImage:(UIButton*)sender
 {
     deleImageIndex=sender.tag;
     for (UIImageView *iconImage in sender.subviews) {
@@ -643,7 +624,7 @@ UIViewControllerTransitioningDelegate
                                                    }
                                                    
                                                } failed:^(NSError *error) {
-                                                  
+                                                   
                                                    [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                           withObject:nil
                                                                        waitUntilDone:YES];
@@ -677,7 +658,7 @@ UIViewControllerTransitioningDelegate
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
                                                
-                                               [self textStateHUD:@"发布失败"];
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -718,7 +699,7 @@ UIViewControllerTransitioningDelegate
         
         [textField resignFirstResponder];
     }
-        
+    
     return YES;
 }
 
@@ -745,7 +726,7 @@ UIViewControllerTransitioningDelegate
     if ([textV isEqual:textView]) {
         
         if (textView.text.length==0) {
-        
+            
             tip.hidden=NO;
         }else{
             tip.hidden=YES;

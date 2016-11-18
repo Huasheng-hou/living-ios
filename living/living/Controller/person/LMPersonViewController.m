@@ -51,9 +51,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     infoDic = [NSMutableDictionary new];
-
+    
     [self creatUI];
     
     //请求获取余额
@@ -94,10 +94,9 @@
         self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor clearColor];
     }
     
-    
 }
 
--(void)addDot
+- (void)addDot
 {
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"homeDot"];
     self.navigationItem.rightBarButtonItem.badgeValue = @"1";
@@ -117,7 +116,6 @@
     [self.navigationController pushViewController:noticVC animated:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_notic" object:nil];
-     
     
 }
 
@@ -160,11 +158,11 @@
         infoDic =[bodyDict objectForKey:@"userInfo"];
         
         [_tableView reloadData];
-
+        
     } else {
         [self textStateHUD:bodyDict[@"description"]];
     }
-
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -174,7 +172,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-
+    
     return 20;
 }
 
@@ -192,16 +190,16 @@
     if (section==3) {
         return 1;
     }
-
+    
     return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-  
-        if (indexPath.row==0) {
         
+        if (indexPath.row==0) {
+            
             return 100;
         }
         return 45;
@@ -223,7 +221,7 @@
     cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
     [cell.detailTextLabel setFont:TEXT_FONT_LEVEL_2];
     if (indexPath.section==0) {
-
+        
         UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
         
         if (indexPath.row==0) {
@@ -283,12 +281,12 @@
             NSString    *userID  = [NSString stringWithFormat:@"%d", infoModel.userId];
             
             if (userID) {
-            
+                
                 [idLabel setText:[NSString stringWithFormat:@"ID:%@",userID]];
             }
             
             [idLabel setFont:TEXT_FONT_LEVEL_3];
-             idLabel.textColor = TEXT_COLOR_LEVEL_2;
+            idLabel.textColor = TEXT_COLOR_LEVEL_2;
             [cell.contentView addSubview:idLabel];
             
             //下划线
@@ -338,19 +336,19 @@
             case 0:
                 cell.textLabel.text = @"余额";
                 cell.imageView.image = [UIImage imageNamed:@"balance"];
-
+                
                 break;
                 
             case 1:
                 cell.textLabel.text = @"订单";
                 cell.imageView.image = [UIImage imageNamed:@"order"];
-
+                
                 break;
                 
             case 2:
                 cell.textLabel.text = @"生活馆";
                 cell.imageView.image = [UIImage imageNamed:@"living"];
-
+                
                 break;
             case 3:
                 cell.textLabel.text = @"我的好友";
@@ -388,7 +386,7 @@
     if (indexPath.section==3) {
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  
+        
         cell.textLabel.text = @"设置";
         cell.imageView.image = [UIImage imageNamed:@"setting"];
         
@@ -457,7 +455,7 @@
         
         //我的优惠券
         if (indexPath.row == 4) {
-         
+            
             LMMyCouponController *myfVC = [[LMMyCouponController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
@@ -475,12 +473,11 @@
             [setVC setHidesBottomBarWhenPushed:YES];
             
             if (infoModel.province!=nil) {
-               setVC.address = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
+                setVC.address = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
             }
             setVC.name = infoModel.nickName;
             setVC.gender = infoModel.gender;
             setVC.headURL = infoModel.avatar;
-            
             
             [self.navigationController pushViewController:setVC animated:YES];
         }
@@ -501,9 +498,5 @@
     [ImageHelpTool showImage:headerView];
 }
 
-- (void)action
-{
-    
-}
 
 @end

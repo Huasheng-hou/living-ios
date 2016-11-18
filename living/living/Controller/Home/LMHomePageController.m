@@ -35,7 +35,7 @@ LMhomePageCellDelegate
 {
     UIView *headView;
     UIBarButtonItem *backItem;
-
+    
     NSIndexPath *deleteIndexPath;
     
     NSInteger        totalPage;
@@ -57,7 +57,7 @@ LMhomePageCellDelegate
         self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
-
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
     }
@@ -68,7 +68,7 @@ LMhomePageCellDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
+    
     if (self.listData.count == 0) {
         
         [self loadNoState];
@@ -87,7 +87,7 @@ LMhomePageCellDelegate
     self.title = @"首页";
     
     [self creatUI];
-
+    
     [self getBannerDataRequest];
     [self loadNewer];
 }
@@ -138,7 +138,7 @@ LMhomePageCellDelegate
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
-
+                                               
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    
                                                    NSDictionary *bodyDict   = [VOUtil parseBody:resp];
@@ -148,7 +148,7 @@ LMhomePageCellDelegate
                                                    if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
                                                        
                                                        _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
-                                                   
+                                                       
                                                        if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
                                                            
                                                            headView.backgroundColor = BG_GRAY_COLOR;
@@ -172,7 +172,7 @@ LMhomePageCellDelegate
                                                                    
                                                                    [stateArray addObject:vo.KeyUUID];
                                                                }
-                                                            }
+                                                           }
                                                            
                                                            WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
                                                                                                            delegate:self
@@ -192,7 +192,7 @@ LMhomePageCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取轮播图失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -221,7 +221,7 @@ LMhomePageCellDelegate
     if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
         
         if ([headDic[@"franchisee"] isEqual:@"yes"]) {
-    
+            
             franchisee = @"yes";
         }
     }
@@ -234,7 +234,7 @@ LMhomePageCellDelegate
         if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]||[franchisee isEqual:@"yes"]) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-               
+                
                 UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
@@ -317,7 +317,7 @@ LMhomePageCellDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-  
+    
     UITableViewCell *cell   = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     if (cell) {
@@ -354,7 +354,7 @@ LMhomePageCellDelegate
     if (self.listData.count > indexPath.row) {
         
         LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
-    
+        
         if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
             
             LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
@@ -365,7 +365,7 @@ LMhomePageCellDelegate
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -100,7 +100,7 @@ liveNameProtocol
     [table setDataSource:self];
     [self.view addSubview:table];
     table.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-
+    
     //尾部
     footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 325)];
     
@@ -185,7 +185,7 @@ liveNameProtocol
     for (UIView *view in footView.subviews) {
         
         if ([view isKindOfClass:[LMChargeButton class]]) {
-        
+            
             LMChargeButton *btn = (LMChargeButton *)view;
             
             btn.upLabel.textColor       = TEXT_COLOR_LEVEL_2;
@@ -289,7 +289,7 @@ liveNameProtocol
         addcell.textLabel.text = _liveRoomName;
         addcell.textLabel.textColor = LIVING_COLOR;
         [addcell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
+        
         return addcell;
     }
     
@@ -314,7 +314,7 @@ liveNameProtocol
             [cell.payButton setSelected:NO];
         }
         return cell;
-
+        
     }
     if (indexPath.section == 2) {
         
@@ -336,7 +336,7 @@ liveNameProtocol
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-
+        
         LMChangeLivingController *livingVC = [[LMChangeLivingController alloc] init];
         livingVC.delegate=self;
         
@@ -356,7 +356,7 @@ liveNameProtocol
 {
     _liveRoomName   = liveRoom;
     _liveUUID       = live_uuid;
-  
+    
     [table reloadData];
 }
 
@@ -397,7 +397,7 @@ liveNameProtocol
         [self textStateHUD:@"无网络"];
         return;
     }
-        
+    
     [self initStateHud];
     
     LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
@@ -409,7 +409,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
- 
+                                               
                                                [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
@@ -449,7 +449,7 @@ liveNameProtocol
 - (void)senderWeiXinPay:(NSDictionary *)dic
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-  
+        
         [WXApiRequestHandler jumpToBizPay:dic];
     });
 }
@@ -471,7 +471,7 @@ liveNameProtocol
 - (void)wxPayFailed
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-       
+        
         [self textStateHUD:@"微信支付失败"];
     });
 }
@@ -493,7 +493,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"数据请求失败"];
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -512,12 +512,12 @@ liveNameProtocol
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
-              
+                
                 [self textStateHUD:@"充值成功！"];
                 //刷新订单数据
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
             } else {
-            
+                
                 [self textStateHUD:@"充值失败！"];
             }
         } else {
@@ -548,7 +548,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"数据请求失败"];
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -615,7 +615,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                           
+                                               
                                            }];
     
     [proxy start];
@@ -644,7 +644,7 @@ liveNameProtocol
 - (void)changeMoney:(LMChargeButton *)button
 {
     for (UIView *view in footView.subviews) {
-
+        
         if ([view isKindOfClass:[LMChargeButton class]]) {
             LMChargeButton *btn = (LMChargeButton *)view;
             btn.upLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -652,7 +652,7 @@ liveNameProtocol
             btn.layer.borderColor = LINE_COLOR.CGColor;
         }
     }
-
+    
     button.upLabel.textColor = LIVING_COLOR;
     button.downLabel.textColor = LIVING_COLOR;
     button.layer.borderColor = LIVING_COLOR.CGColor;
@@ -729,8 +729,6 @@ liveNameProtocol
             }else{
                 [self aliRechargeRequest];
             }
-            
-            
         } else {
             
             [self textStateHUD:[bodyDic objectForKey:@"description"]];

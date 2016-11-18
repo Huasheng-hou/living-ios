@@ -43,13 +43,13 @@ UITableViewDataSource
     [self creatUI];
     listArray = [NSMutableArray new];
     cellArray = [NSMutableArray new];
-
+    
 }
 
 -(void)creatUI
 {
     if ([Estring isEqual:@"编辑"]){
-      _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+40) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+40) style:UITableViewStyleGrouped];
     }
     if ([Estring isEqual:@"完成"]){
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
@@ -83,11 +83,11 @@ UITableViewDataSource
     }else{
         [footView removeFromSuperview];
     }
-   [self refreshData];
+    [self refreshData];
     cellArray = [NSMutableArray new];
     _tableView.editing = !_tableView.editing;
     
-   
+    
 }
 
 -(void)getNoticListData
@@ -163,7 +163,7 @@ UITableViewDataSource
 {
     static NSString *cellId = @"cellId";
     LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
@@ -184,27 +184,27 @@ UITableViewDataSource
                                                                        message:@"是否删除"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                               style:UIAlertActionStyleCancel
-                                                             handler:nil]];
+                                                  style:UIAlertActionStyleCancel
+                                                handler:nil]];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                               style:UIAlertActionStyleDestructive
-                                                             handler:^(UIAlertAction*action) {
-
-                                                                 [self getNoticDeleteRequest:indexPath.row];
-                                                                 
-                                                             }]];
-
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    
+                                                    [self getNoticDeleteRequest:indexPath.row];
+                                                    
+                                                }]];
+        
         [self presentViewController:alert animated:YES completion:nil];
-             
+        
         
         [self refreshData];
     };
-
+    
     
     UITableViewRowAction *action1 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:rowActionHandler];
     
     action1.backgroundColor = LIVING_COLOR;
-
+    
     
     return @[action1];
 }
@@ -222,7 +222,7 @@ UITableViewDataSource
             
         }
     }
-
+    
     LMNoticDeleteRequest *request = [[LMNoticDeleteRequest alloc] initWithNoticeuuid:cellArray];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -237,7 +237,7 @@ UITableViewDataSource
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-
+    
 }
 
 -(void)getNoticDeleteResponse:(NSString *)resp
@@ -272,34 +272,34 @@ UITableViewDataSource
         [cellArray addObject:vo.noticeUuid];
         
     }else{
-    if (listArray.count > indexPath.row) {
-        
-        LMNoticVO  *vo = [listArray objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMNoticVO class]]) {
+        if (listArray.count > indexPath.row) {
             
-            if (vo.sign&&[vo.sign isEqual:@"event"] ) {
-                LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
-                
-                detailVC.hidesBottomBarWhenPushed = YES;
-                
-                detailVC.eventUuid  = vo.eventUuid;
-                
-                [self.navigationController pushViewController:detailVC animated:YES];
-            }
-            if (vo.sign&&[vo.sign isEqualToString:@"article"]) {
-                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-                
-                detailVC.hidesBottomBarWhenPushed = YES;
-                
-                detailVC.artcleuuid  = vo.articleUuid;
-                
-                [self.navigationController pushViewController:detailVC animated:YES];
-            }
+            LMNoticVO  *vo = [listArray objectAtIndex:indexPath.row];
             
-
+            if (vo && [vo isKindOfClass:[LMNoticVO class]]) {
+                
+                if (vo.sign&&[vo.sign isEqual:@"event"] ) {
+                    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    
+                    detailVC.eventUuid  = vo.eventUuid;
+                    
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                if (vo.sign&&[vo.sign isEqualToString:@"article"]) {
+                    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    
+                    detailVC.artcleuuid  = vo.articleUuid;
+                    
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                
+            }
         }
-    }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     

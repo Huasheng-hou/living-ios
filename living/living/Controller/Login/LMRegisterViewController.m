@@ -178,8 +178,7 @@ UIViewControllerTransitioningDelegate
         manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
         [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:manButton];
-        
-        
+                
         womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
         womanButton.headImage.frame = CGRectMake(26-1.5, 20, 50, 48);
         womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
@@ -257,7 +256,6 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-    
     if ([_imgURL isEqualToString:@""]) {
         [self textStateHUD:@"请选择头像"];
         return;
@@ -283,7 +281,7 @@ UIViewControllerTransitioningDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"上传失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];

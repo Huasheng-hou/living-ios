@@ -35,12 +35,9 @@ UIViewControllerTransitioningDelegate
     LMAgeChooseButton *cityTF;
     LMChooseButton *manButton;
     LMChooseButton *womanButton;
-    
     UIImagePickerController *pickImage;
-    
     NSString *_imgURL;
     UIImageView *headerView;
-//    NSString *genderStr;
     NSString *passWordStr;
     
     NSString *_uuid;
@@ -63,8 +60,6 @@ UIViewControllerTransitioningDelegate
     self.title = @"修改资料";
     _imgURL = _avartStr;
     
-    NSLog(@"%@",_genderStr);
-    
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -85,18 +80,12 @@ UIViewControllerTransitioningDelegate
     sendImage.image = [UIImage imageNamed:@"sendHead"];
     [backView addSubview:sendImage];
     
-    
-    
     headerView.userInteractionEnabled=YES;
     //headerView tap事件
     
     UITapGestureRecognizer   *tap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(selectHeadImage)];
-    
-    
     [headerView addGestureRecognizer:tap];
-    
-    
-    
+
     UILabel *introduce =[[UILabel alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 20)];
     introduce.text = @"点击头像修改，上传头像";
     introduce.font = TEXT_FONT_LEVEL_3;
@@ -171,7 +160,6 @@ UIViewControllerTransitioningDelegate
             [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:manButton];
             
-            
             womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
             womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
             womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
@@ -208,7 +196,6 @@ UIViewControllerTransitioningDelegate
         [cell.contentView addSubview:nameLabel];
         
         nickTF = [[UITextField alloc] initWithFrame:CGRectMake(90, 10, kScreenWidth-100, 30)];
-
         nickTF.text = _nickStr;
         nickTF.returnKeyType = UIReturnKeyDone;
         [nickTF setValue:TEXT_COLOR_LEVEL_3 forKeyPath:@"_placeholderLabel.textColor"];
@@ -221,7 +208,6 @@ UIViewControllerTransitioningDelegate
         lineLabel.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:lineLabel];
         
-        
         UILabel *ageLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 60, 75, 30)];
         ageLabel.text = @"真实年龄";
         ageLabel.font = TEXT_FONT_LEVEL_2;
@@ -232,10 +218,8 @@ UIViewControllerTransitioningDelegate
         ageTF.layer.borderWidth=0.5;
         ageTF.layer.borderColor = LINE_COLOR.CGColor;
         [ageTF addTarget:self action:@selector(timeChooseAction) forControlEvents:UIControlEventTouchUpInside];
-
         ageTF.textLabel.text = _ageStr;
         [cell.contentView addSubview:ageTF];
-        
         
         UILabel *cityLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 110, 75, 30)];
         cityLabel.text = @"所在城市";
@@ -276,7 +260,6 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-    
     if ([_imgURL isEqualToString:@""]) {
         [self textStateHUD:@"请选择头像"];
         return;
@@ -308,7 +291,7 @@ UIViewControllerTransitioningDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"上传失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -393,7 +376,6 @@ UIViewControllerTransitioningDelegate
     _cityStr = [NSString stringWithFormat:@"%@",items[1]];
     
 }
-
 
 #pragma mark  性别选择
 

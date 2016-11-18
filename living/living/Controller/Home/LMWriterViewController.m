@@ -97,11 +97,6 @@ UITableViewDataSource
     [_tableView headerBeginRefreshing];
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
     [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
-    //    _tableView.headerPullToRefreshText = @"下拉可以刷新";
-    //    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
-    //    _tableView.headerRefreshingText = @"正在帮你刷新...";
-    
     _tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
     _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
     _tableView.footerRefreshingText = @"正在帮你加载...";
@@ -176,7 +171,7 @@ UITableViewDataSource
         infoDic = [bodyDic objectForKey:@"map"];
         
         if (ifRefresh) {
-        
+            
             ifRefresh=NO;
             listArray=[NSMutableArray arrayWithCapacity:0];
             
@@ -246,7 +241,7 @@ UITableViewDataSource
         
         return headView;
     }
-
+    
     return nil;
 }
 
@@ -255,7 +250,7 @@ UITableViewDataSource
     if (indexPath.section==0) {
         return 100;
     }
-  
+    
     return 130;
 }
 
@@ -305,7 +300,6 @@ UITableViewDataSource
         [nicklabel setFrame:CGRectMake(100, 20, textSize.width, 30)];
         nicklabel.text = str;
         [cell.contentView addSubview:nicklabel];
-        
         
         //gender icon
         UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 27, 16, 16)];

@@ -234,7 +234,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -749,7 +749,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"点赞失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -861,7 +861,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"回复失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -1036,7 +1036,7 @@ LMActivityMsgCellDelegate
     if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
         
         if ([textView isEqual:suggestTF]) {
-        
+            
             [suggestTF resignFirstResponder];
             [self besureAction:@""];
         }
@@ -1058,9 +1058,6 @@ LMActivityMsgCellDelegate
         self.navigationController.navigationBar.hidden=YES;
         
         headerView.hidden=NO;
-        
-        
-        
         [UIApplication sharedApplication].statusBarHidden = YES;
         
         
@@ -1127,9 +1124,6 @@ LMActivityMsgCellDelegate
                 [[self tableView] scrollToRowAtIndexPath:indexPaths
                                         atScrollPosition:UITableViewScrollPositionTop animated:YES];;
             });
-            
-            
-            
             
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
@@ -1371,11 +1365,11 @@ LMActivityMsgCellDelegate
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
     
     for (int i = 0; i<cell.tag+1; i++) {
-    
+        
         LMProjectBodyVO *vo = eventArray[i];
         
         if ([vo.projectImgs isEqual:@""]) {
-        
+            
             [array addObject:vo.projectImgs];
         }
     }
@@ -1388,7 +1382,7 @@ LMActivityMsgCellDelegate
 {
     [self.view endEditing:YES];
     self.tableView.userInteractionEnabled = YES;
-
+    
     return YES;
 }
 

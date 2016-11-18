@@ -22,12 +22,9 @@
 //qqSDK
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterface.h>
-
 #import <AMapFoundationKit/AMapFoundationKit.h>
-
 #import <UserNotifications/UserNotifications.h>
 #import "UMMobClick/MobClick.h"
-
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
 
@@ -74,13 +71,13 @@ UNUserNotificationCenterDelegate
     //向微信注册
     [WXApi registerApp:wxAppID];
     
-//    1104875913
-   _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
-
+    //    1104875913
+    _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
+    
     //高德地图
-     [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
-
-//     使用 UNUserNotificationCenter 来管理通知
+    [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
+    
+    //     使用 UNUserNotificationCenter 来管理通知
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     //监听回调事件
     center.delegate = self;
@@ -95,7 +92,6 @@ UNUserNotificationCenterDelegate
     [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
         
     }];
-
     
     return YES;
 }
@@ -234,7 +230,7 @@ UNUserNotificationCenterDelegate
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
-//    [GeTuiSdk enterBackground];
+    //    [GeTuiSdk enterBackground];
 }
 
 //登录完成后，会调用TencentSessionDelegate中关于登录的协议方法。
@@ -254,7 +250,7 @@ UNUserNotificationCenterDelegate
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
     if (cancelled) {
-
+        
     } else {
         
     }
@@ -263,7 +259,7 @@ UNUserNotificationCenterDelegate
 //腾讯代理函数
 - (void)tencentDidNotNetWork
 {
-
+    
 }
 
 //禁止横屏
@@ -309,7 +305,7 @@ UNUserNotificationCenterDelegate
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
- 
+        
         [QQApiInterface handleOpenURL:url delegate:self];
         return [TencentOAuth HandleOpenURL:url];
     }
@@ -345,11 +341,11 @@ UNUserNotificationCenterDelegate
         SendAuthResp    *authResp   = (SendAuthResp *)resp;
         
         switch (authResp.errCode) {
-            
+                
             case WXSuccess:                 /**< 成功    */
             {
                 if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
-                
+                    
                     if (authResp.code && [authResp.code isKindOfClass:[NSString class]]) {
                         
                         NSDictionary    *userInfo   = [NSDictionary dictionaryWithObject:authResp.code forKey:@"code"];
@@ -361,7 +357,7 @@ UNUserNotificationCenterDelegate
                 }
             }
                 break;
-             
+                
             case WXErrCodeCommon:           /**< 普通错误类型    */
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
@@ -489,17 +485,17 @@ UNUserNotificationCenterDelegate
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-
+    
 }
 
 @end

@@ -9,9 +9,7 @@
 #import "LMChangeLivingController.h"
 #import "LMLiveRoomNameCell.h"
 #import "LMLivingListRequest.h"
-
 #import "LMAllDataModels.h"
-
 #import "UIImageView+WebCache.h"
 
 @interface LMChangeLivingController ()

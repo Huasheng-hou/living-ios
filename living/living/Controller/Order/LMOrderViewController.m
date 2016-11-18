@@ -87,7 +87,7 @@ LMOrderCellDelegate
 {
     [super viewDidLoad];
     
-     self.title = @"订单";
+    self.title = @"订单";
     
     [self creatUI];
     [self loadNewer];
@@ -108,7 +108,7 @@ LMOrderCellDelegate
 
 - (void)creatUI
 {
-
+    
     [super createUI];
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
@@ -134,7 +134,7 @@ LMOrderCellDelegate
     
     [_tableView addSubview:homeImage];
     homeImage.hidden = YES;
-
+    
 }
 - (void)adjustIndicator:(UIView *)loadingView
 {
@@ -171,7 +171,7 @@ LMOrderCellDelegate
         NSArray *array = [LMOrderVO LMOrderVOListWithArray:[bodyDic objectForKey:@"list"]];
         for (LMOrderVO *vo in array) {
             if (vo &&[vo isKindOfClass:[LMOrderVO class]]) {
-               [orderArray addObject:vo];
+                [orderArray addObject:vo];
             }
         }
         if (orderArray.count==0) {
@@ -188,7 +188,7 @@ LMOrderCellDelegate
     }
     
     return nil;
-
+    
     
     
 }
@@ -273,7 +273,7 @@ LMOrderCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除失败，请重试！"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     
@@ -315,7 +315,7 @@ LMOrderCellDelegate
         default:
             break;
     }
-
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -394,7 +394,7 @@ LMOrderCellDelegate
                                                } failed:^(NSError *error) {
                                                    
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"退款失败"
+                                                                          withObject:@"网络错误"
                                                                        waitUntilDone:YES];
                                                }];
         [proxy start];
@@ -405,7 +405,7 @@ LMOrderCellDelegate
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 
                                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                                            
+                                                
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
@@ -429,7 +429,7 @@ LMOrderCellDelegate
     [self logoutAction:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"退款申请失败"];
     } else {
         
@@ -439,7 +439,7 @@ LMOrderCellDelegate
             [self loadNoState];
             
         } else {
-         
+            
             [self textStateHUD:bodyDic[@"description"]];
         }
     }
@@ -464,7 +464,7 @@ LMOrderCellDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"微信充值下单失败"];
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -530,7 +530,7 @@ LMOrderCellDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"数据请求失败"];
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -586,7 +586,7 @@ LMOrderCellDelegate
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                              
+                                               
                                                [self textStateHUD:@"数据请求失败"];
                                            }];
     [proxy start];
@@ -624,7 +624,7 @@ LMOrderCellDelegate
             }else{
                 [self textStateHUD:[bodyDict objectForKey:@"description"]];
             }
-
+            
         }
     }
 }
@@ -634,7 +634,7 @@ LMOrderCellDelegate
 - (void)senderAliPay:(NSString *)payOrderStr
 {
     NSString *appScheme = @"livingApp";
-  
+    
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
         
     }];

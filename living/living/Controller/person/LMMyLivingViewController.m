@@ -40,14 +40,10 @@ WJLoopViewDelegate
     UITableView *_tableView;
     LMLivingInfoVO *livingInfo;
     LMLivingMapVO *numInfo;
-    
     LMLiveRoomBody *bodyData;
-    
     NSString *selectType;
     NSMutableArray *cellDataArray;
-    
     LMLiveRoomCell *cellInfo;
-    
     UIView *homeImage;
     LMEventChooseButton *publicLb;
     LMEventChooseButton *joinLb ;
@@ -87,14 +83,12 @@ WJLoopViewDelegate
                 imageLb.font = TEXT_FONT_LEVEL_2;
                 imageLb.textAlignment = NSTextAlignmentCenter;
                 [homeImage addSubview:imageLb];
-                
                 [self.view addSubview:homeImage];
 
     }else{
         [self getLivingHomeListData];
         [self createUI];
     }
-    
     
     listArray = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"reloadEvent" object:nil];
@@ -112,7 +106,6 @@ WJLoopViewDelegate
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
-
 #pragma mark  --生活馆数据列表请求
 -(void)getLivingHomeListData
 {
@@ -121,7 +114,6 @@ WJLoopViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    NSLog(@"================_livImgUUid=============%@",_livImgUUid);
     
     LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithLivingUuid:_livImgUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -133,7 +125,7 @@ WJLoopViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取数据失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -150,7 +142,6 @@ WJLoopViewDelegate
         NSLog(@"我的生活馆信息bodyDic：%@",bodyDic);
         
         bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
-        
         cellDataArray=(NSMutableArray *)bodyData.list;
         
         
@@ -181,10 +172,8 @@ WJLoopViewDelegate
     CLGeocoder * geocoder = [[CLGeocoder alloc]init];
     
     [geocoder geocodeAddressString:name completionHandler:^(NSArray *placemarks, NSError *error) {
-//        NSLog(@"%@",placemarks);
         CLPlacemark *placemark=[placemarks firstObject];
         CLLocation *location=placemark.location;//位置
-        
         
         CLLocationCoordinate2D curLocation;
         curLocation.latitude = location.coordinate.latitude;
@@ -225,10 +214,7 @@ WJLoopViewDelegate
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         headView.backgroundColor = [UIColor whiteColor];
         LMLiveRoomMap *map=bodyData.map;
-        
         publicLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 60)];
-        
-
         publicLb.rightView.image =[UIImage imageNamed:@"personTotalAct"];
         publicLb.leftLabel.text = [NSString stringWithFormat:@"共发布%.0f次活动",map.publishNums];
         [publicLb addTarget:self action:@selector(selectCellType) forControlEvents:UIControlEventTouchUpInside];
@@ -260,7 +246,7 @@ WJLoopViewDelegate
     return nil;
 }
 
--(void)selectCellType
+- (void)selectCellType
 {
     seleIndex=1;
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
@@ -268,7 +254,8 @@ WJLoopViewDelegate
     [_tableView reloadData];
 
 }
--(void)selectCellType2
+
+- (void)selectCellType2
 {
     seleIndex=2;
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
@@ -277,8 +264,7 @@ WJLoopViewDelegate
 
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         return kScreenWidth*3/5;
@@ -287,13 +273,12 @@ WJLoopViewDelegate
 }
 
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return [LMLiveRoomCell cellHigth:livingInfo.livingTitle];
@@ -307,7 +292,7 @@ WJLoopViewDelegate
     
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5;
 }
@@ -380,7 +365,6 @@ WJLoopViewDelegate
 
 -(void)cellbuttonPay
 {
-    NSLog(@"***********立即支付");
     LMRechargeViewController *chargeVC = [[LMRechargeViewController alloc] init];
     
     chargeVC.liveRoomName =livingInfo.livingName;

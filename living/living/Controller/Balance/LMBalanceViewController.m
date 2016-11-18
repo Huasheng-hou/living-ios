@@ -29,9 +29,7 @@ UITableViewDataSource
     NSString *balanceStr;
     NSMutableArray *listArray;
     NSMutableArray *monthArray;
-    
     LMBalanceBody *bodyData;
-    
     NSMutableArray *sectionArray;
 }
 
@@ -46,7 +44,7 @@ UITableViewDataSource
         
         self.ifRemoveLoadNoState        = NO;
         self.hidesBottomBarWhenPushed   = NO;
-    
+        
         self.title = @"余额明细";
         
         // * 当充值行为发生时，刷新界面
@@ -119,10 +117,10 @@ UITableViewDataSource
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section!=0) {
- 
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
         
-            
+        
         headView.backgroundColor    = BG_GRAY_COLOR;
         UILabel *headLb = [UILabel new];
         
@@ -134,11 +132,11 @@ UITableViewDataSource
             
             headLb.text = @"本月";
         } else {
-
-            if (lengthString>5) {
             
+            if (lengthString>5) {
+                
                 NSString *needStr=[str substringWithRange:NSMakeRange(5, lengthString-5)];
-        
+                
                 headLb.text=[NSString stringWithFormat:@"%@月",needStr];
             }
         }
@@ -149,9 +147,8 @@ UITableViewDataSource
         headLb.frame = CGRectMake(15, 0, headLb.bounds.size.width, 30);
         [headView addSubview:headLb];
         
-        
         UILabel *detal = [UILabel new];
-            
+        
         if (section==1) {
             detal.text = @"本月明细";
         }else{
@@ -163,8 +160,6 @@ UITableViewDataSource
                 detal.text=[NSString stringWithFormat:@"%@月明细",needStr];
             }
         }
-            
-            
         detal.font = TEXT_FONT_LEVEL_2;
         detal.textColor = TEXT_COLOR_LEVEL_2;
         [detal sizeToFit];
@@ -189,7 +184,7 @@ UITableViewDataSource
 - (void)sectionclickAction:(UITapGestureRecognizer *)tap
 {
     NSInteger row=tap.view.tag-1;
-   
+    
     LMBlanceDetailController *DetailVC = [[LMBlanceDetailController alloc] init];
     
     DetailVC.curMonth=monthArray[row];
@@ -222,7 +217,7 @@ UITableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     if (indexPath.section==0) {
         static NSString *cellId = @"cellId";
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
@@ -236,7 +231,7 @@ UITableViewDataSource
                 cell.detailTextLabel.textColor = LIVING_REDCOLOR;
                 cell.imageView.image = [UIImage imageNamed:@"balance"];
                 break;
-                case 1:
+            case 1:
                 cell.textLabel.text = @"余额充值";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.imageView.image = [UIImage imageNamed:@"recharge"];
@@ -304,7 +299,7 @@ UITableViewDataSource
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取余额数据失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -320,10 +315,9 @@ UITableViewDataSource
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
-
-            balanceStr =[NSString stringWithFormat:@"%@元",[dic objectForKey:@"balance"]];
-
             
+            balanceStr =[NSString stringWithFormat:@"%@元",[dic objectForKey:@"balance"]];
+    
             [self.tableView reloadData];
         }
     }

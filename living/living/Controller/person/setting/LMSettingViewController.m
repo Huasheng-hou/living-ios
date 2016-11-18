@@ -46,8 +46,6 @@
     [self.tableView setTableFooterView:footView];
 }
 
-
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
@@ -109,7 +107,7 @@
         
         cell.imageView.image = [UIImage imageNamed:@"versionmsg"];
         [cell.textLabel setText:@"关于腰果"];
- 
+        
     }
     
     return cell;
@@ -135,7 +133,7 @@
             LMVersionViewController *verVC = [[LMVersionViewController alloc] init];
             verVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:verVC animated:YES];
-        }   
+        }
     }
 }
 

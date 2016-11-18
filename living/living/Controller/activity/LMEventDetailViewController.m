@@ -162,7 +162,7 @@ LMActivityMsgCellDelegate
     
     [joinButton setTitle:_type forState:UIControlStateNormal];
     joinButton.userInteractionEnabled = NO;
-
+    
     
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
@@ -197,7 +197,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -293,8 +293,6 @@ LMActivityMsgCellDelegate
             }
             
             if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
-                
-                
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
@@ -426,7 +424,7 @@ LMActivityMsgCellDelegate
         return headView;
     }
     
-        return nil;
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -473,8 +471,6 @@ LMActivityMsgCellDelegate
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        
         [cell setValue:eventDic];
         cell.joinButton.titleLabel.text =_type;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -590,9 +586,6 @@ LMActivityMsgCellDelegate
     [self.navigationController pushViewController:mapVC animated:YES];
 }
 
-
-
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
@@ -671,7 +664,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -768,7 +761,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除评论失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -805,7 +798,7 @@ LMActivityMsgCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除回复失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];

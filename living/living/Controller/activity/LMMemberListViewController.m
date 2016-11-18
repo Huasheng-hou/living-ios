@@ -17,13 +17,6 @@
 {
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
-    
-    NSIndexPath *deleteIndexPath;
-    
-    NSInteger        totalPage;
-    NSInteger        currentPageIndex;
-    NSMutableArray   *pageIndexArray;
-    BOOL                reload;
 }
 
 @end

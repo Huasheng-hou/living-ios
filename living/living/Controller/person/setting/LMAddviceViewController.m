@@ -136,21 +136,21 @@
         [self textStateHUD:@"无网络连接"];
         return;
     }
-
+    
     NSCharacterSet *whiteSpace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSString *descriptionString = [[NSString alloc]initWithString:[textView.text stringByTrimmingCharactersInSet:whiteSpace]];
-
-        LMFeedBackRequest *request=[[LMFeedBackRequest alloc]initWithFeedbackcontent:descriptionString];
     
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding)
-                               {
-                                   [self performSelectorOnMainThread:@selector(parseResponse:)
-                                                          withObject:resp waitUntilDone:YES];
-                               } failed:^(NSError *error) {
-                                   [self textStateHUD:@"发送失败"];
-                               }];
-        [proxy start];
+    LMFeedBackRequest *request=[[LMFeedBackRequest alloc]initWithFeedbackcontent:descriptionString];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding)
+                           {
+                               [self performSelectorOnMainThread:@selector(parseResponse:)
+                                                      withObject:resp waitUntilDone:YES];
+                           } failed:^(NSError *error) {
+                               [self textStateHUD:@"网络错误"];
+                           }];
+    [proxy start];
 }
 
 - (void)parseResponse:(NSString *)resp

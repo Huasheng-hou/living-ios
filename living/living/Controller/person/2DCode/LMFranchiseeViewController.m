@@ -150,7 +150,7 @@ liveNameProtocol
         
         return headView;
     }
-
+    
     return nil;
 }
 
@@ -164,7 +164,7 @@ liveNameProtocol
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-
+    
     return 0.01;
 }
 
@@ -198,7 +198,7 @@ liveNameProtocol
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-       
+        
         static NSString *cellIds = @"cellIds";
         
         UITableViewCell * addcell= [tableView dequeueReusableCellWithIdentifier:cellIds];
@@ -247,32 +247,32 @@ liveNameProtocol
             content.frame = CGRectMake(15, 35, content.bounds.size.width, 30);
             
             return addcell;
-
+            
             
         }else{
-        static NSString *cellId = @"cellId";
-        cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        if (!cell) {
-            cell = [[LMRechargeCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+            static NSString *cellId = @"cellId";
+            cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+            if (!cell) {
+                cell = [[LMRechargeCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+            }
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            NSArray *arrayImg=@[@"alipay",@"weichatpay"];
+            NSArray *arrayWord=@[@"支付宝",@"微信"];
+            
+            [cell.payImg setImage:[UIImage imageNamed:arrayImg[indexPath.row-1]]];
+            [cell.payLabel setText:arrayWord[indexPath.row-1]];
+            [cell.payButton addTarget:self action:@selector(selectedButton:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.payButton setTag:indexPath.row-1];
+            
+            if (indexPath.row-1==selectedIndex) {
+                [cell.payButton setSelected:YES];
+            }else{
+                [cell.payButton setSelected:NO];
+            }
+            return cell;
+            
         }
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        NSArray *arrayImg=@[@"alipay",@"weichatpay"];
-        NSArray *arrayWord=@[@"支付宝",@"微信"];
-        
-        [cell.payImg setImage:[UIImage imageNamed:arrayImg[indexPath.row-1]]];
-        [cell.payLabel setText:arrayWord[indexPath.row-1]];
-        [cell.payButton addTarget:self action:@selector(selectedButton:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.payButton setTag:indexPath.row-1];
-        
-        if (indexPath.row-1==selectedIndex) {
-            [cell.payButton setSelected:YES];
-        }else{
-            [cell.payButton setSelected:NO];
-        }
-        return cell;
-        
     }
-        }
     if (indexPath.section==1) {
         static NSString *cellId = @"cellId";
         headcell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -344,18 +344,18 @@ liveNameProtocol
     }
     
     [self initStateHud];
-
+    
     LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
-
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
                                                [self performSelectorOnMainThread:@selector(wxRechargeResponse:)
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
-    
+                                               
                                            } failed:^(NSError *error) {
-                                           
+                                               
                                                [self textStateHUD:@"微信充值下单失败"];
                                            }];
     [proxy start];
@@ -386,7 +386,7 @@ liveNameProtocol
             }else{
                 [self textStateHUD:[bodyDict objectForKey:@"description"]];
             }
-
+            
         }
     }
 }
@@ -396,7 +396,7 @@ liveNameProtocol
 - (void)senderWeiXinPay:(NSDictionary *)dic
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-      
+        
         [WXApiRequestHandler jumpToBizPay:dic];
     });
 }
@@ -439,7 +439,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               [self textStateHUD:@"数据请求失败"];
+                                               [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
 }
@@ -478,7 +478,7 @@ liveNameProtocol
         [self textStateHUD:@"无网络连接"];
         return;
     }
-
+    
     [self initStateHud];
     LMFranchiseeAliPayRequest   *request = [[LMFranchiseeAliPayRequest alloc] initWithAliRecharge:@"3600"
                                                                                     andLivingUuid:_liveUUID
@@ -533,11 +533,11 @@ liveNameProtocol
 
 #pragma mark 发起第三方支付宝支付
 
--(void)senderAliPay:(NSString *)payOrderStr
+- (void)senderAliPay:(NSString *)payOrderStr
 {
     NSString *appScheme = @"livingApp";
     [[AlipaySDK defaultService] payOrder:payOrderStr fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-    
+        
     }];
 }
 
@@ -569,7 +569,7 @@ liveNameProtocol
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     if (!bodyDict) {
-    
+        
         return;
     }
     
@@ -592,7 +592,7 @@ liveNameProtocol
 {
     [[FitUserManager sharedUserManager] logout];
     FitTabbarController     *tab =[[FitTabbarController alloc]init];
-
+    
     [self presentViewController:tab animated:YES completion:nil];
 }
 
@@ -656,7 +656,6 @@ liveNameProtocol
             }else{
                 [self aliRechargeRequest];
             }
-            
             
         } else {
             

@@ -8,9 +8,7 @@
 
 #import "LMMyCouponController.h"
 #import "LMCouponCell.h"
-
 #import "LMCouponRequest.h"
-
 //数据
 #import "LMCouponVO.h"
 
@@ -116,7 +114,7 @@ UITableViewDataSource
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取数据失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];

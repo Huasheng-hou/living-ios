@@ -135,9 +135,7 @@ LMMypublicEventCellDelegate
 
     if (self.listData.count > indexPath.row) {
         
-        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
-       
-        
+        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];    
         if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
             
             [(LMMypublicEventCell *)cell setActivityList:vo] ;
