@@ -38,11 +38,10 @@
 #import "LMActivityDetailController.h"
 
 #import "LMCouponMsgRequest.h"
+#define PAGER_SIZE      20
 
 @interface LMOrderViewController ()
 <
-UITableViewDelegate,
-UITableViewDataSource,
 UIActionSheetDelegate,
 LMOrderCellDelegate
 >
@@ -62,23 +61,36 @@ LMOrderCellDelegate
 
 @implementation LMOrderViewController
 
-- (NSMutableArray *)orderArray
+- (id)init
 {
-    if (!orderArray) {
-        orderArray = [NSMutableArray array];
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        
+        self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
+        self.hidesBottomBarWhenPushed   = NO;
     }
-    return orderArray;
+    
+    return self;
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    self.title = @"订单";
+    
+     self.title = @"订单";
+    
     [self creatUI];
-    
-    orderArray = [NSMutableArray new];
-    
+    [self loadNewer];
     // * 微信支付结果确认
     //
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -93,14 +105,16 @@ LMOrderCellDelegate
                                                object:nil];
 }
 
+
 - (void)creatUI
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+36) style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    //去分割线
-    _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    [self.view addSubview:_tableView];
+
+    [super createUI];
+    self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
+    self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenWidth*2/5, 200, 130)];
     
@@ -120,135 +134,63 @@ LMOrderCellDelegate
     
     [_tableView addSubview:homeImage];
     homeImage.hidden = YES;
-    
-    [self setupRefresh];
-}
 
-- (void)setupRefresh
-{
-    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
-    [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    //tableView刚出现时，进行刷新操作
-    [_tableView headerBeginRefreshing];
-    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
-    _tableView.headerPullToRefreshText = @"下拉可以刷新";
-    _tableView.headerReleaseToRefreshText = @"松开马上刷新";
-    _tableView.headerRefreshingText = @"正在帮你刷新...";
-    
-    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据";
-    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据";
-    _tableView.footerRefreshingText = @"正在帮你加载...";
 }
-
-- (void)headerRereshing
+- (void)adjustIndicator:(UIView *)loadingView
 {
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+    if (loadingView) {
         
-        [_tableView headerEndRefreshing];
-        ifRefresh = YES;
-        self.current=1;
-        [self getOrderListRequest:self.current];
-        ifRefresh=YES;
-        
-    });
-}
-
-- (void)footerRereshing
-{
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        self.current = self.current+1;
-        
-        ifRefresh = NO;
-        
-        if (total < self.current) {
+        for (UIView * subView in loadingView.subviews) {
             
-            [self textStateHUD:@"没有更多订单"];
-        } else {
-            
-            [self getOrderListRequest:self.current];
+            if ([subView isKindOfClass:[UIActivityIndicatorView class]]) {
+                
+                subView.center  = CGPointMake(subView.center.x, subView.center.y + 100);
+            }
         }
-        
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        [_tableView footerEndRefreshing];
-    });
-}
-
-- (void)reloadingHomePage
-{
-    [self headerRereshing];
-}
-
-- (void)getOrderListRequest:(int)page
-{
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络"];
-        return;
     }
+}
+- (FitBaseRequest *)request
+{
+    LMOrderListRequest    *request    = [[LMOrderListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
     
-    [self initStateHud];
-    
-    LMOrderListRequest  *request    = [[LMOrderListRequest alloc] initWithPageIndex:page andPageSize:20];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getOrderListResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取列表失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    return request;
 }
 
-- (void)getOrderListResponse:(NSString *)resp
+- (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
+    NSString    *result         = [bodyDic objectForKey:@"result"];
+    NSString    *description    = [bodyDic objectForKey:@"description"];
     
-    total = [[bodyDic objectForKey:@"total"] intValue];
-    
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-
-        [self hideStateHud];
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
-        if (ifRefresh) {
-            ifRefresh=NO;
-            orderArray=[NSMutableArray arrayWithCapacity:0];
-            
-            NSArray *array = bodyDic[@"list"];
-            for(int i=0;i<[array count];i++){
-                
-                LMOrderVO *list=[[LMOrderVO alloc]initWithDictionary:array[i]];
-                if (![orderArray containsObject:list]) {
-                    [orderArray addObject:list];
-                }
+        
+        self.max    = [[bodyDic objectForKey:@"total"] intValue];
+        NSArray *array = [LMOrderVO LMOrderVOListWithArray:[bodyDic objectForKey:@"list"]];
+        for (LMOrderVO *vo in array) {
+            if (vo &&[vo isKindOfClass:[LMOrderVO class]]) {
+               [orderArray addObject:vo];
             }
-            
         }
         if (orderArray.count==0) {
             homeImage.hidden = NO;
+        }else{
+            homeImage.hidden = YES;
         }
         
-        [_tableView reloadData];
-    } else {
+        return [LMOrderVO LMOrderVOListWithArray:[bodyDic objectForKey:@"list"]];
         
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
+    } else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
+    
+    return nil;
+
+    
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -268,7 +210,7 @@ LMOrderCellDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return orderArray.count;
+    return self.listData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -278,7 +220,7 @@ LMOrderCellDelegate
     LMOrderCell *cell = [[LMOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
-    LMOrderVO *list =[orderArray objectAtIndex:indexPath.row];
+    LMOrderVO *list =[self.listData objectAtIndex:indexPath.row];
     [cell setValue:list];
     cell.Orderuuid = list.orderUuid;
     cell.priceStr = list.orderAmount;
@@ -292,7 +234,7 @@ LMOrderCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LMOrderVO *list =[orderArray objectAtIndex:indexPath.row];
+    LMOrderVO *list =[self.listData objectAtIndex:indexPath.row];
     
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
     detailVC.eventUuid = list.eventUuid;
@@ -348,7 +290,7 @@ LMOrderCellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"订单删除成功"];
-            [self reloadingHomePage];
+            [self loadNoState];
         }else{
             [self textStateHUD:bodyDic[@"description"]];
         }
@@ -358,7 +300,7 @@ LMOrderCellDelegate
 - (void)cellWillpay:(LMOrderCell *)cell
 {
     Orderuuid = cell.Orderuuid;
-    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    LMOrderVO *list =[self.listData objectAtIndex:cell.tag];
     
     switch (list.status) {
         case 4:
@@ -415,7 +357,7 @@ LMOrderCellDelegate
 
 - (void)cellWillRefund:(LMOrderCell *)cell
 {
-    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    LMOrderVO *list =[self.listData objectAtIndex:cell.tag];
     
     switch (list.status) {
         case 3:
@@ -471,7 +413,7 @@ LMOrderCellDelegate
 
 - (void)cellWillrebook:(LMOrderCell *)cell
 {
-    LMOrderVO *list =[orderArray objectAtIndex:cell.tag];
+    LMOrderVO *list =[self.listData objectAtIndex:cell.tag];
     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
     
     detailVC.eventUuid = list.eventUuid;
@@ -494,7 +436,7 @@ LMOrderCellDelegate
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
             [self textStateHUD:@"退款申请成功"];
-            [self reloadingHomePage];
+            [self loadNoState];
             
         } else {
          
@@ -611,7 +553,7 @@ LMOrderCellDelegate
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
                 [self textStateHUD:@"支付成功！"];
                 
-                [self reloadingHomePage];
+                [self loadNoState];
                 
                 
             }else{
@@ -733,7 +675,7 @@ LMOrderCellDelegate
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             [self textStateHUD:@"支付成功！"];
-            [self reloadingHomePage];
+            [self loadNoState];
         }else{
             
             [self textStateHUD:bodyDict[@"description"]];
@@ -791,7 +733,7 @@ LMOrderCellDelegate
                                                                            message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
-                [self reloadingHomePage];
+                [self loadNoState];
             }]];
             
             [self presentViewController:alert animated:YES completion:nil];
