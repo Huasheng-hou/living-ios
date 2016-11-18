@@ -313,6 +313,7 @@
 		35B748361DDE97F4000AFA26 /* FitShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747051DDE97F3000AFA26 /* FitShareView.m */; };
 		35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747071DDE97F3000AFA26 /* HBShareButton.m */; };
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
+		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -1019,6 +1020,7 @@
 		35B7470A1DDE97F3000AFA26 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
+		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1058,6 +1060,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
 				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
@@ -1104,6 +1107,7 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35B748391DDE9B37000AFA26 /* UMMobClick.framework */,
 				8E4C98FE1DD1D7DC00B17046 /* AMap.bundle */,
 				8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */,
 				8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */,
@@ -1165,13 +1169,13 @@
 		35B743F71DDE97F2000AFA26 /* living */ = {
 			isa = PBXGroup;
 			children = (
+				35B744CE1DDE97F2000AFA26 /* Controller */,
 				35B743F81DDE97F2000AFA26 /* 3rdLibs */,
 				35B744B81DDE97F2000AFA26 /* AppDelegate.h */,
 				35B744B91DDE97F2000AFA26 /* AppDelegate.m */,
 				35B744BA1DDE97F2000AFA26 /* Assets.xcassets */,
 				35B744BB1DDE97F2000AFA26 /* LaunchScreen.storyboard */,
 				35B744BD1DDE97F2000AFA26 /* Components */,
-				35B744CE1DDE97F2000AFA26 /* Controller */,
 				35B7452D1DDE97F2000AFA26 /* InfoPlist.strings */,
 				35B7452F1DDE97F2000AFA26 /* Helper */,
 				35B745651DDE97F2000AFA26 /* Info.plist */,

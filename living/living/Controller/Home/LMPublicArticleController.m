@@ -162,7 +162,7 @@ UIViewControllerTransitioningDelegate
     
     
     //
-    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 65, kScreenWidth, kScreenHeight/2+50+45)];
+    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 65, kScreenWidth, kScreenHeight)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:bgView];
     //
@@ -294,21 +294,29 @@ UIViewControllerTransitioningDelegate
     if (imageNum<4) {
 
         [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW+space*2)];
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW+space*2)];
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW+space*2)];
         
     } else if (imageNum < 8) {
         
         [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW*2+space*3)];
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*2+space*3)];
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW*2+space*3)];
     } else if (imageNum < 12) {
         
         viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*3+space*4);
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*3+space*4)];
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW*3+space*4)];
     } else {
         
         viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*4+space*5);
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, buttonW*4+space*5)];
+        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW*4+space*5)];
     }
+    
+    if (imageNum==15) {
+        addImageBt.hidden= YES;
+    }else{
+        addImageBt.hidden = NO;
+    }
+    
+    
 }
 
 #pragma mark UIImagePickerController代理函数
