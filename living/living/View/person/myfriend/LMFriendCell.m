@@ -59,8 +59,8 @@
     _nameLabel.text = list.nickname;
     _addressLabel.text = list.address;
     
-    if (list.userId&&![list.userId isEqual:@""]) {
-        _idLabel.text = [NSString stringWithFormat:@"ID:%@",list.userId];
+    if (list.userId&&list.userId!=0) {
+        _idLabel.text = [NSString stringWithFormat:@"ID:%d",list.userId];
     }else{
         _idLabel.text = @"ID:";
     }

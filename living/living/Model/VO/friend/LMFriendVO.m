@@ -76,8 +76,8 @@
         }
         
         if (nil != [dictionary objectForKey:@"userId"] && ![[dictionary objectForKey:@"userId"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"userId"] isKindOfClass:[NSString class]]) {
-            self.userId = [dictionary objectForKey:@"userId"];
+            && [[dictionary objectForKey:@"userId"] isKindOfClass:[NSNumber class]]) {
+            self.userId = [(NSNumber *)[dictionary objectForKey:@"userId"] intValue];
         }
         
         

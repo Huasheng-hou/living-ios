@@ -66,8 +66,8 @@
     
     //活动标题
     _orderNumLabel = [UILabel new];
-    _orderNumLabel.font = TEXT_FONT_LEVEL_2;
-    _orderNumLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _orderNumLabel.font = [UIFont systemFontOfSize:15];
+    _orderNumLabel.textColor = TEXT_COLOR_LEVEL_1;
     [cellView addSubview:_orderNumLabel];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 34.5, kScreenWidth-30, 0.5)];
     line.backgroundColor = LINE_COLOR;
@@ -102,13 +102,12 @@
     
     //报名人数
     _numLabel = [UILabel new];
-    _numLabel.font = TEXT_FONT_LEVEL_2;
-    _numLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _numLabel.font = TEXT_FONT_LEVEL_3;
+    _numLabel.textColor = TEXT_COLOR_LEVEL_3;
     [cellView addSubview:_numLabel];
     _numLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(joinMunber)];
     [_numLabel addGestureRecognizer:tap];
-    
     
     _deductionImage = [UIImageView new];
     [cellView addSubview:_deductionImage];
@@ -124,10 +123,8 @@
     
     _timeLabel = [UILabel new];
     _timeLabel.font = TEXT_FONT_LEVEL_3;
-    _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _timeLabel.textColor = TEXT_COLOR_LEVEL_3;
     [cellView addSubview:_timeLabel];
-    
-    
 
 }
 
@@ -135,7 +132,7 @@
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.EventImg]];
     
-    if (list.StartTime&&![list.StartTime isEqual:@""]) {
+    if (list.createTime&&![list.createTime isEqual:@""]) {
         _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.createTime];
     }else{
         _timeLabel.text =@"创建时间：";
@@ -158,7 +155,7 @@
     }
     _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
-    [_payButton setTintColor:[UIColor colorWithRed:0 green:138.0/255.0 blue:238.0/255.0 alpha:1.0]];
+    [_payButton setTintColor:[UIColor colorWithRed:16.0/255.0 green:142.0/255.0 blue:252.0/255.0 alpha:1.0]];
     _payButton.showsTouchWhenHighlighted = YES;
     _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
     
@@ -221,7 +218,7 @@
     _titleLabel.frame = CGRectMake(80, 35, kScreenWidth-120, 60);
     _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);
     _payButton.frame = CGRectMake(kScreenWidth-_payButton.bounds.size.width-40, 120, _payButton.bounds.size.width, 25);
-    _numLabel.frame = CGRectMake(80, 82, _numLabel.bounds.size.width,  _numLabel.bounds.size.height+5);
+    _numLabel.frame = CGRectMake(80, 84, _numLabel.bounds.size.width,  _numLabel.bounds.size.height+5);
 }
 
 //删除

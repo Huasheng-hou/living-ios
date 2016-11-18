@@ -42,7 +42,7 @@
 
 //地图导航
 #import "LMNavMapViewController.h"
-
+static CGRect oldframe;
 @interface LMActivityDetailController ()
 <
 UITableViewDelegate,
@@ -77,6 +77,7 @@ LMActivityMsgCellDelegate
     UIBarButtonItem *rightItem;
     
     NSString *vipString;
+    NSInteger  hiddenIndex;
 }
 
 @end
@@ -1054,16 +1055,20 @@ LMActivityMsgCellDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
-        
         self.navigationController.navigationBar.hidden=YES;
-        
-        headerView.hidden=NO;
         [UIApplication sharedApplication].statusBarHidden = YES;
-        
+        headerView.hidden=NO;
         
     }else{
+        if (hiddenIndex==2) {
+            [UIApplication sharedApplication].statusBarHidden = NO;
+        }
+        
+        if (hiddenIndex==1) {
+            [UIApplication sharedApplication].statusBarHidden = YES;
+        }
+        
         self.navigationController.navigationBar.hidden=NO;
-        [UIApplication sharedApplication].statusBarHidden = NO;
         headerView.hidden=YES;
     }
 }
@@ -1352,8 +1357,8 @@ LMActivityMsgCellDelegate
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [ImageHelpTool showImage:cell.imageV];
+    
+    [self showImage:cell.imageV];
     
 }
 
@@ -1376,6 +1381,7 @@ LMActivityMsgCellDelegate
     
     photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];
+    hiddenIndex=2;
 }
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
@@ -1505,6 +1511,46 @@ LMActivityMsgCellDelegate
     
 }
 
+- (void)showImage:(UIImageView *)avatarImageView{
+    [UIApplication sharedApplication].statusBarHidden = YES;
+    UIImage *image=avatarImageView.image;
+    UIWindow *window=[UIApplication sharedApplication].keyWindow;
+    UIView *backgroundView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    oldframe=[avatarImageView convertRect:avatarImageView.bounds toView:window];
+    backgroundView.backgroundColor=[UIColor blackColor];
+    backgroundView.alpha=0;
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:oldframe];
+    imageView.image=image;
+    imageView.tag=1;
+    [backgroundView addSubview:imageView];
+    [window addSubview:backgroundView];
+    
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backgroundView addGestureRecognizer: tap];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+        
+        
+        backgroundView.alpha=1;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 
+-(void)hideImage:(UITapGestureRecognizer*)tap{
+    [UIApplication sharedApplication].statusBarHidden = NO;
+    UIView *backgroundView=tap.view;
+    UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame=oldframe;
+        backgroundView.alpha=0;
+        
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+        
+        
+    }];
+}
 
 @end

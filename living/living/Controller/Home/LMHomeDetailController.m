@@ -921,7 +921,6 @@ shareTypeDelegate
 - (void)tapimageAction:(UITapGestureRecognizer *)tap
 {
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
-    
     photoBrowser.initialPageIndex = tap.view.tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
