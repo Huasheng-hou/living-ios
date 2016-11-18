@@ -367,7 +367,7 @@ UITableViewDataSource
 - (void)headClick
 {
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    if (headerView) {
+    if (headerView.image) {
         [ImageHelpTool showImage:headerView];
     }else{
         return;

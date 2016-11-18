@@ -1360,10 +1360,10 @@ LMActivityMsgCellDelegate
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
-    if (cell.imageV) {
+    if (cell.imageV.image) {
       [self showImage:cell.imageV];
     }else{
-        
+        return;
     }
     
 }
