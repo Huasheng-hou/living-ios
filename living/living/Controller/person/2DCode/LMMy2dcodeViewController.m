@@ -10,12 +10,15 @@
 #import "LM2DcodeRequest.h"
 #import "UIImageView+WebCache.h"
 #import "LMFranchiseeViewController.h"
+#import "UIView+frame.h"
 
 
 @interface LMMy2dcodeViewController ()
 {
     UIImageView *imageView;
     NSString *codeSting;
+    UIView *KeepImage;
+    UIButton *downButton;
 }
 
 @end
@@ -121,7 +124,7 @@
 
 -(void)creatImageView
 {
-    UIView *KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
+    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
     KeepImage.clipsToBounds = YES;
     KeepImage.layer.cornerRadius = 5;
     KeepImage.backgroundColor = [UIColor whiteColor];
@@ -213,23 +216,80 @@
 
 
 - (void)saveImageToAlbum {
-    UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:), nil);
+    [downButton setHidden:YES];
+    [self.navigationController.navigationBar setHidden:YES];
+    
+    [self saveScreenshotToPhotosAlbum:KeepImage];
 }
 
 
-- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    NSString *message;
-    if (!error) {
+- (UIImage *) captureScreen:(UIView *)view  targetSize:(CGSize)size{
+    UIImage *newImage = nil;
+    CGSize imageSize = view.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = size.width;
+    CGFloat targetHeight = size.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0, 0.0);
+    
+    if(CGSizeEqualToSize(imageSize, size) == NO){
         
-        [self textStateHUD:@"成功保存到相册"];
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
         
-    }else
-    {
-        [self textStateHUD :[error description]];
+        if(widthFactor > heightFactor){
+            scaleFactor = widthFactor;
+            
+        }
+        else{
+            
+            scaleFactor = heightFactor;
+        }
+        scaledWidth = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
         
+        if(widthFactor > heightFactor){
+            
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }else if(widthFactor < heightFactor){
+            
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
     }
-    NSLog(@"message is %@",message);
+    
+    UIGraphicsBeginImageContext(size);
+    
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    
+    [view drawViewHierarchyInRect:thumbnailRect afterScreenUpdates:YES];
+    
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    if(newImage == nil){
+        NSLog(@"scale image fail");
+    }
+    
+    UIGraphicsEndImageContext();
+    return newImage;
+    
+    
+    
+}
+
+- (void)saveScreenshotToPhotosAlbum:(UIView *)view
+{
+    CGSize size = CGRectMake(0, 0, view.size.width*3/2, view.size.height*3/2).size;
+    
+    UIImageWriteToSavedPhotosAlbum([self captureScreen:view targetSize:size], nil, nil, nil);
+    
+    [self textStateHUD:@"保存到相册成功"];
+    [downButton setHidden:NO];
+    [self.navigationController.navigationBar setHidden:NO];
 }
 
 
