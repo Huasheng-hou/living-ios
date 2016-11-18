@@ -23,6 +23,8 @@
 
 @property(nonatomic,strong) UIButton *mapButton;
 
+@property(nonatomic)CGFloat  cellHight;
+
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 @property (nonatomic, weak) id <LMActivityMsgCellDelegate> delegate;

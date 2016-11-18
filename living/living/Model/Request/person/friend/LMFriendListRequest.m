@@ -10,14 +10,16 @@
 
 @implementation LMFriendListRequest
 
--(id)initWithUserUuid:(NSString *)user_uuid
+-(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize
 {
     self = [super init];
     if (self) {
         NSMutableDictionary *body = [NSMutableDictionary new];
-        if (user_uuid) {
-          [body setObject:user_uuid forKey:@"user_uuid"];
-        
+        if (pageIndex != -1) {
+            [body setObject:[NSString stringWithFormat:@"%ld", (long)pageIndex] forKey:@"pageIndex"];
+        }
+        if (pageSize != -1) {
+            [body setObject:[NSString stringWithFormat:@"%ld", (long)pageSize] forKey:@"pageSize"];
         }
         
         NSMutableDictionary *parmDic = [self params];
@@ -34,7 +36,7 @@
 
 - (NSString *)methodPath
 {
-    return @"friends/onefriend";
+    return @"friends/list";
 }
 
 @end

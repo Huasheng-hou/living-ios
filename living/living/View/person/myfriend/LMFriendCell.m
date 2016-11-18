@@ -35,8 +35,12 @@
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 0, 150, 60)];
     _nameLabel.font = TEXT_FONT_LEVEL_2;
     _nameLabel.textColor = TEXT_COLOR_LEVEL_1;
-    _nameLabel.text = @"高琛";
     [self.contentView addSubview:_nameLabel];
+    
+    _idLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 0, 150, 60)];
+    _idLabel.font = TEXT_FONT_LEVEL_2;
+    _idLabel.textColor = TEXT_COLOR_LEVEL_2;
+    [self.contentView addSubview:_idLabel];
     
     _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-15-150, 0, 150, 60)];
     _addressLabel.font = TEXT_FONT_LEVEL_2;
@@ -54,6 +58,22 @@
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
     _nameLabel.text = list.nickname;
     _addressLabel.text = list.address;
+    
+    if (list.userId&&![list.userId isEqual:@""]) {
+        _idLabel.text = [NSString stringWithFormat:@"ID:%@",list.userId];
+    }else{
+        _idLabel.text = @"ID:";
+    }
+
+}
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    [_nameLabel sizeToFit];
+    [_idLabel sizeToFit];
+    _nameLabel.frame = CGRectMake(65, 0, _nameLabel.bounds.size.width, 60);
+    _idLabel.frame = CGRectMake(70+_nameLabel.bounds.size.width, 0, _idLabel.bounds.size.width, 60);
 }
 
 

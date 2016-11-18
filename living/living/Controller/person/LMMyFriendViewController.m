@@ -12,14 +12,9 @@
 #import "LMScanViewController.h"
 #import "MJRefresh.h"
 #import "LMFriendVO.h"
-
+#define PAGER_SIZE      20
 @interface LMMyFriendViewController ()
-<
-UITableViewDelegate,
-UITableViewDataSource
->
 {
-    NSMutableArray *listArray;
     UIView *homeImage;
     
     NSInteger        totalPage;
@@ -30,88 +25,83 @@ UITableViewDataSource
     NSIndexPath *deleteIndexPath;
 }
 
-@property (nonatomic,retain)UITableView *tableView;
-
 @end
 
 @implementation LMMyFriendViewController
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        
+        self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
+        self.hidesBottomBarWhenPushed   = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self createUI];
-    [self getFriendListRequest];
+    self.title = @"我的好友";
+    [self loadNewer];
     
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
 }
 
 - (void)createUI
 {
-    self.title = @"我的好友";
-    _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [self.view addSubview:_tableView];
-    listArray = [NSMutableArray new];
-    
+    [super createUI];
+
+    self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
+    self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
+//    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
+
 }
 
 #pragma mark 重新请求单元格数据（通知  投票）
 
-- (void)getFriendListRequest
+- (FitBaseRequest *)request
 {
-    LMFriendListRequest *request = [[LMFriendListRequest alloc] initWithUserUuid:[FitUserManager sharedUserManager].uuid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getFriendListDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取好友列表失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    LMFriendListRequest    *request    = [[LMFriendListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
+    
+    return request;
 }
 
-- (void)getFriendListDataResponse:(NSString *)resp
+- (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSString    *result         = [bodyDic objectForKey:@"result"];
+    NSString    *description    = [bodyDic objectForKey:@"description"];
     
-    if (!bodyDic) {
-        [self textStateHUD:@"获取好友列表失败"];
-    }else{
-        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            
-
-            LMFriendVO *vo = [LMFriendVO LMFriendVOWithDictionary:bodyDic[@"friend"]];
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
-            [listArray addObject:vo];
-            
-            [_tableView reloadData];
-            
-        }else{
-            [self textStateHUD:[bodyDic objectForKey:@"description"]];
-            homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, kScreenHeight/2-160, 300, 100)];
-            
-            UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(105, 20, 90, 75)];
-            homeImg.image = [UIImage imageNamed:@"NO-friend"];
-            [homeImage addSubview:homeImg];
-            UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 95, 300, 60)];
-            imageLb.numberOfLines = 0;
-            imageLb.text = @"手牵手，一起走，如此优秀可爱的你\n怎么可以这么孤单呢";
-            imageLb.textColor = TEXT_COLOR_LEVEL_3;
-            imageLb.font = TEXT_FONT_LEVEL_3;
-            imageLb.textAlignment = NSTextAlignmentCenter;
-            [homeImage addSubview:imageLb];
-            
-            [_tableView addSubview:homeImage];
-            
-            [_tableView reloadData];
-        }
+        
+        self.max    = [[bodyDic objectForKey:@"total"] intValue];
+        
+        return [LMFriendVO LMFriendVOListWithArray:[bodyDic objectForKey:@"list"]];
+        
+    } else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
     
+    return nil;
 }
 
 - (void)sweepAction
@@ -124,7 +114,7 @@ UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -139,7 +129,7 @@ UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return listArray.count;
+    return self.listData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -154,7 +144,7 @@ UITableViewDataSource
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    LMFriendVO *list = [listArray objectAtIndex:indexPath.row];
+    LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
     
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];

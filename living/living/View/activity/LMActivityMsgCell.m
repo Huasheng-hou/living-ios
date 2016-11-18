@@ -104,6 +104,7 @@
     _addressLabel.textAlignment = NSTextAlignmentRight;
     _addressLabel.font = [UIFont systemFontOfSize:13.f];
     [_addressLabel setUserInteractionEnabled:YES];
+    _addressLabel.numberOfLines = 0;
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_addressLabel];
     
@@ -124,6 +125,10 @@
 -(void)setValue:(LMEventBodyVO *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude
 {
     _addressLabel.text = event.address;
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+    _cellHight = [_addressLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    
+    
     
     if (event.startTime == nil) {
         _timeLabel.text = @"";
@@ -196,7 +201,7 @@
 
     
     _numberLabel.frame = CGRectMake(44, 12, _numberLabel.bounds.size.width, 30);
-    _addressLabel.frame = CGRectMake(44, 129.5, _addressLabel.bounds.size.width, 30);
+    _addressLabel.frame = CGRectMake(44, 136, _addressLabel.bounds.size.width, _cellHight);
     _timeLabel.frame = CGRectMake(44, 49+0.5, _timeLabel.bounds.size.width, 30);
     
     _priceLabel.frame = CGRectMake(44, 90, _priceLabel.bounds.size.width, 30);

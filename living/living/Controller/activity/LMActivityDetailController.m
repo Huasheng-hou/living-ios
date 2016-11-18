@@ -353,7 +353,10 @@ LMActivityMsgCellDelegate
         return 60+kScreenWidth*3/5;
     }
     if (indexPath.section==1) {
-        return 160+200;
+        CGFloat _cellHight;
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+        _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+        return 140+200;
     }
     
     if (indexPath.section==2) {
