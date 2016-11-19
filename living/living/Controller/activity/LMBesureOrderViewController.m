@@ -925,9 +925,11 @@ FitPickerViewDelegate
     if (bodyDict && [bodyDict objectForKey:@"result"]
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
-        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+        if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]) {
+            
             [self textStateHUD:@"支付成功！"];
-        }else{
+            [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+        } else {
             
             [self textStateHUD:bodyDict[@"description"]];
         }
@@ -936,7 +938,7 @@ FitPickerViewDelegate
 
 #pragma mark  --余额支付
 
--(void)balanceChargeRequest
+- (void)balanceChargeRequest
 {
     if (![CheckUtils isLink]) {
         

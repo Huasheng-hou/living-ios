@@ -28,18 +28,10 @@
 #define     FIT_TRANS_RECEIVE_BOARD_NOTIFICATION    @"Fit_Trans_Receive_Board_Notification_name"
 #define     FIT_REMOVE_BOARD_NOTIFICATION           @"Fit_Remove_Board_Notification_name"
 
-#define     FIT_PLAN_JOINED_NOTIFICATION            @"Fit_plan_joined_notification_name"            // 用户执行报班、取消报班操作
-#define     FIT_PLAN_UPDATED_NOTIFICATION           @"Fit_plan_updated_notification_name"
-#define     FIT_PLAN_STATUS_CHANGED_NOTIFICATION    @"Fit_plan_status_changed_notification_name"    // 班级状态改变
 #define     FIT_SHOULD_UPLOAD_SHEET_NOTIFICATION    @"Fit_Should_Upload_Sheet_notification_name"    // 上传图表数据，（班级开始时和结束后）
 
 #define     FIT_RELOAD_SHEET_NOTIFICATION           @"Fit_Reload_Sheet_Notification_name"
 #define     FIT_SHOULD_JOIN_PLAN_NOTIFICATION       @"Fit_Should_Join_Plan_Notification_name"
-
-#define     FIT_SHOULD_ADD_WEIGHT_NOTIFICATION      @"Fit_Should_Add_Weight_Notification_name"      // 体重打卡
-#define     FIT_SHOULD_PUNCH_MEAL_NOTIFICATION      @"Fit_Should_Punch_Meal_Notification_name"      // 饮食打卡
-#define     FIT_SHOULD_PUNCH_SPORT_NOTIFICATION     @"Fit_Should_Punch_Sport_Notification_name"     // 运动打卡
-#define     FIT_SHOULD_PUNCH_WATER_NOTIFICATION     @"Fit_Should_Punch_Water_Notification_name"     // 饮水打卡
 
 #define     FIT_DOAT_NOTIFICATION                   @"Fit_DoAt_Notification_name"
 #define     FIT_CoachInform_NOTIFICATION            @"Fit_CoachInform_Notification_name" 
@@ -62,7 +54,6 @@
 #define     LM_WECHAT_PAY_CALLBACK_NOTIFICATION     @"Lm_Wechat_Pay_Callback_Notification_Name"     // 微信支付成功回调
 #define     LM_WECHAT_PAY_CANCEL_NOTIFICATION       @"Lm_Wechat_Pay_Cancel_Notification_Name"       // 微信支付用户取消回调
 #define     LM_WECHAT_PAY_FAILED_NOTIFICATION       @"Lm_Wechat_Pay_Failed_Notification_Name"       // 微信支付其它类型失败回调
-
 
 
 
