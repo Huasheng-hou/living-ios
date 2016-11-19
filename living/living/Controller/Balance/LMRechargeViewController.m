@@ -633,7 +633,11 @@ liveNameProtocol
         && [[bodyDict objectForKey:@"result"] isKindOfClass:[NSString class]]){
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
+            
             [self textStateHUD:@"充值成功！"];
+            //刷新订单数据
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
+        
         }else{
             
             [self textStateHUD:bodyDict[@"description"]];
@@ -735,6 +739,5 @@ liveNameProtocol
         }
     }
 }
-
 
 @end

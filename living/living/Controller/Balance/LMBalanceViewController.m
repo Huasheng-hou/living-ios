@@ -310,14 +310,27 @@ UITableViewDataSource
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if (!bodyDic) {
+        
         [self textStateHUD:@"获取余额失败"];
         return;
-    }else{
+        
+    } else {
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
             NSDictionary *dic = [bodyDic objectForKey:@"wallet"];
             
-            balanceStr =[NSString stringWithFormat:@"%@元",[dic objectForKey:@"balance"]];
-    
+            id  balance     = [dic objectForKey:@"balance"];
+            
+            if (balance && ![balance isEqual:[NSNull null]] && [balance isKindOfClass:[NSNumber class]]) {
+                
+                balanceStr  = [NSString stringWithFormat:@"%.2f元", [(NSNumber *)balance floatValue]];
+                
+            } else {
+                
+                balanceStr  = @"0.00元";
+            }
+            
             [self.tableView reloadData];
         }
     }

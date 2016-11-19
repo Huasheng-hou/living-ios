@@ -268,7 +268,12 @@ UNUserNotificationCenterDelegate
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
+    }];
     
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
         [QQApiInterface handleOpenURL:url delegate:self];
@@ -294,7 +299,6 @@ UNUserNotificationCenterDelegate
     }
     
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"===AppDelegate 支付宝支付9.0以后处理支付结果====result = %@",resultDic);
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
     }];
@@ -312,7 +316,7 @@ UNUserNotificationCenterDelegate
     
     // 支付跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"AppDelegate 支付宝支付，处理支付结果result = %@",resultDic);
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
     }];
     
