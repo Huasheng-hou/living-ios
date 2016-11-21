@@ -216,6 +216,7 @@ WJLoopViewDelegate
         LMLiveRoomMap *map=bodyData.map;
         publicLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 60)];
         publicLb.rightView.image =[UIImage imageNamed:@"personTotalAct"];
+        publicLb.rightView.frame = CGRectMake(kScreenWidth/4-10, 10, 22, 22);
         publicLb.leftLabel.text = [NSString stringWithFormat:@"共发布%.0f次活动",map.publishNums];
         [publicLb addTarget:self action:@selector(selectCellType) forControlEvents:UIControlEventTouchUpInside];
         [headView addSubview:publicLb];
@@ -226,6 +227,7 @@ WJLoopViewDelegate
         
         joinLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2,0 , kScreenWidth/2, 60)];
         joinLb.rightView.image =[UIImage imageNamed:@"personJoinAct"];
+        joinLb.rightView.frame = CGRectMake(kScreenWidth/4-10, 10, 20, 23);
         joinLb.leftLabel.text = [NSString stringWithFormat:@"共参与%.0f次活动",map.joinNums];
         [joinLb setTitleColor:TEXT_COLOR_LEVEL_2 forState:UIControlStateNormal];
         [joinLb setTitleColor:LIVING_COLOR forState:UIControlStateSelected];
@@ -233,10 +235,10 @@ WJLoopViewDelegate
         [headView addSubview:joinLb];
         
         if (seleIndex==1) {
-            publicLb.backgroundColor = BG_GRAY_COLOR;
+            publicLb.backgroundColor = TEXT_COLOR_LEVEL_5;
             joinLb.backgroundColor = [UIColor whiteColor];
         }else{
-            joinLb.backgroundColor = BG_GRAY_COLOR;
+            joinLb.backgroundColor = TEXT_COLOR_LEVEL_5;
             publicLb.backgroundColor = [UIColor whiteColor];
         }
 

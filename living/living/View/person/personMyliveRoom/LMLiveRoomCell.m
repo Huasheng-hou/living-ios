@@ -160,7 +160,15 @@
 
 + (CGFloat)cellHigth:(NSString *)titleString
 {
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    if ([titleString isEqual:@""]) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:titleString];
+        
+        [paragraphStyle setLineSpacing:7];
+        [paragraphStyle setParagraphSpacing:10];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, titleString.length)];
+    }
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14],NSParagraphStyleAttributeName:paragraphStyle};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     return 310+conHigh;
 }

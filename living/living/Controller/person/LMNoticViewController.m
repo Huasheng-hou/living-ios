@@ -124,7 +124,6 @@ UITableViewDataSource
     }
     
     NSString *result    = [bodyDic objectForKey:@"result"];
-    
     if (result && [result intValue] == 0)
     {
         [self hideStateHud];

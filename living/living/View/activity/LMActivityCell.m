@@ -32,6 +32,8 @@
 
 @property (nonatomic, strong) UILabel *addressLabel;
 
+@property (nonatomic, strong) UIView *backView;
+
 @end
 
 @implementation LMActivityCell
@@ -55,11 +57,11 @@
     
     [self.contentView addSubview:_imageV];
     
-    UIView *backView = [UIView new];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.5;
-    backView.frame = CGRectMake(0, 0, kScreenWidth, 170);
-    [_imageV addSubview:backView];
+    _backView = [UIView new];
+    _backView.backgroundColor = [UIColor blackColor];
+    _backView.alpha = 0.5;
+    _backView.frame = CGRectMake(0, 0, kScreenWidth, 170);
+    [_imageV addSubview:_backView];
     
     
     //标题
@@ -129,9 +131,6 @@
         return;
     }
     
-
-    
-    
     _ActivityList   = ActivityList;
     if (index==2) {
         if (!_ActivityList.NickName) {
@@ -144,6 +143,7 @@
         [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
         [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
         _addressLabel.text  = _ActivityList.Address;
+        _backView.hidden = YES;
         
     }else{
         if (!_ActivityList.NickName) {

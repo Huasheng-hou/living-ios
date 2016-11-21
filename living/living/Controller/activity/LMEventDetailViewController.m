@@ -828,8 +828,9 @@ LMActivityMsgCellDelegate
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    if (cell.imageV) {
+    
+    if (cell.imageV.image) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         [ImageHelpTool showImage:cell.imageV];
     }else{
         
