@@ -29,5 +29,6 @@
 @property (nonatomic, retain) NSString *eventName;
 @property (nonatomic, retain) NSString *couponUuid;
 @property (nonatomic, retain) NSString *createTime;
+@property (nonatomic, retain) NSDate *endTime;
 
 @end
