@@ -41,14 +41,15 @@ static FitSignalCacheManager *__sharedCarInfos;
 //    _cache.diskCache.byteLimit = 6 MB;
 }
 
-//- (NSString *)queryDataFor:(NSString *)key
-//{
+- (NSString *)queryDataFor:(NSString *)key
+{
     //    NSLog(@"SignalCache----query. key:'%@'",key);
     //    NSLog(@"SignalCache----cache status: memory(%lu/%lu), disk(%lu/%lu)",
     //          _cache.memoryCache.totalCost,  _cache.memoryCache.costLimit,
     //          _cache.diskCache.byteCount, _cache.diskCache.byteLimit);
 //    return [_cache objectForKey:[key md5]];
-//}
+    return nil;
+}
 
 - (void)saveCache:(NSString *)data forKey:(NSString *)key
 {

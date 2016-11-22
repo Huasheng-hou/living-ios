@@ -75,6 +75,11 @@ LMActivityMsgCellDelegate
     
     NSString *vipString;
     NSInteger hiddenIndex;
+    UIView *backgroundViews;
+    UIImageView *imageViews;
+    
+    UIImage *bigImage;
+
 }
 
 @end
@@ -830,14 +835,141 @@ LMActivityMsgCellDelegate
 {
     
     if (cell.imageV.image) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
-        [ImageHelpTool showImage:cell.imageV];
+//        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        bigImage = cell.imageV.image;
+        [self showImage:cell.imageV];
     }else{
         
     }
+}
+
+- (void)showImage:(UIImageView *)avatarImageView{
+    
+    UIImage *image=avatarImageView.image;
+//    UIWindow *window=[UIApplication sharedApplication].keyWindow;
+    backgroundViews=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    oldframe=[avatarImageView convertRect:avatarImageView.bounds toView:self.view];
+    backgroundViews.backgroundColor=[UIColor blackColor];
+    backgroundViews.alpha=0;
+    imageViews=[[UIImageView alloc]initWithFrame:oldframe];
+    imageViews.image=image;
+    imageViews.tag=1;
+    [backgroundViews addSubview:imageViews];
+    [self.view addSubview:backgroundViews];
+    
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backgroundViews addGestureRecognizer: tap];
+    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenImageView:)];
+    swipe.numberOfTouchesRequired =1;
+    swipe.direction =UISwipeGestureRecognizerDirectionUp|UISwipeGestureRecognizerDirectionDown;
+    [backgroundViews addGestureRecognizer:swipe];
+    
+    UILongPressGestureRecognizer *LongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(LongPressAction:)];
+    LongPress.minimumPressDuration = 1.0;
+    [backgroundViews addGestureRecognizer:LongPress];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        imageViews.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+        
+        backgroundViews.alpha=1;
+        hiddenIndex =1;
+        [self scrollViewDidScroll:self.tableView];
+        [UIApplication sharedApplication].statusBarHidden = YES;
+        self.navigationController.navigationBar.hidden = YES;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)hideImage:(UITapGestureRecognizer*)tap{
+    hiddenIndex =2;
+    [self scrollViewDidScroll:self.tableView];
+    [UIApplication sharedApplication].statusBarHidden = NO;
+    UIView *backgroundView=tap.view;
+    UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame=oldframe;
+        backgroundView.alpha=0;
+        
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+        
+        
+    }];
+}
+
+-(void)hiddenImageView:(UISwipeGestureRecognizer*)tap{
+    hiddenIndex =2;
+    [self scrollViewDidScroll:self.tableView];
+    [UIApplication sharedApplication].statusBarHidden = NO;
+    UIView *backgroundView=tap.view;
+    UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame=oldframe;
+        backgroundView.alpha=0;
+        
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+        
+        
+    }];
+}
+
+- (void)LongPressAction:(UILongPressGestureRecognizer *)longPress
+{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"保存图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIImageWriteToSavedPhotosAlbum(bigImage,self,  @selector(image:didFinishSavingWithError:contextInfo:imageview:), NULL);
+    }]];
+    
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                [alert dismissViewControllerAnimated:YES completion:nil];
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
+- (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo imageview:(UIImageView *)imageView
+
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    self.navigationController.navigationBar.hidden=NO;
+    hiddenIndex =2;
+    [self scrollViewDidScroll:self.tableView];
+    self.tabBarController.tabBar.hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        imageViews.frame=oldframe;
+        backgroundViews.alpha=0;
+    } completion:^(BOOL finished) {
+        [backgroundViews removeFromSuperview];
+        
+    }];
+    NSString *msg = nil ;
+    
+    if(error != NULL){
+        
+        msg = @"保存图片失败" ;
+        
+    }else{
+        
+        msg = @"保存图片成功" ;
+        
+    }
+    [self textStateHUD:msg];
+    [self scrollViewDidScroll:self.tableView];
     
     
 }
+
 
 #pragma mark --项目大图
 
@@ -982,52 +1114,6 @@ LMActivityMsgCellDelegate
     
     [self presentViewController:alert animated:YES completion:nil];
     
-}
-
-- (void)showImage:(UIImageView *)avatarImageView{
-    [UIApplication sharedApplication].statusBarHidden = YES;
-    hiddenIndex =1;
-    [self scrollViewDidScroll:self.tableView];
-    UIImage *image=avatarImageView.image;
-    UIWindow *window=[UIApplication sharedApplication].keyWindow;
-    UIView *backgroundView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    oldframe=[avatarImageView convertRect:avatarImageView.bounds toView:window];
-    backgroundView.backgroundColor=[UIColor blackColor];
-    backgroundView.alpha=0;
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:oldframe];
-    imageView.image=image;
-    imageView.tag=1;
-    [backgroundView addSubview:imageView];
-    [window addSubview:backgroundView];
-    
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
-    [backgroundView addGestureRecognizer: tap];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        imageView.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-        
-        
-        backgroundView.alpha=1;
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
--(void)hideImage:(UITapGestureRecognizer*)tap{
-    [UIApplication sharedApplication].statusBarHidden = NO;
-    hiddenIndex =2;
-    [self scrollViewDidScroll:self.tableView];
-    UIView *backgroundView=tap.view;
-    UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
-    [UIView animateWithDuration:0.3 animations:^{
-        imageView.frame=oldframe;
-        backgroundView.alpha=0;
-        
-    } completion:^(BOOL finished) {
-        [backgroundView removeFromSuperview];
-        
-        
-    }];
 }
 
 @end

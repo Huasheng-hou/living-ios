@@ -287,7 +287,7 @@ WJLoopViewDelegate
     }
     
     if (indexPath.section==1) {
-        return 210;
+        return kScreenWidth*3/5+40;
     }
     
     return 340;

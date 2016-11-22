@@ -185,6 +185,11 @@ static CGRect oldframe;
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
     [backgroundView addGestureRecognizer: tap];
     
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenImageView:)];
+    swipe.numberOfTouchesRequired =1;
+    swipe.direction =UISwipeGestureRecognizerDirectionUp|UISwipeGestureRecognizerDirectionDown;
+    [backgroundView addGestureRecognizer:swipe];
+    
     [UIView animateWithDuration:0.3 animations:^{
         imageView.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
         
@@ -195,6 +200,19 @@ static CGRect oldframe;
 }
 
 +(void)hideImage:(UITapGestureRecognizer*)tap{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    UIView *backgroundView=tap.view;
+    UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame=oldframe;
+        backgroundView.alpha=0;
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+        
+    }];
+}
+
++(void)hiddenImageView:(UISwipeGestureRecognizer*)tap{
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];

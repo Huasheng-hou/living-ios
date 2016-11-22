@@ -234,7 +234,7 @@ LMMypublicEventCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"开始活动失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -280,7 +280,7 @@ LMMypublicEventCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"活动结束失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -338,7 +338,7 @@ LMMypublicEventCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];

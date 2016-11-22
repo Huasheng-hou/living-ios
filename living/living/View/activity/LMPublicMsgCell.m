@@ -292,22 +292,22 @@
     
     
     
-    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 580, kScreenWidth, 165)];
+    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 580, kScreenWidth, kScreenWidth*3/5)];
     imgBackView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
     [self.contentView addSubview:imgBackView];
     
-    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-28, 50, 56, 65)];
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-28, (kScreenWidth*3/5-65)/2, 56, 65)];
     image.image = [UIImage imageNamed:@"publicEvent"];
     [imgBackView addSubview:image];
     
     
     _imageButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _imageButton.backgroundColor = [UIColor clearColor];
-    _imageButton.frame = CGRectMake(0, 580, kScreenWidth, 165);
+    _imageButton.frame = CGRectMake(0, 580, kScreenWidth, kScreenWidth*3/5);
     [self.contentView addSubview:_imageButton];
     
     _imgView = [[UIImageView alloc] init];
-    _imgView.frame = CGRectMake(0, 580, kScreenWidth, 165);
+    _imgView.frame = CGRectMake(0, 580, kScreenWidth, kScreenWidth*3/5);
     [self.contentView addSubview:_imgView];
     
     

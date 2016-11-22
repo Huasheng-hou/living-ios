@@ -324,16 +324,16 @@
     }
     stateHud.mode = MBProgressHUDModeText;
     stateHud.opacity = 0.6;
-    stateHud.labelFont = [UIFont systemFontOfSize:11.0f];
+    stateHud.label.font = [UIFont systemFontOfSize:11.0f];
 
     if (error) {
-        stateHud.labelText = @"保存失败";
-        [stateHud show:YES];
-        [stateHud hide:YES afterDelay:0.5];
+        stateHud.label.text = @"保存失败";
+        [stateHud showAnimated:YES];
+        [stateHud hideAnimated:YES afterDelay:0.5];
     } else {
-        stateHud.labelText = @"已保存至系统相册";
-        [stateHud show:YES];
-        [stateHud hide:YES afterDelay:0.5];
+        stateHud.label.text = @"已保存至系统相册";
+        [stateHud showAnimated:YES];
+        [stateHud hideAnimated:YES afterDelay:0.5];
         
         MJPhoto *photo = _photos[_currentPhotoIndex];
         photo.save = YES;
