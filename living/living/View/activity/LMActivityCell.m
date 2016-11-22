@@ -60,7 +60,7 @@
     _backView = [UIView new];
     _backView.backgroundColor = [UIColor blackColor];
     _backView.alpha = 0.5;
-    _backView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
+    _backView.frame = CGRectMake(0, 0, kScreenWidth, 180);
     [_imageV addSubview:_backView];
     
     
@@ -95,7 +95,7 @@
     _timeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_timeLabel];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5, kScreenWidth, 30)];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 180, kScreenWidth, 30)];
     footView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:footView];
     
@@ -193,14 +193,14 @@
     [_addressLabel sizeToFit];
     [_headV sizeToFit];
     
-    _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
+    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 180);
     
-    _titleLabel.frame = CGRectMake(15, kScreenWidth*3/5-160, kScreenWidth-30, _titleLabel.bounds.size.height*2);
+    _titleLabel.frame = CGRectMake(15, 28, kScreenWidth-30, _titleLabel.bounds.size.height*2);
     
-    _countLabel.frame = CGRectMake(15, kScreenWidth*3/5-80, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
+    _countLabel.frame = CGRectMake(15, 100, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _priceLabel.frame = CGRectMake(15, kScreenWidth*3/5-55, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
-    _timeLabel.frame = CGRectMake(15, kScreenWidth*3/5-30, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    _priceLabel.frame = CGRectMake(15, 125, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
+    _timeLabel.frame = CGRectMake(15, 150, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     
     _headV.frame = CGRectMake(15, 5, 20, 20);
     

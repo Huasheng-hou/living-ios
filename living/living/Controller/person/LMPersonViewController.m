@@ -510,7 +510,7 @@ static CGRect oldframe;
 - (void)showImage:(UIImageView *)avatarImageView{
     self.navigationController.navigationBar.hidden=YES;
     self.tabBarController.tabBar.hidden = YES;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     UIImage *image=avatarImageView.image;
 //    UIWindow *window=[UIApplication sharedApplication].keyWindow;
     backgroundViews=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];

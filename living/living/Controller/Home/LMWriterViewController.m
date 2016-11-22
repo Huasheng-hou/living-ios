@@ -379,7 +379,6 @@ UITableViewDataSource
 
 - (void)showImage:(UIImageView *)avatarImageView{
     self.navigationController.navigationBar.hidden=YES;
-    self.tabBarController.tabBar.hidden = YES;
     
     UIImage *image=avatarImageView.image;
     //    UIWindow *window=[UIApplication sharedApplication].keyWindow;
@@ -417,7 +416,6 @@ UITableViewDataSource
 - (void)hideImage:(UITapGestureRecognizer*)tap{
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     self.navigationController.navigationBar.hidden=NO;
-    self.tabBarController.tabBar.hidden = NO;
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{
@@ -432,7 +430,6 @@ UITableViewDataSource
 - (void)hiddenImageView:(UISwipeGestureRecognizer*)tap{
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     self.navigationController.navigationBar.hidden=NO;
-    self.tabBarController.tabBar.hidden = NO;
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{
@@ -491,7 +488,6 @@ UITableViewDataSource
         
     }
     self.navigationController.navigationBar.hidden=NO;
-    self.tabBarController.tabBar.hidden = NO;
     [self textStateHUD:msg];
     
     

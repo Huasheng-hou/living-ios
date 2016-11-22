@@ -195,7 +195,7 @@
         return h;
     }
     
-    return kScreenWidth*3/5+40;
+    return 220;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
