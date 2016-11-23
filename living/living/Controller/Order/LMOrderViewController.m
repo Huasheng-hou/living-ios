@@ -285,12 +285,27 @@ LMOrderCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"删除失败"];
-    }else{
+    
+    } else {
+    
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
             [self textStateHUD:@"订单删除成功"];
-            [self loadNoState];
+            
+            if (self.listData.count == 1) {
+                
+                [self.listData removeAllObjects];
+                [self.tableView reloadData];
+                
+            } else {
+                
+                [self loadNoState];
+            }
+            
         }else{
             [self textStateHUD:bodyDic[@"description"]];
         }
