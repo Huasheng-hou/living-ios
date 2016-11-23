@@ -45,14 +45,12 @@
 {
     _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 50, 50)];
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
-    _headImage.image = [UIImage imageNamed:@"settingIcon"];
     _headImage.clipsToBounds = YES;
     [self.contentView addSubview:_headImage];
     
     _typeLabel = [UILabel new];
     _typeLabel.font = TEXT_FONT_LEVEL_2;
     _typeLabel.textColor = TEXT_COLOR_LEVEL_1;
-    _typeLabel.text = @"系统通知";
     [self.contentView addSubview:_typeLabel];
     
     _timeLabel = [UILabel new];
@@ -111,24 +109,34 @@
     }
     
     if ([list.type isEqual:@"praise"]) {
+        _headImage.image = [UIImage imageNamed:@"no-read"];
         if (list.userNick ==nil||[list.userNick isEqual:@""]) {
-           _typeLabel.text =@"匿名访客赞了你:";
+           _typeLabel.text =@"匿名访客觉得很赞";
         }else{
-            _typeLabel.text =[NSString stringWithFormat:@"%@赞了你:",list.userNick];
-            _headImage.image = [UIImage imageNamed:@"no-read"];
+            _typeLabel.text =[NSString stringWithFormat:@"%@觉得很赞",list.userNick];
         }
 
     }
     if ([list.type isEqual:@"adopted"]) {
-        if (list.userNick ==nil||[list.userNick isEqual:@""]) {
-            _typeLabel.text =@"匿名访客回复你:";
-        }else{
-        _typeLabel.text =[NSString stringWithFormat:@"%@回复你:",list.userNick];
         _headImage.image = [UIImage imageNamed:@"no-read"];
+        if (list.userNick ==nil||[list.userNick isEqual:@""]) {
+            _typeLabel.text =@"匿名访客回复:";
+        }else{
+        _typeLabel.text =[NSString stringWithFormat:@"%@回复:",list.userNick];
         }
     }
+    
+    if ([list.type isEqual:@"comment"]) {
+        if (list.userNick ==nil||[list.userNick isEqual:@""]) {
+            _typeLabel.text =@"匿名访客评论:";
+        }else{
+            _typeLabel.text =[NSString stringWithFormat:@"%@评论:",list.userNick];
+            _headImage.image = [UIImage imageNamed:@"no-read"];
+        }
+    }
+    
     if ([list.type isEqual:@"system"]) {
-        _typeLabel.text =[NSString stringWithFormat:@"系统消息:"];
+        _typeLabel.text =[NSString stringWithFormat:@"系统消息"];
         _headImage.image = [UIImage imageNamed:@"settingIcon"];
     }
 }

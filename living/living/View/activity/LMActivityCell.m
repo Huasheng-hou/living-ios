@@ -32,6 +32,8 @@
 
 @property (nonatomic, strong) UILabel *addressLabel;
 
+@property (nonatomic, strong) UIView *backView;
+
 @end
 
 @implementation LMActivityCell
@@ -55,11 +57,11 @@
     
     [self.contentView addSubview:_imageV];
     
-    UIView *backView = [UIView new];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.5;
-    backView.frame = CGRectMake(0, 0, kScreenWidth, 170);
-    [_imageV addSubview:backView];
+    _backView = [UIView new];
+    _backView.backgroundColor = [UIColor blackColor];
+    _backView.alpha = 0.5;
+    _backView.frame = CGRectMake(0, 0, kScreenWidth, 180);
+    [_imageV addSubview:_backView];
     
     
     //标题
@@ -93,7 +95,7 @@
     _timeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_timeLabel];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 30)];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 180, kScreenWidth, 30)];
     footView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:footView];
     
@@ -129,9 +131,6 @@
         return;
     }
     
-
-    
-    
     _ActivityList   = ActivityList;
     if (index==2) {
         if (!_ActivityList.NickName) {
@@ -144,6 +143,7 @@
         [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
         [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
         _addressLabel.text  = _ActivityList.Address;
+        _backView.hidden = YES;
         
     }else{
         if (!_ActivityList.NickName) {
@@ -193,14 +193,14 @@
     [_addressLabel sizeToFit];
     [_headV sizeToFit];
     
-    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 170);
+    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 180);
     
-    _titleLabel.frame = CGRectMake(15, 18, kScreenWidth-30, _titleLabel.bounds.size.height*2);
+    _titleLabel.frame = CGRectMake(15, 28, kScreenWidth-30, _titleLabel.bounds.size.height*2);
     
-    _countLabel.frame = CGRectMake(15, 90, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
+    _countLabel.frame = CGRectMake(15, 100, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _priceLabel.frame = CGRectMake(15, 115, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
-    _timeLabel.frame = CGRectMake(15, 140, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    _priceLabel.frame = CGRectMake(15, 125, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
+    _timeLabel.frame = CGRectMake(15, 150, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     
     _headV.frame = CGRectMake(15, 5, 20, 20);
     

@@ -11,7 +11,6 @@
 #import "ZYQAssetPickerController.h"
 #import "FitNavigationController.h"
 #import "LMPublicArticleRequest.h"
-
 #import "ImageHelpTool.h"
 #import "UIView+frame.h"
 
@@ -138,7 +137,7 @@ UIViewControllerTransitioningDelegate
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
-    //    [pickImage setAllowsEditing:YES];
+    // [pickImage setAllowsEditing:YES];
     
     zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -511,8 +510,9 @@ UIViewControllerTransitioningDelegate
 - (void)lookBigImage:(UITapGestureRecognizer*)guesture
 {
     UIImageView *image= (UIImageView *)guesture.view;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     if (image.image) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         [ImageHelpTool showImage:image];
     }else{
         return;

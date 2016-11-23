@@ -131,7 +131,7 @@
     }
     _timeLabel.text = [self getUTCFormateDate:data.commentTime];
     _titleLabel.text = data.commentContent;
-            _addressLabel.text = data.address;
+    _addressLabel.text = data.address;
     if (data.hasPraised == YES) {
         _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
     }else{

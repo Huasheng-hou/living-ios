@@ -143,7 +143,7 @@ WXApiDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([[CncpStartTime shareCncpStartTime] outDate]) {
+    if ( [WXApi isWXAppInstalled ]) {
         return 4;
     }
     return 3;

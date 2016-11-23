@@ -86,6 +86,13 @@
             && [[dictionary objectForKey:@"createTime"] isKindOfClass:[NSString class]]) {
             self.createTime = [dictionary objectForKey:@"createTime"];
         }
+        if (nil != [dictionary objectForKey:@"endTime"] && ![[dictionary objectForKey:@"endTime"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"endTime"] isKindOfClass:[NSString class]]) {
+            NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            
+            self.endTime = [formatter dateFromString:[dictionary objectForKey:@"endTime"]];
+        }
         
     }
     

@@ -195,7 +195,7 @@
         return h;
     }
     
-    return 210;
+    return 220;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

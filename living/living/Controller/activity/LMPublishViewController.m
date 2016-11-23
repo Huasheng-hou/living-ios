@@ -182,7 +182,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +165+90;
+        return 490 +kScreenWidth*3/5+90;
     }
     if (indexPath.section==1) {
         return 340;
