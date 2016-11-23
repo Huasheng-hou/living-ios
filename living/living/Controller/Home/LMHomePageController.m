@@ -261,31 +261,45 @@ LMhomePageCellDelegate
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
     if (_bannerArray.count>index) {
+        
         BannerVO *vo = _bannerArray[index];
         
         if ([vo.Type isEqualToString:@"event"]) {
-            if (vo.KeyUUID&&![vo.KeyUUID isEqual:@""]){
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]){
+            
                 LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+                
                 eventVC.hidesBottomBarWhenPushed = YES;
                 eventVC.eventUuid = vo.KeyUUID;
+                
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
-        if ([vo.Type isEqualToString:@"article"]){
-            if (vo.KeyUUID&&![vo.KeyUUID isEqual:@""]) {
+        
+        if ([vo.Type isEqualToString:@"article"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+            
                 LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
+                
                 eventVC.hidesBottomBarWhenPushed = YES;
                 eventVC.artcleuuid = vo.KeyUUID;
+                
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
         
         if ([vo.Type isEqualToString:@"web"]) {
-            if (vo.webUrl&&![vo.webUrl isEqualToString:@""]) {
+            
+            if (vo.webUrl && [vo.webUrl isKindOfClass:[NSString class]] && ![vo.webUrl isEqualToString:@""]) {
+                
                 LMWebViewController *webVC = [[LMWebViewController alloc] init];
-                webVC.hidesBottomBarWhenPushed = YES;
-                webVC.titleString =vo.webTitle ;
-                webVC.urlString = vo.webUrl;
+                
+                webVC.hidesBottomBarWhenPushed  = YES;
+                webVC.titleString               = vo.webTitle ;
+                webVC.urlString                 = vo.webUrl;
+                
                 [self.navigationController pushViewController:webVC animated:YES];
             }
         }
