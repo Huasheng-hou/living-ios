@@ -558,6 +558,13 @@ WXApiDelegate
 
 - (void)wxinLoginAction
 {
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
     [self initStateHud];
     [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:7];
     

@@ -69,6 +69,8 @@ UIViewControllerTransitioningDelegate
      imageView.image = [UIImage imageNamed:@"headerIcon"];
     [backView addSubview:imageView];
     headerView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
+    headerView.clipsToBounds = YES;
+    headView.contentMode = UIViewContentModeScaleAspectFill;
     headerView.image = [UIImage imageNamed:@"headerIcon"];
     [headerView sd_setImageWithURL:[NSURL URLWithString:_imgURL] placeholderImage:[UIImage imageNamed:@"headerIcon"]];
     

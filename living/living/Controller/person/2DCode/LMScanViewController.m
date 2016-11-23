@@ -203,6 +203,7 @@
         scanResult = [str substringFromIndex:9];
     }else{
         scanResult=@"123456789";
+        
     }
     
     LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:scanResult];
@@ -239,24 +240,26 @@
             
             NSString *avatar;
             
-            if (dic[@"avatar"]) {
+            if (dic[@"avatar"]&&[dic[@"avatar"] isKindOfClass:[NSString class]]) {
                 avatar=dic[@"avatar"];
             }else{
                 avatar=@"http://";
             }
             
             NSString *nickname;
-            if (dic[@"nickname"]) {
+            if (dic[@"nickname"]&&[dic[@"nickname"] isKindOfClass:[NSString class]]) {
                 nickname=dic[@"nickname"];
             }else{
                 nickname=@" ";
             }
             
             [readview stop];
-            LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
-            [tipView setDelegate:self];
-            [self.view addSubview:tipView];
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
+                [tipView setDelegate:self];
+                [self.view addSubview:tipView];
+            });
+ 
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
