@@ -67,7 +67,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -82,11 +82,22 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
     }
-    cell.textLabel.textColor=TEXT_COLOR_LEVEL_3;
-    cell.textLabel.text = @"当前版本";
-    cell.detailTextLabel.textColor=TEXT_COLOR_LEVEL_3;
-    cell.detailTextLabel.text = version;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.row==0) {
+        cell.textLabel.textColor=TEXT_COLOR_LEVEL_3;
+        cell.textLabel.text = @"当前版本";
+        cell.detailTextLabel.textColor=TEXT_COLOR_LEVEL_3;
+        cell.detailTextLabel.text = version;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    if (indexPath.row==1) {
+        cell.textLabel.textColor=TEXT_COLOR_LEVEL_3;
+        cell.textLabel.text = @"官方微信号";
+        cell.detailTextLabel.textColor=TEXT_COLOR_LEVEL_3;
+        cell.detailTextLabel.text = @"yaoguoshenghuo";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+
     
     return cell;
 }

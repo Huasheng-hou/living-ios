@@ -25,7 +25,12 @@
 
 
 @interface LMScanViewController ()
-<QRCodeReaderViewDelegate,AVCaptureMetadataOutputObjectsDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,buttonTypeDelegate>
+<QRCodeReaderViewDelegate,
+AVCaptureMetadataOutputObjectsDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+UIAlertViewDelegate,
+buttonTypeDelegate>
 {
     QRCodeReaderView * readview;//二维码扫描对象
     
@@ -127,46 +132,104 @@
     
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
     
-    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!image){
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self scanQRCodeFromPhotosInTheAlbum:image];
+        
+    }];
     
-    readview.is_Anmotion = YES;
+    return;
     
-    NSArray *features = [self.detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
+    //    NSData *data;
+    //    if (UIImagePNGRepresentation(image) ==nil) {
+    //        data = UIImageJPEGRepresentation(image,1);
+    //    }else{
+    //        data = UIImagePNGRepresentation(image);
+    //    }
+    //
+    //    UIImage *dataImage = [UIImage imageWithData:data];
+    //
+    //    NSLog(@"%@",dataImage);
+    //
+    //
+    //    readview.is_Anmotion = YES;
+    //
+    //    struct CGImage *theCGImage = dataImage.CGImage;
+    //    NSLog(@"theCGImage: %@", theCGImage);
+    //
+    //    CIImage *theCIImage = [CIImage imageWithCGImage:theCGImage];
+    //    NSLog(@"theCIImage: %@", theCIImage);
+    //
+    //    NSArray *features = [self.detector featuresInImage:(__bridge CIImage * _Nonnull)(theCGImage)];
+    //    if (features.count >=1) {
+    //
+    //        dispatch_async(dispatch_get_main_queue(), ^{
+    //
+    //            [picker dismissViewControllerAnimated:YES completion:^{
+    //                //            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    //
+    //                CIQRCodeFeature *feature = [features objectAtIndex:0];
+    //
+    //                NSLog(@"%@",feature);
+    //
+    //                NSLog(@"%@    ****",feature.messageString);
+    //
+    //                NSString *scannedResult = feature.messageString;
+    //                //播放扫描二维码的声音
+    //                //            SystemSoundID soundID;
+    //                //            NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
+    //                //            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
+    //                //            AudioServicesPlaySystemSound(soundID);
+    //
+    //                [self accordingQcode:scannedResult];
+    //            }];
+    //        });
+    //
+    //    }
+    //    else{
+    //        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"该图片没有包含一个二维码！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    //        [alertView show];
+    //
+    //        [picker dismissViewControllerAnimated:YES completion:^{
+    //            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    //
+    //            readview.is_Anmotion = NO;
+    //            [readview start];
+    //        }];
+    //    }
+}
+
+/** 从相册中识别二维码, 并进行界面跳转 */
+- (void)scanQRCodeFromPhotosInTheAlbum:(UIImage *)image {
+    //    // CIDetector(CIDetector可用于人脸识别)进行图片解析，从而使我们可以便捷的从相册中获取到二维码
+    //    // 声明一个CIDetector，并设定识别类型 CIDetectorTypeQRCode
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
+    //
+    //    // 取得识别结果
+    NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+
     if (features.count >=1) {
-        
-        [picker dismissViewControllerAnimated:YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-            
-            CIQRCodeFeature *feature = [features objectAtIndex:0];
+        for (int index = 0; index < [features count]; index ++) {
+            CIQRCodeFeature *feature = [features objectAtIndex:index];
             NSString *scannedResult = feature.messageString;
-            //播放扫描二维码的声音
-            //            SystemSoundID soundID;
-            //            NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-            //            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-            //            AudioServicesPlaySystemSound(soundID);
-            
+            NSLog(@"result:%@",scannedResult);
             [self accordingQcode:scannedResult];
-        }];
-        
+        }
     }
     else{
         UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"该图片没有包含一个二维码！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
-        
-        [picker dismissViewControllerAnimated:YES completion:^{
+
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-            
             readview.is_Anmotion = NO;
             [readview start];
-        }];
     }
 }
+
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -202,7 +265,9 @@
     if (str.length >9) {
         scanResult = [str substringFromIndex:9];
     }else{
-        scanResult=@"123456789";
+        [self textStateHUD:@"未获取到二维码信息"];
+        return;
+        
     }
     
     LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:scanResult];
@@ -233,29 +298,31 @@
     if (!bodyDic) {
         [self textStateHUD:@"获取好友信息失败"];
     }else{
-        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
             NSDictionary *dic=bodyDic[@"map"];
             
             NSString *avatar;
             
-            if (dic[@"avatar"]) {
+            if (dic[@"avatar"]&&![dic[@"avatar"] isEqual:@""]&&[dic[@"avatar"] isKindOfClass:[NSString class]]) {
                 avatar=dic[@"avatar"];
             }else{
                 avatar=@"http://";
             }
             
             NSString *nickname;
-            if (dic[@"nickname"]) {
+            if (dic[@"nickname"]&&![dic[@"nickname"] isEqual:@""]&&[dic[@"nickname"] isKindOfClass:[NSString class]]) {
                 nickname=dic[@"nickname"];
             }else{
                 nickname=@" ";
             }
             
             [readview stop];
-            LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
-            [tipView setDelegate:self];
-            [self.view addSubview:tipView];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
+                [tipView setDelegate:self];
+                [self.view addSubview:tipView];
+            });
             
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];

@@ -131,6 +131,7 @@
     [headImage sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage.layer.cornerRadius = 5;
     headImage.clipsToBounds = YES;
+    headImage.contentMode = UIViewContentModeScaleAspectFill;
     [KeepImage addSubview:headImage];
     
     //nick
@@ -180,6 +181,7 @@
     [headImage2 sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage2.layer.cornerRadius = 5;
     headImage2.clipsToBounds = YES;
+    headImage.contentMode = UIViewContentModeScaleAspectFill;
     [imageView addSubview:headImage2];
 }
 
