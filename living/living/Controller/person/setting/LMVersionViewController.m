@@ -91,7 +91,7 @@
     }
     if (indexPath.row==1) {
         cell.textLabel.textColor=TEXT_COLOR_LEVEL_3;
-        cell.textLabel.text = @"官方公众号";
+        cell.textLabel.text = @"官方微信号";
         cell.detailTextLabel.textColor=TEXT_COLOR_LEVEL_3;
         cell.detailTextLabel.text = @"yaoguoshenghuo";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
