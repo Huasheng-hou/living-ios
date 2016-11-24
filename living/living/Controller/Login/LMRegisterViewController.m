@@ -327,7 +327,7 @@ UIViewControllerTransitioningDelegate
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *currentDate;
     
-    currentDate = [NSDate date];
+    currentDate = [formatter dateFromString:@"1990-01-01"];
     
     [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
                                MaximumDate:[NSDate date]
