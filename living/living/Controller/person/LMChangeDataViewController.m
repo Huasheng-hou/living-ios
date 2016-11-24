@@ -69,12 +69,13 @@ UIViewControllerTransitioningDelegate
      imageView.image = [UIImage imageNamed:@"headerIcon"];
     [backView addSubview:imageView];
     headerView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
-    headerView.clipsToBounds = YES;
-    headView.contentMode = UIViewContentModeScaleAspectFill;
+//    headerView.clipsToBounds = YES;
+    
     headerView.image = [UIImage imageNamed:@"headerIcon"];
     [headerView sd_setImageWithURL:[NSURL URLWithString:_imgURL] placeholderImage:[UIImage imageNamed:@"headerIcon"]];
     
     headerView.layer.cornerRadius = 30;
+    headView.contentMode = UIViewContentModeScaleAspectFill;
     headerView.clipsToBounds=YES;
     
     [backView addSubview:headerView];
@@ -406,8 +407,7 @@ UIViewControllerTransitioningDelegate
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker
-        didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
 {
     //设置头像图片
     [headerView setImage:image];

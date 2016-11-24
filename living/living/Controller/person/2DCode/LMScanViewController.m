@@ -25,7 +25,12 @@
 
 
 @interface LMScanViewController ()
-<QRCodeReaderViewDelegate,AVCaptureMetadataOutputObjectsDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,buttonTypeDelegate>
+<QRCodeReaderViewDelegate,
+AVCaptureMetadataOutputObjectsDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+UIAlertViewDelegate,
+buttonTypeDelegate>
 {
     QRCodeReaderView * readview;//二维码扫描对象
     
@@ -127,7 +132,7 @@
     
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
