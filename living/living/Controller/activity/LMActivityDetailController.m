@@ -1174,7 +1174,7 @@ LMActivityMsgCellDelegate
 - (void)deleteActivity
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                   message:@"是否删除"
+                                                                   message:@"是否删除活动"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
@@ -1419,6 +1419,26 @@ LMActivityMsgCellDelegate
 
 - (void)startActivity
 {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否开启活动"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self startEvent];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)startEvent{
+    
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络"];
@@ -1462,6 +1482,27 @@ LMActivityMsgCellDelegate
 
 - (void)endActivity
 {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否结束活动"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self endEvent];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+}
+
+-(void)endEvent{
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
