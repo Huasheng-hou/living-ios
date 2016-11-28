@@ -314,6 +314,7 @@
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
 		35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */; };
+		35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -1023,6 +1024,8 @@
 		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		35D1B83C1DEBFDC8004BE2A2 /* LM2DresultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DresultViewController.h; sourceTree = "<group>"; };
 		35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DresultViewController.m; sourceTree = "<group>"; };
+		35D1B8441DEC16A2004BE2A2 /* LMAddressChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddressChooseView.h; sourceTree = "<group>"; };
+		35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddressChooseView.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -2631,6 +2634,8 @@
 				35B746B61DDE97F3000AFA26 /* LMPublicMsgCell.m */,
 				35B746B71DDE97F3000AFA26 /* LMTimeButton.h */,
 				35B746B81DDE97F3000AFA26 /* LMTimeButton.m */,
+				35D1B8441DEC16A2004BE2A2 /* LMAddressChooseView.h */,
+				35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */,
 				35B746B91DDE97F3000AFA26 /* mapView */,
 				35B746BE1DDE97F3000AFA26 /* NavMapBottom */,
 				35B746C11DDE97F3000AFA26 /* SQMenuShowView */,
@@ -3130,6 +3135,7 @@
 				35B748161DDE97F4000AFA26 /* LMTimeButton.m in Sources */,
 				35B7478A1DDE97F3000AFA26 /* UIButton+Badge.m in Sources */,
 				35B747F51DDE97F4000AFA26 /* LMNoticVO.m in Sources */,
+				35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */,
 				35B7478B1DDE97F3000AFA26 /* UITabBar+Badge.m in Sources */,
 				35B748341DDE97F4000AFA26 /* LMAgeChooseButton.m in Sources */,
 				35B747CF1DDE97F4000AFA26 /* LMAliRechargeRequest.m in Sources */,

@@ -22,6 +22,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "UIImageView+WebCache.h"
+#import "LMAddressChooseView.h"
 
 @interface LMPublishViewController ()
 <
@@ -35,7 +36,8 @@ UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
 FitPickerViewDelegate,
-selectAddressDelegate
+selectAddressDelegate,
+addressTypeDelegate
 >
 {
     LMPublicMsgCell *msgCell;
@@ -61,6 +63,7 @@ selectAddressDelegate
     NSInteger addImageIndex;
     
     NSMutableArray *projectImageArray;
+    LMAddressChooseView *addView;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -372,11 +375,37 @@ static NSMutableArray *cellDataArray;
 
 - (void)selectLocation
 {
+    addView = [[LMAddressChooseView alloc] init];
+    [addView setDelegate:self];
+    
+    addView.addressTF.delegate = self;
+    msgCell.dspTF.text = addView.addressTF.text;
+    [addView.addressButton addTarget:self action:@selector(addViewAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:addView];
+
+}
+
+-(void)addViewAction
+{
     LMSearchAddressController *map=[[LMSearchAddressController alloc]init];
     map.delegate=self;
     map.mapView=self.mapView;
     map.search=self.search;
     [self.navigationController pushViewController:map animated:YES];
+}
+
+
+#pragma mark LMAddressChooseView代理方法
+
+-(void)buttonType:(NSInteger)type
+{
+    if (type==1) {//确定
+        
+        NSLog(@"*************");
+    }else{
+        
+    }
 }
 
 //代理方法
@@ -490,6 +519,19 @@ static NSMutableArray *cellDataArray;
     }
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        //在这里做你响应return键的代码
+        [self.view endEditing:YES];
+        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+        
+    }
+    
+    return YES;
+}
+
+
 #pragma mark  textView代理方法
 
 - (void)textViewDidChange:(UITextView *)textView1
@@ -502,7 +544,14 @@ static NSMutableArray *cellDataArray;
             msgCell.msgLabel.hidden  = NO;
         }
         
-    } else {
+    }
+    if ([textView1 isEqual:addView.addressTF]) {
+        if (addView.addressTF.text.length>0) {
+            addView.msgLabel.hidden = YES;
+        } else {
+            addView.msgLabel.hidden  = NO;
+        }
+    }else{
         
         NSArray *array = self.tableView.visibleCells;
         
