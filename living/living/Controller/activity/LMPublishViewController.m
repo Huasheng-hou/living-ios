@@ -64,6 +64,7 @@ addressTypeDelegate
     
     NSMutableArray *projectImageArray;
     LMAddressChooseView *addView;
+    LMAddressChooseView *addView2;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -377,9 +378,8 @@ static NSMutableArray *cellDataArray;
 {
     addView = [[LMAddressChooseView alloc] init];
     [addView setDelegate:self];
-    
     addView.addressTF.delegate = self;
-    msgCell.dspTF.text = addView.addressTF.text;
+    
     [addView.addressButton addTarget:self action:@selector(addViewAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:addView];
@@ -388,6 +388,7 @@ static NSMutableArray *cellDataArray;
 
 -(void)addViewAction
 {
+    [addView removeFromSuperview];
     LMSearchAddressController *map=[[LMSearchAddressController alloc]init];
     map.delegate=self;
     map.mapView=self.mapView;
@@ -400,12 +401,29 @@ static NSMutableArray *cellDataArray;
 
 -(void)buttonType:(NSInteger)type
 {
-    if (type==1) {//确定
-        
-        NSLog(@"*************");
-    }else{
-        
+    if (addView) {
+        if (type==1) {//确定
+            
+            [addView removeFromSuperview];
+            _latitude   = 0;
+            _longitude  = 0;
+            msgCell.dspTF.text = addView.addressTF.text;
+            NSLog(@"*************");
+        }else{
+            [addView removeFromSuperview];
+        }
     }
+    
+    if (addView2) {
+        if (type==1) {//确定
+            
+            [addView2 removeFromSuperview];
+            msgCell.addressButton.textLabel.text = addView2.addressTF.text;
+        }else{
+            [addView2 removeFromSuperview];
+        }
+    }
+
 }
 
 //代理方法
@@ -467,6 +485,18 @@ static NSMutableArray *cellDataArray;
 
 - (void)createPickerView
 {
+    addView2 = [[LMAddressChooseView alloc] init];
+    [addView2 setDelegate:self];
+    addView2.addressTF.delegate = self;
+    [addView2.addressButton addTarget:self action:@selector(addPickerView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:addView2];
+
+}
+
+-(void)addPickerView
+{
+    [addView2 removeFromSuperview];
     FitPickerThreeLevelView *pickView=[[FitPickerThreeLevelView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 260)];
     
     pickView.delegate=self;
@@ -521,12 +551,23 @@ static NSMutableArray *cellDataArray;
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        [self.view endEditing:YES];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-        
+    if ([textView isEqual:addView.addressTF]) {
+        if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+            //在这里做你响应return键的代码
+            [self.view endEditing:YES];
+            return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+            
+        }
     }
+    if ([textView isEqual:addView2.addressTF]) {
+        if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+            //在这里做你响应return键的代码
+            [self.view endEditing:YES];
+            return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+            
+        }
+    }
+
     
     return YES;
 }
@@ -551,7 +592,16 @@ static NSMutableArray *cellDataArray;
         } else {
             addView.msgLabel.hidden  = NO;
         }
-    }else{
+    }
+    if ([textView1 isEqual:addView2.addressTF]) {
+        if (addView2.addressTF.text.length>0) {
+            addView2.msgLabel.hidden = YES;
+        } else {
+            addView2.msgLabel.hidden  = NO;
+        }
+    }
+    
+    else{
         
         NSArray *array = self.tableView.visibleCells;
         
@@ -579,6 +629,14 @@ static NSMutableArray *cellDataArray;
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    
+    if ([textView isEqual:addView.addressTF]) {
+        
+    }else
+    
+    if ([textView isEqual:addView2.addressTF]) {
+        
+    }else
     if ([textView isEqual:msgCell.applyTextView]) {
         
     } else {
@@ -899,7 +957,18 @@ static NSMutableArray *cellDataArray;
     
     [self initStateHud];
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude] limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text];
+    NSString *latitudeString;
+    NSString *longitudeString;
+    if (_latitude ==0 &&_longitude==0) {
+        latitudeString = @"";
+        longitudeString = @"";
+    }else{
+        latitudeString = [NSString stringWithFormat:@"%f",_latitude];
+        longitudeString =[NSString stringWithFormat:@"%f",_longitude] ;
+    }
+    
+    
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

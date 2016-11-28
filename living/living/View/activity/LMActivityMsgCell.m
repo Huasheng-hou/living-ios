@@ -150,6 +150,11 @@
         _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
     }
 
+    if (!event.latitude||[event.latitude isEqual:@""] ||[event.latitude intValue] ==0) {
+
+        [self.mapView setHidden:YES];
+    }else{
+    
     //设置中心坐标点
     CLLocationCoordinate2D curLocation;
     curLocation.latitude = [latitude floatValue];
@@ -171,6 +176,7 @@
     [_mapView addAnnotation:annotation0];
     
      [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];
+    }
 }
 
 - (void)setXScale:(float)xScale yScale:(float)yScale

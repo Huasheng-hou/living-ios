@@ -357,10 +357,20 @@ LMActivityMsgCellDelegate
         return 60+kScreenWidth*3/5;
     }
     if (indexPath.section==1) {
-        CGFloat _cellHight;
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
-        _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-        return 150+200;
+        
+        if (!eventDic.latitude||[eventDic.latitude isEqual:@""] ||[eventDic.latitude intValue] ==0) {
+            CGFloat _cellHight;
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+            _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            return 180;
+        }else{
+            CGFloat _cellHight;
+            NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+            _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            return 150+200;
+        }
+        
+
     }
     
     if (indexPath.section==2) {
