@@ -14,7 +14,7 @@
 #import "LMScanRequest.h"
 #import "LMMyFriendViewController.h"
 #import "LMFriendDataRequest.h"
-
+#import "LM2DresultViewController.h"
 #import "LMToolTipView.h"
 
 
@@ -141,64 +141,6 @@ buttonTypeDelegate>
     }];
     
     return;
-    
-    //    NSData *data;
-    //    if (UIImagePNGRepresentation(image) ==nil) {
-    //        data = UIImageJPEGRepresentation(image,1);
-    //    }else{
-    //        data = UIImagePNGRepresentation(image);
-    //    }
-    //
-    //    UIImage *dataImage = [UIImage imageWithData:data];
-    //
-    //    NSLog(@"%@",dataImage);
-    //
-    //
-    //    readview.is_Anmotion = YES;
-    //
-    //    struct CGImage *theCGImage = dataImage.CGImage;
-    //    NSLog(@"theCGImage: %@", theCGImage);
-    //
-    //    CIImage *theCIImage = [CIImage imageWithCGImage:theCGImage];
-    //    NSLog(@"theCIImage: %@", theCIImage);
-    //
-    //    NSArray *features = [self.detector featuresInImage:(__bridge CIImage * _Nonnull)(theCGImage)];
-    //    if (features.count >=1) {
-    //
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //
-    //            [picker dismissViewControllerAnimated:YES completion:^{
-    //                //            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    //
-    //                CIQRCodeFeature *feature = [features objectAtIndex:0];
-    //
-    //                NSLog(@"%@",feature);
-    //
-    //                NSLog(@"%@    ****",feature.messageString);
-    //
-    //                NSString *scannedResult = feature.messageString;
-    //                //播放扫描二维码的声音
-    //                //            SystemSoundID soundID;
-    //                //            NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-    //                //            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-    //                //            AudioServicesPlaySystemSound(soundID);
-    //
-    //                [self accordingQcode:scannedResult];
-    //            }];
-    //        });
-    //
-    //    }
-    //    else{
-    //        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"该图片没有包含一个二维码！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    //        [alertView show];
-    //
-    //        [picker dismissViewControllerAnimated:YES completion:^{
-    //            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    //
-    //            readview.is_Anmotion = NO;
-    //            [readview start];
-    //        }];
-    //    }
 }
 
 /** 从相册中识别二维码, 并进行界面跳转 */
@@ -264,13 +206,29 @@ buttonTypeDelegate>
     
     if (str.length >9) {
         scanResult = [str substringFromIndex:9];
+        
+        if ([scanResult isEqual:@"partner//"]) {
+            [self get2Dcoderesult:scanResult];
+        }else{
+            LM2DresultViewController *resultVC = [[LM2DresultViewController alloc] init];
+            resultVC.result = str;
+            [self.navigationController pushViewController:resultVC animated:YES];
+        }
+        
     }else{
-        [self textStateHUD:@"未获取到二维码信息"];
-        return;
+        LM2DresultViewController *resultVC = [[LM2DresultViewController alloc] init];
+        resultVC.result = str;
+        [self.navigationController pushViewController:resultVC animated:YES];
         
     }
     
-    LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:scanResult];
+
+    
+}
+
+-(void)get2Dcoderesult:(NSString *)string
+{
+    LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -285,8 +243,9 @@ buttonTypeDelegate>
                                            }];
     [proxy start];
     
-    
 }
+
+
 
 
 -(void)getjoinNumResponse:(NSString *)resp

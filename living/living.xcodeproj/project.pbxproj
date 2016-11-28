@@ -313,6 +313,7 @@
 		35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747071DDE97F3000AFA26 /* HBShareButton.m */; };
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
+		35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -1020,6 +1021,8 @@
 		35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
 		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
+		35D1B83C1DEBFDC8004BE2A2 /* LM2DresultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DresultViewController.h; sourceTree = "<group>"; };
+		35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DresultViewController.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1717,6 +1720,8 @@
 				35B7450F1DDE97F2000AFA26 /* LMMy2dcodeViewController.m */,
 				35B745101DDE97F2000AFA26 /* LMScanViewController.h */,
 				35B745111DDE97F2000AFA26 /* LMScanViewController.m */,
+				35D1B83C1DEBFDC8004BE2A2 /* LM2DresultViewController.h */,
+				35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */,
 			);
 			path = 2DCode;
 			sourceTree = "<group>";
@@ -2839,7 +2844,7 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2BPVM7PZ48;
+						DevelopmentTeam = PXS9X73T7L;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -3108,6 +3113,7 @@
 				35B747861DDE97F3000AFA26 /* UIView+frame.m in Sources */,
 				35B747CB1DDE97F4000AFA26 /* LMOrederDeleteRequest.m in Sources */,
 				35B747E21DDE97F4000AFA26 /* ActivityListVO.m in Sources */,
+				35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */,
 				35B7477E1DDE97F3000AFA26 /* FitReachability.m in Sources */,
 				35B747C51DDE97F3000AFA26 /* LMBalanceMonthRequest.m in Sources */,
 				35B747751DDE97F3000AFA26 /* DALabeledCircularProgressView.m in Sources */,
@@ -3369,7 +3375,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				DEVELOPMENT_TEAM = PXS9X73T7L;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3444,7 +3450,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3460,7 +3466,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				DEVELOPMENT_TEAM = PXS9X73T7L;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3535,7 +3541,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
