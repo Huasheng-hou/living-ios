@@ -77,7 +77,6 @@
 		35B7474A1DDE97F3000AFA26 /* LMMyPublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744DB1DDE97F2000AFA26 /* LMMyPublicViewController.m */; };
 		35B7474B1DDE97F3000AFA26 /* LMNavMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744DD1DDE97F2000AFA26 /* LMNavMapViewController.m */; };
 		35B7474C1DDE97F3000AFA26 /* LMPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744DF1DDE97F2000AFA26 /* LMPublishViewController.m */; };
-		35B7474D1DDE97F3000AFA26 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744E11DDE97F2000AFA26 /* LMSearchAddressController.m */; };
 		35B7474E1DDE97F3000AFA26 /* LMBalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744E41DDE97F2000AFA26 /* LMBalanceViewController.m */; };
 		35B7474F1DDE97F3000AFA26 /* LMBlanceDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744E61DDE97F2000AFA26 /* LMBlanceDetailController.m */; };
 		35B747501DDE97F3000AFA26 /* LMRechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744E81DDE97F2000AFA26 /* LMRechargeViewController.m */; };
@@ -130,7 +129,6 @@
 		35B7477F1DDE97F3000AFA26 /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 35B745541DDE97F2000AFA26 /* LICENCE.txt */; };
 		35B747801DDE97F3000AFA26 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 35B745551DDE97F2000AFA26 /* README.md */; };
 		35B747811DDE97F3000AFA26 /* HcbAmountChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B745581DDE97F2000AFA26 /* HcbAmountChecker.m */; };
-		35B747821DDE97F3000AFA26 /* NSString+StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7455A1DDE97F2000AFA26 /* NSString+StringHelper.m */; };
 		35B747831DDE97F3000AFA26 /* SYPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7455D1DDE97F2000AFA26 /* SYPhotoBrowser.m */; };
 		35B747841DDE97F3000AFA26 /* SYPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7455F1DDE97F2000AFA26 /* SYPhotoViewController.m */; };
 		35B747851DDE97F3000AFA26 /* FitThumbImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B745621DDE97F2000AFA26 /* FitThumbImageHelper.m */; };
@@ -315,6 +313,10 @@
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
 		35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */; };
 		35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */; };
+		35D1B8491DEC4B4F004BE2A2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8481DEC4B4F004BE2A2 /* LMSearchAddressController.m */; };
+		35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */; };
+		35D1B84E1DEC4C4C004BE2A2 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */; };
+		35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -558,8 +560,6 @@
 		35B744DD1DDE97F2000AFA26 /* LMNavMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNavMapViewController.m; sourceTree = "<group>"; };
 		35B744DE1DDE97F2000AFA26 /* LMPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublishViewController.h; sourceTree = "<group>"; };
 		35B744DF1DDE97F2000AFA26 /* LMPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublishViewController.m; sourceTree = "<group>"; };
-		35B744E01DDE97F2000AFA26 /* LMSearchAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSearchAddressController.h; sourceTree = "<group>"; };
-		35B744E11DDE97F2000AFA26 /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B744E31DDE97F2000AFA26 /* LMBalanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBalanceViewController.h; sourceTree = "<group>"; };
 		35B744E41DDE97F2000AFA26 /* LMBalanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBalanceViewController.m; sourceTree = "<group>"; };
 		35B744E51DDE97F2000AFA26 /* LMBlanceDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBlanceDetailController.h; sourceTree = "<group>"; };
@@ -659,8 +659,6 @@
 		35B745551DDE97F2000AFA26 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		35B745571DDE97F2000AFA26 /* HcbAmountChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HcbAmountChecker.h; sourceTree = "<group>"; };
 		35B745581DDE97F2000AFA26 /* HcbAmountChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HcbAmountChecker.m; sourceTree = "<group>"; };
-		35B745591DDE97F2000AFA26 /* NSString+StringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringHelper.h"; sourceTree = "<group>"; };
-		35B7455A1DDE97F2000AFA26 /* NSString+StringHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringHelper.m"; sourceTree = "<group>"; };
 		35B7455C1DDE97F2000AFA26 /* SYPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoBrowser.h; sourceTree = "<group>"; };
 		35B7455D1DDE97F2000AFA26 /* SYPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoBrowser.m; sourceTree = "<group>"; };
 		35B7455E1DDE97F2000AFA26 /* SYPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoViewController.h; sourceTree = "<group>"; };
@@ -1026,6 +1024,13 @@
 		35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DresultViewController.m; sourceTree = "<group>"; };
 		35D1B8441DEC16A2004BE2A2 /* LMAddressChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddressChooseView.h; sourceTree = "<group>"; };
 		35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddressChooseView.m; sourceTree = "<group>"; };
+		35D1B8471DEC4B45004BE2A2 /* LMSearchAddressController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMSearchAddressController.h; sourceTree = "<group>"; };
+		35D1B8481DEC4B4F004BE2A2 /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
+		35D1B84A1DEC4BB5004BE2A2 /* NSString+StringHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+StringHelper.h"; sourceTree = "<group>"; };
+		35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringHelper.m"; sourceTree = "<group>"; };
+		35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
+		35D1B84F1DEC4CBD004BE2A2 /* GeocodeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodeAnnotation.h; sourceTree = "<group>"; };
+		35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodeAnnotation.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1092,6 +1097,7 @@
 				35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */,
 				3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */,
 				8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */,
+				35D1B84E1DEC4C4C004BE2A2 /* AMapLocationKit.framework in Frameworks */,
 				8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */,
 				3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */,
 				3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */,
@@ -1112,6 +1118,7 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */,
 				35B748391DDE9B37000AFA26 /* UMMobClick.framework */,
 				8E4C98FE1DD1D7DC00B17046 /* AMap.bundle */,
 				8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */,
@@ -1608,8 +1615,8 @@
 				35B744DD1DDE97F2000AFA26 /* LMNavMapViewController.m */,
 				35B744DE1DDE97F2000AFA26 /* LMPublishViewController.h */,
 				35B744DF1DDE97F2000AFA26 /* LMPublishViewController.m */,
-				35B744E01DDE97F2000AFA26 /* LMSearchAddressController.h */,
-				35B744E11DDE97F2000AFA26 /* LMSearchAddressController.m */,
+				35D1B8471DEC4B45004BE2A2 /* LMSearchAddressController.h */,
+				35D1B8481DEC4B4F004BE2A2 /* LMSearchAddressController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -1858,8 +1865,8 @@
 			children = (
 				35B745571DDE97F2000AFA26 /* HcbAmountChecker.h */,
 				35B745581DDE97F2000AFA26 /* HcbAmountChecker.m */,
-				35B745591DDE97F2000AFA26 /* NSString+StringHelper.h */,
-				35B7455A1DDE97F2000AFA26 /* NSString+StringHelper.m */,
+				35D1B84A1DEC4BB5004BE2A2 /* NSString+StringHelper.h */,
+				35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */,
 			);
 			path = StringHelper;
 			sourceTree = "<group>";
@@ -2650,6 +2657,8 @@
 				35B746BB1DDE97F3000AFA26 /* AMapTipAnnotation.m */,
 				35B746BC1DDE97F3000AFA26 /* POIAnnotation.h */,
 				35B746BD1DDE97F3000AFA26 /* POIAnnotation.m */,
+				35D1B84F1DEC4CBD004BE2A2 /* GeocodeAnnotation.h */,
+				35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */,
 			);
 			path = mapView;
 			sourceTree = "<group>";
@@ -2852,6 +2861,9 @@
 						DevelopmentTeam = PXS9X73T7L;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -2989,6 +3001,7 @@
 				35B747441DDE97F3000AFA26 /* FitUserManager.m in Sources */,
 				35B747DB1DDE97F4000AFA26 /* LMPublicArticleRequest.m in Sources */,
 				35B747FA1DDE97F4000AFA26 /* FirPersonVO.m in Sources */,
+				35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */,
 				35B7478F1DDE97F3000AFA26 /* LMBalanceBody.m in Sources */,
 				35B747551DDE97F3000AFA26 /* FitTableViewController.m in Sources */,
 				35B747B01DDE97F3000AFA26 /* LMArtclePariseRequest.m in Sources */,
@@ -3092,8 +3105,8 @@
 				35B7475E1DDE97F3000AFA26 /* LMOrderViewController.m in Sources */,
 				35B747421DDE97F3000AFA26 /* FitPayloadManager.m in Sources */,
 				35B747EC1DDE97F4000AFA26 /* LMFindVO.m in Sources */,
+				35D1B8491DEC4B4F004BE2A2 /* LMSearchAddressController.m in Sources */,
 				35B747211DDE97F3000AFA26 /* UIScrollView+MJRefresh.m in Sources */,
-				35B7474D1DDE97F3000AFA26 /* LMSearchAddressController.m in Sources */,
 				35B747FB1DDE97F4000AFA26 /* UserInfoVO.m in Sources */,
 				35B747BE1DDE97F3000AFA26 /* LMGetCaptchaRequest.m in Sources */,
 				35B747A31DDE97F3000AFA26 /* LMEventJoinRequest.m in Sources */,
@@ -3107,7 +3120,6 @@
 				35B7473B1DDE97F3000AFA26 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */,
 				35B7479A1DDE97F3000AFA26 /* LMCreaterListRequest.m in Sources */,
 				35B7481E1DDE97F4000AFA26 /* QRCodeReaderView.m in Sources */,
-				35B747821DDE97F3000AFA26 /* NSString+StringHelper.m in Sources */,
 				35B7476C1DDE97F3000AFA26 /* SQMenuShowCell.m in Sources */,
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
 				35B7480D1DDE97F4000AFA26 /* LMCouponChoseCell.m in Sources */,
@@ -3221,6 +3233,7 @@
 				35B747EB1DDE97F4000AFA26 /* LMCouponVO.m in Sources */,
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
+				35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */,
 				35B7482E1DDE97F4000AFA26 /* LMLiveRoomCell.m in Sources */,
 				35B748271DDE97F4000AFA26 /* LMOrderCell.m in Sources */,
 				35B747E01DDE97F4000AFA26 /* FirUploadImageRequest.m in Sources */,

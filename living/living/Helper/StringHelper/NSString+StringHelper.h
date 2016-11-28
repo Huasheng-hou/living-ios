@@ -15,4 +15,5 @@
 - (NSString *)trim;
 - (NSString *)urlEncode;
 
+- (BOOL)isChinese;//判断是否是纯汉字
 @end
