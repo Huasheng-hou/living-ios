@@ -214,7 +214,12 @@ AMapLocationManagerDelegate
             [detailTextArray addObject:tip.address];
             
             AMapGeoPoint *point=tip.location;
+            NSLog(@"tip.name:%@\n tip.address: %@\n   tip.location:%@",tip.name,tip.address,tip.location);
+        if (point) {
             [locationArray addObject:point];
+        }else{
+             [locationArray addObject:@"0"];
+        }
     }
     
    [self setupCellDataWithTitleArray:textArray andDetailTextArray:detailTextArray andLocationArray:locationArray];
@@ -303,12 +308,18 @@ AMapLocationManagerDelegate
     
     if ([locationArray[indexPath.row] isKindOfClass:[POIAnnotation class]]) {
         POIAnnotation *poi=locationArray[indexPath.row];
-        [self.delegate selectAddress:titleArray[indexPath.row] andLatitude:poi.coordinate.latitude andLongitude:poi.coordinate.longitude anddistance:0];
-    }
-    
-    if ([locationArray[indexPath.row] isKindOfClass:[AMapGeoPoint class]]) {
+        
+        if (poi) {
+             [self.delegate selectAddress:titleArray[indexPath.row] andLatitude:poi.coordinate.latitude andLongitude:poi.coordinate.longitude anddistance:0];
+        }
+    }else if ([locationArray[indexPath.row] isKindOfClass:[AMapGeoPoint class]]) {
         AMapGeoPoint *point=locationArray[indexPath.row];
-        [self.delegate selectAddress:titleArray[indexPath.row] andLatitude:point.latitude andLongitude:point.longitude anddistance:0];
+        if (point) {
+             [self.delegate selectAddress:titleArray[indexPath.row] andLatitude:point.latitude andLongitude:point.longitude anddistance:0];
+        }
+    }else{
+            [self textStateHUD:@"请选择详细地址"];
+            return;
     }
   
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -352,7 +363,7 @@ AMapLocationManagerDelegate
     //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
     request.location = [AMapGeoPoint locationWithLatitude:latitude longitude: longitude];
     request.sortrule = 0;
-    request.keywords            = @"住宅|餐饮服务|购物服务|生活服务|住宿服务|风景名胜|政府机构|地名地址信息|公共设施";
+    request.keywords            = @"住宅|购物服务|生活服务|住宿服务|风景名胜|政府机构|地名地址信息|公共设施";
     request.requireExtension = YES;
     //发起周边搜索
     [_search AMapPOIAroundSearch: request];

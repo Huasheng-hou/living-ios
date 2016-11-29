@@ -13,6 +13,7 @@
 		3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C61D9905440068F04E /* CoreText.framework */; };
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
+		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B7470D1DDE97F3000AFA26 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744471DDE97F2000AFA26 /* Order.m */; };
 		35B7470E1DDE97F3000AFA26 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444A1DDE97F2000AFA26 /* base64.m */; };
 		35B7470F1DDE97F3000AFA26 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444D1DDE97F2000AFA26 /* DataSigner.m */; };
@@ -313,7 +314,6 @@
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
 		35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */; };
 		35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */; };
-		35D1B8491DEC4B4F004BE2A2 /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8481DEC4B4F004BE2A2 /* LMSearchAddressController.m */; };
 		35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */; };
 		35D1B84E1DEC4C4C004BE2A2 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */; };
 		35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */; };
@@ -357,6 +357,7 @@
 		3547F4C61D9905440068F04E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3547F4C81D99054C0068F04E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B743FB1DDE97F2000AFA26 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		35B743FC1DDE97F2000AFA26 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
 		35B743FD1DDE97F2000AFA26 /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -1025,7 +1026,6 @@
 		35D1B8441DEC16A2004BE2A2 /* LMAddressChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddressChooseView.h; sourceTree = "<group>"; };
 		35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddressChooseView.m; sourceTree = "<group>"; };
 		35D1B8471DEC4B45004BE2A2 /* LMSearchAddressController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMSearchAddressController.h; sourceTree = "<group>"; };
-		35D1B8481DEC4B4F004BE2A2 /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35D1B84A1DEC4BB5004BE2A2 /* NSString+StringHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+StringHelper.h"; sourceTree = "<group>"; };
 		35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringHelper.m"; sourceTree = "<group>"; };
 		35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
@@ -1616,7 +1616,7 @@
 				35B744DE1DDE97F2000AFA26 /* LMPublishViewController.h */,
 				35B744DF1DDE97F2000AFA26 /* LMPublishViewController.m */,
 				35D1B8471DEC4B45004BE2A2 /* LMSearchAddressController.h */,
-				35D1B8481DEC4B4F004BE2A2 /* LMSearchAddressController.m */,
+				35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -3105,7 +3105,6 @@
 				35B7475E1DDE97F3000AFA26 /* LMOrderViewController.m in Sources */,
 				35B747421DDE97F3000AFA26 /* FitPayloadManager.m in Sources */,
 				35B747EC1DDE97F4000AFA26 /* LMFindVO.m in Sources */,
-				35D1B8491DEC4B4F004BE2A2 /* LMSearchAddressController.m in Sources */,
 				35B747211DDE97F3000AFA26 /* UIScrollView+MJRefresh.m in Sources */,
 				35B747FB1DDE97F4000AFA26 /* UserInfoVO.m in Sources */,
 				35B747BE1DDE97F3000AFA26 /* LMGetCaptchaRequest.m in Sources */,
@@ -3194,6 +3193,7 @@
 				35B748191DDE97F4000AFA26 /* LMBottomView.m in Sources */,
 				35B747F31DDE97F4000AFA26 /* LMLivingInfoVO.m in Sources */,
 				35B7480A1DDE97F4000AFA26 /* LMActivityCell.m in Sources */,
+				35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */,
 				35B7475F1DDE97F3000AFA26 /* LMFranchiseeViewController.m in Sources */,
 				35B747CD1DDE97F4000AFA26 /* LMWXPayRequest.m in Sources */,
 				35B7474F1DDE97F3000AFA26 /* LMBlanceDetailController.m in Sources */,
