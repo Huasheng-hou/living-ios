@@ -18,6 +18,7 @@
 
 #import "UITabBar+Badge.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "LMISLoginRequest.h"
 
 @implementation FitTabbarController
 
@@ -43,10 +44,10 @@
     
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
  
-    if (![[FitUserManager sharedUserManager] isLogin]) {
-        
-        [LMLoginViewController presentInViewController:self Animated:NO];
-    }
+    [self IsLoginIn];
+
+    
+
 }
 
 - (void)switchAction
@@ -174,5 +175,38 @@
 {
     return UIStatusBarStyleLightContent;
 }
+
+-(void)IsLoginIn
+{
+    LMISLoginRequest *request = [[LMISLoginRequest alloc] init];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(IsLoginInRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+-(void)IsLoginInRespond:(NSString *)resp
+{
+    if ([resp isEqualToString:@"2"]) {
+        return;
+    }else{
+        if (![[FitUserManager sharedUserManager] isLogin]) {
+            
+            [LMLoginViewController presentInViewController:self Animated:NO];
+        }
+    }
+    
+}
+
 
 @end

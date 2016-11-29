@@ -20,6 +20,7 @@
 #import "HcbAmountChecker.h"
 //#import <UMengAnalytics/UMMobClick/MobClick.h>
 #import "LMAgreementRequest.h"
+#import "LMISLoginRequest.h"
 
 @interface FitBaseViewController : UIViewController
 <
@@ -36,5 +37,7 @@ MBProgressHUDDelegate
 
 - (void)logoutAction:(NSString *)resp;
 - (void)resignCurrentFirstResponder;
+
+- (void)IsLoginIn;
 
 @end

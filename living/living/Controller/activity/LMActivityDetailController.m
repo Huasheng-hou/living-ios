@@ -724,49 +724,57 @@ LMActivityMsgCellDelegate
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMLeavemessagecell *)cell
 {
-    if (![CheckUtils isLink]) {
+    
+    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]){
+        if (![CheckUtils isLink]) {
+            
+            [self textStateHUD:@"无网络"];
+            return;
+        }
         
-        [self textStateHUD:@"无网络"];
-        return;
+        LMEventCommentVO *list = msgArray[cell.tag];
+        
+        
+        LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:list.commentUuid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                       [self logoutAction:resp];
+                                                       if (!bodyDic) {
+                                                           [self textStateHUD:@"点赞失败"];
+                                                       }else{
+                                                           
+                                                           
+                                                           if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                               [self textStateHUD:@"点赞成功"];
+                                                               [self getEventListDataRequest];
+                                                               NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:3]];
+                                                               [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                                                               
+                                                               
+                                                           }else{
+                                                               NSString *str = [bodyDic objectForKey:@"description"];
+                                                               [self textStateHUD:str];
+                                                           }
+                                                       }
+                                                       
+                                                   });
+                                                   
+                                                   
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+
+    }else{
+        [self IsLoginIn];
     }
     
-    LMEventCommentVO *list = msgArray[cell.tag];
     
-    
-    LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:list.commentUuid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   NSDictionary *bodyDic = [VOUtil parseBody:resp];
-                                                   [self logoutAction:resp];
-                                                   if (!bodyDic) {
-                                                       [self textStateHUD:@"点赞失败"];
-                                                   }else{
-                                                       
-                                                       
-                                                       if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-                                                           [self textStateHUD:@"点赞成功"];
-                                                           [self getEventListDataRequest];
-                                                           NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:3]];
-                                                           [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-                                                           
-                                                           
-                                                       }else{
-                                                           NSString *str = [bodyDic objectForKey:@"description"];
-                                                           [self textStateHUD:str];
-                                                       }
-                                                   }
-                                                   
-                                               });
-                                               
-                                               
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
 }
 
 - (void)getEventpraiseDataResponse:(NSString *)resp
@@ -790,15 +798,20 @@ LMActivityMsgCellDelegate
 //回复
 - (void)cellWillReply:(LMLeavemessagecell *)cell
 {
-    LMEventCommentVO *list = msgArray[cell.tag];
-    
-    commitUUid = list.commentUuid;
-    [UIView  beginAnimations:nil context:NULL];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.75];
-    self.tableView.userInteractionEnabled = NO;
-    [self showCommentText];
-    [UIView commitAnimations];
+    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]){
+        LMEventCommentVO *list = msgArray[cell.tag];
+        
+        commitUUid = list.commentUuid;
+        [UIView  beginAnimations:nil context:NULL];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.75];
+        self.tableView.userInteractionEnabled = NO;
+        [self showCommentText];
+        [UIView commitAnimations];
+    }else{
+        [self IsLoginIn];
+    }
+
 }
 
 - (void)showCommentText
@@ -905,63 +918,70 @@ LMActivityMsgCellDelegate
 
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     
-    infoView.event  = eventDic;
-    
-    infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
-    infoView.titleLabel.text = @"￥:10000";
-    infoView.titleLabel.textColor = LIVING_REDCOLOR;
-    infoView.titleLabel.font = [UIFont systemFontOfSize:17];
-    [infoView.bottomView addSubview:infoView.titleLabel];
-    
-    infoView.title2 = [UILabel new];
-    infoView.title2.text = @"￥:10000";
-    infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
-    infoView.title2.font = [UIFont systemFontOfSize:15];
-    
-    [infoView.bottomView addSubview:infoView.title2];
-    
-    if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
+    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]) {
+        APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         
+        infoView.event  = eventDic;
         
-        infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
-        [infoView.titleLabel sizeToFit];
-        infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+        infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
+        infoView.titleLabel.text = @"￥:10000";
+        infoView.titleLabel.textColor = LIVING_REDCOLOR;
+        infoView.titleLabel.font = [UIFont systemFontOfSize:17];
+        [infoView.bottomView addSubview:infoView.titleLabel];
         
-        infoView.title2.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
-        [infoView.title2 sizeToFit];
-        infoView.title2.frame = CGRectMake(155+infoView.titleLabel.bounds.size.width, 25, infoView.title2.bounds.size.width, 30);
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(155+infoView.titleLabel.bounds.size.width, 40, infoView.title2.bounds.size.width+2, 1.5)];
-        line.backgroundColor = TEXT_COLOR_LEVEL_3;
-        [infoView.bottomView addSubview:line];
+        infoView.title2 = [UILabel new];
+        infoView.title2.text = @"￥:10000";
+        infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
+        infoView.title2.font = [UIFont systemFontOfSize:15];
         
+        [infoView.bottomView addSubview:infoView.title2];
+        
+        if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
+            
+            
+            infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
+            [infoView.titleLabel sizeToFit];
+            infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+            
+            infoView.title2.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
+            [infoView.title2 sizeToFit];
+            infoView.title2.frame = CGRectMake(155+infoView.titleLabel.bounds.size.width, 25, infoView.title2.bounds.size.width, 30);
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(155+infoView.titleLabel.bounds.size.width, 40, infoView.title2.bounds.size.width+2, 1.5)];
+            line.backgroundColor = TEXT_COLOR_LEVEL_3;
+            [infoView.bottomView addSubview:line];
+            
+        }else{
+            infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
+            [infoView.titleLabel sizeToFit];
+            infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+            
+        }
+        if (eventDic.notices==nil) {
+            infoView.dspLabel.text = @"暂无报名须知";
+        }else{
+            infoView.dspLabel.text = eventDic.notices;
+        }
+        
+        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
+        
+        [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+        
+        infoView.orderInfo = orderDic;
+        
+        [self.view addSubview:infoView];
+        
+        UIView *view = [infoView viewWithTag:1000];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            
+            view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
+        }];
     }else{
-        infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
-        [infoView.titleLabel sizeToFit];
-        infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
-        
-    }
-    if (eventDic.notices==nil) {
-        infoView.dspLabel.text = @"暂无报名须知";
-    }else{
-        infoView.dspLabel.text = eventDic.notices;
+        [self IsLoginIn];
     }
     
-    infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
-    
-    [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
-    
-    infoView.orderInfo = orderDic;
-    
-    [self.view addSubview:infoView];
-    
-    UIView *view = [infoView viewWithTag:1000];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        
-        view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
-    }];
+
 }
 
 - (void)joindataRequest:(NSNotification *)notice
@@ -1093,38 +1113,45 @@ LMActivityMsgCellDelegate
 
 - (void)besureAction:(id)sender
 {
-    [self initStateHud];
-    
-    [self.view endEditing:YES];
-    
-    if (suggestTF.text.length<=0) {
+    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]) {
+        [self initStateHud];
         
-        [self textStateHUD:@"请输入内容"];
-        return;
+        [self.view endEditing:YES];
+        
+        if (suggestTF.text.length<=0) {
+            
+            [self textStateHUD:@"请输入内容"];
+            return;
+        }
+        
+        if (![CheckUtils isLink]) {
+            
+            [self textStateHUD:@"无网络连接"];
+            return;
+        }
+        
+        NSString *string    = [suggestTF.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:string];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventLivingmsgDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        [self IsLoginIn];
     }
     
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
     
-    NSString *string    = [suggestTF.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-    
-    LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:string];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventLivingmsgDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+
 }
 
 - (void)getEventLivingmsgDataResponse:(NSString *)resp

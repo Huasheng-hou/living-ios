@@ -14,6 +14,7 @@
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
+		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B7470D1DDE97F3000AFA26 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744471DDE97F2000AFA26 /* Order.m */; };
 		35B7470E1DDE97F3000AFA26 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444A1DDE97F2000AFA26 /* base64.m */; };
 		35B7470F1DDE97F3000AFA26 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444D1DDE97F2000AFA26 /* DataSigner.m */; };
@@ -358,6 +359,8 @@
 		3547F4C81D99054C0068F04E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
+		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
+		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
 		35B743FB1DDE97F2000AFA26 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		35B743FC1DDE97F2000AFA26 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
 		35B743FD1DDE97F2000AFA26 /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -2183,6 +2186,8 @@
 				35B745ED1DDE97F3000AFA26 /* LMloginRequest.m */,
 				35B745EE1DDE97F3000AFA26 /* LMWXLoginRequest.h */,
 				35B745EF1DDE97F3000AFA26 /* LMWXLoginRequest.m */,
+				35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */,
+				35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -2999,6 +3004,7 @@
 				35B747EE1DDE97F4000AFA26 /* HeadVO.m in Sources */,
 				35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */,
 				35B747441DDE97F3000AFA26 /* FitUserManager.m in Sources */,
+				35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */,
 				35B747DB1DDE97F4000AFA26 /* LMPublicArticleRequest.m in Sources */,
 				35B747FA1DDE97F4000AFA26 /* FirPersonVO.m in Sources */,
 				35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */,
