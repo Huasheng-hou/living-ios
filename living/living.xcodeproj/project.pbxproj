@@ -15,6 +15,7 @@
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
+		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
 		35B7470D1DDE97F3000AFA26 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744471DDE97F2000AFA26 /* Order.m */; };
 		35B7470E1DDE97F3000AFA26 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444A1DDE97F2000AFA26 /* base64.m */; };
 		35B7470F1DDE97F3000AFA26 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444D1DDE97F2000AFA26 /* DataSigner.m */; };
@@ -361,6 +362,7 @@
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
+		35B1A1241DED611800055E7D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35B743FB1DDE97F2000AFA26 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		35B743FC1DDE97F2000AFA26 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
 		35B743FD1DDE97F2000AFA26 /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -671,7 +673,6 @@
 		35B745621DDE97F2000AFA26 /* FitThumbImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitThumbImageHelper.m; sourceTree = "<group>"; };
 		35B745631DDE97F2000AFA26 /* UIView+frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+frame.h"; sourceTree = "<group>"; };
 		35B745641DDE97F2000AFA26 /* UIView+frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+frame.m"; sourceTree = "<group>"; };
-		35B745651DDE97F2000AFA26 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35B745661DDE97F2000AFA26 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		35B745691DDE97F2000AFA26 /* UIBarButtonItem+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Badge.h"; sourceTree = "<group>"; };
 		35B7456A1DDE97F2000AFA26 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
@@ -1196,7 +1197,7 @@
 				35B744BA1DDE97F2000AFA26 /* Assets.xcassets */,
 				35B744BB1DDE97F2000AFA26 /* LaunchScreen.storyboard */,
 				35B7452D1DDE97F2000AFA26 /* InfoPlist.strings */,
-				35B745651DDE97F2000AFA26 /* Info.plist */,
+				35B1A1241DED611800055E7D /* Info.plist */,
 				35B745661DDE97F2000AFA26 /* main.m */,
 				35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */,
 				35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */,
@@ -2910,6 +2911,7 @@
 				8E4C98FF1DD1D7DC00B17046 /* AMap.bundle in Resources */,
 				35B747301DDE97F3000AFA26 /* UMShareEditViewControlleriPad.xib in Resources */,
 				35B748011DDE97F4000AFA26 /* lightNormal.png in Resources */,
+				35B1A1251DED611800055E7D /* Info.plist in Resources */,
 				35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */,
 				35B7476D1DDE97F3000AFA26 /* SQMenuShowCell.xib in Resources */,
 				35B748001DDE97F4000AFA26 /* findpage.png in Resources */,

@@ -724,8 +724,9 @@ LMActivityMsgCellDelegate
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMLeavemessagecell *)cell
 {
-    
-    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]){
+
+    if ([[FitUserManager sharedUserManager] isLogin]){
+
         if (![CheckUtils isLink]) {
             
             [self textStateHUD:@"无网络"];
@@ -774,7 +775,7 @@ LMActivityMsgCellDelegate
         [self IsLoginIn];
     }
     
-    
+
 }
 
 - (void)getEventpraiseDataResponse:(NSString *)resp
@@ -798,7 +799,9 @@ LMActivityMsgCellDelegate
 //回复
 - (void)cellWillReply:(LMLeavemessagecell *)cell
 {
-    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]){
+
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+
         LMEventCommentVO *list = msgArray[cell.tag];
         
         commitUUid = list.commentUuid;
@@ -811,6 +814,7 @@ LMActivityMsgCellDelegate
     }else{
         [self IsLoginIn];
     }
+
 
 }
 
@@ -918,8 +922,9 @@ LMActivityMsgCellDelegate
 
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    
-    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]) {
+
+    if ([[FitUserManager sharedUserManager] isLogin]){
+
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         
         infoView.event  = eventDic;
@@ -980,7 +985,7 @@ LMActivityMsgCellDelegate
     }else{
         [self IsLoginIn];
     }
-    
+
 
 }
 
@@ -1113,7 +1118,9 @@ LMActivityMsgCellDelegate
 
 - (void)besureAction:(id)sender
 {
-    if ([FitUserManager sharedUserManager].uuid &&![[FitUserManager sharedUserManager].uuid isEqual:@""]) {
+
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+
         [self initStateHud];
         
         [self.view endEditing:YES];
@@ -1146,11 +1153,10 @@ LMActivityMsgCellDelegate
                                                                        waitUntilDone:YES];
                                                }];
         [proxy start];
+
     }else{
         [self IsLoginIn];
     }
-    
-    
 
 }
 

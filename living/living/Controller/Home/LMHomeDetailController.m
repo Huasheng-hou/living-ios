@@ -203,7 +203,6 @@ shareTypeDelegate
     }else{
         [self IsLoginIn];
     }
-    
 
 }
 
@@ -934,7 +933,7 @@ shareTypeDelegate
 #pragma mark - LMCommentCell delegate -评论点赞
 - (void)cellWillComment:(LMCommentCell *)cell
 {
-    
+
     if ([[FitUserManager sharedUserManager] isLogin]){
         LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -997,6 +996,7 @@ shareTypeDelegate
 //回复
 - (void)cellWillReply:(LMCommentCell *)cell
 {
+
     if ([[FitUserManager sharedUserManager] isLogin]){
         textIndex = 1;
         commitUUid =cell.commentUUid;
@@ -1248,6 +1248,7 @@ shareTypeDelegate
 #pragma mark  --评论文章
 -(void)getCommentArticleDataRequest
 {
+
     if ([[FitUserManager sharedUserManager] isLogin]){
         [self initStateHud];
         if (textcView.text.length<=0) {
@@ -1275,7 +1276,7 @@ shareTypeDelegate
         [self IsLoginIn];
     }
 
-    
+
     
 }
 

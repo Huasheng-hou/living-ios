@@ -113,34 +113,14 @@
 
 -(void)IsLoginIn
 {
-    LMISLoginRequest *request = [[LMISLoginRequest alloc] init];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(IsLoginInRespond:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
-    
-}
 
--(void)IsLoginInRespond:(NSString *)resp
-{
-    if ([resp isEqualToString:@"2"]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                        message:@"请登录"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                   style:UIAlertActionStyleDestructive
                                                 handler:^(UIAlertAction*action) {
-                                                    
-                                                    [[FitUserManager sharedUserManager] logout];
+
                                                     NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
                                                     
                                                     [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
@@ -148,7 +128,7 @@
                                                     [self.navigationController popViewControllerAnimated:NO];
                                                     
                                                     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
-                                                    
+
                                                     
                                                     
                                                 }]];
@@ -159,12 +139,9 @@
                                                 }]];
         
         [self presentViewController:alert animated:YES completion:nil];
-        
-        
-    }
+
+    
     
 }
-
-
 
 @end
