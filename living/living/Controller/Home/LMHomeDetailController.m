@@ -185,20 +185,24 @@ shareTypeDelegate
 
 - (void)zanButtonAction:(id)senser
 {
-    LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        [self IsLoginIn];
+    }
 }
 
 - (void)getarticlePraiseDataResponse:(NSString *)resp
@@ -928,37 +932,42 @@ shareTypeDelegate
 #pragma mark - LMCommentCell delegate -评论点赞
 - (void)cellWillComment:(LMCommentCell *)cell
 {
-    LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   NSDictionary *bodyDic = [VOUtil parseBody:resp];
-                                                   [self logoutAction:resp];
-                                                   if (!bodyDic) {
-                                                       [self textStateHUD:@"点赞失败"];
-                                                   }else{
-                                                       
-                                                       
-                                                       if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-                                                           [self textStateHUD:@"点赞成功"];
-                                                           [self getHomeDetailDataRequest];
-                                                           
-                                                           
+    if ([[FitUserManager sharedUserManager] isLogin]){
+        LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                       [self logoutAction:resp];
+                                                       if (!bodyDic) {
+                                                           [self textStateHUD:@"点赞失败"];
                                                        }else{
-                                                           NSString *str = [bodyDic objectForKey:@"description"];
-                                                           [self textStateHUD:str];
+                                                           
+                                                           
+                                                           if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                               [self textStateHUD:@"点赞成功"];
+                                                               [self getHomeDetailDataRequest];
+                                                               
+                                                               
+                                                           }else{
+                                                               NSString *str = [bodyDic objectForKey:@"description"];
+                                                               [self textStateHUD:str];
+                                                           }
                                                        }
-                                                   }
-                                               });
-                                               
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"点赞失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+                                                   });
+                                                   
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"点赞失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+        
+    }else{
+        [self IsLoginIn];
+    }
     
     
 }
@@ -985,14 +994,19 @@ shareTypeDelegate
 - (void)cellWillReply:(LMCommentCell *)cell
 {
     
-    textIndex = 1;
-    commitUUid =cell.commentUUid;
-    [UIView  beginAnimations:nil context:NULL];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.75];
-    self.tableView.userInteractionEnabled = NO;
-    [self showCommentText];
-    [UIView commitAnimations];
+    if ([[FitUserManager sharedUserManager] isLogin]){
+        textIndex = 1;
+        commitUUid =cell.commentUUid;
+        [UIView  beginAnimations:nil context:NULL];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.75];
+        self.tableView.userInteractionEnabled = NO;
+        [self showCommentText];
+        [UIView commitAnimations];
+    }else{
+        [self IsLoginIn];
+    }
+
 }
 
 - (void)showCommentText
@@ -1232,29 +1246,33 @@ shareTypeDelegate
 -(void)getCommentArticleDataRequest
 {
     
-    [self initStateHud];
-    if (textcView.text.length<=0) {
-        [self textStateHUD:@"请输入评论内容"];
-        return;
+    if ([[FitUserManager sharedUserManager] isLogin]){
+        [self initStateHud];
+        if (textcView.text.length<=0) {
+            [self textStateHUD:@"请输入评论内容"];
+            return;
+        }
+        
+        NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getCommentArticleDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        [self IsLoginIn];
     }
-    
-    NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-    
-    LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getCommentArticleDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
-    
+
     
 }
 

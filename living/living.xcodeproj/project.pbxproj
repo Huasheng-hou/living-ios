@@ -13,6 +13,7 @@
 		3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C61D9905440068F04E /* CoreText.framework */; };
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
+		35B1A1231DED2D9600055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A1221DED2D9600055E7D /* LMISLoginRequest.m */; };
 		35B7470D1DDE97F3000AFA26 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744471DDE97F2000AFA26 /* Order.m */; };
 		35B7470E1DDE97F3000AFA26 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444A1DDE97F2000AFA26 /* base64.m */; };
 		35B7470F1DDE97F3000AFA26 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444D1DDE97F2000AFA26 /* DataSigner.m */; };
@@ -353,6 +354,8 @@
 		3547F4C61D9905440068F04E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3547F4C81D99054C0068F04E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		35B1A1211DED2D9600055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
+		35B1A1221DED2D9600055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
 		35B743FB1DDE97F2000AFA26 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		35B743FC1DDE97F2000AFA26 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
 		35B743FD1DDE97F2000AFA26 /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -2168,6 +2171,8 @@
 				35B745ED1DDE97F3000AFA26 /* LMloginRequest.m */,
 				35B745EE1DDE97F3000AFA26 /* LMWXLoginRequest.h */,
 				35B745EF1DDE97F3000AFA26 /* LMWXLoginRequest.m */,
+				35B1A1211DED2D9600055E7D /* LMISLoginRequest.h */,
+				35B1A1221DED2D9600055E7D /* LMISLoginRequest.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -2839,7 +2844,7 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2BPVM7PZ48;
+						DevelopmentTeam = PXS9X73T7L;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -3180,6 +3185,7 @@
 				35B747FC1DDE97F4000AFA26 /* WechatInfoVO.m in Sources */,
 				35B7480B1DDE97F4000AFA26 /* LMActivityheadCell.m in Sources */,
 				35B747851DDE97F3000AFA26 /* FitThumbImageHelper.m in Sources */,
+				35B1A1231DED2D9600055E7D /* LMISLoginRequest.m in Sources */,
 				35B748231DDE97F4000AFA26 /* LMChargeButton.m in Sources */,
 				35B7474C1DDE97F3000AFA26 /* LMPublishViewController.m in Sources */,
 				35B747A41DDE97F3000AFA26 /* LMEventLivingMsgRequest.m in Sources */,
@@ -3369,7 +3375,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				DEVELOPMENT_TEAM = PXS9X73T7L;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3444,7 +3450,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3460,7 +3466,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou HuancheClub Network Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				DEVELOPMENT_TEAM = PXS9X73T7L;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3535,7 +3541,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.LveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

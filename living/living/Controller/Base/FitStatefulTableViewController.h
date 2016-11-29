@@ -11,6 +11,7 @@
 #import "FitBaseRequest.h"
 #import "SSPullToRefresh.h"
 #import "LMAgreementRequest.h"
+#import "LMISLoginRequest.h"
 
 typedef enum {
     FitStatefulTableViewControllerStateIdle = 0,
@@ -88,6 +89,10 @@ typedef enum {
 
 // * 调整加载指示视图的位置
 - (void)adjustIndicator:(UIView *)loadingView;
+
+// *登录状态
+
+- (void)IsLoginIn;
 
 @end
 

@@ -44,6 +44,15 @@ static CGRect oldframe;
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+        
+        [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+        
+        [self.navigationController popViewControllerAnimated:NO];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
