@@ -59,41 +59,6 @@ LMFindCellDelegate
     
     return self;
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (![[FitUserManager sharedUserManager] isLogin]) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                       message:@"发现页需要对新功能进行投票，请登录"
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                  style:UIAlertActionStyleDestructive
-                                                handler:^(UIAlertAction*action) {
-                                                    
-                                                    [[FitUserManager sharedUserManager] logout];
-                                                    NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
-                                                    
-                                                    [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
-                                                    
-                                                    [self.navigationController popViewControllerAnimated:NO];
-                                                    
-                                                    [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
-                                                    
-                                                    
-                                                    
-                                                }]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                  style:UIAlertActionStyleCancel
-                                                handler:^(UIAlertAction*action) {
-                                                    
-                                                }]];
-        
-        [self presentViewController:alert animated:YES completion:nil];
-        
-        
-    }
-}
-
 
 - (void)viewDidAppear:(BOOL)animated
 {

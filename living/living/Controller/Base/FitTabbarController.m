@@ -26,7 +26,7 @@
 {
     self = [super init];
     if (self) {
-    
+        
     }
     return self;
 }
@@ -42,13 +42,20 @@
 {
     [super viewDidAppear:animated];
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
- 
-    [self IsLoginIn];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
+    
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        
+        [self IsLoginIn];
+    }else{
+        return;
+    }
+    
 }
 
 - (void)switchAction
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     self.selectedIndex = 0;
     [LMLoginViewController presentInViewController:self Animated:YES];
 }
@@ -58,7 +65,7 @@
     [self.tabBar setTintColor:LIVING_COLOR];
     [[UITabBarItem appearance]setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10]}
                                             forState:UIControlStateNormal];
-   
+    
     
     //设置工具栏中文字的偏移量
     [[UITabBarItem appearance]setTitlePositionAdjustment:UIOffsetMake(0, -3)];
@@ -105,8 +112,8 @@
     fourthVC.title    = @"我";
     
     UITabBarItem * itemMe=[[UITabBarItem alloc]initWithTitle:@"我"
-                                                      image:[UIImage imageNamed:@"person-gray"]
-                                              selectedImage:[UIImage imageNamed:@"person"]];
+                                                       image:[UIImage imageNamed:@"person-gray"]
+                                               selectedImage:[UIImage imageNamed:@"person"]];
     
     FitNavigationController     *fourthNav    = [[FitNavigationController alloc] initWithRootViewController:fourthVC];
     
@@ -120,7 +127,7 @@
                                                object:nil];
     
     if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"person_dot"] isEqualToString:@"1"]) {
-    
+        
         [self.tabBar showBadgeOnItemIndex:3];
     }
     
@@ -128,7 +135,7 @@
                                              selector:@selector(tongzhi2)
                                                  name:@"getui_notic"
                                                object:nil];
-       
+    
     
 }
 
@@ -172,6 +179,92 @@
 {
     return UIStatusBarStyleLightContent;
 }
+
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if ([item.title isEqual:@"发现"]) {
+        [self findVC];
+    }
+    
+    if ([item.title isEqual:@"我"]) {
+        [self myVC];
+    }
+}
+
+
+- (void)findVC
+{
+    
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:@"发现页需要对新功能进行投票，请登录"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    
+                                                    [[FitUserManager sharedUserManager] logout];
+                                                    NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+                                                    
+                                                    [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+                                                    
+                                                    [self.navigationController popViewControllerAnimated:NO];
+                                                    
+                                                    [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
+                                                    
+                                                    
+                                                    
+                                                }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:^(UIAlertAction*action) {
+                                                    self.selectedIndex = 0;
+                                                }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }
+}
+
+- (void)myVC
+{
+    
+    
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:@"请登录"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    
+                                                    [[FitUserManager sharedUserManager] logout];
+                                                    NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+                                                    
+                                                    [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+                                                    
+                                                    [self.navigationController popViewControllerAnimated:NO];
+                                                    
+                                                    [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
+                                                    
+                                                    
+                                                    
+                                                }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:^(UIAlertAction*action) {
+                                                    self.selectedIndex = 0;
+                                                }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+  
+    }
+    
+}
+
+
 
 -(void)IsLoginIn
 {

@@ -126,7 +126,7 @@
                                                     [self.navigationController popViewControllerAnimated:NO];
                                                     
                                                     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
-                                                    
+                                                    [[UIApplication sharedApplication] setStatusBarHidden:NO];
                                                     
                                                     
                                                 }]];
