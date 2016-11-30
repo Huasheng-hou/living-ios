@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) UILabel *nameLabel;
 
+@property (nonatomic, strong) UIButton *shareButton;
+
 
 @end
 
@@ -100,6 +102,15 @@
     [self.contentView addSubview:line];
     
     
+    _shareButton=[UIButton new];
+    [_shareButton addTarget:self action:@selector(shareButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_shareButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+    _shareButton.layer.cornerRadius = 3;
+//    _shareButton.layer.borderColor =LIVING_COLOR.CGColor;
+//    _shareButton.layer.borderWidth = 0.5;
+    [self.contentView addSubview:_shareButton];
+    
+    
     
 }
 
@@ -160,6 +171,7 @@
     [_titleLabel sizeToFit];
     [_countLabel sizeToFit];
     [_headV sizeToFit];
+    [_shareButton sizeToFit];
     
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
@@ -173,6 +185,7 @@
     
     _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, self.contentView.bounds.size.height-10-kScreenWidth*3/5);
     
+    _shareButton.frame = CGRectMake(kScreenWidth-71-80, kScreenWidth*3/5+15, 80, 30);
 
 }
 
@@ -188,6 +201,13 @@
 {
     if ([_delegate respondsToSelector:@selector(cellClickImage:)]) {
         [_delegate cellClickImage:self];
+    }
+}
+
+-(void)shareButton:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellShareImage:)]) {
+        [_delegate cellShareImage:self];
     }
 }
 

@@ -8,7 +8,6 @@
 
 #import "LMActivityViewController.h"
 #import "LMActivityDetailController.h"
-
 #import "LMPublishViewController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
@@ -17,6 +16,8 @@
 #import "SQMenuShowView.h"
 #import "ActivityListVO.h"
 #import "LMMyPublicViewController.h"
+#import "SXButton.h"
+#import "SearchViewController.h"
 
 #define PAGER_SIZE      20
 
@@ -31,6 +32,7 @@
     NSInteger        currentPageIndex;
     NSMutableArray   *pageIndexArray;
     BOOL                reload;
+    SXButton     *letfButton;
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -115,7 +117,93 @@
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
+    
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
+    NSString *cityStr;
+    for (NSString *string in searchArr) {
+        cityStr = string;
+    }
+    
+    // 设置导航栏左侧按钮
+    letfButton = [SXButton buttonWithType:UIButtonTypeCustom];
+    letfButton.frame = CGRectMake(-10, 0, 55, 20);
+    [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (cityStr&&![cityStr isEqual:@""]) {
+        
+        if (cityStr.length > 3) {
+            
+            letfButton.width = 80+24*(cityStr.length-3);
+        }else{
+            
+            if (cityStr.length == 3) {
+                
+                letfButton.width = 80;
+            }else{
+                
+                letfButton.width = 55;
+
+            }
+        }
+        
+       [letfButton setTitle:cityStr forState:UIControlStateNormal];
+    }else{
+        [letfButton setTitle:@"全部" forState:UIControlStateNormal];
+    }
+    
+    
+    [letfButton setImage:[UIImage imageNamed:@"zhankai"] forState:UIControlStateNormal];
+    UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
+    self.navigationItem.leftBarButtonItem = LeftBarButton;
+    
+    
 }
+
+- (void)screenAction:(UIButton *)sender
+{
+    SearchViewController *searchV = [[SearchViewController alloc]init];
+    UINavigationController *naV = [[UINavigationController alloc]initWithRootViewController:searchV];
+    [searchV setSucceed:^(NSString *str) {
+        
+        if (str.length > 3) {
+            
+            letfButton.width = 80+24*(str.length-3);
+            letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
+            letfButton.imageView.originX = letfButton.width*0.5+15;
+        }else{
+            
+            if (str.length == 3) {
+                
+                letfButton.width = 80;
+                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
+                letfButton.imageView.originX = letfButton.width*0.5+15;
+                
+            }else{
+                
+                letfButton.width = 55;
+                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
+                letfButton.imageView.originX = letfButton.width*0.5+15;
+            }
+        }
+        
+        [letfButton setTitle:str forState:UIControlStateNormal];
+        
+        NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:str, nil];
+        
+        //存入数组并同步
+        
+        [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"cityArr"];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }];
+    [self presentViewController:naV animated:YES completion:^{
+        
+    }];
+    
+}
+
+
 
 #pragma mark 发布活动
 

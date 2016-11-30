@@ -73,7 +73,7 @@
     if (section==0) {
         return 2;
     }
-    return 1;
+    return 2;
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,11 +105,16 @@
     }
     if (indexPath.section==1) {
         
-        cell.imageView.image = [UIImage imageNamed:@"versionmsg"];
-        [cell.textLabel setText:@"关于腰果"];
-        
+        if (indexPath.row==0) {
+            cell.imageView.image = [UIImage imageNamed:@"versionmsg"];
+            [cell.textLabel setText:@"关于腰果"];
+        }
+        if (indexPath.row==1) {
+            cell.imageView.image = [UIImage imageNamed:@"tips"];
+            [cell.textLabel setText:@"腰果使用小贴士"];
+        }
     }
-    
+
     return cell;
 }
 
@@ -134,7 +139,15 @@
             verVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:verVC animated:YES];
         }
+        if (indexPath.row==1) {
+            LMWebViewController *webVC = [[LMWebViewController alloc] init];
+            webVC.hidesBottomBarWhenPushed = YES;
+            webVC.urlString = @"http://yaoguo1818.com/living-web/user-instruction.html";
+            webVC.titleString = @"腰果使用小贴士";
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
     }
+
 }
 
 // * 退出登录

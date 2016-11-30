@@ -39,6 +39,9 @@
 #import "SYPhotoBrowser.h"
 #import "LMEventEndRequest.h"
 #import "LMEventStartRequest.h"
+#import "HBShareView.h"
+#import <TencentOpenAPI/QQApiInterface.h>
+#import "WXApi.h"
 
 //地图导航
 #import "LMNavMapViewController.h"
@@ -52,7 +55,8 @@ UITextViewDelegate,
 LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate,
 LMEventMsgCellDelegate,
-LMActivityMsgCellDelegate
+LMActivityMsgCellDelegate,
+shareTypeDelegate
 >
 {
     UILabel  *tipLabel;
@@ -1736,6 +1740,127 @@ LMActivityMsgCellDelegate
     [self scrollViewDidScroll:self.tableView];
     
     
+}
+
+- (void)cellShareImage:(LMActivityheadCell *)cell
+{
+    HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    shareView.delegate=self;
+    [self.view addSubview:shareView];
+}
+
+#pragma mark 对图片尺寸进行压缩
+-(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+
+- (void)shareType:(NSInteger)type
+{
+    NSString *urlString = @"http://yaoguo1818.com/living-web/apparticle/article?fakeId=";
+    
+    switch (type) {
+        case 1://微信好友
+        {
+            WXMediaMessage *message=[WXMediaMessage message];
+            message.title=eventDic.eventName;
+//            message.description=eventDic.describe;
+            
+            if (imageArray.count==0) {
+                [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
+            }else{
+                
+                UIImageView *images = [UIImageView new];
+                [images sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+                
+                UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
+                
+                [message setThumbImage:iconImage];
+            }
+            
+            WXWebpageObject *web=[WXWebpageObject object];
+//            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
+            message.mediaObject=web;
+            
+            SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
+            req.bText=NO;
+            req.message=message;
+            req.scene=WXSceneSession;//好友
+            [WXApi sendReq:req];
+        }
+            break;
+        case 2://微信朋友圈
+        {
+            WXMediaMessage *message=[WXMediaMessage message];
+            message.title=eventDic.eventName;
+//            message.description=articleData.describe;
+            
+            
+            if (imageArray.count==0) {
+                [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
+            }else{
+                
+                UIImageView *images = [UIImageView new];
+                [images sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+                
+                UIImage *iconImage=[self imageWithImage:images.image scaledToSize:CGSizeMake(kScreenWidth/3, kScreenWidth/3)];
+                [message setThumbImage:iconImage];
+            }
+            
+            WXWebpageObject *web=[WXWebpageObject object];
+//            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
+            message.mediaObject=web;
+            
+            SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
+            req.bText=NO;
+            req.message=message;
+            req.scene=WXSceneTimeline;//朋友圈
+            [WXApi sendReq:req];
+        }
+            break;
+        case 3://qq好友
+        {
+            NSString *imageUrl;
+            
+            if (imageArray.count==0) {
+                
+                imageUrl=@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg";
+            } else {
+                
+                imageUrl=eventDic.eventImg;
+            }
+            
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",urlString]] title:eventDic.eventImg description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
+            //将内容分享到qq
+            [QQApiInterface sendReq:req];
+        }
+            break;
+        case 4://qq空间
+        {
+            NSString *imageUrl;
+            if (imageArray.count==0) {
+                imageUrl=@"http://living-2016.oss-cn-hangzhou.aliyuncs.com/1eac8bd3b16fd9bb1a3323f43b336bd7.jpg";
+            }else{
+                imageUrl=eventDic.eventImg;
+            }
+            
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",urlString]] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
+            //将内容分享到qq空间
+            [QQApiInterface SendReqToQZone:req];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 

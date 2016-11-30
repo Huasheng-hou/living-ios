@@ -35,4 +35,6 @@
 
 - (void)cellClickImage:(LMActivityheadCell *)cell;
 
+- (void)cellShareImage:(LMActivityheadCell *)cell;
+
 @end

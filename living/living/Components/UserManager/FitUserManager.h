@@ -40,6 +40,7 @@
 @property   (retain, nonatomic)     NSString        *franchisee;
 @property   (retain, nonatomic)     NSString        *vipString;
 @property   (retain, nonatomic)     NSString        *userId;
+@property   (retain, nonatomic)     NSString        *currentCity;
 // * 微信登录
 //
 

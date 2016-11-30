@@ -314,6 +314,12 @@
 		35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747071DDE97F3000AFA26 /* HBShareButton.m */; };
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
+		35C377881DEE7135007FC70A /* SXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C377871DEE7135007FC70A /* SXButton.m */; };
+		35C3778A1DEE71A1007FC70A /* zhankai@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C377891DEE71A1007FC70A /* zhankai@2x.png */; };
+		35C3778C1DEE71AD007FC70A /* citydict.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35C3778B1DEE71AD007FC70A /* citydict.plist */; };
+		35C3778F1DEE71F3007FC70A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C3778E1DEE71F3007FC70A /* SearchViewController.m */; };
+		35C377911DEE7245007FC70A /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35C377901DEE7245007FC70A /* Property List.plist */; };
+		35C377941DEE72AE007FC70A /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C377931DEE72AE007FC70A /* TableViewCell.m */; };
 		35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */; };
 		35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */; };
 		35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */; };
@@ -1025,6 +1031,15 @@
 		35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
 		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
+		35C377861DEE7130007FC70A /* SXButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXButton.h; sourceTree = "<group>"; };
+		35C377871DEE7135007FC70A /* SXButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXButton.m; sourceTree = "<group>"; };
+		35C377891DEE71A1007FC70A /* zhankai@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zhankai@2x.png"; sourceTree = "<group>"; };
+		35C3778B1DEE71AD007FC70A /* citydict.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = citydict.plist; sourceTree = "<group>"; };
+		35C3778D1DEE71F0007FC70A /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		35C3778E1DEE71F3007FC70A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		35C377901DEE7245007FC70A /* Property List.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
+		35C377921DEE72A8007FC70A /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		35C377931DEE72AE007FC70A /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		35D1B83C1DEBFDC8004BE2A2 /* LM2DresultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LM2DresultViewController.h; sourceTree = "<group>"; };
 		35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LM2DresultViewController.m; sourceTree = "<group>"; };
 		35D1B8441DEC16A2004BE2A2 /* LMAddressChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddressChooseView.h; sourceTree = "<group>"; };
@@ -1621,6 +1636,8 @@
 				35B744DF1DDE97F2000AFA26 /* LMPublishViewController.m */,
 				35D1B8471DEC4B45004BE2A2 /* LMSearchAddressController.h */,
 				35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */,
+				35C3778D1DEE71F0007FC70A /* SearchViewController.h */,
+				35C3778E1DEE71F3007FC70A /* SearchViewController.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -2586,6 +2603,9 @@
 		35B7468E1DDE97F3000AFA26 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				35C377901DEE7245007FC70A /* Property List.plist */,
+				35C3778B1DEE71AD007FC70A /* citydict.plist */,
+				35C377891DEE71A1007FC70A /* zhankai@2x.png */,
 				35B7468F1DDE97F3000AFA26 /* area.plist */,
 				35B746901DDE97F3000AFA26 /* city.plist */,
 				35B746911DDE97F3000AFA26 /* findpage.png */,
@@ -2617,6 +2637,8 @@
 		35B7469A1DDE97F3000AFA26 /* activity */ = {
 			isa = PBXGroup;
 			children = (
+				35C377921DEE72A8007FC70A /* TableViewCell.h */,
+				35C377931DEE72AE007FC70A /* TableViewCell.m */,
 				35B7469B1DDE97F3000AFA26 /* APChooseView.h */,
 				35B7469C1DDE97F3000AFA26 /* APChooseView.m */,
 				35B7469D1DDE97F3000AFA26 /* CustomButton.h */,
@@ -2649,6 +2671,8 @@
 				35B746B81DDE97F3000AFA26 /* LMTimeButton.m */,
 				35D1B8441DEC16A2004BE2A2 /* LMAddressChooseView.h */,
 				35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */,
+				35C377861DEE7130007FC70A /* SXButton.h */,
+				35C377871DEE7135007FC70A /* SXButton.m */,
 				35B746B91DDE97F3000AFA26 /* mapView */,
 				35B746BE1DDE97F3000AFA26 /* NavMapBottom */,
 				35B746C11DDE97F3000AFA26 /* SQMenuShowView */,
@@ -2902,6 +2926,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35B7477F1DDE97F3000AFA26 /* LICENCE.txt in Resources */,
+				35C3778C1DEE71AD007FC70A /* citydict.plist in Resources */,
 				35B747FE1DDE97F4000AFA26 /* area.plist in Resources */,
 				35B747291DDE97F3000AFA26 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				35B7476F1DDE97F3000AFA26 /* InfoPlist.strings in Resources */,
@@ -2920,6 +2945,7 @@
 				35B7471B1DDE97F3000AFA26 /* MJRefresh.bundle in Resources */,
 				35B7473F1DDE97F3000AFA26 /* LaunchScreen.storyboard in Resources */,
 				35B747331DDE97F3000AFA26 /* UMSShareListController.xib in Resources */,
+				35C3778A1DEE71A1007FC70A /* zhankai@2x.png in Resources */,
 				35B747311DDE97F3000AFA26 /* UMSLoginViewController.xib in Resources */,
 				8E4C98FB1DD1D6CB00B17046 /* AMapNavi.bundle in Resources */,
 				35B747231DDE97F3000AFA26 /* LICENSE in Resources */,
@@ -2933,6 +2959,7 @@
 				35B7472A1DDE97F3000AFA26 /* UMSocialLocalizable.strings in Resources */,
 				35B7473E1DDE97F3000AFA26 /* Assets.xcassets in Resources */,
 				35B747321DDE97F3000AFA26 /* UMSnsAccountViewController.xib in Resources */,
+				35C377911DEE7245007FC70A /* Property List.plist in Resources */,
 				35B748021DDE97F4000AFA26 /* lightSelect.png in Resources */,
 				35B747701DDE97F3000AFA26 /* city.plist in Resources */,
 			);
@@ -3013,6 +3040,7 @@
 				35B7478F1DDE97F3000AFA26 /* LMBalanceBody.m in Sources */,
 				35B747551DDE97F3000AFA26 /* FitTableViewController.m in Sources */,
 				35B747B01DDE97F3000AFA26 /* LMArtclePariseRequest.m in Sources */,
+				35C3778F1DEE71F3007FC70A /* SearchViewController.m in Sources */,
 				35B747601DDE97F3000AFA26 /* LMMy2dcodeViewController.m in Sources */,
 				35B747B71DDE97F3000AFA26 /* LMLivingListRequest.m in Sources */,
 				35B747731DDE97F3000AFA26 /* UIColor+ZXLazy.m in Sources */,
@@ -3069,6 +3097,7 @@
 				35B748361DDE97F4000AFA26 /* FitShareView.m in Sources */,
 				35B747D91DDE97F4000AFA26 /* LMFriendListRequest.m in Sources */,
 				35B747F81DDE97F4000AFA26 /* LMOrderVO.m in Sources */,
+				35C377941DEE72AE007FC70A /* TableViewCell.m in Sources */,
 				35B7477A1DDE97F3000AFA26 /* UIImage+ImageFromArrayUtils.m in Sources */,
 				35B747B21DDE97F3000AFA26 /* LMCommentArticleRequest.m in Sources */,
 				35B747141DDE97F3000AFA26 /* RSADataSigner.m in Sources */,
@@ -3181,6 +3210,7 @@
 				35B748331DDE97F4000AFA26 /* FitPickerView.m in Sources */,
 				35B747AE1DDE97F3000AFA26 /* LMArticleCommentDeleteRequest.m in Sources */,
 				35B7473D1DDE97F3000AFA26 /* AppDelegate.m in Sources */,
+				35C377881DEE7135007FC70A /* SXButton.m in Sources */,
 				35B748261DDE97F4000AFA26 /* LMNoticCell.m in Sources */,
 				35B747241DDE97F3000AFA26 /* Readme.markdown in Sources */,
 				35B748121DDE97F4000AFA26 /* LMMypublicEventCell.m in Sources */,
