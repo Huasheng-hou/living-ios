@@ -235,7 +235,7 @@ AMapLocationManagerDelegate
     
     self.tableView.contentInset     = UIEdgeInsetsMake(114, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(114, 0, 0, 0);
-    
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
     _searchBar.placeholder = @"输入地名";

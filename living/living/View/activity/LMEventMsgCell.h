@@ -31,7 +31,7 @@
 
 -(void)setValue:(LMProjectBodyVO *)data;
 
-//+ (CGFloat)cellHigth:(NSString *)titleString;
++ (CGFloat)cellHigth:(NSString *)titleString;
 
 @end
 

@@ -79,14 +79,46 @@
 
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.projectImgs]];
 
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-     _conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    if (_contentLabel.text!=nil) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:_contentLabel.text];
+        
+        [paragraphStyle setLineSpacing:7];
+        [paragraphStyle setParagraphSpacing:10];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, _contentLabel.text.length)];
+        _contentLabel.attributedText = attributedString;
+    }
+
+    
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+    NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+     _conHigh = [_dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
     
     _dspHigh = [_contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
     _imageWidth = list.width;
     _imageHeight = list.height;
     
+}
+
++ (CGFloat)cellHigth:(NSString *)titleString
+{
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    if (titleString!=nil) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:titleString];
+        
+        [paragraphStyle setLineSpacing:7];
+        [paragraphStyle setParagraphSpacing:10];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, titleString.length)];
+    }
+    
+    
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+    CGFloat  dspHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+
+    return dspHigh;
 }
 
 

@@ -374,32 +374,37 @@ LMActivityMsgCellDelegate
     }
     
     if (indexPath.section==2) {
-        LMProjectBodyVO *list = eventArray[indexPath.row];
-        NSString *string = list.projectTitle;
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-        CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
         
-        NSString *string2 = list.projectDsp;
-        NSDictionary *attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-        CGFloat conHigh2 = [string2 boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-        
-        if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
-            if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
-                return 30 + conHigh;
-            }else{
-                return 50 + conHigh + conHigh2;
+        if (eventArray.count > indexPath.row) {
+            
+            LMProjectBodyVO *list = eventArray[indexPath.row];
+            
+            if (list && [list isKindOfClass:[LMProjectBodyVO class]]) {
+                NSString *string = list.projectTitle;
+                NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+                
+                
+                if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
+                    if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
+                        return 30 + conHigh;
+                    }else{
+                        return 50 + conHigh + [LMEventMsgCell cellHigth:list.projectDsp];
+                    }
+                    
+                } else {
+                    if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
+                        return list.height*(kScreenWidth-30)/list.width + conHigh+30;
+                    }else{
+                        return list.height*(kScreenWidth-30)/list.width + conHigh + [LMEventMsgCell cellHigth:list.projectDsp]+50;
+                    }
+                    
+                    
+                }
             }
-            
-        } else {
-            if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
-                return list.height*(kScreenWidth-30)/list.width + conHigh+30;
-            }else{
-                return list.height*(kScreenWidth-30)/list.width + conHigh + conHigh2+50;
-            }
-            
-            
         }
-    }
+
+            }
     if (indexPath.section==3) {
         
         
