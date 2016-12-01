@@ -10,6 +10,6 @@
 
 @interface LMActivityListRequest : FitBaseRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize;
+-(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize andCity:(NSString *)city;
 
 @end

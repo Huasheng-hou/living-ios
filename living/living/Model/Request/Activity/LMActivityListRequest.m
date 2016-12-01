@@ -10,7 +10,7 @@
 
 @implementation LMActivityListRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize
+-(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize andCity:(NSString *)city
 {
     self = [super init];
     if (self) {
@@ -20,6 +20,10 @@
         }
         if (pageSize != -1) {
             [body setObject:[NSString stringWithFormat:@"%d", pageSize] forKey:@"pageSize"];
+        }
+        
+        if (city) {
+            [body setObject:city forKey:@"city"];
         }
         
         NSMutableDictionary *parmDic = [self params];

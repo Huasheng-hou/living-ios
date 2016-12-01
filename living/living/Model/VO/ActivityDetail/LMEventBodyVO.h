@@ -43,6 +43,6 @@
 @property (nonatomic, strong) NSString *latitude;
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, strong) NSString *notices;
-
+@property (nonatomic, assign) int eventid;
 
 @end

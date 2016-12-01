@@ -33,6 +33,7 @@
     NSMutableArray   *pageIndexArray;
     BOOL                reload;
     SXButton     *letfButton;
+    NSString         *city;
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -46,7 +47,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         
-        self.ifRemoveLoadNoState        = NO;
+//        self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
         
@@ -63,6 +64,7 @@
 {
     [super viewDidLoad];
     [self creatUI];
+    [self creatImage];
 
     [self loadNewer];
     __weak typeof(self) weakSelf = self;
@@ -130,7 +132,6 @@
     [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
     
     if (cityStr&&![cityStr isEqual:@""]) {
-        
         if (cityStr.length > 3) {
             
             letfButton.width = 80+24*(cityStr.length-3);
@@ -223,7 +224,22 @@
 
 - (FitBaseRequest *)request
 {
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
+    NSString *cityStr;
+    for (NSString *string in searchArr) {
+        cityStr = string;
+        city = cityStr;
+    }
+    
+    if ([city isEqual:@"海外"]) {
+        city = @"其它";
+    }
+    if ([city isEqual:@"全部"]) {
+        city = nil;
+    }
+    
+    
+    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:city];
     
     return request;
 }
@@ -261,18 +277,50 @@
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
+        
         self.max    = [[bodyDict objectForKey:@"total"] intValue];
         
         NSArray *resultArr  = [ActivityListVO ActivityListVOListWithArray:[bodyDict objectForKey:@"list"]];
         
+        
+        if (resultArr.count==0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                homeImage.hidden = NO;
+            });
+        }
+        
         if (resultArr && resultArr.count > 0) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                homeImage.hidden = YES;
+            });
             
             return resultArr;
         }
+
     }
     
     return nil;
 }
+
+-(void)creatImage
+{
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
+    
+    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-41, 5, 82, 91)];
+    homeImg.image = [UIImage imageNamed:@"eventload"];
+    [homeImage addSubview:homeImg];
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 95, 300, 60)];
+    imageLb.numberOfLines = 0;
+    imageLb.text = @"您选择的城市还没有活动哦\n选择其它城市看看吧";
+    imageLb.textColor = TEXT_COLOR_LEVEL_3;
+    imageLb.font = TEXT_FONT_LEVEL_2;
+    imageLb.textAlignment = NSTextAlignmentCenter;
+    [homeImage addSubview:imageLb];
+    homeImage.hidden = YES;
+    [self.tableView addSubview:homeImage];
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

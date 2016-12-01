@@ -85,6 +85,7 @@ shareTypeDelegate
     UIView *backgroundViews;
     UIImageView *imageViews;
     UIImage *bigImage;
+    NSString *eventId;
 }
 
 @end
@@ -313,6 +314,7 @@ shareTypeDelegate
         }
         
         eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
+        eventId = [NSString stringWithFormat:@"%d",eventDic.eventid];
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
@@ -1785,7 +1787,7 @@ shareTypeDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-//            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
+            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,eventId];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1814,7 +1816,7 @@ shareTypeDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-//            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
+            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,eventId];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1836,7 +1838,7 @@ shareTypeDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",urlString]] title:eventDic.eventImg description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,eventId]] title:eventDic.eventImg description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1851,7 +1853,7 @@ shareTypeDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",urlString]] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,eventId]] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];

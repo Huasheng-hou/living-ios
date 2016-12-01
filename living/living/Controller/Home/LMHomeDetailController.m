@@ -29,6 +29,7 @@
 #import "LMArticleCommentDeleteRequest.h"
 #import "LMArticeDeleteReplyRequst.h"
 #import "LMWriterViewController.h"
+#import "LMArtcleFootView.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -72,6 +73,12 @@ shareTypeDelegate
     UIButton *bigBtn;
     UIButton *midBtn;
     UIButton *smallBtn;
+    
+    UIView *addView;
+    UIView *blackView;
+    
+    LMArtcleFootView *footView;
+    NSMutableArray *clickArr;
 }
 
 @end
@@ -93,6 +100,7 @@ shareTypeDelegate
     listArray = [NSMutableArray new];
     [self getHomeDetailDataRequest];
     [self registerForKeyboardNotifications];
+    clickArr = [NSMutableArray new];
 }
 
 - (void)creatUI
@@ -127,6 +135,8 @@ shareTypeDelegate
 
 -(void)reportAction
 {
+    [self dismissSelf];
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该文章"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -184,61 +194,44 @@ shareTypeDelegate
 
 - (void)creatfootView2
 {
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
-    headView.backgroundColor = [UIColor whiteColor];
+    footView = [[LMArtcleFootView alloc] initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
+    footView.backgroundColor = [UIColor whiteColor];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.5, kScreenWidth, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
-    [headView addSubview:lineView];
+    [footView addSubview:lineView];
     
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth/2, 40)];
-    textLabel.text = @"  说两句...";
-    textLabel.font = TEXT_FONT_LEVEL_3;
-    textLabel.textColor = TEXT_COLOR_LEVEL_2;
-    textLabel.layer.cornerRadius = 5;
-    textLabel.layer.borderColor = LINE_COLOR.CGColor;
-    textLabel.layer.borderWidth = 0.5;
-    textLabel.backgroundColor = BG_GRAY_COLOR;
-    [headView addSubview:textLabel];
-    textLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-    [textLabel addGestureRecognizer:tap];
+    [footView.backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *zanartcle = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2+10, 0, (kScreenWidth/2-10)/3, 50)];
-    zanartcle.backgroundColor = LIVING_COLOR;
-    [zanartcle addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [headView addSubview:zanartcle];
+    [footView.commentButton addTarget:self action:@selector(tapAction) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *shareartcle = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2+10+(kScreenWidth/2-10)/3, 0, (kScreenWidth/2-10)/3, 50)];
-    shareartcle.backgroundColor = LIVING_REDCOLOR;
-    [shareartcle addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
-    [headView addSubview:shareartcle];
+    [footView.zanartcle addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *moreartcle = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth/2+10+(kScreenWidth/2-10)*2/3, 0, (kScreenWidth/2-10)/3, 50)];
-    moreartcle.backgroundColor = [UIColor blueColor];
-    [moreartcle addTarget:self action:@selector(MoreAction) forControlEvents:UIControlEventTouchUpInside];
-    [headView addSubview:moreartcle];
-
+    [footView.shareartcle addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:headView];
+    [footView.moreartcle addTarget:self action:@selector(creatMoreView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:footView];
 }
+
+-(void)backAction
+{
+    [commentText resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 -(void)tapAction
 {
+    [self dismissSelf];
     [textcView becomeFirstResponder];
 }
-
--(void)MoreAction
-{
-    NSLog(@"");
-}
-
-
-
 
 #pragma mark --文章点赞
 
 - (void)zanButtonAction:(id)senser
 {
+    [self dismissSelf];
+    
     if ([[FitUserManager sharedUserManager] isLogin]) {
         LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -257,7 +250,7 @@ shareTypeDelegate
     }else{
         [self IsLoginIn];
     }
-
+    
 }
 
 - (void)getarticlePraiseDataResponse:(NSString *)resp
@@ -314,6 +307,12 @@ shareTypeDelegate
         }
         
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
+        
+        if (articleData.hasPraised ==YES) {
+            [footView.zanartcle setImage:[UIImage imageNamed:@"zan-red"] forState:UIControlStateNormal];
+        }
+        
+        footView.comentcount.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
         
         if ([articleData.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
             
@@ -449,12 +448,11 @@ shareTypeDelegate
                 
                 NSInteger index =  arr.count-1;
                 
-                return 20+conHigh+conHigh2 +10 + [hightArray[index] floatValue] ;
+                return 30+conHigh+conHigh2 +10 + [hightArray[index] floatValue] ;
             }
             
         }
     }
-    
     return 0;
 }
 
@@ -505,11 +503,14 @@ shareTypeDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    
     return 2;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     if (section==0) {
         return 2;
     }
@@ -521,6 +522,7 @@ shareTypeDelegate
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.section==0) {
         
         static NSString *cellId = @"cellId";
@@ -585,74 +587,20 @@ shareTypeDelegate
             
         }
         if (indexPath.row==1) {
-//            UILabel *type = [UILabel new];
-//            type.text = @"字号：";
-//            type.font = TEXT_FONT_LEVEL_2;
-//            type.textColor =Text_size_color;
-//            type.textAlignment = NSTextAlignmentCenter;
-//            type.layer.cornerRadius = 3;
-//            type.layer.borderColor =Text_size_color.CGColor;
-//            type.layer.borderWidth = 0.5;
-//            [type sizeToFit];
-//            [cell.contentView addSubview:type];
-//            
-//            bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [bigBtn setTitle:@"大" forState:UIControlStateNormal];
-//            [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-//            bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//            bigBtn.layer.cornerRadius = 3;
-//            bigBtn.layer.borderColor =Text_size_color.CGColor;
-//            bigBtn.layer.borderWidth = 0.5;
-//            [bigBtn sizeToFit];
-//            [cell.contentView addSubview:bigBtn];
-//            [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            
-//            midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [midBtn setTitle:@"中" forState:UIControlStateNormal];
-//            [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-//            midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//            midBtn.layer.cornerRadius = 3;
-//            midBtn.layer.borderColor =Text_size_color.CGColor;
-//            midBtn.layer.borderWidth = 0.5;
-//            [midBtn sizeToFit];
-//            [cell.contentView addSubview:midBtn];
-//            [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [smallBtn setTitle:@"小" forState:UIControlStateNormal];
-//            [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
-//            smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//            smallBtn.layer.cornerRadius = 3;
-//            smallBtn.layer.borderColor =Text_size_color.CGColor;
-//            smallBtn.layer.borderWidth = 0.5;
-//            [smallBtn sizeToFit];
-//            [cell.contentView addSubview:smallBtn];
-//            [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            dspLabel = [UILabel new];
-//            if (typeIndex==1) {
-//                bigBtn.backgroundColor = LINE_COLOR;
-//                midBtn.backgroundColor = [UIColor clearColor];
-//                smallBtn.backgroundColor = [UIColor clearColor];
-//                dspLabel.font = TEXT_FONT_LEVEL_1;
-//                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-//            }
-//            if (typeIndex==2) {
-//                bigBtn.backgroundColor = [UIColor clearColor];
-//                midBtn.backgroundColor = LINE_COLOR;
-//                smallBtn.backgroundColor = [UIColor clearColor];
-//                dspLabel.font = TEXT_FONT_LEVEL_2;
-//                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-//            }
-//            if (typeIndex==3) {
-//                bigBtn.backgroundColor = [UIColor clearColor];
-//                midBtn.backgroundColor = [UIColor clearColor];
-//                smallBtn.backgroundColor = LINE_COLOR;
-//                dspLabel.font = [UIFont systemFontOfSize:12.0];
-//                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-//            }
             
+            if (typeIndex==1) {
+                dspLabel.font = TEXT_FONT_LEVEL_1;
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            }
+            if (typeIndex==2) {
+                dspLabel.font = TEXT_FONT_LEVEL_2;
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            }
+            if (typeIndex==3) {
+                dspLabel.font = [UIFont systemFontOfSize:12.0];
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            }
+            dspLabel = [UILabel new];
             dspLabel.textColor = LIVING_REDCOLOR;
             dspLabel.numberOfLines=0;
             dspLabel.text = articleData.describe;
@@ -680,14 +628,23 @@ shareTypeDelegate
             if (typeIndex==1) {
                 contentLabel.font = [UIFont systemFontOfSize:18.0];
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+                [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+                [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
             }
             if (typeIndex==2) {
                 contentLabel.font = TEXT_FONT_LEVEL_1;
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+                [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+                [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+                [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
             }
             if (typeIndex==3) {
                 contentLabel.font = [UIFont systemFontOfSize:14.0];
                 attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+                [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+                [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+                [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
             }
             
             CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
@@ -696,47 +653,12 @@ shareTypeDelegate
             [cell.contentView addSubview:contentLabel];
             
             
-//            zanLabel = [LMCommentButton new];
-            
-//            if (articleData.hasPraised == YES) {
-//                zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
-//            }else{
-//                zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon"];
-//            }
-//            zanLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
-//            zanLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
-//            
-//            [zanLabel.textLabel sizeToFit];
-//            zanLabel.textLabel.frame = CGRectMake(15, 5, zanLabel.textLabel.bounds.size.width, zanLabel.textLabel.bounds.size.height);
-//            [zanLabel sizeToFit];
-//            [cell.contentView addSubview:zanLabel];
-//            [zanLabel addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-            
-//            LMCommentButton *commentLabel = [[LMCommentButton alloc] init];
-            
-//            if (articleData.commentNum&&articleData.commentNum!=0 ) {
-//                commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
-//            }else{
-//                commentLabel.headImage.image = [UIImage imageNamed:@"reply"];
-//            }
-//            commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
-//            [commentLabel.textLabel sizeToFit];
-//            commentLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
-//            [commentLabel.headImage sizeToFit];
-//            commentLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
-//            commentLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
-//            [commentLabel sizeToFit];
-//            [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
-//            [cell.contentView addSubview:commentLabel];
-            
-//            UIButton *button=[UIButton new];
-//            [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
-//            [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-//            button.layer.cornerRadius = 3;
-//            button.layer.borderColor =LIVING_COLOR.CGColor;
-//            button.layer.borderWidth = 0.5;
-//            [cell.contentView addSubview:button];
-            
+
+            //            zanLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
+
+
+            //            commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
+
             
             if (articleData.articleImgs) {
                 
@@ -778,29 +700,12 @@ shareTypeDelegate
                     
                 }
                 
-//                type.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], type.bounds.size.width+10, 30);
-//                bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
-//                midBtn.frame =CGRectMake(80+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
-//                smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
                 dspLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
                 contentLabel.frame = CGRectMake(15, 30+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
-//                commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
-//                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-                
-//                [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
                 
             }else{
-//                type.frame = CGRectMake(15, 20, type.bounds.size.width+10, 30);
-                
-//                bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20, 40, 30);
-//                midBtn.frame =CGRectMake(80+type.bounds.size.width, 20, 40, 30);
-//                smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20 , 40, 30);
                 dspLabel.frame = CGRectMake(15, 20, kScreenWidth-30, conHigh);
                 contentLabel.frame = CGRectMake(15, 30 +conHigh, kScreenWidth-30, conHighs);
-//                commentLabel.frame = CGRectMake(15, 75+conHigh+conHighs,  commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
-//                zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 75+conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
-                
-//                [button setFrame:CGRectMake(kScreenWidth-88, 10, 80, 30)];
             }
             
         }
@@ -835,6 +740,8 @@ shareTypeDelegate
 
 -(void)shareButton
 {
+    [self dismissSelf];
+    
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
     [self.view addSubview:shareView];
@@ -842,24 +749,40 @@ shareTypeDelegate
 -(void)bigBtnButton
 {
     typeIndex = 1;
+
+    [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+    [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+    [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+
     
 }
 
 -(void)midBtnButton
 {
     typeIndex = 2;
+
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+    [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+    [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+
     
 }
 
 -(void)smallBtnButton
 {
     typeIndex = 3;
+
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+    [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+    [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+
     
 }
 
@@ -987,7 +910,7 @@ shareTypeDelegate
 #pragma mark - LMCommentCell delegate -评论点赞
 - (void)cellWillComment:(LMCommentCell *)cell
 {
-
+    
     if ([[FitUserManager sharedUserManager] isLogin]){
         LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -1025,7 +948,7 @@ shareTypeDelegate
         [self IsLoginIn];
     }
     
-
+    
     
 }
 
@@ -1050,7 +973,7 @@ shareTypeDelegate
 //回复
 - (void)cellWillReply:(LMCommentCell *)cell
 {
-
+    
     if ([[FitUserManager sharedUserManager] isLogin]){
         textIndex = 1;
         commitUUid =cell.commentUUid;
@@ -1063,7 +986,7 @@ shareTypeDelegate
     }else{
         [self IsLoginIn];
     }
-
+    
 }
 
 - (void)showCommentText
@@ -1302,7 +1225,7 @@ shareTypeDelegate
 #pragma mark  --评论文章
 -(void)getCommentArticleDataRequest
 {
-
+    
     if ([[FitUserManager sharedUserManager] isLogin]){
         [self initStateHud];
         if (textcView.text.length<=0) {
@@ -1329,8 +1252,8 @@ shareTypeDelegate
     }else{
         [self IsLoginIn];
     }
-
-
+    
+    
     
 }
 
@@ -1362,7 +1285,7 @@ shareTypeDelegate
 
 
 #pragma mark 删除文章
--(void)deleteActivityRequest:(NSString *)article_uuid
+- (void)deleteActivityRequest:(NSString *)article_uuid
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:@"是否删除"
@@ -1377,14 +1300,10 @@ shareTypeDelegate
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
-    
-    
-    
+  
 }
 
--(void)getDeleteRequest
+- (void)getDeleteRequest
 {
     LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_artcleuuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -1404,22 +1323,19 @@ shareTypeDelegate
 }
 
 
--(void)deleteActivityResponse:(NSString *)resp
+- (void)deleteActivityResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
-        NSLog(@"==================删除文章bodyDic：%@",bodyDic);
-        
+
         [self textStateHUD:@"删除成功"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController popViewControllerAnimated:YES];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadlist" object:nil];
         });
-        
         
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
@@ -1429,7 +1345,7 @@ shareTypeDelegate
 }
 
 #pragma mark --删除评论
--(void)deletCellAction:(UILongPressGestureRecognizer *)tap
+- (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
     NSInteger index = tap.view.tag;
     LMActicleCommentVO *list= listArray[index];
@@ -1440,8 +1356,6 @@ shareTypeDelegate
         if (tap.state == UIGestureRecognizerStateEnded) {
             
             if ([list.type isEqual:@"comment"]){
-                
-                NSLog(@"%@",list.commentUuid);
                 
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的评论"
                                                                                message:nil
@@ -1462,8 +1376,6 @@ shareTypeDelegate
                 [self presentViewController:alert animated:YES completion:nil];
             }
             if ([list.type isEqual:@"reply"]) {
-                
-                NSLog(@"%@",list.replyUuid);
                 
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除您的回复"
                                                                                message:nil
@@ -1588,6 +1500,7 @@ shareTypeDelegate
 
 - (void)WriterVC
 {
+    [self dismissSelf];
     LMWriterViewController *VC = [[LMWriterViewController alloc] initWithUUid:articleData.userUuid];
     VC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:VC animated:YES];
@@ -1623,6 +1536,124 @@ shareTypeDelegate
 {
     [commentText resignFirstResponder];
     self.tableView.userInteractionEnabled = YES;
+}
+
+#pragma mark --更多按钮
+
+- (void)creatMoreView
+{
+    if (footView.moreartcle.selected == NO) {
+        [clickArr addObject:@"1"];
+        
+    }
+    if (clickArr.count%2 == 1) {
+        blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50)];
+        blackView.backgroundColor = [UIColor blackColor];
+        blackView.alpha = 0.5;
+        [self.view addSubview:blackView];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+        [blackView addGestureRecognizer:tap];
+        
+        
+        addView =[[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
+        addView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:addView];
+        
+        [UIView animateWithDuration:0.3f animations:^{
+            [addView setFrame:CGRectMake(0, kScreenHeight*2/3-45, kScreenWidth, kScreenHeight/3)];
+        }];
+        
+        
+        UILabel *type = [UILabel new];
+        type.text = @"字号大小";
+        type.font = TEXT_FONT_LEVEL_1;
+        type.textColor =TEXT_COLOR_LEVEL_1;
+        type.textAlignment = NSTextAlignmentCenter;
+        [type sizeToFit];
+        [addView addSubview:type];
+        
+        bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [bigBtn setTitle:@"大" forState:UIControlStateNormal];
+        bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+        [bigBtn sizeToFit];
+        [addView addSubview:bigBtn];
+        [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [midBtn setTitle:@"中" forState:UIControlStateNormal];
+        midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+        [midBtn sizeToFit];
+        [addView addSubview:midBtn];
+        [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
+        
+        smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [smallBtn setTitle:@"小" forState:UIControlStateNormal];
+        smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+        [smallBtn sizeToFit];
+        [addView addSubview:smallBtn];
+        [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        type.frame = CGRectMake(15, 0, type.bounds.size.width, 45);
+        smallBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/6, 45);
+        midBtn.frame = CGRectMake(kScreenWidth*2/3, 0, kScreenWidth/6, 45);
+        bigBtn.frame = CGRectMake(kScreenWidth*5/6, 0, kScreenWidth/6, 45);
+        
+        if (typeIndex ==2) {
+            [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+        }
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, kScreenWidth, 0.5)];
+        lineView.backgroundColor = LINE_COLOR;
+        [addView addSubview:lineView];
+        
+        UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [writeButton setTitle:@"作者文章空间" forState:UIControlStateNormal];
+        writeButton.titleLabel.font = TEXT_FONT_LEVEL_1;
+        [writeButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+        [writeButton sizeToFit];
+        writeButton.frame = CGRectMake(kScreenWidth/2-80, addView.bounds.size.height/2, 160, 45);
+        
+        writeButton.layer.cornerRadius = 22.5;
+        writeButton.layer.borderColor = LIVING_COLOR.CGColor;
+        writeButton.layer.borderWidth = 0.5;
+
+        [addView addSubview:writeButton];
+        [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+    }else{
+        [self dismissSelf];
+    }
+    
+    
+}
+
+
+
+- (void)dismissSelf
+{
+    [UIView animateWithDuration:0.3f animations:^{
+        [blackView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight-50)];
+        [addView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
+    } completion:^(BOOL finished) {
+        
+        [blackView removeFromSuperview];
+        [addView removeFromSuperview];
+        
+    }];
+}
+
+- (void)confirmItemPressed
+{
+    
+    
+    [backView removeFromSuperview];
+    [addView removeFromSuperview];
 }
 
 

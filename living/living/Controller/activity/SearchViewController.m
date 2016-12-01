@@ -55,8 +55,6 @@
     
     self.navigationItem.rightBarButtonItem = nil;
     
-//    [self.tv setTableHeaderView:self.searchController.searchBar];
-    
     [self locate];
     //添加UITableView
     [self.view addSubview:self.tv2];
@@ -73,9 +71,11 @@
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
-        //        [locationManager requestAlwaysAuthorization];
+        [locationManager requestAlwaysAuthorization];
         _currentCity = [[NSString alloc] init];
         [locationManager startUpdatingLocation];
+    }else{
+        [self textStateHUD:@"请打开定位"];
     }
     
 }
@@ -89,8 +89,6 @@
         _tv = [[UITableView alloc]initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight)];
         _tv.delegate = self;
         _tv.dataSource = self;
-        
-        
         [_tv registerClass:[TableViewCell class] forCellReuseIdentifier:@"TableViewCellID"];
         
         
@@ -102,7 +100,6 @@
 - (UITableView *)tv2{
     
     if (!_tv2) {
-        
         _tv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 104-44, kScreenWidth, kScreenHeight)];
         _tv2.delegate = self;
         _tv2.dataSource = self;
@@ -197,10 +194,10 @@
     if (searchArr.count>0) {
         newArray = searchArr;
     }else{
-        newArray = @[@""];
+        newArray = @[@"杭州"];
     }
     
-    NSDictionary *dic2 = @{@"定位城市":locArray,@"最近访问城市":newArray,@"热门城市":@[@"杭州",@"北京",@"上海",@"重庆",@"成都",@"深圳",@"天津",@"西安",@"南京",@"广州"]};
+    NSDictionary *dic2 = @{@"定位城市":locArray,@"最近访问城市":newArray,@"热门城市":@[@"杭州",@"北京",@"上海",@"重庆",@"成都",@"深圳",@"天津",@"西安",@"南京",@"广州",@"海外",@"全部"]};
     
     
     NSArray *arr2 = [dic2 allKeys];
@@ -239,7 +236,7 @@
 
 - (UISearchBar *)searchBar {
     if (!_searchBar) {
-        _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 44)];
+        _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 45)];
         _searchBar.delegate = self;
         _searchBar.placeholder = @"搜索";
         _searchBar.showsCancelButton = NO;
@@ -395,7 +392,9 @@
                     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"searchArr"];
                     
                     NSMutableArray *newArray = [NSMutableArray new];
-                    [newArray addObject:cell.textLabel.text];
+                    if (![searchArr containsObject:cell.textLabel.text]) {
+                        [newArray addObject:cell.textLabel.text];
+                    }
                     [newArray addObjectsFromArray:searchArr];
                     
                     if (newArray.count>3) {
@@ -404,6 +403,9 @@
                     //存入数组并同步
                     
                     [[NSUserDefaults standardUserDefaults] setObject:newArray forKey:@"searchArr"];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+                     
+                                                                        object:nil];
                     
                     
                 }
@@ -445,12 +447,17 @@
         
     }
     
-    
     if (indexPath.section > 2) {
         
         return 40;
         
-    }else{
+    }
+    if (indexPath.section == 2) {
+        NSArray *array = self.allDataSource[indexPath.section];
+        return array.count/3*45+15;
+    }
+    
+    else{
         
         NSArray *array = self.allDataSource[indexPath.section];
         return array.count/3*45 +60;
@@ -547,7 +554,10 @@
             NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"searchArr"];
             
             NSMutableArray *newArray = [NSMutableArray new];
-            [newArray addObject:str];
+            if (![searchArr containsObject:str]) {
+               [newArray addObject:str];
+            }
+            
             [newArray addObjectsFromArray:searchArr];
             
             if (newArray.count>3) {
@@ -558,6 +568,11 @@
             [[NSUserDefaults standardUserDefaults] setObject:newArray forKey:@"searchArr"];
             
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+             
+                                                                object:nil];
+            
         }
         
     }];
