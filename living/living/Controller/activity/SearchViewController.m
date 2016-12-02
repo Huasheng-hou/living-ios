@@ -44,6 +44,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = BG_GRAY_COLOR;
+    self.title = @"选择城市";
+    self.navigationController.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+                                                       NSForegroundColorAttributeName, nil];
     self.navigationController.navigationBar.barTintColor = LIVING_COLOR;
     // 设置导航栏左侧按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];

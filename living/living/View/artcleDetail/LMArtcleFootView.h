@@ -25,4 +25,6 @@
 
 @property (nonatomic,strong)UILabel  *comentcount;
 
+@property (nonatomic,strong)UILabel  *zanCount;
+
 @end

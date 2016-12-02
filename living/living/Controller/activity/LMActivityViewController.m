@@ -52,7 +52,7 @@
         self.hidesBottomBarWhenPushed   = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(loadNoState)
+                                                 selector:@selector(loadNewer)
                                                      name:@"reloadEvent"
                                                    object:nil];
     }

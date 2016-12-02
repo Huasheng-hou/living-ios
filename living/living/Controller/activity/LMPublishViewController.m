@@ -94,7 +94,7 @@ static NSMutableArray *cellDataArray;
     
     [self initSearch];
     
-    [self initMapView];
+//    [self initMapView];
     
     projectTitle = [NSMutableArray new];
     projectDsp = [NSMutableArray new];
@@ -376,7 +376,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)selectLocation
 {
-    addView = [[LMAddressChooseView alloc] init];
+    addView = [[LMAddressChooseView alloc] initWithIndex:2];
     [addView setDelegate:self];
     addView.addressTF.delegate = self;
     
@@ -485,7 +485,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)createPickerView
 {
-    addView2 = [[LMAddressChooseView alloc] init];
+    addView2 = [[LMAddressChooseView alloc] initWithIndex:1];
     [addView2 setDelegate:self];
     addView2.addressTF.delegate = self;
     [addView2.addressButton addTarget:self action:@selector(addPickerView) forControlEvents:UIControlEventTouchUpInside];
@@ -622,6 +622,29 @@ static NSMutableArray *cellDataArray;
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
+
+    if (kScreenWidth<375) {
+        if ([textView isEqual:addView.addressTF]) {
+            [UIView animateWithDuration:0.25f animations:^{
+               addView.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
+            } completion:^(BOOL finished) {
+
+            }];
+            
+        
+        }
+        if ([textView isEqual:addView2.addressTF]) {
+        
+            [UIView animateWithDuration:0.25f animations:^{
+                addView2.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
+            } completion:^(BOOL finished) {
+                
+            }];
+        }
+        
+    }
+
+    
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
@@ -631,11 +654,11 @@ static NSMutableArray *cellDataArray;
 {
     
     if ([textView isEqual:addView.addressTF]) {
-        
+        addView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     }else
     
     if ([textView isEqual:addView2.addressTF]) {
-        
+        addView2.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     }else
     if ([textView isEqual:msgCell.applyTextView]) {
         

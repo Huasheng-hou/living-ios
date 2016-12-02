@@ -80,6 +80,7 @@
 {
     [UIView animateWithDuration:0.3f animations:^{
         [whiteView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 220)];
+        self.alpha = 0;
     } completion:^(BOOL finished) {
         
         for (UIView *view in whiteView.subviews) {

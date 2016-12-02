@@ -16,14 +16,14 @@
 
 {
     UIView *whiteView;
-    
+    NSInteger _index;
 }
 
-- (id)init
+- (id)initWithIndex:(NSInteger)index;
 {
     self = [super init];
     if (self) {
-        
+        _index = index;
         [self createUI];
     }
     return self;
@@ -45,7 +45,15 @@
     [self addSubview:whiteView];
     
     UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, whiteView.frame.size.width, 44)];
-    [titleLabel setText:@"选择地址输入类型"];
+    
+    if (_index==1) {
+       [titleLabel setText:@"城市地址"];
+    }
+    if (_index ==2) {
+        [titleLabel setText:@"地址详情"];
+    }
+    
+    
     [titleLabel setFont:TEXT_FONT_LEVEL_2];
     [titleLabel setTextAlignment:NSTextAlignmentCenter];
     [whiteView addSubview:titleLabel];
@@ -54,16 +62,6 @@
     UILabel *line=[[UILabel alloc]initWithFrame:CGRectMake(0, 45, whiteView.frame.size.width, 0.5)];
     [line setBackgroundColor:LINE_COLOR];
     [whiteView addSubview:line];
-    
-//    //头像
-//    UIImageView *headImageV=[[UIImageView alloc]initWithFrame:CGRectMake(whiteView.frame.size.width/2-30, 60, 60, 60)];
-//    [headImageV sd_setImageWithURL:[NSURL URLWithString:_headImage]];
-//    [headImageV.layer setCornerRadius:30.0f];
-//    [headImageV.layer setMasksToBounds:YES];
-//    headImageV.clipsToBounds = YES;
-//    headImageV.contentMode = UIViewContentModeScaleAspectFill;
-//    [whiteView addSubview:headImageV];
-    
 
     _addressTF = [[UITextView alloc] initWithFrame:CGRectMake(10, 60, whiteView.frame.size.width-20, 60)];
     _addressTF.returnKeyType = UIReturnKeyDone;
@@ -71,7 +69,13 @@
     _addressTF.layer.borderWidth = 0.5;
     _addressTF.layer.borderColor = LINE_COLOR.CGColor;
     _msgLabel = [UILabel new];
-    _msgLabel.text = @"请输入地址内容";
+    
+    if (_index==1) {
+        _msgLabel.text = @"请输入城市";
+    }
+    if (_index ==2) {
+        _msgLabel.text = @"请输入详细地址";
+    }
     _msgLabel.font = TEXT_FONT_LEVEL_2;
     _msgLabel.textColor = TEXT_COLOR_LEVEL_2;
     [_msgLabel sizeToFit];

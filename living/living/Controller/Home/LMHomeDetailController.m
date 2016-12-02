@@ -313,6 +313,7 @@ shareTypeDelegate
         }
         
         footView.comentcount.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
+        footView.zanCount.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
         
         if ([articleData.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
             
@@ -1601,10 +1602,20 @@ shareTypeDelegate
         midBtn.frame = CGRectMake(kScreenWidth*2/3, 0, kScreenWidth/6, 45);
         bigBtn.frame = CGRectMake(kScreenWidth*5/6, 0, kScreenWidth/6, 45);
         
+        if (typeIndex ==1) {
+            [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+        }
         if (typeIndex ==2) {
             [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
             [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
             [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+        }
+        if (typeIndex ==3) {
+            [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
         }
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, kScreenWidth, 0.5)];
@@ -1633,12 +1644,10 @@ shareTypeDelegate
     
 }
 
-
-
 - (void)dismissSelf
 {
     [UIView animateWithDuration:0.3f animations:^{
-        [blackView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight-50)];
+        blackView.alpha = 0;
         [addView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
     } completion:^(BOOL finished) {
         

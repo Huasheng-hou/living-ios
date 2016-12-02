@@ -24,6 +24,6 @@
 
 @property(nonatomic,assign)id<addressTypeDelegate>delegate;
 
-- (id)init;
+- (id)initWithIndex:(NSInteger)index;
 
 @end

@@ -49,6 +49,13 @@
         
         [_commentButton addSubview:_comentcount];
         
+        _zanCount = [[UILabel alloc] initWithFrame:CGRectMake(_zanartcle.imageView.frame.origin.x+_zanartcle.imageView.frame.size.width/2+5, _zanartcle.imageView.frame.origin.y-5, _zanartcle.imageView.frame.size.width/2, 10)];
+        _zanCount.textColor = LIVING_COLOR;
+        _zanCount.textAlignment = NSTextAlignmentCenter;
+        _zanCount.font = [UIFont systemFontOfSize:9];
+        
+        [_zanartcle addSubview:_zanCount];
+        
     }
     return self;
 }
