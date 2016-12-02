@@ -262,42 +262,46 @@
                                                 }]];
         
         [self presentViewController:alert animated:YES completion:nil];
-  
     }
-    
 }
 
-
-
-
--(void)IsLoginIn
+- (void)IsLoginIn
 {
-    LMISLoginRequest *request = [[LMISLoginRequest alloc] init];
+    LMISLoginRequest    *request    = [[LMISLoginRequest alloc] init];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
                                                [self performSelectorOnMainThread:@selector(IsLoginInRespond:)
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
+        
                                            } failed:^(NSError *error) {
 
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   
+                                                   if (![[FitUserManager sharedUserManager] isLogin]) {
+                                                       
+                                                       [LMLoginViewController presentInViewController:self Animated:NO];
+                                                   }
+                                               });
                                            }];
     [proxy start];
-    
 }
 
--(void)IsLoginInRespond:(NSString *)resp
+- (void)IsLoginInRespond:(NSString *)resp
 {
     if ([resp isEqualToString:@"2"]) {
+        
         return;
-    }else{
+        
+    } else {
+     
         if (![[FitUserManager sharedUserManager] isLogin]) {
             
             [LMLoginViewController presentInViewController:self Animated:NO];
         }
     }
-    
 }
-
 
 @end
