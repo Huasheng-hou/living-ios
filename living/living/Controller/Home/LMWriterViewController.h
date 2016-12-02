@@ -6,13 +6,11 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitStatefulTableViewController.h"
 
-@interface LMWriterViewController : FitBaseViewController
+@interface LMWriterViewController :FitStatefulTableViewController
 
 @property(nonatomic,strong)NSString *writerUUid;
-
-@property (nonatomic)           int     current;
 
 
 -(id)initWithUUid:(NSString *)writerUUid;
