@@ -73,9 +73,8 @@
         locationManager.delegate = self;
         [locationManager requestAlwaysAuthorization];
         _currentCity = [[NSString alloc] init];
+        _currentCity = @"定位中";
         [locationManager startUpdatingLocation];
-    }else{
-        [self textStateHUD:@"请打开定位"];
     }
     
 }
@@ -121,11 +120,13 @@
         [[UIApplication sharedApplication] openURL:settingsURL];
     }];
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
+        _currentCity = @"定位失败";
     }];
     [alertVC addAction:cancel];
     [alertVC addAction:ok];
     [self presentViewController:alertVC animated:YES completion:nil];
+    
+    [self.tv reloadData];
     
 }
 //定位成功
@@ -140,7 +141,7 @@
             CLPlacemark *placeMark = placemarks[0];
             _currentCity = placeMark.locality;
             if (!_currentCity) {
-                _currentCity = @"无法定位当前城市";
+                _currentCity = @"定位失败";
             }
    
            [self setCityInfo];
@@ -183,8 +184,9 @@
     self.allData = [NSMutableArray array];
     self.resultData = [NSMutableArray array];
 
+    
     NSArray *arrs = [[NSUserDefaults standardUserDefaults] objectForKey:@"mutableArr"];
-    if (arrs.count>0) {
+    if (arrs != nil) {
           locArray = arrs;
         }else{
         locArray = @[_currentCity];
