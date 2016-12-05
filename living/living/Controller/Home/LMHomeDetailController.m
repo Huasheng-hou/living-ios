@@ -328,7 +328,11 @@ shareTypeDelegate
         }
         
         footView.comentcount.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
+        [footView.comentcount sizeToFit];
+        footView.comentcount.frame = CGRectMake(footView.commentButton.imageView.frame.origin.x+footView.commentButton.imageView.frame.size.width/2+1, footView.commentButton.imageView.frame.origin.y-5, footView.comentcount.bounds.size.width, 10);
         footView.zanCount.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
+        [footView.zanCount sizeToFit];
+        footView.zanCount.frame = CGRectMake(footView.zanartcle.imageView.frame.origin.x+footView.zanartcle.imageView.frame.size.width/2+6,footView.zanartcle.imageView.frame.origin.y-5, footView.zanCount.bounds.size.width, 10);
         if (articleData.commentNum&&articleData.commentNum!=0 ) {
             [footView.commentButton setImage:[UIImage imageNamed:@"comment-red"] forState:UIControlStateNormal];
         }else{

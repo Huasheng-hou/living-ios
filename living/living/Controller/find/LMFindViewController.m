@@ -24,8 +24,6 @@
 
 @interface LMFindViewController ()
 <
-UITableViewDelegate,
-UITableViewDataSource,
 WJLoopViewDelegate,
 LMFindCellDelegate
 >
@@ -268,6 +266,16 @@ LMFindCellDelegate
     
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.listData&&self.listData.count>0) {
+        NSLog(@"语言课堂");
+    }
+}
+
+
+
 
 - (void)cellWillClick:(LMFindCell *)cell
 {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		352905D71DF54E470062196C /* LMLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352905D61DF54E470062196C /* LMLessonViewController.m */; };
 		3547F4C11D9905190068F04E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C01D9905190068F04E /* libsqlite3.tbd */; };
 		3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C21D99052D0068F04E /* libstdc++.6.tbd */; };
 		3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C41D99053A0068F04E /* CoreLocation.framework */; };
@@ -359,6 +360,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		352905D51DF54E470062196C /* LMLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonViewController.h; sourceTree = "<group>"; };
+		352905D61DF54E470062196C /* LMLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLessonViewController.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F4C01D9905190068F04E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3547F4C21D99052D0068F04E /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
@@ -1182,6 +1185,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		352905D41DF54DBF0062196C /* Lesson */ = {
+			isa = PBXGroup;
+			children = (
+				352905D51DF54E470062196C /* LMLessonViewController.h */,
+				352905D61DF54E470062196C /* LMLessonViewController.m */,
+			);
+			path = Lesson;
+			sourceTree = "<group>";
+		};
 		3547F3251D9901770068F04E = {
 			isa = PBXGroup;
 			children = (
@@ -1680,6 +1692,7 @@
 			children = (
 				35B744F51DDE97F2000AFA26 /* LMFindViewController.h */,
 				35B744F61DDE97F2000AFA26 /* LMFindViewController.m */,
+				352905D41DF54DBF0062196C /* Lesson */,
 			);
 			path = find;
 			sourceTree = "<group>";
@@ -3266,6 +3279,7 @@
 				35B747E71DDE97F4000AFA26 /* LMBalanceBillVO.m in Sources */,
 				35B747F91DDE97F4000AFA26 /* PayloadVO.m in Sources */,
 				35B747101DDE97F3000AFA26 /* DataVerifier.m in Sources */,
+				352905D71DF54E470062196C /* LMLessonViewController.m in Sources */,
 				35B747D71DDE97F4000AFA26 /* LMFranchiseeWchatPayRequest.m in Sources */,
 				35B747C91DDE97F3000AFA26 /* LMOrderListRequest.m in Sources */,
 				35B747431DDE97F3000AFA26 /* FitUserInfoManager.m in Sources */,
