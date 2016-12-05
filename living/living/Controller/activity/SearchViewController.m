@@ -16,6 +16,7 @@
 {
     CLLocationManager *locationManager;
     NSArray *locArray;
+    UIView  *backView;
 }
 
 @property (strong, nonatomic) UIView *statusBar;
@@ -88,7 +89,7 @@
     
     if (!_tv) {
         
-        _tv = [[UITableView alloc]initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight)];
+        _tv = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+45, kScreenWidth, kScreenHeight-45-64)];
         _tv.delegate = self;
         _tv.dataSource = self;
         [_tv registerClass:[TableViewCell class] forCellReuseIdentifier:@"TableViewCellID"];
@@ -102,9 +103,10 @@
 - (UITableView *)tv2{
     
     if (!_tv2) {
-        _tv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 104-44, kScreenWidth, kScreenHeight)];
+        _tv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+45, kScreenWidth, kScreenHeight-64-45)];
         _tv2.delegate = self;
         _tv2.dataSource = self;
+        _tv2.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
    
     }
     
@@ -202,7 +204,7 @@
         newArray = @[@"杭州"];
     }
     
-    NSDictionary *dic2 = @{@"定位城市":locArray,@"最近访问城市":newArray,@"热门城市":@[@"杭州",@"北京",@"上海",@"重庆",@"成都",@"深圳",@"天津",@"西安",@"南京",@"广州",@"海外",@"全部"]};
+    NSDictionary *dic2 = @{@"定位城市":locArray,@"最近访问城市":newArray,@"热门城市":@[@"杭州",@"北京",@"上海",@"重庆",@"成都",@"深圳",@"天津",@"西安",@"南京",@"广州",@"其它",@"全部"]};
     
     
     NSArray *arr2 = [dic2 allKeys];
@@ -441,6 +443,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView ==_tv2) {
+        return 40;
+    }else{
     
     if (indexPath.section == 1) {
         NSArray *array = self.allDataSource[indexPath.section];
@@ -468,7 +473,8 @@
         return array.count/3*45 +60;
         
     }
-        
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -492,6 +498,9 @@
     NSArray *filterdArray = [(NSArray *)self.allData filteredArrayUsingPredicate:predicate];
     
     [self.resultData addObjectsFromArray:filterdArray];
+    if (self.resultData.count>0) {
+        [backView removeFromSuperview];
+    }
     
     [self.view bringSubviewToFront:self.tv2];
     [self.tv2 reloadData];
@@ -500,42 +509,43 @@
     
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    [self.resultData removeAllObjects];
+    //一维查找
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains [cd] %@", searchBar.text];
+    
+    NSArray *filterdArray = [(NSArray *)self.allData filteredArrayUsingPredicate:predicate];
+    
+    [self.resultData addObjectsFromArray:filterdArray];
+    
+    if (self.resultData.count>0) {
+        [backView removeFromSuperview];
+    }
+    
+    [self.view bringSubviewToFront:self.tv2];
+    [self.tv2 reloadData];
+}
+
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     
+    _searchBar.showsCancelButton = YES;
+    backView = [[UIView alloc] initWithFrame:CGRectMake(0, 64+45, kScreenWidth, kScreenHeight-64-45)];
+    backView.backgroundColor = [UIColor blackColor];
+    backView.alpha=0.5;
+    [self.view addSubview:backView];
     
-    //仅供参考
-    self.statusBar = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 21)];
-    self.statusBar.backgroundColor = RGBA(201, 201, 206, 1);
-    [self.view addSubview:self.statusBar];
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-        self.tv.frame = CGRectMake(0, 104-44, kScreenWidth, kScreenHeight);
-//        self.tv2.frame = CGRectMake(0, 104-44, kScreenWidth, kScreenHeight-22);
-        _searchBar.frame = CGRectMake(0, 20, kScreenWidth, 44);
-        self.statusBar.frame = CGRectMake(0, 0, kScreenWidth, 21);
-        _searchBar.showsCancelButton = YES;
-        
-        
-    }];
+    
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
     _searchBar.showsCancelButton = NO;
     [_searchBar resignFirstResponder];
-    _searchBar.text = @"";
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
-        self.tv.frame = CGRectMake(0, 104, kScreenWidth, kScreenHeight);
-        _searchBar.frame = CGRectMake(0, 64, kScreenWidth, 44);
-        [self.statusBar removeFromSuperview];
-        
-        [self.view sendSubviewToBack:self.tv2];
-    }];
-
+    [backView removeFromSuperview];
+    [self.view sendSubviewToBack:self.tv2];
 }
 
 - (void)cancelBtnClick{

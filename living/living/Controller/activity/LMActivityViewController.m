@@ -231,7 +231,7 @@
         city = cityStr;
     }
     
-    if ([city isEqual:@"海外"]) {
+    if ([city isEqual:@"其它"]) {
         city = @"其它";
     }
     if ([city isEqual:@"全部"]) {

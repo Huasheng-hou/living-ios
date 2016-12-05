@@ -314,7 +314,11 @@ shareTypeDelegate
         
         footView.comentcount.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
         footView.zanCount.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
-        
+        if (articleData.commentNum&&articleData.commentNum!=0 ) {
+            [footView.commentButton setImage:[UIImage imageNamed:@"comment-red"] forState:UIControlStateNormal];
+        }else{
+            [footView.commentButton setImage:[UIImage imageNamed:@"comment"] forState:UIControlStateNormal];
+        }
         if ([articleData.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
             
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"删除"
@@ -652,13 +656,6 @@ shareTypeDelegate
             [contentLabel sizeToFit];
             
             [cell.contentView addSubview:contentLabel];
-            
-            
-
-            //            zanLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
-
-
-            //            commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
 
             
             if (articleData.articleImgs) {
