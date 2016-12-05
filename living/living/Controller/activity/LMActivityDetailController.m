@@ -133,7 +133,7 @@ shareTypeDelegate
 
 - (void)creatUI
 {
-    self.tableView  = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight + 10)
+    self.tableView  = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
                                                    style:UITableViewStyleGrouped];
     
     self.tableView.delegate     = self;
@@ -295,6 +295,10 @@ shareTypeDelegate
             
             LMEventCommentVO *list = [LMEventCommentVO LMEventCommentVOWithDictionary:array[i]];
             [msgArray addObject:list];
+        }
+        
+        if (msgArray&&msgArray.count>0) {
+            self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight+10);
         }
         
         NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"event_projects_body"]];

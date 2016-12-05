@@ -207,7 +207,7 @@ buttonTypeDelegate>
     if (str.length >9) {
         scanResult = [str substringFromIndex:9];
         
-        if ([scanResult isEqual:@"partner//"]) {
+        if ([str containsString:@"partner//"]) {
             [self get2Dcoderesult:scanResult];
         }else{
             LM2DresultViewController *resultVC = [[LM2DresultViewController alloc] init];

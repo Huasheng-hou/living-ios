@@ -77,7 +77,7 @@
         _msgLabel.text = @"请输入详细地址";
     }
     _msgLabel.font = TEXT_FONT_LEVEL_2;
-    _msgLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _msgLabel.textColor = TEXT_COLOR_LEVEL_3;
     [_msgLabel sizeToFit];
     _msgLabel.frame = CGRectMake(5, 0, _msgLabel.bounds.size.width, 25);
     [_addressTF addSubview:_msgLabel];

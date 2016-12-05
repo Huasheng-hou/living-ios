@@ -120,8 +120,23 @@ shareTypeDelegate
     hightArray = [NSMutableArray new];
     imageArray = [NSMutableArray new];
     
-    typeIndex = 2;
-    
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"typeArr"];
+    if (searchArr.count&&searchArr.count>0) {
+        for (NSString *str in searchArr) {
+            if ([str isEqualToString:@"大"]) {
+                typeIndex = 1;
+            }
+            if ([str isEqualToString:@"中"]) {
+                typeIndex = 2;
+            }
+            if ([str isEqualToString:@"小"]) {
+                typeIndex = 3;
+            }
+        }
+    }else{
+        typeIndex = 2;
+    }
+
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"举报"
                                                                   style:UIBarButtonItemStylePlain
@@ -755,6 +770,13 @@ shareTypeDelegate
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 
+    NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"大", nil];
+
+    //存入数组并同步
+    
+    [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"typeArr"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
 
@@ -768,7 +790,13 @@ shareTypeDelegate
     [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
     [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
 
+    NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"中", nil];
     
+    //存入数组并同步
+    
+    [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"typeArr"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void)smallBtnButton
@@ -781,7 +809,13 @@ shareTypeDelegate
     [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
     [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
 
+    NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"小", nil];
     
+    //存入数组并同步
+    
+    [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"typeArr"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark 对图片尺寸进行压缩

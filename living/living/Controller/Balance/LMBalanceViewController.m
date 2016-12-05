@@ -119,8 +119,6 @@ UITableViewDataSource
     if (section!=0) {
         
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-        
-        
         headView.backgroundColor    = BG_GRAY_COLOR;
         UILabel *headLb = [UILabel new];
         
@@ -128,9 +126,24 @@ UITableViewDataSource
         
         NSInteger lengthString=[str length];
         
+        NSDate *  senddate=[NSDate date];
+        
+        NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+        
+        [dateformatter setDateFormat:@"YYYY-MM"];
+        
+        NSString *  locationString=[dateformatter stringFromDate:senddate];
+
+        
         if (section == 1) {
-            
-            headLb.text = @"本月";
+            if ([locationString isEqualToString:str]) {
+               headLb.text = @"本月";
+            }else{
+                NSString *needStr=[str substringWithRange:NSMakeRange(5, lengthString-5)];
+                
+                headLb.text=[NSString stringWithFormat:@"%@月",needStr];
+            }
+           
         } else {
             
             if (lengthString>5) {

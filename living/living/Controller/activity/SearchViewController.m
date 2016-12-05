@@ -104,6 +104,7 @@
     
     if (!_tv2) {
         _tv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+45, kScreenWidth, kScreenHeight-64-45)];
+        _tv2.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
         _tv2.delegate = self;
         _tv2.dataSource = self;
         _tv2.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
@@ -543,6 +544,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
     _searchBar.showsCancelButton = NO;
+    _searchBar.text = @"";
     [_searchBar resignFirstResponder];
     [backView removeFromSuperview];
     [self.view sendSubviewToBack:self.tv2];
@@ -593,8 +595,6 @@
     }];
     
 }
-
-
 
 
 @end

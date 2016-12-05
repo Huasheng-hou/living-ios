@@ -407,7 +407,11 @@ static NSMutableArray *cellDataArray;
             [addView removeFromSuperview];
             _latitude   = 0;
             _longitude  = 0;
-            msgCell.dspTF.text = addView.addressTF.text;
+            
+            if (addView.addressTF.text.length>0) {
+                msgCell.dspTF.text = addView.addressTF.text;
+            }
+            
             NSLog(@"*************");
         }else{
             [addView removeFromSuperview];
@@ -418,7 +422,10 @@ static NSMutableArray *cellDataArray;
         if (type==1) {//确定
             
             [addView2 removeFromSuperview];
-            msgCell.addressButton.textLabel.text = addView2.addressTF.text;
+            if (addView2.addressTF.text.length>0) {
+                msgCell.addressButton.textLabel.text = addView2.addressTF.text;
+            }
+            
         }else{
             [addView2 removeFromSuperview];
         }
