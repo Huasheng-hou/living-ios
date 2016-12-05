@@ -30,6 +30,7 @@
 #import "LMArticeDeleteReplyRequst.h"
 #import "LMWriterViewController.h"
 #import "LMArtcleFootView.h"
+#import "SQMenuShowView.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -80,6 +81,9 @@ shareTypeDelegate
     LMArtcleFootView *footView;
     NSMutableArray *clickArr;
 }
+
+@property (strong, nonatomic)  SQMenuShowView *showView;
+@property (assign, nonatomic)  BOOL  isShow;
 
 @end
 
@@ -138,15 +142,27 @@ shareTypeDelegate
     }
 
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"举报"
-                                                                  style:UIBarButtonItemStylePlain
-                                                                 target:self
-                                                                 action:@selector(reportAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction)];
     
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    self.navigationItem.hidesBackButton = YES;
     
 }
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+    self.tableView.userInteractionEnabled = YES;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.showView dismissView];
+}
+
+
 
 -(void)reportAction
 {
@@ -154,16 +170,17 @@ shareTypeDelegate
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该文章"
                                                                    message:nil
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                              style:UIAlertActionStyleCancel
-                                            handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    [alert addAction:[UIAlertAction actionWithTitle:@"举报"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
                                                 [self textStateHUD:@"您已经举报了该文章"];
                                                 
                                             }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+
     
     [self presentViewController:alert animated:YES completion:nil];
     
@@ -1559,12 +1576,6 @@ shareTypeDelegate
         textIndex = 1;
     }
     return YES;
-}
-
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self.view endEditing:YES];
-    self.tableView.userInteractionEnabled = YES;
 }
 
 
