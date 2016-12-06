@@ -13,6 +13,7 @@
 #import "LMPublicArticleRequest.h"
 #import "ImageHelpTool.h"
 #import "UIView+frame.h"
+#import "LMPAHeadViewCell.h"
 
 
 @interface LMPublicArticleController ()
@@ -26,50 +27,43 @@ UINavigationControllerDelegate,
 UIScrollViewDelegate,
 UIAlertViewDelegate,
 ZYQAssetPickerControllerDelegate,
-UIViewControllerTransitioningDelegate
+UIViewControllerTransitioningDelegate,
+LMPAHeadViewCellDelegate
 >
 {
     UIImagePickerController *pickImage;
     ZYQAssetPickerController *picker;
-    UIView *viewScroll;
-    UIButton *addImageBt;
-    UILabel *tip;
-    UITextView * textView;
     NSMutableArray *imageUrlArray;
     NSMutableArray *imageArray;
     NSUInteger imageNum;
     NSInteger deleImageIndex;
     UITextField *titleTF;
     UITextField *discribleTF;
-    UIScrollView *scrollview;
-    CGFloat textHight;
-    UIView *backView;
-    UIToolbar *toolBar;
-    UIButton *zanButton;
+    LMPAHeadViewCell *cell;
+    NSMutableArray *projectImageArray;
+    NSInteger addImageIndex;
+    NSMutableArray *cellDataArray;
 }
 
 @end
 
 @implementation LMPublicArticleController
 
-+ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated
-{
-    if (!viewController) {
-        return;
-    }
-    
-    LMPublicArticleController      *publicVC    = [[LMPublicArticleController alloc] init];
-    FitNavigationController *navVC      = [[FitNavigationController alloc] initWithRootViewController:publicVC];
-    
-    [viewController presentViewController:navVC animated:animated completion:^{
-        
-    }];
-}
+static NSMutableArray *cellDataArray;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self registerForKeyboardNotifications];
+    self.tableView  = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                                   style:UITableViewStyleGrouped];
+    
+    self.tableView.delegate                 = self;
+    self.tableView.dataSource               = self;
+    self.tableView.keyboardDismissMode      = UIScrollViewKeyboardDismissModeOnDrag;
+    self.tableView.separatorStyle           = UITableViewCellSeparatorStyleNone;
+    
+    [self.view addSubview:self.tableView];
+
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStylePlain target:self action:@selector(publishArtcle)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -77,61 +71,16 @@ UIViewControllerTransitioningDelegate
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
     self.navigationItem.leftBarButtonItem = leftItem;
     
-    
     [self createUI];
     
-    imageArray      = [NSMutableArray arrayWithCapacity:0];
+    imageArray    = [NSMutableArray arrayWithCapacity:0];
     imageUrlArray = [NSMutableArray arrayWithCapacity:0];
-}
-
-#pragma mark 键盘部分
-
-- (void) registerForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter]  addObserver:self
-                                              selector:@selector(keyboardWasHidden:)
-                                                  name:UIKeyboardWillHideNotification
-                                                object:nil];
-    
-}
-
-
-- (void) keyboardWasShown:(NSNotification *) notif
-{
-    toolBar = [UIToolbar new];
-    CGFloat curkeyBoardHeight = [[[notif userInfo] objectForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue].size.height;
-    CGRect begin = [[[notif userInfo] objectForKey:@"UIKeyboardFrameBeginUserInfoKey"] CGRectValue];
-    CGRect end = [[[notif userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
-    
-    // 第三方键盘回调三次问题，监听仅执行最后一次
-    
-    if (begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
-        
-        [UIView animateWithDuration:0.1f animations:^{
-            [toolBar setFrame:CGRectMake(0, kScreenHeight-curkeyBoardHeight+toolBar.height, kScreenWidth, toolBar.height)];
-            
-        }];
-    }
-}
-
-- (void) keyboardWasHidden:(NSNotification *) notif
-{
-    [UIView animateWithDuration:0.1f animations:^{
-        
-        [toolBar setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
-        
-    }];
+    cellDataArray = [NSMutableArray new];
 }
 
 - (void)createUI
 {
     self.title = @"发布文章";
-    
-    toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 45)];
-    toolBar. barStyle = UIBarButtonItemStylePlain ;
-    [[UIApplication sharedApplication].keyWindow addSubview :toolBar];
     pickImage=[[UIImagePickerController alloc]init];
     
     [pickImage setDelegate:self];
@@ -139,18 +88,10 @@ UIViewControllerTransitioningDelegate
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     // [pickImage setAllowsEditing:YES];
     
-    zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
-    zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [zanButton setTitle:@"完成" forState:UIControlStateNormal];
-    [zanButton setTitleColor:BLUE_COLOR forState:UIControlStateNormal];
-    [zanButton addTarget:self action:@selector(hiddenKeyboard) forControlEvents:UIControlEventTouchUpInside];
-    zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
-    [toolBar addSubview:zanButton];
-    
     //
-    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 65, kScreenWidth, kScreenHeight)];
+    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,90+10)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
-    [self.view addSubview:bgView];
+    self.tableView.tableHeaderView =  bgView;
     //
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5, kScreenWidth, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
@@ -182,45 +123,106 @@ UIViewControllerTransitioningDelegate
     line.backgroundColor = LINE_COLOR;
     [bgView addSubview:line];
     
-    //正文
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, (kScreenHeight-95-65)/3-20)];
-    textHight =(kScreenHeight-95-65)/3-20;
-    [textView setDelegate:self];
-    [textView setBackgroundColor:[UIColor whiteColor]];
-    textView.font = TEXT_FONT_LEVEL_2;//设置字体名字和字体大小
-    textView.delegate = self;//设置它的委托方法
-    textView.inputAccessoryView = toolBar;
-    textView.keyboardType = UIKeyboardTypeDefault;//键盘类型
-    textView.scrollEnabled = YES;//是否可以拖动
-    textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
-    [bgView addSubview: textView];//加入到整个页面中
     
-    //textView的提示文字
-    tip=[[UILabel alloc]initWithFrame:CGRectMake(12, 57+45, kScreenWidth-20, 25)];
-    tip.text = @"请输入正文";//设置它显示的内容
-    tip.textColor = TEXT_COLOR_LEVEL_4;//设置textview里面的字体颜色
-    tip.font = TEXT_FONT_LEVEL_2;//设置字体名字和字体大小
-    [bgView addSubview:tip];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section==0) {
+        if (cellDataArray.count<1) {
+            return 1;
+        }else{
+            return cellDataArray.count;
+        }
+      
+    }
+    return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat startX=15;
+    CGFloat space=10;
+    CGFloat buttonW=(kScreenWidth-startX*2-space*3)/4;
     
-    //加载图片，父视图是scroll
-    scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, (kScreenHeight-95-65)/3+95+20, kScreenWidth, (kScreenHeight-95-65)*2/3+20)];
-    scrollview.backgroundColor = [UIColor whiteColor];
-    scrollview.scrollEnabled = YES;
-    [scrollview setContentSize:CGSizeMake(kScreenWidth, (kScreenHeight-95-65)*2/3)];
-    [scrollview setDelegate:self];
-    [bgView addSubview:scrollview];
-    
-    
-    viewScroll=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, (kScreenHeight-95-65)*2/3)];
-    [viewScroll setBackgroundColor:[UIColor whiteColor]];
-    
-    addImageBt=[[UIButton alloc]initWithFrame:[self setupImageFrame:0]];
-    
-    [addImageBt setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-    [addImageBt addTarget:self action:@selector(selectImage) forControlEvents:UIControlEventTouchUpInside];
-    [viewScroll addSubview:addImageBt];
-    [scrollview addSubview:viewScroll];
-    
+    if (indexPath.section==0) {
+        
+        if (imageNum<4) {
+            
+            return 260;
+            
+        } else if (imageNum < 8) {
+            
+           return 260 +buttonW+space*2;
+            
+        } else if (imageNum < 12) {
+            return 260 +buttonW*2+space*3;
+        } else {
+            return 260 +buttonW*3+space*4;
+        }
+        return 260;
+    }
+    return 100;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0) {
+        static NSString *cellId = @"cellId";
+        cell  = [[LMPAHeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.tag = indexPath.row;
+        cell.includeTF.delegate = self;
+        [cell.includeTF setTag:indexPath.row];
+        cell.delegate = self;
+        
+        return cell;
+    }
+        
+    if (indexPath.section==1) {
+        static NSString *cellId = @"cellId";
+        UITableViewCell *addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+
+        addCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 45)];
+        textLabel.text = @"添加内容";
+        textLabel.textAlignment = NSTextAlignmentCenter;
+        textLabel.font = TEXT_FONT_LEVEL_1;
+        [addCell.contentView addSubview:textLabel];
+        textLabel.backgroundColor = [UIColor whiteColor];
+        
+        addCell.backgroundColor = [UIColor clearColor];
+        return addCell;
+    }
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==1) {
+        if (cellDataArray.count<2) {
+            [cellDataArray addObject:@""];
+        }
+        [cellDataArray addObject:@""];
+        [self refreshData];
+    }
 }
 
 -(void)selectImage
@@ -244,7 +246,8 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark - ZYQAssetPickerController Delegate
 
--(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
+-(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
     
     for (int i=0; i<assets.count; i++) {
         imageNum++;
@@ -253,7 +256,7 @@ UIViewControllerTransitioningDelegate
         
         [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:tempImg];
     }
-    [addImageBt setFrame:[self setupImageFrame:imageNum]];
+    [cell.addButton setFrame:[self setupImageFrame:imageNum]];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         for (int i=0; i<assets.count; i++) {
@@ -272,37 +275,7 @@ UIViewControllerTransitioningDelegate
 
 -(void)setViewScrollViewHeight:(NSInteger)num
 {
-    CGFloat startX=15;
-    CGFloat space=10;
-    CGFloat buttonW=(kScreenWidth-startX*2-space*3)/4;
-    CGFloat height=100+45;
-    
-    if (imageNum<4) {
-        
-        [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW+space*2)];
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW+space*2)];
-        
-    } else if (imageNum < 8) {
-        
-        [viewScroll setFrame:CGRectMake(0, 0, kScreenWidth,height+buttonW*2+space*3)];
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW*2+space*3)];
-    } else if (imageNum < 12) {
-        
-        viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*3+space*4);
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW*3+space*4)];
-    } else {
-        
-        viewScroll.frame = CGRectMake(0, 0, kScreenWidth, height+buttonW*4+space*5);
-        [scrollview setContentSize:CGSizeMake(kScreenWidth, 45+buttonW*4+space*5)];
-    }
-    
-    if (imageNum==15) {
-        addImageBt.hidden= YES;
-    }else{
-        addImageBt.hidden = NO;
-    }
-    
-    
+    [self refreshData];
 }
 
 #pragma mark UIImagePickerController代理函数
@@ -319,7 +292,7 @@ UIViewControllerTransitioningDelegate
     
     [imageArray addObject:image];
     
-    [addImageBt setFrame:[self setupImageFrame:imageNum]];
+    [cell.addButton setFrame:[self setupImageFrame:imageNum]];
     
     [self setViewScrollViewHeight:imageArray.count];
     
@@ -390,11 +363,11 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-    if (textView.text.length ==0) {
+    if (cell.includeTF.text.length ==0) {
         [self textStateHUD:@"请输入正文！"];
         return;
     }
-    NSString *string = [textView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *string = [cell.includeTF.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([string isEqual:@""]) {
         [self textStateHUD:@"请输入文字信息！"];
         return;
@@ -414,44 +387,6 @@ UIViewControllerTransitioningDelegate
     }
 }
 
-- (BOOL)stringContainsEmoji:(NSString *)string
-{
-    __block BOOL returnValue = NO;
-    
-    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
-                               options:NSStringEnumerationByComposedCharacterSequences
-                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-                                const unichar hs = [substring characterAtIndex:0];
-                                if (0xd800 <= hs && hs <= 0xdbff) {
-                                    if (substring.length > 1) {
-                                        const unichar ls = [substring characterAtIndex:1];
-                                        const int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
-                                        if (0x1d000 <= uc && uc <= 0x1f77f) {
-                                            returnValue = YES;
-                                        }
-                                    }
-                                } else if (substring.length > 1) {
-                                    const unichar ls = [substring characterAtIndex:1];
-                                    if (ls == 0x20e3) {
-                                        returnValue = YES;
-                                    }
-                                } else {
-                                    if (0x2100 <= hs && hs <= 0x27ff) {
-                                        returnValue = YES;
-                                    } else if (0x2B05 <= hs && hs <= 0x2b07) {
-                                        returnValue = YES;
-                                    } else if (0x2934 <= hs && hs <= 0x2935) {
-                                        returnValue = YES;
-                                    } else if (0x3297 <= hs && hs <= 0x3299) {
-                                        returnValue = YES;
-                                    } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50) {
-                                        returnValue = YES;
-                                    }
-                                }
-                            }];
-    
-    return returnValue;
-}
 
 #pragma mark 设置图片位置
 
@@ -475,11 +410,6 @@ UIViewControllerTransitioningDelegate
     return rect;
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [self.view endEditing:YES];
-}
-
 #pragma mark scroll加载图片
 
 - (void)addImageViewFrame:(CGRect)rect andImage:(UIImage *)imag;
@@ -490,7 +420,7 @@ UIViewControllerTransitioningDelegate
     [image setImage:imag];
     [image setTag:imageNum-1];
     [image setUserInteractionEnabled:YES];
-    [viewScroll addSubview:image];
+    [cell.contentView addSubview:image];
     
     UITapGestureRecognizer      *tap    = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(lookBigImage:)];
     [image addGestureRecognizer:tap];
@@ -544,7 +474,7 @@ UIViewControllerTransitioningDelegate
         
         [imageArray removeObjectAtIndex:deleImageIndex];
         
-        for (UIView *view in viewScroll.subviews) {
+        for (UIView *view in cell.subviews) {
             if ([view isKindOfClass:[UIImageView class]]) {
                 UIImageView *image=(UIImageView *)view;
                 [image removeFromSuperview];
@@ -557,10 +487,10 @@ UIViewControllerTransitioningDelegate
             UIImage *image=(UIImage *)imageArray[i];
             [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:image];
         }
-        [addImageBt setFrame:[self setupImageFrame:imageArray.count]];
+        [cell.addButton setFrame:[self setupImageFrame:imageArray.count]];
     }else{
         
-        for (UIView *view in viewScroll.subviews) {
+        for (UIView *view in cell.subviews) {
             if ([view isKindOfClass:[UIImageView class]]) {
                 
                 UIImageView *imageV=(UIImageView *)[view viewWithTag:deleImageIndex];
@@ -576,6 +506,12 @@ UIViewControllerTransitioningDelegate
     
     [self setViewScrollViewHeight:imageNum];
 }
+
+- (void)cellWilladdImage:(LMPAHeadViewCell *)cell
+{
+    [self selectImage];
+}
+
 
 #pragma mark 获取图片的url
 
@@ -649,7 +585,7 @@ UIViewControllerTransitioningDelegate
     
     [self initStateHud];
     
-    LMPublicArticleRequest *request     = [[LMPublicArticleRequest alloc] initWithArticlecontent:textView.text
+    LMPublicArticleRequest *request     = [[LMPublicArticleRequest alloc] initWithArticlecontent:cell.includeTF.text
                                                                                    Article_title:titleTF.text
                                                                                       Descrition:discribleTF.text
                                                                                      andImageURL:imageUrlArray];
@@ -707,40 +643,37 @@ UIViewControllerTransitioningDelegate
     return YES;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+- (void)textViewDidChange:(UITextView *)textView
 {
-    [self resignCurrentFirstResponder];
-    return YES;
+    for (UIView *view in textView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            if (textView.text.length>0) {
+                [view setHidden:YES];
+            }else{
+                [view setHidden:NO];
+            }
+        }
+    }
+
 }
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self scrollEditingRectToVisible:textView.frame EditingView:textView];
+}
+
 
 - (void)closeAction
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+- (void)refreshData
 {
-    [self.view endEditing:YES];
-}
-
-//获取textView高度
-
-- (void)textViewDidChange:(UITextView *)textV{
-    
-    if ([textV isEqual:textView]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        if (textView.text.length==0) {
-            
-            tip.hidden=NO;
-        }else{
-            tip.hidden=YES;
-        }
-    }
-}
-
-- (void)hiddenKeyboard
-{
-    [self.view endEditing:YES];
+        [self.tableView reloadData];
+    });
 }
 
 @end

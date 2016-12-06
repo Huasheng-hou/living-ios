@@ -123,7 +123,8 @@ LMhomePageCellDelegate
 
 - (void)publicAction
 {
-    [LMPublicArticleController presentInViewController:self Animated:YES];
+    LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
+    [self.navigationController pushViewController:publicVC animated:YES];
 }
 
 - (void)getBannerDataRequest

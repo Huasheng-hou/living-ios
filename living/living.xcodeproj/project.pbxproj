@@ -14,6 +14,7 @@
 		3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C61D9905440068F04E /* CoreText.framework */; };
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
+		356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
@@ -369,6 +370,8 @@
 		3547F4C61D9905440068F04E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3547F4C81D99054C0068F04E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		356763231DF66B1B0062B0E1 /* LMPAHeadViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPAHeadViewCell.h; sourceTree = "<group>"; };
+		356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPAHeadViewCell.m; sourceTree = "<group>"; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
@@ -1212,6 +1215,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		356763221DF6690C0062B0E1 /* publicArtcle */ = {
+			isa = PBXGroup;
+			children = (
+				356763231DF66B1B0062B0E1 /* LMPAHeadViewCell.h */,
+				356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */,
+			);
+			path = publicArtcle;
+			sourceTree = "<group>";
+		};
 		35B743F71DDE97F2000AFA26 /* living */ = {
 			isa = PBXGroup;
 			children = (
@@ -1618,11 +1630,11 @@
 		35B744CE1DDE97F2000AFA26 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				35B744F71DDE97F2000AFA26 /* Home */,
 				35B744CF1DDE97F2000AFA26 /* activity */,
 				35B744E21DDE97F2000AFA26 /* Balance */,
 				35B744E91DDE97F2000AFA26 /* Base */,
 				35B744F41DDE97F2000AFA26 /* find */,
-				35B744F71DDE97F2000AFA26 /* Home */,
 				35B745021DDE97F2000AFA26 /* Login */,
 				35B745071DDE97F2000AFA26 /* Order */,
 				35B7450A1DDE97F2000AFA26 /* person */,
@@ -2639,6 +2651,7 @@
 		35B746991DDE97F3000AFA26 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				356763221DF6690C0062B0E1 /* publicArtcle */,
 				35E6866E1DEFC85100B43000 /* artcleDetail */,
 				35B7469A1DDE97F3000AFA26 /* activity */,
 				35B746C21DDE97F3000AFA26 /* find */,
@@ -3232,6 +3245,7 @@
 				35B747181DDE97F3000AFA26 /* MJPhotoBrowser.m in Sources */,
 				35B747DF1DDE97F4000AFA26 /* LMRegisterRequest.m in Sources */,
 				35B747371DDE97F3000AFA26 /* WXApiManager.m in Sources */,
+				356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */,
 				35B747D01DDE97F4000AFA26 /* LMAliRechargeResultRequest.m in Sources */,
 				35B747391DDE97F3000AFA26 /* WXApiResponseHandler.m in Sources */,
 				35B748331DDE97F4000AFA26 /* FitPickerView.m in Sources */,

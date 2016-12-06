@@ -47,7 +47,7 @@ addressTypeDelegate
     NSInteger dateIndex;
     NSInteger timeIndex;
     NSInteger cellIndex;
-    NSString                    *districtStr;//设置中间变量，获取县（区）的编码
+    NSString  *districtStr;//设置中间变量，获取县（区）的编码
     //    NSInteger imageIndex;
     NSString *eventUUid;
     
@@ -1102,6 +1102,7 @@ static NSMutableArray *cellDataArray;
     [self projectDataStorageWithArrayIndex:length];
     [self refreshData];
 }
+
 
 - (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
 {

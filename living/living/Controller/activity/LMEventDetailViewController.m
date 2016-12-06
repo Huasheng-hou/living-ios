@@ -51,7 +51,8 @@ UITableViewDataSource,
 LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate,
 LMEventMsgCellDelegate,
-LMActivityMsgCellDelegate
+LMActivityMsgCellDelegate,
+shareTypeDelegate
 >
 {
     UILabel  *tipLabel;
@@ -1116,6 +1117,7 @@ LMActivityMsgCellDelegate
 {
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
+    shareView.titleLabel.text = @"分享活动";
     [self.view addSubview:shareView];
 }
 
