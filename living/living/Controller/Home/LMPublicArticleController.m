@@ -289,7 +289,7 @@ static NSMutableArray *cellDataArray;
 -(void)selectImage
 {
     [self.view endEditing:YES];
-    if (imageNum>=15) {
+    if (imageNum>=10) {
         [self textStateHUD:@"您上传的图片数已达上限"];
         return;
     }
@@ -314,7 +314,7 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 获取头像的url
 
-- (void)getImageURL:(UIImage*)image
+- (void)getImageURL:(NSMutableArray*)imgArr
 {
     if (![CheckUtils isLink]) {
         
@@ -322,10 +322,12 @@ static NSMutableArray *cellDataArray;
         return;
     }
         [self initStateHud];
+    NSMutableArray *urlArray = [NSMutableArray new];
         
 
+    for (int i =0; i<imgArr.count; i++) {
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:image];
+        UIImage *headImage = [ImageHelpTool scaleImage:imgArr[i]];
         request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
         
@@ -345,27 +347,32 @@ static NSMutableArray *cellDataArray;
                                                        NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
-                                                           [self modifyCellDataImage:addImageIndex andImageUrl:imgUrl];
+                                                           [urlArray addObject:imgUrl];
+                                                           
+                                                        
                                                        }
                                                    }
                                                } failed:^(NSError *error) {
                                                    [self hideStateHud];
                                                }];
         [proxy start];
-        
+  
+    }
+       [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+    
     
 }
 
 #pragma mark 编辑单元格项目活动图片
 
--(void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSString *)imageUrl{
+-(void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSMutableArray *)imageUrl{
     
     NSMutableDictionary *dic=cellDataArray[row];
     
     if (imageUrl) {
         [dic setObject:imageUrl forKey:@"image"];
     }else{
-        [dic setObject:@"" forKey:@"image"];
+        [dic setObject:@[@""] forKey:@"image"];
     }
 }
 
@@ -384,9 +391,12 @@ static NSMutableArray *cellDataArray;
         [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:tempImg];
         
         [projectImageArray replaceObjectAtIndex:addImageIndex withObject:tempImg];
+        
         [self refreshData];
         
-        [self getImageURL:tempImg];
+        
+        [imageArray addObject:tempImg];
+        [self getImageURL:imageArray];
         
     }
     
@@ -512,11 +522,11 @@ static NSMutableArray *cellDataArray;
     
     self.navigationItem.rightBarButtonItem.enabled  = NO;
     
-    if (imageArray.count>0) {
-        [self performSelectorOnMainThread:@selector(getImageURL) withObject:nil waitUntilDone:YES];
-    }else{
-        [self publishAction];
-    }
+//    if (imageArray.count>0) {
+//        [self performSelectorOnMainThread:@selector(getImageURL) withObject:nil waitUntilDone:YES];
+//    }else{
+//        [self publishAction];
+//    }
 }
 
 
@@ -552,7 +562,7 @@ static NSMutableArray *cellDataArray;
     [image setImage:imag];
     [image setTag:imageNum-1];
     [image setUserInteractionEnabled:YES];
-    [cell.contentView addSubview:image];
+    [cell.backView addSubview:image];
     
     UITapGestureRecognizer      *tap    = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(lookBigImage:)];
     [image addGestureRecognizer:tap];
@@ -563,6 +573,8 @@ static NSMutableArray *cellDataArray;
     [icon addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
     [icon setTag:image.tag];
     [image addSubview:icon];
+    
+    [self refreshData];
     
 }
 
@@ -619,7 +631,7 @@ static NSMutableArray *cellDataArray;
             UIImage *image=(UIImage *)imageArray[i];
             [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:image];
         }
-        [cell.eventButton setFrame:[self setupImageFrame:cellDataArray.count]];
+        [cell.eventButton setFrame:[self setupImageFrame:imageNum]];
     }else{
         
         for (UIView *view in cell.subviews) {
@@ -681,8 +693,7 @@ static NSMutableArray *cellDataArray;
                                                            
                                                            if (![imageUrlArray containsObject:@""]) {
                                                                [self performSelectorOnMainThread:@selector(hideStateHud) withObject:nil waitUntilDone:YES];
-                                                               //发布文章
-                                                               [self performSelectorOnMainThread:@selector(publishAction) withObject:nil waitUntilDone:YES];
+ 
                                                            }
                                                        }
                                                    }else{
