@@ -7,6 +7,7 @@
 //
 
 #import "LMLessonViewController.h"
+#import "LMClassRoomViewController.h"
 
 @interface LMLessonViewController ()
 
@@ -46,7 +47,6 @@
 - (void)creatUI
 {
     [super createUI];
-    
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
@@ -109,20 +109,13 @@
 //    if (self.listData.count > indexPath.row) {
         cell.textLabel.text = @"测试";
 //    }
-    
-
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (self.listData&&self.listData.count>0) {
-        NSLog(@"语言课堂详情");
-
-//    }
+    LMClassRoomViewController *classRoomVC=[[LMClassRoomViewController alloc]init];
+    [self.navigationController pushViewController:classRoomVC animated:YES];
 }
-
-
 
 @end

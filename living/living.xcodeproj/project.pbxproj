@@ -348,6 +348,12 @@
 		8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601C1DC84C2E001D7098 /* CoreGraphics.framework */; };
 		8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601E1DC84C59001D7098 /* libstdc++.tbd */; };
 		8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0760271DC892AE001D7098 /* MapKit.framework */; };
+		8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28AD1DF8101600B735BE /* LMSegmentView.m */; };
+		8E0E28B11DF814AB00B735BE /* LMClassRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */; };
+		8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */; };
+		8E0E28BC1DF8234100B735BE /* FitChatFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B61DF8234100B735BE /* FitChatFaceView.m */; };
+		8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */; };
+		8E0E28BE1DF8234100B735BE /* FitChatWarningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28BA1DF8234100B735BE /* FitChatWarningView.m */; };
 		8E4C98F91DD1D6C400B17046 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */; };
 		8E4C98FB1DD1D6CB00B17046 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */; };
 		8E4C98FD1DD1D7D300B17046 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */; };
@@ -1087,6 +1093,18 @@
 		8E07601C1DC84C2E001D7098 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8E07601E1DC84C59001D7098 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		8E0760271DC892AE001D7098 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8E0E28AC1DF8101600B735BE /* LMSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSegmentView.h; sourceTree = "<group>"; };
+		8E0E28AD1DF8101600B735BE /* LMSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSegmentView.m; sourceTree = "<group>"; };
+		8E0E28AF1DF814AB00B735BE /* LMClassRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMClassRoomViewController.h; sourceTree = "<group>"; };
+		8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMClassRoomViewController.m; sourceTree = "<group>"; };
+		8E0E28B31DF8234100B735BE /* FitChatExpressionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatExpressionView.h; sourceTree = "<group>"; };
+		8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatExpressionView.m; sourceTree = "<group>"; };
+		8E0E28B51DF8234100B735BE /* FitChatFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatFaceView.h; sourceTree = "<group>"; };
+		8E0E28B61DF8234100B735BE /* FitChatFaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatFaceView.m; sourceTree = "<group>"; };
+		8E0E28B71DF8234100B735BE /* FitChatFunctionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatFunctionView.h; sourceTree = "<group>"; };
+		8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatFunctionView.m; sourceTree = "<group>"; };
+		8E0E28B91DF8234100B735BE /* FitChatWarningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatWarningView.h; sourceTree = "<group>"; };
+		8E0E28BA1DF8234100B735BE /* FitChatWarningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatWarningView.m; sourceTree = "<group>"; };
 		8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
 		8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMapNavi.bundle; path = AMapNaviKit.framework/AMapNavi.bundle; sourceTree = "<group>"; };
 		8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
@@ -1205,6 +1223,8 @@
 			children = (
 				352905D51DF54E470062196C /* LMLessonViewController.h */,
 				352905D61DF54E470062196C /* LMLessonViewController.m */,
+				8E0E28AF1DF814AB00B735BE /* LMClassRoomViewController.h */,
+				8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */,
 			);
 			path = Lesson;
 			sourceTree = "<group>";
@@ -2770,6 +2790,8 @@
 		35B746C21DDE97F3000AFA26 /* find */ = {
 			isa = PBXGroup;
 			children = (
+				8E0E28B21DF8234100B735BE /* ChatFace */,
+				8E0E28AB1DF80FF100B735BE /* SegmentView */,
 				35B746C31DDE97F3000AFA26 /* LMFindCell.h */,
 				35B746C41DDE97F3000AFA26 /* LMFindCell.m */,
 			);
@@ -2910,6 +2932,30 @@
 				35E686701DEFC89600B43000 /* LMArtcleFootView.m */,
 			);
 			path = artcleDetail;
+			sourceTree = "<group>";
+		};
+		8E0E28AB1DF80FF100B735BE /* SegmentView */ = {
+			isa = PBXGroup;
+			children = (
+				8E0E28AC1DF8101600B735BE /* LMSegmentView.h */,
+				8E0E28AD1DF8101600B735BE /* LMSegmentView.m */,
+			);
+			path = SegmentView;
+			sourceTree = "<group>";
+		};
+		8E0E28B21DF8234100B735BE /* ChatFace */ = {
+			isa = PBXGroup;
+			children = (
+				8E0E28B31DF8234100B735BE /* FitChatExpressionView.h */,
+				8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */,
+				8E0E28B51DF8234100B735BE /* FitChatFaceView.h */,
+				8E0E28B61DF8234100B735BE /* FitChatFaceView.m */,
+				8E0E28B71DF8234100B735BE /* FitChatFunctionView.h */,
+				8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */,
+				8E0E28B91DF8234100B735BE /* FitChatWarningView.h */,
+				8E0E28BA1DF8234100B735BE /* FitChatWarningView.m */,
+			);
+			path = ChatFace;
 			sourceTree = "<group>";
 		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
@@ -3215,6 +3261,7 @@
 				35B747FB1DDE97F4000AFA26 /* UserInfoVO.m in Sources */,
 				35B747BE1DDE97F3000AFA26 /* LMGetCaptchaRequest.m in Sources */,
 				35B747A31DDE97F3000AFA26 /* LMEventJoinRequest.m in Sources */,
+				8E0E28B11DF814AB00B735BE /* LMClassRoomViewController.m in Sources */,
 				35B7473C1DDE97F3000AFA26 /* WXMediaMessage+messageConstruct.m in Sources */,
 				35B748221DDE97F4000AFA26 /* LMBusinessCell.m in Sources */,
 				35B748131DDE97F4000AFA26 /* LMProjectCell.m in Sources */,
@@ -3235,6 +3282,7 @@
 				35B747971DDE97F3000AFA26 /* LMMonthDetailBill.m in Sources */,
 				35B7474B1DDE97F3000AFA26 /* LMNavMapViewController.m in Sources */,
 				35B747861DDE97F3000AFA26 /* UIView+frame.m in Sources */,
+				8E0E28BC1DF8234100B735BE /* FitChatFaceView.m in Sources */,
 				35B747CB1DDE97F4000AFA26 /* LMOrederDeleteRequest.m in Sources */,
 				35B747E21DDE97F4000AFA26 /* ActivityListVO.m in Sources */,
 				35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */,
@@ -3256,6 +3304,8 @@
 				35B747F51DDE97F4000AFA26 /* LMNoticVO.m in Sources */,
 				35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */,
 				35B7478B1DDE97F3000AFA26 /* UITabBar+Badge.m in Sources */,
+				8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */,
+				8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */,
 				35B748341DDE97F4000AFA26 /* LMAgeChooseButton.m in Sources */,
 				35B747CF1DDE97F4000AFA26 /* LMAliRechargeRequest.m in Sources */,
 				35B747151DDE97F3000AFA26 /* RSADataVerifier.m in Sources */,
@@ -3342,6 +3392,7 @@
 				35B747121DDE97F3000AFA26 /* NSDataEx.m in Sources */,
 				35B747891DDE97F3000AFA26 /* UIBarButtonItem+Badge.m in Sources */,
 				35B747EB1DDE97F4000AFA26 /* LMCouponVO.m in Sources */,
+				8E0E28BE1DF8234100B735BE /* FitChatWarningView.m in Sources */,
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
 				35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */,
@@ -3365,6 +3416,7 @@
 				35B747E51DDE97F4000AFA26 /* LMMemberVO.m in Sources */,
 				35B747D31DDE97F4000AFA26 /* LM2DcodeRequest.m in Sources */,
 				35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */,
+				8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */,
 				35B747DA1DDE97F4000AFA26 /* LMPersonInfoRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
