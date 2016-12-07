@@ -75,7 +75,7 @@
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
-        [locationManager requestAlwaysAuthorization];
+        [locationManager requestWhenInUseAuthorization];
         _currentCity = [[NSString alloc] init];
         _currentCity = @"定位中";
         [locationManager startUpdatingLocation];
