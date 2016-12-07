@@ -14,6 +14,9 @@
 
 @interface LMPAHeadViewCell ()
 <UITextViewDelegate>
+{
+    UIView *whiteView;
+}
 
 @end
 
@@ -33,9 +36,9 @@
 -(void)addSubviews
 {
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 250)];
-    backView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:backView];
+    whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, (kScreenWidth-10*5)/4+170)];
+    whiteView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:whiteView];
     
 
     
@@ -52,47 +55,22 @@
     [_textLab sizeToFit];
     _textLab.frame = CGRectMake(0, 0, _textLab.bounds.size.width, 30);
     [_includeTF addSubview:_textLab];
-    [self.contentView addSubview:_includeTF];
+    [whiteView addSubview:_includeTF];
     
+    _imageV = [[EditImageView alloc] initWithStartY:180 andImageArray:nil];
+    [whiteView addSubview:_imageV];
     
-    _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 70)];
-    _backView.userInteractionEnabled = YES;
-    [self.contentView addSubview:_backView];
-    _eventButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 10, 70, 70)];
-    [_eventButton setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-    [_backView addSubview:_eventButton];
-    
-    
-    NSArray *arr = @[@"findpage",@"findpage",@"findpage",@"findpage",@"findpage"];
-    
-    
-    EditImageView *imageV = [[EditImageView alloc] initWithStartY:10 andImageArray:arr];
-    [_backView addSubview:imageV];
-    
-//    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 70, 70)];
-//    [_backView addSubview:_imgView];
-//    [_eventButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
-//    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-30, 15, 22, 22)];
-//    [_deleteBt setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-//    [self addSubview:_deleteBt];
     
 }
 
-- (void)addImage:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(cellWilladdImage:)]) {
-        [_delegate cellWilladdImage:self];
-    }
-}
 
-
-- (UITableView *)tableView
+-(void)setArray:(NSMutableArray *)array
 {
-    UIView *tableView = self.superview;
-    while (![tableView isKindOfClass:[UITableView class]] && tableView) {
-        tableView = tableView.superview;
-    }
-    return (UITableView *)tableView;
+    _array = array;
+    [_imageV contentWithView:_array andY:180];
+    
+    whiteView.frame = CGRectMake(0, 10, kScreenWidth, _imageV.frame.size.height+180);
+    
 }
 
 

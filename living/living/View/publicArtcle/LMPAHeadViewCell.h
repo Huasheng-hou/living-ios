@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EditImageView.h"
 
 @protocol  LMPAHeadViewCellDelegate;
 
@@ -26,6 +27,11 @@
 @property(nonatomic,strong)UIButton *deleteBt;
 
 @property(nonatomic,strong)UIView *backView;
+
+@property(nonatomic,strong)EditImageView *imageV;
+
+@property(nonatomic,strong)NSMutableArray *array;
+
 
 @property (nonatomic, weak) id <LMPAHeadViewCellDelegate> delegate;
 

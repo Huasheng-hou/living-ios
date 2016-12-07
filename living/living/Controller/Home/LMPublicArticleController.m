@@ -29,7 +29,7 @@ UIAlertViewDelegate,
 ZYQAssetPickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 LMPAHeadViewCellDelegate,
-EditImageViewDelegate
+editViewDelegate
 >
 {
     UIImagePickerController *pickImage;
@@ -45,6 +45,8 @@ EditImageViewDelegate
     NSMutableArray *cellDataArray;
     NSMutableArray *contentArray;
     LMPAHeadViewCell *cell;
+    
+    NSMutableArray *imageViewArray;
 }
 
 @end
@@ -77,13 +79,11 @@ static NSMutableArray *cellDataArray;
     
     imageArray    = [NSMutableArray arrayWithCapacity:0];
     imageUrlArray = [NSMutableArray arrayWithCapacity:0];
+    imageViewArray = [NSMutableArray new];
     cellDataArray = [NSMutableArray new];
     [self projectDataStorageWithArrayIndex:0];
-    projectImageArray=[NSMutableArray arrayWithCapacity:10];
-    
-    for (int i=0; i<10; i++) {
-        [projectImageArray addObject:@""];
-    }
+    projectImageArray=[NSMutableArray arrayWithCapacity:0];
+
 }
 
 - (void)createUI
@@ -158,7 +158,14 @@ static NSMutableArray *cellDataArray;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if (indexPath.section==0) {
-        return 260;
+        
+        NSInteger margin=10;//图片之间的间隔
+        NSInteger imageWidth=(kScreenWidth-margin*5)/4;//图片的宽度，固定一行只放置4个图片
+
+        NSInteger rowNum=imageViewArray.count/4+1;
+        
+        return 190+rowNum*(imageWidth+margin);
+        
     }
     return 100;
 }
@@ -182,14 +189,6 @@ static NSMutableArray *cellDataArray;
             [cell.textLab setHidden:YES];
         }
         
-        if ([projectImageArray[indexPath.row] isKindOfClass:[UIImage class]]) {
-            UIImage *image=(UIImage *)projectImageArray[indexPath.row];
-            [cell.imgView setImage:image];
-        }else
-            if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
-                [cell.imgView setImage:[UIImage imageNamed:@""]];
-            }
-        
         if (cellDataArray.count==1) {
             if (indexPath.row==0) {
                 [cell.deleteBt setHidden:YES];
@@ -200,14 +199,12 @@ static NSMutableArray *cellDataArray;
         
         [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
         [cell.deleteBt setTag:indexPath.row];
-        
-        cell.eventButton=[[UIButton alloc]initWithFrame:[self setupImageFrame:0]];
-        
 
-        [cell.eventButton setTag:indexPath.row+10];
+        cell.imageV.delegate = self;
         
+        cell.array = imageViewArray;
         
-        
+        [cell.imageV setTag:indexPath.row];
         [cell.deleteBt setHidden:NO];
   
         return cell;
@@ -241,24 +238,6 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-#pragma mark ======================活动==项目活动增加图片
-
-- (void)cellWilladdImage:(LMPAHeadViewCell *)cells
-{
-    addImageIndex=cells.tag;
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"取消"
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"相册", @"拍照",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
-    actionSheet = nil;
-}
-
-
 - (void)closeCell:(UIButton *)button
 {
     NSInteger row=button.tag;
@@ -270,24 +249,6 @@ static NSMutableArray *cellDataArray;
     [self refreshData];
 }
 
--(void)selectImage
-{
-    [self.view endEditing:YES];
-    if (imageNum>=10) {
-        [self textStateHUD:@"您上传的图片数已达上限"];
-        return;
-    }
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"相册", @"拍照",nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
-    actionSheet = nil;
-}
 
 #pragma mark UIImagePickerController代理函数
 
@@ -373,25 +334,14 @@ static NSMutableArray *cellDataArray;
         UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
         
         [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:tempImg];
-        
-        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:tempImg];
-        
-        [self refreshData];
-        
-        
+    
         [imageArray addObject:tempImg];
+        
         [self getImageURL:imageArray];
+        [imageViewArray addObject:tempImg];
         
     }
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (int i=0; i<assets.count; i++) {
-            ALAsset *asset=assets[i];
-            UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-            
-            [imageArray addObject:tempImg];
-        }
-    });
+    [self refreshData];
     
 }
 
@@ -573,57 +523,53 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 删除图片EditImageViewDelegate
 
-- (void)cellWilldeleteImage:(EditImageView *)view
+- (void)deleteViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
+    NSLog(@"=============================%ld   %ld",(long)viewTag,(long)tag);
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除图片"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                
+                                                [imageViewArray removeObjectAtIndex:tag];
+                                                [imageArray removeObjectAtIndex:tag];
+                                                [self refreshData];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
 
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:@"确定删除图片"
-                                                   delegate:self
-                                          cancelButtonTitle:@"取消"
-                                          otherButtonTitles:@"确定", nil];
-    [alert show];
 }
 
-#pragma mark alertView的点击事件
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)addViewTag:(NSInteger)viewTag
 {
-    if (buttonIndex==1) {
-        
-        [imageArray removeObjectAtIndex:deleImageIndex];
-        
-        for (UIView *view in cell.subviews) {
-            if ([view isKindOfClass:[UIImageView class]]) {
-                UIImageView *image=(UIImageView *)view;
-                [image removeFromSuperview];
-            }
-        }
-        
-        imageNum=0;
-        for (int i=0; i<imageArray.count; i++) {
-            imageNum++;
-            UIImage *image=(UIImage *)imageArray[i];
-            [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:image];
-        }
-        [cell.eventButton setFrame:[self setupImageFrame:imageNum]];
-    }else{
-        
-        for (UIView *view in cell.subviews) {
-            if ([view isKindOfClass:[UIImageView class]]) {
-                
-                UIImageView *imageV=(UIImageView *)[view viewWithTag:deleImageIndex];
-                for (UIView *view in imageV.subviews) {
-                    if ([view isKindOfClass:[UIButton class]]) {
-                        UIButton *button=(UIButton *)view;
-                        [button removeFromSuperview];
-                    }
-                }
-            }
-        }
+    NSLog(@"tianjia***********");
+    [self.view endEditing:YES];
+    if (imageNum>=10) {
+        [self textStateHUD:@"您上传的图片数已达上限"];
+        return;
     }
     
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"相册", @"拍照",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
+    actionSheet = nil;
+    
     
 }
+
 
 #pragma mark 获取图片的url
 

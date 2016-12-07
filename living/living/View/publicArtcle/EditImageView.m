@@ -15,7 +15,7 @@
 {
     self=[super init];
     if (self) {
-        [self setBackgroundColor:[UIColor clearColor]];
+        [self setBackgroundColor:[UIColor whiteColor]];
         [self contentWithView:array andY:y];
     }
     return self;
@@ -23,28 +23,32 @@
 
 -(void)contentWithView:(NSArray *)imageArray andY:(CGFloat)y
 {
+    
+    NSInteger margin=10;//图片之间的间隔
+    NSInteger imageWidth=(kScreenWidth-margin*5)/4;//图片的宽度，固定一行只放置4个图片
+    NSInteger deleteBtW=25;//删除小图标的宽度（宽等于高）
+    NSInteger columnNum=4;//列数
     if (imageArray.count<=0) {
+        
+        [self setFrame:CGRectMake(0, y, kScreenWidth, imageWidth+margin)];
+        
+        [self createAddButton:CGRectMake(margin, margin, imageWidth, imageWidth)];
         return;
     }
     for (UIView *view in self.subviews) {
         [view removeFromSuperview];
     }
-    NSInteger margin=10;//图片之间的间隔
-    NSInteger imageWidth=(kScreenWidth-margin*5)/4;//图片的宽度，固定一行只放置4个图片
-    NSInteger deleteBtW=25;//删除小图标的宽度（宽等于高）
-    NSInteger columnNum=4;//列数
-
+    
+     NSInteger rowNum=(imageArray.count/(columnNum))+1;
+     [self setFrame:CGRectMake(0, y, kScreenWidth, (imageWidth+margin)*rowNum)];
     //设置图片
     for (int i=0; i<=imageArray.count; i++) {
         if (i == imageArray.count) {
-             NSInteger rowNum=(imageArray.count/(columnNum+1))+1;
-            [self setFrame:CGRectMake(0, y, kScreenWidth, (imageWidth+margin)*rowNum)];
-            
             [self createAddButton:CGRectMake(margin*((i%columnNum)+1)+imageWidth*(i%columnNum), (imageWidth+margin)*(i/columnNum), imageWidth, imageWidth)];
     
             return;
         }
-
+       
         
         UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(margin*((i%columnNum)+1)+imageWidth*(i%columnNum), (imageWidth+margin)*(i/columnNum), imageWidth, imageWidth)];
         [imageV.layer setCornerRadius:5.0f];
@@ -52,7 +56,8 @@
         [imageV setTag:i];
         [imageV setContentMode:UIViewContentModeScaleAspectFill];
         [imageV setClipsToBounds:YES];
-        [imageV setImage:[UIImage imageNamed:imageArray[i]]];
+        [imageV setImage:imageArray[i]];
+        imageV.userInteractionEnabled = YES;
         [self addSubview:imageV];
         //删除按钮
         UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(imageV.bounds.size.width-deleteBtW, 0, deleteBtW, deleteBtW)];
@@ -68,17 +73,16 @@
 -(void)buttonAction:(UIButton *)sender
 {
     NSLog(@"================删除按钮==========%ld",(long)sender.tag);
-    if ([_delegate respondsToSelector:@selector(cellWilldeleteImage:)]) {
-        [_delegate cellWilldeleteImage:self];
-    }
+    [self.delegate deleteViewTag:self.tag andSubViewTag:sender.tag];
+
     
 }
 
 -(void)addImageAction:(UIButton *)sender
 {
     NSLog(@"==========增加按钮================");
-    if ([_delegate respondsToSelector:@selector(cellWilladdImage:)]) {
-        [_delegate cellWilladdImage:self];
+    if ([_delegate respondsToSelector:@selector(addViewTag:)]) {
+        [_delegate addViewTag:self.tag];
     }
 }
 

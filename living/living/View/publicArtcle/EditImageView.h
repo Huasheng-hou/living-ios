@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol EditImageViewDelegate;
+@protocol editViewDelegate <NSObject>
+
+-(void)addViewTag:(NSInteger)viewTag;
+
+-(void)deleteViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag;
+
+@end
 
 @interface EditImageView : UIView
 
@@ -19,16 +25,7 @@
 
 -(void)contentWithView:(NSArray *)imageArray andY:(CGFloat)y;
 
-@property (nonatomic, weak) id <EditImageViewDelegate> delegate;
+@property (nonatomic, weak) id <editViewDelegate> delegate;
 
 @end
 
-@protocol EditImageViewDelegate <NSObject>
-
-@optional
-- (void)cellWilladdImage:(EditImageView *)view;
-
-- (void)cellWilldeleteImage:(EditImageView *)view;
-
-
-@end
