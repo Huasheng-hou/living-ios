@@ -190,6 +190,9 @@
     self.allData = [NSMutableArray array];
     self.resultData = [NSMutableArray array];
 
+    if (_currentCity==nil) {
+        _currentCity = @"定位中";
+    }
     
     NSArray *arrs = [[NSUserDefaults standardUserDefaults] objectForKey:@"mutableArr"];
     if (arrs != nil) {
