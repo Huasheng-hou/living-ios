@@ -8,6 +8,7 @@
 
 #import "LMPAHeadViewCell.h"
 #import "FitConsts.h"
+#import "EditImageView.h"
 #define titleW titleLable.bounds.size.width
 
 
@@ -61,12 +62,19 @@
     [_eventButton setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
     [_backView addSubview:_eventButton];
     
-    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 70, 70)];
-    [_backView addSubview:_imgView];
-    [_eventButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
-    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-30, 15, 22, 22)];
-    [_deleteBt setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-    [self addSubview:_deleteBt];
+    
+    NSArray *arr = @[@"findpage",@"findpage",@"findpage",@"findpage",@"findpage"];
+    
+    
+    EditImageView *imageV = [[EditImageView alloc] initWithStartY:10 andImageArray:arr];
+    [_backView addSubview:imageV];
+    
+//    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 70, 70)];
+//    [_backView addSubview:_imgView];
+//    [_eventButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
+//    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-30, 15, 22, 22)];
+//    [_deleteBt setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+//    [self addSubview:_deleteBt];
     
 }
 

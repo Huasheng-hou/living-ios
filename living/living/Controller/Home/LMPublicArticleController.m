@@ -154,26 +154,8 @@ static NSMutableArray *cellDataArray;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGFloat startX=15;
-    CGFloat space=10;
-    CGFloat buttonW=(kScreenWidth-startX*2-space*3)/4;
-    
+{    
     if (indexPath.section==0) {
-        
-        if (imageNum<4) {
-            
-            return 260;
-            
-        } else if (imageNum < 8) {
-            
-           return 260 +buttonW+space*2;
-            
-        } else if (imageNum < 12) {
-            return 260 +buttonW*2+space*3;
-        } else {
-            return 260 +buttonW*3+space*4;
-        }
         return 260;
     }
     return 100;
