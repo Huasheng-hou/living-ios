@@ -14,6 +14,8 @@
               Article_title:(NSString *)article_title
                  Descrition:(NSString *)descrition
                 andImageURL:(NSArray *)article_imgs
+                    andType:(NSString *)type
+                      blend:(NSArray *)blend
 {
     self = [super init];
     
@@ -35,6 +37,14 @@
         
         if (article_imgs) {
             [bodyDict setObject:article_imgs forKey:@"article_imgs"];
+        }
+        
+        if (type) {
+            [bodyDict setObject:article_imgs forKey:@"article_imgs"];
+        }
+        
+        if (blend) {
+            [bodyDict setObject:blend forKey:@"blend"];
         }
         
         NSMutableDictionary *paramsDict = [self params];

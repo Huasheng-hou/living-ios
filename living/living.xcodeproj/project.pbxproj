@@ -15,6 +15,9 @@
 		3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C81D99054C0068F04E /* CoreTelephony.framework */; };
 		3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4CA1D9905560068F04E /* AVFoundation.framework */; };
 		356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */; };
+		35816FEB1DF7E3CC00D062CB /* LMArtcleTypeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */; };
+		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
+		35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
@@ -372,6 +375,12 @@
 		3547F4CA1D9905560068F04E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		356763231DF66B1B0062B0E1 /* LMPAHeadViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPAHeadViewCell.h; sourceTree = "<group>"; };
 		356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPAHeadViewCell.m; sourceTree = "<group>"; };
+		35816FE91DF7E3CC00D062CB /* LMArtcleTypeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeRequest.h; sourceTree = "<group>"; };
+		35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeRequest.m; sourceTree = "<group>"; };
+		35816FEC1DF7E45C00D062CB /* LMArtcleTypeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeListRequest.h; sourceTree = "<group>"; };
+		35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeListRequest.m; sourceTree = "<group>"; };
+		35816FEF1DF7E51700D062CB /* LMArtcleTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeViewController.h; sourceTree = "<group>"; };
+		35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeViewController.m; sourceTree = "<group>"; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
@@ -1224,6 +1233,17 @@
 			path = publicArtcle;
 			sourceTree = "<group>";
 		};
+		35816FE81DF7E37800D062CB /* type */ = {
+			isa = PBXGroup;
+			children = (
+				35816FE91DF7E3CC00D062CB /* LMArtcleTypeRequest.h */,
+				35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */,
+				35816FEC1DF7E45C00D062CB /* LMArtcleTypeListRequest.h */,
+				35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */,
+			);
+			path = type;
+			sourceTree = "<group>";
+		};
 		35B743F71DDE97F2000AFA26 /* living */ = {
 			isa = PBXGroup;
 			children = (
@@ -1722,6 +1742,8 @@
 				35B744FF1DDE97F2000AFA26 /* LMWebViewController.m */,
 				35B745001DDE97F2000AFA26 /* LMWriterViewController.h */,
 				35B745011DDE97F2000AFA26 /* LMWriterViewController.m */,
+				35816FEF1DF7E51700D062CB /* LMArtcleTypeViewController.h */,
+				35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -2185,6 +2207,7 @@
 		35B745C31DDE97F3000AFA26 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				35816FE81DF7E37800D062CB /* type */,
 				35B745C41DDE97F3000AFA26 /* delete */,
 				35B745CB1DDE97F3000AFA26 /* LMArtcleCommitRequest.h */,
 				35B745CC1DDE97F3000AFA26 /* LMArtcleCommitRequest.m */,
@@ -3084,6 +3107,7 @@
 				35B747B71DDE97F3000AFA26 /* LMLivingListRequest.m in Sources */,
 				35B747731DDE97F3000AFA26 /* UIColor+ZXLazy.m in Sources */,
 				35B747811DDE97F3000AFA26 /* HcbAmountChecker.m in Sources */,
+				35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */,
 				35B747C01DDE97F3000AFA26 /* LMWXLoginRequest.m in Sources */,
 				35B747271DDE97F3000AFA26 /* SSPullToRefreshView.m in Sources */,
 				35B747E61DDE97F4000AFA26 /* LMProjectBodyVO.m in Sources */,
@@ -3142,6 +3166,7 @@
 				35B747141DDE97F3000AFA26 /* RSADataSigner.m in Sources */,
 				35B747261DDE97F3000AFA26 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				35B747C11DDE97F3000AFA26 /* LMAliPayRequest.m in Sources */,
+				35816FEB1DF7E3CC00D062CB /* LMArtcleTypeRequest.m in Sources */,
 				35B747921DDE97F3000AFA26 /* LMCouponBody.m in Sources */,
 				35B747D51DDE97F4000AFA26 /* LMFranchiseeResultAliRequest.m in Sources */,
 				35B747571DDE97F3000AFA26 /* LMHomeDetailController.m in Sources */,
@@ -3333,6 +3358,7 @@
 				35B748241DDE97F4000AFA26 /* LMLiveRoomNameCell.m in Sources */,
 				35B747E51DDE97F4000AFA26 /* LMMemberVO.m in Sources */,
 				35B747D31DDE97F4000AFA26 /* LM2DcodeRequest.m in Sources */,
+				35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */,
 				35B747DA1DDE97F4000AFA26 /* LMPersonInfoRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

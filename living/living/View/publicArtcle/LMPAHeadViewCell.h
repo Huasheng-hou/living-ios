@@ -11,7 +11,6 @@
 @protocol  LMPAHeadViewCellDelegate;
 
 @interface LMPAHeadViewCell : UITableViewCell
-<UITextFieldDelegate,UITextViewDelegate>
 
 
 @property(nonatomic,strong)UITextView *includeTF;
@@ -22,10 +21,11 @@
 
 @property(nonatomic,strong)UIImageView *imgView;
 
-@property(nonatomic,strong)UIButton *addButton;
-
 @property(nonatomic)NSInteger cellndex;
 
+@property(nonatomic,strong)UIButton *deleteBt;
+
+@property(nonatomic,strong)UIView *backView;
 
 @property (nonatomic, weak) id <LMPAHeadViewCellDelegate> delegate;
 

@@ -46,16 +46,11 @@ addressTypeDelegate
     NSString *_imgProURL;
     NSInteger dateIndex;
     NSInteger timeIndex;
-    NSInteger cellIndex;
     NSString  *districtStr;//设置中间变量，获取县（区）的编码
     //    NSInteger imageIndex;
     NSString *eventUUid;
     
     NSInteger projectIndex;
-    
-    NSMutableArray *projectTitle;
-    NSMutableArray *projectDsp;
-    NSMutableArray *imageURL;
     
     CGFloat _latitude;
     CGFloat _longitude;
@@ -78,9 +73,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"发布活动";
-    // Do any additional setup after loading the view.
     cellDataArray=[NSMutableArray arrayWithCapacity:10];
     projectImageArray=[NSMutableArray arrayWithCapacity:10];
     
@@ -93,12 +86,7 @@ static NSMutableArray *cellDataArray;
     [self creatUI];
     
     [self initSearch];
-    
-//    [self initMapView];
-    
-    projectTitle = [NSMutableArray new];
-    projectDsp = [NSMutableArray new];
-    imageURL = [NSMutableArray new];
+
 }
 
 - (void)initSearch
@@ -130,8 +118,7 @@ static NSMutableArray *cellDataArray;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    //    [pickImage setAllowsEditing:YES];
-    cellIndex = 1;
+
     
     [self creatFootView];
 }
@@ -411,8 +398,6 @@ static NSMutableArray *cellDataArray;
             if (addView.addressTF.text.length>0) {
                 msgCell.dspTF.text = addView.addressTF.text;
             }
-            
-            NSLog(@"*************");
         }else{
             [addView removeFromSuperview];
         }

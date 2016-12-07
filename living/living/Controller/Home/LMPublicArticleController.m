@@ -23,7 +23,6 @@ UITextViewDelegate,
 UIActionSheetDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
-UINavigationControllerDelegate,
 UIScrollViewDelegate,
 UIAlertViewDelegate,
 ZYQAssetPickerControllerDelegate,
@@ -39,10 +38,11 @@ LMPAHeadViewCellDelegate
     NSInteger deleImageIndex;
     UITextField *titleTF;
     UITextField *discribleTF;
-    LMPAHeadViewCell *cell;
     NSMutableArray *projectImageArray;
     NSInteger addImageIndex;
     NSMutableArray *cellDataArray;
+    NSMutableArray *contentArray;
+    LMPAHeadViewCell *cell;
 }
 
 @end
@@ -76,6 +76,12 @@ static NSMutableArray *cellDataArray;
     imageArray    = [NSMutableArray arrayWithCapacity:0];
     imageUrlArray = [NSMutableArray arrayWithCapacity:0];
     cellDataArray = [NSMutableArray new];
+    [self projectDataStorageWithArrayIndex:0];
+    projectImageArray=[NSMutableArray arrayWithCapacity:10];
+    
+    for (int i=0; i<10; i++) {
+        [projectImageArray addObject:@""];
+    }
 }
 
 - (void)createUI
@@ -86,9 +92,7 @@ static NSMutableArray *cellDataArray;
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
-    // [pickImage setAllowsEditing:YES];
-    
-    //
+
     UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,90+10)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
     self.tableView.tableHeaderView =  bgView;
@@ -129,12 +133,7 @@ static NSMutableArray *cellDataArray;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        if (cellDataArray.count<1) {
-            return 1;
-        }else{
-            return cellDataArray.count;
-        }
-      
+      return cellDataArray.count;
     }
     return 1;
 }
@@ -191,7 +190,42 @@ static NSMutableArray *cellDataArray;
         cell.includeTF.delegate = self;
         [cell.includeTF setTag:indexPath.row];
         cell.delegate = self;
+        cell.includeTF.text=cellDataArray[indexPath.row][@"content"];
         
+        if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
+            [cell.textLab setHidden:NO];
+        }else{
+            [cell.textLab setHidden:YES];
+        }
+        
+        if ([projectImageArray[indexPath.row] isKindOfClass:[UIImage class]]) {
+            UIImage *image=(UIImage *)projectImageArray[indexPath.row];
+            [cell.imgView setImage:image];
+        }else
+            if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+                [cell.imgView setImage:[UIImage imageNamed:@""]];
+            }
+        
+        if (cellDataArray.count==1) {
+            if (indexPath.row==0) {
+                [cell.deleteBt setHidden:YES];
+            }else{
+                [cell.deleteBt setHidden:NO];
+            }
+        }
+        
+        [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.deleteBt setTag:indexPath.row];
+        
+        cell.eventButton=[[UIButton alloc]initWithFrame:[self setupImageFrame:0]];
+        
+
+        [cell.eventButton setTag:indexPath.row+10];
+        
+        
+        
+        [cell.deleteBt setHidden:NO];
+  
         return cell;
     }
         
@@ -217,12 +251,39 @@ static NSMutableArray *cellDataArray;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
-        if (cellDataArray.count<2) {
-            [cellDataArray addObject:@""];
-        }
-        [cellDataArray addObject:@""];
+        NSInteger length=cellDataArray.count;
+        [self projectDataStorageWithArrayIndex:length];
         [self refreshData];
     }
+}
+
+#pragma mark ======================活动==项目活动增加图片
+
+- (void)cellWilladdImage:(LMPAHeadViewCell *)cells
+{
+    addImageIndex=cells.tag;
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"相册", @"拍照",nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
+    actionSheet = nil;
+}
+
+
+- (void)closeCell:(UIButton *)button
+{
+    NSInteger row=button.tag;
+    
+    [cellDataArray removeObjectAtIndex:row];
+    
+    [projectImageArray removeObjectAtIndex:row];
+    
+    [self refreshData];
 }
 
 -(void)selectImage
@@ -244,6 +305,72 @@ static NSMutableArray *cellDataArray;
     actionSheet = nil;
 }
 
+#pragma mark UIImagePickerController代理函数
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [pickImage dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark 获取头像的url
+
+- (void)getImageURL:(UIImage*)image
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+        [self initStateHud];
+        
+
+        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+        UIImage *headImage = [ImageHelpTool scaleImage:image];
+        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding){
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                          withObject:nil
+                                                                       waitUntilDone:YES];
+                                                   
+                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString    *result = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   if (result && [result isKindOfClass:[NSString class]]
+                                                       && [result isEqualToString:@"0"]) {
+                                                       NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                       if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+                                                           
+                                                           [self modifyCellDataImage:addImageIndex andImageUrl:imgUrl];
+                                                       }
+                                                   }
+                                               } failed:^(NSError *error) {
+                                                   [self hideStateHud];
+                                               }];
+        [proxy start];
+        
+    
+}
+
+#pragma mark 编辑单元格项目活动图片
+
+-(void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSString *)imageUrl{
+    
+    NSMutableDictionary *dic=cellDataArray[row];
+    
+    if (imageUrl) {
+        [dic setObject:imageUrl forKey:@"image"];
+    }else{
+        [dic setObject:@"" forKey:@"image"];
+    }
+}
+
+
+
 #pragma mark - ZYQAssetPickerController Delegate
 
 -(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
@@ -255,8 +382,13 @@ static NSMutableArray *cellDataArray;
         UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
         
         [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:tempImg];
+        
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:tempImg];
+        [self refreshData];
+        
+        [self getImageURL:tempImg];
+        
     }
-    [cell.addButton setFrame:[self setupImageFrame:imageNum]];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         for (int i=0; i<assets.count; i++) {
@@ -267,37 +399,46 @@ static NSMutableArray *cellDataArray;
         }
     });
     
-    [self setViewScrollViewHeight:imageNum];
 }
 
+#pragma mark 编辑单元格项目介绍
 
-#pragma mark 设置白板的高度
-
--(void)setViewScrollViewHeight:(NSInteger)num
-{
+- (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
+    
+    NSMutableDictionary *dic=cellDataArray[row];
+    
+    if ([text isEqualToString:@""]) {
+        
+        [dic setObject:@"" forKey:@"content"];
+    }else{
+        [dic setObject:text forKey:@"content"];
+    }
+    
     [self refreshData];
 }
 
-#pragma mark UIImagePickerController代理函数
+#pragma mark 单元格刚创建后的数据
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+- (void)projectDataStorageWithArrayIndex:(NSInteger)index
 {
-    [pickImage dismissViewControllerAnimated:YES completion:nil];
+    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
+    [dic setObject:@"" forKey:@"content"];
+    [dic setObject:@"" forKey:@"image"];
+    
+    [cellDataArray insertObject:dic atIndex:index];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    imageNum++;
-    [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:image];
     
-    [imageArray addObject:image];
+    NSInteger row=textView.tag;
+    [self modifyCellDataContent:row andText:textView.text];
     
-    [cell.addButton setFrame:[self setupImageFrame:imageNum]];
     
-    [self setViewScrollViewHeight:imageArray.count];
-    
-    [pickImage dismissViewControllerAnimated:YES completion:nil];
+    return YES;
 }
+
 
 #pragma mark UIActionSheet 代理函数
 
@@ -363,15 +504,6 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    if (cell.includeTF.text.length ==0) {
-        [self textStateHUD:@"请输入正文！"];
-        return;
-    }
-    NSString *string = [cell.includeTF.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if ([string isEqual:@""]) {
-        [self textStateHUD:@"请输入文字信息！"];
-        return;
-    }
     
     if (imageArray.count<1) {
         [self textStateHUD:@"至少上传一张图片"];
@@ -487,7 +619,7 @@ static NSMutableArray *cellDataArray;
             UIImage *image=(UIImage *)imageArray[i];
             [self addImageViewFrame:[self setupImageFrame:imageNum-1] andImage:image];
         }
-        [cell.addButton setFrame:[self setupImageFrame:imageArray.count]];
+        [cell.eventButton setFrame:[self setupImageFrame:cellDataArray.count]];
     }else{
         
         for (UIView *view in cell.subviews) {
@@ -504,14 +636,8 @@ static NSMutableArray *cellDataArray;
         }
     }
     
-    [self setViewScrollViewHeight:imageNum];
+    
 }
-
-- (void)cellWilladdImage:(LMPAHeadViewCell *)cell
-{
-    [self selectImage];
-}
-
 
 #pragma mark 获取图片的url
 
@@ -555,7 +681,7 @@ static NSMutableArray *cellDataArray;
                                                            
                                                            if (![imageUrlArray containsObject:@""]) {
                                                                [self performSelectorOnMainThread:@selector(hideStateHud) withObject:nil waitUntilDone:YES];
-                                                               //发布问题
+                                                               //发布文章
                                                                [self performSelectorOnMainThread:@selector(publishAction) withObject:nil waitUntilDone:YES];
                                                            }
                                                        }
@@ -585,10 +711,18 @@ static NSMutableArray *cellDataArray;
     
     [self initStateHud];
     
-    LMPublicArticleRequest *request     = [[LMPublicArticleRequest alloc] initWithArticlecontent:cell.includeTF.text
-                                                                                   Article_title:titleTF.text
+    NSMutableArray *new = [NSMutableArray new];
+    
+    [new setValue:@"人个人和维护" forKey:@"article_content"];
+    
+    
+    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:@"ryewrw"
+                                        
+                                                                                Article_title:titleTF.text
                                                                                       Descrition:discribleTF.text
-                                                                                     andImageURL:imageUrlArray];
+                                                                                     andImageURL:imageUrlArray
+                                                                                      andType:@"生活"
+                                                                                        blend:new];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -621,7 +755,7 @@ static NSMutableArray *cellDataArray;
             [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController dismissViewControllerAnimated:NO completion:nil];
+                [self.navigationController popViewControllerAnimated:YES];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
             });
@@ -642,6 +776,7 @@ static NSMutableArray *cellDataArray;
     
     return YES;
 }
+
 
 - (void)textViewDidChange:(UITextView *)textView
 {

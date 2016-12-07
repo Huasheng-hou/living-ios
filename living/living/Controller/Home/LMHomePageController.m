@@ -21,6 +21,8 @@
 #import "LMHomeDetailController.h"
 #import "LMWebViewController.h"
 
+#import "LMArtcleTypeViewController.h"
+
 #import "BannerVO.h"
 
 #define PAGER_SIZE      20
@@ -382,7 +384,16 @@ LMhomePageCellDelegate
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
+
+- (void)typeClick
+{
+    LMArtcleTypeViewController *typeVC = [[LMArtcleTypeViewController alloc] initWithType:@"生活"];
+    [self.navigationController pushViewController:typeVC animated:YES];
+}
+
+
 
 #pragma mark  --cell click delegat
 

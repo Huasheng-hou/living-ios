@@ -9,6 +9,13 @@
 #import "LMPAHeadViewCell.h"
 #import "FitConsts.h"
 #define titleW titleLable.bounds.size.width
+
+
+@interface LMPAHeadViewCell ()
+<UITextViewDelegate>
+
+@end
+
 @implementation LMPAHeadViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -34,6 +41,7 @@
     _includeTF = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth- 20, 160)];
 //    _includeTF.backgroundColor = [UIColor clearColor];
     _includeTF.returnKeyType = UIReturnKeyDone;
+    _includeTF.delegate = self;
     _includeTF.font = TEXT_FONT_LEVEL_2;
     
     _textLab = [UILabel new];
@@ -46,19 +54,19 @@
     [self.contentView addSubview:_includeTF];
     
     
-    _addButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 180, 70, 70)];
-    [_addButton setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-    [self.contentView addSubview:_addButton];
+    _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 70)];
+    _backView.userInteractionEnabled = YES;
+    [self.contentView addSubview:_backView];
+    _eventButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 10, 70, 70)];
+    [_eventButton setBackgroundImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+    [_backView addSubview:_eventButton];
     
-    
-    _eventButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _eventButton.frame = CGRectMake(10, 180, 70, 70);
-    [self.contentView addSubview:_eventButton];
+    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 70, 70)];
+    [_backView addSubview:_imgView];
     [_eventButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 180, 70, 70)];
-    [self.contentView addSubview:_imgView];
+    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-30, 15, 22, 22)];
+    [_deleteBt setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [self addSubview:_deleteBt];
     
 }
 
@@ -69,29 +77,15 @@
     }
 }
 
-- (void)textViewDidChange:(UITextView *)textView1
+
+- (UITableView *)tableView
 {
-    if (textView1.text.length==0)
-    {
-        [_textLab setHidden:NO];
-    }else{
-        [_textLab setHidden:YES];
+    UIView *tableView = self.superview;
+    while (![tableView isKindOfClass:[UITableView class]] && tableView) {
+        tableView = tableView.superview;
     }
+    return (UITableView *)tableView;
 }
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        [self endEditing:YES];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-        
-    }
-    
-    return YES;
-}
-
-
 
 
 
