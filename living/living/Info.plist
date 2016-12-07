@@ -92,8 +92,6 @@
 	<string>请同意获取</string>
 	<key>NSContactsUsageDescription</key>
 	<string>请同意获取</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>始终允许</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>腰果生活需要在您使用该App期间允许使用定位，否则无法进行定位</string>
 	<key>NSMicrophoneUsageDescription</key>
