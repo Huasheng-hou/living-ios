@@ -115,13 +115,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/Home/LMHomeDetailController.m"
-            timestampString = "502784642.26203"
+            filePath = "living/Controller/Home/LMPublicArticleController.m"
+            timestampString = "502789600.405205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
-            landmarkName = "-getHomeDeatilDataResponse:"
+            startingLineNumber = "616"
+            endingLineNumber = "616"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -131,13 +131,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/Home/LMPublicArticleController.m"
-            timestampString = "502789600.405205"
+            filePath = "living/Controller/Home/LMWriterViewController.m"
+            timestampString = "502792387.941627"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "616"
-            endingLineNumber = "616"
-            landmarkName = "-alertView:clickedButtonAtIndex:"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-parseResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
