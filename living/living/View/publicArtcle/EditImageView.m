@@ -56,9 +56,10 @@
         [self addSubview:imageV];
         //删除按钮
         UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(imageV.bounds.size.width-deleteBtW, 0, deleteBtW, deleteBtW)];
-        [button setBackgroundColor:[UIColor colorWithRed:38/255.0f green:38/255.0f blue:38/255.0f alpha:0.7f]];
+        [button setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+        
         [button setTag:i];
-        [button setHidden:YES];
+
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         [imageV addSubview:button];
     }
@@ -67,21 +68,26 @@
 -(void)buttonAction:(UIButton *)sender
 {
     NSLog(@"================删除按钮==========%ld",(long)sender.tag);
+    if ([_delegate respondsToSelector:@selector(cellWilldeleteImage:)]) {
+        [_delegate cellWilldeleteImage:self];
+    }
+    
 }
 
 -(void)addImageAction:(UIButton *)sender
 {
     NSLog(@"==========增加按钮================");
+    if ([_delegate respondsToSelector:@selector(cellWilladdImage:)]) {
+        [_delegate cellWilladdImage:self];
+    }
 }
 
 -(void)createAddButton:(CGRect)frame
 {
     UIButton *button=[[UIButton alloc]initWithFrame:frame];
-    [button setBackgroundColor:[UIColor redColor]];
+    [button setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+    
     [button addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
-    [button setHidden:YES];
-    [button.layer setCornerRadius:button.frame.size.width/2];
-    [button.layer setMasksToBounds:YES];
     [self addSubview:button];
 }
 

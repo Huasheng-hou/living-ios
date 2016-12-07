@@ -14,6 +14,7 @@
 #import "ImageHelpTool.h"
 #import "UIView+frame.h"
 #import "LMPAHeadViewCell.h"
+#import "EditImageView.h"
 
 
 @interface LMPublicArticleController ()
@@ -27,7 +28,8 @@ UIScrollViewDelegate,
 UIAlertViewDelegate,
 ZYQAssetPickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
-LMPAHeadViewCellDelegate
+LMPAHeadViewCellDelegate,
+EditImageViewDelegate
 >
 {
     UIImagePickerController *pickImage;
@@ -550,12 +552,6 @@ static NSMutableArray *cellDataArray;
     [image addGestureRecognizer:tap];
     
     
-    UIButton *icon=[[UIButton alloc]initWithFrame:CGRectMake(image.frame.size.width*3/4, 0, image.frame.size.width/4, image.frame.size.height/4)];
-    [icon setBackgroundImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [icon addTarget:self action:@selector(deleteImage:) forControlEvents:UIControlEventTouchUpInside];
-    [icon setTag:image.tag];
-    [image addSubview:icon];
-    
     [self refreshData];
     
 }
@@ -575,15 +571,11 @@ static NSMutableArray *cellDataArray;
     
 }
 
-#pragma mark 删除图片
+#pragma mark 删除图片EditImageViewDelegate
 
-- (void)deleteImage:(UIButton*)sender
+- (void)cellWilldeleteImage:(EditImageView *)view
 {
-    deleImageIndex=sender.tag;
-    for (UIImageView *iconImage in sender.subviews) {
-        [iconImage setHidden:NO];
-    }
-    
+
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                     message:@"确定删除图片"
                                                    delegate:self

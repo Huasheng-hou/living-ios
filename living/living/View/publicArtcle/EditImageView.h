@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol EditImageViewDelegate;
+
 @interface EditImageView : UIView
 
 -(instancetype)initWithStartY:(CGFloat)y andImageArray:(NSArray *)array;
@@ -16,4 +18,17 @@
 -(void)pictureEditState:(BOOL)state;
 
 -(void)contentWithView:(NSArray *)imageArray andY:(CGFloat)y;
+
+@property (nonatomic, weak) id <EditImageViewDelegate> delegate;
+
+@end
+
+@protocol EditImageViewDelegate <NSObject>
+
+@optional
+- (void)cellWilladdImage:(EditImageView *)view;
+
+- (void)cellWilldeleteImage:(EditImageView *)view;
+
+
 @end
