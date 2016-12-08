@@ -24,6 +24,7 @@
             andLatitude:(NSString *)latitude
            andLongitude:(NSString *)longitude
            limit_number:(int)limit_number
-                notices:(NSString *)notices;
+                notices:(NSString *)notices
+        franchiseePrice:(NSString *)franchiseePrice;
 
 @end

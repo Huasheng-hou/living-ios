@@ -114,7 +114,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -178,14 +178,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==1) {
+    if (self.listData.count > indexPath.row) {
         
-        LMActicleVO *list = [self.listData objectAtIndex:indexPath.row];
-        LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
         
-        detailVC.artcleuuid = list.articleUuid;
-        [self.navigationController pushViewController:detailVC animated:YES];
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+            
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.artcleuuid = vo.articleUuid;
+            
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 

@@ -86,6 +86,10 @@
             && [[dictionary objectForKey:@"avatar"] isKindOfClass:[NSString class]]) {
             self.avatar = [dictionary objectForKey:@"avatar"];
         }
+        if (nil != [dictionary objectForKey:@"type"] && ![[dictionary objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            self.type = [dictionary objectForKey:@"type"];
+        }
         
         
     }

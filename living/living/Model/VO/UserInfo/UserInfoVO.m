@@ -119,6 +119,11 @@
             && [[dictionary objectForKey:@"userId"] isKindOfClass:[NSNumber class]]) {
             self.userId =[(NSNumber *) [dictionary objectForKey:@"userId"] intValue];
         }
+        
+        if (nil != [dictionary objectForKey:@"endTime"] && ![[dictionary objectForKey:@"endTime"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"endTime"] isKindOfClass:[NSString class]]) {
+            self.endTime = [dictionary objectForKey:@"endTime"];
+        }
     }
     
     return self;

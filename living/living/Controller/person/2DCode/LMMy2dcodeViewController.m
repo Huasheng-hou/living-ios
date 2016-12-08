@@ -18,6 +18,8 @@
     NSString *codeSting;
     UIView *KeepImage;
     UIButton *downButton;
+    UILabel *endTimeLabel;
+    NSInteger index;
 }
 
 @end
@@ -32,7 +34,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor blackColor];
     self.title = @"二维码";
@@ -183,6 +184,56 @@
     headImage2.clipsToBounds = YES;
     headImage.contentMode = UIViewContentModeScaleAspectFill;
     [imageView addSubview:headImage2];
+    
+    NSDate * date = [NSDate date];
+    
+    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
+    NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
+    //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
+    
+    NSDate * lastYear = [date dateByAddingTimeInterval:time];
+    
+    //转化为字符串
+    NSString * startDate = [dateFormatter stringFromDate:lastYear];
+    NSLog(@"%@",startDate);
+    NSDate *endDate = [dateFormatter dateFromString:_endTime];
+    
+    [self compareOneDay:lastYear withAnotherDay:endDate];
+    
+}
+
+- (void)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *oneDayStr = [dateFormatter stringFromDate:oneDay];
+    NSString *anotherDayStr = [dateFormatter stringFromDate:anotherDay];
+    NSDate *dateA = [dateFormatter dateFromString:oneDayStr];
+    NSDate *dateB = [dateFormatter dateFromString:anotherDayStr];
+    NSComparisonResult result = [dateA compare:dateB];
+    if (result == NSOrderedDescending) {
+        //NSLog(@"oneDay  is in the future");
+        
+        NSString *string = [dateFormatter stringFromDate:anotherDay];
+        
+        endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-45, kScreenWidth-45, 45)];
+        endTimeLabel.numberOfLines = 2;
+        endTimeLabel.textAlignment = NSTextAlignmentCenter;
+        endTimeLabel.text = [NSString stringWithFormat:@"您的加盟商资格将于%@到期,\n请点击右上角按钮进行续费",string];
+        endTimeLabel.textColor = LIVING_COLOR;
+        endTimeLabel.font = TEXT_FONT_LEVEL_1;
+        [KeepImage addSubview:endTimeLabel];
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    else if (result == NSOrderedAscending){
+
+    }
+    //NSLog(@"Both dates are the same");
 }
 
 
@@ -200,6 +251,7 @@
 
 - (void)saveImageToAlbum {
     [downButton setHidden:YES];
+    [endTimeLabel setHidden:YES];
     [self.navigationController.navigationBar setHidden:YES];
     
     [self saveScreenshotToPhotosAlbum:KeepImage];
@@ -272,6 +324,8 @@
     [downButton setHidden:NO];
     [self.navigationController.navigationBar setHidden:NO];
 }
+
+
 
 
 @end

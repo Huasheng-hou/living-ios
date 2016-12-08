@@ -269,6 +269,7 @@ static NSMutableArray *cellDataArray;
         msgCell.dspTF.delegate = self;
         msgCell.VipFreeTF.delegate = self;
         msgCell.joincountTF.delegate = self;
+        msgCell.couponTF.delegate = self;
         
         msgCell.titleTF.tag = 100;
         msgCell.phoneTF.tag = 100;
@@ -278,6 +279,7 @@ static NSMutableArray *cellDataArray;
         msgCell.VipFreeTF.tag = 100;
         msgCell.joincountTF.tag = 100;
         msgCell.applyTextView.delegate = self;
+        msgCell.couponTF.tag = 100;
         
         
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -937,6 +939,11 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
+    if (!(msgCell.couponTF.text.length>0)) {
+        [ self textStateHUD:@"请输入加盟商费用"];
+        return;
+    }
+    
     if (!(msgCell.joincountTF.text.length>0)) {
         [ self textStateHUD:@"请输入活动人数"];
         return;
@@ -983,7 +990,7 @@ static NSMutableArray *cellDataArray;
     }
     
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

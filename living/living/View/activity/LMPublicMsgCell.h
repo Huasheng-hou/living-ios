@@ -20,6 +20,8 @@
 
 @property(nonatomic,strong)UITextField *VipFreeTF;
 
+@property(nonatomic,strong)UITextField *couponTF;
+
 @property(nonatomic,strong)UITextField *joincountTF;
 
 @property(nonatomic,strong)LMTimeButton *dateButton;

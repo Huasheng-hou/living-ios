@@ -12,6 +12,7 @@
 #import "LMActicleVO.h"
 #import "LMHomeDetailController.h"
 #import "ImageHelpTool.h"
+#import "LMBlackWriterRequest.h"
 
 static CGRect oldframe;
 @interface LMWriterViewController ()
@@ -80,7 +81,7 @@ LMhomePageCellDelegate
 
 -(void)reportAction
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否屏蔽该该作者"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否屏蔽该作者"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -89,12 +90,49 @@ LMhomePageCellDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-                                                [self textStateHUD:@"您已经屏蔽了该作者"];
+                                                [self shieldWriter];
                                                 
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
     
+}
+
+- (void)shieldWriter
+{
+    
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        LMBlackWriterRequest *request = [[LMBlackWriterRequest alloc] initWithAuthor_uuid:_writerUUid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getarticleshieldDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        [self IsLoginIn];
+    }
+    
+}
+
+- (void)getarticleshieldDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
+    {
+        [self textStateHUD:@"屏蔽作者成功"];
+    }else{
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
 }
 
 - (FitBaseRequest *)request

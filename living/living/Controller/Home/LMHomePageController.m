@@ -413,6 +413,21 @@ LMhomePageCellDelegate
     }
 }
 
+- (void)TitlewillClick:(LMhomePageCell *)cell
+{
+    if (self.listData.count>cell.tag) {
+        LMActicleVO *vo     = [self.listData objectAtIndex:cell.tag];
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            LMArtcleTypeViewController *writerVC = [[LMArtcleTypeViewController alloc] initWithType:vo.type];
+            writerVC.hidesBottomBarWhenPushed = YES;
+            
+            [self.navigationController pushViewController:writerVC animated:YES];
+        }
+    }
+}
+
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0

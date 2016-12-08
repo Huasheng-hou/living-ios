@@ -30,6 +30,7 @@
 @property(nonatomic, retain) NSString *publishTime;
 @property(nonatomic, retain) NSString *userUuid;
 @property(nonatomic, retain) NSString *avatar;
+@property(nonatomic, retain) NSString *type;
 
 
 

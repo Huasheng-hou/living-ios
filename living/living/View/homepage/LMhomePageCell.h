@@ -26,4 +26,6 @@
 @optional
 - (void)cellWillClick:(LMhomePageCell *)cell;
 
+- (void)TitlewillClick:(LMhomePageCell *)cell;
+
 @end

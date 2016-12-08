@@ -36,5 +36,6 @@
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, assign) int livingNumber;
 @property (nonatomic, assign) int userId;
+@property (nonatomic, strong) NSString *endTime;
 
 @end

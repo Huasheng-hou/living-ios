@@ -23,6 +23,7 @@
 #import "ImageHelpTool.h"
 #import "UIBarButtonItem+Badge.h"
 #import "SYPhotoBrowser.h"
+#import "LMBlacklistViewController.h"
 
 static CGRect oldframe;
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -201,7 +202,7 @@ static CGRect oldframe;
         return 5;
     }
     if (section==2) {
-        return 2;
+        return 3;
     }
     if (section==3) {
         return 1;
@@ -393,6 +394,10 @@ static CGRect oldframe;
                 cell.textLabel.text = @"我的二维码";
                 cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
                 break;
+            case 2:
+                cell.textLabel.text = @"我的黑名单";
+                cell.imageView.image = [UIImage imageNamed:@"sheied"];
+                break;
             default:
                 break;
         }
@@ -494,7 +499,13 @@ static CGRect oldframe;
             setVC.name = infoModel.nickName;
             setVC.gender = infoModel.gender;
             setVC.headURL = infoModel.avatar;
+            setVC.endTime = infoModel.endTime;
             
+            [self.navigationController pushViewController:setVC animated:YES];
+        }
+        if (indexPath.row==2) {
+            LMBlacklistViewController *setVC = [[LMBlacklistViewController alloc] init];
+            [setVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:setVC animated:YES];
         }
     }

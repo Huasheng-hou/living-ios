@@ -34,6 +34,8 @@
 
 @property (nonatomic, strong) UIView *backView;
 
+@property (nonatomic, strong) UILabel *couponLabel;
+
 @end
 
 @implementation LMActivityCell
@@ -86,7 +88,12 @@
     _priceLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_priceLabel];
 
-    
+    //优惠价
+    _couponLabel = [UILabel new];
+    _couponLabel.font = [UIFont systemFontOfSize:13.f];
+    _couponLabel.textAlignment = NSTextAlignmentCenter;
+    _couponLabel.textColor = LIVING_COLOR;
+    [self.contentView addSubview:_couponLabel];
     
     //活动时间
     _timeLabel = [UILabel new];
@@ -170,6 +177,9 @@
         
         _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
         _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+        
+
+        _couponLabel.text = [NSString stringWithFormat:@"优惠价:￥%@/人",@"1"];
 
     }
     
@@ -191,6 +201,7 @@
     [_countLabel sizeToFit];
     [_priceLabel sizeToFit];
     [_addressLabel sizeToFit];
+    [_couponLabel sizeToFit];
     [_headV sizeToFit];
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, 180);
@@ -200,6 +211,9 @@
     _countLabel.frame = CGRectMake(15, 100, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
     _priceLabel.frame = CGRectMake(15, 125, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
+    
+    _couponLabel.frame = CGRectMake(25+_priceLabel.bounds.size.width, 125, _couponLabel.bounds.size.width, _couponLabel.bounds.size.height);
+    
     _timeLabel.frame = CGRectMake(15, 150, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     
     _headV.frame = CGRectMake(15, 5, 20, 20);

@@ -53,6 +53,11 @@
     _titleLabel.font = [UIFont systemFontOfSize:16.f];
     _titleLabel.textColor = TEXT_COLOR_LEVEL_1;
     [self.contentView addSubview:_titleLabel];
+    _titleLabel.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(articletitleClick)];
+    
+    [_titleLabel addGestureRecognizer:tap2];
     
     _contentLabel = [UILabel new];
     _contentLabel.numberOfLines  = 2;
@@ -87,13 +92,26 @@
 
 -(void)setValue:(LMActicleVO *)list
 {
-    
-    
-    _titleLabel.text = list.articleTitle;
     _nameLabel.text = list.articleName;
     _contentLabel.text = list.articleContent;
     [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     _timeLabel.text = [self getUTCFormateDate:list.publishTime];
+    
+    if (list.type&&![list.type isEqual:@""]) {
+        
+        _titleLabel.text = [NSString stringWithFormat:@"#%@#%@",list.type,list.articleTitle];
+        
+        NSInteger lenth = list.type.length;
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_titleLabel.text];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,lenth+2)];
+        _titleLabel.attributedText = str;
+    }else{
+        _titleLabel.text = list.articleTitle;
+        _titleLabel.userInteractionEnabled = NO;
+    }
+
+    
+    
 }
 
 
@@ -127,6 +145,13 @@
         [_delegate cellWillClick:self];
     }
     
+}
+
+- (void)articletitleClick
+{
+    if ([_delegate respondsToSelector:@selector(TitlewillClick:)]) {
+        [_delegate TitlewillClick:self];
+    }
 }
 
 
