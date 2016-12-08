@@ -31,6 +31,8 @@
 #import "LMWriterViewController.h"
 #import "LMArtcleFootView.h"
 #import "SQMenuShowView.h"
+#import "BlendVO.h"
+#import "LMContentTableViewCell.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -40,7 +42,8 @@ UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
 LMCommentCellDelegate,
-shareTypeDelegate
+shareTypeDelegate,
+LMContentTableViewCellDelegate
 >
 {
     UIToolbar *toolBar;
@@ -80,6 +83,9 @@ shareTypeDelegate
     
     LMArtcleFootView *footView;
     NSMutableArray *clickArr;
+    
+    NSMutableArray *newImageArray;
+    BOOL  isBlend;
 }
 
 @property (strong, nonatomic)  SQMenuShowView *showView;
@@ -102,6 +108,7 @@ shareTypeDelegate
     self.title = @"文章详情";
     [self creatUI];
     listArray = [NSMutableArray new];
+    newImageArray = [NSMutableArray new];
     [self getHomeDetailDataRequest];
     [self registerForKeyboardNotifications];
     clickArr = [NSMutableArray new];
@@ -140,7 +147,7 @@ shareTypeDelegate
     }else{
         typeIndex = 2;
     }
-
+    
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction)];
     
@@ -180,7 +187,7 @@ shareTypeDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:nil]];
-
+    
     
     [self presentViewController:alert animated:YES completion:nil];
     
@@ -337,7 +344,7 @@ shareTypeDelegate
         if (listArray.count>0) {
             [listArray removeAllObjects];
         }
-        
+ 
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
         
         if (articleData.hasPraised ==YES) {
@@ -368,6 +375,19 @@ shareTypeDelegate
         fakeId = [NSString stringWithFormat:@"%d",articleData.fakaid];
         
         NSMutableArray *array=bodyDic[@"comment_messages"];
+        
+        if (bodyDic[@"blend"]) {
+            isBlend = YES;
+            NSMutableArray *imagArr = bodyDic[@"blend"];
+            for (int i =0; i<imagArr.count; i++) {
+                
+                BlendVO *list = [[BlendVO alloc] initWithDictionary:imagArr[i]];
+                [newImageArray addObject:list];
+            }
+        }else{
+            isBlend = NO;
+
+        }
         
         
         for (int i =0; i<array.count; i++) {
@@ -405,102 +425,236 @@ shareTypeDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==1) {
-        
-        if (listArray.count > indexPath.row) {
+    if (isBlend ==YES) {
+        if (indexPath.section==2) {
             
-            LMActicleCommentVO *list = listArray[indexPath.row];
-            
-            if (list && [list isKindOfClass:[LMActicleCommentVO class]]) {
+            if (listArray.count > indexPath.row) {
                 
-                return [LMCommentCell cellHigth:list.commentContent];
+                LMActicleCommentVO *list = listArray[indexPath.row];
+                
+                if (list && [list isKindOfClass:[LMActicleCommentVO class]]) {
+                    
+                    return [LMCommentCell cellHigth:list.commentContent];
+                }
             }
         }
-    }
-    
-    if (indexPath.section==0) {
-        if (indexPath.row==0) {
+        contentLabel.text =articleData.articleContent;
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+        if (contentLabel.text!=nil) {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
+            
+            [paragraphStyle setLineSpacing:7];
+            [paragraphStyle setParagraphSpacing:10];
+            [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
+            contentLabel.attributedText = attributedString;
+        }
+        
+        if (typeIndex ==1) {
+            
+            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+            attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+            
+        }
+        if (typeIndex ==2) {
+            
+            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+            attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+        }
+        if (typeIndex ==3) {
+            
+            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+            attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+        }
+        
+        if (indexPath.section==0) {
+            
             
             NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             
-            CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
-                                                                     options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                                  attributes:attributes5
-                                                                     context:nil].size.height;
-            return 65 + conHigh;
+            NSString *string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
+            
+            CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                                   options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                attributes:attributes5
+                                                   context:nil].size.height;
+            
+            CGFloat conHigh2 = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            
+            return 65 + conHigh +conHigh2+10;
         }
-        if (indexPath.row==1) {
+        if (indexPath.section==1) {
             
-            contentLabel.text =articleData.articleContent;
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-            if (contentLabel.text!=nil) {
-                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
-                
-                [paragraphStyle setLineSpacing:7];
-                [paragraphStyle setParagraphSpacing:10];
-                [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
-                contentLabel.attributedText = attributedString;
-            }
-            
-            if (typeIndex ==1) {
-                
-                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
-                
-            }
-            if (typeIndex ==2) {
-                
-                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
-            }
-            if (typeIndex ==3) {
-                
-                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
-            }
-            
-            CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            
-            
-            CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-            
-            if (!articleData.articleImgs) {
-                return 20+conHigh+conHigh2;
-            }else{
-                NSArray *arr = articleData.articleImgs;
-                for (int i = 0; i<arr.count; i++) {
+            if (newImageArray&&newImageArray.count>0) {
+                BlendVO *vo = newImageArray[indexPath.row];
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+                if (vo.content!=nil) {
+                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:vo.content];
                     
-                    NSDictionary *dic = arr[i];
-                    CGFloat imageVH = [dic[@"height"] floatValue];
-                    CGFloat imageVW = [dic[@"width"] floatValue];
-                    
-                    CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                    CGFloat hight = 0;
-                    NSString *string = [NSString stringWithFormat:@"%f",imageViewH+hight];
-                    
-                    [hightArray addObject:string];
-                    if (i>0) {
-                        hight =[hightArray[i-1] floatValue] +10;
-                    }else{
-                        hight = 0;
-                    }
-                    
+                    [paragraphStyle setLineSpacing:7];
+                    [paragraphStyle setParagraphSpacing:10];
+                    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, vo.content.length)];
                 }
                 
-                NSInteger index =  arr.count-1;
+                if (typeIndex ==1) {
+                    
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                    
+                }
+                if (typeIndex ==2) {
+                    
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
+                if (typeIndex ==3) {
+                    
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
                 
-                return 30+conHigh+conHigh2 +10 + [hightArray[index] floatValue] ;
+                CGFloat conHigh2 = [vo.content boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+                
+                if (!vo.images) {
+                    return 20+conHigh2;
+                }else{
+                    NSArray *arr = vo.images;
+                    hightArray = [NSMutableArray new];
+                    for (int i = 0; i<arr.count; i++) {
+                        
+                        NSDictionary *dic = arr[i];
+                        CGFloat imageVH = [dic[@"height"] floatValue];
+                        CGFloat imageVW = [dic[@"width"] floatValue];
+                        
+                        CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
+                        CGFloat hight = 0;
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+hight];
+                        
+                        [hightArray addObject:string];
+                        if (i>0) {
+                            hight =[hightArray[i-1] floatValue] +10;
+                        }else{
+                            hight =imageViewH +10;
+                        }
+                    }
+                    
+                    NSInteger index =  arr.count-1;
+                    
+                    return 30+conHigh2 +10 + [hightArray[index] floatValue] ;
+                }
+                
             }
             
+            
         }
+ 
+    }else{
+        if (indexPath.section==1) {
+            
+            if (listArray.count > indexPath.row) {
+                
+                LMActicleCommentVO *list = listArray[indexPath.row];
+                
+                if (list && [list isKindOfClass:[LMActicleCommentVO class]]) {
+                    
+                    return [LMCommentCell cellHigth:list.commentContent];
+                }
+            }
+        }
+        
+        if (indexPath.section==0) {
+            if (indexPath.row==0) {
+                
+                NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                
+                CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                                                         options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                                      attributes:attributes5
+                                                                         context:nil].size.height;
+                return 65 + conHigh;
+            }
+            if (indexPath.row==1) {
+                
+                contentLabel.text =articleData.articleContent;
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+                if (contentLabel.text!=nil) {
+                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
+                    
+                    [paragraphStyle setLineSpacing:7];
+                    [paragraphStyle setParagraphSpacing:10];
+                    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
+                    contentLabel.attributedText = attributedString;
+                }
+                
+                if (typeIndex ==1) {
+                    
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                    
+                }
+                if (typeIndex ==2) {
+                    
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
+                if (typeIndex ==3) {
+                    
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
+                
+                CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+                
+                
+                CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+                
+                if (!articleData.articleImgs) {
+                    return 110+conHigh+conHigh2;
+                }else{
+                    NSArray *arr = articleData.articleImgs;
+                    for (int i = 0; i<arr.count; i++) {
+                        
+                        NSDictionary *dic = arr[i];
+                        CGFloat imageVH = [dic[@"height"] floatValue];
+                        CGFloat imageVW = [dic[@"width"] floatValue];
+                        
+                        CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
+                        CGFloat hight = 0;
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+hight];
+                        
+                        [hightArray addObject:string];
+                        if (i>0) {
+                            hight =[hightArray[i-1] floatValue] +10;
+                        }else{
+                            hight = 0;
+                        }
+                        
+                    }
+                    
+                    NSInteger index =  arr.count-1;
+                    
+                    return 110+conHigh+conHigh2 +10 + [hightArray[index] floatValue] ;
+                }
+                
+            }
+        }
+        
     }
-    return 0;
+    
+        return 0;
 }
 
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section==1) {
+    NSInteger index;
+    if (isBlend ==YES) {
+        index = 2;
+    }
+    else{
+        index = 1;
+    }
+    
+    if (section==index) {
         
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
         
@@ -531,9 +685,16 @@ shareTypeDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section==1) {
-        return 40;
+    if (isBlend ==YES) {
+        if (section==2) {
+            return 40;
+        }
+    }else{
+        if (section==1) {
+            return 40;
+        }
     }
+
     return 0.01;
 }
 
@@ -544,217 +705,482 @@ shareTypeDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (isBlend ==YES) {
+        return 3;
+    }else{
+       return 2;
+    }
     
-    return 2;
+    
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (isBlend==YES) {
+        if (section==0) {
+            return 1;
+        }
+        if (section==1) {
+            return newImageArray.count;
+        }
+        if (section==2) {
+            
+            return listArray.count;
+            
+        }
+    }else{
+        if (section==0) {
+            return 2;
+        }
+        if (section==1) {
+            return listArray.count;
+        }
+    }
     
-    if (section==0) {
-        return 2;
-    }
-    if (section==1) {
-        return listArray.count;
-    }
+
     return 7;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (isBlend==NO) {
+        if (indexPath.section==0) {
+            
+            static NSString *cellId = @"cellId";
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if (indexPath.row==0) {
+                UILabel *titleLabel = [UILabel new];
+                titleLabel.font = TEXT_FONT_LEVEL_1;
+                titleLabel.numberOfLines=0;
+                titleLabel.text = articleData.articleTitle;
+                NSDictionary *attributes4 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes4 context:nil].size.height;
+                [titleLabel sizeToFit];
+                titleLabel.frame = CGRectMake(15, 15, kScreenWidth-30, conHigh);
+                [cell.contentView addSubview:titleLabel];
+                
+                UIImageView *headImage = [UIImageView new];
+                [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                headImage.frame = CGRectMake(15, conHigh+25, 20, 20);
+                headImage.layer.cornerRadius =10;
+                [headImage setClipsToBounds:YES];
+                headImage.contentMode = UIViewContentModeScaleToFill;
+                [cell.contentView addSubview:headImage];
+                headImage.userInteractionEnabled = YES;
+                UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+                [headImage addGestureRecognizer:tapImage];
+                
+                
+                UILabel *nameLabel = [UILabel new];
+                nameLabel.font = TEXT_FONT_LEVEL_3;
+                nameLabel.textColor = LIVING_COLOR;
+                if (!articleData.articleName||articleData.articleName ==nil) {
+                    nameLabel.text = @"匿名用户";
+                }else{
+                    nameLabel.text = articleData.articleName;
+                }
+                
+                [nameLabel sizeToFit];
+                nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
+                [cell.contentView addSubview:nameLabel];
+                nameLabel.userInteractionEnabled = YES;
+                
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+                [nameLabel addGestureRecognizer:tap];
+                
+                UILabel *timeLabel = [UILabel new];
+                timeLabel.font = TEXT_FONT_LEVEL_3;
+                timeLabel.textColor = TEXT_COLOR_LEVEL_3;
+                
+                NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+                timeLabel.text = [formatter stringFromDate:articleData.publishTime];;
+                [timeLabel sizeToFit];
+                timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+25, timeLabel.bounds.size.width,20);
+                [cell.contentView addSubview:timeLabel];
+                
+                UIView *line = [UIView new];
+                line.backgroundColor =LINE_COLOR;
+                [line sizeToFit];
+                line.frame = CGRectMake(15, conHigh+60, kScreenWidth-30, 0.5);
+                [cell.contentView addSubview:line];
+                
+            }
+            if (indexPath.row==1) {
+                UILabel *type = [UILabel new];
+                type.text = @"字号：";
+                type.font = TEXT_FONT_LEVEL_2;
+                type.textColor =Text_size_color;
+                type.textAlignment = NSTextAlignmentCenter;
+                type.layer.cornerRadius = 3;
+                type.layer.borderColor =Text_size_color.CGColor;
+                type.layer.borderWidth = 0.5;
+                [type sizeToFit];
+                [cell.contentView addSubview:type];
+                
+                bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [bigBtn setTitle:@"大" forState:UIControlStateNormal];
+                [bigBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+                bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+                bigBtn.layer.cornerRadius = 3;
+                bigBtn.layer.borderColor =Text_size_color.CGColor;
+                bigBtn.layer.borderWidth = 0.5;
+                [bigBtn sizeToFit];
+                [cell.contentView addSubview:bigBtn];
+                [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
+                
+                
+                
+                midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [midBtn setTitle:@"中" forState:UIControlStateNormal];
+                [midBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+                midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+                midBtn.layer.cornerRadius = 3;
+                midBtn.layer.borderColor =Text_size_color.CGColor;
+                midBtn.layer.borderWidth = 0.5;
+                [midBtn sizeToFit];
+                [cell.contentView addSubview:midBtn];
+                [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
+                
+                smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [smallBtn setTitle:@"小" forState:UIControlStateNormal];
+                [smallBtn setTitleColor:Text_size_color forState:UIControlStateNormal];
+                smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+                smallBtn.layer.cornerRadius = 3;
+                smallBtn.layer.borderColor =Text_size_color.CGColor;
+                smallBtn.layer.borderWidth = 0.5;
+                [smallBtn sizeToFit];
+                [cell.contentView addSubview:smallBtn];
+                [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
+                
+                dspLabel = [UILabel new];
+                if (typeIndex==1) {
+                    bigBtn.backgroundColor = LINE_COLOR;
+                    midBtn.backgroundColor = [UIColor clearColor];
+                    smallBtn.backgroundColor = [UIColor clearColor];
+                    dspLabel.font = TEXT_FONT_LEVEL_1;
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                }
+                if (typeIndex==2) {
+                    bigBtn.backgroundColor = [UIColor clearColor];
+                    midBtn.backgroundColor = LINE_COLOR;
+                    smallBtn.backgroundColor = [UIColor clearColor];
+                    dspLabel.font = TEXT_FONT_LEVEL_2;
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                }
+                if (typeIndex==3) {
+                    bigBtn.backgroundColor = [UIColor clearColor];
+                    midBtn.backgroundColor = [UIColor clearColor];
+                    smallBtn.backgroundColor = LINE_COLOR;
+                    dspLabel.font = [UIFont systemFontOfSize:12.0];
+                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+                }
+                
+                dspLabel.textColor = LIVING_REDCOLOR;
+                dspLabel.numberOfLines=0;
+                dspLabel.text = articleData.describe;
+                
+                
+                CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+                [dspLabel sizeToFit];
+                
+                [cell.contentView addSubview:dspLabel];
+                
+                
+                contentLabel = [UILabel new];
+                contentLabel.textColor = TEXT_COLOR_LEVEL_2;
+                contentLabel.numberOfLines=0;
+                contentLabel.text = articleData.articleContent;
+                
+                contentLabel.text = [articleData.articleContent stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+                if (contentLabel.text!=nil) {
+                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
+                    
+                    [paragraphStyle setLineSpacing:7];
+                    [paragraphStyle setParagraphSpacing:10];
+                    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
+                    contentLabel.attributedText = attributedString;
+                }
+                if (typeIndex==1) {
+                    contentLabel.font = [UIFont systemFontOfSize:18.0];
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
+                if (typeIndex==2) {
+                    contentLabel.font = TEXT_FONT_LEVEL_1;
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
+                if (typeIndex==3) {
+                    contentLabel.font = [UIFont systemFontOfSize:14.0];
+                    attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+                }
+                
+                
+                CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+                [contentLabel sizeToFit];
+                
+                [cell.contentView addSubview:contentLabel];
+                
+                
+                zanLabel = [LMCommentButton new];
+                
+                if (articleData.hasPraised == YES) {
+                    zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon-click"];
+                }else{
+                    zanLabel.headImage.image = [UIImage imageNamed:@"zanIcon"];
+                }
+                zanLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
+                zanLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+                
+                
+                [zanLabel.textLabel sizeToFit];
+                zanLabel.textLabel.frame = CGRectMake(15, 5, zanLabel.textLabel.bounds.size.width, zanLabel.textLabel.bounds.size.height);
+                [zanLabel sizeToFit];
+                [cell.contentView addSubview:zanLabel];
+                [zanLabel addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+                
+                LMCommentButton *commentLabel = [[LMCommentButton alloc] init];
+                
+                if (articleData.commentNum&&articleData.commentNum!=0 ) {
+                    commentLabel.headImage.image = [UIImage imageNamed:@"reply-click"];
+                }else{
+                    commentLabel.headImage.image = [UIImage imageNamed:@"reply"];
+                }
+                commentLabel.textLabel.text = [NSString stringWithFormat:@"%d",articleData.commentNum];
+                [commentLabel.textLabel sizeToFit];
+                commentLabel.textLabel.frame = CGRectMake(15, 5, commentLabel.textLabel.bounds.size.width, commentLabel.textLabel.bounds.size.height);
+                [commentLabel.headImage sizeToFit];
+                commentLabel.headImage.frame = CGRectMake(0, 6, 12, 12);
+                commentLabel.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+                [commentLabel sizeToFit];
+                [commentLabel addTarget:self action:@selector(replyAction:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.contentView addSubview:commentLabel];
+                
+                
+                UIButton *button=[UIButton new];
+                [button addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
+                [button setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+                button.layer.cornerRadius = 3;
+                button.layer.borderColor =LIVING_COLOR.CGColor;
+                button.layer.borderWidth = 0.5;
+                [cell.contentView addSubview:button];
+                
+                
+                if (articleData.articleImgs) {
+                    
+                    NSArray *arr =articleData.articleImgs;
+                    hightArray = [NSMutableArray new];
+                    
+                    for (int i = 0; i<arr.count; i++) {
+                        
+                        NSDictionary *dic = arr[i];
+                        
+                        CGFloat imageVH = [dic[@"height"] floatValue];
+                        CGFloat imageVW = [dic[@"width"] floatValue];
+                        CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
+                        
+                        [imageArray addObject:[dic objectForKey:@"url"]];
+                        UIImageView *headImage = [UIImageView new];
+                        [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                        headImage.backgroundColor = BG_GRAY_COLOR;
+                        
+                        headImage.contentMode = UIViewContentModeScaleAspectFill;
+                        [headImage setClipsToBounds:YES];
+                        
+                        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
+                        headImage.tag = i;
+                        [headImage addGestureRecognizer:tap];
+                        headImage.userInteractionEnabled = YES;
+                        if (i>0) {
+                            headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
+                        }else{
+                            headImage.frame = CGRectMake(15, 10, kScreenWidth-30, imageViewH);
+                        }
+                        
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
+                        
+                        [hightArray addObject:string];
+                        
+                        [cell.contentView addSubview:headImage];
+                        
+                    }
+                    
+                    type.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], type.bounds.size.width+10, 30);
+                    bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
+                    midBtn.frame =CGRectMake(80+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
+                    smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20+[hightArray[arr.count-1] floatValue], 40, 30);
+                    dspLabel.frame = CGRectMake(15, 60+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
+                    contentLabel.frame = CGRectMake(15, 70+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
+                    commentLabel.frame = CGRectMake(15, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
+                    zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 85+[hightArray[arr.count-1] floatValue]  +conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
+                    
+                    
+                    [button setFrame:CGRectMake(kScreenWidth-88, 20+[hightArray[arr.count-1] floatValue] , 80, 30)];
+                    
+                }else{
+                    type.frame = CGRectMake(15, 20, type.bounds.size.width+10, 30);
+                    
+                    bigBtn.frame = CGRectMake(30+type.bounds.size.width, 20, 40, 30);
+                    midBtn.frame =CGRectMake(80+type.bounds.size.width, 20, 40, 30);
+                    smallBtn.frame =CGRectMake(130+type.bounds.size.width, 20 , 40, 30);
+                    dspLabel.frame = CGRectMake(15, 50, kScreenWidth-30, conHigh);
+                    contentLabel.frame = CGRectMake(15, 60 +conHigh, kScreenWidth-30, conHighs);
+                    commentLabel.frame = CGRectMake(15, 75+conHigh+conHighs,  commentLabel.textLabel.bounds.size.width+20,commentLabel.bounds.size.height);
+                    zanLabel.frame = CGRectMake(30+commentLabel.bounds.size.width, 75+conHigh+conHighs, zanLabel.textLabel.bounds.size.width+20,zanLabel.bounds.size.height);
+                    
+                    [button setFrame:CGRectMake(kScreenWidth-88, 10, 80, 30)];
+                }
+                
+            }
+            
+            return cell;
+            
+        }
+        if (indexPath.section==1) {
+            static NSString *cellId = @"cellId";
+            LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            LMActicleCommentVO *list = listArray[indexPath.row];
+            [cell setValue:list];
+            cell.delegate = self;
+            [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+            
+            UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
+            
+            tap.minimumPressDuration = 1.0;
+            cell.contentView.tag = indexPath.row;
+            [cell.contentView addGestureRecognizer:tap];
+            
+            
+            return cell;
+        }
+
+    }else{
     
     if (indexPath.section==0) {
         
         static NSString *cellId = @"cellId";
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (indexPath.row==0) {
-            UILabel *titleLabel = [UILabel new];
-            titleLabel.font = TEXT_FONT_LEVEL_1;
-            titleLabel.numberOfLines=0;
+        UILabel *titleLabel = [UILabel new];
+        titleLabel.font = TEXT_FONT_LEVEL_1;
+        titleLabel.numberOfLines=0;
+        if (articleData.type&&![articleData.type isEqual:@""]) {
+            
+            titleLabel.text = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
+            
+            NSInteger lenth = articleData.type.length;
+            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:titleLabel.text];
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,lenth+2)];
+            titleLabel.attributedText = str;
+        }else{
             titleLabel.text = articleData.articleTitle;
-            NSDictionary *attributes4 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-            CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes4 context:nil].size.height;
-            [titleLabel sizeToFit];
-            titleLabel.frame = CGRectMake(15, 15, kScreenWidth-30, conHigh);
-            [cell.contentView addSubview:titleLabel];
-            
-            UIImageView *headImage = [UIImageView new];
-            [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-            headImage.frame = CGRectMake(15, conHigh+25, 20, 20);
-            headImage.layer.cornerRadius =10;
-            [headImage setClipsToBounds:YES];
-            headImage.contentMode = UIViewContentModeScaleToFill;
-            [cell.contentView addSubview:headImage];
-            headImage.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
-            [headImage addGestureRecognizer:tapImage];
-            
-            
-            UILabel *nameLabel = [UILabel new];
-            nameLabel.font = TEXT_FONT_LEVEL_3;
-            nameLabel.textColor = LIVING_COLOR;
-            if (!articleData.articleName||articleData.articleName ==nil) {
-                nameLabel.text = @"匿名用户";
-            }else{
-                nameLabel.text = articleData.articleName;
-            }
-            
-            [nameLabel sizeToFit];
-            nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
-            [cell.contentView addSubview:nameLabel];
-            nameLabel.userInteractionEnabled = YES;
-            
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
-            [nameLabel addGestureRecognizer:tap];
-            
-            UILabel *timeLabel = [UILabel new];
-            timeLabel.font = TEXT_FONT_LEVEL_3;
-            timeLabel.textColor = TEXT_COLOR_LEVEL_3;
-            
-            NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-            timeLabel.text = [formatter stringFromDate:articleData.publishTime];;
-            [timeLabel sizeToFit];
-            timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+25, timeLabel.bounds.size.width,20);
-            [cell.contentView addSubview:timeLabel];
-            
-            UIView *line = [UIView new];
-            line.backgroundColor =LINE_COLOR;
-            [line sizeToFit];
-            line.frame = CGRectMake(15, conHigh+60, kScreenWidth-30, 0.5);
-            [cell.contentView addSubview:line];
-            
-        }
-        if (indexPath.row==1) {
-            
-            if (typeIndex==1) {
-                dspLabel.font = TEXT_FONT_LEVEL_1;
-                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-            }
-            if (typeIndex==2) {
-                dspLabel.font = TEXT_FONT_LEVEL_2;
-                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-            }
-            if (typeIndex==3) {
-                dspLabel.font = [UIFont systemFontOfSize:12.0];
-                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-            }
-            dspLabel = [UILabel new];
-            dspLabel.textColor = LIVING_REDCOLOR;
-            dspLabel.numberOfLines=0;
-            dspLabel.text = articleData.describe;
-            
-            CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            [dspLabel sizeToFit];
-            
-            [cell.contentView addSubview:dspLabel];
-            
-            contentLabel = [UILabel new];
-            contentLabel.textColor = TEXT_COLOR_LEVEL_2;
-            contentLabel.numberOfLines=0;
-            contentLabel.text = articleData.articleContent;
-            
-            contentLabel.text = [articleData.articleContent stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-            if (contentLabel.text!=nil) {
-                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
-                
-                [paragraphStyle setLineSpacing:7];
-                [paragraphStyle setParagraphSpacing:10];
-                [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
-                contentLabel.attributedText = attributedString;
-            }
-            if (typeIndex==1) {
-                contentLabel.font = [UIFont systemFontOfSize:18.0];
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
-                [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-                [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-                [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-            }
-            if (typeIndex==2) {
-                contentLabel.font = TEXT_FONT_LEVEL_1;
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
-                [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-                [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-                [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-            }
-            if (typeIndex==3) {
-                contentLabel.font = [UIFont systemFontOfSize:14.0];
-                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
-                [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-                [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-                [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-            }
-            
-            CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
-            [contentLabel sizeToFit];
-            
-            [cell.contentView addSubview:contentLabel];
-
-            
-            if (articleData.articleImgs) {
-                
-                NSArray *arr =articleData.articleImgs;
-                hightArray = [NSMutableArray new];
-                
-                imageArray = [NSMutableArray new];
-                for (int i = 0; i<arr.count; i++) {
-                    
-                    NSDictionary *dic = arr[i];
-                    
-                    CGFloat imageVH = [dic[@"height"] floatValue];
-                    CGFloat imageVW = [dic[@"width"] floatValue];
-                    CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                    
-                    [imageArray addObject:[dic objectForKey:@"url"]];
-                    UIImageView *headImage = [UIImageView new];
-                    [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
-                    headImage.backgroundColor = BG_GRAY_COLOR;
-                    
-                    headImage.contentMode = UIViewContentModeScaleAspectFill;
-                    [headImage setClipsToBounds:YES];
-                    
-                    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
-                    headImage.tag = i;
-                    [headImage addGestureRecognizer:tap];
-                    headImage.userInteractionEnabled = YES;
-                    if (i>0) {
-                        headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
-                    }else{
-                        headImage.frame = CGRectMake(15, 10, kScreenWidth-30, imageViewH);
-                    }
-                    
-                    NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
-                    
-                    [hightArray addObject:string];
-                    
-                    [cell.contentView addSubview:headImage];
-                    
-                }
-                
-                dspLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 30+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
-                
-            }else{
-                dspLabel.frame = CGRectMake(15, 20, kScreenWidth-30, conHigh);
-                contentLabel.frame = CGRectMake(15, 30 +conHigh, kScreenWidth-30, conHighs);
-            }
-            
         }
         
+        NSDictionary *attributes4 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+        CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes4 context:nil].size.height;
+        [titleLabel sizeToFit];
+        titleLabel.frame = CGRectMake(15, 15, kScreenWidth-30, conHigh);
+        [cell.contentView addSubview:titleLabel];
+        
+        UIImageView *headImage = [UIImageView new];
+        [headImage sd_setImageWithURL:[NSURL URLWithString:articleData.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        headImage.frame = CGRectMake(15, conHigh+25, 20, 20);
+        headImage.layer.cornerRadius =10;
+        [headImage setClipsToBounds:YES];
+        headImage.contentMode = UIViewContentModeScaleToFill;
+        [cell.contentView addSubview:headImage];
+        headImage.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+        [headImage addGestureRecognizer:tapImage];
+        
+        
+        UILabel *nameLabel = [UILabel new];
+        nameLabel.font = TEXT_FONT_LEVEL_3;
+        nameLabel.textColor = LIVING_COLOR;
+        if (!articleData.articleName||articleData.articleName ==nil) {
+            nameLabel.text = @"匿名用户";
+        }else{
+            nameLabel.text = articleData.articleName;
+        }
+        
+        [nameLabel sizeToFit];
+        nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
+        [cell.contentView addSubview:nameLabel];
+        nameLabel.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
+        [nameLabel addGestureRecognizer:tap];
+        
+        UILabel *timeLabel = [UILabel new];
+        timeLabel.font = TEXT_FONT_LEVEL_3;
+        timeLabel.textColor = TEXT_COLOR_LEVEL_3;
+        
+        NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        timeLabel.text = [formatter stringFromDate:articleData.publishTime];;
+        [timeLabel sizeToFit];
+        timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, conHigh+25, timeLabel.bounds.size.width,20);
+        [cell.contentView addSubview:timeLabel];
+        
+        UIView *line = [UIView new];
+        line.backgroundColor =LINE_COLOR;
+        [line sizeToFit];
+        line.frame = CGRectMake(15, conHigh+60, kScreenWidth-30, 0.5);
+        [cell.contentView addSubview:line];
+        
+
+        dspLabel = [UILabel new];
+        dspLabel.textColor = LIVING_COLOR;
+        dspLabel.numberOfLines=0;
+        dspLabel.text = articleData.describe;
+        if (typeIndex==1) {
+            dspLabel.font = TEXT_FONT_LEVEL_1;
+            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+        }
+        if (typeIndex==2) {
+            dspLabel.font = TEXT_FONT_LEVEL_2;
+            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+        }
+        if (typeIndex==3) {
+            dspLabel.font = [UIFont systemFontOfSize:12.0];
+            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+        }
+        CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+        [dspLabel sizeToFit];
+        dspLabel.frame = CGRectMake(15, conHigh2+70, kScreenWidth-30, conHigh2);
+        [cell.contentView addSubview:dspLabel];
+        
+        return cell;
+    }
+    if (indexPath.section==1) {
+        
+        static NSString *cellId = @"cellId";
+        LMContentTableViewCell *cell = [[LMContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.typeIndex = typeIndex;
+        BlendVO *list = newImageArray[indexPath.row];
+        cell.delegate = self;
+        cell.tag = indexPath.row;
+        [cell setValue:list];
+
         return cell;
         
     }
-    if (indexPath.section==1) {
+    if (indexPath.section==2) {
         static NSString *cellId = @"cellId";
         LMCommentCell *cell = [[LMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMActicleCommentVO *list = listArray[indexPath.row];
-        [cell setValue:list];
-        cell.delegate = self;
-        [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+        
+        if (listArray&&listArray.count>0) {
+            LMActicleCommentVO *list = listArray[indexPath.row];
+            [cell setValue:list];
+            cell.delegate = self;
+            [cell setXScale:self.xScale yScale:self.yScaleNoTab];
+        }
+
         
         UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
         
@@ -766,6 +1192,8 @@ shareTypeDelegate
         return cell;
     }
     
+    
+    }
     return nil;
     
 }
@@ -783,16 +1211,16 @@ shareTypeDelegate
 -(void)bigBtnButton
 {
     typeIndex = 1;
-
+    
     [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
     [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
     [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-
+    
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-
+    
     NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"大", nil];
-
+    
     //存入数组并同步
     
     [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"typeArr"];
@@ -804,13 +1232,13 @@ shareTypeDelegate
 -(void)midBtnButton
 {
     typeIndex = 2;
-
+    
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
     [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
     [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-
+    
     NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"中", nil];
     
     //存入数组并同步
@@ -823,13 +1251,13 @@ shareTypeDelegate
 -(void)smallBtnButton
 {
     typeIndex = 3;
-
+    
     NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
     [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
     [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-
+    
     NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"小", nil];
     
     //存入数组并同步
@@ -956,7 +1384,26 @@ shareTypeDelegate
 - (void)tapimageAction:(UITapGestureRecognizer *)tap
 {
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
+    
     photoBrowser.initialPageIndex = tap.view.tag;
+    [self presentViewController:photoBrowser animated:YES completion:nil];
+}
+
+#pragma mark  --点击图片放大
+- (void)clickViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
+{
+    BlendVO *vo = newImageArray[viewTag];
+    NSArray *imgArray;
+    imgArray = vo.images;
+    NSMutableArray *new = [NSMutableArray new];
+    for (NSDictionary *dic in imgArray) {
+        NSString *string = dic[@"url"];
+        [new addObject:string];
+    }
+    NSLog(@"%@",new);
+    
+    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:new delegate:self];
+    photoBrowser.initialPageIndex = tag;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 
@@ -1353,7 +1800,7 @@ shareTypeDelegate
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-  
+    
 }
 
 - (void)getDeleteRequest
@@ -1382,7 +1829,7 @@ shareTypeDelegate
     [self logoutAction:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-
+        
         [self textStateHUD:@"删除成功"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController popViewControllerAnimated:YES];
@@ -1678,7 +2125,7 @@ shareTypeDelegate
         writeButton.layer.cornerRadius = 22.5;
         writeButton.layer.borderColor = LIVING_COLOR.CGColor;
         writeButton.layer.borderWidth = 0.5;
-
+        
         [addView addSubview:writeButton];
         [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
         

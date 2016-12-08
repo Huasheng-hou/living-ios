@@ -72,9 +72,6 @@
     
     [_nameLabel addGestureRecognizer:tap];
     
-    
-    
-    
     _timeLabel = [UILabel new];
     _timeLabel.font = [UIFont systemFontOfSize:12.f];
     _timeLabel.textColor = TEXT_COLOR_LEVEL_3;

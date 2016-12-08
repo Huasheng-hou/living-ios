@@ -83,7 +83,6 @@
     
     _nameLabel.font = [UIFont systemFontOfSize:13.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_1;
-    _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_nameLabel];
     
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -180,7 +179,7 @@
     
     _headV.frame = CGRectMake(15, 10+_imageV.bounds.size.height, 40, 40);
     
-    _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
+    _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, kScreenWidth-65-80-61, _nameLabel.bounds.size.height);
     _countLabel.frame = CGRectMake(61, 17+_imageV.bounds.size.height+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
     _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, self.contentView.bounds.size.height-10-kScreenWidth*3/5);

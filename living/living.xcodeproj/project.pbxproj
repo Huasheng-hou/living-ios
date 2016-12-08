@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		351213751DF90A9E0053B83F /* BlendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213741DF90A9E0053B83F /* BlendVO.m */; };
+		351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213771DF90F000053B83F /* LMContentTableViewCell.m */; };
+		3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3512137A1DF942ED0053B83F /* LMTypeListViewController.m */; };
 		352905D71DF54E470062196C /* LMLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352905D61DF54E470062196C /* LMLessonViewController.m */; };
 		3547F4C11D9905190068F04E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C01D9905190068F04E /* libsqlite3.tbd */; };
 		3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C21D99052D0068F04E /* libstdc++.6.tbd */; };
@@ -371,6 +374,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		351213731DF90A9E0053B83F /* BlendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendVO.h; sourceTree = "<group>"; };
+		351213741DF90A9E0053B83F /* BlendVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlendVO.m; sourceTree = "<group>"; };
+		351213761DF90F000053B83F /* LMContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMContentTableViewCell.h; sourceTree = "<group>"; };
+		351213771DF90F000053B83F /* LMContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMContentTableViewCell.m; sourceTree = "<group>"; };
+		351213791DF942ED0053B83F /* LMTypeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTypeListViewController.h; sourceTree = "<group>"; };
+		3512137A1DF942ED0053B83F /* LMTypeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTypeListViewController.m; sourceTree = "<group>"; };
 		352905D51DF54E470062196C /* LMLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonViewController.h; sourceTree = "<group>"; };
 		352905D61DF54E470062196C /* LMLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLessonViewController.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1218,6 +1227,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		351213721DF90A630053B83F /* blendVO */ = {
+			isa = PBXGroup;
+			children = (
+				351213731DF90A9E0053B83F /* BlendVO.h */,
+				351213741DF90A9E0053B83F /* BlendVO.m */,
+			);
+			path = blendVO;
+			sourceTree = "<group>";
+		};
 		352905D41DF54DBF0062196C /* Lesson */ = {
 			isa = PBXGroup;
 			children = (
@@ -1769,6 +1787,8 @@
 				35B745011DDE97F2000AFA26 /* LMWriterViewController.m */,
 				35816FEF1DF7E51700D062CB /* LMArtcleTypeViewController.h */,
 				35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */,
+				351213791DF942ED0053B83F /* LMTypeListViewController.h */,
+				3512137A1DF942ED0053B83F /* LMTypeListViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -2547,6 +2567,7 @@
 		35B746611DDE97F3000AFA26 /* homepage */ = {
 			isa = PBXGroup;
 			children = (
+				351213721DF90A630053B83F /* blendVO */,
 				35B746621DDE97F3000AFA26 /* ArticleBody */,
 				35B746651DDE97F3000AFA26 /* Author */,
 				35B746681DDE97F3000AFA26 /* comment */,
@@ -2930,6 +2951,8 @@
 			children = (
 				35E6866F1DEFC89600B43000 /* LMArtcleFootView.h */,
 				35E686701DEFC89600B43000 /* LMArtcleFootView.m */,
+				351213761DF90F000053B83F /* LMContentTableViewCell.h */,
+				351213771DF90F000053B83F /* LMContentTableViewCell.m */,
 			);
 			path = artcleDetail;
 			sourceTree = "<group>";
@@ -3272,6 +3295,7 @@
 				35B747FD1DDE97F4000AFA26 /* VOUtil.m in Sources */,
 				35B7473B1DDE97F3000AFA26 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */,
 				35B7479A1DDE97F3000AFA26 /* LMCreaterListRequest.m in Sources */,
+				3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */,
 				35B7481E1DDE97F4000AFA26 /* QRCodeReaderView.m in Sources */,
 				35B7476C1DDE97F3000AFA26 /* SQMenuShowCell.m in Sources */,
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
@@ -3395,6 +3419,7 @@
 				8E0E28BE1DF8234100B735BE /* FitChatWarningView.m in Sources */,
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
+				351213751DF90A9E0053B83F /* BlendVO.m in Sources */,
 				35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */,
 				35B7482E1DDE97F4000AFA26 /* LMLiveRoomCell.m in Sources */,
 				35B748271DDE97F4000AFA26 /* LMOrderCell.m in Sources */,
@@ -3417,6 +3442,7 @@
 				35B747D31DDE97F4000AFA26 /* LM2DcodeRequest.m in Sources */,
 				35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */,
 				8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */,
+				351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */,
 				35B747DA1DDE97F4000AFA26 /* LMPersonInfoRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

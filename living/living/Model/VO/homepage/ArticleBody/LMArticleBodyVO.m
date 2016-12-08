@@ -121,6 +121,11 @@
         if (dictionary[@"article_imgs"] && [dictionary[@"article_imgs"] isKindOfClass:[NSArray class]]) {
             self.articleImgs = dictionary[@"article_imgs"];
         }
+        
+        if (nil != [dictionary objectForKey:@"type"] && ![[dictionary objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            self.type = [dictionary objectForKey:@"type"];
+        }
     }
     return self;
 }

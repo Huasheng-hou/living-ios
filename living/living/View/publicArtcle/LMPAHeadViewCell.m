@@ -67,6 +67,10 @@
 -(void)setArray:(NSMutableArray *)array
 {
     _array = array;
+    
+    if ([_array isEqual:@""]) {
+        _array = nil;
+    }
     [_imageV contentWithView:_array andY:180];
     
     whiteView.frame = CGRectMake(0, 10, kScreenWidth, _imageV.frame.size.height+180);
