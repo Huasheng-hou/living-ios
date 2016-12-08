@@ -129,6 +129,11 @@ LMhomePageCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
     {
         [self textStateHUD:@"屏蔽作者成功"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
+        });
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];

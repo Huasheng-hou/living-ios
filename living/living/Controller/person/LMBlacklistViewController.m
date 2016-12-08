@@ -11,6 +11,9 @@
 #import "LMCancelauthorRequest.h"
 
 @interface LMBlacklistViewController ()
+{
+    UIView *homeImage;
+}
 
 @end
 
@@ -43,6 +46,8 @@
     [super viewDidLoad];
     [self createUI];
     [self loadNewer];
+    self.title = @"我的黑名单";
+    
 }
 
 -(void)createUI
@@ -52,6 +57,23 @@
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.separatorInset               = UIEdgeInsetsMake(0, 15, 0, 0);
+    [self creatImage];
+}
+
+-(void)creatImage
+{
+    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
+    
+    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 80, 300, 60)];
+    imageLb.numberOfLines = 0;
+    imageLb.text = @"还没有设置黑名单";
+    imageLb.textColor = TEXT_COLOR_LEVEL_3;
+    imageLb.font = TEXT_FONT_LEVEL_2;
+    imageLb.textAlignment = NSTextAlignmentCenter;
+    [homeImage addSubview:imageLb];
+    homeImage.hidden = YES;
+    [self.tableView addSubview:homeImage];
 }
 
 - (FitBaseRequest *)request
@@ -72,8 +94,17 @@
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         NSArray *resultArr  = [bodyDic objectForKey:@"list"];
+        
+        if (resultArr.count==0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                homeImage.hidden = NO;
+            });
+        }
+        
         if (resultArr && resultArr.count > 0) {
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                homeImage.hidden = YES;
+            });
             return resultArr;
         }
     }
@@ -120,6 +151,8 @@
         
         NSDictionary *dic = self.listData[indexPath.row];
         cell.textLabel.text = dic[@"author_name"];
+        cell.textLabel.font = TEXT_FONT_LEVEL_2;
+        cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
     }
     
     return cell;

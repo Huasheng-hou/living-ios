@@ -16,6 +16,8 @@
 
 @interface LMTypeListViewController : FitStatefulTableViewController
 
++ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated;
+
 @property(nonatomic,assign)id<LMTypeListProtocol>delegate;
 
 @end

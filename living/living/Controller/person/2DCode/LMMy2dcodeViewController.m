@@ -219,13 +219,17 @@
         
         NSString *string = [dateFormatter stringFromDate:anotherDay];
         
-        endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-45, kScreenWidth-45, 45)];
-        endTimeLabel.numberOfLines = 2;
+        endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-60, kScreenWidth-45, 30)];
         endTimeLabel.textAlignment = NSTextAlignmentCenter;
-        endTimeLabel.text = [NSString stringWithFormat:@"您的加盟商资格将于%@到期,\n请点击右上角按钮进行续费",string];
+        endTimeLabel.text = [NSString stringWithFormat:@"到期时间：%@",string];
         endTimeLabel.textColor = LIVING_COLOR;
-        endTimeLabel.font = TEXT_FONT_LEVEL_1;
+        endTimeLabel.font = TEXT_FONT_LEVEL_3;
         [KeepImage addSubview:endTimeLabel];
+        
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:endTimeLabel.text];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,10)];
+        
+        endTimeLabel.attributedText = str;
         
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
@@ -322,6 +326,7 @@
     
     [self textStateHUD:@"保存到相册成功"];
     [downButton setHidden:NO];
+    [endTimeLabel setHidden:NO];
     [self.navigationController.navigationBar setHidden:NO];
 }
 

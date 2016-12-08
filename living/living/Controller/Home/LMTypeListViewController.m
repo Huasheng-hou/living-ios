@@ -8,12 +8,27 @@
 
 #import "LMTypeListViewController.h"
 #import "LMArtcleTypeRequest.h"
+#import "FitNavigationController.h"
 
 @interface LMTypeListViewController ()
 
 @end
 
 @implementation LMTypeListViewController
+
++ (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated
+{
+    if (!viewController) {
+        return;
+    }
+    
+    LMTypeListViewController      *loginVC    = [[LMTypeListViewController alloc] init];
+    FitNavigationController *navVC      = [[FitNavigationController alloc] initWithRootViewController:loginVC];
+    
+    [viewController presentViewController:navVC animated:animated completion:^{
+        
+    }];
+}
 
 - (id)init
 {
@@ -42,6 +57,7 @@
     [super viewDidLoad];
     [self createUI];
     [self loadNewer];
+    self.title = @"文章类型";
 }
 
 -(void)createUI
@@ -51,6 +67,8 @@
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.separatorInset               = UIEdgeInsetsMake(0, 15, 0, 0);
+    
 }
 
 - (FitBaseRequest *)request
@@ -131,6 +149,8 @@
         
         NSDictionary *dic = self.listData[indexPath.row];
         cell.textLabel.text = dic[@"type"];
+        cell.textLabel.font = TEXT_FONT_LEVEL_2;
+        cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
     }
     
     

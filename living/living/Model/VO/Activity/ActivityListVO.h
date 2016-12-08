@@ -29,6 +29,7 @@
 @property(nonatomic, retain) NSString       *UserUuid;
 @property(nonatomic, retain) NSNumber       *TotalNumber;
 @property(nonatomic, retain) NSString       *PerCost;
+@property(nonatomic, retain) NSString       *discount;
 @property(nonatomic, retain) NSString       *Address;
 @property(nonatomic, retain) NSDate         *StartTime;
 @property(nonatomic, retain) NSString       *EventImg;

@@ -132,6 +132,10 @@
             && [[dictionary objectForKey:@"create_time"] isKindOfClass:[NSString class]]) {
             self.createTime = [dictionary objectForKey:@"create_time"];
         }
+        if (nil != [dictionary objectForKey:@"discount"] && ![[dictionary objectForKey:@"discount"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"discount"] isKindOfClass:[NSString class]]) {
+            self.discount = [dictionary objectForKey:@"discount"];
+        }
     }
     
     return self;

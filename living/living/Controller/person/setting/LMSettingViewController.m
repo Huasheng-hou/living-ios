@@ -10,6 +10,7 @@
 #import "LMAddviceViewController.h"
 #import "LMWebViewController.h"
 #import "LMVersionViewController.h"
+#import "LMBlacklistViewController.h"
 
 @interface LMSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView *tableView;
@@ -71,7 +72,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 2;
+        return 3;
     }
     return 2;
     
@@ -102,6 +103,13 @@
             cell.imageView.image = [UIImage imageNamed:@"opinion"];
             [cell.textLabel setText:@"意见反馈"];
         }
+        
+        if (indexPath.row==2) {
+            cell.imageView.image = [UIImage imageNamed:@"sheied"];
+            [cell.textLabel setText:@"我的黑名单"];
+        }
+
+        
     }
     if (indexPath.section==1) {
         
@@ -131,6 +139,12 @@
         if (indexPath.row==1) {
             LMAddviceViewController *addvice = [[LMAddviceViewController alloc] init];
             [self.navigationController pushViewController:addvice animated:YES];
+        }
+        
+        if (indexPath.row==2) {
+            LMBlacklistViewController *setVC = [[LMBlacklistViewController alloc] init];
+            [setVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:setVC animated:YES];
         }
     }
     if (indexPath.section==1) {

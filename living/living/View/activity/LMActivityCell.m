@@ -92,7 +92,7 @@
     _couponLabel = [UILabel new];
     _couponLabel.font = [UIFont systemFontOfSize:13.f];
     _couponLabel.textAlignment = NSTextAlignmentCenter;
-    _couponLabel.textColor = LIVING_COLOR;
+    _couponLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_couponLabel];
     
     //活动时间
@@ -178,8 +178,9 @@
         _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
         _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
         
-
-        _couponLabel.text = [NSString stringWithFormat:@"优惠价:￥%@/人",@"1"];
+        if (_ActivityList.discount&&![_ActivityList.discount isEqualToString:@""]) {
+            _couponLabel.text = [NSString stringWithFormat:@"会员:￥%@/人",_ActivityList.discount];
+        }   
 
     }
     

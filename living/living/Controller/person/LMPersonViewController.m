@@ -202,7 +202,7 @@ static CGRect oldframe;
         return 5;
     }
     if (section==2) {
-        return 3;
+        return 2;
     }
     if (section==3) {
         return 1;
@@ -394,10 +394,7 @@ static CGRect oldframe;
                 cell.textLabel.text = @"我的二维码";
                 cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
                 break;
-            case 2:
-                cell.textLabel.text = @"我的黑名单";
-                cell.imageView.image = [UIImage imageNamed:@"sheied"];
-                break;
+
             default:
                 break;
         }
@@ -503,11 +500,7 @@ static CGRect oldframe;
             
             [self.navigationController pushViewController:setVC animated:YES];
         }
-        if (indexPath.row==2) {
-            LMBlacklistViewController *setVC = [[LMBlacklistViewController alloc] init];
-            [setVC setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:setVC animated:YES];
-        }
+
     }
     
     if (indexPath.section==3) {
