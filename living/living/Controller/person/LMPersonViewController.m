@@ -173,6 +173,23 @@ static CGRect oldframe;
     {
         infoModels = [[UserInfoVO alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         infoDic =[bodyDict objectForKey:@"userInfo"];
+        NSDate * date = [NSDate date];
+        
+        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
+        NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
+        //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
+        
+        NSDate * lastYear = [date dateByAddingTimeInterval:time];
+        
+        //转化为字符串
+        NSString * startDate = [dateFormatter stringFromDate:lastYear];
+        NSLog(@"%@",startDate);
+        NSDate *endDate = [dateFormatter dateFromString:infoModels.endTime];
+        
+        [self compareOneDay:lastYear withAnotherDay:endDate];
         
         [_tableView reloadData];
         
@@ -385,6 +402,7 @@ static CGRect oldframe;
     }
     
     if (indexPath.section==2) {
+        UILabel *dotLabel;
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"扫一扫";
@@ -393,6 +411,20 @@ static CGRect oldframe;
             case 1:
                 cell.textLabel.text = @"我的二维码";
                 cell.imageView.image = [UIImage imageNamed:@"2Dcode"];
+                
+                if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"xufei_dot"] isEqualToString:@"3"]) {
+                    dotLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-43, (45-15)/2, 15, 15)];
+                    dotLabel.text =@"1";
+                    
+                    dotLabel.layer.cornerRadius = 7.5;
+                    dotLabel.clipsToBounds = YES;
+                    dotLabel.textAlignment = NSTextAlignmentCenter;
+                    dotLabel.font = [UIFont systemFontOfSize:12];
+                    dotLabel.textColor = [UIColor whiteColor];
+                    dotLabel.backgroundColor = [UIColor redColor];
+                    [cell.contentView addSubview:dotLabel];
+                }
+
                 break;
 
             default:
@@ -642,6 +674,31 @@ static CGRect oldframe;
     
     
 }
+
+
+- (void)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *oneDayStr = [dateFormatter stringFromDate:oneDay];
+    NSString *anotherDayStr = [dateFormatter stringFromDate:anotherDay];
+    NSDate *dateA = [dateFormatter dateFromString:oneDayStr];
+    NSDate *dateB = [dateFormatter dateFromString:anotherDayStr];
+    NSComparisonResult result = [dateA compare:dateB];
+    if (result == NSOrderedDescending) {
+        //NSLog(@"oneDay  is in the future");
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LM_ADD_NOTIFICATION" object:nil];
+        [[NSUserDefaults standardUserDefaults] setObject:@"3" forKey:@"xufei_dot"];
+
+    }
+    else if (result == NSOrderedAscending){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LM_ADD_NOTIFICATION" object:nil];
+        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"xufei_dot"];
+        
+    }
+    //NSLog(@"Both dates are the same");
+}
+
 
 
 

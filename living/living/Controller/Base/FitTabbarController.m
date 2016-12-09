@@ -20,13 +20,20 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "LMISLoginRequest.h"
 
+@interface FitTabbarController ()
+{
+    FitNavigationController     *fourthNav;
+}
+
+@end
+
 @implementation FitTabbarController
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addDot) name:@"LM_ADD_NOTIFICATION" object:nil];
     }
     return self;
 }
@@ -44,6 +51,8 @@
     
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
+    
+
     
     if (![[FitUserManager sharedUserManager] isLogin]) {
         
@@ -117,7 +126,7 @@
                                                        image:[UIImage imageNamed:@"person-gray"]
                                                selectedImage:[UIImage imageNamed:@"person"]];
     
-    FitNavigationController     *fourthNav    = [[FitNavigationController alloc] initWithRootViewController:fourthVC];
+    fourthNav    = [[FitNavigationController alloc] initWithRootViewController:fourthVC];
     
     [fourthNav setTabBarItem:itemMe];
     
@@ -132,6 +141,11 @@
         
         [self.tabBar showBadgeOnItemIndex:3];
     }
+    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"xufei_dot"] isEqualToString:@"3"]) {
+        
+//        [[[[[self tabBarController] tabBar] items] objectAtIndex:3] setBadgeValue:@"1"];
+        fourthNav.tabBarItem.badgeValue = @"1";
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(tongzhi2)
@@ -145,6 +159,12 @@
 {
     [self.tabBar hideBadgeOnItemIndex:3];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"person_dot"];
+}
+
+- (void)addDot
+{
+    fourthNav.tabBarItem.badgeValue = @"1";
+    
 }
 
 

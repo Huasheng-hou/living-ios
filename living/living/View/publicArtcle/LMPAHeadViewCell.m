@@ -43,8 +43,6 @@
 
     
     _includeTF = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth- 20, 160)];
-//    _includeTF.backgroundColor = [UIColor clearColor];
-    _includeTF.returnKeyType = UIReturnKeyDone;
     _includeTF.delegate = self;
     _includeTF.font = TEXT_FONT_LEVEL_2;
     
@@ -59,6 +57,10 @@
     
     _imageV = [[EditImageView alloc] initWithStartY:180 andImageArray:nil];
     [whiteView addSubview:_imageV];
+    
+    _deleteBt=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-30, 9, 22, 22)];
+    [_deleteBt setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [whiteView addSubview:_deleteBt];
     
     
 }

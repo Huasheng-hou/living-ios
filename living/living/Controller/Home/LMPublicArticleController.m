@@ -105,6 +105,44 @@ static NSMutableArray *cellDataArray;
     [pickImage setDelegate:self];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
+    
+    
+    UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,90+10)];
+    [bgView setBackgroundColor:[UIColor whiteColor]];
+    //    self.tableView.tableHeaderView =  bgView;
+    //
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5, kScreenWidth, 0.5)];
+    lineView.backgroundColor = LINE_COLOR;
+    [bgView addSubview:lineView];
+    
+    //标题
+    titleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 44.5)];
+    titleTF.placeholder = @"请输入标题";
+    [titleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
+    titleTF.delegate = self;
+    [titleTF setReturnKeyType:UIReturnKeyDone];
+    titleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
+    titleTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    titleTF.font = TEXT_FONT_LEVEL_2;
+    [bgView addSubview:titleTF];
+    
+    //描述
+    discribleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 50, kScreenWidth-20, 44.5)];
+    discribleTF.placeholder = @"请输入描述内容";
+    discribleTF.delegate = self;
+    [discribleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
+    [discribleTF setReturnKeyType:UIReturnKeyDone];
+    discribleTF.keyboardType    = UIKeyboardTypeDefault;//键盘类型
+    discribleTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    discribleTF.font = TEXT_FONT_LEVEL_2;
+    [bgView addSubview:discribleTF];
+    
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5+45, kScreenWidth, 0.5)];
+    line2.backgroundColor = LINE_COLOR;
+    [bgView addSubview:line2];
+    
+    self.tableView.tableHeaderView = bgView;
+    
 
 }
 
@@ -131,7 +169,7 @@ static NSMutableArray *cellDataArray;
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0){
-       return 90+10+45;
+       return 45;
     }
     return 0.01;
 
@@ -141,42 +179,11 @@ static NSMutableArray *cellDataArray;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
-        UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,90+10+45)];
+        UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,45)];
         [bgView setBackgroundColor:[UIColor whiteColor]];
-        //    self.tableView.tableHeaderView =  bgView;
-        //
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5, kScreenWidth, 0.5)];
-        lineView.backgroundColor = LINE_COLOR;
-        [bgView addSubview:lineView];
-        
-        //标题
-        titleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 44.5)];
-        titleTF.placeholder = @"请输入标题";
-        [titleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
-        titleTF.delegate = self;
-        [titleTF setReturnKeyType:UIReturnKeyDone];
-        titleTF.keyboardType = UIKeyboardTypeDefault;//键盘类型
-        titleTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        titleTF.font = TEXT_FONT_LEVEL_2;
-        [bgView addSubview:titleTF];
         
         //描述
-        discribleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 50, kScreenWidth-20, 44.5)];
-        discribleTF.placeholder = @"请输入描述内容";
-        discribleTF.delegate = self;
-        [discribleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
-        [discribleTF setReturnKeyType:UIReturnKeyDone];
-        discribleTF.keyboardType    = UIKeyboardTypeDefault;//键盘类型
-        discribleTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        discribleTF.font = TEXT_FONT_LEVEL_2;
-        [bgView addSubview:discribleTF];
-        
-        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5+45, kScreenWidth, 0.5)];
-        line2.backgroundColor = LINE_COLOR;
-        [bgView addSubview:line2];
-        
-        //描述
-        typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 95, kScreenWidth-20, 44.5)];
+        typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 44.5)];
         typeLabel.textColor = TEXT_COLOR_LEVEL_4;
         
         if (type == 1) {
@@ -193,7 +200,7 @@ static NSMutableArray *cellDataArray;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(typeChoose)];
         [typeLabel addGestureRecognizer:tap];
         
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5+45+45, kScreenWidth, 0.5)];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 44.5, kScreenWidth, 0.5)];
         line.backgroundColor = LINE_COLOR;
         [bgView addSubview:line];
         return bgView;
@@ -264,6 +271,7 @@ static NSMutableArray *cellDataArray;
           cell.array = projectImageArray[indexPath.row];
         }
         
+        
         if ([projectImageArray[indexPath.row] isKindOfClass:[NSArray class]]) {
            cell.array = projectImageArray[indexPath.row];
         }else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
@@ -299,6 +307,11 @@ static NSMutableArray *cellDataArray;
 {
     if (indexPath.section==1) {
         NSInteger length=cellDataArray.count;
+        if (length==10) {
+            [self textStateHUD:@"提交已达上限"];
+            return;
+        }
+        
         [self projectDataStorageWithArrayIndex:length];
         [self refreshData];
     }
@@ -584,8 +597,14 @@ static NSMutableArray *cellDataArray;
 {
     addImageIndex = viewTag;
     
-    imageViewArray = [NSMutableArray new];
-    NSLog(@"tianjia***********");
+    imageViewArray = [NSMutableArray arrayWithCapacity:0];
+    
+    if (projectImageArray[viewTag]&&[projectImageArray[viewTag] isKindOfClass:[NSArray class]]) {
+        [imageViewArray addObjectsFromArray:projectImageArray[viewTag]];
+    }
+    
+    
+    
     [self.view endEditing:YES];
     if (imageNum>=20) {
         [self textStateHUD:@"您上传的图片数已达上限"];
@@ -684,25 +703,30 @@ static NSMutableArray *cellDataArray;
     
     for (int i = 1; i<cellDataArray.count; i++) {
         NSMutableDictionary  *dict = [NSMutableDictionary new];
-        if (i == 0) {
-            dic = cellDataArray[i];
-        }else{
-            dic = cellDataArray[i];
-            NSString *string =[dic objectForKey:@"content"];
-            NSArray  *arr = [dic objectForKey:@"image"];
-            [dict setObject:string forKey:@"content"];
-            [dict setObject:arr forKey:@"images"];
-        
-        
+        dic = cellDataArray[i];
+        NSString *string =[dic objectForKey:@"content"];
+        NSArray  *arr = [dic objectForKey:@"image"];
+        [dict setObject:string forKey:@"content"];
+        [dict setObject:arr forKey:@"images"];
+        [new addObject:dict];
+     
     }
-      [new addObject:dict];
-        
+
+    NSDictionary *contentDic = cellDataArray[0];
+    
+    NSString *cont = [contentDic objectForKey:@"content"];
+    NSArray *array = [contentDic objectForKey:@"image"];
+    
+    if (cont.length<1) {
+        [self textStateHUD:@"第一个正文需要输入文字"];
     }
-    
-    
-    NSString *cont = [dic objectForKey:@"content"];
-    NSArray *array = [dic objectForKey:@"image"];
+    if (array.count<1) {
+        [self textStateHUD:@"第一个正文需要添加图片"];
+    }
+ 
     NSLog(@"%@",new);
+    NSLog(@"%@",typeString);
+    
     LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
                                         
                                                                                 Article_title:titleTF.text

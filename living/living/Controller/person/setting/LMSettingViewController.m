@@ -174,6 +174,7 @@
     [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
     
     [self.navigationController popViewControllerAnimated:NO];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"xufei_dot"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
 }

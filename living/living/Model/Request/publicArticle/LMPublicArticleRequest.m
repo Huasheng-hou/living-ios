@@ -47,9 +47,10 @@
             [bodyDict setObject:blend forKey:@"blend"];
         }
         
-
-        
-        
+        if (type) {
+            [bodyDict setObject:type forKey:@"type"];
+        }
+   
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
     }
@@ -63,7 +64,7 @@
 
 - (NSString *)methodPath
 {
-    return @"article/add";
+    return @"article/publish/blend";
 }
 
 @end

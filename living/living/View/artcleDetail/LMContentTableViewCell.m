@@ -99,12 +99,12 @@
             headImage.userInteractionEnabled = YES;
             [headImage sizeToFit];
             if (i>0) {
-                headImage.frame = CGRectMake(15, 20 + [hightArray[i-1] floatValue] +conHighs, kScreenWidth-30, imageViewH);
+                headImage.frame = CGRectMake(15, [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
             }else{
                 headImage.frame = CGRectMake(15, 20 + conHighs, kScreenWidth-30, imageViewH);
             }
             
-            NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.frame.origin.y];
+            NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.frame.origin.y+5];
             
             [hightArray addObject:string];
             

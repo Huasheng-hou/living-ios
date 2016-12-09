@@ -270,9 +270,9 @@ LMFindCellDelegate
 {
     if (self.listData&&self.listData.count>0) {
         NSLog(@"语言课堂");
-        LMLessonViewController *lessonVC = [[LMLessonViewController alloc] init];
-        lessonVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:lessonVC animated:YES];
+//        LMLessonViewController *lessonVC = [[LMLessonViewController alloc] init];
+//        lessonVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:lessonVC animated:YES];
     }
 }
 

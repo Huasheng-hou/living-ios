@@ -435,8 +435,7 @@ LMContentTableViewCellDelegate
             isBlend = NO;
 
         }
-        
-        
+   
         for (int i =0; i<array.count; i++) {
             
             LMActicleCommentVO *list = [[LMActicleCommentVO alloc] initWithDictionary:array[i]];
@@ -564,8 +563,8 @@ LMContentTableViewCellDelegate
                 if (!vo.images) {
                     return 20+conHigh2;
                 }else{
+                    NSMutableArray *imageHArray = [NSMutableArray new];
                     NSArray *arr = vo.images;
-                    hightArray = [NSMutableArray new];
                     for (int i = 0; i<arr.count; i++) {
                         
                         NSDictionary *dic = arr[i];
@@ -573,20 +572,20 @@ LMContentTableViewCellDelegate
                         CGFloat imageVW = [dic[@"width"] floatValue];
                         
                         CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                        CGFloat hight = 0;
-                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+hight];
-                        
-                        [hightArray addObject:string];
-                        if (i>0) {
-                            hight =[hightArray[i-1] floatValue] +10;
-                        }else{
-                            hight =imageViewH +10;
-                        }
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+5];
+                        [imageHArray addObject:string];
                     }
                     
                     NSInteger index =  arr.count-1;
                     
-                    return 30+conHigh2 +10 + [hightArray[index] floatValue] ;
+                    if (index<0) {
+                        return 20+conHigh2;
+                    }else{
+
+                        NSNumber *sum = [imageHArray valueForKeyPath:@"@sum.floatValue"];
+                        CGFloat hight = [sum floatValue];
+                       return 20+conHigh2 +10 + hight;
+                    }
                 }
                 
             }
@@ -609,15 +608,50 @@ LMContentTableViewCellDelegate
         }
         
         if (indexPath.section==0) {
+            contentLabel.text =articleData.articleContent;
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+            if (contentLabel.text!=nil) {
+                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
+                
+                [paragraphStyle setLineSpacing:7];
+                [paragraphStyle setParagraphSpacing:10];
+                [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentLabel.text.length)];
+                contentLabel.attributedText = attributedString;
+            }
+            
+            if (typeIndex ==1) {
+                
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle};
+                
+            }
+            if (typeIndex ==2) {
+                
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0],NSParagraphStyleAttributeName:paragraphStyle};
+            }
+            if (typeIndex ==3) {
+                
+                attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+                attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
+            }
+            
             if (indexPath.row==0) {
+                
                 
                 NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
                 
-                CGFloat conHigh = [articleData.articleTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
-                                                                         options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                                      attributes:attributes5
-                                                                         context:nil].size.height;
-                return 65 + conHigh;
+                NSString *string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
+                
+                CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                                       options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                    attributes:attributes5
+                                                       context:nil].size.height;
+                
+                CGFloat conHigh2 = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+                
+                return 65 + conHigh +conHigh2+10;
+            }
             }
             if (indexPath.row==1) {
                 
@@ -649,14 +683,13 @@ LMContentTableViewCellDelegate
                     attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
                 }
                 
-                CGFloat conHigh = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-                
-                
                 CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
                 
                 if (!articleData.articleImgs) {
-                    return 20+conHigh+conHigh2;
+                    return 10+conHigh2;
                 }else{
+                    
+                    NSMutableArray *newHight = [NSMutableArray new];
                     NSArray *arr = articleData.articleImgs;
                     for (int i = 0; i<arr.count; i++) {
                         
@@ -665,26 +698,27 @@ LMContentTableViewCellDelegate
                         CGFloat imageVW = [dic[@"width"] floatValue];
                         
                         CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                        CGFloat hight = 0;
-                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+hight];
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+5];
                         
-                        [hightArray addObject:string];
-                        if (i>0) {
-                            hight =[hightArray[i-1] floatValue] +10;
-                        }else{
-                            hight = 0;
-                        }
+                        [newHight addObject:string];
                         
                     }
-                    
                     NSInteger index =  arr.count-1;
                     
-                    return 30+conHigh+conHigh2 +10 + [hightArray[index] floatValue] ;
+                    if (index<0) {
+                        return 20+conHigh2;
+                    }else{
+                        
+                        NSNumber *sum = [newHight valueForKeyPath:@"@sum.floatValue"];
+                        CGFloat hight = [sum floatValue];
+                        return 20+conHigh2 +10 + hight;
+                    }
+
                 }
                 
             }
         }
-    }
+    
     
         return 0;
 }
@@ -790,6 +824,19 @@ LMContentTableViewCellDelegate
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (typeIndex==1) {
+        dspLabel.font = TEXT_FONT_LEVEL_1;
+        attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
+    }
+    if (typeIndex==2) {
+        dspLabel.font = TEXT_FONT_LEVEL_2;
+        attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+    }
+    if (typeIndex==3) {
+        dspLabel.font = [UIFont systemFontOfSize:12.0];
+        attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
+    }
+    
     if (isBlend==NO) {
         if (indexPath.section==0) {
             
@@ -867,32 +914,18 @@ LMContentTableViewCellDelegate
                 line.frame = CGRectMake(15, conHigh+60, kScreenWidth-30, 0.5);
                 [cell.contentView addSubview:line];
                 
-            }
-            if (indexPath.row==1) {
-                
-                if (typeIndex==1) {
-                    dspLabel.font = TEXT_FONT_LEVEL_1;
-                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-                }
-                if (typeIndex==2) {
-                    dspLabel.font = TEXT_FONT_LEVEL_2;
-                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-                }
-                if (typeIndex==3) {
-                    dspLabel.font = [UIFont systemFontOfSize:12.0];
-                    attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-                }
                 dspLabel = [UILabel new];
-                dspLabel.textColor = LIVING_REDCOLOR;
+                dspLabel.textColor = LIVING_COLOR;
                 dspLabel.numberOfLines=0;
                 dspLabel.text = articleData.describe;
-                
-                CGFloat conHigh = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+                CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
                 [dspLabel sizeToFit];
-                
+                dspLabel.frame = CGRectMake(15, conHigh2+70, kScreenWidth-30, conHigh2);
                 [cell.contentView addSubview:dspLabel];
                 
-                contentLabel = [UILabel new];
+            }
+            if (indexPath.row==1) {
+      contentLabel = [UILabel new];
                 contentLabel.textColor = TEXT_COLOR_LEVEL_2;
                 contentLabel.numberOfLines=0;
                 contentLabel.text = articleData.articleContent;
@@ -964,7 +997,7 @@ LMContentTableViewCellDelegate
                         if (i>0) {
                             headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
                         }else{
-                            headImage.frame = CGRectMake(15, 10, kScreenWidth-30, imageViewH);
+                            headImage.frame = CGRectMake(15, 15+conHighs, kScreenWidth-30, imageViewH);
                         }
                         
                         NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
@@ -974,14 +1007,9 @@ LMContentTableViewCellDelegate
                         [cell.contentView addSubview:headImage];
                         
                     }
-                    
-                    dspLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHigh);
-                    contentLabel.frame = CGRectMake(15, 30+[hightArray[arr.count-1] floatValue] +conHigh, kScreenWidth-30, conHighs);
-                    
-                }else{
-                    dspLabel.frame = CGRectMake(15, 20, kScreenWidth-30, conHigh);
-                    contentLabel.frame = CGRectMake(15, 30 +conHigh, kScreenWidth-30, conHighs);
                 }
+                    
+                contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
                 
             }
             
@@ -1007,7 +1035,6 @@ LMContentTableViewCellDelegate
             return cell;
         }
     }else{
-    
     if (indexPath.section==0) {
         
         static NSString *cellId = @"cellId";
@@ -1090,18 +1117,7 @@ LMContentTableViewCellDelegate
         dspLabel.textColor = LIVING_COLOR;
         dspLabel.numberOfLines=0;
         dspLabel.text = articleData.describe;
-        if (typeIndex==1) {
-            dspLabel.font = TEXT_FONT_LEVEL_1;
-            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
-        }
-        if (typeIndex==2) {
-            dspLabel.font = TEXT_FONT_LEVEL_2;
-            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
-        }
-        if (typeIndex==3) {
-            dspLabel.font = [UIFont systemFontOfSize:12.0];
-            attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:12.0]};
-        }
+
         CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
         [dspLabel sizeToFit];
         dspLabel.frame = CGRectMake(15, conHigh2+70, kScreenWidth-30, conHigh2);
