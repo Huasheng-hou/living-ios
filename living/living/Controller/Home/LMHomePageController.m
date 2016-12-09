@@ -219,11 +219,12 @@ LMhomePageCellDelegate
                                                                   error:nil];
     
     NSDictionary *headDic = [respDict objectForKey:@"head"];
-    NSString    *coderesult         = [bodyDic objectForKey:@"returnCode"];
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
     
     if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
         
-        if ([headDic[@"franchisee"] isEqual:@"yes"]) {
+        if ([headDic objectForKey:@"franchisee"] && ![[headDic objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[headDic objectForKey:@"franchisee"] isKindOfClass:[NSString class]] && [headDic[@"franchisee"] isEqual:@"yes"]) {
             
             franchisee = @"yes";
         }
@@ -234,7 +235,7 @@ LMhomePageCellDelegate
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
-        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"]||[franchisee isEqual:@"yes"]) {
+        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"] || [franchisee isEqual:@"yes"]) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
