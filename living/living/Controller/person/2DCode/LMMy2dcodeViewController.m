@@ -20,6 +20,7 @@
     UIButton *downButton;
     UILabel *endTimeLabel;
     NSInteger index;
+    NSString *xufei;
 }
 
 @end
@@ -202,6 +203,22 @@
     NSDate *endDate = [dateFormatter dateFromString:_endTime];
     
     [self compareOneDay:lastYear withAnotherDay:endDate];
+    NSDateFormatter * dateFormatters = [[NSDateFormatter alloc] init];
+    [dateFormatters setDateFormat:@"yyyy年MM月dd日"];
+    
+    NSString *string = [dateFormatters stringFromDate:endDate];
+    
+    endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-60, kScreenWidth-45, 30)];
+    endTimeLabel.textAlignment = NSTextAlignmentCenter;
+    endTimeLabel.text = [NSString stringWithFormat:@"到期时间：%@",string];
+    endTimeLabel.textColor = LIVING_COLOR;
+    endTimeLabel.font = TEXT_FONT_LEVEL_3;
+    [KeepImage addSubview:endTimeLabel];
+    NSMutableAttributedString *strs = [[NSMutableAttributedString alloc] initWithString:endTimeLabel.text];
+    [strs addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,11)];
+    
+    endTimeLabel.attributedText = strs;
+    
     
 }
 
@@ -217,22 +234,10 @@
     if (result == NSOrderedDescending) {
         //NSLog(@"oneDay  is in the future");
         
-        NSString *string = [dateFormatter stringFromDate:anotherDay];
-        
-        endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-60, kScreenWidth-45, 30)];
-        endTimeLabel.textAlignment = NSTextAlignmentCenter;
-        endTimeLabel.text = [NSString stringWithFormat:@"到期时间：%@",string];
-        endTimeLabel.textColor = LIVING_COLOR;
-        endTimeLabel.font = TEXT_FONT_LEVEL_3;
-        [KeepImage addSubview:endTimeLabel];
-        
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:endTimeLabel.text];
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,10)];
-        
-        endTimeLabel.attributedText = str;
-        
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
+        xufei = @"xufei";
+        
     }
     else if (result == NSOrderedAscending){
 
@@ -250,6 +255,7 @@
     //    NSLog(@"**********");
     LMFranchiseeViewController *joinVC = [[LMFranchiseeViewController alloc] init];
     joinVC.hidesBottomBarWhenPushed = YES;
+    joinVC.xufei = xufei;
     [self.navigationController pushViewController:joinVC animated:YES];
 }
 

@@ -57,7 +57,7 @@
     [super viewDidLoad];
     [self createUI];
     [self loadNewer];
-    self.title = @"文章类型";
+    self.title = @"文章分类";
 }
 
 -(void)createUI
@@ -100,7 +100,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

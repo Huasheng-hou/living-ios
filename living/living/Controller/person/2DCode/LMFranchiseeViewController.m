@@ -458,7 +458,20 @@ liveNameProtocol
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
-                [self textStateHUD:@"加盟成功！"];
+                
+                
+                if ([_xufei isEqualToString:@"xufei"]) {
+                    [self textStateHUD:@"续费成功！"];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"xufei_dot"];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+                    });
+                }else{
+                   [self textStateHUD:@"加盟成功！"];
+                }
+                
+
             }else{
                 [self textStateHUD:@"加盟失败！"];
             }
@@ -578,7 +591,17 @@ liveNameProtocol
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
-            [self textStateHUD:@"加盟成功！"];
+            if ([_xufei isEqualToString:@"xufei"]) {
+                [self textStateHUD:@"续费成功！"];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"xufei_dot"];
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+                });
+            }else{
+                [self textStateHUD:@"加盟成功！"];
+            }
+            
         } else {
             
             [self textStateHUD:bodyDict[@"description"]];

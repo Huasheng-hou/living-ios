@@ -150,9 +150,11 @@
     if (self.listData.count > indexPath.row) {
         
         NSDictionary *dic = self.listData[indexPath.row];
-        cell.textLabel.text = dic[@"author_name"];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@   ID:%@",dic[@"author_name"],dic[@"userId"]];
         cell.textLabel.font = TEXT_FONT_LEVEL_2;
         cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
+        
+        
     }
     
     return cell;
@@ -219,7 +221,6 @@
         }else {
             [self textStateHUD:bodyDic[@"description"]];
         }
-        
     }
 }
 

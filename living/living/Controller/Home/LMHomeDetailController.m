@@ -352,8 +352,7 @@ LMContentTableViewCellDelegate
         zanNum = zanNum+1;
         zanLabel.titleLabel.text = [NSString stringWithFormat:@"%d",zanNum];
         [self getHomeDetailDataRequest];
-        NSArray *indexPaths = @[[NSIndexPath indexPathForRow:1 inSection:0]];
-        [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadData];
     }else{
         NSString *str = [bodyDic objectForKey:@"description"];
         [self textStateHUD:str];
@@ -698,7 +697,7 @@ LMContentTableViewCellDelegate
                         CGFloat imageVW = [dic[@"width"] floatValue];
                         
                         CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+5];
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+10];
                         
                         [newHight addObject:string];
                         
@@ -925,7 +924,7 @@ LMContentTableViewCellDelegate
                 
             }
             if (indexPath.row==1) {
-      contentLabel = [UILabel new];
+                contentLabel = [UILabel new];
                 contentLabel.textColor = TEXT_COLOR_LEVEL_2;
                 contentLabel.numberOfLines=0;
                 contentLabel.text = articleData.articleContent;
@@ -997,7 +996,7 @@ LMContentTableViewCellDelegate
                         if (i>0) {
                             headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
                         }else{
-                            headImage.frame = CGRectMake(15, 15+conHighs, kScreenWidth-30, imageViewH);
+                            headImage.frame = CGRectMake(15, 10, kScreenWidth-30, imageViewH);
                         }
                         
                         NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
@@ -1007,9 +1006,13 @@ LMContentTableViewCellDelegate
                         [cell.contentView addSubview:headImage];
                         
                     }
+                    contentLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHighs);
+                    
+                }else{
+                    contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
                 }
                     
-                contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
+                
                 
             }
             

@@ -187,9 +187,10 @@ static NSMutableArray *cellDataArray;
         typeLabel.textColor = TEXT_COLOR_LEVEL_4;
         
         if (type == 1) {
-            typeLabel.text = @"请选择文章类型";
+            typeLabel.text = @"请选择文章分类";
         }else{
             typeLabel.text = typeString;
+            typeLabel.textColor = TEXT_COLOR_LEVEL_2;
         }
 
         

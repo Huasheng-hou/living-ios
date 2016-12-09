@@ -106,7 +106,7 @@
         
         if (indexPath.row==2) {
             cell.imageView.image = [UIImage imageNamed:@"sheied"];
-            [cell.textLabel setText:@"我的黑名单"];
+            [cell.textLabel setText:@"黑名单"];
         }
 
         
