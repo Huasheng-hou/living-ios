@@ -37,7 +37,6 @@ LMTypeListProtocol
 {
     UIImagePickerController *pickImage;
     ZYQAssetPickerController *picker;
-    NSMutableArray *imageUrlArray;
     NSMutableArray *imageArray;
     NSUInteger imageNum;
     NSInteger deleImageIndex;
@@ -85,7 +84,6 @@ static NSMutableArray *cellDataArray;
     [self createUI];
     type = 1;
     imageArray    = [NSMutableArray arrayWithCapacity:0];
-    imageUrlArray = [NSMutableArray arrayWithCapacity:0];
     imageViewArray = [NSMutableArray new];
     cellDataArray = [NSMutableArray new];
     [self projectDataStorageWithArrayIndex:0];
@@ -337,6 +335,76 @@ static NSMutableArray *cellDataArray;
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
+{
+    
+    [imageViewArray addObject:image];
+    
+    [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+
+
+    [self getImageURL:imageViewArray];
+    
+    [self refreshData];
+
+    [pickImage dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - ZYQAssetPickerController Delegate
+
+-(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
+    
+    for (int i=0; i<assets.count; i++) {
+        imageNum++;
+        ALAsset *asset=assets[i];
+        UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+        
+        [imageArray addObject:tempImg];
+        
+        [imageViewArray addObject:tempImg];
+    }
+    [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+    [self getImageURL:projectImageArray[addImageIndex]];
+    [self refreshData];
+    
+}
+
+
+- (void)addViewTag:(NSInteger)viewTag
+{
+    addImageIndex = viewTag;
+    
+    imageViewArray = [NSMutableArray arrayWithCapacity:0];
+    
+    if (projectImageArray[viewTag]&&[projectImageArray[viewTag] isKindOfClass:[NSArray class]]) {
+        [imageViewArray addObjectsFromArray:projectImageArray[viewTag]];
+    }
+    
+    if ([projectImageArray[viewTag] count]>=10) {
+        [self textStateHUD:@"单次提交最多10张"];
+    }
+    
+    if (imageNum>30) {
+        [self textStateHUD:@"您上传的图片数已达上限"];
+        return;
+    }
+    
+    [self.view endEditing:YES];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"相册", @"拍照",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
+    actionSheet = nil;
+    
+    
+}
+
+
 #pragma mark 获取头像的url
 
 - (void)getImageURL:(NSMutableArray*)imgArr
@@ -402,32 +470,12 @@ static NSMutableArray *cellDataArray;
     }else{
         [dic setObject:@[@""] forKey:@"image"];
     }
-    
-    NSLog(@"%@",dic);
+
 }
 
 
 
-#pragma mark - ZYQAssetPickerController Delegate
 
--(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
-{
-    
-    for (int i=0; i<assets.count; i++) {
-        imageNum++;
-        ALAsset *asset=assets[i];
-        UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-    
-        [imageArray addObject:tempImg];
-        
-        
-        [imageViewArray addObject:tempImg];
-    }
-    [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-    [self getImageURL:projectImageArray[addImageIndex]];
-    [self refreshData];
-    
-}
 
 #pragma mark 编辑单元格项目介绍
 
@@ -543,29 +591,6 @@ static NSMutableArray *cellDataArray;
 }
 
 
-#pragma mark 设置图片位置
-
-- (CGRect)setupImageFrame:(NSInteger)num
-{
-    CGFloat startX=15;
-    CGFloat space=10;
-    CGFloat buttonW=(kScreenWidth-startX*2-space*3)/4;
-    CGRect rect;
-    if (num<4) {
-        rect=CGRectMake(startX+num%4*(buttonW+space), space+num/4, buttonW, buttonW);
-    }else
-        if (num<8) {
-            rect=CGRectMake(startX+num%4*(buttonW+space), space*2+buttonW+num/4, buttonW, buttonW);
-        }
-        else if(num <12){
-            rect=CGRectMake(startX+num%4*(buttonW+space), space*3+buttonW*2+num/4, buttonW, buttonW);
-        }else{
-            rect=CGRectMake(startX+num%4*(buttonW+space), space*4+buttonW*3+num/4, buttonW, buttonW);
-        }
-    return rect;
-}
-
-
 #pragma mark 删除图片EditImageViewDelegate
 
 - (void)deleteViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
@@ -594,96 +619,8 @@ static NSMutableArray *cellDataArray;
 
 }
 
-- (void)addViewTag:(NSInteger)viewTag
-{
-    addImageIndex = viewTag;
-    
-    imageViewArray = [NSMutableArray arrayWithCapacity:0];
-    
-    if (projectImageArray[viewTag]&&[projectImageArray[viewTag] isKindOfClass:[NSArray class]]) {
-        [imageViewArray addObjectsFromArray:projectImageArray[viewTag]];
-    }
-    
-    
-    
-    [self.view endEditing:YES];
-    if (imageNum>=20) {
-        [self textStateHUD:@"您上传的图片数已达上限"];
-        return;
-    }
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"相册", @"拍照",nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
-    actionSheet = nil;
-    
-    
-}
 
 
-#pragma mark 获取图片的url
-
-- (void)getImageURL
-{
-    
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
-    
-    [self initStateHud];
-    imageUrlArray = [NSMutableArray arrayWithCapacity:imageArray.count];
-    
-    for (int j = 0; j<imageArray.count; j++) {
-        [imageUrlArray addObject:@""];
-    }
-    
-    for (int i=0; i<imageArray.count; i++) {
-        
-        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *image = [ImageHelpTool scaleImage:imageArray[i]];
-        request.imageData   = UIImageJPEGRepresentation(image, 1);
-        
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding){
-                                                   
-                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   NSString    *result = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   if (result && [result isKindOfClass:[NSString class]]
-                                                       && [result isEqualToString:@"0"]) {
-                                                       
-                                                       
-                                                       NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                                       
-                                                       if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                           imageUrlArray[i] =imgUrl;
-                                                           
-                                                           if (![imageUrlArray containsObject:@""]) {
-                                                               [self performSelectorOnMainThread:@selector(hideStateHud) withObject:nil waitUntilDone:YES];
- 
-                                                           }
-                                                       }
-                                                   }else{
-                                                       [self textStateHUD:bodyDict[@"description"]];
-                                                   }
-                                                   
-                                               } failed:^(NSError *error) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                          withObject:nil
-                                                                       waitUntilDone:YES];
-                                               }];
-        [proxy start];
-    }
-}
 
 #pragma mark 发布文章
 

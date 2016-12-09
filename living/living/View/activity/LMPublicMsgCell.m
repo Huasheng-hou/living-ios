@@ -149,7 +149,7 @@
     dspLable.frame = CGRectMake(10, 455, dspLable.bounds.size.width, 30);
     [self.contentView addSubview:dspLable];
     
-    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 445, kScreenWidth-30-titleW, 0.5)];
+    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 485, kScreenWidth-30-titleW, 0.5)];
     lineView4.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView4];
     

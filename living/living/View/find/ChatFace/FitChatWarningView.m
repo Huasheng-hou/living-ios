@@ -9,7 +9,6 @@
 #import "FitChatWarningView.h"
 #import "FitConsts.h"
 
-//#define CONTENT_TEXT  @"    这里有最志同道合的小伙伴在一起进行一次对人性和毅力的挑战；这里没有抓早恋的班主任，却有一个矜矜业业抓熄灯的大胡子院长哦~~ \n\n    可惜您当前还未加入任何班级，可以先围观一下满足自己的好奇心"
 #define CONTENT_TEXT  @"这里有最志同道合的小伙伴在一起进行一次对人性和毅力的挑战；这里没有抓早恋的班主任，却有一个兢兢业业抓熄灯的大胡子院长哦~~ \n可惜您当前还未加入任何班级，可以先围观一下满足自己的好奇心"
 
 @implementation FitChatWarningView

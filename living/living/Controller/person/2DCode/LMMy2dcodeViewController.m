@@ -208,7 +208,7 @@
     
     NSString *string = [dateFormatters stringFromDate:endDate];
     
-    endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-60, kScreenWidth-45, 30)];
+    endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-50, kScreenWidth-45, 30)];
     endTimeLabel.textAlignment = NSTextAlignmentCenter;
     endTimeLabel.text = [NSString stringWithFormat:@"到期时间：%@",string];
     endTimeLabel.textColor = LIVING_COLOR;

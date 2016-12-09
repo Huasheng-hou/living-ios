@@ -213,7 +213,7 @@
     [_payButton sizeToFit];
     [_numLabel sizeToFit];
     
-    _orderNumLabel.frame = CGRectMake(10, 0, _orderNumLabel.bounds.size.width, 35);
+    _orderNumLabel.frame = CGRectMake(10, 0, kScreenWidth-10-92, 35);
     _paytypeLabel.frame = CGRectMake(kScreenWidth-40-_paytypeLabel.bounds.size.width, 0, _paytypeLabel.bounds.size.width, 35);
     _titleLabel.frame = CGRectMake(80, 35, kScreenWidth-120, 60);
     _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);

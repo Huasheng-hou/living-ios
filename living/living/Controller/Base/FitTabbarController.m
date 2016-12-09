@@ -163,7 +163,9 @@
 
 - (void)addDot
 {
-    fourthNav.tabBarItem.badgeValue = @"1";
+    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"xufei_dot"] isEqualToString:@"3"]) {
+        fourthNav.tabBarItem.badgeValue = @"1";
+    }
     
 }
 
