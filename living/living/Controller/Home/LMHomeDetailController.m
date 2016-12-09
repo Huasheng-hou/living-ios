@@ -245,20 +245,23 @@ LMContentTableViewCellDelegate
 {
     toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
     toolBar. barStyle = UIBarButtonItemStylePlain ;
+    toolBar.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview :toolBar];
     
     textcView = [[UITextView alloc] initWithFrame:CGRectMake(15, 7.5, kScreenWidth-65, 30)];
     [textcView setDelegate:self];
     textcView.font = TEXT_FONT_LEVEL_2;
-    textcView.layer.borderColor = LINE_COLOR.CGColor;
-    textcView.layer.borderWidth =0.5;
-    textcView.textColor = [UIColor blackColor];
+    textcView.layer.borderColor = [UIColor colorWithWhite:0.95 alpha:1].CGColor;
+    textcView.layer.borderWidth = 1;
+    
     textcView.backgroundColor = [UIColor whiteColor];
+    textcView.layer.cornerRadius    = 4;
+    
     textcView.keyboardType=UIKeyboardTypeDefault;
     [textcView setReturnKeyType:UIReturnKeySend];
     
-    zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-65, 0, 65, 45)];
+    zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 50, 0, 50, 45)];
     zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [zanButton setTitle:@"发送" forState:UIControlStateNormal];
     [zanButton setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
