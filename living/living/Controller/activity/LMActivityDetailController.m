@@ -511,7 +511,7 @@ shareTypeDelegate
         suggestTF.textColor = TEXT_COLOR_LEVEL_3;
         suggestTF.font = TEXT_FONT_LEVEL_3;
         suggestTF.layer.borderColor = LINE_COLOR.CGColor;
-        suggestTF.returnKeyType = UIReturnKeyDone;
+        suggestTF.returnKeyType = UIReturnKeySend;
         suggestTF.layer.borderWidth = 0.5;
         suggestTF.delegate = self;
         [commentView addSubview:suggestTF];
@@ -820,12 +820,10 @@ shareTypeDelegate
         LMEventCommentVO *list = msgArray[cell.tag];
         
         commitUUid = list.commentUuid;
-        [UIView  beginAnimations:nil context:NULL];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.75];
+        
         self.tableView.userInteractionEnabled = NO;
         [self showCommentText];
-        [UIView commitAnimations];
+        
     }else{
         [self IsLoginIn];
     }
@@ -853,7 +851,7 @@ shareTypeDelegate
         commentText.layer.masksToBounds = YES;
         commentText.inputAccessoryView  = commentsView;
         commentText.backgroundColor     = [UIColor whiteColor];
-        commentText.returnKeyType       = UIReturnKeyDone;
+        commentText.returnKeyType       = UIReturnKeySend;
         commentText.delegate	        = self;
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
