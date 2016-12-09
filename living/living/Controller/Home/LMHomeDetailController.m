@@ -257,7 +257,7 @@ LMContentTableViewCellDelegate
     
     textcView.backgroundColor = [UIColor whiteColor];
     textcView.layer.cornerRadius    = 4;
-    
+     
     textcView.keyboardType=UIKeyboardTypeDefault;
     [textcView setReturnKeyType:UIReturnKeySend];
     
@@ -1447,20 +1447,18 @@ LMContentTableViewCellDelegate
 //回复
 - (void)cellWillReply:(LMCommentCell *)cell
 {
-    
     if ([[FitUserManager sharedUserManager] isLogin]){
+
         textIndex = 1;
         commitUUid =cell.commentUUid;
-        [UIView  beginAnimations:nil context:NULL];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.75];
+
         self.tableView.userInteractionEnabled = NO;
         [self showCommentText];
-        [UIView commitAnimations];
-    }else{
+
+    } else {
+        
         [self IsLoginIn];
     }
-    
 }
 
 - (void)showCommentText
