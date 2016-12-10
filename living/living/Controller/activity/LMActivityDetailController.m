@@ -856,7 +856,7 @@ shareTypeDelegate
         
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         sureButton.frame = CGRectMake(kScreenWidth - 80, 160-70, 62, 24);
-        sureButton.layer.cornerRadius   = 5;
+        sureButton.layer.cornerRadius   = 4;
         sureButton.layer.borderWidth    = .5;
         sureButton.layer.borderColor    = LIVING_COLOR.CGColor;
         
@@ -927,6 +927,8 @@ shareTypeDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         [self textStateHUD:@"回复成功"];
+        
+        commentText.text    = @"";
         [self getEventListDataRequest];
     } else {
         
