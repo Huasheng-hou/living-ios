@@ -7,8 +7,12 @@
 //
 
 #import "FitBaseViewController.h"
+#import "LMActivityHeaderView.h"
 
-@interface LMActivityDetailController :FitBaseViewController
+@interface LMActivityDetailController : FitBaseViewController
+<
+LMActivityHeaderViewDelegate
+>
 
 @property(nonatomic,strong)UITableView *tableView;
 

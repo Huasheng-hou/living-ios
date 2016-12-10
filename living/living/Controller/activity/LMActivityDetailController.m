@@ -62,7 +62,10 @@ shareTypeDelegate
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
-    UIView *headerView;
+    
+    // * 顶部报名横幅
+    LMActivityHeaderView *headerView;
+    
     NSMutableArray *msgArray;
     NSMutableArray *eventArray;
     LMEventBodyVO *eventDic;
@@ -85,7 +88,6 @@ shareTypeDelegate
     UIView *backgroundViews;
     UIImageView *imageViews;
     UIImage *bigImage;
-//    NSString *eventId;
 }
 
 @end
@@ -144,83 +146,12 @@ shareTypeDelegate
     
     [self.view addSubview:self.tableView];
     
-    headerView = [UIView new];
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
-    headerView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-    headerView.hidden=YES;
+    headerView = [[LMActivityHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
+    headerView.backgroundColor  = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    headerView.hidden           = YES;
+    headerView.delegate         = self;
     
     [self.view addSubview:headerView];
-}
-
-- (void)creatHeaderView
-{
-    //活动人头像
-    UIImageView *headV = [UIImageView new];
-    
-    [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar] placeholderImage:[ImageHelpTool imageWithColor:BG_GRAY_COLOR]];
-    
-    headV.contentMode           = UIViewContentModeScaleAspectFill;
-    headV.clipsToBounds         = YES;
-    headV.layer.cornerRadius    = 5.f;
-    [headV sizeToFit];
-    headV.frame                 = CGRectMake(15, 30, 40, 40);
-    
-    [headerView addSubview:headV];
-    
-    //活动人名
-    UILabel *nameLabel = [UILabel new];
-    nameLabel.text = [NSString stringWithFormat:@"发布者：%@",eventDic.publishName];
-    nameLabel.font = [UIFont systemFontOfSize:13.f];
-    nameLabel.textColor = [UIColor whiteColor];
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    [nameLabel sizeToFit];
-    nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
-    [headerView addSubview:nameLabel];
-    
-    //费用
-    UILabel *countLabel = [UILabel new];
-    countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@",eventDic.perCost];
-    countLabel.textColor = [UIColor whiteColor];
-    countLabel.font = [UIFont systemFontOfSize:13.f];
-    [countLabel sizeToFit];
-    countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
-    [headerView addSubview:countLabel];
-    
-    NSString *string = [NSString stringWithFormat:@"%d",eventDic.status];
-    UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
-    if ([string isEqual:@"1"]) {
-        [joinButton setTitle:@"报名" forState:UIControlStateNormal];
-    }
-    if ([string isEqual:@"2"]) {
-        [joinButton setTitle:@"人满" forState:UIControlStateNormal];
-        joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"3"]) {
-        [joinButton setTitle:@"已开始" forState:UIControlStateNormal];
-        
-        joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"4"]) {
-        [joinButton setTitle:@"已完结" forState:UIControlStateNormal];
-        joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"5"]) {
-        [joinButton setTitle:@"删除" forState:UIControlStateNormal];
-        joinButton.userInteractionEnabled = NO;
-    }
-    
-    [joinButton setTintColor:[UIColor whiteColor]];
-    joinButton.showsTouchWhenHighlighted = YES;
-    joinButton.frame = CGRectMake(kScreenWidth-70, 25, 60.f, 50.f);
-    [joinButton addTarget:self action:@selector(cellWillApply:) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:joinButton];
-    
-    UIView *line = [UIView new];
-    line.backgroundColor = [UIColor whiteColor];
-    [line sizeToFit];
-    line.frame = CGRectMake(kScreenWidth-71, 35, 1, 30);
-    [headerView addSubview:line];
 }
 
 - (void)getEventListDataRequest
@@ -246,8 +177,8 @@ shareTypeDelegate
                                                                       withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
-    [proxy start];
     
+    [proxy start];
 }
 
 - (void)getEventListDataResponse:(NSString *)resp
@@ -317,18 +248,16 @@ shareTypeDelegate
             }
         }
         
-        eventDic =[[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
-//        eventId = [NSString stringWithFormat:@"%d",eventDic.eventid];
+        eventDic    = [[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
+        orderDic    = [bodyDic objectForKey:@"event_body"];
         
-        orderDic = [bodyDic objectForKey:@"event_body"];
-        
-        if (eventDic.status==3||eventDic.status==4) {
+        if (eventDic.status == 3 || eventDic.status == 4) {
+            
             status = @"结束";
         }
-        if (eventDic.status==1||eventDic.status==2) {
+        if (eventDic.status == 1 || eventDic.status==2) {
             status = @"开始";
         }
-        
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
@@ -351,7 +280,7 @@ shareTypeDelegate
             }
         }
         
-        [self creatHeaderView];
+        [headerView setEvent:eventDic];
         [self.tableView reloadData];
         
     } else {
@@ -939,9 +868,13 @@ shareTypeDelegate
 
 #pragma mark - LMActivityheadCell delegate -活动报名
 
+- (void)shouldJoinActivity
+{
+    [self cellWillApply:nil];
+}
+
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-
     if ([[FitUserManager sharedUserManager] isLogin]){
 
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
@@ -1001,11 +934,10 @@ shareTypeDelegate
             
             view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
         }];
-    }else{
+    } else {
+        
         [self IsLoginIn];
     }
-
-
 }
 
 - (void)joindataRequest:(NSNotification *)notice
