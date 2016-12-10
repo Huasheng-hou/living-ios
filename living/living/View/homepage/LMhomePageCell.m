@@ -86,11 +86,9 @@
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 129.5, kScreenWidth-30, 0.5)];
     line.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:line];
-    
-    
 }
 
--(void)setValue:(LMActicleVO *)list
+- (void)setValue:(LMActicleVO *)list
 {
     _nameLabel.text = list.articleName;
     _contentLabel.text = list.articleContent;
@@ -104,18 +102,18 @@
         NSInteger lenth = list.type.length;
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_titleLabel.text];
         [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,lenth+2)];
+     
         _titleLabel.attributedText = str;
-    }else{
+        _titleLabel.userInteractionEnabled  = YES;
+        
+    } else {
+        
         _titleLabel.text = list.articleTitle;
         _titleLabel.userInteractionEnabled = NO;
     }
-
-    
-    
 }
 
-
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     [_nameLabel sizeToFit];
