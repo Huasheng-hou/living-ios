@@ -1486,10 +1486,14 @@ LMContentTableViewCellDelegate
         commentText.font		        = [UIFont systemFontOfSize:15.0];
         
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        sureButton.frame = CGRectMake(kScreenWidth-90, 160-70, 72, 24);
-        sureButton.layer.cornerRadius = 5;
+        sureButton.frame = CGRectMake(kScreenWidth - 80, 160-70, 62, 24);
+        sureButton.layer.cornerRadius   = 5;
+        sureButton.layer.borderWidth    = .5;
+        sureButton.layer.borderColor    = LIVING_COLOR.CGColor;
+        
         [sureButton setTitle:@"确认" forState:UIControlStateNormal];
-        sureButton.backgroundColor = BLUE_COLOR;
+        [sureButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+        
         sureButton.tintColor = [UIColor whiteColor];
         [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
         [commentText addSubview:sureButton];
@@ -1497,8 +1501,11 @@ LMContentTableViewCellDelegate
         UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         closeButton.frame = CGRectMake(kScreenWidth-38, 9, 22, 22);
         closeButton.layer.cornerRadius = 5;
-        [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-        closeButton.tintColor = BLUE_COLOR;
+        
+        [closeButton setImage:[ImageHelpTool imageWithColor:LIVING_COLOR andImage:[UIImage imageNamed:@"close"]]
+                     forState:UIControlStateNormal];
+        
+        closeButton.tintColor = LIVING_COLOR;
         [closeButton addTarget:self action:@selector(closeComment) forControlEvents:UIControlEventTouchUpInside];
         [commentsView addSubview:closeButton];
         
@@ -1695,12 +1702,14 @@ LMContentTableViewCellDelegate
 }
 
 #pragma mark  --评论文章
--(void)getCommentArticleDataRequest
+- (void)getCommentArticleDataRequest
 {
-    
     if ([[FitUserManager sharedUserManager] isLogin]){
+  
         [self initStateHud];
-        if (textcView.text.length<=0) {
+        
+        if (textcView.text.length <= 0) {
+        
             [self textStateHUD:@"请输入评论内容"];
             return;
         }
@@ -1708,6 +1717,7 @@ LMContentTableViewCellDelegate
         NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
         LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
+        
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
                                                    
@@ -1721,40 +1731,46 @@ LMContentTableViewCellDelegate
                                                                        waitUntilDone:YES];
                                                }];
         [proxy start];
-    }else{
+        
+    } else {
+     
         [self IsLoginIn];
     }
-    
-    
-    
 }
 
--(void)getCommentArticleDataResponse:(NSString *)resp
+- (void)getCommentArticleDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
+    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+    
         [self textStateHUD:@"评论成功"];
         [self getHomeDetailDataRequest];
-        textcView.text = @"";
-        tipLabel.hidden=NO;
+        
+        textcView.text  = @"";
+        tipLabel.hidden =NO;
         [textcView resignFirstResponder];
         
-    }else{
+    } else {
+        
         NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
+        
+        if (str && ![str isEqual:[NSNull null]] && [str isKindOfClass:[NSString class]]) {
+            
+            [self textStateHUD:str];
+        } else {
+            
+            [self textStateHUD:@"发布失败"];
+        }
     }
-    
-    
 }
 
--(void)replyAction:(id)sender
+- (void)replyAction:(id)sender
 {
     NSLog(@"*********");
     [textcView becomeFirstResponder];
 }
-
-
 
 #pragma mark 删除文章
 - (void)deleteActivityRequest:(NSString *)article_uuid
