@@ -17,8 +17,6 @@
 #import "EditImageView.h"
 #import "LMTypeListViewController.h"
 
-
-
 @interface LMPublicArticleController ()
 <
 UITextFieldDelegate,
@@ -73,9 +71,13 @@ static NSMutableArray *cellDataArray;
     self.tableView.separatorStyle           = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:self.tableView];
-
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布" style:UIBarButtonItemStylePlain target:self action:@selector(publishArtcle)];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(publishArtcle)];
+    
     self.navigationItem.rightBarButtonItem = rightItem;
     
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
@@ -140,22 +142,22 @@ static NSMutableArray *cellDataArray;
     [bgView addSubview:line2];
     
     self.tableView.tableHeaderView = bgView;
-    
-
 }
 
 - (void)typeChoose
 {
-    LMTypeListViewController *typeVC = [[LMTypeListViewController alloc] init];
-    typeVC.delegate = self;
+    LMTypeListViewController    *typeVC     = [[LMTypeListViewController alloc] init];
+    typeVC.delegate     = self;
+    
     [self.navigationController pushViewController:typeVC animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0) {
+    if (section == 0) {
       return cellDataArray.count;
     }
+    
     return 1;
 }
 
@@ -166,18 +168,18 @@ static NSMutableArray *cellDataArray;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section==0){
+    if (section == 0) {
        return 45;
     }
-    return 0.01;
-
     
+    return 0.01;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section==0) {
-        UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,45)];
+    if (section == 0) {
+        
+        UIView  *bgView     = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,45)];
         [bgView setBackgroundColor:[UIColor whiteColor]];
         
         //描述
@@ -185,13 +187,14 @@ static NSMutableArray *cellDataArray;
         typeLabel.textColor = TEXT_COLOR_LEVEL_4;
         
         if (type == 1) {
+            
             typeLabel.text = @"请选择文章分类";
-        }else{
+        } else {
+            
             typeLabel.text = typeString;
             typeLabel.textColor = TEXT_COLOR_LEVEL_2;
         }
 
-        
         typeLabel.font = TEXT_FONT_LEVEL_2;
         typeLabel.userInteractionEnabled = YES;
         [bgView addSubview:typeLabel];
@@ -202,9 +205,10 @@ static NSMutableArray *cellDataArray;
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, 44.5, kScreenWidth, 0.5)];
         line.backgroundColor = LINE_COLOR;
         [bgView addSubview:line];
+        
         return bgView;
- 
     }
+    
     return nil;
 }
 
@@ -285,36 +289,46 @@ static NSMutableArray *cellDataArray;
 
         cell.imageV.delegate = self;
         
-        if (projectImageArray&&projectImageArray.count>0) {
-          cell.array = projectImageArray[indexPath.row];
+        if (projectImageArray && projectImageArray.count > 0) {
+        
+            cell.array  = projectImageArray[indexPath.row];
         }
         
         
-        if ([projectImageArray[indexPath.row] isKindOfClass:[NSArray class]]) {
-           cell.array = projectImageArray[indexPath.row];
-        }else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
-            cell.array = nil;
-            }
+        if (projectImageArray.count > indexPath.row && [projectImageArray[indexPath.row] isKindOfClass:[NSArray class]]) {
+           
+            cell.array  = projectImageArray[indexPath.row];
+        
+        } else if (projectImageArray.count > indexPath.row && [projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        
+            cell.array  = nil;
+        } else {
+            
+            cell.array  = nil;
+        }
         
         [cell.imageV setTag:indexPath.row];
   
         return cell;
     }
         
-    if (indexPath.section==1) {
-        static NSString *cellId = @"cellId";
+    if (indexPath.section == 1) {
+        
+        static NSString *cellId     = @"cellId";
+        
         UITableViewCell *addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
 
         addCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 45)];
-        textLabel.text = @"添加内容";
-        textLabel.textAlignment = NSTextAlignmentCenter;
-        textLabel.font = TEXT_FONT_LEVEL_1;
-        [addCell.contentView addSubview:textLabel];
-        textLabel.backgroundColor = [UIColor whiteColor];
         
-        addCell.backgroundColor = [UIColor clearColor];
+        textLabel.text              = @"添加内容";
+        textLabel.textAlignment     = NSTextAlignmentCenter;
+        textLabel.font              = TEXT_FONT_LEVEL_1;
+        [addCell.contentView addSubview:textLabel];
+        textLabel.backgroundColor   = [UIColor whiteColor];
+        addCell.backgroundColor     = [UIColor clearColor];
+        
         return addCell;
     }
     return nil;
@@ -322,9 +336,12 @@ static NSMutableArray *cellDataArray;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==1) {
-        NSInteger length=cellDataArray.count;
-        if (length==10) {
+    if (indexPath.section == 1) {
+        
+        NSInteger length    = cellDataArray.count;
+        
+        if (length >= 10) {
+            
             [self textStateHUD:@"提交已达上限"];
             return;
         }
@@ -336,7 +353,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)closeCell:(UIButton *)button
 {
-    NSInteger row=button.tag;
+    NSInteger row   = button.tag;
     
     [cellDataArray removeObjectAtIndex:row];
     
@@ -344,7 +361,6 @@ static NSMutableArray *cellDataArray;
     
     [self refreshData];
 }
-
 
 #pragma mark UIImagePickerController代理函数
 
@@ -382,29 +398,32 @@ static NSMutableArray *cellDataArray;
         
         [imageViewArray addObject:tempImg];
     }
+    
     [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+    
     [self getImageURL:projectImageArray[addImageIndex]];
     [self refreshData];
-    
 }
-
 
 - (void)addViewTag:(NSInteger)viewTag
 {
-    addImageIndex = viewTag;
+    addImageIndex   = viewTag;
+    imageViewArray  = [NSMutableArray arrayWithCapacity:0];
     
-    imageViewArray = [NSMutableArray arrayWithCapacity:0];
-    
-    if (projectImageArray[viewTag]&&[projectImageArray[viewTag] isKindOfClass:[NSArray class]]) {
+    if (projectImageArray.count > viewTag && [projectImageArray[viewTag] isKindOfClass:[NSArray class]]) {
+        
         [imageViewArray addObjectsFromArray:projectImageArray[viewTag]];
+
+        if ([projectImageArray[viewTag] count] >= 15) {
+            
+            [self textStateHUD:@"最多15张"];
+            return;
+        } 
     }
     
-    if ([projectImageArray[viewTag] count]>=10) {
-        [self textStateHUD:@"单次提交最多10张"];
-    }
-    
-    if (imageNum>30) {
-        [self textStateHUD:@"您上传的图片数已达上限"];
+    if (imageNum > 100) {
+        
+        [self textStateHUD:@"总图片数已达上限"];
         return;
     }
     
@@ -418,8 +437,6 @@ static NSMutableArray *cellDataArray;
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
     actionSheet = nil;
-    
-    
 }
 
 
@@ -538,8 +555,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-    if (buttonIndex==0)
+    if (buttonIndex == 0)
     {//图库
         picker = [[ZYQAssetPickerController alloc] init];
         picker.maximumNumberOfSelection = 15-imageNum;
@@ -585,7 +601,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)publishArtcle
 {
-    
     [self.view endEditing:YES];
     
     if (titleTF.text.length ==0) {
@@ -598,16 +613,13 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    
-    if (imageArray.count<1) {
+    if (imageArray.count < 1) {
         [self textStateHUD:@"至少上传一张图片"];
         return;
     }
     
-
     [self publishAction];
 }
-
 
 #pragma mark 删除图片EditImageViewDelegate
 
@@ -633,12 +645,7 @@ static NSMutableArray *cellDataArray;
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
-
 }
-
-
-
 
 #pragma mark 发布文章
 
@@ -657,15 +664,19 @@ static NSMutableArray *cellDataArray;
     
     NSMutableArray *new = [NSMutableArray new];
     
-    for (int i = 1; i<cellDataArray.count; i++) {
+    for (int i = 1; i < cellDataArray.count; i++) {
+
         NSMutableDictionary  *dict = [NSMutableDictionary new];
+        
         dic = cellDataArray[i];
-        NSString *string =[dic objectForKey:@"content"];
-        NSArray  *arr = [dic objectForKey:@"image"];
+        
+        NSString *string    = [dic objectForKey:@"content"];
+        NSArray  *arr       = [dic objectForKey:@"image"];
+        
         [dict setObject:string forKey:@"content"];
         [dict setObject:arr forKey:@"images"];
+        
         [new addObject:dict];
-     
     }
 
     NSDictionary *contentDic = cellDataArray[0];
@@ -673,23 +684,25 @@ static NSMutableArray *cellDataArray;
     NSString *cont = [contentDic objectForKey:@"content"];
     NSArray *array = [contentDic objectForKey:@"image"];
     
-    if (cont.length<1) {
+    if (cont.length < 1) {
+        
         [self textStateHUD:@"第一个正文需要输入文字"];
+        return;
     }
-    if (array.count<1) {
+    if (array.count < 1) {
+        
         [self textStateHUD:@"第一个正文需要添加图片"];
+        return;
     }
  
-    NSLog(@"%@",new);
-    NSLog(@"%@",typeString);
+    self.navigationItem.rightBarButtonItem.enabled  = NO;
     
-    LMPublicArticleRequest *request  = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
-                                        
-                                                                                Article_title:titleTF.text
+    LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
+                                                                                   Article_title:titleTF.text
                                                                                       Descrition:discribleTF.text
                                                                                      andImageURL:array
-                                                                                      andType:typeString
-                                                                                        blend:new];
+                                                                                         andType:typeString
+                                                                                           blend:new];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -697,10 +710,16 @@ static NSMutableArray *cellDataArray;
                                                [self performSelectorOnMainThread:@selector(publishResponse:)
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
+                                               
                                            } failed:^(NSError *error) {
                                                
-                                               [self textStateHUD:@"网络错误"];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                  
+                                                   [self textStateHUD:@"网络错误"];
+                                                   self.navigationItem.rightBarButtonItem.enabled   = YES;
+                                               });
                                            }];
+    
     [proxy start];
 }
 
@@ -710,7 +729,10 @@ static NSMutableArray *cellDataArray;
     [self logoutAction:resp];
     
     if (!bodyDict) {
+        
         [self textStateHUD:@"发布失败"];
+        self.navigationItem.rightBarButtonItem.enabled  = YES;
+        
         return;
     }
     
@@ -722,14 +744,15 @@ static NSMutableArray *cellDataArray;
             [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
                 [self.navigationController popViewControllerAnimated:YES];
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
             });
             
+        } else {
             
-        }else{
             [self textStateHUD:@"发布失败"];
+            self.navigationItem.rightBarButtonItem.enabled      = YES;
         }
     }
 }
@@ -744,26 +767,27 @@ static NSMutableArray *cellDataArray;
     return YES;
 }
 
-
 - (void)textViewDidChange:(UITextView *)textView
 {
     for (UIView *view in textView.subviews) {
+        
         if ([view isKindOfClass:[UILabel class]]) {
-            if (textView.text.length>0) {
+        
+            if (textView.text.length > 0) {
+            
                 [view setHidden:YES];
-            }else{
+            } else {
+                
                 [view setHidden:NO];
             }
         }
     }
-
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
-
 
 - (void)closeAction
 {
@@ -785,6 +809,5 @@ static NSMutableArray *cellDataArray;
   
     [self.tableView reloadData];
 }
-
 
 @end

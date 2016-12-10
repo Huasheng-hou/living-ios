@@ -35,8 +35,6 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         
-        //        self.ifRemoveLoadNoState        = NO;
-//        self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
     }
     
@@ -46,29 +44,23 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    if (self.listData.count == 0) {
-        
-        [self loadNoState];
-    }
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createUI];
     [self loadNewer];
     self.title = @"文章分类";
 }
 
--(void)createUI
+- (void)createUI
 {
-    
     [super createUI];
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.separatorInset               = UIEdgeInsetsMake(0, 15, 0, 0);
-    
 }
 
 - (FitBaseRequest *)request
@@ -78,17 +70,18 @@
     return request;
 }
 
-
 - (NSArray *)parseResponse:(NSString *)resp
 {
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSDictionary    *bodyDic    = [VOUtil parseBody:resp];
     
-    NSString    *result         = [bodyDic objectForKey:@"result"];
+    NSString        *result     = [bodyDic objectForKey:@"result"];
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
-        NSArray *resultArr  = [bodyDic objectForKey:@"list"];
+        
+        NSArray *resultArr      = [bodyDic objectForKey:@"list"];
+        
         if (resultArr && resultArr.count > 0) {
             
             return resultArr;
@@ -148,32 +141,38 @@
     if (self.listData.count > indexPath.row) {
         
         NSDictionary *dic = self.listData[indexPath.row];
-        cell.textLabel.text = dic[@"type"];
-        cell.textLabel.font = TEXT_FONT_LEVEL_2;
-        cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
+        
+        if ([dic objectForKey:@"type"] && ![[dic objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dic objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            
+            cell.textLabel.text = dic[@"type"];
+            
+        } else {
+            
+            cell.textLabel.text = @"";
+        }
+        
+        cell.textLabel.font         = TEXT_FONT_LEVEL_2;
+        cell.textLabel.textColor    = TEXT_COLOR_LEVEL_2;
     }
     
-    
     return cell;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.listData.count > indexPath.row) {
         
-    NSDictionary *dic = self.listData[indexPath.row];
+        NSDictionary *dic = self.listData[indexPath.row];
     
-    [self.delegate backLiveName:dic[@"type"]];
+        if ([dic objectForKey:@"type"] && ![[dic objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dic objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            
+            [self.delegate backLiveName:dic[@"type"]];
+        }
     
-    [self.navigationController popViewControllerAnimated:YES];
-
-
+        [self.navigationController popViewControllerAnimated:YES];
     }
-
 }
-
-
-
 
 @end
