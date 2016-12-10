@@ -459,8 +459,10 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-//    [self textStateHUD:@"上传中..."];
-//    [self initStateHud];
+    [self textStateHUD:@"上传中..."];
+    [self initStateHud];
+
+    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:10];
     
     NSMutableArray *urlArray = [NSMutableArray new];
 
@@ -496,11 +498,11 @@ static NSMutableArray *cellDataArray;
                                                    }
                                                    
                                                    if (urlArray.count == imgArr.count) {
-                                                       
+//                                                       
                                                        [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
-                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                              withObject:nil
-                                                                           waitUntilDone:YES];
+//                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
+//                                                                              withObject:nil
+//                                                                           waitUntilDone:YES];
                                                    }
                                                    
                                                } failed:^(NSError *error) {
@@ -508,11 +510,11 @@ static NSMutableArray *cellDataArray;
                                                    [urlArray addObject:@""];
                                                    
                                                    if (urlArray.count == imgArr.count) {
-                                                       
+//                                                       
                                                        [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
-                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                              withObject:nil
-                                                                           waitUntilDone:YES];
+//                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
+//                                                                              withObject:nil
+//                                                                           waitUntilDone:YES];
                                                    }
                                                }];
         
@@ -737,6 +739,26 @@ static NSMutableArray *cellDataArray;
         return;
     }
     if (!array || ![array isKindOfClass:[NSArray class]] || array.count < 1) {
+        
+        if (projectImageArray.count > 0 && [projectImageArray[0] isKindOfClass:[NSArray class]]) {
+            
+            NSInteger   imgNumber   = [projectImageArray[0] count];
+            
+            if (imgNumber > 0) {
+                
+                int random = rand() % 100;
+                
+                if (random > 50) {
+                    
+                    [self textStateHUD:@"您的图片有点多哦，请等待上传完毕~"];
+                } else {
+                    
+                    [self textStateHUD:@"等一下再点哦，还在上传图片~"];
+                }
+                
+                return;
+            }
+        }
         
         [self textStateHUD:@"第一个正文需要添加图片"];
         return;
