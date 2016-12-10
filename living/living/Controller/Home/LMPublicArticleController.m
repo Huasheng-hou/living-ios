@@ -84,33 +84,34 @@ static NSMutableArray *cellDataArray;
     self.navigationItem.leftBarButtonItem = leftItem;
     
     [self createUI];
-    type = 1;
-    imageArray    = [NSMutableArray arrayWithCapacity:0];
-    imageViewArray = [NSMutableArray new];
-    cellDataArray = [NSMutableArray new];
-    [self projectDataStorageWithArrayIndex:0];
-    projectImageArray=[NSMutableArray arrayWithCapacity:10];
     
-    for (int i=0; i<10; i++) {
+    type = 1;
+    imageArray      = [NSMutableArray arrayWithCapacity:0];
+    imageViewArray  = [NSMutableArray new];
+    cellDataArray   = [NSMutableArray new];
+    
+    [self projectDataStorageWithArrayIndex:0];
+    projectImageArray   = [NSMutableArray arrayWithCapacity:10];
+    
+    for (int i = 0; i < 10; i++) {
+     
         [projectImageArray addObject:@""];
     }
-
 }
 
 - (void)createUI
 {
     self.title = @"发布文章";
-    pickImage=[[UIImagePickerController alloc]init];
+    pickImage   =[[UIImagePickerController alloc]init];
     
     [pickImage setDelegate:self];
-    pickImage.transitioningDelegate  = self;
-    pickImage.modalPresentationStyle = UIModalPresentationCustom;
+    pickImage.transitioningDelegate     = self;
+    pickImage.modalPresentationStyle    = UIModalPresentationCustom;
     
     
     UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,90+10)];
     [bgView setBackgroundColor:[UIColor whiteColor]];
-    //    self.tableView.tableHeaderView =  bgView;
-    //
+    
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 49.5, kScreenWidth, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
     [bgView addSubview:lineView];
@@ -155,7 +156,8 @@ static NSMutableArray *cellDataArray;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-      return cellDataArray.count;
+      
+        return cellDataArray.count;
     }
     
     return 1;
@@ -169,6 +171,7 @@ static NSMutableArray *cellDataArray;
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
+        
        return 45;
     }
     
@@ -222,8 +225,6 @@ static NSMutableArray *cellDataArray;
     if (indexPath.section == 0) {
         
         NSArray *array = [NSArray new];
-        
-        NSLog(@"Current section is:%ld, current row is:%ld", indexPath.section, indexPath.row);
         
         if (projectImageArray.count > indexPath.row && [projectImageArray[indexPath.row] isKindOfClass:[NSArray class]]) {
             
@@ -331,6 +332,7 @@ static NSMutableArray *cellDataArray;
         
         return addCell;
     }
+    
     return nil;
 }
 
@@ -371,7 +373,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
 {
-    
     [imageViewArray addObject:image];
     
     [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
@@ -386,11 +387,12 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark - ZYQAssetPickerController Delegate
 
--(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+- (void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
 {
-    
-    for (int i=0; i<assets.count; i++) {
+    for (int i = 0; i < assets.count; i++) {
+  
         imageNum++;
+        
         ALAsset *asset=assets[i];
         UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
         
@@ -414,11 +416,11 @@ static NSMutableArray *cellDataArray;
         
         [imageViewArray addObjectsFromArray:projectImageArray[viewTag]];
 
-        if ([projectImageArray[viewTag] count] >= 15) {
+        if ([projectImageArray[viewTag] count] >= 10) {
             
-            [self textStateHUD:@"最多15张"];
+            [self textStateHUD:@"最多10张"];
             return;
-        } 
+        }
     }
     
     if (imageNum > 100) {
@@ -428,17 +430,21 @@ static NSMutableArray *cellDataArray;
     }
     
     [self.view endEditing:YES];
+
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
                                   cancelButtonTitle:@"取消"
                                   destructiveButtonTitle:nil
                                   otherButtonTitles:@"相册", @"拍照",nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    
+    actionSheet.actionSheetStyle    = UIActionSheetStyleBlackOpaque;
+    actionSheet.tag                 = viewTag;
+    
     [actionSheet showInView:self.view];
+    
     actionSheet = nil;
 }
-
 
 #pragma mark 获取头像的url
 
@@ -449,15 +455,18 @@ static NSMutableArray *cellDataArray;
         [self textStateHUD:@"无网络连接"];
         return;
     }
-        [self initStateHud];
+    
+    [self textStateHUD:@"上传中..."];
+    [self initStateHud];
+    
     NSMutableArray *urlArray = [NSMutableArray new];
 
-
-    for (int i =0; i<imgArr.count; i++) {
-        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:imgArr[i]];
-        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+    for (int i = 0; i < imgArr.count; i++) {
         
+        FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+        
+        UIImage *headImage  = [ImageHelpTool scaleImage:imgArr[i]];
+        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
@@ -466,56 +475,55 @@ static NSMutableArray *cellDataArray;
                                                                           withObject:nil
                                                                        waitUntilDone:YES];
                                                    
-                                                   NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   NSString    *result = [bodyDict objectForKey:@"result"];
+                                                   NSDictionary     *bodyDict   = [VOUtil parseBody:resp];
+                                                   NSString         *result     = [bodyDict objectForKey:@"result"];
                                                    
                                                    if (result && [result isKindOfClass:[NSString class]]
                                                        && [result isEqualToString:@"0"]) {
+                                                       
                                                        NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                       
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
                                                            [urlArray addObject:imgUrl];
                                                        }
                                                        
-                                                       if (urlArray.count ==imgArr.count) {
-                                                        [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       if (urlArray.count == imgArr.count) {
+                                                        
+                                                           [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
                                                        }
+                                                   } else {
                                                        
-                                                     
+                                                       
                                                    }
                                                } failed:^(NSError *error) {
+        
                                                    [self hideStateHud];
                                                }];
+        
         [proxy start];
-  
     }
-
-    
 }
 
 #pragma mark 编辑单元格项目活动图片
 
--(void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSMutableArray *)imageUrl{
-    
+- (void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSMutableArray *)imageUrl
+{
     NSMutableDictionary *dic=cellDataArray[row];
     
     if (imageUrl) {
+ 
         [dic setObject:imageUrl forKey:@"image"];
-    }else{
+    } else {
+        
         [dic setObject:@[@""] forKey:@"image"];
     }
-
 }
-
-
-
-
 
 #pragma mark 编辑单元格项目介绍
 
-- (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
-    
+- (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text
+{
     NSMutableDictionary *dic=cellDataArray[row];
     
     if ([text isEqualToString:@""]) {
@@ -539,17 +547,13 @@ static NSMutableArray *cellDataArray;
     [cellDataArray insertObject:dic atIndex:index];
 }
 
-
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    
-    NSInteger row=textView.tag;
+    NSInteger row   = textView.tag;
     [self modifyCellDataContent:row andText:textView.text];
-    
     
     return YES;
 }
-
 
 #pragma mark UIActionSheet 代理函数
 
@@ -557,26 +561,36 @@ static NSMutableArray *cellDataArray;
 {
     if (buttonIndex == 0)
     {//图库
+        NSInteger   imgNumber   = 0;
+        
+        if (projectImageArray.count > actionSheet.tag && [projectImageArray[actionSheet.tag] isKindOfClass:[NSArray class]]) {
+            
+            imgNumber   = [projectImageArray[actionSheet.tag] count];
+        }
+        
         picker = [[ZYQAssetPickerController alloc] init];
-        picker.maximumNumberOfSelection = 15-imageNum;
-        picker.assetsFilter = [ALAssetsFilter allPhotos];
-        picker.showEmptyGroups=NO;
-        picker.delegate=self;
-        picker.transitioningDelegate  = self;//覆盖原代理  另外需要遵循一个协议
-        picker.modalPresentationStyle = UIModalPresentationCustom;
-        picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        picker.maximumNumberOfSelection     = 10 - imgNumber;
+        picker.assetsFilter     = [ALAssetsFilter allPhotos];
+        picker.showEmptyGroups  = NO;
+        picker.delegate         = self;
+        
+        picker.transitioningDelegate    = self;//覆盖原代理  另外需要遵循一个协议
+        picker.modalPresentationStyle   = UIModalPresentationCustom;
+        picker.selectionFilter          = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            
             if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+            
                 NSTimeInterval duration = [[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyDuration] doubleValue];
                 return duration >= 5;
             } else {
+                
                 return YES;
             }
         }];
         
         [self presentViewController:picker animated:YES completion:NULL];
-        
     }
-    if (buttonIndex==1)
+    if (buttonIndex == 1)
     {//摄像头
         //判断后边的摄像头是否可用
         if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
@@ -625,7 +639,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)deleteViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
-    NSLog(@"=============================%ld   %ld",(long)viewTag,(long)tag);
     NSMutableArray *newArray = projectImageArray[viewTag];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除图片"
