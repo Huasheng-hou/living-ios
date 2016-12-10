@@ -459,8 +459,8 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    [self textStateHUD:@"上传中..."];
-    [self initStateHud];
+//    [self textStateHUD:@"上传中..."];
+//    [self initStateHud];
     
     NSMutableArray *urlArray = [NSMutableArray new];
 
@@ -474,10 +474,6 @@ static NSMutableArray *cellDataArray;
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    
-                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                          withObject:nil
-                                                                       waitUntilDone:YES];
-                                                   
                                                    NSDictionary     *bodyDict   = [VOUtil parseBody:resp];
                                                    NSString         *result     = [bodyDict objectForKey:@"result"];
                                                    
@@ -489,19 +485,35 @@ static NSMutableArray *cellDataArray;
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
                                                            [urlArray addObject:imgUrl];
+                                                       } else {
+                                                           
+                                                           [urlArray addObject:@""];
                                                        }
-                                                       
-                                                       if (urlArray.count == imgArr.count) {
-                                                        
-                                                           [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
-                                                       }
+                                                      
                                                    } else {
                                                        
-                                                       
+                                                       [urlArray addObject:@""];
                                                    }
+                                                   
+                                                   if (urlArray.count == imgArr.count) {
+                                                       
+                                                       [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                              withObject:nil
+                                                                           waitUntilDone:YES];
+                                                   }
+                                                   
                                                } failed:^(NSError *error) {
         
-                                                   [self hideStateHud];
+                                                   [urlArray addObject:@""];
+                                                   
+                                                   if (urlArray.count == imgArr.count) {
+                                                       
+                                                       [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                              withObject:nil
+                                                                           waitUntilDone:YES];
+                                                   }
                                                }];
         
         [proxy start];
@@ -650,12 +662,21 @@ static NSMutableArray *cellDataArray;
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:nil]];
+    
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
                                                 
-                                                [newArray removeObjectAtIndex:tag];
-                                                [imageArray removeObjectAtIndex:tag];
+                                                if (newArray.count > tag) {
+                                                    
+                                                    [newArray removeObjectAtIndex:tag];
+                                                }
+                                                
+                                                if (imageArray.count > tag) {
+                                                    
+                                                    [imageArray removeObjectAtIndex:tag];
+                                                }
+                                                
                                                 [self refreshData];
                                                 
                                             }]];
@@ -675,9 +696,10 @@ static NSMutableArray *cellDataArray;
     
     [self initStateHud];
     
-    NSLog(@"%@",cellDataArray);
     NSDictionary *dic = [NSDictionary new];
     
+    // * 将从第二个图文区起的图文信息存入新增的图文数组里
+    //
     NSMutableArray *new = [NSMutableArray new];
     
     for (int i = 1; i < cellDataArray.count; i++) {
@@ -689,23 +711,32 @@ static NSMutableArray *cellDataArray;
         NSString *string    = [dic objectForKey:@"content"];
         NSArray  *arr       = [dic objectForKey:@"image"];
         
-        [dict setObject:string forKey:@"content"];
-        [dict setObject:arr forKey:@"images"];
+        if (string && [string isKindOfClass:[NSString class]]) {
+            
+            [dict setObject:string forKey:@"content"];
+        }
+        
+        if (arr && [arr isKindOfClass:[NSArray class]]) {
+            
+            [dict setObject:arr forKey:@"images"];
+        }
         
         [new addObject:dict];
     }
 
+    // * 取出第一个文字、图片区域的文本和图片，传给旧的图文字段
+    //
     NSDictionary *contentDic = cellDataArray[0];
     
     NSString *cont = [contentDic objectForKey:@"content"];
     NSArray *array = [contentDic objectForKey:@"image"];
     
-    if (cont.length < 1) {
+    if (!cont || cont.length < 1) {
         
         [self textStateHUD:@"第一个正文需要输入文字"];
         return;
     }
-    if (array.count < 1) {
+    if (!array || ![array isKindOfClass:[NSArray class]] || array.count < 1) {
         
         [self textStateHUD:@"第一个正文需要添加图片"];
         return;
