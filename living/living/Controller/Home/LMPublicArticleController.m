@@ -215,47 +215,66 @@ static NSMutableArray *cellDataArray;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    if (indexPath.section==0) {
+    if (indexPath.section == 0) {
+        
         NSArray *array = [NSArray new];
-        if ([projectImageArray[indexPath.row] isKindOfClass:[NSArray class]]) {
+        
+        NSLog(@"Current section is:%ld, current row is:%ld", indexPath.section, indexPath.row);
+        
+        if (projectImageArray.count > indexPath.row && [projectImageArray[indexPath.row] isKindOfClass:[NSArray class]]) {
+            
             array = projectImageArray[indexPath.row];
-        }else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        
+        } else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+          
             array = nil;
         }
-        NSInteger margin=10;//图片之间的间隔
-        NSInteger imageWidth=(kScreenWidth-margin*5)/4;//图片的宽度，固定一行只放置4个图片
+        
+        NSInteger margin        = 10;//图片之间的间隔
+        NSInteger imageWidth    = (kScreenWidth - margin*5) / 4;//图片的宽度，固定一行只放置4个图片
 
-        NSInteger rowNum=array.count/4+1;
+        NSInteger rowNum        = array.count/4 + 1;
         
-        return 190+rowNum*(imageWidth+margin);
-        
+        return 190 + rowNum*(imageWidth + margin);
     }
+    
     return 100;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section == 0) {
+        
         static NSString *cellId = @"cellId";
-        cell  = [[LMPAHeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
-        cell.tag = indexPath.row;
+        
+        cell    = [[LMPAHeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        
+        cell.selectionStyle     = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor    = [UIColor clearColor];
+        cell.tag                = indexPath.row;
+        
         cell.includeTF.delegate = self;
+        
         [cell.includeTF setTag:indexPath.row];
         cell.delegate = self;
-        cell.includeTF.text=cellDataArray[indexPath.row][@"content"];
         
-        if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
+        cell.includeTF.text     = cellDataArray[indexPath.row][@"content"];
+        
+        if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""] && cellDataArray[indexPath.row][@"content"]) {
+            
             [cell.textLab setHidden:NO];
-        }else{
+        } else {
+            
             [cell.textLab setHidden:YES];
         }
         
-        if (cellDataArray.count==1) {
+        if (cellDataArray.count == 1) {
+            
             if (indexPath.row==0) {
+            
                 [cell.deleteBt setHidden:YES];
-            }else{
+            } else {
+                
                 [cell.deleteBt setHidden:NO];
             }
         }
@@ -278,7 +297,6 @@ static NSMutableArray *cellDataArray;
             }
         
         [cell.imageV setTag:indexPath.row];
-        [cell.deleteBt setHidden:NO];
   
         return cell;
     }
