@@ -1043,8 +1043,6 @@ shareTypeDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"%f",scrollView.contentOffset.y);
-    
     if (scrollView.contentOffset.y > 230-64) {//如果当前位移大于缓存位移，说明scrollView向上滑动
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;

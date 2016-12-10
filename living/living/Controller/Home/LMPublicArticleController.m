@@ -389,22 +389,25 @@ static NSMutableArray *cellDataArray;
 
 - (void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
 {
-    for (int i = 0; i < assets.count; i++) {
-  
-        imageNum++;
+    if (assets.count > 0) {
         
-        ALAsset *asset=assets[i];
-        UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+        for (int i = 0; i < assets.count; i++) {
+            
+            imageNum++;
+            
+            ALAsset *asset=assets[i];
+            UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+            
+            [imageArray addObject:tempImg];
+            
+            [imageViewArray addObject:tempImg];
+        }
         
-        [imageArray addObject:tempImg];
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
         
-        [imageViewArray addObject:tempImg];
+        [self getImageURL:projectImageArray[addImageIndex]];
+        [self refreshData];
     }
-    
-    [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-    
-    [self getImageURL:projectImageArray[addImageIndex]];
-    [self refreshData];
 }
 
 - (void)addViewTag:(NSInteger)viewTag
