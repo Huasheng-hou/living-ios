@@ -426,16 +426,13 @@ LMContentTableViewCellDelegate
         NSMutableArray *array=bodyDic[@"comment_messages"];
         
         if (bodyDic[@"blend"]) {
+            
             isBlend = YES;
-            NSMutableArray *imagArr = bodyDic[@"blend"];
-            for (int i =0; i<imagArr.count; i++) {
-                
-                BlendVO *list = [[BlendVO alloc] initWithDictionary:imagArr[i]];
-                [newImageArray addObject:list];
-            }
-        }else{
+            
+            newImageArray   = [NSMutableArray arrayWithArray:[BlendVO BlendVOListWithArray:[bodyDic objectForKey:@"blend"]]];
+        } else {
+            
             isBlend = NO;
-
         }
    
         for (int i =0; i<array.count; i++) {

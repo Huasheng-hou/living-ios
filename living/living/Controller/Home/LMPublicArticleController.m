@@ -462,7 +462,7 @@ static NSMutableArray *cellDataArray;
     [self textStateHUD:@"上传中..."];
     [self initStateHud];
 
-    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:10];
+    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:8];
     
     NSMutableArray *urlArray = [NSMutableArray new];
 
