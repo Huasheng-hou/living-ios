@@ -927,12 +927,27 @@ LMContentTableViewCellDelegate
                 [cell.contentView addSubview:line];
                 
                 dspLabel = [UILabel new];
-                dspLabel.textColor = LIVING_COLOR;
-                dspLabel.numberOfLines=0;
-                dspLabel.text = articleData.describe;
+                dspLabel.textColor      = LIVING_COLOR;
+                dspLabel.numberOfLines  =0;
+                dspLabel.text           = articleData.describe;
+                
                 CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-                [dspLabel sizeToFit];
-                dspLabel.frame = CGRectMake(15, conHigh + 72, kScreenWidth-30, conHigh2);
+                
+                dspLabel.frame = CGRectMake(15, conHigh + 72, kScreenWidth - 30, conHigh2);
+
+                if (typeIndex == 1) {
+                    
+                    dspLabel.font = TEXT_FONT_LEVEL_1;
+                }
+                if (typeIndex == 2) {
+                    
+                    dspLabel.font = TEXT_FONT_LEVEL_2;
+                }
+                if (typeIndex == 3) {
+                    
+                    dspLabel.font = [UIFont systemFontOfSize:12.0];
+                }
+                
                 [cell.contentView addSubview:dspLabel];
                 
             }
@@ -1134,9 +1149,26 @@ LMContentTableViewCellDelegate
         dspLabel.numberOfLines=0;
         dspLabel.text = articleData.describe;
 
-        CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-        [dspLabel sizeToFit];
+        CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                                       options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                    attributes:attributes
+                                                       context:nil].size.height;
+        
         dspLabel.frame = CGRectMake(15, conHigh + 72, kScreenWidth-30, conHigh2);
+        
+        if (typeIndex == 1) {
+            
+            dspLabel.font = TEXT_FONT_LEVEL_1;
+        }
+        if (typeIndex == 2) {
+            
+            dspLabel.font = TEXT_FONT_LEVEL_2;
+        }
+        if (typeIndex == 3) {
+            
+            dspLabel.font = [UIFont systemFontOfSize:12.0];
+        }
+        
         [cell.contentView addSubview:dspLabel];
         
         return cell;
