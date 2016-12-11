@@ -695,6 +695,10 @@ static CGRect oldframe;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LM_ADD_NOTIFICATION" object:nil];
         [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"xufei_dot"];
         
+    } else {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LM_ADD_NOTIFICATION" object:nil];
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"xufei_dot"];
     }
     //NSLog(@"Both dates are the same");
 }

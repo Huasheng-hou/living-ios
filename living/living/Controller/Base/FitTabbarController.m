@@ -164,12 +164,13 @@
 - (void)addDot
 {
     if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"xufei_dot"] isEqualToString:@"3"]) {
+     
         fourthNav.tabBarItem.badgeValue = @"1";
+    } else {
+        
+        fourthNav.tabBarItem.badgeValue = nil;
     }
-    
 }
-
-
 
 - (void)tongzhi:(NSNotification *)text
 {
