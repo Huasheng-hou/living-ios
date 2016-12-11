@@ -922,7 +922,7 @@ LMContentTableViewCellDelegate
                 dspLabel.text = articleData.describe;
                 CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
                 [dspLabel sizeToFit];
-                dspLabel.frame = CGRectMake(15, conHigh2+70, kScreenWidth-30, conHigh2);
+                dspLabel.frame = CGRectMake(15, conHigh + 72, kScreenWidth-30, conHigh2);
                 [cell.contentView addSubview:dspLabel];
                 
             }
@@ -1126,7 +1126,7 @@ LMContentTableViewCellDelegate
 
         CGFloat conHigh2 = [dspLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
         [dspLabel sizeToFit];
-        dspLabel.frame = CGRectMake(15, conHigh2+70, kScreenWidth-30, conHigh2);
+        dspLabel.frame = CGRectMake(15, conHigh + 72, kScreenWidth-30, conHigh2);
         [cell.contentView addSubview:dspLabel];
         
         return cell;
