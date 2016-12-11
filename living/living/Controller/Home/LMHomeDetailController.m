@@ -521,6 +521,11 @@ LMContentTableViewCellDelegate
             
             NSString *string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
             
+            if (!articleData.type || ![articleData.type isKindOfClass:[NSString class]] || [articleData.type isEqualToString:@""]) {
+                
+                string  = articleData.articleTitle;
+            }
+            
             CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
                                                    options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                 attributes:attributes5
@@ -644,6 +649,11 @@ LMContentTableViewCellDelegate
                 NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
                 
                 NSString *string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
+                
+                if (!articleData.type || ![articleData.type isKindOfClass:[NSString class]] || [articleData.type isEqualToString:@""]) {
+                    
+                    string  = articleData.articleTitle;
+                }
                 
                 CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
                                                        options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
