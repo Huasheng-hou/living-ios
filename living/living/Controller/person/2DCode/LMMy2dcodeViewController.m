@@ -186,40 +186,47 @@
     headImage.contentMode = UIViewContentModeScaleAspectFill;
     [imageView addSubview:headImage2];
     
-    NSDate * date = [NSDate date];
-    
-    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    
-    //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
-    NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
-    //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
-    
-    NSDate * lastYear = [date dateByAddingTimeInterval:time];
-    
-    //转化为字符串
-    NSString * startDate = [dateFormatter stringFromDate:lastYear];
-    NSLog(@"%@",startDate);
-    NSDate *endDate = [dateFormatter dateFromString:_endTime];
-    
-    [self compareOneDay:lastYear withAnotherDay:endDate];
-    NSDateFormatter * dateFormatters = [[NSDateFormatter alloc] init];
-    [dateFormatters setDateFormat:@"yyyy年MM月dd日"];
-    
-    NSString *string = [dateFormatters stringFromDate:endDate];
-    
-    endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115+kScreenWidth-50, kScreenWidth-45, 30)];
-    endTimeLabel.textAlignment = NSTextAlignmentCenter;
-    endTimeLabel.text = [NSString stringWithFormat:@"到期时间：%@",string];
-    endTimeLabel.textColor = LIVING_COLOR;
-    endTimeLabel.font = TEXT_FONT_LEVEL_3;
-    [KeepImage addSubview:endTimeLabel];
-    NSMutableAttributedString *strs = [[NSMutableAttributedString alloc] initWithString:endTimeLabel.text];
-    [strs addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,11)];
-    
-    endTimeLabel.attributedText = strs;
-    
-    
+    if (_endTime && ![_endTime isEqual:[NSNull null]] && [_endTime isKindOfClass:[NSString class]] && ![_endTime isEqualToString:@""]) {
+        
+        NSDate * date = [NSDate date];
+        
+        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
+        NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
+        //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
+        
+        NSDate * lastYear = [date dateByAddingTimeInterval:time];
+        
+        //转化为字符串
+        NSString * startDate = [dateFormatter stringFromDate:lastYear];
+        NSLog(@"%@",startDate);
+        NSDate *endDate = [dateFormatter dateFromString:_endTime];
+        
+        if (endDate && [endDate isKindOfClass:[NSDate class]]) {
+            
+            [self compareOneDay:lastYear withAnotherDay:endDate];
+            NSDateFormatter * dateFormatters = [[NSDateFormatter alloc] init];
+            [dateFormatters setDateFormat:@"yyyy年MM月dd日"];
+            
+            NSString *string = [dateFormatters stringFromDate:endDate];
+            
+            endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115 + kScreenWidth - 50, kScreenWidth - 45, 30)];
+            
+            endTimeLabel.textAlignment  = NSTextAlignmentCenter;
+            endTimeLabel.text           = [NSString stringWithFormat:@"到期时间：%@",string];
+            endTimeLabel.textColor      = LIVING_COLOR;
+            endTimeLabel.font           = TEXT_FONT_LEVEL_3;
+            
+            [KeepImage addSubview:endTimeLabel];
+            
+            NSMutableAttributedString *strs = [[NSMutableAttributedString alloc] initWithString:endTimeLabel.text];
+            [strs addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,11)];
+            
+            endTimeLabel.attributedText = strs;
+        }
+    }
 }
 
 - (void)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
@@ -244,9 +251,6 @@
     }
     //NSLog(@"Both dates are the same");
 }
-
-
-
 
 #pragma mark  --成为加盟商
 
