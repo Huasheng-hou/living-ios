@@ -50,8 +50,11 @@
     [self.contentView addSubview:_imageV];
     
     _titleLabel = [UILabel new];
-    _titleLabel.font = [UIFont systemFontOfSize:16.f];
-    _titleLabel.textColor = TEXT_COLOR_LEVEL_1;
+    
+    _titleLabel.font            = [UIFont systemFontOfSize:14.f];
+    _titleLabel.numberOfLines   = 2;
+    _titleLabel.textColor       = TEXT_COLOR_LEVEL_1;
+    
     [self.contentView addSubview:_titleLabel];
     _titleLabel.userInteractionEnabled = YES;
     
@@ -61,14 +64,17 @@
     
     _contentLabel = [UILabel new];
     _contentLabel.numberOfLines  = 2;
-    _contentLabel.font = [UIFont systemFontOfSize:14.f];
+    _contentLabel.font = [UIFont systemFontOfSize:12.f];
     _contentLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_contentLabel];
     
     _nameLabel = [UILabel new];
-    _nameLabel.font = [UIFont systemFontOfSize:12.f];
-    _nameLabel.textColor = LIVING_COLOR;
-    _nameLabel.textAlignment = NSTextAlignmentCenter;
+    
+    _nameLabel.font             = [UIFont systemFontOfSize:10.f];
+    _nameLabel.textColor        = LIVING_COLOR;
+    _nameLabel.textAlignment    = NSTextAlignmentCenter;
+    _nameLabel.numberOfLines    = 1;
+    
     [self.contentView addSubview:_nameLabel];
     
     _nameLabel.userInteractionEnabled = YES;
@@ -78,13 +84,16 @@
     [_nameLabel addGestureRecognizer:tap];
     
     _timeLabel = [UILabel new];
-    _timeLabel.font = [UIFont systemFontOfSize:12.f];
-    _timeLabel.textColor = TEXT_COLOR_LEVEL_3;
-    _timeLabel.textAlignment = NSTextAlignmentCenter;
+    _timeLabel.font             = [UIFont systemFontOfSize:10.f];
+    _timeLabel.textColor        = TEXT_COLOR_LEVEL_3;
+    _timeLabel.textAlignment    = NSTextAlignmentCenter;
+    _timeLabel.numberOfLines    = 1;
+    
     [self.contentView addSubview:_timeLabel];
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 129.5, kScreenWidth-30, 0.5)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 129.5, kScreenWidth - 30, 0.5)];
     line.backgroundColor = LINE_COLOR;
+    
     [self.contentView addSubview:line];
 }
 
@@ -100,8 +109,9 @@
         _titleLabel.text = [NSString stringWithFormat:@"#%@#%@",list.type,list.articleTitle];
         
         NSInteger lenth = list.type.length;
+        
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_titleLabel.text];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,lenth+2)];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, lenth + 2)];
      
         _titleLabel.attributedText = str;
         _titleLabel.userInteractionEnabled  = YES;
@@ -111,6 +121,8 @@
         _titleLabel.text = list.articleTitle;
         _titleLabel.userInteractionEnabled = NO;
     }
+    
+    [self layoutSubviews];
 }
 
 - (void)layoutSubviews
@@ -125,24 +137,25 @@
     _imageV.frame = CGRectMake(15, 15, 120, 100);
     _titleLabel.frame = CGRectMake(145, 17, kScreenWidth-160, _titleLabel.bounds.size.height);
     
-    _contentLabel.frame = CGRectMake(145, 20+_titleLabel.bounds.size.height, kScreenWidth-160, 50);
+    _contentLabel.frame = CGRectMake(145, 20 + _titleLabel.bounds.size.height, kScreenWidth-160, 50);
     
     
-    _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 95, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-    
-    _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 95, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
-
-
-    
-}
-
--(void)articleNameClick
-{
-    NSLog(@"点击作者名字进入作者文章列表...");
-    if ([_delegate respondsToSelector:@selector(cellWillClick:)]) {
-        [_delegate cellWillClick:self];
+    if (kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width - _nameLabel.frame.size.width < 0) {
+        
+        _nameLabel.frame = CGRectMake(_nameLabel.frame.origin.x, _nameLabel.frame.origin.y, kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width, _nameLabel.frame.size.height);
     }
     
+    
+    _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 105, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
+}
+
+- (void)articleNameClick
+{
+    if ([_delegate respondsToSelector:@selector(cellWillClick:)]) {
+     
+        [_delegate cellWillClick:self];
+    }
 }
 
 - (void)articletitleClick
