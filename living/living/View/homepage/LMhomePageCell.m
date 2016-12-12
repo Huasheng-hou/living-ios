@@ -65,7 +65,7 @@
     _contentLabel = [UILabel new];
     _contentLabel.numberOfLines  = 2;
     _contentLabel.font = [UIFont systemFontOfSize:12.f];
-    _contentLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _contentLabel.textColor = TEXT_COLOR_LEVEL_3;
     [self.contentView addSubview:_contentLabel];
     
     _nameLabel = [UILabel new];
