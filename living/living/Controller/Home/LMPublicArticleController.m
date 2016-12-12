@@ -359,11 +359,21 @@ static NSMutableArray *cellDataArray;
 
 - (void)closeCell:(UIButton *)button
 {
+    button.enabled  = NO;
+    
     NSInteger row   = button.tag;
     
-    [cellDataArray removeObjectAtIndex:row];
+    NSLog(@"Currently closed cell is:%ld", row);
     
-    [projectImageArray removeObjectAtIndex:row];
+    if (cellDataArray.count > row) {
+        
+        [cellDataArray removeObjectAtIndex:row];
+    }
+    
+    if (projectImageArray.count > row) {
+        
+        [projectImageArray replaceObjectAtIndex:row withObject:@""];
+    }
     
     [self refreshData];
 }
@@ -502,11 +512,8 @@ static NSMutableArray *cellDataArray;
                                                    }
                                                    
                                                    if (urlArray.count == imgArr.count) {
-//                                                       
+
                                                        [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
-//                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
-//                                                                              withObject:nil
-//                                                                           waitUntilDone:YES];
                                                    }
                                                    
                                                } failed:^(NSError *error) {
@@ -514,11 +521,8 @@ static NSMutableArray *cellDataArray;
                                                    [urlArray addObject:@""];
                                                    
                                                    if (urlArray.count == imgArr.count) {
-//                                                       
+
                                                        [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
-//                                                       [self performSelectorOnMainThread:@selector(hideStateHud)
-//                                                                              withObject:nil
-//                                                                           waitUntilDone:YES];
                                                    }
                                                }];
         
