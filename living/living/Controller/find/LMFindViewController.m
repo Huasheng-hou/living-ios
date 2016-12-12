@@ -18,6 +18,7 @@
 
 #import "LMfindPraiseRequest.h"
 #import "LMLessonViewController.h"
+#import "LMSegmentViewController.h"
 
 #define PAGER_SIZE      20
 
@@ -270,9 +271,9 @@ LMFindCellDelegate
 {
     if (self.listData&&self.listData.count>0) {
         NSLog(@"语言课堂");
-//        LMLessonViewController *lessonVC = [[LMLessonViewController alloc] init];
-//        lessonVC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:lessonVC animated:YES];
+        LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
+        lessonVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:lessonVC animated:YES];
     }
 }
 

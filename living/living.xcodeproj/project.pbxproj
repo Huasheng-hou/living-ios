@@ -338,6 +338,12 @@
 		35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */; };
 		35D1B84E1DEC4C4C004BE2A2 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */; };
 		35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */; };
+		35DCDD381DFE6ECA00813172 /* LMSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD371DFE6ECA00813172 /* LMSegmentViewController.m */; };
+		35DCDD3A1DFE71E900813172 /* SegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD391DFE71E900813172 /* SegmentViewController.m */; };
+		35DCDD3D1DFE73D300813172 /* LMLessonAllViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD3C1DFE73D300813172 /* LMLessonAllViewController.m */; };
+		35DCDD411DFE888800813172 /* LMLivingRoomRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD401DFE888800813172 /* LMLivingRoomRequest.m */; };
+		35DCDD451DFE8C8A00813172 /* LMClassroomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD441DFE8C8A00813172 /* LMClassroomCell.m */; };
+		35DCDD4D1DFE951000813172 /* ClassroomVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD4C1DFE951000813172 /* ClassroomVO.m */; };
 		35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E686701DEFC89600B43000 /* LMArtcleFootView.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
@@ -1097,6 +1103,18 @@
 		35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
 		35D1B84F1DEC4CBD004BE2A2 /* GeocodeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodeAnnotation.h; sourceTree = "<group>"; };
 		35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodeAnnotation.m; sourceTree = "<group>"; };
+		35DCDD341DFE6E2E00813172 /* SegmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentViewController.h; sourceTree = "<group>"; };
+		35DCDD361DFE6ECA00813172 /* LMSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSegmentViewController.h; sourceTree = "<group>"; };
+		35DCDD371DFE6ECA00813172 /* LMSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSegmentViewController.m; sourceTree = "<group>"; };
+		35DCDD391DFE71E900813172 /* SegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentViewController.m; sourceTree = "<group>"; };
+		35DCDD3B1DFE73D300813172 /* LMLessonAllViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonAllViewController.h; sourceTree = "<group>"; };
+		35DCDD3C1DFE73D300813172 /* LMLessonAllViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLessonAllViewController.m; sourceTree = "<group>"; };
+		35DCDD3F1DFE888800813172 /* LMLivingRoomRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLivingRoomRequest.h; sourceTree = "<group>"; };
+		35DCDD401DFE888800813172 /* LMLivingRoomRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLivingRoomRequest.m; sourceTree = "<group>"; };
+		35DCDD431DFE8C8A00813172 /* LMClassroomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMClassroomCell.h; sourceTree = "<group>"; };
+		35DCDD441DFE8C8A00813172 /* LMClassroomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMClassroomCell.m; sourceTree = "<group>"; };
+		35DCDD4B1DFE951000813172 /* ClassroomVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassroomVO.h; sourceTree = "<group>"; };
+		35DCDD4C1DFE951000813172 /* ClassroomVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassroomVO.m; sourceTree = "<group>"; };
 		35E6866F1DEFC89600B43000 /* LMArtcleFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleFootView.h; sourceTree = "<group>"; };
 		35E686701DEFC89600B43000 /* LMArtcleFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleFootView.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
@@ -1254,8 +1272,14 @@
 		352905D41DF54DBF0062196C /* Lesson */ = {
 			isa = PBXGroup;
 			children = (
+				35DCDD341DFE6E2E00813172 /* SegmentViewController.h */,
+				35DCDD391DFE71E900813172 /* SegmentViewController.m */,
+				35DCDD361DFE6ECA00813172 /* LMSegmentViewController.h */,
+				35DCDD371DFE6ECA00813172 /* LMSegmentViewController.m */,
 				352905D51DF54E470062196C /* LMLessonViewController.h */,
 				352905D61DF54E470062196C /* LMLessonViewController.m */,
+				35DCDD3B1DFE73D300813172 /* LMLessonAllViewController.h */,
+				35DCDD3C1DFE73D300813172 /* LMLessonAllViewController.m */,
 				8E0E28AF1DF814AB00B735BE /* LMClassRoomViewController.h */,
 				8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */,
 			);
@@ -2030,7 +2054,6 @@
 				35B745681DDE97F2000AFA26 /* dot */,
 				35B7456F1DDE97F2000AFA26 /* HTTPProxy.h */,
 				35B745701DDE97F2000AFA26 /* HTTPProxy.m */,
-				35B745711DDE97F2000AFA26 /* LMFind */,
 				35B745721DDE97F2000AFA26 /* person */,
 				35B745961DDE97F2000AFA26 /* Request */,
 				35B7463B1DDE97F3000AFA26 /* SpeechSynthesizer */,
@@ -2053,13 +2076,6 @@
 				35B7456E1DDE97F2000AFA26 /* UITabBar+Badge.m */,
 			);
 			path = dot;
-			sourceTree = "<group>";
-		};
-		35B745711DDE97F2000AFA26 /* LMFind */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LMFind;
 			sourceTree = "<group>";
 		};
 		35B745721DDE97F2000AFA26 /* person */ = {
@@ -2142,6 +2158,7 @@
 		35B745961DDE97F2000AFA26 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				35DCDD3E1DFE882700813172 /* Classroom */,
 				35B745971DDE97F2000AFA26 /* Activity */,
 				35B745B61DDE97F3000AFA26 /* agreement */,
 				35B745B91DDE97F3000AFA26 /* Base */,
@@ -2563,6 +2580,7 @@
 		35B746581DDE97F3000AFA26 /* Find */ = {
 			isa = PBXGroup;
 			children = (
+				35DCDD4A1DFE951000813172 /* classroom */,
 				35B746591DDE97F3000AFA26 /* LMFindVO.h */,
 				35B7465A1DDE97F3000AFA26 /* LMFindVO.m */,
 			);
@@ -2835,6 +2853,7 @@
 		35B746C21DDE97F3000AFA26 /* find */ = {
 			isa = PBXGroup;
 			children = (
+				35DCDD421DFE8BBF00813172 /* classroomCell */,
 				8E0E28B21DF8234100B735BE /* ChatFace */,
 				8E0E28AB1DF80FF100B735BE /* SegmentView */,
 				35B746C31DDE97F3000AFA26 /* LMFindCell.h */,
@@ -2968,6 +2987,33 @@
 				35B747091DDE97F3000AFA26 /* HBShareView.m */,
 			);
 			path = Share;
+			sourceTree = "<group>";
+		};
+		35DCDD3E1DFE882700813172 /* Classroom */ = {
+			isa = PBXGroup;
+			children = (
+				35DCDD3F1DFE888800813172 /* LMLivingRoomRequest.h */,
+				35DCDD401DFE888800813172 /* LMLivingRoomRequest.m */,
+			);
+			path = Classroom;
+			sourceTree = "<group>";
+		};
+		35DCDD421DFE8BBF00813172 /* classroomCell */ = {
+			isa = PBXGroup;
+			children = (
+				35DCDD431DFE8C8A00813172 /* LMClassroomCell.h */,
+				35DCDD441DFE8C8A00813172 /* LMClassroomCell.m */,
+			);
+			path = classroomCell;
+			sourceTree = "<group>";
+		};
+		35DCDD4A1DFE951000813172 /* classroom */ = {
+			isa = PBXGroup;
+			children = (
+				35DCDD4B1DFE951000813172 /* ClassroomVO.h */,
+				35DCDD4C1DFE951000813172 /* ClassroomVO.m */,
+			);
+			path = classroom;
 			sourceTree = "<group>";
 		};
 		35E6866E1DEFC85100B43000 /* artcleDetail */ = {
@@ -3269,6 +3315,7 @@
 				35B747D91DDE97F4000AFA26 /* LMFriendListRequest.m in Sources */,
 				35B747F81DDE97F4000AFA26 /* LMOrderVO.m in Sources */,
 				35C377941DEE72AE007FC70A /* TableViewCell.m in Sources */,
+				35DCDD411DFE888800813172 /* LMLivingRoomRequest.m in Sources */,
 				35B7477A1DDE97F3000AFA26 /* UIImage+ImageFromArrayUtils.m in Sources */,
 				35B747B21DDE97F3000AFA26 /* LMCommentArticleRequest.m in Sources */,
 				35B747141DDE97F3000AFA26 /* RSADataSigner.m in Sources */,
@@ -3288,6 +3335,7 @@
 				35B748281DDE97F4000AFA26 /* LMRechargeButton.m in Sources */,
 				35B747AC1DDE97F3000AFA26 /* LMArticeDeleteReplyRequst.m in Sources */,
 				35B747471DDE97F3000AFA26 /* LMBesureOrderViewController.m in Sources */,
+				35DCDD381DFE6ECA00813172 /* LMSegmentViewController.m in Sources */,
 				35B747841DDE97F3000AFA26 /* SYPhotoViewController.m in Sources */,
 				35B7479E1DDE97F3000AFA26 /* LMEventEndRequest.m in Sources */,
 				35B7478C1DDE97F3000AFA26 /* HTTPProxy.m in Sources */,
@@ -3299,6 +3347,7 @@
 				35B7476E1DDE97F3000AFA26 /* SQMenuShowView.m in Sources */,
 				35B748111DDE97F4000AFA26 /* LMMemberViewCell.m in Sources */,
 				35B747BD1DDE97F3000AFA26 /* LMScanRequest.m in Sources */,
+				35DCDD4D1DFE951000813172 /* ClassroomVO.m in Sources */,
 				35B7480F1DDE97F4000AFA26 /* LMLeavemessagecell.m in Sources */,
 				35B747E41DDE97F4000AFA26 /* LMEventCommentVO.m in Sources */,
 				35B747B31DDE97F3000AFA26 /* LMCommentPraiseRequest.m in Sources */,
@@ -3376,6 +3425,7 @@
 				35B748351DDE97F4000AFA26 /* LMChooseButton.m in Sources */,
 				35B747A01DDE97F3000AFA26 /* LMActivityDetailRequest.m in Sources */,
 				35B7474A1DDE97F3000AFA26 /* LMMyPublicViewController.m in Sources */,
+				35DCDD3A1DFE71E900813172 /* SegmentViewController.m in Sources */,
 				35B7481F1DDE97F4000AFA26 /* WJLoopView.m in Sources */,
 				35B747741DDE97F3000AFA26 /* DACircularProgressView.m in Sources */,
 				35B747F61DDE97F4000AFA26 /* LMOrderBodyVO.m in Sources */,
@@ -3470,6 +3520,7 @@
 				35B747991DDE97F3000AFA26 /* LMMonthDetailList.m in Sources */,
 				35B747B11DDE97F3000AFA26 /* LMBannerrequest.m in Sources */,
 				35B747BC1DDE97F3000AFA26 /* LMNoticListRequest.m in Sources */,
+				35DCDD451DFE8C8A00813172 /* LMClassroomCell.m in Sources */,
 				35B747B61DDE97F3000AFA26 /* LMLivingHomeListRequest.m in Sources */,
 				35B747901DDE97F3000AFA26 /* LMBalanceList.m in Sources */,
 				35B747981DDE97F3000AFA26 /* LMMonthDetailBody.m in Sources */,
@@ -3478,6 +3529,7 @@
 				35B748241DDE97F4000AFA26 /* LMLiveRoomNameCell.m in Sources */,
 				35B747E51DDE97F4000AFA26 /* LMMemberVO.m in Sources */,
 				35B747D31DDE97F4000AFA26 /* LM2DcodeRequest.m in Sources */,
+				35DCDD3D1DFE73D300813172 /* LMLessonAllViewController.m in Sources */,
 				35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */,
 				8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */,
 				351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */,
