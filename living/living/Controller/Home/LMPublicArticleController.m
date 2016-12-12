@@ -230,9 +230,13 @@ static NSMutableArray *cellDataArray;
             
             array = projectImageArray[indexPath.row];
         
-        } else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        } else if (projectImageArray.count > indexPath.row && [projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
           
-            array = nil;
+            array   = nil;
+            
+        } else {
+            
+            array   = nil;
         }
         
         NSInteger margin        = 10;//图片之间的间隔
@@ -290,7 +294,7 @@ static NSMutableArray *cellDataArray;
 
         cell.imageV.delegate = self;
         
-        if (projectImageArray && projectImageArray.count > 0) {
+        if (projectImageArray && projectImageArray.count > indexPath.row) {
         
             cell.array  = projectImageArray[indexPath.row];
         }
@@ -541,16 +545,21 @@ static NSMutableArray *cellDataArray;
 
 - (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text
 {
-    NSMutableDictionary *dic=cellDataArray[row];
-    
-    if ([text isEqualToString:@""]) {
+    if (cellDataArray.count > row){
         
-        [dic setObject:@"" forKey:@"content"];
-    }else{
-        [dic setObject:text forKey:@"content"];
+        NSMutableDictionary     *dic    = cellDataArray[row];
+        
+        if ([text isEqualToString:@""]) {
+            
+            [dic setObject:@"" forKey:@"content"];
+            
+        } else {
+            
+            [dic setObject:text forKey:@"content"];
+        }
+        
+        [self refreshData];
     }
-    
-    [self refreshData];
 }
 
 #pragma mark 单元格刚创建后的数据
