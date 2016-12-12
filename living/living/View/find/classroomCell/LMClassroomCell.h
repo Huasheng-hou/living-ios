@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ClassroomVO.h"
 
 @interface LMClassroomCell : UITableViewCell
+
+-(void)setValue:(ClassroomVO *)list;
+
 
 @end

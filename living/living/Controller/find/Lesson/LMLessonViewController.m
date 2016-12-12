@@ -10,6 +10,7 @@
 #import "LMClassRoomViewController.h"
 #import "LMLivingRoomRequest.h"
 #import "LMClassroomCell.h"
+#import "ClassroomVO.h"
 
 @interface LMLessonViewController ()
 
@@ -77,7 +78,7 @@
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
-        NSArray *resultArr = [bodyDic objectForKey:@"list"];
+        NSArray *resultArr = [ClassroomVO ClassroomVOListWithArray:[bodyDic objectForKey:@"list"]];
         
         if (resultArr&&resultArr.count>0) {
            return resultArr;
@@ -145,6 +146,11 @@
     }
     
     if (self.listData.count > indexPath.row) {
+        ClassroomVO *vo = self.listData[indexPath.row];     
+            if (vo && [vo isKindOfClass:[ClassroomVO class]]) {
+                
+                [(LMClassroomCell *)cell setValue:vo];
+            }
         
     }
     return cell;
@@ -152,8 +158,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LMClassRoomViewController *classRoomVC=[[LMClassRoomViewController alloc]init];
-    [self.navigationController pushViewController:classRoomVC animated:YES];
+    if (self.listData.count>indexPath.row) {
+        
+    }
+
 }
 
 @end

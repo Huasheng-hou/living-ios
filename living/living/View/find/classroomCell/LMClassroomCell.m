@@ -45,8 +45,22 @@
     backView.layer.cornerRadius = 5;
     [self addSubview:backView];
     
+    headView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, kScreenWidth, 60)];
+    
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, self.frame.size.width-90, 30)];
+    titleLabel.textColor = TEXT_COLOR_LEVEL_2;
+    titleLabel.font = TEXT_FONT_LEVEL_1;
+    [backView addSubview:titleLabel];
+    
     
     
 }
+
+-(void)setValue:(ClassroomVO *)list
+{
+    titleLabel.text = list.voiceTitle;
+    
+}
+
 
 @end

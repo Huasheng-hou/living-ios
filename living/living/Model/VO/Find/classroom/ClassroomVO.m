@@ -83,27 +83,40 @@
             && [[dictionary objectForKey:@"voice_title"] isKindOfClass:[NSString class]]) {
             self.voiceTitle = [dictionary objectForKey:@"voice_title"];
         }
-//        if (nil != [dictionary objectForKey:@"number_of_votes"] && ![[dictionary objectForKey:@"number_of_votes"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"number_of_votes"] isKindOfClass:[NSNumber class]]) {
-//            self.numberOfVotes = [(NSNumber *)[dictionary objectForKey:@"number_of_votes"] intValue];
-//        }
-//   
-//        if (nil != [dictionary objectForKey:@"descrition"] && ![[dictionary objectForKey:@"descrition"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"descrition"] isKindOfClass:[NSString class]]) {
-//            self.descrition = [dictionary objectForKey:@"descrition"];
-//        }
-//        
-//        
-//        if (nil != [dictionary objectForKey:@"number_of_votes"] && ![[dictionary objectForKey:@"number_of_votes"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"number_of_votes"] isKindOfClass:[NSNumber class]]) {
-//            self.numberOfVotes = [(NSNumber *)[dictionary objectForKey:@"number_of_votes"] intValue];
-//        }
-//        
-//        if (nil != [dictionary objectForKey:@"descrition"] && ![[dictionary objectForKey:@"descrition"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"descrition"] isKindOfClass:[NSString class]]) {
-//            self.descrition = [dictionary objectForKey:@"descrition"];
-//        }
-//   
+        if (nil != [dictionary objectForKey:@"current_num"] && ![[dictionary objectForKey:@"current_num"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"current_num"] isKindOfClass:[NSNumber class]]) {
+            self.currentNum = [(NSNumber *)[dictionary objectForKey:@"current_num"] intValue];
+        }
+        if (nil != [dictionary objectForKey:@"start_time"] && ![[dictionary objectForKey:@"start_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"start_time"] isKindOfClass:[NSString class]]) {
+            
+            NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
+            
+            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            
+            self.startTime = [formatter dateFromString:[dictionary objectForKey:@"start_time"]];
+        }
+
+        if (nil != [dictionary objectForKey:@"per_cost"] && ![[dictionary objectForKey:@"per_cost"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"per_cost"] isKindOfClass:[NSString class]]) {
+            self.perCost = [dictionary objectForKey:@"per_cost"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"discount"] && ![[dictionary objectForKey:@"discount"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"discount"] isKindOfClass:[NSString class]]) {
+            self.discount = [dictionary objectForKey:@"discount"];
+        }
+
+        if (nil != [dictionary objectForKey:@"total_num"] && ![[dictionary objectForKey:@"total_num"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"total_num"] isKindOfClass:[NSNumber class]]) {
+            self.totalNum = [(NSNumber *)[dictionary objectForKey:@"total_num"] intValue];
+        }
+
+        if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            self.status = [dictionary objectForKey:@"status"];
+        }
+   
         
     }
     
