@@ -51,7 +51,7 @@
     [whiteView addSubview:line];
     
     CGFloat startX=15;
-    CGFloat sapce=20;
+    CGFloat sapce=15;
     NSInteger buttonW=(NSInteger)(kScreenWidth-startX*2-sapce*3)/4;
     
 //
