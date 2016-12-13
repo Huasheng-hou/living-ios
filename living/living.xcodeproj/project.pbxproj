@@ -34,6 +34,7 @@
 		355E7B791DFFE8C50089BAB1 /* LMPulicVoicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E7B781DFFE8C50089BAB1 /* LMPulicVoicViewController.m */; };
 		355E7B7E1DFFEA6A0089BAB1 /* LMPulicVoicemsgViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E7B7D1DFFEA6A0089BAB1 /* LMPulicVoicemsgViewCell.m */; };
 		355E7B811DFFF6C90089BAB1 /* LMChoosehostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E7B801DFFF6C90089BAB1 /* LMChoosehostViewController.m */; };
+		355E7B841E000BDB0089BAB1 /* LMHostChoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E7B831E000BDB0089BAB1 /* LMHostChoiceRequest.m */; };
 		356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */; };
 		35816FEB1DF7E3CC00D062CB /* LMArtcleTypeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */; };
 		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
@@ -447,6 +448,8 @@
 		355E7B7D1DFFEA6A0089BAB1 /* LMPulicVoicemsgViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPulicVoicemsgViewCell.m; sourceTree = "<group>"; };
 		355E7B7F1DFFF6C90089BAB1 /* LMChoosehostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChoosehostViewController.h; sourceTree = "<group>"; };
 		355E7B801DFFF6C90089BAB1 /* LMChoosehostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChoosehostViewController.m; sourceTree = "<group>"; };
+		355E7B821E000BDB0089BAB1 /* LMHostChoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHostChoiceRequest.h; sourceTree = "<group>"; };
+		355E7B831E000BDB0089BAB1 /* LMHostChoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHostChoiceRequest.m; sourceTree = "<group>"; };
 		356763231DF66B1B0062B0E1 /* LMPAHeadViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPAHeadViewCell.h; sourceTree = "<group>"; };
 		356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPAHeadViewCell.m; sourceTree = "<group>"; };
 		35816FE91DF7E3CC00D062CB /* LMArtcleTypeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeRequest.h; sourceTree = "<group>"; };
@@ -3083,6 +3086,8 @@
 				355E7B571DFF9F410089BAB1 /* LMLivingAllRequest.m */,
 				355E7B5C1DFFBD380089BAB1 /* LMVoiceDetailRequest.h */,
 				355E7B5D1DFFBD380089BAB1 /* LMVoiceDetailRequest.m */,
+				355E7B821E000BDB0089BAB1 /* LMHostChoiceRequest.h */,
+				355E7B831E000BDB0089BAB1 /* LMHostChoiceRequest.m */,
 			);
 			path = Classroom;
 			sourceTree = "<group>";
@@ -3481,6 +3486,7 @@
 				35B7480D1DDE97F4000AFA26 /* LMCouponChoseCell.m in Sources */,
 				35B747B51DDE97F3000AFA26 /* LMHomelistequest.m in Sources */,
 				35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */,
+				355E7B841E000BDB0089BAB1 /* LMHostChoiceRequest.m in Sources */,
 				35B747721DDE97F3000AFA26 /* FitColorConvertFactory.m in Sources */,
 				35B747971DDE97F3000AFA26 /* LMMonthDetailBill.m in Sources */,
 				35B7474B1DDE97F3000AFA26 /* LMNavMapViewController.m in Sources */,

@@ -22,7 +22,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "UIImageView+WebCache.h"
-#import "LMAddressChooseView.h"
+#import "LMChoosehostViewController.h"
 
 @interface LMPulicVoicViewController ()
 <
@@ -35,8 +35,8 @@ UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
-FitPickerViewDelegate
-
+FitPickerViewDelegate,
+LMhostchooseProtocol
 
 >
 {
@@ -58,6 +58,10 @@ FitPickerViewDelegate
     NSInteger addImageIndex;
     
     NSMutableArray *projectImageArray;
+    
+    NSString *typeString;
+    NSInteger  type;
+    NSString *UserId;
     
 }
 
@@ -81,6 +85,8 @@ static NSMutableArray *cellDataArray;
     [self projectDataStorageWithArrayIndex:0];
     
     [self creatUI];
+    type = 1;
+    UserId = @"";
     
 }
 
@@ -260,6 +266,9 @@ static NSMutableArray *cellDataArray;
         
         [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
         
+        [msgCell.hostButton addTarget:self action:@selector(hostButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        
         [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton setTag:0];
         
@@ -331,6 +340,22 @@ static NSMutableArray *cellDataArray;
     [projectImageArray removeObjectAtIndex:row];
     
     [self refreshData];
+}
+
+- (void)hostButtonAction
+{
+    LMChoosehostViewController    *typeVC     = [[LMChoosehostViewController alloc] init];
+    typeVC.delegate     = self;
+    
+    [self.navigationController pushViewController:typeVC animated:YES];
+}
+
+- (void)backhostName:(NSString *)liveRoom andId:(NSString *)userId
+{
+    type = 2;
+    typeString  = liveRoom;
+    UserId = userId;
+    [self.tableView reloadData];
 }
 
 

@@ -7,12 +7,13 @@
 //
 
 #import "LMChoosehostViewController.h"
+#import "LMHostChoiceRequest.h"
 
-@interface LMChoosehostViewController ()<UISearchBarDelegate>
+@interface LMChoosehostViewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
     UISearchBar *_searchBar;
-    NSMutableArray *searchList;
-    NSString *keyWord;
+    UITableView    * table;
+    NSDictionary *hostDic;
 }
 
 @end
@@ -21,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"选择主持";
     [self createSearchBar];
 }
 
@@ -29,71 +31,101 @@
     
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
-    _searchBar.placeholder = @"输入关键字检索联系方式";
+    _searchBar.placeholder = @"输入ID搜索";
     [self.view addSubview:_searchBar];
     
-    self.tableView   = [[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight+50,kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight+56+44))
-                                                   style:UITableViewStylePlain];
+    hostDic = [[NSMutableDictionary alloc]init];
     
-    [self.tableView setBackgroundColor:[UIColor colorWithRed:245/255.0f
-                                                       green:245/255.0f
-                                                        blue:245/255.0f
-                                                       alpha:1.0f]];
-    [self.tableView setDelegate:self];
-    [self.tableView setDataSource:self];
-    [self.view addSubview:self.tableView];
+    table= [[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight+10+50,kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight+10+64))
+                                          style:UITableViewStylePlain];
+    
+    [table setBackgroundColor:[UIColor colorWithRed:245/255.0f
+                                              green:245/255.0f
+                                               blue:245/255.0f
+                                              alpha:1.0f]];
+    [table setDelegate:self];
+    [table setDataSource:self];
+    [self.view addSubview:table];
+    
+    [table setShowsVerticalScrollIndicator:NO];
+    [table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
 }
 
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    searchBar.text=@"";
-    [searchBar setShowsCancelButton:NO animated:YES];
-    [searchBar resignFirstResponder];
-    self.tableView.allowsSelection=YES;
-    self.tableView.scrollEnabled=YES;
-    [self.tableView reloadData];
-}
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    
-    [searchBar setShowsCancelButton:NO animated:YES];
-    [searchBar resignFirstResponder];
-    self.tableView.allowsSelection=YES;
-    self.tableView.scrollEnabled=YES;
-    
-    if (searchList!= nil) {
-        [searchList removeAllObjects];
-    }
-    
-    //刷新表格
-    [self.tableView reloadData];
-
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)getdatarequest
 {
-    keyWord=searchText;
+    LMHostChoiceRequest *request = [[LMHostChoiceRequest alloc] initWithUserId:_keyWord];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getDataRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    
+    [proxy start];
+    
 }
 
 
 - (void)getDataRespond:(NSString *)resp
 {
+    hostDic = [NSMutableDictionary new];
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     if (bodyDict && [bodyDict objectForKey:@"result"]) {
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
-            searchList = [bodyDict objectForKey:@"host"];
+            hostDic = [bodyDict objectForKey:@"host"];
+            
             [self.tableView reloadData];
         }
     }
     
 }
 
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    if (_keyWord) {
+        [self getdatarequest];
+    }
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    _keyWord=searchText;
+}
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    [self.view endEditing:YES];
+    _searchBar.text=nil;
+    
+    [self getdatarequest];
+}
+
+
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    return YES;
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return [searchList count];
+    return 1 ;
 
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -109,16 +141,24 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
         
     }
-    cell.textLabel.text = @"测试";
+
+    cell.textLabel.text = [hostDic objectForKey:@"nickname"];
+
     
     return cell;
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+        
+            
+        [self.delegate backhostName:hostDic[@"nickname"] andId:hostDic[@"userId"]];
+        
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 

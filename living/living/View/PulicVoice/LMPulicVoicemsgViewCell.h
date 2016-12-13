@@ -27,7 +27,7 @@
 
 @property(nonatomic,strong)LMTimeButton *teacherButton;
 
-@property(nonatomic,strong)LMTimeButton *timeButton;
+@property(nonatomic,strong)LMTimeButton *hostButton;
 
 @property(nonatomic,strong)LMTimeButton *dateButton;
 
@@ -38,5 +38,8 @@
 
 @property(nonatomic,strong)UIImageView *imgView;
 
+@property(nonatomic,strong)UITextView *applyTextView;
+
+@property(nonatomic,strong)UILabel *msgLabel;
 
 @end

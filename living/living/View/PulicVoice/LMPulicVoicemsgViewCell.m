@@ -37,16 +37,25 @@
     lineView.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView];
     
+    //选择主持
+    UILabel *addressLable = [UILabel new];
+    addressLable.text = @"选择主持";
+    addressLable.font = TEXT_FONT_LEVEL_1;
+    addressLable.textColor = TEXT_COLOR_LEVEL_2;
+    [addressLable sizeToFit];
+    addressLable.frame = CGRectMake(10, 50, addressLable.bounds.size.width, 30);
+    [self.contentView addSubview:addressLable];
+    
     //联系电话
     UILabel *phoneLable = [UILabel new];
     phoneLable.text = @"联系电话";
     phoneLable.font = TEXT_FONT_LEVEL_1;
     phoneLable.textColor = TEXT_COLOR_LEVEL_2;
     [phoneLable sizeToFit];
-    phoneLable.frame = CGRectMake(10, 50, titleW, 30);
+    phoneLable.frame = CGRectMake(10, 95, titleW, 30);
     [self.contentView addSubview:phoneLable];
     
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 85, kScreenWidth-30-titleW, 0.5)];
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 345, kScreenWidth-30-titleW, 0.5)];
     lineView1.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView1];
     //联系姓名
@@ -55,7 +64,7 @@
     nameLable.font = TEXT_FONT_LEVEL_1;
     nameLable.textColor = TEXT_COLOR_LEVEL_2;
     [nameLable sizeToFit];
-    nameLable.frame = CGRectMake(10, 95, titleW, 30);
+    nameLable.frame = CGRectMake(10, 140, titleW, 30);
     [self.contentView addSubview:nameLable];
     
     UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 130, kScreenWidth-30-titleW, 0.5)];
@@ -67,7 +76,7 @@
     freeLable.font = TEXT_FONT_LEVEL_1;
     freeLable.textColor = TEXT_COLOR_LEVEL_2;
     [freeLable sizeToFit];
-    freeLable.frame = CGRectMake(10, 140, titleW, 30);
+    freeLable.frame = CGRectMake(10, 185, titleW, 30);
     [self.contentView addSubview:freeLable];
     
     UIView *lineView8 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 175, kScreenWidth-30-titleW, 0.5)];
@@ -80,25 +89,25 @@
     VIPLable.font = TEXT_FONT_LEVEL_1;
     VIPLable.textColor = TEXT_COLOR_LEVEL_2;
     [VIPLable sizeToFit];
-    VIPLable.frame = CGRectMake(10, 185, titleW, 30);
+    VIPLable.frame = CGRectMake(10, 230, titleW, 30);
     [self.contentView addSubview:VIPLable];
     
     UIView *lineView9 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 220, kScreenWidth-30-titleW, 0.5)];
     lineView9.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView9];
     
-//    //加盟商费用
-//    UILabel *couponLable = [UILabel new];
-//    couponLable.text = @"加盟商价格";
-//    couponLable.font = TEXT_FONT_LEVEL_1;
-//    couponLable.textColor = TEXT_COLOR_LEVEL_2;
-//    [couponLable sizeToFit];
-//    couponLable.frame = CGRectMake(10, 230, couponLable.bounds.size.width, 30);
-//    [self.contentView addSubview:couponLable];
-//    
-//    UIView *lineView10 = [[UIView alloc] initWithFrame:CGRectMake(20+couponLable.bounds.size.width, 265, kScreenWidth-30-couponLable.bounds.size.width, 0.5)];
-//    lineView10.backgroundColor = LINE_COLOR;
-//    [self.contentView addSubview:lineView10];
+    //加盟商费用
+    UILabel *couponLable = [UILabel new];
+    couponLable.text = @"加盟商价格";
+    couponLable.font = TEXT_FONT_LEVEL_1;
+    couponLable.textColor = TEXT_COLOR_LEVEL_2;
+    [couponLable sizeToFit];
+    couponLable.frame = CGRectMake(10, 275, couponLable.bounds.size.width, 30);
+    [self.contentView addSubview:couponLable];
+    
+    UIView *lineView10 = [[UIView alloc] initWithFrame:CGRectMake(20+couponLable.bounds.size.width, 300, kScreenWidth-30-couponLable.bounds.size.width, 0.5)];
+    lineView10.backgroundColor = LINE_COLOR;
+    [self.contentView addSubview:lineView10];
     
     //参加人数
     UILabel *joinLable = [UILabel new];
@@ -106,11 +115,11 @@
     joinLable.font = TEXT_FONT_LEVEL_1;
     joinLable.textColor = TEXT_COLOR_LEVEL_2;
     [joinLable sizeToFit];
-    joinLable.frame = CGRectMake(10, 275, titleW, 30);
+    joinLable.frame = CGRectMake(10, 320, titleW, 30);
     [self.contentView addSubview:joinLable];
     
     
-    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 300, kScreenWidth-30-titleW, 0.5)];
+    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 265, kScreenWidth-30-titleW, 0.5)];
     lineView3.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView3];
     //开始时间
@@ -119,7 +128,7 @@
     startLable.font = TEXT_FONT_LEVEL_1;
     startLable.textColor = TEXT_COLOR_LEVEL_2;
     [startLable sizeToFit];
-    startLable.frame = CGRectMake(10, 320, startLable.bounds.size.width, 30);
+    startLable.frame = CGRectMake(10, 365, startLable.bounds.size.width, 30);
     [self.contentView addSubview:startLable];
     
     
@@ -130,28 +139,9 @@
     stopLable.font = TEXT_FONT_LEVEL_1;
     stopLable.textColor = TEXT_COLOR_LEVEL_2;
     [stopLable sizeToFit];
-    stopLable.frame = CGRectMake(10, 365, stopLable.bounds.size.width, 30);
+    stopLable.frame = CGRectMake(10, 410, stopLable.bounds.size.width, 30);
     [self.contentView addSubview:stopLable];
-//    //活动地址
-//    UILabel *addressLable = [UILabel new];
-//    addressLable.text = @"活动地址";
-//    addressLable.font = TEXT_FONT_LEVEL_1;
-//    addressLable.textColor = TEXT_COLOR_LEVEL_2;
-//    [addressLable sizeToFit];
-//    addressLable.frame = CGRectMake(10, 410, addressLable.bounds.size.width, 30);
-//    [self.contentView addSubview:addressLable];
-//    //地址详情
-//    UILabel *dspLable = [UILabel new];
-//    dspLable.text = @"地址详情";
-//    dspLable.font = TEXT_FONT_LEVEL_1;
-//    dspLable.textColor = TEXT_COLOR_LEVEL_2;
-//    [dspLable sizeToFit];
-//    dspLable.frame = CGRectMake(10, 455, dspLable.bounds.size.width, 30);
-//    [self.contentView addSubview:dspLable];
-//    
-//    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 485, kScreenWidth-30-titleW, 0.5)];
-//    lineView4.backgroundColor = LINE_COLOR;
-//    [self.contentView addSubview:lineView4];
+
     
     
     //报名须知
@@ -160,7 +150,7 @@
     msgLabel.font = TEXT_FONT_LEVEL_1;
     msgLabel.textColor = TEXT_COLOR_LEVEL_2;
     [msgLabel sizeToFit];
-    msgLabel.frame = CGRectMake(10, 500, msgLabel.bounds.size.width, 30);
+    msgLabel.frame = CGRectMake(10, 455, msgLabel.bounds.size.width, 30);
     [self.contentView addSubview:msgLabel];
     
     
@@ -171,7 +161,7 @@
     imageLable.font = TEXT_FONT_LEVEL_1;
     imageLable.textColor = TEXT_COLOR_LEVEL_2;
     [imageLable sizeToFit];
-    imageLable.frame = CGRectMake(10, 590, imageLable.bounds.size.width, 30);
+    imageLable.frame = CGRectMake(10, 545, imageLable.bounds.size.width, 30);
     [self.contentView addSubview:imageLable];
     
     UILabel *imagemsgLable = [UILabel new];
@@ -179,7 +169,7 @@
     imagemsgLable.font = TEXT_FONT_LEVEL_3;
     imagemsgLable.textColor = TEXT_COLOR_LEVEL_3;
     [imagemsgLable sizeToFit];
-    imagemsgLable.frame = CGRectMake(15+imageLable.bounds.size.width, 590, imagemsgLable.bounds.size.width, 30);
+    imagemsgLable.frame = CGRectMake(15+imageLable.bounds.size.width, 545, imagemsgLable.bounds.size.width, 30);
     [self.contentView addSubview:imagemsgLable];
     
     
@@ -189,20 +179,35 @@
     _titleTF.placeholder = @"请输入活动标题";
     [self.contentView addSubview:_titleTF];
     
-    _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 50, kScreenWidth- titleW-30, 30)];
+    
+    //活动地址
+    
+    _hostButton = [LMTimeButton buttonWithType:UIButtonTypeSystem];
+    _hostButton.layer.cornerRadius = 5;
+    _hostButton.layer.borderColor = LINE_COLOR.CGColor;
+    _hostButton.layer.borderWidth = 0.5;
+    _hostButton.textLabel.text =  @"点击选择主持(非必选项)";
+    [_hostButton.textLabel sizeToFit];
+    _hostButton.textLabel.frame = CGRectMake(5, 0, kScreenWidth-titleW-30, 30);
+    [_hostButton sizeToFit];
+    _hostButton.frame = CGRectMake(titleW+20, 50, kScreenWidth-titleW-30, 30);
+    [self.contentView addSubview:_hostButton];
+    
+    
+    _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 95, kScreenWidth- titleW-30, 30)];
     _phoneTF.font = TEXT_FONT_LEVEL_2;
     _phoneTF.returnKeyType = UIReturnKeyDone;
     _phoneTF.keyboardType = UIKeyboardTypePhonePad;
     _phoneTF.placeholder = @"请输入活动联系人号码";
     [self.contentView addSubview:_phoneTF];
     
-    _nameTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 95, kScreenWidth- titleW-30, 30)];
+    _nameTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 140, kScreenWidth- titleW-30, 30)];
     _nameTF.font = TEXT_FONT_LEVEL_2;
     _nameTF.returnKeyType = UIReturnKeyDone;
     _nameTF.placeholder = @"请输入活动联系人姓名";
     [self.contentView addSubview:_nameTF];
     
-    _freeTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 140, kScreenWidth- titleW-30, 30)];
+    _freeTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 185, kScreenWidth- titleW-30, 30)];
     _freeTF.font = TEXT_FONT_LEVEL_2;
     _freeTF.returnKeyType = UIReturnKeyDone;
     _freeTF.placeholder = @"请输入活动费用";
@@ -210,23 +215,23 @@
     [self.contentView addSubview:_freeTF];
     
     //会员费用
-    _VipFreeTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 185, kScreenWidth- titleW-30, 30)];
+    _VipFreeTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 230, kScreenWidth- titleW-30, 30)];
     _VipFreeTF.font = TEXT_FONT_LEVEL_2;
     _VipFreeTF.returnKeyType = UIReturnKeyDone;
     _VipFreeTF.placeholder = @"请输入会员费用";
     _VipFreeTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_VipFreeTF];
     
-//    //加盟商费用
-//    _couponTF = [[UITextField alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+20, 230, kScreenWidth- titleW-30, 30)];
-//    _couponTF.font = TEXT_FONT_LEVEL_2;
-//    _couponTF.returnKeyType = UIReturnKeyDone;
-//    _couponTF.placeholder = @"请输入加盟商费用";
-//    _couponTF.keyboardType = UIKeyboardTypeNumberPad;
-//    [self.contentView addSubview:_couponTF];
+    //加盟商费用
+    _couponTF = [[UITextField alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+20, 275, kScreenWidth- titleW-30, 30)];
+    _couponTF.font = TEXT_FONT_LEVEL_2;
+    _couponTF.returnKeyType = UIReturnKeyDone;
+    _couponTF.placeholder = @"请输入加盟商费用";
+    _couponTF.keyboardType = UIKeyboardTypeNumberPad;
+    [self.contentView addSubview:_couponTF];
     
     //参加人数
-    _joincountTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 275, kScreenWidth- titleW-30, 30)];
+    _joincountTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 320, kScreenWidth- titleW-30, 30)];
     _joincountTF.font = TEXT_FONT_LEVEL_2;
     _joincountTF.returnKeyType = UIReturnKeyDone;
     _joincountTF.placeholder = @"请输入参加人数";
@@ -244,7 +249,7 @@
     [_dateButton.textLabel sizeToFit];
     _dateButton.textLabel.frame = CGRectMake(5, 0, _dateButton.textLabel.bounds.size.width+30, 30);
     [_dateButton sizeToFit];
-    _dateButton.frame = CGRectMake(titleW+20, 320, kScreenWidth-titleW-30, 30);
+    _dateButton.frame = CGRectMake(titleW+20, 365, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_dateButton];
     
     
@@ -257,22 +262,36 @@
     [_endDateButton.textLabel sizeToFit];
     _endDateButton.textLabel.frame = CGRectMake(5, 0, _endDateButton.textLabel.bounds.size.width+30, 30);
     [_endDateButton sizeToFit];
-    _endDateButton.frame = CGRectMake(titleW+20, 365, kScreenWidth-titleW-30, 30);
+    _endDateButton.frame = CGRectMake(titleW+20, 410, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_endDateButton];
     
 
     
     
-    
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 500, kScreenWidth-(titleW+30), 80)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 455, kScreenWidth-(titleW+30), 80)];
     backView.layer.borderColor = LINE_COLOR.CGColor;
     backView.layer.borderWidth = 0.5;
     backView.layer.cornerRadius = 5;
     [self.contentView addSubview:backView];
     
-
+    _applyTextView = [[UITextView alloc] initWithFrame:CGRectMake(3, 0, kScreenWidth-(titleW+30+6), 80)];
     
-    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 625, kScreenWidth, kScreenWidth*3/5)];
+    _msgLabel = [UILabel new];
+    _msgLabel.text = @"请输入报名须知内容";
+    _msgLabel.font = TEXT_FONT_LEVEL_2;
+    _msgLabel.textColor = TEXT_COLOR_LEVEL_2;
+    [_msgLabel sizeToFit];
+    _msgLabel.frame = CGRectMake(5, 0, _msgLabel.bounds.size.width, 25);
+    [_applyTextView addSubview:_msgLabel];
+    
+    [backView addSubview:_applyTextView];
+    
+    
+    
+    
+    
+    
+    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 580, kScreenWidth, kScreenWidth*3/5)];
     imgBackView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
     [self.contentView addSubview:imgBackView];
     
@@ -283,20 +302,26 @@
     
     _imageButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _imageButton.backgroundColor = [UIColor clearColor];
-    _imageButton.frame = CGRectMake(0, 625, kScreenWidth, kScreenWidth*3/5);
+    _imageButton.frame = CGRectMake(0, 580, kScreenWidth, kScreenWidth*3/5);
     [self.contentView addSubview:_imageButton];
     
     _imgView = [[UIImageView alloc] init];
-    _imgView.frame = CGRectMake(0, 625, kScreenWidth, kScreenWidth*3/5);
+    _imgView.frame = CGRectMake(0, 580, kScreenWidth, kScreenWidth*3/5);
     [self.contentView addSubview:_imgView];
     
     
     for (int i = 0; i<11; i++) {
-
+        
+        
+        if (i ==6) {
+            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+10, 10+45*i, 6, 5)];
+            keyImage.image = [UIImage imageNamed:@"key"];
+            [self.contentView addSubview:keyImage];
+        }else{
             UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 10+45*i, 6, 5)];
             keyImage.image = [UIImage imageNamed:@"key"];
             [self.contentView addSubview:keyImage];
-    
+        }
         
     }
     
@@ -307,4 +332,3 @@
 }
 
 @end
-
