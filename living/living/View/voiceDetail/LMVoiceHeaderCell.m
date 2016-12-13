@@ -1,17 +1,18 @@
 //
-//  LMActivityheadCell.m
+//  LMVoiceHeaderCell.m
 //  living
 //
-//  Created by Ding on 16/9/30.
+//  Created by Ding on 2016/12/13.
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "LMActivityheadCell.h"
+#import "LMVoiceHeaderCell.h"
 #import "FitConsts.h"
 
-@interface LMActivityheadCell () {
+@interface LMVoiceHeaderCell () {
     float _xScale;
     float _yScale;
+    CGFloat conHigh;
 }
 
 
@@ -26,10 +27,14 @@
 
 @property (nonatomic, strong) UIButton *shareButton;
 
+@property (nonatomic, strong) UILabel *joinLabel;
+
+@property (nonatomic, strong) UIView *imageArrayView;
+
 
 @end
 
-@implementation LMActivityheadCell
+@implementation LMVoiceHeaderCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,13 +59,7 @@
     [_imageV addGestureRecognizer:tapImage];
     
     
-    //标题
-    _titleLabel = [UILabel new];
 
-    _titleLabel.numberOfLines  = 2;
-    _titleLabel.font = [UIFont systemFontOfSize:16.f];
-    _titleLabel.textColor = [UIColor whiteColor];
-    [self.contentView addSubview:_titleLabel];
     
     //活动人数
     _countLabel = [UILabel new];
@@ -101,56 +100,77 @@
     [self.contentView addSubview:line];
     
     
-    _shareButton=[UIButton new];
-    [_shareButton addTarget:self action:@selector(shareButton:) forControlEvents:UIControlEventTouchUpInside];
-    [_shareButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-    _shareButton.layer.cornerRadius = 3;
-//    _shareButton.layer.borderColor =LIVING_COLOR.CGColor;
-//    _shareButton.layer.borderWidth = 0.5;
-    [self.contentView addSubview:_shareButton];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 59.5+kScreenWidth*3/5, kScreenWidth, 0.5)];
+    lineView.backgroundColor = LINE_COLOR;
+    [self.contentView addSubview:lineView];
     
+    //标题
+    _titleLabel = [UILabel new];
+    _titleLabel.numberOfLines  = 0;
+    _titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [self.contentView addSubview:_titleLabel];
+    
+    //活动参与者
+    _joinLabel = [UILabel new];
+    _joinLabel.textColor = TEXT_COLOR_LEVEL_2;
+    _joinLabel.font = [UIFont systemFontOfSize:14.f];
+    [self.contentView addSubview:_joinLabel];
+    
+    _imageArrayView = [UIView new];
+    _imageArrayView.backgroundColor = [UIColor redColor];
+    [self.contentView addSubview:_imageArrayView];
     
     
 }
 
--(void)setValue:(LMEventBodyVO *)event
+-(void)setValue:(LMVoiceDetailVO *)event
 {
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:event.eventImg]];
-
+    [_imageV sd_setImageWithURL:[NSURL URLWithString:event.image]];
+    
     if (event.publishName ==nil) {
         _nameLabel.text = @"";
     }else{
-        _nameLabel.text = [NSString stringWithFormat:@"发布者：%@",event.publishName];
+        _nameLabel.text = [NSString stringWithFormat:@"本期讲师：%@",event.publishName];
     }
-//    _titleLabel.text = event.eventName;
-    [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
-    _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
     
     
-    switch (event.status) {
-        case 1:
+
+    [_headV sd_setImageWithURL:[NSURL URLWithString:event.avatar]];
+    _countLabel.text = [NSString stringWithFormat:@"人数：%@人",event.number];
+    
+    
+//    switch (event.status) {
+//        case 1:
             [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
-            break;
-        case 2:
-            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
-            _joinButton.userInteractionEnabled = NO;
-            break;
-        case 3:
-            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
-            _joinButton.userInteractionEnabled = NO;
-            break;
-        case 4:
-            [_joinButton setTitle:@"已完结" forState:UIControlStateNormal];
-            _joinButton.userInteractionEnabled = NO;
-            break;
-        case 5:
-            [_joinButton setTitle:@"删除" forState:UIControlStateNormal];
-            _joinButton.userInteractionEnabled = NO;
-            break;
-            
-        default:
-            break;
-    }
+//            break;
+//        case 2:
+//            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
+//            _joinButton.userInteractionEnabled = NO;
+//            break;
+//        case 3:
+//            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+//            _joinButton.userInteractionEnabled = NO;
+//            break;
+//        case 4:
+//            [_joinButton setTitle:@"已完结" forState:UIControlStateNormal];
+//            _joinButton.userInteractionEnabled = NO;
+//            break;
+//        case 5:
+//            [_joinButton setTitle:@"删除" forState:UIControlStateNormal];
+//            _joinButton.userInteractionEnabled = NO;
+//            break;
+//            
+//        default:
+//            break;
+//    }
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
+    conHigh = [event.voiceTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    _titleLabel.text = event.voiceTitle;
+    
+    _joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",event.number];
+    
+    
     
     
 }
@@ -170,23 +190,32 @@
     [_titleLabel sizeToFit];
     [_countLabel sizeToFit];
     [_headV sizeToFit];
-    [_shareButton sizeToFit];
-    
+    [_joinLabel sizeToFit];
+    [_imageArrayView sizeToFit];
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
-    
-    _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height-_titleLabel.bounds.size.height*2, kScreenWidth-30, _titleLabel.bounds.size.height*2);
-    
     _headV.frame = CGRectMake(15, 10+_imageV.bounds.size.height, 40, 40);
     
     _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, kScreenWidth-65-80-61, _nameLabel.bounds.size.height);
     _countLabel.frame = CGRectMake(61, 17+_imageV.bounds.size.height+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, self.contentView.bounds.size.height-10-kScreenWidth*3/5);
+    _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, 60);
     
-    _shareButton.frame = CGRectMake(kScreenWidth-71-80, kScreenWidth*3/5+15, 80, 30);
-
+    
+    _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height +65, kScreenWidth-30, conHigh);
+    
+    _joinLabel.frame = CGRectMake(15, _imageV.bounds.size.height +70+conHigh, kScreenWidth-30, 30);
+    _imageArrayView.frame = CGRectMake(0, _imageV.bounds.size.height +110+conHigh, kScreenWidth, 30);
+    
 }
+
++ (CGFloat)cellHigth:(NSString *)titleString
+{
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
+    CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    return (60+conHigh+kScreenWidth*3/5 +80+10);
+}
+
 
 - (void)onApply:(id)sender
 {
@@ -202,14 +231,5 @@
         [_delegate cellClickImage:self];
     }
 }
-
--(void)shareButton:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(cellShareImage:)]) {
-        [_delegate cellShareImage:self];
-    }
-}
-
-
 
 @end

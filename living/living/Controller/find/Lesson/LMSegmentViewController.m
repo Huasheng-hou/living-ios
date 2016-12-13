@@ -11,6 +11,7 @@
 #import "LMLessonAllViewController.h"
 #import "SegmentViewController.h"
 #import "FitConsts.h"
+#import "LMPulicVoicViewController.h"
 
 static CGFloat const ButtonHeight = 50;
 
@@ -26,7 +27,7 @@ static CGFloat const ButtonHeight = 50;
     self.navigationItem.title = @"语音课堂";
     
     SegmentViewController *vc = [[SegmentViewController alloc]init];
-    NSArray *titleArray = @[@"进行中",@"全部"];
+    NSArray *titleArray = @[@"未完成",@"已完成"];
     
     vc.titleArray = titleArray;
     NSMutableArray *controlArray = [[NSMutableArray alloc]init];
@@ -44,6 +45,23 @@ static CGFloat const ButtonHeight = 50;
     [vc initSegment];
     [vc addParentController:self];
     
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(publicAction)];
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
 }
+
+- (void)publicAction
+{
+    LMPulicVoicViewController *publicVC = [[LMPulicVoicViewController alloc] init];
+    [publicVC setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:publicVC animated:YES];
+}
+
+
 
 @end

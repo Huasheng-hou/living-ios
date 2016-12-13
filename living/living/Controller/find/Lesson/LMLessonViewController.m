@@ -8,6 +8,7 @@
 
 #import "LMLessonViewController.h"
 #import "LMClassRoomViewController.h"
+#import "LMClassroomDetailViewController.h"
 #import "LMLivingRoomRequest.h"
 #import "LMClassroomCell.h"
 #import "ClassroomVO.h"
@@ -159,6 +160,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.listData.count>indexPath.row) {
+        ClassroomVO *vo = self.listData[indexPath.row];
+        if (![vo.status isEqual:@"open"]) {
+            LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
+            voiceVC.voiceUUid = vo.voiceUuid;
+            [voiceVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:voiceVC animated:YES];
+            
+        }else{
+            LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
+            [roomVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:roomVC animated:YES];
+        }
         
     }
 
