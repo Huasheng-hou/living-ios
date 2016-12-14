@@ -42,6 +42,21 @@
 		35816FF41DF7F20E00D062CB /* EditImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF31DF7F20E00D062CB /* EditImageView.m */; };
 		35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */; };
 		35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */; };
+		35980BB31E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BB21E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m */; };
+		35980BB51E0123080054EB05 /* MoreFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BB41E0123080054EB05 /* MoreFunctionView.m */; };
+		35980BBA1E0130E80054EB05 /* LMMyvoicSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BB91E0130E80054EB05 /* LMMyvoicSegmentViewController.m */; };
+		35980BBF1E0132020054EB05 /* LMMyjoinSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BBE1E0132020054EB05 /* LMMyjoinSegmentViewController.m */; };
+		35980BC21E0133CD0054EB05 /* LMMyJoin1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BC11E0133CD0054EB05 /* LMMyJoin1ViewController.m */; };
+		35980BC51E0133E60054EB05 /* LMMyJoin2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BC41E0133E60054EB05 /* LMMyJoin2ViewController.m */; };
+		35980BC81E0134960054EB05 /* LMMyVoice1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BC71E0134960054EB05 /* LMMyVoice1ViewController.m */; };
+		35980BCB1E0134AA0054EB05 /* LMMyVoice2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BCA1E0134AA0054EB05 /* LMMyVoice2ViewController.m */; };
+		35980BCF1E01388F0054EB05 /* LMMyjoinVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BCE1E01388F0054EB05 /* LMMyjoinVoiceRequest.m */; };
+		35980BD21E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BD11E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m */; };
+		35980BD51E0138FD0054EB05 /* LMMyPublicVoicRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BD41E0138FD0054EB05 /* LMMyPublicVoicRequest.m */; };
+		35980BD81E0139210054EB05 /* LMMyPublicVoicFinish.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BD71E0139210054EB05 /* LMMyPublicVoicFinish.m */; };
+		35980BDB1E014C340054EB05 /* LMVoiceDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BDA1E014C340054EB05 /* LMVoiceDeleteRequest.m */; };
+		35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */; };
+		35980BE11E014DFD0054EB05 /* LMVoiceEndRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
@@ -466,6 +481,36 @@
 		35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicVoiceRequest.m; sourceTree = "<group>"; };
 		35980BAE1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicVoicProjectRequest.h; sourceTree = "<group>"; };
 		35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicVoicProjectRequest.m; sourceTree = "<group>"; };
+		35980BB11E011B6D0054EB05 /* LMVoiceCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceCommentTableViewCell.h; sourceTree = "<group>"; };
+		35980BB21E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceCommentTableViewCell.m; sourceTree = "<group>"; };
+		35980BB41E0123080054EB05 /* MoreFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreFunctionView.m; sourceTree = "<group>"; };
+		35980BB61E01230C0054EB05 /* MoreFunctionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoreFunctionView.h; sourceTree = "<group>"; };
+		35980BB81E0130E80054EB05 /* LMMyvoicSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyvoicSegmentViewController.h; sourceTree = "<group>"; };
+		35980BB91E0130E80054EB05 /* LMMyvoicSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyvoicSegmentViewController.m; sourceTree = "<group>"; };
+		35980BBD1E0132020054EB05 /* LMMyjoinSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyjoinSegmentViewController.h; sourceTree = "<group>"; };
+		35980BBE1E0132020054EB05 /* LMMyjoinSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyjoinSegmentViewController.m; sourceTree = "<group>"; };
+		35980BC01E0133CD0054EB05 /* LMMyJoin1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyJoin1ViewController.h; sourceTree = "<group>"; };
+		35980BC11E0133CD0054EB05 /* LMMyJoin1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyJoin1ViewController.m; sourceTree = "<group>"; };
+		35980BC31E0133E60054EB05 /* LMMyJoin2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyJoin2ViewController.h; sourceTree = "<group>"; };
+		35980BC41E0133E60054EB05 /* LMMyJoin2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyJoin2ViewController.m; sourceTree = "<group>"; };
+		35980BC61E0134960054EB05 /* LMMyVoice1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyVoice1ViewController.h; sourceTree = "<group>"; };
+		35980BC71E0134960054EB05 /* LMMyVoice1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyVoice1ViewController.m; sourceTree = "<group>"; };
+		35980BC91E0134AA0054EB05 /* LMMyVoice2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyVoice2ViewController.h; sourceTree = "<group>"; };
+		35980BCA1E0134AA0054EB05 /* LMMyVoice2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyVoice2ViewController.m; sourceTree = "<group>"; };
+		35980BCD1E01388F0054EB05 /* LMMyjoinVoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyjoinVoiceRequest.h; sourceTree = "<group>"; };
+		35980BCE1E01388F0054EB05 /* LMMyjoinVoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyjoinVoiceRequest.m; sourceTree = "<group>"; };
+		35980BD01E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyJoinFinishVoiceRequest.h; sourceTree = "<group>"; };
+		35980BD11E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyJoinFinishVoiceRequest.m; sourceTree = "<group>"; };
+		35980BD31E0138FD0054EB05 /* LMMyPublicVoicRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyPublicVoicRequest.h; sourceTree = "<group>"; };
+		35980BD41E0138FD0054EB05 /* LMMyPublicVoicRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyPublicVoicRequest.m; sourceTree = "<group>"; };
+		35980BD61E0139210054EB05 /* LMMyPublicVoicFinish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyPublicVoicFinish.h; sourceTree = "<group>"; };
+		35980BD71E0139210054EB05 /* LMMyPublicVoicFinish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyPublicVoicFinish.m; sourceTree = "<group>"; };
+		35980BD91E014C340054EB05 /* LMVoiceDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceDeleteRequest.h; sourceTree = "<group>"; };
+		35980BDA1E014C340054EB05 /* LMVoiceDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceDeleteRequest.m; sourceTree = "<group>"; };
+		35980BDC1E014D340054EB05 /* LMVoiceStartRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceStartRequest.h; sourceTree = "<group>"; };
+		35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceStartRequest.m; sourceTree = "<group>"; };
+		35980BDF1E014DFD0054EB05 /* LMVoiceEndRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceEndRequest.h; sourceTree = "<group>"; };
+		35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceEndRequest.m; sourceTree = "<group>"; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
@@ -1336,6 +1381,8 @@
 				355E7B781DFFE8C50089BAB1 /* LMPulicVoicViewController.m */,
 				355E7B7F1DFFF6C90089BAB1 /* LMChoosehostViewController.h */,
 				355E7B801DFFF6C90089BAB1 /* LMChoosehostViewController.m */,
+				35980BBC1E0131C20054EB05 /* myJoin */,
+				35980BB71E012FDF0054EB05 /* myVoice */,
 			);
 			path = Lesson;
 			sourceTree = "<group>";
@@ -1371,6 +1418,10 @@
 				355E7B721DFFD5900089BAB1 /* LMChooseView.m */,
 				355E7B741DFFD7060089BAB1 /* LMClassMessageCell.h */,
 				355E7B751DFFD7060089BAB1 /* LMClassMessageCell.m */,
+				35980BB11E011B6D0054EB05 /* LMVoiceCommentTableViewCell.h */,
+				35980BB21E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m */,
+				35980BB61E01230C0054EB05 /* MoreFunctionView.h */,
+				35980BB41E0123080054EB05 /* MoreFunctionView.m */,
 			);
 			path = voiceDetail;
 			sourceTree = "<group>";
@@ -1415,6 +1466,48 @@
 				35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */,
 			);
 			path = type;
+			sourceTree = "<group>";
+		};
+		35980BB71E012FDF0054EB05 /* myVoice */ = {
+			isa = PBXGroup;
+			children = (
+				35980BB81E0130E80054EB05 /* LMMyvoicSegmentViewController.h */,
+				35980BB91E0130E80054EB05 /* LMMyvoicSegmentViewController.m */,
+				35980BC61E0134960054EB05 /* LMMyVoice1ViewController.h */,
+				35980BC71E0134960054EB05 /* LMMyVoice1ViewController.m */,
+				35980BC91E0134AA0054EB05 /* LMMyVoice2ViewController.h */,
+				35980BCA1E0134AA0054EB05 /* LMMyVoice2ViewController.m */,
+			);
+			path = myVoice;
+			sourceTree = "<group>";
+		};
+		35980BBC1E0131C20054EB05 /* myJoin */ = {
+			isa = PBXGroup;
+			children = (
+				35980BBD1E0132020054EB05 /* LMMyjoinSegmentViewController.h */,
+				35980BBE1E0132020054EB05 /* LMMyjoinSegmentViewController.m */,
+				35980BC01E0133CD0054EB05 /* LMMyJoin1ViewController.h */,
+				35980BC11E0133CD0054EB05 /* LMMyJoin1ViewController.m */,
+				35980BC31E0133E60054EB05 /* LMMyJoin2ViewController.h */,
+				35980BC41E0133E60054EB05 /* LMMyJoin2ViewController.m */,
+			);
+			name = myJoin;
+			path = publicVoice;
+			sourceTree = "<group>";
+		};
+		35980BCC1E0138590054EB05 /* myvoice */ = {
+			isa = PBXGroup;
+			children = (
+				35980BCD1E01388F0054EB05 /* LMMyjoinVoiceRequest.h */,
+				35980BCE1E01388F0054EB05 /* LMMyjoinVoiceRequest.m */,
+				35980BD01E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.h */,
+				35980BD11E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m */,
+				35980BD31E0138FD0054EB05 /* LMMyPublicVoicRequest.h */,
+				35980BD41E0138FD0054EB05 /* LMMyPublicVoicRequest.m */,
+				35980BD61E0139210054EB05 /* LMMyPublicVoicFinish.h */,
+				35980BD71E0139210054EB05 /* LMMyPublicVoicFinish.m */,
+			);
+			path = myvoice;
 			sourceTree = "<group>";
 		};
 		35B743F71DDE97F2000AFA26 /* living */ = {
@@ -3086,6 +3179,7 @@
 		35DCDD3E1DFE882700813172 /* Classroom */ = {
 			isa = PBXGroup;
 			children = (
+				35980BCC1E0138590054EB05 /* myvoice */,
 				35DCDD3F1DFE888800813172 /* LMLivingRoomRequest.h */,
 				35DCDD401DFE888800813172 /* LMLivingRoomRequest.m */,
 				355E7B561DFF9F410089BAB1 /* LMLivingAllRequest.h */,
@@ -3098,6 +3192,12 @@
 				35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */,
 				35980BAB1E00E5020054EB05 /* LMPublicVoiceRequest.h */,
 				35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */,
+				35980BD91E014C340054EB05 /* LMVoiceDeleteRequest.h */,
+				35980BDA1E014C340054EB05 /* LMVoiceDeleteRequest.m */,
+				35980BDC1E014D340054EB05 /* LMVoiceStartRequest.h */,
+				35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */,
+				35980BDF1E014DFD0054EB05 /* LMVoiceEndRequest.h */,
+				35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */,
 			);
 			path = Classroom;
 			sourceTree = "<group>";
@@ -3358,6 +3458,7 @@
 				35B747DB1DDE97F4000AFA26 /* LMPublicArticleRequest.m in Sources */,
 				35B747FA1DDE97F4000AFA26 /* FirPersonVO.m in Sources */,
 				35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */,
+				35980BC21E0133CD0054EB05 /* LMMyJoin1ViewController.m in Sources */,
 				35B7478F1DDE97F3000AFA26 /* LMBalanceBody.m in Sources */,
 				35B747551DDE97F3000AFA26 /* FitTableViewController.m in Sources */,
 				355E7B5B1DFFB3550089BAB1 /* LMClassroomDetailViewController.m in Sources */,
@@ -3376,11 +3477,13 @@
 				35B7471E1DDE97F3000AFA26 /* MJRefreshFooterView.m in Sources */,
 				35B7482D1DDE97F4000AFA26 /* LMEventChooseButton.m in Sources */,
 				35B747911DDE97F3000AFA26 /* LMBalanceMonthofbalance.m in Sources */,
+				35980BB51E0123080054EB05 /* MoreFunctionView.m in Sources */,
 				35B747AA1DDE97F3000AFA26 /* LMFindListRequest.m in Sources */,
 				35B747F21DDE97F4000AFA26 /* LMActicleVO.m in Sources */,
 				35B747DE1DDE97F4000AFA26 /* LMPushSendRequest.m in Sources */,
 				35B747E91DDE97F4000AFA26 /* LMBanlanceVO.m in Sources */,
 				35B7473A1DDE97F3000AFA26 /* GetMessageFromWXResp+responseWithTextOrMediaMessage.m in Sources */,
+				35980BDB1E014C340054EB05 /* LMVoiceDeleteRequest.m in Sources */,
 				35B747D41DDE97F4000AFA26 /* LMFranchiseeAliPayRequest.m in Sources */,
 				35B7476A1DDE97F3000AFA26 /* LMSettingViewController.m in Sources */,
 				35B747AF1DDE97F3000AFA26 /* LMArtcleCommitRequest.m in Sources */,
@@ -3448,12 +3551,17 @@
 				35B747841DDE97F3000AFA26 /* SYPhotoViewController.m in Sources */,
 				35B7479E1DDE97F3000AFA26 /* LMEventEndRequest.m in Sources */,
 				35B7478C1DDE97F3000AFA26 /* HTTPProxy.m in Sources */,
+				35980BCB1E0134AA0054EB05 /* LMMyVoice2ViewController.m in Sources */,
+				35980BBA1E0130E80054EB05 /* LMMyvoicSegmentViewController.m in Sources */,
 				35B747711DDE97F3000AFA26 /* CncpStartTime.m in Sources */,
+				35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */,
 				35B747781DDE97F3000AFA26 /* FitConsts.m in Sources */,
 				35B7475D1DDE97F3000AFA26 /* LMRegisterViewController.m in Sources */,
 				35B748151DDE97F4000AFA26 /* LMPublicMsgCell.m in Sources */,
 				35B747561DDE97F3000AFA26 /* LMFindViewController.m in Sources */,
+				35980BD81E0139210054EB05 /* LMMyPublicVoicFinish.m in Sources */,
 				35B7476E1DDE97F3000AFA26 /* SQMenuShowView.m in Sources */,
+				35980BCF1E01388F0054EB05 /* LMMyjoinVoiceRequest.m in Sources */,
 				35B748111DDE97F4000AFA26 /* LMMemberViewCell.m in Sources */,
 				35B747BD1DDE97F3000AFA26 /* LMScanRequest.m in Sources */,
 				35DCDD4D1DFE951000813172 /* ClassroomVO.m in Sources */,
@@ -3502,6 +3610,7 @@
 				35B747971DDE97F3000AFA26 /* LMMonthDetailBill.m in Sources */,
 				35B7474B1DDE97F3000AFA26 /* LMNavMapViewController.m in Sources */,
 				35B747861DDE97F3000AFA26 /* UIView+frame.m in Sources */,
+				35980BE11E014DFD0054EB05 /* LMVoiceEndRequest.m in Sources */,
 				8E0E28BC1DF8234100B735BE /* FitChatFaceView.m in Sources */,
 				35B747CB1DDE97F4000AFA26 /* LMOrederDeleteRequest.m in Sources */,
 				35B747E21DDE97F4000AFA26 /* ActivityListVO.m in Sources */,
@@ -3536,6 +3645,7 @@
 				35B748311DDE97F4000AFA26 /* FitDatePickerView.m in Sources */,
 				35B747591DDE97F3000AFA26 /* LMPublicArticleController.m in Sources */,
 				35B7470D1DDE97F3000AFA26 /* Order.m in Sources */,
+				35980BC51E0133E60054EB05 /* LMMyJoin2ViewController.m in Sources */,
 				35B748351DDE97F4000AFA26 /* LMChooseButton.m in Sources */,
 				35B747A01DDE97F3000AFA26 /* LMActivityDetailRequest.m in Sources */,
 				35B7474A1DDE97F3000AFA26 /* LMMyPublicViewController.m in Sources */,
@@ -3576,6 +3686,7 @@
 				35B747131DDE97F3000AFA26 /* openssl_wrapper.m in Sources */,
 				35B7482A1DDE97F4000AFA26 /* LMRePayCell.m in Sources */,
 				35B748191DDE97F4000AFA26 /* LMBottomView.m in Sources */,
+				35980BBF1E0132020054EB05 /* LMMyjoinSegmentViewController.m in Sources */,
 				35B747F31DDE97F4000AFA26 /* LMLivingInfoVO.m in Sources */,
 				35B7480A1DDE97F4000AFA26 /* LMActivityCell.m in Sources */,
 				35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */,
@@ -3610,12 +3721,14 @@
 				35B747F41DDE97F4000AFA26 /* LMLivingMapVO.m in Sources */,
 				35B748091DDE97F4000AFA26 /* CustomButton.m in Sources */,
 				35B747BB1DDE97F3000AFA26 /* LMNoticDeleteRequest.m in Sources */,
+				35980BD51E0138FD0054EB05 /* LMMyPublicVoicRequest.m in Sources */,
 				35B748081DDE97F4000AFA26 /* APChooseView.m in Sources */,
 				35B747B41DDE97F3000AFA26 /* LMHomeDetailRequest.m in Sources */,
 				35B747641DDE97F3000AFA26 /* LMMyCouponController.m in Sources */,
 				35B747C81DDE97F3000AFA26 /* LMCouponUseRequest.m in Sources */,
 				35B747B91DDE97F3000AFA26 /* LMCouponRequest.m in Sources */,
 				35B747121DDE97F3000AFA26 /* NSDataEx.m in Sources */,
+				35980BB31E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m in Sources */,
 				35B747891DDE97F3000AFA26 /* UIBarButtonItem+Badge.m in Sources */,
 				35B747EB1DDE97F4000AFA26 /* LMCouponVO.m in Sources */,
 				355E7B791DFFE8C50089BAB1 /* LMPulicVoicViewController.m in Sources */,
@@ -3623,6 +3736,7 @@
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				3512137E1DF963C10053B83F /* LMBlacklistViewController.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
+				35980BD21E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m in Sources */,
 				355E7B671DFFC4BB0089BAB1 /* LMVoiceDetailVO.m in Sources */,
 				351213751DF90A9E0053B83F /* BlendVO.m in Sources */,
 				35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */,
@@ -3653,6 +3767,7 @@
 				35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */,
 				8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */,
 				351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */,
+				35980BC81E0134960054EB05 /* LMMyVoice1ViewController.m in Sources */,
 				35B747DA1DDE97F4000AFA26 /* LMPersonInfoRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

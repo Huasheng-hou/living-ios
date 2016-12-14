@@ -24,6 +24,7 @@
 #import "UIImageView+WebCache.h"
 #import "LMAddressChooseView.h"
 
+
 @interface LMPublishViewController ()
 <
 UITableViewDelegate,
@@ -60,6 +61,7 @@ addressTypeDelegate
     NSMutableArray *projectImageArray;
     LMAddressChooseView *addView;
     LMAddressChooseView *addView2;
+    UIButton *publicButton;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -128,7 +130,7 @@ static NSMutableArray *cellDataArray;
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     footView.backgroundColor = [UIColor clearColor];
     
-    UIButton *publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [publicButton setTitle:@"确认并发布" forState:UIControlStateNormal];
     publicButton.layer.cornerRadius = 5;
     publicButton.titleLabel.font = TEXT_FONT_LEVEL_2;
@@ -914,6 +916,7 @@ static NSMutableArray *cellDataArray;
 -(void)publishButtonAction:(id)sender
 {
     [self.view endEditing:YES];
+    publicButton.userInteractionEnabled = NO;
     
     NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
@@ -1002,6 +1005,7 @@ static NSMutableArray *cellDataArray;
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"网络错误"
                                                                    waitUntilDone:YES];
+                                               publicButton.userInteractionEnabled = YES;
                                            }];
     [proxy start];
     
@@ -1013,6 +1017,7 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
@@ -1024,6 +1029,7 @@ static NSMutableArray *cellDataArray;
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }
@@ -1049,6 +1055,7 @@ static NSMutableArray *cellDataArray;
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                           withObject:@"发布失败"
                                                                        waitUntilDone:YES];
+                                                    publicButton.userInteractionEnabled = YES;
                                                }];
         [proxy start];
     }
@@ -1060,6 +1067,7 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"发布成功"];
@@ -1076,6 +1084,7 @@ static NSMutableArray *cellDataArray;
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }

@@ -59,6 +59,7 @@ LMhostchooseProtocol
     NSString *typeString;
     NSInteger  type;
     NSString *UserId;
+    UIButton *publicButton;
     
 }
 
@@ -108,7 +109,7 @@ static NSMutableArray *cellDataArray;
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     footView.backgroundColor = [UIColor clearColor];
     
-    UIButton *publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [publicButton setTitle:@"确认并发布" forState:UIControlStateNormal];
     publicButton.layer.cornerRadius = 5;
     publicButton.titleLabel.font = TEXT_FONT_LEVEL_2;
@@ -249,6 +250,7 @@ static NSMutableArray *cellDataArray;
         msgCell.VipFreeTF.delegate = self;
         msgCell.joincountTF.delegate = self;
         msgCell.couponTF.delegate = self;
+        msgCell.applyTextView.delegate = self;
         
         msgCell.titleTF.tag = 100;
         msgCell.phoneTF.tag = 100;
@@ -440,8 +442,17 @@ static NSMutableArray *cellDataArray;
 
 - (void)textViewDidChange:(UITextView *)textView1
 {
-
+    if ([textView1 isEqual:msgCell.applyTextView]) {
         
+        if (msgCell.applyTextView.text.length>0) {
+            msgCell.msgLabel.hidden = YES;
+        } else {
+            msgCell.msgLabel.hidden  = NO;
+        }
+        
+    }else{
+
+    
         NSArray *array = self.tableView.visibleCells;
         
         for (UIView * view in array) {
@@ -456,6 +467,7 @@ static NSMutableArray *cellDataArray;
             }
             
         }
+    }
     
 }
 
@@ -470,12 +482,14 @@ static NSMutableArray *cellDataArray;
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    
-
-    NSInteger row=textView.tag;
-                
-    [self modifyCellDataContent:row andText:textView.text];
-    
+    if ([textView isEqual:msgCell.applyTextView]) {
+        
+    } else {
+        
+        NSInteger row=textView.tag;
+        
+        [self modifyCellDataContent:row andText:textView.text];
+    }
     
     return YES;
 }
@@ -787,6 +801,7 @@ static NSMutableArray *cellDataArray;
     if ([msgCell.hostButton.textLabel.text isEqualToString:@"点击选择主持(非必选项)"]) {
         UserId = nil;
     }
+     publicButton.userInteractionEnabled = YES;
 
     LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc] initWithvoice_title:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString image:_imgURL host:UserId limit_number:[msgCell.joincountTF.text intValue]  notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -800,6 +815,7 @@ static NSMutableArray *cellDataArray;
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"网络错误"
                                                                    waitUntilDone:YES];
+                                                publicButton.userInteractionEnabled = YES;
                                            }];
     [proxy start];
     
@@ -811,10 +827,11 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
-            NSString *string = [bodyDic objectForKey:@"event_uuid"];
+            NSString *string = [bodyDic objectForKey:@"voice_uuid"];
             eventUUid = string;
             
             [self publicProject];
@@ -822,6 +839,7 @@ static NSMutableArray *cellDataArray;
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }
@@ -847,6 +865,7 @@ static NSMutableArray *cellDataArray;
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                           withObject:@"网络错误"
                                                                        waitUntilDone:YES];
+                                                    publicButton.userInteractionEnabled = YES;
                                                }];
         [proxy start];
     }
@@ -858,6 +877,7 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"发布成功"];
@@ -865,7 +885,7 @@ static NSMutableArray *cellDataArray;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reload"
                  
                                                                     object:nil];
             });
@@ -874,6 +894,7 @@ static NSMutableArray *cellDataArray;
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }

@@ -9,7 +9,7 @@
 #import "LMClassroomDetailViewController.h"
 #import "LMOrderViewController.h"
 #import "LMVoiceProjectCell.h"
-#import "LMLeavemessagecell.h"
+#import "LMVoiceCommentTableViewCell.h"
 #import "UIView+frame.h"
 #import "LMVoiceDetailHeaderView.h"
 #import "LMClassMessageCell.h"
@@ -27,7 +27,7 @@
 #import "LMEventCommitReplyRequset.h"
 #import "LMChooseView.h"
 #import "UIImageView+WebCache.h"
-#import "LMActivityDeleteRequest.h"
+#import "LMVoiceDeleteRequest.h"
 
 #import "LMBesureOrderViewController.h"
 #import "FitNavigationController.h"
@@ -37,13 +37,11 @@
 #import "ImageHelpTool.h"
 
 #import "SYPhotoBrowser.h"
-#import "LMEventEndRequest.h"
-#import "LMEventStartRequest.h"
+#import "LMVoiceEndRequest.h"
+#import "LMVoiceStartRequest.h"
 #import "HBShareView.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
-
-#import "LMArtcleFootView.h"
 
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
@@ -53,7 +51,7 @@ UITableViewDataSource,
 UITextViewDelegate,
 UITextViewDelegate,
 LMVoiceDetailHeaderViewDelegate,
-LMLeavemessagecellDelegate,
+LMVoiceCommentTableViewCellDelegate,
 LMVoiceProjectCellDelegate,
 LMClassMessageCellDelegate,
 shareTypeDelegate,
@@ -91,9 +89,7 @@ LMVoiceHeaderCellDelegate
     CGFloat contentSize;
     NSInteger _rows;
     CGFloat bgViewY;
-    LMArtcleFootView *footView;
-    UIView *addView;
-    UIView *blackView;
+
     NSMutableArray *clickArr;
     NSInteger textIndex;
 }
@@ -161,268 +157,31 @@ LMVoiceHeaderCellDelegate
     headerView.delegate         = self;
     
     [self.view addSubview:headerView];
-    [self creatFootView];
-    [self creatfootView2];
-}
 
-
-- (void)creatFootView
-{
-    toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
-    toolBar. barStyle = UIBarButtonItemStylePlain ;
-    toolBar.backgroundColor = [UIColor whiteColor];
-    
-    [self.view addSubview :toolBar];
-    
-    textcView = [[UITextView alloc] initWithFrame:CGRectMake(15, 7.5, kScreenWidth-65, 30)];
-    [textcView setDelegate:self];
-    textcView.font = TEXT_FONT_LEVEL_2;
-    textcView.layer.borderColor = [UIColor colorWithWhite:0.95 alpha:1].CGColor;
-    textcView.layer.borderWidth = 1;
-    
-    textcView.backgroundColor = [UIColor whiteColor];
-    textcView.layer.cornerRadius    = 4;
-    
-    textcView.keyboardType=UIKeyboardTypeDefault;
-    [textcView setReturnKeyType:UIReturnKeySend];
-    
-    zanButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 50, 0, 50, 45)];
-    zanButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [zanButton setTitle:@"发送" forState:UIControlStateNormal];
-    [zanButton setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-    [zanButton addTarget:self action:@selector(getCommentArticleDataRequest) forControlEvents:UIControlEventTouchUpInside];
-    zanButton.titleLabel.font = TEXT_FONT_LEVEL_3;
-    
-    [toolBar addSubview:zanButton];
-    
-    
-    tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, kScreenWidth-60, 30)];
-    tipLabel.text = @"说两句吧...";
-    tipLabel.textColor =TEXT_COLOR_LEVEL_3;
-    tipLabel.font = TEXT_FONT_LEVEL_3;
-    [textcView addSubview:tipLabel];
-    
-    [toolBar addSubview:textcView];
-    
-}
-
-- (void)creatfootView2
-{
-    footView = [[LMArtcleFootView alloc] initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
-    footView.backgroundColor = [UIColor whiteColor];
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.5, kScreenWidth, 0.5)];
-    lineView.backgroundColor = LINE_COLOR;
-    [footView addSubview:lineView];
-    
-    [footView.backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    [footView.commentButton addTarget:self action:@selector(tapAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    [footView.zanartcle addTarget:self action:@selector(zanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [footView.shareartcle addTarget:self action:@selector(shareButton) forControlEvents:UIControlEventTouchUpInside];
-    
-    [footView.moreartcle addTarget:self action:@selector(creatMoreView) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:footView];
-}
-
-#pragma mark --课程点赞
-
-- (void)zanButtonAction:(id)senser
-{
-    [self dismissSelf];
-    
-//    if ([[FitUserManager sharedUserManager] isLogin]) {
-//        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
-//        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
-//                                                                          withObject:resp
-//                                                                       waitUntilDone:YES];
-//                                               } failed:^(NSError *error) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                          withObject:@"网络错误"
-//                                                                       waitUntilDone:YES];
-//                                               }];
-//        [proxy start];
-//    }else{
-//        [self IsLoginIn];
-//    }
-    
-}
-
-- (void)getarticlePraiseDataResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    [self logoutAction:resp];
-    
-    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"])
-    {
-        [self textStateHUD:@"点赞成功"];
-        [self getEventListDataRequest];
-        [self.tableView reloadData];
-    }else{
-        NSString *str = [bodyDic objectForKey:@"description"];
-        [self textStateHUD:str];
-    }
-}
-
--(void)backAction
-{
-    [commentText resignFirstResponder];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void)tapAction
-{
-    [self dismissSelf];
-    [textcView becomeFirstResponder];
 }
 
 #pragma mark 分享按钮
 
 -(void)shareButton
 {
-    [self dismissSelf];
+
     
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
     [self.view addSubview:shareView];
 }
 
-#pragma mark --更多按钮
-
-- (void)creatMoreView
-{
-    if (footView.moreartcle.selected == NO) {
-        [clickArr addObject:@"1"];
-        
-    }
-    if (clickArr.count%2 == 1) {
-        blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50)];
-        blackView.backgroundColor = [UIColor blackColor];
-        blackView.alpha = 0.5;
-        [self.view addSubview:blackView];
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
-        [blackView addGestureRecognizer:tap];
-        
-        
-        addView =[[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
-        addView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:addView];
-        
-        [UIView animateWithDuration:0.3f animations:^{
-            [addView setFrame:CGRectMake(0, kScreenHeight*2/3-45, kScreenWidth, kScreenHeight/3)];
-        }];
-        
-        
-        UILabel *type = [UILabel new];
-        type.text = @"字号大小";
-        type.font = TEXT_FONT_LEVEL_1;
-        type.textColor =TEXT_COLOR_LEVEL_1;
-        type.textAlignment = NSTextAlignmentCenter;
-        [type sizeToFit];
-        [addView addSubview:type];
-        
-//        bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [bigBtn setTitle:@"大" forState:UIControlStateNormal];
-//        bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//        [bigBtn sizeToFit];
-//        [addView addSubview:bigBtn];
-//        [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        
-//        midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [midBtn setTitle:@"中" forState:UIControlStateNormal];
-//        midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//        [midBtn sizeToFit];
-//        [addView addSubview:midBtn];
-//        [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [smallBtn setTitle:@"小" forState:UIControlStateNormal];
-//        smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//        [smallBtn sizeToFit];
-//        [addView addSubview:smallBtn];
-//        [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        
-//        type.frame = CGRectMake(15, 0, type.bounds.size.width, 45);
-//        smallBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/6, 45);
-//        midBtn.frame = CGRectMake(kScreenWidth*2/3, 0, kScreenWidth/6, 45);
-//        bigBtn.frame = CGRectMake(kScreenWidth*5/6, 0, kScreenWidth/6, 45);
-//        
-//        if (typeIndex ==1) {
-//            [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-//            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-//            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-//        }
-//        if (typeIndex ==2) {
-//            [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-//            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-//            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-//        }
-//        if (typeIndex ==3) {
-//            [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-//            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-//            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-//        }
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, kScreenWidth, 0.5)];
-        lineView.backgroundColor = LINE_COLOR;
-        [addView addSubview:lineView];
-        
-        UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [writeButton setTitle:@"作者文章空间" forState:UIControlStateNormal];
-        writeButton.titleLabel.font = TEXT_FONT_LEVEL_1;
-        [writeButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-        [writeButton sizeToFit];
-        writeButton.frame = CGRectMake(kScreenWidth/2-80, addView.bounds.size.height/2, 160, 45);
-        
-        writeButton.layer.cornerRadius = 22.5;
-        writeButton.layer.borderColor = LIVING_COLOR.CGColor;
-        writeButton.layer.borderWidth = 0.5;
-        
-        [addView addSubview:writeButton];
-        [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-    }else{
-        [self dismissSelf];
-    }
-}
 
 #pragma mark --跳转writerVC
 
 - (void)WriterVC
 {
-    [self dismissSelf];
+
 //    LMWriterViewController *VC = [[LMWriterViewController alloc] initWithUUid:articleData.userUuid];
 //    VC.hidesBottomBarWhenPushed = YES;
 //    [self.navigationController pushViewController:VC animated:YES];
     
 }
-
-- (void)dismissSelf
-{
-    [UIView animateWithDuration:0.3f animations:^{
-        blackView.alpha = 0;
-        [addView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
-    } completion:^(BOOL finished) {
-        
-        [blackView removeFromSuperview];
-        [addView removeFromSuperview];
-        
-    }];
-}
-
-
-
 
 
 - (void)getEventListDataRequest
@@ -499,7 +258,7 @@ LMVoiceHeaderCellDelegate
             self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight+10);
         }
         
-        NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"event_projects_body"]];
+        NSArray *eveArray =[LMProjectBodyVO LMProjectBodyVOListWithArray:bodyDic[@"projects_body"]];
         
         for (LMProjectBodyVO *vo in eveArray) {
             
@@ -528,18 +287,18 @@ LMVoiceHeaderCellDelegate
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
-            if (eventDic.number==0) {
+            if ([eventDic.number intValue] ==0) {
                 rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
-            if (eventDic.number>0&&[status isEqual:@"开始"]) {
+            if ([eventDic.number intValue] >0&&[status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
                 
             }
             
-            if (eventDic.number>0&&[status isEqual:@"结束"]) {
+            if ([eventDic.number intValue]>0&&[status isEqual:@"结束"]) {
                 
                 
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
@@ -607,7 +366,7 @@ LMVoiceHeaderCellDelegate
             
             if (list && [list isKindOfClass:[LMEventCommentVO class]]) {
                 
-                return [LMLeavemessagecell cellHigth:list.commentContent];
+                return [LMVoiceCommentTableViewCell cellHigth:list.commentContent];
             }
         }
     }
@@ -674,6 +433,65 @@ LMVoiceHeaderCellDelegate
         
         return headView;
     }
+    if (section == 3) {
+        
+        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
+        
+        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 155)];
+        commentView.backgroundColor = [UIColor whiteColor];
+        [headView addSubview:commentView];
+        
+        UILabel *commentLabel = [UILabel new];
+        commentLabel.font = [UIFont systemFontOfSize:13.f];
+        
+        commentLabel.textColor = TEXT_COLOR_LEVEL_2;
+        commentLabel.text = @"留言列表";
+        suggestTF = [[UITextView alloc] initWithFrame:CGRectMake(15, 10, kScreenWidth-30, 100)];
+        suggestTF.backgroundColor = [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:1.0];
+        suggestTF.layer.cornerRadius=5;
+        suggestTF.textColor = TEXT_COLOR_LEVEL_3;
+        suggestTF.font = TEXT_FONT_LEVEL_3;
+        suggestTF.layer.borderColor = LINE_COLOR.CGColor;
+        suggestTF.returnKeyType = UIReturnKeySend;
+        suggestTF.layer.borderWidth = 0.5;
+        suggestTF.delegate = self;
+        [commentView addSubview:suggestTF];
+        
+        tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth-50, 20)];
+        tipLabel.text = @"给点留言或建议...";
+        tipLabel.textColor = TEXT_COLOR_LEVEL_3;
+        tipLabel.font = TEXT_FONT_LEVEL_3;
+        [suggestTF addSubview:tipLabel];
+        
+        UIButton *besureButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [besureButton setTitle:@"确认" forState:UIControlStateNormal];
+        [besureButton setTintColor:LIVING_COLOR];
+        besureButton.layer.cornerRadius = 3;
+        besureButton.layer.borderWidth = 0.5;
+        besureButton.layer.borderColor = LIVING_COLOR.CGColor;
+        besureButton.showsTouchWhenHighlighted = YES;
+        besureButton.frame = CGRectMake(kScreenWidth-85, 70, 50.f, 25.f);
+        [besureButton addTarget:self action:@selector(besureAction:) forControlEvents:UIControlEventTouchUpInside];
+        [suggestTF addSubview:besureButton];
+        
+        
+        [commentLabel sizeToFit];
+        commentLabel.frame = CGRectMake(15, 120, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
+        [commentView addSubview:commentLabel];
+        
+        
+        UIView *line = [UIView new];
+        line.backgroundColor =LIVING_COLOR;
+        [line sizeToFit];
+        line.frame =CGRectMake(0, 120+1, 3.f, commentLabel.bounds.size.height-2);
+        [commentView addSubview:line];
+        
+        headView.backgroundColor = [UIColor clearColor];
+        
+        
+        return headView;
+    }
+
     
     return nil;
 }
@@ -782,7 +600,7 @@ LMVoiceHeaderCellDelegate
     if (indexPath.section==3) {
         static NSString *cellId = @"cellId";
         
-        LMLeavemessagecell *cell = [[LMLeavemessagecell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        LMVoiceCommentTableViewCell *cell = [[LMVoiceCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMEventCommentVO *list = msgArray[indexPath.row];
         
@@ -830,9 +648,9 @@ LMVoiceHeaderCellDelegate
 }
 
 #pragma mark - LMLeavemessagecell delegate -点赞
-//- (void)cellWillComment:(LMLeavemessagecell *)cell
-//{
-//    
+- (void)cellWillComment:(LMVoiceCommentTableViewCell *)cell
+{
+//
 //    if ([[FitUserManager sharedUserManager] isLogin]){
 //        
 //        if (![CheckUtils isLink]) {
@@ -883,7 +701,7 @@ LMVoiceHeaderCellDelegate
 //        
 //        [self IsLoginIn];
 //    }
-//}
+}
 
 - (void)getEventpraiseDataResponse:(NSString *)resp
 {
@@ -904,7 +722,7 @@ LMVoiceHeaderCellDelegate
 }
 
 //回复
-- (void)cellWillReply:(LMLeavemessagecell *)cell
+- (void)cellWillReply:(LMVoiceCommentTableViewCell *)cell
 {
     
     if ([[FitUserManager sharedUserManager] isLogin]) {
@@ -1032,7 +850,7 @@ LMVoiceHeaderCellDelegate
 
 #pragma mark - LMActivityheadCell delegate -活动报名
 
-- (void)shouldJoinActivity
+- (void)shouldJoinVoice
 {
     [self cellWillApply:nil];
 }
@@ -1084,7 +902,7 @@ LMVoiceHeaderCellDelegate
 //            infoView.dspLabel.text = eventDic.notices;
 //        }
         
-//        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.,eventDic.totalNum];
+        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %@/%@人",eventDic.number,eventDic.limitNum];
         
         [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.image]];
         
@@ -1291,7 +1109,7 @@ LMVoiceHeaderCellDelegate
     [keyWindow endEditing:YES];
 }
 
-#pragma mark 删除活动  LMActivityDeleteRequest
+#pragma mark 删除课程
 
 - (void)deleteActivity
 {
@@ -1304,31 +1122,31 @@ LMVoiceHeaderCellDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-//                                                [self deleteActivityRequest];
+                                                [self deleteActivityRequest];
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-//- (void)deleteActivityRequest
-//{
-//    LMActivityDeleteRequest *request = [[LMActivityDeleteRequest alloc] initWithEvent_uuid:_eventUuid];
-//    
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"删除失败"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
-//    
-//}
+- (void)deleteActivityRequest
+{
+    LMVoiceDeleteRequest *request = [[LMVoiceDeleteRequest alloc] initWithVoice_uuid:_voiceUUid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"删除失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
 
 - (void)deleteActivityResponse:(NSString *)resp
 {
@@ -1341,7 +1159,7 @@ LMVoiceHeaderCellDelegate
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [self.navigationController popViewControllerAnimated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reload" object:nil];
         });
         
     } else {
@@ -1567,20 +1385,20 @@ LMVoiceHeaderCellDelegate
         return;
     }
     
-//    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:_eventUuid];
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(getstartEventResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"开始活动失败"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
+    LMVoiceStartRequest *request = [[LMVoiceStartRequest alloc] initWithVoice_uuid:_voiceUUid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getstartEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"开始活动失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
 }
 
 - (void)getstartEventResponse:(NSString *)resp
@@ -1588,10 +1406,10 @@ LMVoiceHeaderCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
     if (!bodyDic) {
-        [self textStateHUD:@"活动开启失败请重试"];
+        [self textStateHUD:@"课程开启失败请重试"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"活动开启成功"];
+            [self textStateHUD:@"课程开启成功"];
             
             [self getEventListDataRequest];
         }else{
@@ -1614,7 +1432,7 @@ LMVoiceHeaderCellDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-//                                                [self endEvent];
+                                                [self endEvent];
                                                 
                                             }]];
     
@@ -1623,30 +1441,30 @@ LMVoiceHeaderCellDelegate
     
 }
 
-//-(void)endEvent{
-//    
-//    if (![CheckUtils isLink]) {
-//        
-//        [self textStateHUD:@"无网络连接"];
-//        return;
-//    }
-//    
-//    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:_eventUuid];
-//    
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(getendEventResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"活动结束失败"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
-//}
+-(void)endEvent{
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMVoiceEndRequest *request = [[LMVoiceEndRequest alloc] initWithVoice_uuid:_voiceUUid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getendEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"活动结束失败"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
 
 - (void)getendEventResponse:(NSString *)resp
 {
@@ -1834,7 +1652,7 @@ LMVoiceHeaderCellDelegate
 
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+//    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
     
     switch (type) {
         case 1://微信好友

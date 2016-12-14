@@ -12,14 +12,30 @@
 #import "SegmentViewController.h"
 #import "FitConsts.h"
 #import "LMPulicVoicViewController.h"
+#import "MoreFunctionView.h"
+#import "LMMyjoinSegmentViewController.h"
+#import "LMMyvoicSegmentViewController.h"
 
 static CGFloat const ButtonHeight = 50;
 
-@interface LMSegmentViewController ()
+@interface LMSegmentViewController ()<moreSelectItemDelegate>
+{
+    MoreFunctionView *moreView;
+}
 
 @end
 
 @implementation LMSegmentViewController
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddenView) name:@"hiddenAction" object:nil];
+
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,7 +43,7 @@ static CGFloat const ButtonHeight = 50;
     self.navigationItem.title = @"语音课堂";
     
     SegmentViewController *vc = [[SegmentViewController alloc]init];
-    NSArray *titleArray = @[@"未完成",@"已完成"];
+    NSArray *titleArray = @[@"进行中",@"全部"];
     
     vc.titleArray = titleArray;
     NSMutableArray *controlArray = [[NSMutableArray alloc]init];
@@ -46,20 +62,75 @@ static CGFloat const ButtonHeight = 50;
     [vc addParentController:self];
     
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreIcon"]
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
-                                                                 action:@selector(publicAction)];
+                                                                 action:@selector(showAction)];
     
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    [self moreAction];
+    
 }
+
+- (void)showAction
+{
+    [moreView setHidden:NO];
+}
+
+- (void)hiddenView
+{
+    [moreView setHidden:YES];
+}
+
+
+- (void)moreAction
+{
+    NSArray *titleArray=@[@"发布",@"我的",@"我参与"];
+    
+    NSArray *iconArray=@[@"publicVoice",@"myVoice",@"myJoin"];
+    
+    moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
+    moreView.delegate=self;
+    [moreView setHidden:YES];
+    [[UIApplication sharedApplication].keyWindow addSubview:moreView];
+}
+
+-(void)moreViewSelectItem:(NSInteger)item
+{
+    NSLog(@"%ld",(long)item);
+    if (item == 0) {
+        [self publicAction];
+    }
+    if (item == 1) {
+        [self myVoice];
+    }
+    if (item == 2) {
+        [self myjoin];
+    }
+    
+}
+
 
 - (void)publicAction
 {
     LMPulicVoicViewController *publicVC = [[LMPulicVoicViewController alloc] init];
     [publicVC setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:publicVC animated:YES];
+}
+
+- (void)myVoice
+{
+    LMMyvoicSegmentViewController *myVoiceVC = [[LMMyvoicSegmentViewController alloc] init];
+    myVoiceVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myVoiceVC animated:YES];
+}
+
+- (void)myjoin
+{
+    LMMyjoinSegmentViewController *myjoinVC = [[LMMyjoinSegmentViewController alloc] init];
+    myjoinVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myjoinVC animated:YES];
 }
 
 

@@ -7,12 +7,9 @@
 //
 
 #import "FitBaseViewController.h"
-#import "LMActivityHeaderView.h"
 
 @interface LMClassroomDetailViewController : FitBaseViewController
-<
-LMActivityHeaderViewDelegate
->
+
 @property(nonatomic,strong)UITableView *tableView;
 
 @property(nonatomic,strong)NSString *voiceUUid;

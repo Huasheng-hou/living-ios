@@ -209,6 +209,21 @@ LMFindCellDelegate
         return h;
     }
     
+    if (indexPath.row==0) {
+        if (kScreenWidth<750) {
+            return 90+49;
+
+        }
+        
+        if (kScreenWidth == 750) {
+            return 90+97;
+        
+        }
+        if (kScreenWidth>750) {
+            return 90+146;
+        }
+    }
+    
     return 175;
 }
 
@@ -245,24 +260,76 @@ LMFindCellDelegate
     
     cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
     
-    if (!cell) {
+    if (indexPath.row == 0) {
         
-        cell    = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    if (self.listData.count > indexPath.row) {
-        
-        LMFindVO     *vo = self.listData[indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMFindVO class]]) {
+        if (!cell) {
             
-            [(LMFindCell *)cell setValue:vo];
+            cell    = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
         }
+        
+        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
+        backView.backgroundColor = [UIColor whiteColor];
+        backView.layer.cornerRadius = 5;
+        [cell.contentView addSubview:backView];
+
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 40, 40)];
+        imageView.image = [UIImage imageNamed:@"voiceIcon"];
+        [backView addSubview:imageView];
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 15, kScreenWidth-80, 40)];
+        titleLabel.text = @"语音课堂，玩转生活";
+        titleLabel.font = TEXT_FONT_LEVEL_1;
+        [backView addSubview:titleLabel];
+        
+        UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 15+13.5, 7, 13)];
+        right.image = [UIImage imageNamed:@"rightIcon"];
+        [backView addSubview:right];
+        
+        if (kScreenWidth<750) {
+            UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
+            footView.image = [UIImage imageNamed:@"VoiceImage"];
+            [cell.contentView addSubview:footView];
+        }
+        
+        if (kScreenWidth == 750) {
+            UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
+            footView.image = [UIImage imageNamed:@"VoiceImage"];
+            [cell.contentView addSubview:footView];
+        }
+        if (kScreenWidth>750) {
+            UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
+            footView.image = [UIImage imageNamed:@"VoiceImage"];
+            [cell.contentView addSubview:footView];
+        }
+   
+        
+    }else{
+        
+        
+        if (!cell) {
+            
+            cell    = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
+        }
+        
+        if (self.listData.count > indexPath.row) {
+            
+            LMFindVO     *vo = self.listData[indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMFindVO class]]) {
+                
+                [(LMFindCell *)cell setValue:vo];
+            }
+        }
+        
+        cell.tag = indexPath.row;
+        [(LMFindCell *)cell setDelegate:self];
+            
+        
     }
-    
-    cell.tag = indexPath.row;
-    [(LMFindCell *)cell setDelegate:self];
     
     return cell;
 }

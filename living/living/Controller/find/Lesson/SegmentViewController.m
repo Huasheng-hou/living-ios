@@ -127,6 +127,7 @@ UIScrollViewDelegate
 {
     [_mainScrollView scrollRectToVisible:CGRectMake((button.tag - HEADBTN_TAG) *MainScreenWidth, 0, MainScreenWidth, _mainScrollView.frame.size.height) animated:YES];
     [self didSelectSegmentIndex:button.tag];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
 }
 
 /*!
@@ -157,6 +158,7 @@ UIScrollViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
     
     if (scrollView.contentOffset.x<=960) {
         if (scrollView == _mainScrollView) {

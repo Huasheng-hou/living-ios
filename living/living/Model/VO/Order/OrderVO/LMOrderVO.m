@@ -127,6 +127,16 @@
             self.status =[(NSNumber *) [dictionary objectForKey:@"status"] intValue];
         }
         
+        if (nil != [dictionary objectForKey:@"voiceStatus"] && ![[dictionary objectForKey:@"voiceStatus"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voiceStatus"] isKindOfClass:[NSString class]]) {
+            self.voiceStatus = [dictionary objectForKey:@"voiceStatus"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"type"] && ![[dictionary objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            self.type = [dictionary objectForKey:@"type"];
+        }
+        
         
         
     }

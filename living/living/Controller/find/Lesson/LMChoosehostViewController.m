@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"选择主持";
+    self.view.backgroundColor = [UIColor whiteColor];
     [self createSearchBar];
     searchIndex = 0;
 }
@@ -34,7 +35,7 @@
     
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
-    _searchBar.placeholder = @"输入ID搜索";
+    _searchBar.placeholder = @"检索昵称或ID";
     [self.view addSubview:_searchBar];
     
     hostArray = [[NSMutableArray alloc]init];
@@ -128,10 +129,6 @@
 
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 10;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

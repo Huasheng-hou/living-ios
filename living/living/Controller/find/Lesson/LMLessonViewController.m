@@ -27,6 +27,7 @@
         self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reload" object:nil];
     }
     
     return self;
@@ -52,7 +53,7 @@
 {
     [super createUI];
     
-    self.tableView.frame = CGRectMake(0, -60, kScreenWidth, kScreenHeight+60);
+    self.tableView.frame = CGRectMake(0, -60, kScreenWidth, kScreenHeight-54);
     
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
@@ -166,15 +167,22 @@
             voiceVC.voiceUUid = vo.voiceUuid;
             [voiceVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:voiceVC animated:YES];
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
         }else{
             LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
             [roomVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:roomVC animated:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
         }
         
     }
 
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
+}
+
 
 @end
