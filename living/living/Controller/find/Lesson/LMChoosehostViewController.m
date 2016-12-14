@@ -8,12 +8,14 @@
 
 #import "LMChoosehostViewController.h"
 #import "LMHostChoiceRequest.h"
+#import "UIImageView+WebCache.h"
 
 @interface LMChoosehostViewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
     UISearchBar *_searchBar;
-    UITableView    * table;
-    NSDictionary *hostDic;
+//    UITableView    * table;
+    NSMutableArray *hostArray;
+    NSInteger  searchIndex;
 }
 
 @end
@@ -24,6 +26,7 @@
     [super viewDidLoad];
     self.title = @"选择主持";
     [self createSearchBar];
+    searchIndex = 0;
 }
 
 - (void)createSearchBar
@@ -34,28 +37,32 @@
     _searchBar.placeholder = @"输入ID搜索";
     [self.view addSubview:_searchBar];
     
-    hostDic = [[NSMutableDictionary alloc]init];
+    hostArray = [[NSMutableArray alloc]init];
     
-    table= [[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight+10+50,kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight+10+64))
+    self.tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight+10+50,kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight+10+64))
                                           style:UITableViewStylePlain];
     
-    [table setBackgroundColor:[UIColor colorWithRed:245/255.0f
-                                              green:245/255.0f
-                                               blue:245/255.0f
-                                              alpha:1.0f]];
-    [table setDelegate:self];
-    [table setDataSource:self];
-    [self.view addSubview:table];
+    [self.tableView setBackgroundColor:BG_GRAY_COLOR];
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    [self.view addSubview:self.tableView];
     
-    [table setShowsVerticalScrollIndicator:NO];
-    [table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.tableView setShowsVerticalScrollIndicator:NO];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
 }
 
 
 - (void)getdatarequest
 {
-    LMHostChoiceRequest *request = [[LMHostChoiceRequest alloc] initWithUserId:_keyWord];
+    LMHostChoiceRequest *request;
+    if ([_keyWord intValue]>0) {
+        request = [[LMHostChoiceRequest alloc] initWithUserId:_keyWord nickname:nil];
+    }else{
+        request = [[LMHostChoiceRequest alloc] initWithUserId:nil nickname:_keyWord];
+    }
+    
+
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -76,13 +83,12 @@
 
 - (void)getDataRespond:(NSString *)resp
 {
-    hostDic = [NSMutableDictionary new];
+    hostArray = [NSMutableArray new];
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
     
     if (bodyDict && [bodyDict objectForKey:@"result"]) {
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
-            hostDic = [bodyDict objectForKey:@"host"];
-            
+            hostArray = [bodyDict objectForKey:@"host"];
             [self.tableView reloadData];
         }
     }
@@ -117,9 +123,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    return 1 ;
 
+    return hostArray.count;
 
 }
 
@@ -136,13 +141,29 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *flag=@"cellFlag";
-    UITableViewCell  *cell=[tableView dequeueReusableCellWithIdentifier:flag];
-    if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
-        
-    }
+    UITableViewCell  *cell =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
 
-    cell.textLabel.text = [hostDic objectForKey:@"nickname"];
+    UIImageView   *imageV = [[UIImageView alloc] init];
+    imageV.frame = CGRectMake(15, 10, 40, 40);
+    imageV.contentMode = UIViewContentModeScaleAspectFill;
+    imageV.clipsToBounds = YES;
+    
+    NSDictionary *hostDic = hostArray[indexPath.row];
+    
+    if (hostDic  &&![hostDic isEqual:@""])
+    {
+       [imageV sd_setImageWithURL:[NSURL URLWithString:[hostDic objectForKey:@"avatar"]]];
+    }
+    
+    [cell.contentView addSubview:imageV];
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, kScreenWidth-70, 60)];
+    if (hostDic &&![hostDic isEqual:@""]) {
+        nameLabel.text = [NSString stringWithFormat:@"%@(ID:%@)", [hostDic objectForKey:@"nickname"],[hostDic objectForKey:@"userId"]];
+        nameLabel.font = TEXT_FONT_LEVEL_2;
+        nameLabel.textColor = TEXT_COLOR_LEVEL_2;
+    }
+    [cell.contentView addSubview:nameLabel];
 
     
     return cell;
@@ -151,13 +172,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-        
-            
-        [self.delegate backhostName:hostDic[@"nickname"] andId:hostDic[@"userId"]];
-        
-        
-        [self.navigationController popViewControllerAnimated:YES];
+    NSDictionary *hostDic = hostArray[indexPath.row];
+       
+    [self.delegate backhostName:hostDic[@"nickname"] andId:hostDic[@"userId"]];
+    
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 

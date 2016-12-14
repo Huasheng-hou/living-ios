@@ -58,9 +58,6 @@
     UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
     [_imageV addGestureRecognizer:tapImage];
     
-    
-
-    
     //活动人数
     _countLabel = [UILabel new];
     
@@ -125,54 +122,57 @@
 
 -(void)setValue:(LMVoiceDetailVO *)event
 {
-    [_imageV sd_setImageWithURL:[NSURL URLWithString:event.image]];
-    
-    if (event.publishName ==nil) {
-        _nameLabel.text = @"";
-    }else{
-        _nameLabel.text = [NSString stringWithFormat:@"本期讲师：%@",event.publishName];
+    if (event&&event!=nil) {
+        _voiceVO = event;
+        NSLog(@"%@",_voiceVO.image);
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.image]];
+        
+        if (event.publishName ==nil) {
+            _nameLabel.text = @"";
+        }else{
+            _nameLabel.text = [NSString stringWithFormat:@"本期讲师：%@",_voiceVO.publishName];
+        }
+        
+        
+        
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.avatar]];
+        _countLabel.text = [NSString stringWithFormat:@"人数：%@/%@人",_voiceVO.number,_voiceVO.limitNum];
+        
+        
+        //    switch (event.status) {
+        //        case 1:
+        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+        //            break;
+        //        case 2:
+        //            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
+        //            _joinButton.userInteractionEnabled = NO;
+        //            break;
+        //        case 3:
+        //            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+        //            _joinButton.userInteractionEnabled = NO;
+        //            break;
+        //        case 4:
+        //            [_joinButton setTitle:@"已完结" forState:UIControlStateNormal];
+        //            _joinButton.userInteractionEnabled = NO;
+        //            break;
+        //        case 5:
+        //            [_joinButton setTitle:@"删除" forState:UIControlStateNormal];
+        //            _joinButton.userInteractionEnabled = NO;
+        //            break;
+        //
+        //        default:
+        //            break;
+        //    }
+        
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
+        conHigh = [_voiceVO.voiceTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+        _titleLabel.text = _voiceVO.voiceTitle;
+        
+        _joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",_voiceVO.number];
+        
+ 
     }
-    
-    
 
-    [_headV sd_setImageWithURL:[NSURL URLWithString:event.avatar]];
-    _countLabel.text = [NSString stringWithFormat:@"人数：%@人",event.number];
-    
-    
-//    switch (event.status) {
-//        case 1:
-            [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
-//            break;
-//        case 2:
-//            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
-//            _joinButton.userInteractionEnabled = NO;
-//            break;
-//        case 3:
-//            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
-//            _joinButton.userInteractionEnabled = NO;
-//            break;
-//        case 4:
-//            [_joinButton setTitle:@"已完结" forState:UIControlStateNormal];
-//            _joinButton.userInteractionEnabled = NO;
-//            break;
-//        case 5:
-//            [_joinButton setTitle:@"删除" forState:UIControlStateNormal];
-//            _joinButton.userInteractionEnabled = NO;
-//            break;
-//            
-//        default:
-//            break;
-//    }
-    
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
-    conHigh = [event.voiceTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    _titleLabel.text = event.voiceTitle;
-    
-    _joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",event.number];
-    
-    
-    
-    
 }
 
 

@@ -10,7 +10,7 @@
 
 @implementation LMHostChoiceRequest
 
-- (id)initWithUserId:(NSArray *)userId
+- (id)initWithUserId:(NSString *)userId nickname:(NSString *)nickname
 {
     self = [super init];
     
@@ -18,11 +18,13 @@
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-        if (userId){
+        if (userId) {
             [bodyDict setObject:userId forKey:@"userId"];
         }
         
-        
+        if (nickname){
+            [bodyDict setObject:nickname forKey:@"nickname"];
+        }
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];

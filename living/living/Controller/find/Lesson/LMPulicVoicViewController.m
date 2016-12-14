@@ -12,15 +12,12 @@
 #import "LMTimeButton.h"
 #import "FitPickerView.h"
 #import "FitDatePickerView.h"
-#import "LMPublicEventRequest.h"
-#import "LMPublicProjectRequest.h"
+#import "LMPublicVoiceRequest.h"
+#import "LMPublicVoicProjectRequest.h"
 #import "FirUploadImageRequest.h"
 #import "ImageHelpTool.h"
 #import "BabFilterAgePickerView.h"
 #import "FitPickerThreeLevelView.h"
-#import "LMSearchAddressController.h"
-#import <MAMapKit/MAMapKit.h>
-#import <AMapSearchKit/AMapSearchKit.h>
 #import "UIImageView+WebCache.h"
 #import "LMChoosehostViewController.h"
 
@@ -156,7 +153,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 320 +kScreenWidth*3/5+10;
+        return 490 +kScreenWidth*3/5+45;
     }
     if (indexPath.section==1) {
         return 340;
@@ -354,6 +351,7 @@ static NSMutableArray *cellDataArray;
 {
     type = 2;
     typeString  = liveRoom;
+    msgCell.hostButton.textLabel.text = liveRoom;
     UserId = userId;
     [self.tableView reloadData];
 }
@@ -760,10 +758,6 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    if (!(msgCell.joincountTF.text.length>0)) {
-        [ self textStateHUD:@"请输入活动人数"];
-        return;
-    }
     
     if ([startstring isEqual:@"请选择活动开始时间"]) {
         [ self textStateHUD:@"请选择开始时间"];
@@ -788,23 +782,26 @@ static NSMutableArray *cellDataArray;
     }
     
     [self initStateHud];
-
-
     
-//    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(getEventDataResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"网络错误"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
+    
+    if ([msgCell.hostButton.textLabel.text isEqualToString:@"点击选择主持(非必选项)"]) {
+        UserId = nil;
+    }
+
+    LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc] initWithvoice_title:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString image:_imgURL host:UserId limit_number:[msgCell.joincountTF.text intValue]  notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
     
 }
 
@@ -837,7 +834,7 @@ static NSMutableArray *cellDataArray;
         
         NSDictionary *dic=cellDataArray[i];
         
-        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
+        LMPublicVoicProjectRequest *request = [[LMPublicVoicProjectRequest alloc]initWithVoice_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -848,7 +845,7 @@ static NSMutableArray *cellDataArray;
                                                } failed:^(NSError *error) {
                                                    
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"发布失败"
+                                                                          withObject:@"网络错误"
                                                                        waitUntilDone:YES];
                                                }];
         [proxy start];

@@ -26,7 +26,7 @@
     
     //活动标题
     UILabel *titleLable = [UILabel new];
-    titleLable.text = @"活动标题";
+    titleLable.text = @"课堂标题";
     titleLable.font = TEXT_FONT_LEVEL_1;
     titleLable.textColor = TEXT_COLOR_LEVEL_2;
     [titleLable sizeToFit];
@@ -72,7 +72,7 @@
     [self.contentView addSubview:lineView2];
     //人均费用
     UILabel *freeLable = [UILabel new];
-    freeLable.text = @"活动费用";
+    freeLable.text = @"课堂费用";
     freeLable.font = TEXT_FONT_LEVEL_1;
     freeLable.textColor = TEXT_COLOR_LEVEL_2;
     [freeLable sizeToFit];
@@ -111,7 +111,7 @@
     
     //参加人数
     UILabel *joinLable = [UILabel new];
-    joinLable.text = @"活动人数";
+    joinLable.text = @"课堂人数";
     joinLable.font = TEXT_FONT_LEVEL_1;
     joinLable.textColor = TEXT_COLOR_LEVEL_2;
     [joinLable sizeToFit];
@@ -310,10 +310,11 @@
     [self.contentView addSubview:_imgView];
     
     
-    for (int i = 0; i<11; i++) {
+    for (int i = 0; i<10; i++) {
         
-        
-        if (i ==6) {
+        if (i==1) {
+            
+        }else if(i ==6) {
             UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+10, 10+45*i, 6, 5)];
             keyImage.image = [UIImage imageNamed:@"key"];
             [self.contentView addSubview:keyImage];
@@ -322,10 +323,11 @@
             keyImage.image = [UIImage imageNamed:@"key"];
             [self.contentView addSubview:keyImage];
         }
+
         
     }
     
-    UIImageView *keyImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 5+590, 6, 5)];
+    UIImageView *keyImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 5+545, 6, 5)];
     keyImage2.image = [UIImage imageNamed:@"key"];
     [self.contentView addSubview:keyImage2];
     

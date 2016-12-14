@@ -45,8 +45,6 @@
 
 #import "LMArtcleFootView.h"
 
-//地图导航
-#import "LMNavMapViewController.h"
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
 <
@@ -127,7 +125,7 @@ LMVoiceHeaderCellDelegate
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"活动详情";
+    self.title = @"课程详情";
     hiddenIndex =2;
     [self creatUI];
     [self getEventListDataRequest];
@@ -728,9 +726,9 @@ LMVoiceHeaderCellDelegate
         LMVoiceHeaderCell *cell = [[LMVoiceHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         
         [cell setValue:eventDic];
-        
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         
@@ -746,7 +744,7 @@ LMVoiceHeaderCellDelegate
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-//        [cell setValue:eventDic];
+        [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         
         cell.delegate = self;

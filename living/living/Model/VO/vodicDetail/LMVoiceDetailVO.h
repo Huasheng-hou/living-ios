@@ -30,7 +30,7 @@
 
 @property(nonatomic, retain) NSString       *voiceTitle;
 
-@property(nonatomic, retain) NSNumber       *publishName;
+@property(nonatomic, retain) NSString       *publishName;
 
 @property(nonatomic, retain) NSNumber       *number;
 

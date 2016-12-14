@@ -40,6 +40,8 @@
 		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
 		35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */; };
 		35816FF41DF7F20E00D062CB /* EditImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF31DF7F20E00D062CB /* EditImageView.m */; };
+		35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */; };
+		35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
@@ -460,6 +462,10 @@
 		35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeViewController.m; sourceTree = "<group>"; };
 		35816FF21DF7F20A00D062CB /* EditImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditImageView.h; sourceTree = "<group>"; };
 		35816FF31DF7F20E00D062CB /* EditImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditImageView.m; sourceTree = "<group>"; };
+		35980BAB1E00E5020054EB05 /* LMPublicVoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicVoiceRequest.h; sourceTree = "<group>"; };
+		35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicVoiceRequest.m; sourceTree = "<group>"; };
+		35980BAE1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicVoicProjectRequest.h; sourceTree = "<group>"; };
+		35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicVoicProjectRequest.m; sourceTree = "<group>"; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
@@ -3088,6 +3094,10 @@
 				355E7B5D1DFFBD380089BAB1 /* LMVoiceDetailRequest.m */,
 				355E7B821E000BDB0089BAB1 /* LMHostChoiceRequest.h */,
 				355E7B831E000BDB0089BAB1 /* LMHostChoiceRequest.m */,
+				35980BAE1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.h */,
+				35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */,
+				35980BAB1E00E5020054EB05 /* LMPublicVoiceRequest.h */,
+				35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */,
 			);
 			path = Classroom;
 			sourceTree = "<group>";
@@ -3333,6 +3343,7 @@
 				35B748301DDE97F4000AFA26 /* BabFilterAgePickerView.m in Sources */,
 				35B7475A1DDE97F3000AFA26 /* LMWebViewController.m in Sources */,
 				35B747C61DDE97F3000AFA26 /* LMBalanceRequest.m in Sources */,
+				35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */,
 				35B747511DDE97F3000AFA26 /* FitBaseViewController.m in Sources */,
 				35B747EA1DDE97F4000AFA26 /* BannerVO.m in Sources */,
 				35B747CE1DDE97F4000AFA26 /* LMWXPayResultRequest.m in Sources */,
@@ -3568,6 +3579,7 @@
 				35B747F31DDE97F4000AFA26 /* LMLivingInfoVO.m in Sources */,
 				35B7480A1DDE97F4000AFA26 /* LMActivityCell.m in Sources */,
 				35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */,
+				35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */,
 				35B7475F1DDE97F3000AFA26 /* LMFranchiseeViewController.m in Sources */,
 				35B747CD1DDE97F4000AFA26 /* LMWXPayRequest.m in Sources */,
 				35B7474F1DDE97F3000AFA26 /* LMBlanceDetailController.m in Sources */,

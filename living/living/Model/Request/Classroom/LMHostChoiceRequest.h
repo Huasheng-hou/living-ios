@@ -10,6 +10,6 @@
 
 @interface LMHostChoiceRequest : FitBaseRequest
 
-- (id)initWithUserId:(NSString *)userId;
+- (id)initWithUserId:(NSString *)userId nickname:(NSString *)nickname;
 
 @end

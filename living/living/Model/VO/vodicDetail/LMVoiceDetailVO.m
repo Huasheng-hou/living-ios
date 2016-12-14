@@ -65,7 +65,7 @@
         }
         
         if (nil != [dictionary objectForKey:@"image"] && ![[dictionary objectForKey:@"image"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"image"] isKindOfClass:[NSNumber class]]) {
+            && [[dictionary objectForKey:@"image"] isKindOfClass:[NSString class]]) {
             self.image = [dictionary objectForKey:@"image"];
         }
         
