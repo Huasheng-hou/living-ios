@@ -145,6 +145,10 @@
             && [[dictionary objectForKey:@"living_uuid"] isKindOfClass:[NSString class]]) {
             self.livingUuid = [dictionary objectForKey:@"living_uuid"];
         }
+        if (nil != [dictionary objectForKey:@"list"] && ![[dictionary objectForKey:@"list"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"list"] isKindOfClass:[NSArray class]]) {
+            self.list = [dictionary objectForKey:@"list"];
+        }
     }
     
     return self;

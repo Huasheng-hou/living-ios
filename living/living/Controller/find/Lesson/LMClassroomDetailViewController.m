@@ -318,7 +318,7 @@ LMVoiceHeaderCellDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return [LMVoiceHeaderCell cellHigth:eventDic.voiceTitle];
+        return [LMVoiceHeaderCell cellHigth:eventDic.voiceTitle imageArray:eventDic.list];
     }
     if (indexPath.section==1) {
         
@@ -544,8 +544,6 @@ LMVoiceHeaderCellDelegate
         LMVoiceHeaderCell *cell = [[LMVoiceHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        
         [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;

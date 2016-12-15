@@ -56,6 +56,8 @@
 
 @property(nonatomic, retain) NSString       *livingUuid;
 
+@property(nonatomic, retain) NSArray        *list;
+
 
 @end
 

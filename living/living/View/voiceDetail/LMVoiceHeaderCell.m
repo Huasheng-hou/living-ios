@@ -13,6 +13,7 @@
     float _xScale;
     float _yScale;
     CGFloat conHigh;
+    CGFloat headImgH;
 }
 
 
@@ -82,7 +83,6 @@
     [self.contentView addSubview:_nameLabel];
     
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    //        _topBtn.backgroundColor = _COLOR_N(red);
     [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
     [_joinButton setTintColor:LIVING_COLOR];
     _joinButton.showsTouchWhenHighlighted = YES;
@@ -114,7 +114,6 @@
     [self.contentView addSubview:_joinLabel];
     
     _imageArrayView = [UIView new];
-    _imageArrayView.backgroundColor = [UIColor redColor];
     [self.contentView addSubview:_imageArrayView];
     
     
@@ -124,7 +123,6 @@
 {
     if (event&&event!=nil) {
         _voiceVO = event;
-        NSLog(@"%@",_voiceVO.image);
         [_imageV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.image]];
         
         if (event.publishName ==nil) {
@@ -132,37 +130,10 @@
         }else{
             _nameLabel.text = [NSString stringWithFormat:@"本期讲师：%@",_voiceVO.publishName];
         }
-        
-        
-        
+
         [_headV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.avatar]];
         _countLabel.text = [NSString stringWithFormat:@"人数：%@/%@人",_voiceVO.number,_voiceVO.limitNum];
-        
-        
-        //    switch (event.status) {
-        //        case 1:
         [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
-        //            break;
-        //        case 2:
-        //            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
-        //            _joinButton.userInteractionEnabled = NO;
-        //            break;
-        //        case 3:
-        //            [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
-        //            _joinButton.userInteractionEnabled = NO;
-        //            break;
-        //        case 4:
-        //            [_joinButton setTitle:@"已完结" forState:UIControlStateNormal];
-        //            _joinButton.userInteractionEnabled = NO;
-        //            break;
-        //        case 5:
-        //            [_joinButton setTitle:@"删除" forState:UIControlStateNormal];
-        //            _joinButton.userInteractionEnabled = NO;
-        //            break;
-        //
-        //        default:
-        //            break;
-        //    }
         
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
         conHigh = [_voiceVO.voiceTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
@@ -170,8 +141,46 @@
         
         _joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",_voiceVO.number];
         
- 
+//        if (_voiceVO.list&&_voiceVO.list.count>0) {
+        
+        NSArray *newArr = @[@"1",@"2",@"3",@"4",@"5",@"2",@"3",@"4",@"5",@"2",@"3",@"4",@"5"];
+        
+        CGFloat imgW = (kScreenWidth - 100)/9;
+        headImgH = imgW;
+        
+        if (newArr.count>9) {
+            for (int i = 0; i<9; i++) {
+                if (i ==8) {
+                    UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
+                    //                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                    headImage.image = [UIImage imageNamed:@"headMore"];
+                    
+                    [_imageArrayView addSubview:headImage];
+                }else{
+                UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
+                //                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                headImage.image = [UIImage imageNamed:@"headIcon"];
+                
+                [_imageArrayView addSubview:headImage];
+                }
+            }
+        
+
+        }else{
+        
+            for (int i = 0; i<newArr.count; i++) {
+                UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
+//                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                headImage.image = [UIImage imageNamed:@"headIcon"];
+                
+                [_imageArrayView addSubview:headImage];
+                
+            }
+        }
     }
+    
+ 
+//    }
 
 }
 
@@ -205,15 +214,23 @@
     _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height +65, kScreenWidth-30, conHigh);
     
     _joinLabel.frame = CGRectMake(15, _imageV.bounds.size.height +70+conHigh, kScreenWidth-30, 30);
-    _imageArrayView.frame = CGRectMake(0, _imageV.bounds.size.height +110+conHigh, kScreenWidth, 30);
+    _imageArrayView.frame = CGRectMake(0, _imageV.bounds.size.height +110+conHigh, kScreenWidth, headImgH+10);
     
 }
 
-+ (CGFloat)cellHigth:(NSString *)titleString
++ (CGFloat)cellHigth:(NSString *)titleString imageArray:(NSArray *)array
 {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    return (60+conHigh+kScreenWidth*3/5 +80+10);
+    
+//    if (array&&array.count>0) {
+        CGFloat imgW = (kScreenWidth - 100)/9;
+      return (60+conHigh+kScreenWidth*3/5 +80-30+imgW+10);
+//    }else{
+//        return (60+conHigh+kScreenWidth*3/5 +80-30);
+//    }
+//    
+    
 }
 
 

@@ -27,7 +27,7 @@
 
 -(void)setValue:(LMVoiceDetailVO *)event;
 
-+ (CGFloat)cellHigth:(NSString *)titleString;
++ (CGFloat)cellHigth:(NSString *)titleString imageArray:(NSArray *)array;
 
 @end
 
