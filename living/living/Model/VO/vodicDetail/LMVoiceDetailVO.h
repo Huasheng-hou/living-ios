@@ -58,6 +58,8 @@
 
 @property(nonatomic, retain) NSArray        *list;
 
+@property(nonatomic, retain) NSString       *notices;
+
 
 @end
 

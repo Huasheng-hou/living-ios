@@ -38,6 +38,8 @@
 
 - (void)cellClickImage:(LMVoiceHeaderCell *)cell;
 
+- (void)cellwillClickImageView:(LMVoiceHeaderCell *)cell;
 
+- (void)cellShareImage:(LMVoiceHeaderCell *)cell;
 
 @end

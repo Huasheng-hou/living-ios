@@ -14,6 +14,7 @@
 #import "LMNoticDeleteRequest.h"
 #import "LMActivityDetailController.h"
 #import "LMHomeDetailController.h"
+#import "LMClassroomDetailViewController.h"
 
 @interface LMNoticViewController ()
 <
@@ -161,8 +162,16 @@ UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    LMNoticCell *cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    LMNoticCell     *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    
+    if (!cell) {
+
+        cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
@@ -292,6 +301,16 @@ UITableViewDataSource
                     detailVC.hidesBottomBarWhenPushed = YES;
                     
                     detailVC.artcleuuid  = vo.articleUuid;
+                    
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                if (vo.sign&&[vo.sign isEqualToString:@"voice"]) {
+                    LMClassroomDetailViewController *detailVC = [[LMClassroomDetailViewController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    
+                    detailVC.voiceUUid  = vo.voiceUuid;
                     
                     [self.navigationController pushViewController:detailVC animated:YES];
                 }

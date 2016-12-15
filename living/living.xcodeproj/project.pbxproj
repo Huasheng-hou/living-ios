@@ -57,6 +57,15 @@
 		35980BDB1E014C340054EB05 /* LMVoiceDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BDA1E014C340054EB05 /* LMVoiceDeleteRequest.m */; };
 		35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */; };
 		35980BE11E014DFD0054EB05 /* LMVoiceEndRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */; };
+		359F81841E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81831E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m */; };
+		359F81871E025F710070F6C7 /* LMVoiceMemberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81861E025F710070F6C7 /* LMVoiceMemberRequest.m */; };
+		359F818A1E0270E20070F6C7 /* LMVoiceMemberVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81891E0270E20070F6C7 /* LMVoiceMemberVO.m */; };
+		359F818D1E027A0C0070F6C7 /* LMVoiceCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F818C1E027A0C0070F6C7 /* LMVoiceCommentRequest.m */; };
+		359F81901E027B850070F6C7 /* LMVoiceCommentReplyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F818F1E027B850070F6C7 /* LMVoiceCommentReplyRequest.m */; };
+		359F81931E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81921E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m */; };
+		359F81961E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81951E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m */; };
+		359F81991E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81981E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m */; };
+		359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
@@ -511,6 +520,24 @@
 		35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceStartRequest.m; sourceTree = "<group>"; };
 		35980BDF1E014DFD0054EB05 /* LMVoiceEndRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceEndRequest.h; sourceTree = "<group>"; };
 		35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceEndRequest.m; sourceTree = "<group>"; };
+		359F81821E025F1F0070F6C7 /* LMVoiceMemeberListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceMemeberListViewController.h; sourceTree = "<group>"; };
+		359F81831E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceMemeberListViewController.m; sourceTree = "<group>"; };
+		359F81851E025F710070F6C7 /* LMVoiceMemberRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceMemberRequest.h; sourceTree = "<group>"; };
+		359F81861E025F710070F6C7 /* LMVoiceMemberRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceMemberRequest.m; sourceTree = "<group>"; };
+		359F81881E0270E20070F6C7 /* LMVoiceMemberVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceMemberVO.h; sourceTree = "<group>"; };
+		359F81891E0270E20070F6C7 /* LMVoiceMemberVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceMemberVO.m; sourceTree = "<group>"; };
+		359F818B1E027A0C0070F6C7 /* LMVoiceCommentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceCommentRequest.h; sourceTree = "<group>"; };
+		359F818C1E027A0C0070F6C7 /* LMVoiceCommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceCommentRequest.m; sourceTree = "<group>"; };
+		359F818E1E027B850070F6C7 /* LMVoiceCommentReplyRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceCommentReplyRequest.h; sourceTree = "<group>"; };
+		359F818F1E027B850070F6C7 /* LMVoiceCommentReplyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceCommentReplyRequest.m; sourceTree = "<group>"; };
+		359F81911E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceCommentPariseRequest.h; sourceTree = "<group>"; };
+		359F81921E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceCommentPariseRequest.m; sourceTree = "<group>"; };
+		359F81941E027D340070F6C7 /* LMVoiceDeleteCommentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceDeleteCommentRequest.h; sourceTree = "<group>"; };
+		359F81951E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceDeleteCommentRequest.m; sourceTree = "<group>"; };
+		359F81971E027E020070F6C7 /* LMVoiceDeleteReplyRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceDeleteReplyRequest.h; sourceTree = "<group>"; };
+		359F81981E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceDeleteReplyRequest.m; sourceTree = "<group>"; };
+		359F819A1E0282030070F6C7 /* LMVoiceJoinRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceJoinRequest.h; sourceTree = "<group>"; };
+		359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceJoinRequest.m; sourceTree = "<group>"; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
@@ -1381,6 +1408,8 @@
 				355E7B781DFFE8C50089BAB1 /* LMPulicVoicViewController.m */,
 				355E7B7F1DFFF6C90089BAB1 /* LMChoosehostViewController.h */,
 				355E7B801DFFF6C90089BAB1 /* LMChoosehostViewController.m */,
+				359F81821E025F1F0070F6C7 /* LMVoiceMemeberListViewController.h */,
+				359F81831E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m */,
 				35980BBC1E0131C20054EB05 /* myJoin */,
 				35980BB71E012FDF0054EB05 /* myVoice */,
 			);
@@ -1433,6 +1462,8 @@
 				355E7B661DFFC4BB0089BAB1 /* LMVoiceDetailVO.m */,
 				355E7B6E1DFFD2C10089BAB1 /* LMProjectsBody.h */,
 				355E7B6F1DFFD2C10089BAB1 /* LMProjectsBody.m */,
+				359F81881E0270E20070F6C7 /* LMVoiceMemberVO.h */,
+				359F81891E0270E20070F6C7 /* LMVoiceMemberVO.m */,
 			);
 			path = vodicDetail;
 			sourceTree = "<group>";
@@ -3198,6 +3229,20 @@
 				35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */,
 				35980BDF1E014DFD0054EB05 /* LMVoiceEndRequest.h */,
 				35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */,
+				359F81851E025F710070F6C7 /* LMVoiceMemberRequest.h */,
+				359F81861E025F710070F6C7 /* LMVoiceMemberRequest.m */,
+				359F818B1E027A0C0070F6C7 /* LMVoiceCommentRequest.h */,
+				359F818C1E027A0C0070F6C7 /* LMVoiceCommentRequest.m */,
+				359F818E1E027B850070F6C7 /* LMVoiceCommentReplyRequest.h */,
+				359F818F1E027B850070F6C7 /* LMVoiceCommentReplyRequest.m */,
+				359F81911E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.h */,
+				359F81921E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m */,
+				359F81941E027D340070F6C7 /* LMVoiceDeleteCommentRequest.h */,
+				359F81951E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m */,
+				359F81971E027E020070F6C7 /* LMVoiceDeleteReplyRequest.h */,
+				359F81981E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m */,
+				359F819A1E0282030070F6C7 /* LMVoiceJoinRequest.h */,
+				359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */,
 			);
 			path = Classroom;
 			sourceTree = "<group>";
@@ -3441,6 +3486,7 @@
 			files = (
 				35B747F71DDE97F4000AFA26 /* LMOrderInfoVO.m in Sources */,
 				35B748301DDE97F4000AFA26 /* BabFilterAgePickerView.m in Sources */,
+				359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */,
 				35B7475A1DDE97F3000AFA26 /* LMWebViewController.m in Sources */,
 				35B747C61DDE97F3000AFA26 /* LMBalanceRequest.m in Sources */,
 				35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */,
@@ -3492,6 +3538,7 @@
 				35B747611DDE97F3000AFA26 /* LMScanViewController.m in Sources */,
 				35B7471F1DDE97F3000AFA26 /* MJRefreshHeaderView.m in Sources */,
 				35B747621DDE97F3000AFA26 /* LMChangeDataViewController.m in Sources */,
+				359F81871E025F710070F6C7 /* LMVoiceMemberRequest.m in Sources */,
 				35B7474E1DDE97F3000AFA26 /* LMBalanceViewController.m in Sources */,
 				35B747461DDE97F3000AFA26 /* LMActivityViewController.m in Sources */,
 				35B747A71DDE97F3000AFA26 /* LMAgreementRequest.m in Sources */,
@@ -3544,6 +3591,7 @@
 				35B747661DDE97F3000AFA26 /* LMMyLivingViewController.m in Sources */,
 				35B7470E1DDE97F3000AFA26 /* base64.m in Sources */,
 				35B747B81DDE97F3000AFA26 /* LMWriterDataRequest.m in Sources */,
+				359F81961E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m in Sources */,
 				35B748281DDE97F4000AFA26 /* LMRechargeButton.m in Sources */,
 				35B747AC1DDE97F3000AFA26 /* LMArticeDeleteReplyRequst.m in Sources */,
 				35B747471DDE97F3000AFA26 /* LMBesureOrderViewController.m in Sources */,
@@ -3554,6 +3602,7 @@
 				35980BCB1E0134AA0054EB05 /* LMMyVoice2ViewController.m in Sources */,
 				35980BBA1E0130E80054EB05 /* LMMyvoicSegmentViewController.m in Sources */,
 				35B747711DDE97F3000AFA26 /* CncpStartTime.m in Sources */,
+				359F818A1E0270E20070F6C7 /* LMVoiceMemberVO.m in Sources */,
 				35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */,
 				35B747781DDE97F3000AFA26 /* FitConsts.m in Sources */,
 				35B7475D1DDE97F3000AFA26 /* LMRegisterViewController.m in Sources */,
@@ -3637,6 +3686,7 @@
 				8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */,
 				8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */,
 				35B748341DDE97F4000AFA26 /* LMAgeChooseButton.m in Sources */,
+				359F81841E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m in Sources */,
 				35B747CF1DDE97F4000AFA26 /* LMAliRechargeRequest.m in Sources */,
 				35B747151DDE97F3000AFA26 /* RSADataVerifier.m in Sources */,
 				35B747C41DDE97F3000AFA26 /* LMBalanceListRequest.m in Sources */,
@@ -3649,7 +3699,9 @@
 				35B748351DDE97F4000AFA26 /* LMChooseButton.m in Sources */,
 				35B747A01DDE97F3000AFA26 /* LMActivityDetailRequest.m in Sources */,
 				35B7474A1DDE97F3000AFA26 /* LMMyPublicViewController.m in Sources */,
+				359F818D1E027A0C0070F6C7 /* LMVoiceCommentRequest.m in Sources */,
 				35DCDD3A1DFE71E900813172 /* SegmentViewController.m in Sources */,
+				359F81931E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m in Sources */,
 				35B7481F1DDE97F4000AFA26 /* WJLoopView.m in Sources */,
 				35B747741DDE97F3000AFA26 /* DACircularProgressView.m in Sources */,
 				35B747F61DDE97F4000AFA26 /* LMOrderBodyVO.m in Sources */,
@@ -3662,6 +3714,7 @@
 				356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */,
 				35B747D01DDE97F4000AFA26 /* LMAliRechargeResultRequest.m in Sources */,
 				35B747391DDE97F3000AFA26 /* WXApiResponseHandler.m in Sources */,
+				359F81991E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m in Sources */,
 				35B748331DDE97F4000AFA26 /* FitPickerView.m in Sources */,
 				35B747AE1DDE97F3000AFA26 /* LMArticleCommentDeleteRequest.m in Sources */,
 				35B7473D1DDE97F3000AFA26 /* AppDelegate.m in Sources */,
@@ -3690,6 +3743,7 @@
 				35B747F31DDE97F4000AFA26 /* LMLivingInfoVO.m in Sources */,
 				35B7480A1DDE97F4000AFA26 /* LMActivityCell.m in Sources */,
 				35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */,
+				359F81901E027B850070F6C7 /* LMVoiceCommentReplyRequest.m in Sources */,
 				35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */,
 				35B7475F1DDE97F3000AFA26 /* LMFranchiseeViewController.m in Sources */,
 				35B747CD1DDE97F4000AFA26 /* LMWXPayRequest.m in Sources */,

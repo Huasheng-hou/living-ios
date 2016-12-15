@@ -14,10 +14,9 @@
 {
     int count ;
     UILabel *_numLabel;
-    CustomButton *_reduceButotn;
+    
     CustomButton *_recordButton;
     CustomButton *_recordSizeButton;
-    CustomButton *_addButton;
 }
 
 @property (nonatomic , strong)NSString *size;
@@ -37,6 +36,9 @@
 @property(nonatomic,strong)UILabel *title2;//价格
 @property(nonatomic,strong)UILabel *inventory;//库存
 @property(nonatomic,strong)UILabel *dspLabel;
+
+@property(nonatomic,strong)CustomButton *addButton;
+@property(nonatomic,strong)CustomButton *reduceButotn;
 
 @property(nonatomic,strong)NSMutableDictionary *orderInfo;
 @property (nonatomic, retain) LMVoiceDetailVO     *event;

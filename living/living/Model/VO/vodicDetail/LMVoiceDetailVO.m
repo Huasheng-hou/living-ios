@@ -149,6 +149,11 @@
             && [[dictionary objectForKey:@"list"] isKindOfClass:[NSArray class]]) {
             self.list = [dictionary objectForKey:@"list"];
         }
+        
+        if (nil != [dictionary objectForKey:@"notices"] && ![[dictionary objectForKey:@"notices"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"notices"] isKindOfClass:[NSString class]]) {
+            self.notices = [dictionary objectForKey:@"notices"];
+        }
     }
     
     return self;

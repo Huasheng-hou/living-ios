@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 
 
+
+
 @end
 
 @implementation LMVoiceProjectCell

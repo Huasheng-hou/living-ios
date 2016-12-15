@@ -87,12 +87,21 @@
         }
     }
     if (list.sign &&[list.sign isEqual:@"event"]) {
-        if (list.articleTitle&&![list.articleTitle isEqual:@""]) {
+        if (list.eventName&&![list.eventName isEqual:@""]) {
             _titleLabel.text = [NSString stringWithFormat:@"活动:%@",list.eventName];
         }else{
             _titleLabel.text = [NSString stringWithFormat:@"活动:"];
         }
     }
+    
+    if (list.sign &&[list.sign isEqual:@"voice"]) {
+        if (list.voiceTitle&&![list.voiceTitle isEqual:@""]) {
+            _titleLabel.text = [NSString stringWithFormat:@"课程:%@",list.voiceTitle];
+        }else{
+            _titleLabel.text = [NSString stringWithFormat:@"课程:"];
+        }
+    }
+
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_titleLabel.text];
     [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,3)];
     [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_1 range:NSMakeRange(3,str.length-3)];

@@ -157,10 +157,19 @@
 
 - (void)setValue:(LMOrderVO *)list
 {
-    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
+    if (list .type&&[list.type isEqualToString:@"voice"]) {
+        _titleLabel.text = list.voiceTitle;
+        [_headImage sd_setImageWithURL:[NSURL URLWithString:list.voiceImages]];
+    }
+    
+    if (list .type&&[list.type isEqualToString:@"event"]) {
+        _titleLabel.text = list.eventName;
+        [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
+    }
+    
     _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
     
-    _titleLabel.text = list.eventName;
+    
     _orderNumLabel.text = list.orderNumber;
     
     _numLabel.text =[NSString stringWithFormat:@"x %d份",list.number];

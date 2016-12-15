@@ -33,6 +33,7 @@
 @property (nonatomic, strong) UIView *imageArrayView;
 
 
+
 @end
 
 @implementation LMVoiceHeaderCell
@@ -115,6 +116,16 @@
     
     _imageArrayView = [UIView new];
     [self.contentView addSubview:_imageArrayView];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(memberList)];
+    [_imageArrayView addGestureRecognizer:tap];
+    
+    _shareButton=[UIButton new];
+    [_shareButton addTarget:self action:@selector(shareButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_shareButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+    _shareButton.layer.cornerRadius = 3;
+    //    _shareButton.layer.borderColor =LIVING_COLOR.CGColor;
+    //    _shareButton.layer.borderWidth = 0.5;
+    [self.contentView addSubview:_shareButton];
     
     
 }
@@ -141,25 +152,27 @@
         
         _joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",_voiceVO.number];
         
-//        if (_voiceVO.list&&_voiceVO.list.count>0) {
-        
-        NSArray *newArr = @[@"1",@"2",@"3",@"4",@"5",@"2",@"3",@"4",@"5",@"2",@"3",@"4",@"5"];
-        
+        if (_voiceVO.list&&_voiceVO.list.count>0) {
+            NSInteger num = _voiceVO.list.count;
         CGFloat imgW = (kScreenWidth - 100)/9;
         headImgH = imgW;
         
-        if (newArr.count>9) {
+        if (num>9) {
             for (int i = 0; i<9; i++) {
                 if (i ==8) {
                     UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
-                    //                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
                     headImage.image = [UIImage imageNamed:@"headMore"];
                     
                     [_imageArrayView addSubview:headImage];
                 }else{
                 UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
-                //                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                headImage.backgroundColor = BG_GRAY_COLOR;
+                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
                 headImage.image = [UIImage imageNamed:@"headIcon"];
+                headImage.layer.cornerRadius = 2;
+                headImage.contentMode = UIViewContentModeScaleAspectFill;
+                headImage.clipsToBounds = YES;
                 
                 [_imageArrayView addSubview:headImage];
                 }
@@ -168,9 +181,9 @@
 
         }else{
         
-            for (int i = 0; i<newArr.count; i++) {
+            for (int i = 0; i<num; i++) {
                 UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
-//                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
                 headImage.image = [UIImage imageNamed:@"headIcon"];
                 
                 [_imageArrayView addSubview:headImage];
@@ -180,7 +193,7 @@
     }
     
  
-//    }
+    }
 
 }
 
@@ -201,6 +214,7 @@
     [_headV sizeToFit];
     [_joinLabel sizeToFit];
     [_imageArrayView sizeToFit];
+    [_shareButton sizeToFit];
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
     _headV.frame = CGRectMake(15, 10+_imageV.bounds.size.height, 40, 40);
@@ -208,7 +222,7 @@
     _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, kScreenWidth-65-80-61, _nameLabel.bounds.size.height);
     _countLabel.frame = CGRectMake(61, 17+_imageV.bounds.size.height+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, 60);
+    _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, 50);
     
     
     _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height +65, kScreenWidth-30, conHigh);
@@ -216,6 +230,7 @@
     _joinLabel.frame = CGRectMake(15, _imageV.bounds.size.height +70+conHigh, kScreenWidth-30, 30);
     _imageArrayView.frame = CGRectMake(0, _imageV.bounds.size.height +110+conHigh, kScreenWidth, headImgH+10);
     
+    _shareButton.frame = CGRectMake(kScreenWidth-71-80, kScreenWidth*3/5+15, 80, 30);
 }
 
 + (CGFloat)cellHigth:(NSString *)titleString imageArray:(NSArray *)array
@@ -223,13 +238,13 @@
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     
-//    if (array&&array.count>0) {
+    if (array&&array.count>0) {
         CGFloat imgW = (kScreenWidth - 100)/9;
       return (60+conHigh+kScreenWidth*3/5 +80-30+imgW+10);
-//    }else{
-//        return (60+conHigh+kScreenWidth*3/5 +80-30);
-//    }
-//    
+    }else{
+        return (60+conHigh+kScreenWidth*3/5 +80-30);
+    }
+    
     
 }
 
@@ -248,5 +263,20 @@
         [_delegate cellClickImage:self];
     }
 }
+
+- (void)memberList
+{
+    if ([_delegate respondsToSelector:@selector(cellwillClickImageView:)]) {
+        [_delegate cellwillClickImageView:self];
+    }
+}
+
+-(void)shareButton:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellShareImage:)]) {
+        [_delegate cellShareImage:self];
+    }
+}
+
 
 @end

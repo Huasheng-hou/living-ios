@@ -156,7 +156,7 @@
     
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithObjectsAndKeys:_numLabel.text,@"num", nil] ;
     //
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"purchase" object:dic];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"joinOrder" object:dic];
     
     
     UIView *view = [self viewWithTag:1000];

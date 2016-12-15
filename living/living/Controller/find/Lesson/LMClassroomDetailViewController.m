@@ -21,10 +21,10 @@
 #import "LMVoiceDetailVO.h"
 #import "LMProjectsBody.h"
 
-#import "LMEventJoinRequest.h"
-#import "LMEventLivingMsgRequest.h"
-#import "LMEventpraiseRequest.h"
-#import "LMEventCommitReplyRequset.h"
+#import "LMVoiceJoinRequest.h"
+#import "LMVoiceCommentRequest.h"
+#import "LMVoiceCommentPariseRequest.h"
+#import "LMVoiceCommentReplyRequest.h"
 #import "LMChooseView.h"
 #import "UIImageView+WebCache.h"
 #import "LMVoiceDeleteRequest.h"
@@ -32,8 +32,8 @@
 #import "LMBesureOrderViewController.h"
 #import "FitNavigationController.h"
 
-#import "LMEventCommentRequest.h"
-#import "LMEventReplydeleteRequest.h"
+#import "LMVoiceDeleteCommentRequest.h"
+#import "LMVoiceDeleteReplyRequest.h"
 #import "ImageHelpTool.h"
 
 #import "SYPhotoBrowser.h"
@@ -42,6 +42,8 @@
 #import "HBShareView.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
+
+#import "LMVoiceMemeberListViewController.h"
 
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
@@ -61,7 +63,6 @@ LMVoiceHeaderCellDelegate
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
-    
     // * 顶部报名横幅
     LMVoiceDetailHeaderView *headerView;
     
@@ -132,10 +133,10 @@ LMVoiceHeaderCellDelegate
     clickArr = [NSMutableArray new];
     
     //加入订单
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(joindataRequest:)
-//                                                 name:@"purchase"
-//                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(joindataRequest:)
+                                                 name:@"joinOrder"
+                                               object:nil];
 }
 
 - (void)creatUI
@@ -169,18 +170,6 @@ LMVoiceHeaderCellDelegate
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
     [self.view addSubview:shareView];
-}
-
-
-#pragma mark --跳转writerVC
-
-- (void)WriterVC
-{
-
-//    LMWriterViewController *VC = [[LMWriterViewController alloc] initWithUUid:articleData.userUuid];
-//    VC.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:VC animated:YES];
-    
 }
 
 
@@ -358,8 +347,6 @@ LMVoiceHeaderCellDelegate
         
     }
     if (indexPath.section==3) {
-        
-        
         if (msgArray.count > indexPath.row) {
             
             LMEventCommentVO *list = msgArray[indexPath.row];
@@ -648,57 +635,56 @@ LMVoiceHeaderCellDelegate
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMVoiceCommentTableViewCell *)cell
 {
-//
-//    if ([[FitUserManager sharedUserManager] isLogin]){
-//        
-//        if (![CheckUtils isLink]) {
-//            
-//            [self textStateHUD:@"无网络"];
-//            return;
-//        }
-//        
-//        LMEventCommentVO *list = msgArray[cell.tag];
-//        
-//        
-//        LMEventpraiseRequest *request = [[LMEventpraiseRequest alloc] initWithEvent_uuid:_eventUuid CommentUUid:list.commentUuid];
-//        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                                   dispatch_async(dispatch_get_main_queue(), ^{
-//                                                       NSDictionary *bodyDic = [VOUtil parseBody:resp];
-//                                                       [self logoutAction:resp];
-//                                                       if (!bodyDic) {
-//                                                           [self textStateHUD:@"点赞失败"];
-//                                                       }else{
-//                                                           
-//                                                           
-//                                                           if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-//                                                               [self textStateHUD:@"点赞成功"];
-//                                                               [self getEventListDataRequest];
-//                                                               NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:3]];
-//                                                               [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-//                                                               
-//                                                               
-//                                                           }else{
-//                                                               NSString *str = [bodyDic objectForKey:@"description"];
-//                                                               [self textStateHUD:str];
-//                                                           }
-//                                                       }
-//                                                       
-//                                                   });
-//                                                   
-//                                                   
-//                                               } failed:^(NSError *error) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                          withObject:@"网络错误"
-//                                                                       waitUntilDone:YES];
-//                                               }];
-//        [proxy start];
-//        
-//    } else {
-//        
-//        [self IsLoginIn];
-//    }
+
+    if ([[FitUserManager sharedUserManager] isLogin]){
+        
+        if (![CheckUtils isLink]) {
+            
+            [self textStateHUD:@"无网络"];
+            return;
+        }
+        
+        LMEventCommentVO *list = msgArray[cell.tag];
+        
+        
+        LMVoiceCommentPariseRequest *request = [[LMVoiceCommentPariseRequest alloc] initWithVoice_uuid:_voiceUUid commentUuid:list.commentUuid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                       [self logoutAction:resp];
+                                                       if (!bodyDic) {
+                                                           [self textStateHUD:@"点赞失败"];
+                                                       }else{
+                                                           
+                                                           if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                               [self textStateHUD:@"点赞成功"];
+                                                               [self getEventListDataRequest];
+                                                               NSArray *indexPaths = @[[NSIndexPath indexPathForRow:cell.tag inSection:3]];
+                                                               [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                                                               
+                                                               
+                                                           }else{
+                                                               NSString *str = [bodyDic objectForKey:@"description"];
+                                                               [self textStateHUD:str];
+                                                           }
+                                                       }
+                                                       
+                                                   });
+                                                   
+                                                   
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+        
+    } else {
+        
+        [self IsLoginIn];
+    }
 }
 
 - (void)getEventpraiseDataResponse:(NSString *)resp
@@ -710,8 +696,6 @@ LMVoiceHeaderCellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"点赞成功"];
-            
-            
         }else{
             NSString *str = [bodyDic objectForKey:@"description"];
             [self textStateHUD:str];
@@ -723,19 +707,12 @@ LMVoiceHeaderCellDelegate
 - (void)cellWillReply:(LMVoiceCommentTableViewCell *)cell
 {
     
-    if ([[FitUserManager sharedUserManager] isLogin]) {
-        
         LMEventCommentVO *list = msgArray[cell.tag];
         
         commitUUid = list.commentUuid;
         
         self.tableView.userInteractionEnabled = NO;
         [self showCommentText];
-        
-    }else{
-        [self IsLoginIn];
-    }
-    
     
 }
 
@@ -806,22 +783,22 @@ LMVoiceHeaderCellDelegate
 
 - (void)commitDataRequest
 {
-//    NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
-//    LMEventCommitReplyRequset *request = [[LMEventCommitReplyRequset alloc] initWithEvent_uuid:_eventUuid CommentUUid:commitUUid Reply_content:string];
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(getEventcommitResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"网络错误"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
+    LMVoiceCommentReplyRequest *request = [[LMVoiceCommentReplyRequest alloc] initWithVoice_uuid:_voiceUUid commentUuid:commitUUid replyContent:string];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventcommitResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
     
 }
 
@@ -860,12 +837,16 @@ LMVoiceHeaderCellDelegate
         LMChooseView *infoView = [[LMChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         
         infoView.event  = eventDic;
+        infoView.reduceButotn.hidden = YES;
+        infoView.addButton.hidden = YES;
+        
         
         infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
         infoView.titleLabel.text = @"￥:10000";
         infoView.titleLabel.textColor = LIVING_REDCOLOR;
         infoView.titleLabel.font = [UIFont systemFontOfSize:17];
         [infoView.bottomView addSubview:infoView.titleLabel];
+        
         
         infoView.title2 = [UILabel new];
         infoView.title2.text = @"￥:10000";
@@ -894,11 +875,11 @@ LMVoiceHeaderCellDelegate
             infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
             
         }
-//        if (eventDic.notices==nil) {
-//            infoView.dspLabel.text = @"暂无报名须知";
-//        }else{
-//            infoView.dspLabel.text = eventDic.notices;
-//        }
+        if (eventDic.notices==nil) {
+            infoView.dspLabel.text = @"暂无报名须知";
+        }else{
+            infoView.dspLabel.text = eventDic.notices;
+        }
         
         infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %@/%@人",eventDic.number,eventDic.limitNum];
         
@@ -920,36 +901,32 @@ LMVoiceHeaderCellDelegate
     }
 }
 
-//- (void)joindataRequest:(NSNotification *)notice
-//{
-//    if (![CheckUtils isLink]) {
-//        
-//        [self textStateHUD:@"无网络"];
-//        return;
-//    }
-//    
-//    [self initStateHud];
-//    
-//    NSMutableDictionary *orderNum=notice.object;
-//    
-//    NSString *num = [NSString stringWithFormat:@"%@",orderNum[@"num"]];
-//    
-//    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:num];
-//    
-//    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-//                                                                      withObject:resp
-//                                                                   waitUntilDone:YES];
-//                                           } failed:^(NSError *error) {
-//                                               
-//                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                      withObject:@"网络错误"
-//                                                                   waitUntilDone:YES];
-//                                           }];
-//    [proxy start];
-//}
+- (void)joindataRequest:(NSNotification *)notice
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络"];
+        return;
+    }
+    
+    [self initStateHud];
+    
+    LMVoiceJoinRequest *request = [[LMVoiceJoinRequest alloc] initWithVoice_uuid:_voiceUUid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
 
 - (void)getEventjoinDataResponse:(NSString *)resp
 {
@@ -1009,6 +986,42 @@ LMVoiceHeaderCellDelegate
     }
 }
 
+#pragma mark UITextFieldDelegate
+
+- (void)textViewDidChange:(UITextView *)textView{
+    
+    if (textView.text.length == 0) {
+        
+        tipLabel.hidden=NO;
+    } else {
+        
+        tipLabel.hidden=YES;
+    }
+}
+
+//修改textView return键
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+        
+        if ([textView isEqual:suggestTF]) {
+            
+            [suggestTF resignFirstResponder];
+            [self besureAction:@""];
+        }
+        if ([textView isEqual:commentText]) {
+            
+            [commentText resignFirstResponder];
+            self.tableView.userInteractionEnabled = YES;
+            [self sendComment];
+        }
+    }
+    
+    return YES;
+}
+
+
 #pragma mark  --活动留言或评论
 
 - (void)besureAction:(id)sender
@@ -1032,25 +1045,25 @@ LMVoiceHeaderCellDelegate
             return;
         }
         
-//        NSString *string    = [suggestTF.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-//        
-//        LMEventLivingMsgRequest *request = [[LMEventLivingMsgRequest alloc] initWithEvent_uuid:_eventUuid Commentcontent:string];
-//        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(getEventLivingmsgDataResponse:)
-//                                                                          withObject:resp
-//                                                                       waitUntilDone:YES];
-//                                               } failed:^(NSError *error) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                          withObject:@"网络错误"
-//                                                                       waitUntilDone:YES];
-//                                               }];
-//        [proxy start];
-//        
-//    }else{
-//        [self IsLoginIn];
+        NSString *string    = [suggestTF.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        LMVoiceCommentRequest *request = [[LMVoiceCommentRequest alloc] initWithVoice_uuid:_voiceUUid commentContent:string];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventLivingmsgDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+        
+    }else{
+        [self IsLoginIn];
     }
     
 }
@@ -1225,7 +1238,7 @@ LMVoiceHeaderCellDelegate
 
 - (void)deleteCommentdata:(NSString *)uuid
 {
-    LMEventCommentRequest *request = [[LMEventCommentRequest alloc] initWithCommentUUid:uuid];
+    LMVoiceDeleteCommentRequest *request = [[LMVoiceDeleteCommentRequest alloc] initWithCommentUuid:uuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1263,7 +1276,7 @@ LMVoiceHeaderCellDelegate
 - (void)deleteArticleReply:(NSString *)uuid
 {
     
-    LMEventReplydeleteRequest *request = [[LMEventReplydeleteRequest alloc] initWithCommentUUid:uuid];
+    LMVoiceDeleteReplyRequest *request = [[LMVoiceDeleteReplyRequest alloc] initWithReplyUuid:uuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1504,7 +1517,6 @@ LMVoiceHeaderCellDelegate
 - (void)showImage:(UIImageView *)avatarImageView{
     
     UIImage *image=avatarImageView.image;
-    //    UIWindow *window=[UIApplication sharedApplication].keyWindow;
     backgroundViews=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     oldframe=[avatarImageView convertRect:avatarImageView.bounds toView:self.view];
     backgroundViews.backgroundColor=[UIColor blackColor];
@@ -1552,8 +1564,6 @@ LMVoiceHeaderCellDelegate
         
     } completion:^(BOOL finished) {
         [backgroundView removeFromSuperview];
-        
-        
     }];
 }
 
@@ -1569,8 +1579,6 @@ LMVoiceHeaderCellDelegate
         
     } completion:^(BOOL finished) {
         [backgroundView removeFromSuperview];
-        
-        
     }];
 }
 
@@ -1612,13 +1620,9 @@ LMVoiceHeaderCellDelegate
         
     }];
     NSString *msg = nil ;
-    
     if(error != NULL){
-        
         msg = @"保存图片失败" ;
-        
     }else{
-        
         msg = @"保存图片成功" ;
         
     }
@@ -1628,7 +1632,7 @@ LMVoiceHeaderCellDelegate
     
 }
 
-- (void)cellShareImage
+- (void)cellShareImage:(LMVoiceHeaderCell *)cell
 {
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
@@ -1642,7 +1646,6 @@ LMVoiceHeaderCellDelegate
     UIGraphicsBeginImageContext(newSize);
     [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
     UIGraphicsEndImageContext();
     return newImage;
 }
@@ -1750,106 +1753,6 @@ LMVoiceHeaderCellDelegate
     }
 }
 
-- (void)textViewDidChange:(UITextView *)textView{
-    
-    if ([textView isEqual:textcView]) {
-        if (textView.text.length==0) {
-            tipLabel.hidden=NO;
-        }else{
-            tipLabel.hidden=YES;
-        }
-        
-        // numberlines用来控制输入的行数
-        NSInteger numberLines = textView.contentSize.height / textView.font.lineHeight;
-        if (numberLines != _rows) {
-            NSLog(@"text = %@", textcView.text);
-            _rows = numberLines;
-            if  (_rows < 5){
-                [self changeFrame:textView.contentSize.height];
-            }else{
-                textcView.scrollEnabled = YES;
-            }
-            
-            [textView setContentOffset:CGPointZero animated:YES];
-        }
-    }
-}
-
-- (void)changeFrame:(CGFloat)height
-{
-    CGRect originalFrame = toolBar.frame;
-    originalFrame.size.height = 30 + height ;
-    originalFrame.origin.y = bgViewY - height + 30;
-    CGRect textViewFrame = textcView.frame;
-    textViewFrame.size.height = height;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        toolBar.frame = originalFrame;
-        textcView.frame = textViewFrame;
-        contentSize = height-30;
-    }];
-}
-
-//修改textView return键
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        //在这里做你响应return键的代码
-        if ([textView isEqual:textcView]) {
-            [textcView resignFirstResponder];
-//            [self getCommentArticleDataRequest];
-        }
-        if ([textView isEqual:commentText]) {
-            self.tableView.userInteractionEnabled = YES;
-            [commentText resignFirstResponder];
-            [self sendComment];
-        }
-        
-        
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-    }
-    
-    return YES;
-}
-
-
-#pragma mark  --评论课程
-- (void)getCommentArticleDataRequest
-{
-    if ([[FitUserManager sharedUserManager] isLogin]){
-        
-        [self initStateHud];
-        
-        if (textcView.text.length <= 0) {
-            
-            [self textStateHUD:@"请输入评论内容"];
-            return;
-        }
-        
-//        NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-//        
-//        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
-//        
-//        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-//                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(getCommentArticleDataResponse:)
-//                                                                          withObject:resp
-//                                                                       waitUntilDone:YES];
-//                                               } failed:^(NSError *error) {
-//                                                   
-//                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                          withObject:@"网络错误"
-//                                                                       waitUntilDone:YES];
-//                                               }];
-//        [proxy start];
-//        
-//    } else {
-//        
-//        [self IsLoginIn];
-    }
-}
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
@@ -1862,7 +1765,6 @@ LMVoiceHeaderCellDelegate
     return YES;
 }
 
-
 - (void)getCommentArticleDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
@@ -1871,8 +1773,6 @@ LMVoiceHeaderCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         [self textStateHUD:@"评论成功"];
-//        [self getHomeDetailDataRequest];
-        
         textcView.text  = @"";
         tipLabel.hidden =NO;
         [textcView resignFirstResponder];
@@ -1941,19 +1841,21 @@ LMVoiceHeaderCellDelegate
 
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
-    NSDictionary *info = [notif userInfo];
-    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
     if (textIndex!=1) {
         [UIView animateWithDuration:0.1f animations:^{
             [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
-            NSLog(@"***keyboardWasHidden*%@",toolBar);
         }];
     }
     
 }
 
-
+- (void)cellwillClickImageView:(LMVoiceHeaderCell *)cell
+{
+    LMVoiceMemeberListViewController *member = [[LMVoiceMemeberListViewController alloc] init];
+    member.hidesBottomBarWhenPushed = YES;
+    member.VoiceUUid = eventDic.voiceUuid;
+    [self.navigationController pushViewController:member animated:YES];
+    
+}
 
 @end
