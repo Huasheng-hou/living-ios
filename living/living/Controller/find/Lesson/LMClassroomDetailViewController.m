@@ -949,6 +949,7 @@ LMVoiceHeaderCellDelegate
             
             OrderVC.orderUUid   = orderID;
             OrderVC.dict        = orderDic;
+            OrderVC.Type        = @"voice";
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             

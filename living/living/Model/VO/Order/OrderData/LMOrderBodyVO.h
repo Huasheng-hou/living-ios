@@ -35,6 +35,8 @@
 @property (nonatomic, assign) int coupons;
 @property (nonatomic, retain) NSString *couponPrice;
 @property (nonatomic, retain) NSString *couponMoney;
+@property (nonatomic, retain) NSString *voiceTitle;
+@property (nonatomic, retain) NSString *voiceUuid;
 
 
 @end

@@ -205,8 +205,12 @@ FitPickerViewDelegate
             return 1;
         }
         if (section == 1) {
-            
-            return 7;
+        
+            if ([_Type isEqualToString:@"voice"]) {
+                return 6;
+            }else{
+                return 7;
+            }
         }
     }
     if (tableView==_couponView) {
@@ -309,7 +313,12 @@ FitPickerViewDelegate
             
             
             UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 30, kScreenWidth-55, 60)];
-            titleLabel.text = orderdata.eventName;
+            if ([_Type isEqualToString:@"voice"]) {
+                titleLabel.text = orderdata.voiceTitle;
+            }else{
+               titleLabel.text = orderdata.eventName;
+            }
+            
             titleLabel.numberOfLines = 0;
             titleLabel.font = TEXT_FONT_LEVEL_2;
             titleLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -460,9 +469,13 @@ FitPickerViewDelegate
                     
                     break;
                 case 1:
-                    
-                    cell.textLabel.text = @"活动名称:";
-                    cell.detailTextLabel.text = orderInfos.eventName;
+                    if ([_Type isEqual:@"voice"]) {
+                        cell.textLabel.text = @"课程名称:";
+                        cell.detailTextLabel.text = orderInfos.voiceTitle;
+                    }else{
+                        cell.textLabel.text = @"活动名称:";
+                        cell.detailTextLabel.text = orderInfos.eventName;
+                    }
                     
                     break;
                 case 2:
@@ -480,7 +493,7 @@ FitPickerViewDelegate
                         cell.detailTextLabel.text = @"";
                     } else {
                         
-                        cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%@",orderInfos.validatedPrice];
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%@",orderInfos.averagePrice];
                     }
                     
                     break;
@@ -493,8 +506,12 @@ FitPickerViewDelegate
                     }
                     break;
                 case 5:
+                    if ([_Type isEqual:@"voice"]) {
+                        cell.textLabel.text       = @"课程时间:";
+                    }else{
+                        cell.textLabel.text       = @"活动时间:";
+                    }
                     
-                    cell.textLabel.text                 = @"活动时间:";
                     cell.detailTextLabel.numberOfLines  = 3;
                     
                     if (orderInfos.startTime == nil) {
