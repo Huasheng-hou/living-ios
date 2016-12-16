@@ -36,10 +36,10 @@
 {
     [super viewDidAppear:animated];
     
-    if (self.listData.count == 0) {
-        
+//    if (self.listData.count == 0) {
+    
         [self loadNoState];
-    }
+//    }
 }
 
 - (void)viewDidLoad {
@@ -162,19 +162,22 @@
 {
     if (self.listData.count>indexPath.row) {
         ClassroomVO *vo = self.listData[indexPath.row];
+        if (vo.isBuy==NO) {
+            [self textStateHUD:@"您还未报名参加该课程"];
+            return;
+        }
         if (![vo.status isEqual:@"open"]) {
+            [self textStateHUD:@"课程已开始，下次提前报名哦~"];
+            return;
+        }
+        
+        if (![vo.status isEqual:@"open"]&&vo.isBuy ==YES) {
             LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
             voiceVC.voiceUUid = vo.voiceUuid;
             [voiceVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:voiceVC animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
-        }else{
-            LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
-            [roomVC setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:roomVC animated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
         }
-        
     }
 
 }

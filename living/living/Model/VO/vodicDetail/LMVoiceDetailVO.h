@@ -60,6 +60,8 @@
 
 @property(nonatomic, retain) NSString       *notices;
 
+@property (nonatomic, assign) BOOL          isBuy;
+
 
 @end
 

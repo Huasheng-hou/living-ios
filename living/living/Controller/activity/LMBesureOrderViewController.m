@@ -132,6 +132,8 @@ FitPickerViewDelegate
 - (void)dismissitemPressed
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
 }
 
 - (void)getOrderData

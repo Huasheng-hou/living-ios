@@ -116,6 +116,10 @@
             && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
             self.status = [dictionary objectForKey:@"status"];
         }
+        
+        if (nil != [dictionary objectForKey:@"is_buy"] && ![[dictionary objectForKey:@"is_buy"] isEqual:[NSNull null]]) {
+            self.isBuy = [(NSNumber *)[dictionary objectForKey:@"is_buy"] boolValue];
+        }
    
         
     }

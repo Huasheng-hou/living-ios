@@ -44,6 +44,7 @@
 #import "WXApi.h"
 
 #import "LMVoiceMemeberListViewController.h"
+#import "LMClassRoomViewController.h"
 
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
@@ -98,6 +99,17 @@ LMVoiceHeaderCellDelegate
 @end
 
 @implementation LMClassroomDetailViewController
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getEventListDataRequest) name:@"reloadData" object:nil];
+    }
+    
+    return self;
+}
+
 
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -270,7 +282,7 @@ LMVoiceHeaderCellDelegate
             
             status = @"开始";
         }
-        if ([eventDic.status isEqualToString:@"closed"]) {
+        if ([eventDic.status isEqualToString:@"open"]) {
             status = @"结束";
         }
         
@@ -282,7 +294,7 @@ LMVoiceHeaderCellDelegate
             }
             
             if ([eventDic.number intValue] >0&&[status isEqual:@"开始"]) {
-                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startVoice)];
                 self.navigationItem.rightBarButtonItem = rightItem;
                 
             }
@@ -290,7 +302,7 @@ LMVoiceHeaderCellDelegate
             if ([eventDic.number intValue]>0&&[status isEqual:@"结束"]) {
                 
                 
-                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endVoice)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
         }
@@ -823,15 +835,24 @@ LMVoiceHeaderCellDelegate
     }
 }
 
-#pragma mark - LMActivityheadCell delegate -活动报名
+#pragma mark - 课程报名
 
 - (void)shouldJoinVoice
 {
-    [self cellWillApply:nil];
+    if (eventDic.isBuy == YES) {
+        [self textStateHUD:@"您已报名"];
+        return;
+    }else{
+        [self cellWillApply:nil];
+    }
 }
 
 - (void)cellWillApply:(LMVoiceHeaderCell *)cell
 {
+    if (eventDic.isBuy == YES) {
+        [self textStateHUD:@"您已报名"];
+        return;
+    }
     if ([[FitUserManager sharedUserManager] isLogin]){
         
         LMChooseView *infoView = [[LMChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
@@ -1023,7 +1044,7 @@ LMVoiceHeaderCellDelegate
 }
 
 
-#pragma mark  --活动留言或评论
+#pragma mark  --课程留言或评论
 
 - (void)besureAction:(id)sender
 {
@@ -1126,7 +1147,7 @@ LMVoiceHeaderCellDelegate
 - (void)deleteActivity
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                   message:@"是否删除活动"
+                                                                   message:@"是否删除该课程"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
@@ -1311,7 +1332,7 @@ LMVoiceHeaderCellDelegate
     }
 }
 
-#pragma mark -活动大图
+#pragma mark -课程大图
 
 - (void)cellClickImage:(LMVoiceHeaderCell *)cell
 {
@@ -1325,7 +1346,7 @@ LMVoiceHeaderCellDelegate
     
 }
 
-#pragma mark --项目大图
+#pragma mark --课程项目大图
 
 - (void)cellProjectImage:(LMVoiceProjectCell *)cell
 {
@@ -1367,12 +1388,12 @@ LMVoiceHeaderCellDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始活动
+#pragma mark  --开始课程
 
-- (void)startActivity
+- (void)startVoice
 {
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否开启活动"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否开启课程"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -1381,14 +1402,14 @@ LMVoiceHeaderCellDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-                                                [self startEvent];
+                                                [self startVoiceAction];
                                                 
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)startEvent{
+-(void)startVoiceAction{
     
     
     if (![CheckUtils isLink]) {
@@ -1401,19 +1422,19 @@ LMVoiceHeaderCellDelegate
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
-                                               [self performSelectorOnMainThread:@selector(getstartEventResponse:)
+                                               [self performSelectorOnMainThread:@selector(getstartVoiceResponse:)
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"开始活动失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
 }
 
-- (void)getstartEventResponse:(NSString *)resp
+- (void)getstartVoiceResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
@@ -1423,19 +1444,25 @@ LMVoiceHeaderCellDelegate
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"课程开启成功"];
             
-            [self getEventListDataRequest];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
+                [roomVC setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:roomVC animated:YES];
+                
+                
+            });
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
     }
 }
 
-#pragma mark   --结束活动
+#pragma mark   --结束课程
 
-- (void)endActivity
+- (void)endVoice
 {
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否结束活动"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否结束课程"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -1444,7 +1471,7 @@ LMVoiceHeaderCellDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-                                                [self endEvent];
+                                                [self endVoiceAction];
                                                 
                                             }]];
     
@@ -1453,7 +1480,7 @@ LMVoiceHeaderCellDelegate
     
 }
 
--(void)endEvent{
+-(void)endVoiceAction{
     
     if (![CheckUtils isLink]) {
         
@@ -1472,7 +1499,7 @@ LMVoiceHeaderCellDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"活动结束失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -1483,10 +1510,10 @@ LMVoiceHeaderCellDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
     if (!bodyDic) {
-        [self textStateHUD:@"活动结束失败请重试"];
+        [self textStateHUD:@"课程结束失败请重试"];
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"活动结束成功"];
+            [self textStateHUD:@"课程结束成功"];
             
             [self getEventListDataRequest];
         }else{
@@ -1498,7 +1525,7 @@ LMVoiceHeaderCellDelegate
 //活动举报按钮
 - (void)cellWillreport:(LMClassMessageCell *)cell
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该活动"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该课程"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -1507,7 +1534,7 @@ LMVoiceHeaderCellDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-                                                [self textStateHUD:@"您已经举报了该活动"];
+                                                [self textStateHUD:@"您已经举报了该课程"];
                                                 
                                             }]];
     
@@ -1637,7 +1664,7 @@ LMVoiceHeaderCellDelegate
 {
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
-    shareView.titleLabel.text = @"分享活动";
+    shareView.titleLabel.text = @"分享课程";
     [self.view addSubview:shareView];
 }
 

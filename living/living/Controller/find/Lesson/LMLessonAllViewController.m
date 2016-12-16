@@ -162,7 +162,7 @@
 {
     if (self.listData.count>indexPath.row) {
         ClassroomVO *vo = self.listData[indexPath.row];
-        if (![vo.status isEqual:@"open"]) {
+        if (![vo.status isEqual:@"open"]&&vo.isBuy ==YES) {
             LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
             voiceVC.voiceUUid = vo.voiceUuid;
             [voiceVC setHidesBottomBarWhenPushed:YES];

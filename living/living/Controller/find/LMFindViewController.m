@@ -336,11 +336,13 @@ LMFindCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData&&self.listData.count>0) {
-        NSLog(@"语言课堂");
-        LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
-        lessonVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:lessonVC animated:YES];
+    if (indexPath.row == 0) {
+        if (self.listData&&self.listData.count>0) {
+            NSLog(@"语言课堂");
+            LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
+            lessonVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:lessonVC animated:YES];
+        }
     }
 }
 

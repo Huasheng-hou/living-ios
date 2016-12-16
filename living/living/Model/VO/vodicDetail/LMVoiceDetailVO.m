@@ -145,14 +145,18 @@
             && [[dictionary objectForKey:@"living_uuid"] isKindOfClass:[NSString class]]) {
             self.livingUuid = [dictionary objectForKey:@"living_uuid"];
         }
-        if (nil != [dictionary objectForKey:@"list"] && ![[dictionary objectForKey:@"list"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"list"] isKindOfClass:[NSArray class]]) {
-            self.list = [dictionary objectForKey:@"list"];
+        if (nil != [dictionary objectForKey:@"members"] && ![[dictionary objectForKey:@"members"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"members"] isKindOfClass:[NSArray class]]) {
+            self.list = [dictionary objectForKey:@"members"];
         }
         
         if (nil != [dictionary objectForKey:@"notices"] && ![[dictionary objectForKey:@"notices"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"notices"] isKindOfClass:[NSString class]]) {
             self.notices = [dictionary objectForKey:@"notices"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"is_buy"] && ![[dictionary objectForKey:@"is_buy"] isEqual:[NSNull null]]) {
+            self.isBuy = [(NSNumber *)[dictionary objectForKey:@"is_buy"] boolValue];
         }
     }
     

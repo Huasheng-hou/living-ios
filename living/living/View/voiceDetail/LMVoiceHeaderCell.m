@@ -161,15 +161,15 @@
             for (int i = 0; i<9; i++) {
                 if (i ==8) {
                     UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
-                    [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:[_voiceVO.list[i] objectForKey:@"userAvatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
                     headImage.image = [UIImage imageNamed:@"headMore"];
                     
                     [_imageArrayView addSubview:headImage];
                 }else{
                 UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
                 headImage.backgroundColor = BG_GRAY_COLOR;
-                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-                headImage.image = [UIImage imageNamed:@"headIcon"];
+                [headImage sd_setImageWithURL:[NSURL URLWithString:[_voiceVO.list[i] objectForKey:@"userAvatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+//                headImage.image = [UIImage imageNamed:@"headIcon"];
                 headImage.layer.cornerRadius = 2;
                 headImage.contentMode = UIViewContentModeScaleAspectFill;
                 headImage.clipsToBounds = YES;
@@ -183,9 +183,11 @@
         
             for (int i = 0; i<num; i++) {
                 UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
-                [headImage sd_setImageWithURL:[NSURL URLWithString:_voiceVO.list[i]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-                headImage.image = [UIImage imageNamed:@"headIcon"];
-                
+                [headImage sd_setImageWithURL:[NSURL URLWithString:[_voiceVO.list[i] objectForKey:@"userAvatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+//                headImage.image = [UIImage imageNamed:@"headIcon"];
+                headImage.layer.cornerRadius = 2;
+                headImage.contentMode = UIViewContentModeScaleAspectFill;
+                headImage.clipsToBounds = YES;
                 [_imageArrayView addSubview:headImage];
                 
             }

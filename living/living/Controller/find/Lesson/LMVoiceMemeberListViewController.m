@@ -8,8 +8,9 @@
 
 #import "LMVoiceMemeberListViewController.h"
 #import "LMVoiceMemberRequest.h"
-#import "LMVoiceMemberVO.h"
+#import "LMFriendVO.h"
 #import "UIImageView+WebCache.h"
+#import "LMFriendCell.h"
 
 @interface LMVoiceMemeberListViewController ()
 
@@ -23,7 +24,7 @@
     if (self) {
         
         self.ifRemoveLoadNoState        = NO;
-        self.ifShowTableSeparator       = NO;
+//        self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
     }
     
@@ -41,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"语音课堂";
+    self.title = @"参加人员";
     [self creatUI];
     [self loadNewer];
 }
@@ -73,7 +74,7 @@
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
-        NSArray *resultArr = [LMVoiceMemberVO LMVoiceMemberVOWithArray:[bodyDic objectForKey:@"list"]];
+        NSArray *resultArr = [LMFriendVO LMFriendVOListWithArray:[bodyDic objectForKey:@"list"]];
         
         if (resultArr&&resultArr.count>0) {
             return resultArr;
@@ -134,22 +135,16 @@
     
     if (!cell) {
         
-        cell    = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell    = [[LMFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
+//        cell.backgroundColor = [UIColor clearColor];
     }
     
     if (self.listData.count > indexPath.row) {
-        LMVoiceMemberVO *vo = self.listData[indexPath.row];
-        if (vo && [vo isKindOfClass:[LMVoiceMemberVO class]]) {
-            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-            cell.textLabel.font = TEXT_FONT_LEVEL_2;
-            cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
-            cell.detailTextLabel.font = TEXT_FONT_LEVEL_2;
-            cell.detailTextLabel.textColor = TEXT_COLOR_LEVEL_2;
-            cell.textLabel.text =[NSString stringWithFormat:@"%@ (ID:%@)",vo.nickname,vo.userId];
-            cell.detailTextLabel.text = vo.address;
+        LMFriendVO *vo = self.listData[indexPath.row];
+        if (vo && [vo isKindOfClass:[LMFriendVO class]]) {
             
+            [(LMFriendCell *)cell  setData:vo];
             
         }
         

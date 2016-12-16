@@ -35,5 +35,6 @@
 @property (nonatomic, strong) NSString *discount;
 @property (nonatomic, assign) int totalNum;
 @property (nonatomic, strong) NSString *status;
+@property (nonatomic, assign) BOOL          isBuy;
 
 @end
