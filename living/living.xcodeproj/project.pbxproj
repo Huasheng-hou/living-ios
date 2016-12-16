@@ -367,6 +367,10 @@
 		35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747071DDE97F3000AFA26 /* HBShareButton.m */; };
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
 		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
+		35C218361E03DF62009371F4 /* LMChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C218351E03DF62009371F4 /* LMChatViewController.m */; };
+		35C218401E03DF83009371F4 /* ChattingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C218391E03DF83009371F4 /* ChattingCell.m */; };
+		35C218411E03DF83009371F4 /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C2183B1E03DF83009371F4 /* CustomToolbar.m */; };
+		35C218421E03DF83009371F4 /* KeyBoardAssistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C2183D1E03DF83009371F4 /* KeyBoardAssistView.m */; };
 		35C377881DEE7135007FC70A /* SXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C377871DEE7135007FC70A /* SXButton.m */; };
 		35C3778A1DEE71A1007FC70A /* zhankai@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C377891DEE71A1007FC70A /* zhankai@2x.png */; };
 		35C3778C1DEE71AD007FC70A /* citydict.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35C3778B1DEE71AD007FC70A /* citydict.plist */; };
@@ -1204,6 +1208,14 @@
 		35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
 		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
+		35C218341E03DF5D009371F4 /* LMChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMChatViewController.h; sourceTree = "<group>"; };
+		35C218351E03DF62009371F4 /* LMChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChatViewController.m; sourceTree = "<group>"; };
+		35C218381E03DF83009371F4 /* ChattingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChattingCell.h; sourceTree = "<group>"; };
+		35C218391E03DF83009371F4 /* ChattingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChattingCell.m; sourceTree = "<group>"; };
+		35C2183A1E03DF83009371F4 /* CustomToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomToolbar.h; sourceTree = "<group>"; };
+		35C2183B1E03DF83009371F4 /* CustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomToolbar.m; sourceTree = "<group>"; };
+		35C2183C1E03DF83009371F4 /* KeyBoardAssistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyBoardAssistView.h; sourceTree = "<group>"; };
+		35C2183D1E03DF83009371F4 /* KeyBoardAssistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyBoardAssistView.m; sourceTree = "<group>"; };
 		35C377861DEE7130007FC70A /* SXButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXButton.h; sourceTree = "<group>"; };
 		35C377871DEE7135007FC70A /* SXButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXButton.m; sourceTree = "<group>"; };
 		35C377891DEE71A1007FC70A /* zhankai@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zhankai@2x.png"; sourceTree = "<group>"; };
@@ -1392,6 +1404,8 @@
 		352905D41DF54DBF0062196C /* Lesson */ = {
 			isa = PBXGroup;
 			children = (
+				35C218341E03DF5D009371F4 /* LMChatViewController.h */,
+				35C218351E03DF62009371F4 /* LMChatViewController.m */,
 				35DCDD341DFE6E2E00813172 /* SegmentViewController.h */,
 				35DCDD391DFE71E900813172 /* SegmentViewController.m */,
 				35DCDD361DFE6ECA00813172 /* LMSegmentViewController.h */,
@@ -3071,6 +3085,7 @@
 		35B746C21DDE97F3000AFA26 /* find */ = {
 			isa = PBXGroup;
 			children = (
+				35C218371E03DF83009371F4 /* chattingsView */,
 				35DCDD421DFE8BBF00813172 /* classroomCell */,
 				8E0E28B21DF8234100B735BE /* ChatFace */,
 				8E0E28AB1DF80FF100B735BE /* SegmentView */,
@@ -3205,6 +3220,19 @@
 				35B747091DDE97F3000AFA26 /* HBShareView.m */,
 			);
 			path = Share;
+			sourceTree = "<group>";
+		};
+		35C218371E03DF83009371F4 /* chattingsView */ = {
+			isa = PBXGroup;
+			children = (
+				35C218381E03DF83009371F4 /* ChattingCell.h */,
+				35C218391E03DF83009371F4 /* ChattingCell.m */,
+				35C2183A1E03DF83009371F4 /* CustomToolbar.h */,
+				35C2183B1E03DF83009371F4 /* CustomToolbar.m */,
+				35C2183C1E03DF83009371F4 /* KeyBoardAssistView.h */,
+				35C2183D1E03DF83009371F4 /* KeyBoardAssistView.m */,
+			);
+			path = chattingsView;
 			sourceTree = "<group>";
 		};
 		35DCDD3E1DFE882700813172 /* Classroom */ = {
@@ -3500,6 +3528,7 @@
 				35B747EE1DDE97F4000AFA26 /* HeadVO.m in Sources */,
 				35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */,
 				35B747441DDE97F3000AFA26 /* FitUserManager.m in Sources */,
+				35C218401E03DF83009371F4 /* ChattingCell.m in Sources */,
 				35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */,
 				35B747DB1DDE97F4000AFA26 /* LMPublicArticleRequest.m in Sources */,
 				35B747FA1DDE97F4000AFA26 /* FirPersonVO.m in Sources */,
@@ -3553,6 +3582,7 @@
 				35B7478D1DDE97F3000AFA26 /* LMALLBody.m in Sources */,
 				35B7471A1DDE97F3000AFA26 /* MJPhotoView.m in Sources */,
 				35B747A21DDE97F3000AFA26 /* LMEventCommitReplyRequset.m in Sources */,
+				35C218361E03DF62009371F4 /* LMChatViewController.m in Sources */,
 				35B7477B1DDE97F3000AFA26 /* CheckUtils.m in Sources */,
 				35B747E81DDE97F4000AFA26 /* LMBalanceVO.m in Sources */,
 				35B747651DDE97F3000AFA26 /* LMMyFriendViewController.m in Sources */,
@@ -3756,6 +3786,7 @@
 				35B7480B1DDE97F4000AFA26 /* LMActivityheadCell.m in Sources */,
 				35B747851DDE97F3000AFA26 /* FitThumbImageHelper.m in Sources */,
 				35B748231DDE97F4000AFA26 /* LMChargeButton.m in Sources */,
+				35C218411E03DF83009371F4 /* CustomToolbar.m in Sources */,
 				35B7474C1DDE97F3000AFA26 /* LMPublishViewController.m in Sources */,
 				35B747A41DDE97F3000AFA26 /* LMEventLivingMsgRequest.m in Sources */,
 				35B747A81DDE97F3000AFA26 /* FitBaseRequest.m in Sources */,
@@ -3767,6 +3798,7 @@
 				35B747101DDE97F3000AFA26 /* DataVerifier.m in Sources */,
 				352905D71DF54E470062196C /* LMLessonViewController.m in Sources */,
 				35B747D71DDE97F4000AFA26 /* LMFranchiseeWchatPayRequest.m in Sources */,
+				35C218421E03DF83009371F4 /* KeyBoardAssistView.m in Sources */,
 				35B747C91DDE97F3000AFA26 /* LMOrderListRequest.m in Sources */,
 				35B747431DDE97F3000AFA26 /* FitUserInfoManager.m in Sources */,
 				35B747D81DDE97F4000AFA26 /* LMFriendDataRequest.m in Sources */,

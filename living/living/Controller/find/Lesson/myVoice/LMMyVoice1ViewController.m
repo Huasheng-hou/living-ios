@@ -7,11 +7,11 @@
 //
 
 #import "LMMyVoice1ViewController.h"
-#import "LMClassRoomViewController.h"
 #import "LMClassroomDetailViewController.h"
 #import "LMMyPublicVoicRequest.h"
 #import "LMClassroomCell.h"
 #import "ClassroomVO.h"
+#import "LMChatViewController.h"
 
 @interface LMMyVoice1ViewController ()
 
@@ -169,7 +169,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
             
         }else{
-            LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
+            LMChatViewController *roomVC = [[LMChatViewController alloc] init];
             [roomVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:roomVC animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];

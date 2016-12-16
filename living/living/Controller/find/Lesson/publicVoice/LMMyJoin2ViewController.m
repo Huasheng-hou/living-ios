@@ -7,11 +7,11 @@
 //
 
 #import "LMMyJoin2ViewController.h"
-#import "LMClassRoomViewController.h"
 #import "LMClassroomDetailViewController.h"
 #import "LMClassroomCell.h"
 #import "ClassroomVO.h"
 #import "LMMyJoinFinishVoiceRequest.h"
+#import "LMChatViewController.h"
 
 @interface LMMyJoin2ViewController ()
 
@@ -168,7 +168,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
             
         }else{
-            LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
+            LMChatViewController *roomVC = [[LMChatViewController alloc] init];
             [roomVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:roomVC animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];

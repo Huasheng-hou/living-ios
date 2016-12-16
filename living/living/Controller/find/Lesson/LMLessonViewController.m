@@ -7,11 +7,11 @@
 //
 
 #import "LMLessonViewController.h"
-#import "LMClassRoomViewController.h"
 #import "LMClassroomDetailViewController.h"
 #import "LMLivingRoomRequest.h"
 #import "LMClassroomCell.h"
 #import "ClassroomVO.h"
+#import "LMChatViewController.h"
 
 @interface LMLessonViewController ()
 
@@ -162,10 +162,10 @@
 {
     if (self.listData.count>indexPath.row) {
         ClassroomVO *vo = self.listData[indexPath.row];
-        if (vo.isBuy==NO) {
-            [self textStateHUD:@"您还未报名参加该课程"];
-            return;
-        }
+//        if (vo.isBuy==NO) {
+//            [self textStateHUD:@"您还未报名参加该课程"];
+//            return;
+//        }
         if (![vo.status isEqual:@"open"]) {
             [self textStateHUD:@"课程已开始，下次提前报名哦~"];
             return;

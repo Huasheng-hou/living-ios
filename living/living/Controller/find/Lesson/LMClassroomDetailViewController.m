@@ -44,7 +44,8 @@
 #import "WXApi.h"
 
 #import "LMVoiceMemeberListViewController.h"
-#import "LMClassRoomViewController.h"
+#import "LMChatViewController.h"
+
 
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
@@ -1445,7 +1446,7 @@ LMVoiceHeaderCellDelegate
             [self textStateHUD:@"课程开启成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                LMClassRoomViewController *roomVC = [[LMClassRoomViewController alloc] init];
+                LMChatViewController *roomVC = [[LMChatViewController alloc] init];
                 [roomVC setHidesBottomBarWhenPushed:YES];
                 [self.navigationController pushViewController:roomVC animated:YES];
                 
