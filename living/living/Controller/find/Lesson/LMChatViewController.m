@@ -138,7 +138,6 @@ moreSelectItemDelegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ChattingCell *cell=[ChattingCell cellWithTableView:tableView];
-    
     [cell setCellValue:cellListArray[indexPath.row]];
     
     return cell;

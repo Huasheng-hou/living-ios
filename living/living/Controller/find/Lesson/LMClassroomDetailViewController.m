@@ -1682,7 +1682,8 @@ LMVoiceHeaderCellDelegate
 
 - (void)shareType:(NSInteger)type
 {
-//    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+//    NSString *urlString = @"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
+    NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
     
     switch (type) {
         case 1://微信好友
@@ -1704,7 +1705,7 @@ LMVoiceHeaderCellDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-//            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1718,7 +1719,7 @@ LMVoiceHeaderCellDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
-            //            message.description=articleData.describe;
+//                        message.description=eventDic.describe;
             
             
             if (imageArray.count==0) {
@@ -1733,7 +1734,7 @@ LMVoiceHeaderCellDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-//            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1755,10 +1756,10 @@ LMVoiceHeaderCellDelegate
                 imageUrl=eventDic.image;
             }
             
-//            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_eventUuid]] title:eventDic.image description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
-//            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
-//            //将内容分享到qq
-//            [QQApiInterface sendReq:req];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid]] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
+            //将内容分享到qq
+            [QQApiInterface sendReq:req];
         }
             break;
         case 4://qq空间
@@ -1770,10 +1771,10 @@ LMVoiceHeaderCellDelegate
                 imageUrl=eventDic.image;
             }
             
-//            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_eventUuid]] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
-//            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
-//            //将内容分享到qq空间
-//            [QQApiInterface SendReqToQZone:req];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid]] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
+            //将内容分享到qq空间
+            [QQApiInterface SendReqToQZone:req];
         }
             break;
             
