@@ -72,12 +72,12 @@
         [self.view addSubview:stateHud];
     }
     stateHud.mode = MBProgressHUDModeText;
-    stateHud.label.textColor=[UIColor whiteColor] ;
+    stateHud.labelColor=[UIColor whiteColor] ;
     stateHud.color=[UIColor blackColor];
-    stateHud.label.text = text;
-    stateHud.label.font = [UIFont systemFontOfSize:12.0f];
-    [stateHud showAnimated:YES];
-    [stateHud hideAnimated:YES afterDelay:1.2];
+    stateHud.labelText = text;
+    stateHud.labelFont = [UIFont systemFontOfSize:12.0f];
+    [stateHud show:YES];
+    [stateHud hide:YES afterDelay:1.2];
 }
 
 - (void)initStateHud
@@ -90,13 +90,13 @@
     stateHud.mode = MBProgressHUDModeIndeterminate;
     [stateHud setActivityIndicatorColor:[UIColor whiteColor]];
     stateHud.color=[UIColor blackColor];
-    stateHud.label.textColor    = [UIColor whiteColor];
-    [stateHud showAnimated:YES];
+    stateHud.labelColor    = [UIColor whiteColor];
+    [stateHud show:YES];
 }
 
 - (void)hideStateHud
 {
-    [stateHud hideAnimated:YES];
+    [stateHud hide:YES];
 }
 
 - (void)resignCurrentFirstResponder

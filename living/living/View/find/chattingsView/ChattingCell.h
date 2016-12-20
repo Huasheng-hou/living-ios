@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MssageVO.h"
 
 @interface ChattingCell : UITableViewCell
 
@@ -24,5 +25,5 @@
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
--(void)setCellValue:(id)content;
+-(void)setCellValue:(MssageVO *)content;
 @end

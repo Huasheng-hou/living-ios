@@ -15,6 +15,11 @@
 		351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213831DF965FB0053B83F /* LMCancelauthorRequest.m */; };
 		351213871DF969AC0053B83F /* LMBlackWriterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213861DF969AC0053B83F /* LMBlackWriterRequest.m */; };
 		352905D71DF54E470062196C /* LMLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352905D61DF54E470062196C /* LMLessonViewController.m */; };
+		354050421E07B35800B11027 /* LMChatRecordsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050411E07B35800B11027 /* LMChatRecordsRequest.m */; };
+		354050461E07BA8700B11027 /* LMVoiceQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050451E07BA8700B11027 /* LMVoiceQuestionViewController.m */; };
+		354050491E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050481E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m */; };
+		3540504C1E07BCD200B11027 /* LMQuestionVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3540504B1E07BCD200B11027 /* LMQuestionVO.m */; };
+		3540504F1E07BF4F00B11027 /* LMQuestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3540504E1E07BF4F00B11027 /* LMQuestionTableViewCell.m */; };
 		3547F4C11D9905190068F04E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C01D9905190068F04E /* libsqlite3.tbd */; };
 		3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C21D99052D0068F04E /* libstdc++.6.tbd */; };
 		3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C41D99053A0068F04E /* CoreLocation.framework */; };
@@ -68,7 +73,6 @@
 		359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
-		35B1A1251DED611800055E7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B1A1241DED611800055E7D /* Info.plist */; };
 		35B7470D1DDE97F3000AFA26 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744471DDE97F2000AFA26 /* Order.m */; };
 		35B7470E1DDE97F3000AFA26 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444A1DDE97F2000AFA26 /* base64.m */; };
 		35B7470F1DDE97F3000AFA26 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B7444D1DDE97F2000AFA26 /* DataSigner.m */; };
@@ -389,6 +393,7 @@
 		35DCDD451DFE8C8A00813172 /* LMClassroomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD441DFE8C8A00813172 /* LMClassroomCell.m */; };
 		35DCDD4D1DFE951000813172 /* ClassroomVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD4C1DFE951000813172 /* ClassroomVO.m */; };
 		35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E686701DEFC89600B43000 /* LMArtcleFootView.m */; };
+		35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F1AB6E1E08F3C1003304EE /* MssageVO.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
 		35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E861DB5BBEC00510A75 /* libcrypto.a */; };
@@ -445,6 +450,16 @@
 		351213861DF969AC0053B83F /* LMBlackWriterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlackWriterRequest.m; sourceTree = "<group>"; };
 		352905D51DF54E470062196C /* LMLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonViewController.h; sourceTree = "<group>"; };
 		352905D61DF54E470062196C /* LMLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLessonViewController.m; sourceTree = "<group>"; };
+		354050401E07B35800B11027 /* LMChatRecordsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChatRecordsRequest.h; sourceTree = "<group>"; };
+		354050411E07B35800B11027 /* LMChatRecordsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChatRecordsRequest.m; sourceTree = "<group>"; };
+		354050441E07BA8700B11027 /* LMVoiceQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceQuestionViewController.h; sourceTree = "<group>"; };
+		354050451E07BA8700B11027 /* LMVoiceQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceQuestionViewController.m; sourceTree = "<group>"; };
+		354050471E07BC6D00B11027 /* LMVoiceQuesrtionRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceQuesrtionRequest.h; sourceTree = "<group>"; };
+		354050481E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceQuesrtionRequest.m; sourceTree = "<group>"; };
+		3540504A1E07BCD200B11027 /* LMQuestionVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMQuestionVO.h; sourceTree = "<group>"; };
+		3540504B1E07BCD200B11027 /* LMQuestionVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMQuestionVO.m; sourceTree = "<group>"; };
+		3540504D1E07BF4F00B11027 /* LMQuestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMQuestionTableViewCell.h; sourceTree = "<group>"; };
+		3540504E1E07BF4F00B11027 /* LMQuestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMQuestionTableViewCell.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F4C01D9905190068F04E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3547F4C21D99052D0068F04E /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
@@ -1249,6 +1264,8 @@
 		35DCDD4C1DFE951000813172 /* ClassroomVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassroomVO.m; sourceTree = "<group>"; };
 		35E6866F1DEFC89600B43000 /* LMArtcleFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleFootView.h; sourceTree = "<group>"; };
 		35E686701DEFC89600B43000 /* LMArtcleFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleFootView.m; sourceTree = "<group>"; };
+		35F1AB6D1E08F3C1003304EE /* MssageVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MssageVO.h; sourceTree = "<group>"; };
+		35F1AB6E1E08F3C1003304EE /* MssageVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MssageVO.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		35FA8E841DB5B80200510A75 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		35FA8E861DB5BBEC00510A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1404,6 +1421,7 @@
 		352905D41DF54DBF0062196C /* Lesson */ = {
 			isa = PBXGroup;
 			children = (
+				354050431E07BA1A00B11027 /* classroom */,
 				35C218341E03DF5D009371F4 /* LMChatViewController.h */,
 				35C218351E03DF62009371F4 /* LMChatViewController.m */,
 				35DCDD341DFE6E2E00813172 /* SegmentViewController.h */,
@@ -1428,6 +1446,26 @@
 				35980BB71E012FDF0054EB05 /* myVoice */,
 			);
 			path = Lesson;
+			sourceTree = "<group>";
+		};
+		3540503F1E07B31E00B11027 /* class */ = {
+			isa = PBXGroup;
+			children = (
+				354050401E07B35800B11027 /* LMChatRecordsRequest.h */,
+				354050411E07B35800B11027 /* LMChatRecordsRequest.m */,
+				354050471E07BC6D00B11027 /* LMVoiceQuesrtionRequest.h */,
+				354050481E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m */,
+			);
+			path = class;
+			sourceTree = "<group>";
+		};
+		354050431E07BA1A00B11027 /* classroom */ = {
+			isa = PBXGroup;
+			children = (
+				354050441E07BA8700B11027 /* LMVoiceQuestionViewController.h */,
+				354050451E07BA8700B11027 /* LMVoiceQuestionViewController.m */,
+			);
+			path = classroom;
 			sourceTree = "<group>";
 		};
 		3547F3251D9901770068F04E = {
@@ -3238,6 +3276,7 @@
 		35DCDD3E1DFE882700813172 /* Classroom */ = {
 			isa = PBXGroup;
 			children = (
+				3540503F1E07B31E00B11027 /* class */,
 				35980BCC1E0138590054EB05 /* myvoice */,
 				35DCDD3F1DFE888800813172 /* LMLivingRoomRequest.h */,
 				35DCDD401DFE888800813172 /* LMLivingRoomRequest.m */,
@@ -3280,6 +3319,8 @@
 			children = (
 				35DCDD431DFE8C8A00813172 /* LMClassroomCell.h */,
 				35DCDD441DFE8C8A00813172 /* LMClassroomCell.m */,
+				3540504D1E07BF4F00B11027 /* LMQuestionTableViewCell.h */,
+				3540504E1E07BF4F00B11027 /* LMQuestionTableViewCell.m */,
 			);
 			path = classroomCell;
 			sourceTree = "<group>";
@@ -3289,6 +3330,10 @@
 			children = (
 				35DCDD4B1DFE951000813172 /* ClassroomVO.h */,
 				35DCDD4C1DFE951000813172 /* ClassroomVO.m */,
+				3540504A1E07BCD200B11027 /* LMQuestionVO.h */,
+				3540504B1E07BCD200B11027 /* LMQuestionVO.m */,
+				35F1AB6D1E08F3C1003304EE /* MssageVO.h */,
+				35F1AB6E1E08F3C1003304EE /* MssageVO.m */,
 			);
 			path = classroom;
 			sourceTree = "<group>";
@@ -3375,7 +3420,7 @@
 		3547F3261D9901780068F04E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = chenle;
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
@@ -3428,7 +3473,6 @@
 				8E4C98FF1DD1D7DC00B17046 /* AMap.bundle in Resources */,
 				35B747301DDE97F3000AFA26 /* UMShareEditViewControlleriPad.xib in Resources */,
 				35B748011DDE97F4000AFA26 /* lightNormal.png in Resources */,
-				35B1A1251DED611800055E7D /* Info.plist in Resources */,
 				35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */,
 				35B7476D1DDE97F3000AFA26 /* SQMenuShowCell.xib in Resources */,
 				35B748001DDE97F4000AFA26 /* findpage.png in Resources */,
@@ -3516,6 +3560,7 @@
 				35B748301DDE97F4000AFA26 /* BabFilterAgePickerView.m in Sources */,
 				359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */,
 				35B7475A1DDE97F3000AFA26 /* LMWebViewController.m in Sources */,
+				354050491E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m in Sources */,
 				35B747C61DDE97F3000AFA26 /* LMBalanceRequest.m in Sources */,
 				35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */,
 				35B747511DDE97F3000AFA26 /* FitBaseViewController.m in Sources */,
@@ -3594,6 +3639,7 @@
 				35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */,
 				35B7479F1DDE97F3000AFA26 /* LMEventStartRequest.m in Sources */,
 				35B747E11DDE97F4000AFA26 /* SpeechSynthesizer.m in Sources */,
+				354050461E07BA8700B11027 /* LMVoiceQuestionViewController.m in Sources */,
 				35B747931DDE97F3000AFA26 /* LMCouponList.m in Sources */,
 				35B747191DDE97F3000AFA26 /* MJPhotoToolbar.m in Sources */,
 				35B7477C1DDE97F3000AFA26 /* HcbObjectTable.m in Sources */,
@@ -3699,6 +3745,7 @@
 				35B747751DDE97F3000AFA26 /* DALabeledCircularProgressView.m in Sources */,
 				35B747A91DDE97F3000AFA26 /* LMFindBannerRequest.m in Sources */,
 				35B747F11DDE97F4000AFA26 /* LMActicleCommentVO.m in Sources */,
+				35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */,
 				35B747691DDE97F3000AFA26 /* LMAddviceViewController.m in Sources */,
 				35B747221DDE97F3000AFA26 /* UIView+MJExtension.m in Sources */,
 				35B747C71DDE97F3000AFA26 /* LMCouponMsgRequest.m in Sources */,
@@ -3734,6 +3781,7 @@
 				359F81931E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m in Sources */,
 				35B7481F1DDE97F4000AFA26 /* WJLoopView.m in Sources */,
 				35B747741DDE97F3000AFA26 /* DACircularProgressView.m in Sources */,
+				3540504F1E07BF4F00B11027 /* LMQuestionTableViewCell.m in Sources */,
 				35B747F61DDE97F4000AFA26 /* LMOrderBodyVO.m in Sources */,
 				66A52E931DFBE008000BDFE2 /* LMActivityHeaderView.m in Sources */,
 				35B747681DDE97F3000AFA26 /* LMPersonViewController.m in Sources */,
@@ -3772,6 +3820,7 @@
 				35980BBF1E0132020054EB05 /* LMMyjoinSegmentViewController.m in Sources */,
 				35B747F31DDE97F4000AFA26 /* LMLivingInfoVO.m in Sources */,
 				35B7480A1DDE97F4000AFA26 /* LMActivityCell.m in Sources */,
+				3540504C1E07BCD200B11027 /* LMQuestionVO.m in Sources */,
 				35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */,
 				359F81901E027B850070F6C7 /* LMVoiceCommentReplyRequest.m in Sources */,
 				35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */,
@@ -3781,6 +3830,7 @@
 				35B747671DDE97F3000AFA26 /* LMNoticViewController.m in Sources */,
 				35B748141DDE97F4000AFA26 /* LMPublicEventListCell.m in Sources */,
 				35B747381DDE97F3000AFA26 /* WXApiRequestHandler.m in Sources */,
+				354050421E07B35800B11027 /* LMChatRecordsRequest.m in Sources */,
 				35B7481B1DDE97F4000AFA26 /* LMCommentButton.m in Sources */,
 				35B747FC1DDE97F4000AFA26 /* WechatInfoVO.m in Sources */,
 				35B7480B1DDE97F4000AFA26 /* LMActivityheadCell.m in Sources */,

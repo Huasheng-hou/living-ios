@@ -23,6 +23,9 @@
 
 @property (nonatomic, strong) UILabel *contentLabel;
 
+@property (nonatomic, strong) UIView *typeView;
+@property (nonatomic, assign) CGFloat width;
+
 
 @end
 
@@ -55,9 +58,14 @@
     [self.contentView addSubview:_titleLabel];
     _titleLabel.userInteractionEnabled = YES;
     
+    _typeView = [UIView new];
+    _typeView.backgroundColor = [UIColor clearColor];
+    [_titleLabel addSubview:_typeView];
+    
+    
     UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(articletitleClick)];
     
-    [_titleLabel addGestureRecognizer:tap2];
+    [_typeView addGestureRecognizer:tap2];
     
     _contentLabel = [UILabel new];
     _contentLabel.numberOfLines  = 2;
@@ -106,6 +114,11 @@
         _titleLabel.attributedText = str;
         _titleLabel.userInteractionEnabled  = YES;
         
+        NSDictionary *attrs = @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16]};
+        CGSize size=[[NSString stringWithFormat:@"#%@#",list.type] sizeWithAttributes:attrs];
+        _width = size.width;
+        
+        
     } else {
         
         _titleLabel.text = list.articleTitle;
@@ -121,6 +134,7 @@
     [_titleLabel sizeToFit];
     [_timeLabel sizeToFit];
     [_contentLabel sizeToFit];
+    [_typeView sizeToFit];
     
     _imageV.frame = CGRectMake(15, 15, 120, 100);
     _titleLabel.frame = CGRectMake(145, 17, kScreenWidth-160, _titleLabel.bounds.size.height);
@@ -133,6 +147,7 @@
     _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 95, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
 
 
+    _typeView.frame = CGRectMake(-5, -5, _width+10, _titleLabel.bounds.size.height+10);
     
 }
 

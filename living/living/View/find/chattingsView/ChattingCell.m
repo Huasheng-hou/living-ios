@@ -8,6 +8,7 @@
 
 #import "ChattingCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 
 #define lightRedColor [UIColor colorWithRed:255/255.0f green:240/255.0f blue:240/255.0f alpha:1.0f]
 
@@ -47,12 +48,10 @@
     [_headImageView.layer setMasksToBounds:YES];
     [_headImageView setContentMode:UIViewContentModeScaleAspectFill];
     [_headImageView setClipsToBounds:YES];
-    [_headImageView setImage:[UIImage imageNamed:@"cellHeadImageIcon"]];
     [self addSubview:_headImageView];
     
     //名字
     _chatNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(50, 5, kScreenWidth-75, 30)];
-    [_chatNameLabel setText:@"李振海"];
     [_chatNameLabel setFont:TEXT_FONT_LEVEL_2];
     [_chatNameLabel setTextColor:[UIColor blackColor]];
     [self addSubview:_chatNameLabel];
@@ -61,7 +60,6 @@
     _timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(60, 5, kScreenWidth-75, 30)];
     [_timeLabel setTextAlignment:NSTextAlignmentRight];
     [_timeLabel setFont:TEXT_FONT_LEVEL_3];
-    [_timeLabel setText:@"11-12 12:22"];
     [_timeLabel setTextColor:[UIColor grayColor]];
     [self addSubview:_timeLabel];
     
@@ -109,20 +107,23 @@
     [self addSubview:publishImageV];
 }
 
--(void)setCellValue:(id)content
+-(void)setCellValue:(MssageVO *)vo
 {
     //设置时间
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init]; //初始化格式器。
     [formatter setDateFormat:@"MM-dd hh:mm"];//定义时间为这种格式： YYYY-MM-dd hh:mm:ss 。
-    NSString *currentTime = [formatter stringFromDate:[NSDate date]];
+    NSString *currentTime = [formatter stringFromDate:vo.time];
     [_timeLabel setText:currentTime];
+    
+    _chatNameLabel.text = vo.name;
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:vo.headimgurl]];
     
      //设置内容
     
     //如果为文字
-    if ([content isKindOfClass:[NSString class]]) {
+    if (vo.type&&[vo.type isEqual:@"chat"]) {
         
-        NSString *contentStr=content;
+        NSString *contentStr=vo.content;
         
          [_contentLabel setText:contentStr];
         
@@ -148,9 +149,9 @@
     }
     
     //如果为图片
-     if ([content isKindOfClass:[UIImage class]]) {
+     if (vo.type&&[vo.type isEqual:@"picture"]) {
          
-         [publishImageV setImage:content];
+         [publishImageV sd_setImageWithURL:[NSURL URLWithString:vo.imageurl]];
          //隐藏文字显示控件
          [contentbgView setHidden:YES];
          //显示图片显示控件

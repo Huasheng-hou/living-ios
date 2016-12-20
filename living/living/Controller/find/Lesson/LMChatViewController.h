@@ -7,8 +7,10 @@
 //
 
 //#import <UIKit/UIKit.h>
-#import "FitTableViewController.h"
+#import "FitStatefulTableViewController.h"
 
-@interface LMChatViewController : FitTableViewController
+@interface LMChatViewController : FitStatefulTableViewController
+
+@property (nonatomic,strong)NSString *voiceUuid;
 
 @end

@@ -171,11 +171,11 @@
             return;
         }
         
-        if (![vo.status isEqual:@"open"]&&vo.isBuy ==YES) {
-            LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
-            voiceVC.voiceUUid = vo.voiceUuid;
-            [voiceVC setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:voiceVC animated:YES];
+        if ([vo.status isEqual:@"open"]) {//&&vo.isBuy ==YES
+            LMChatViewController *roomVC = [[LMChatViewController alloc] init];
+            [roomVC setHidesBottomBarWhenPushed:YES];
+            roomVC.voiceUuid = vo.voiceUuid;
+            [self.navigationController pushViewController:roomVC animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
         }
     }
