@@ -8,9 +8,16 @@
 
 //#import <UIKit/UIKit.h>
 #import "FitStatefulTableViewController.h"
+typedef enum {
+    kFitMessageTableStateOnLoading    =   1,
+    kFitMessageTableStateIdle         =   2,
+} FitMessageTableState;
 
 @interface LMChatViewController : FitStatefulTableViewController
 
 @property (nonatomic,strong)NSString *voiceUuid;
+
+@property (assign, nonatomic)   NSInteger               total;
+@property (assign, nonatomic)   FitMessageTableState    state;
 
 @end

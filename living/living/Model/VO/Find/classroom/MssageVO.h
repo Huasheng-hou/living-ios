@@ -30,5 +30,9 @@
 @property (nonatomic, strong) NSString *headimgurl;
 @property (nonatomic, strong) NSString *voiceurl;
 @property (nonatomic, strong) NSString *imageurl;
+@property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *attachment;
+
+@property (nonatomic, assign) BOOL  ifShowTimeLbl;
 
 @end

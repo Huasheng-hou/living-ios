@@ -56,6 +56,7 @@ STOMPClientDelegate
         self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
+        [self createWebSocket];
     }
     
     return self;
@@ -73,7 +74,7 @@ STOMPClientDelegate
     [self loadNewer];
     
     [self botttomView];
-    [self createWebSocket];
+//    [self createWebSocket];
 }
 
 #pragma mark 初始化视图静态界面
@@ -106,7 +107,7 @@ STOMPClientDelegate
 
 - (FitBaseRequest *)request
 {
-    LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:self.current andPageSize:20 voice_uuid:_voiceUuid];
+    LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:self.current andPageSize:10 voice_uuid:_voiceUuid];
     
     return request;
 }
@@ -141,9 +142,8 @@ STOMPClientDelegate
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
-        
         NSArray *resultArr = [MssageVO MssageVOListWithArray:[bodyDic objectForKey:@"list"]];
-        
+        resultArr = (NSMutableArray *)[[resultArr reverseObjectEnumerator]allObjects];
         if (resultArr&&resultArr.count>0) {
             return resultArr;
         }
@@ -244,19 +244,6 @@ STOMPClientDelegate
             [self textStateHUD:@"请输入文字"];
             return NO;
         }else{
-        NSDate *date = [NSDate date];
-        NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSString *time = [formatter stringFromDate:date];
-        NSMutableDictionary *dic = [NSMutableDictionary new];
-        NSMutableArray *array = [NSMutableArray new];
-        [dic setObject:textView.text forKey:@"content"];
-        [dic setObject:time forKey:@"time"];
-        [dic setObject:name forKey:@"name"];
-        [dic setObject:@"chat" forKey:@"type"];
-        [array addObject:dic];
-        NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-        [self.listData addObjectsFromArray:array2];
             
         NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             
@@ -266,14 +253,6 @@ STOMPClientDelegate
         NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                 
         [client sendTo:@"/message/hello" body:string];
-            if (client.connected==YES) {
-                NSLog(@".....6......连接中");
-            }
-            if (client.connected==NO) {
-                NSLog(@".....6......未连接");
-            }
-            client.connected = YES;
-            
  
         toorbar.inputTextView.text=@"";
         
@@ -589,39 +568,44 @@ STOMPClientDelegate
             
             NSLog(@"%@",respDict);
             
-//            if ([respDict objectForKey:@"type"]&&[respDict objectForKey:@"chat"]) {
-//                NSDate *date = [NSDate date];
-//                NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-//                [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//                NSString *time = [formatter stringFromDate:date];
-//                NSMutableDictionary *dic = [NSMutableDictionary new];
-//                NSMutableArray *array = [NSMutableArray new];
-//                [dic setObject:imgUrl forKey:@"content"];
-//                [dic setObject:time forKey:@"time"];
-//                [dic setObject:name forKey:@"name"];
-//                [dic setObject:@"picture" forKey:@"type"];
-//                [dic setObject:avartar forKey:@"headimgurl"];
-//                [array addObject:dic];
-//                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-//                [self.listData addObjectsFromArray:array2];
-//            }
+            MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
             
-//            NSDate *date = [NSDate date];
-//            NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-//            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//            NSString *time = [formatter stringFromDate:date];
-//            NSMutableDictionary *dic = [NSMutableDictionary new];
-//            NSMutableArray *array = [NSMutableArray new];
-//            [dic setObject:imgUrl forKey:@"imageurl"];
-//            [dic setObject:time forKey:@"time"];
-//            [dic setObject:name forKey:@"name"];
-//            [dic setObject:@"picture" forKey:@"type"];
-//            [dic setObject:avartar forKey:@"headimgurl"];
-//            [array addObject:dic];
-//            NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-//            [self.listData addObjectsFromArray:array2];
-//            
-         
+            if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
+                NSMutableDictionary *dic = [NSMutableDictionary new];
+                NSMutableArray *array = [NSMutableArray new];
+                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                [dic setObject:content forKey:@"content"];
+                [dic setObject:vo.time forKey:@"time"];
+                [dic setObject:vo.name forKey:@"name"];
+                [dic setObject:@"chat" forKey:@"type"];
+                [dic setObject:vo.avatar forKey:@"headimgurl"];
+                [array addObject:dic];
+                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+                [self.listData addObjectsFromArray:array2];
+            }
+            
+            if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"])) {
+                NSMutableDictionary *dic = [NSMutableDictionary new];
+                NSMutableArray *array = [NSMutableArray new];
+                
+                if ([vo.type isEqual:@"voice"]) {
+                    [dic setObject:vo.attachment forKey:@"voiceurl"];
+                }
+                if ([vo.type isEqual:@"picture"]) {
+                    [dic setObject:vo.attachment forKey:@"imageurl"];
+                }
+                [dic setObject:vo.time forKey:@"time"];
+                [dic setObject:vo.name forKey:@"name"];
+                [dic setObject:@"picture" forKey:@"type"];
+                [dic setObject:vo.avatar forKey:@"headimgurl"];
+                [array addObject:dic];
+                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+                [self.listData addObjectsFromArray:array2];
+
+            }
+            
+            
+            [self reLoadTableViewCell];
             
         }];
 
@@ -636,36 +620,20 @@ STOMPClientDelegate
 - (void)voiceFinish:(NSURL *)string
 {
     NSLog(@"%@",string);
-    NSArray  *paths  =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *docDir = [paths objectAtIndex:0];
-    NSString *filePath = [docDir stringByAppendingPathComponent:@"/recodOutput.caf"];
-    NSArray *arrays = [[NSArray alloc] initWithContentsOfFile:filePath];
-    NSLog(@"%@",arrays);
-    
-    
-    NSDate *date = [NSDate date];
-    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *time = [formatter stringFromDate:date];
-    NSMutableDictionary *dic = [NSMutableDictionary new];
-    NSMutableArray *array = [NSMutableArray new];
-    [dic setObject:string forKey:@"voiceurl"];
-    [dic setObject:time forKey:@"time"];
-    [dic setObject:name forKey:@"name"];
-    [dic setObject:@"voice" forKey:@"type"];
-    [dic setObject:avartar forKey:@"headimgurl"];
-    [array addObject:dic];
-    NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-    [self.listData addObjectsFromArray:array2];
-    
-    
-    NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":string};
-    
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *strings = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
-    
-    [client sendTo:@"/message/hello" body:strings];
-    [self reLoadTableViewCell];
+//    NSArray  *paths  =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+//    NSString *docDir = [paths objectAtIndex:0];
+//    NSString *filePath = [docDir stringByAppendingPathComponent:@"/recodOutput.caf"];
+//    NSArray *arrays = [[NSArray alloc] initWithContentsOfFile:filePath];
+//    NSLog(@"%@",arrays);
+//    
+//    
+//    NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":string};
+//    
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+//    NSString *strings = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+//    
+//    [client sendTo:@"/message/hello" body:strings];
+//    [self reLoadTableViewCell];
 }
 
 

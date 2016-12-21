@@ -100,6 +100,17 @@
             self.imageurl = [dictionary objectForKey:@"imageurl"];
         }
         
+        if (nil != [dictionary objectForKey:@"avatar"] && ![[dictionary objectForKey:@"avatar"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"avatar"] isKindOfClass:[NSString class]]) {
+            self.avatar = [dictionary objectForKey:@"avatar"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"attachment"] && ![[dictionary objectForKey:@"attachment"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"attachment"] isKindOfClass:[NSString class]]) {
+            self.attachment = [dictionary objectForKey:@"attachment"];
+        }
+        
+        self.ifShowTimeLbl              = NO;
     }
     
     return self;
