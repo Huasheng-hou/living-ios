@@ -88,7 +88,6 @@ static NSMutableArray *cellDataArray;
     [self creatUI];
     
     [self initSearch];
-
 }
 
 - (void)initSearch
@@ -96,18 +95,6 @@ static NSMutableArray *cellDataArray;
     if (self.search==nil) {
         self.search     = [[AMapSearchAPI alloc] init];
     }
-}
-
--(void)initMapView
-{
-    if (self.mapView==nil) {
-        self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
-    }
-    
-    self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
-    
-    self.mapView.allowsBackgroundLocationUpdates    = NO;
-    self.mapView.showsUserLocation                  = YES;
 }
 
 - (void)creatUI
@@ -120,7 +107,6 @@ static NSMutableArray *cellDataArray;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-
     
     [self creatFootView];
 }
@@ -552,7 +538,6 @@ static NSMutableArray *cellDataArray;
             //在这里做你响应return键的代码
             [self.view endEditing:YES];
             return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-            
         }
     }
     if ([textView isEqual:addView2.addressTF]) {
@@ -560,14 +545,10 @@ static NSMutableArray *cellDataArray;
             //在这里做你响应return键的代码
             [self.view endEditing:YES];
             return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-            
         }
     }
-
-    
     return YES;
 }
-
 
 #pragma mark  textView代理方法
 
@@ -724,7 +705,6 @@ static NSMutableArray *cellDataArray;
     }else{
         [dic setObject:text forKey:@"title"];
     }
-    
     
     [self refreshData];
     

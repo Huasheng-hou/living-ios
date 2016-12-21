@@ -68,7 +68,6 @@
     [self.view addSubview:self.tv];
     
     [self GetDataFromPlistFiles];
-    
 }
 
 - (void)locate {
@@ -81,7 +80,6 @@
         _currentCity = @"定位中";
         [locationManager startUpdatingLocation];
     }
-    
 }
 
 #pragma mark -------懒加载
@@ -89,15 +87,11 @@
 - (UITableView *)tv{
     
     if (!_tv) {
-        
         _tv = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+45, kScreenWidth, kScreenHeight-45-64)];
         _tv.delegate = self;
         _tv.dataSource = self;
         [_tv registerClass:[TableViewCell class] forCellReuseIdentifier:@"TableViewCellID"];
-        
-        
     }
-    
     return _tv;
 }
 

@@ -82,8 +82,6 @@
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
-        
-        
     }];
 }
 

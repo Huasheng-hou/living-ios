@@ -55,7 +55,6 @@ itemTypeDelegate
     if (item==1) {//全部消息
         
     }
-    
 }
 
 - (void)viewDidLoad {
@@ -72,21 +71,17 @@ itemTypeDelegate
     [segmentView setDelegate:self];
     [self.view addSubview:segmentView];
     
-   
     [self.tableView setFrame:CGRectMake(0, 40, kScreenWidth, kScreenHeight-40)];
     
     self.tableView.separatorStyle   = UITableViewCellSeparatorStyleNone;
     [self initInputControl];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    
     self.tableView.delegate = self;
-    
     
     // * 添加隐藏键盘的蒙层
     //
