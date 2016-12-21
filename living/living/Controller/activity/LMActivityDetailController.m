@@ -1376,9 +1376,8 @@ shareTypeDelegate
         
         LMProjectBodyVO *vo = eventArray[i];
         
-        if ([vo.projectImgs isEqual:@""]) {
-            
-            [array addObject:vo.projectImgs];
+        if (!vo.projectImgs||[vo.projectImgs isEqual:@""]) {
+            [array addObject:@""];
         }
     }
     

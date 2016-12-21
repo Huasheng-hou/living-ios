@@ -72,12 +72,6 @@ AMapLocationManagerDelegate
     //设置期望定位精度
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     
-    //设置不允许系统暂停定位
-    [self.locationManager setPausesLocationUpdatesAutomatically:NO];
-    
-    //设置允许在后台定位
-    [self.locationManager setAllowsBackgroundLocationUpdates:YES];
-    
     //设置定位超时时间
     [self.locationManager setLocationTimeout:DefaultLocationTimeout];
     
