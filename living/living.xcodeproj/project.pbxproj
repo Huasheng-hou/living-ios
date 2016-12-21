@@ -20,6 +20,7 @@
 		354050491E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050481E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m */; };
 		3540504C1E07BCD200B11027 /* LMQuestionVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3540504B1E07BCD200B11027 /* LMQuestionVO.m */; };
 		3540504F1E07BF4F00B11027 /* LMQuestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3540504E1E07BF4F00B11027 /* LMQuestionTableViewCell.m */; };
+		354298D41E0A207E001E11B4 /* FirUploadVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354298D31E0A207E001E11B4 /* FirUploadVoiceRequest.m */; };
 		3547F4C11D9905190068F04E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C01D9905190068F04E /* libsqlite3.tbd */; };
 		3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C21D99052D0068F04E /* libstdc++.6.tbd */; };
 		3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3547F4C41D99053A0068F04E /* CoreLocation.framework */; };
@@ -460,6 +461,8 @@
 		3540504B1E07BCD200B11027 /* LMQuestionVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMQuestionVO.m; sourceTree = "<group>"; };
 		3540504D1E07BF4F00B11027 /* LMQuestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMQuestionTableViewCell.h; sourceTree = "<group>"; };
 		3540504E1E07BF4F00B11027 /* LMQuestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMQuestionTableViewCell.m; sourceTree = "<group>"; };
+		354298D21E0A207E001E11B4 /* FirUploadVoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirUploadVoiceRequest.h; sourceTree = "<group>"; };
+		354298D31E0A207E001E11B4 /* FirUploadVoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadVoiceRequest.m; sourceTree = "<group>"; };
 		3547F32E1D9901780068F04E /* 腰果生活.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "腰果生活.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3547F4C01D9905190068F04E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3547F4C21D99052D0068F04E /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
@@ -2753,6 +2756,8 @@
 			children = (
 				35B746391DDE97F3000AFA26 /* FirUploadImageRequest.h */,
 				35B7463A1DDE97F3000AFA26 /* FirUploadImageRequest.m */,
+				354298D21E0A207E001E11B4 /* FirUploadVoiceRequest.h */,
+				354298D31E0A207E001E11B4 /* FirUploadVoiceRequest.m */,
 			);
 			path = UploadImage;
 			sourceTree = "<group>";
@@ -3681,6 +3686,7 @@
 				359F818A1E0270E20070F6C7 /* LMVoiceMemberVO.m in Sources */,
 				35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */,
 				35B747781DDE97F3000AFA26 /* FitConsts.m in Sources */,
+				354298D41E0A207E001E11B4 /* FirUploadVoiceRequest.m in Sources */,
 				35B7475D1DDE97F3000AFA26 /* LMRegisterViewController.m in Sources */,
 				35B748151DDE97F4000AFA26 /* LMPublicMsgCell.m in Sources */,
 				35B747561DDE97F3000AFA26 /* LMFindViewController.m in Sources */,

@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class selectItemDelegate;
+
 @protocol selectItemDelegate <NSObject>
 
 -(void)selectItem:(NSInteger)item;
+
+-(void)voiceFinish:(NSURL *)string;
 
 @end
 
@@ -26,5 +30,6 @@
 
 @property(nonatomic,strong)UIButton *addButton;
 
-@property(nonatomic,assign)id<selectItemDelegate>delegate;
+@property(weak, nonatomic)id<selectItemDelegate> delegate;
+
 @end

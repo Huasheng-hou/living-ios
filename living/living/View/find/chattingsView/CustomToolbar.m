@@ -102,6 +102,7 @@
     {
         NSLog(@"=============结束录制======================");
         [self recorderState:NO];
+        [self.delegate voiceFinish:_recoder.url];
         [_sayLabel setBackgroundColor:[UIColor clearColor]];
         [_sayLabel setText:@"按住 说话"];
     }

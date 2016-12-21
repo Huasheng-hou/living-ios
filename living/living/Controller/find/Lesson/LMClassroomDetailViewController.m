@@ -1358,9 +1358,9 @@ LMVoiceHeaderCellDelegate
         
         LMProjectBodyVO *vo = eventArray[i];
         
-        if ([vo.projectImgs isEqual:@""]) {
+        if (!vo.projectImgs||[vo.projectImgs isEqual:@""]) {
             
-            [array addObject:vo.projectImgs];
+            [array addObject:@""];
         }
     }
     

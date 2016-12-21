@@ -17,6 +17,7 @@
 #import "LMVoiceQuestionViewController.h"
 #import "FirUploadImageRequest.h"
 #import "ImageHelpTool.h"
+#import "FirUploadVoiceRequest.h"
 
 #define assistViewHeight  200
 #define toobarHeight 45
@@ -28,7 +29,8 @@ UIImagePickerControllerDelegate,
 UITextViewDelegate,
 selectItemDelegate,
 assistViewSelectItemDelegate,
-moreSelectItemDelegate
+moreSelectItemDelegate,
+STOMPClientDelegate
 >
 {
     NSTimeInterval _visiableTime;
@@ -40,6 +42,7 @@ moreSelectItemDelegate
     NSMutableArray *cellListArray;
     NSString *name;
     STOMPClient *client;
+    NSString *avartar;
 }
 @end
 
@@ -127,6 +130,9 @@ moreSelectItemDelegate
         if (headDic[@"nick_name"]&&![headDic[@"nick_name"] isEqual:@""]) {
             name = headDic[@"nick_name"];
         }
+        if (headDic[@"avatar"]&&![headDic[@"avatar"] isEqual:@""]) {
+            avartar = headDic[@"avatar"];
+        }
     }
     
     NSString    *result         = [bodyDic objectForKey:@"result"];
@@ -211,6 +217,11 @@ moreSelectItemDelegate
         
         return 150+55;
     }
+    
+    if (vo.type&&[vo.type isEqual:@"voice"]) {
+        return 55+30;
+    }
+    
     return 0;
 }
 
@@ -255,6 +266,14 @@ moreSelectItemDelegate
         NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                 
         [client sendTo:@"/message/hello" body:string];
+            if (client.connected==YES) {
+                NSLog(@".....6......连接中");
+            }
+            if (client.connected==NO) {
+                NSLog(@".....6......未连接");
+            }
+            client.connected = YES;
+            
  
         toorbar.inputTextView.text=@"";
         
@@ -352,8 +371,9 @@ moreSelectItemDelegate
 {
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
-     [cellListArray addObject:image];
-     [self reLoadTableViewCell];
+//     [cellListArray addObject:image];
+    [self getImageURL:image];
+//     [self reLoadTableViewCell];
      [picker dismissViewControllerAnimated:YES completion:^{
     }];
 }
@@ -391,6 +411,17 @@ moreSelectItemDelegate
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
 //                                                       _imgURL=imgUrl;
                                                        NSLog(@"%@",imgUrl);
+                                                       
+                                                       NSDictionary *dics = @{@"type":@"picture",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
+                                                       
+                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                                                       
+                                                       [client sendTo:@"/message/hello" body:string];
+                                                       
+                                                        [self reLoadTableViewCell];
+                                                       
+                                                       
                                                    }
                                                }
                                            } failed:^(NSError *error) {
@@ -545,11 +576,96 @@ moreSelectItemDelegate
             return;
         }
 
+        [client subscribeTo:@"/topic/greetings" messageHandler:^(STOMPMessage *message) {
+            NSLog(@"=========topic/greetings===订阅消息=============%@",message);
+            NSLog(@"%@",message.body);
+            NSString *resp = [NSString stringWithFormat:@"%@",message.body];
+            
+            NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+            NSDictionary *respDict = [NSJSONSerialization
+                                      JSONObjectWithData:respData
+                                      options:NSJSONReadingMutableLeaves
+                                      error:nil];
+            
+            NSLog(@"%@",respDict);
+            
+//            if ([respDict objectForKey:@"type"]&&[respDict objectForKey:@"chat"]) {
+//                NSDate *date = [NSDate date];
+//                NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+//                [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//                NSString *time = [formatter stringFromDate:date];
+//                NSMutableDictionary *dic = [NSMutableDictionary new];
+//                NSMutableArray *array = [NSMutableArray new];
+//                [dic setObject:imgUrl forKey:@"content"];
+//                [dic setObject:time forKey:@"time"];
+//                [dic setObject:name forKey:@"name"];
+//                [dic setObject:@"picture" forKey:@"type"];
+//                [dic setObject:avartar forKey:@"headimgurl"];
+//                [array addObject:dic];
+//                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+//                [self.listData addObjectsFromArray:array2];
+//            }
+            
+//            NSDate *date = [NSDate date];
+//            NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+//            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//            NSString *time = [formatter stringFromDate:date];
+//            NSMutableDictionary *dic = [NSMutableDictionary new];
+//            NSMutableArray *array = [NSMutableArray new];
+//            [dic setObject:imgUrl forKey:@"imageurl"];
+//            [dic setObject:time forKey:@"time"];
+//            [dic setObject:name forKey:@"name"];
+//            [dic setObject:@"picture" forKey:@"type"];
+//            [dic setObject:avartar forKey:@"headimgurl"];
+//            [array addObject:dic];
+//            NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+//            [self.listData addObjectsFromArray:array2];
+//            
+         
+            
+        }];
+
     }];
-    [client subscribeTo:@"topic/greetings" messageHandler:^(STOMPMessage *message) {
-        NSLog(@"=========topic/greetings===订阅消息=============%@",message);
-    }];
+
     
+}
+
+
+#pragma mark  --录制结束上传音频
+
+- (void)voiceFinish:(NSURL *)string
+{
+    NSLog(@"%@",string);
+    NSArray  *paths  =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *docDir = [paths objectAtIndex:0];
+    NSString *filePath = [docDir stringByAppendingPathComponent:@"/recodOutput.caf"];
+    NSArray *arrays = [[NSArray alloc] initWithContentsOfFile:filePath];
+    NSLog(@"%@",arrays);
+    
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *time = [formatter stringFromDate:date];
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    NSMutableArray *array = [NSMutableArray new];
+    [dic setObject:string forKey:@"voiceurl"];
+    [dic setObject:time forKey:@"time"];
+    [dic setObject:name forKey:@"name"];
+    [dic setObject:@"voice" forKey:@"type"];
+    [dic setObject:avartar forKey:@"headimgurl"];
+    [array addObject:dic];
+    NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+    [self.listData addObjectsFromArray:array2];
+    
+    
+    NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":string};
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *strings = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+    
+    [client sendTo:@"/message/hello" body:strings];
+    [self reLoadTableViewCell];
 }
 
 
