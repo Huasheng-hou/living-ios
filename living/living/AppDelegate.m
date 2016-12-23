@@ -13,6 +13,7 @@
 #import "FitUserManager.h"
 #import "FitPayloadManager.h"
 #import "FitClientIDManager.h"
+#import <AVFoundation/AVFoundation.h>
 
 //支付宝
 #import <AlipaySDK/AlipaySDK.h>
@@ -92,6 +93,7 @@ UNUserNotificationCenterDelegate
     [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
         
     }];
+    
     
     return YES;
 }

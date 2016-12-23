@@ -20,6 +20,7 @@
     UILabel *nameLabel;
     UILabel *timeLabel;
     CGFloat contentHight;
+    UIButton *clickButton;
 ;
 }
 
@@ -43,6 +44,7 @@
     headView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 25, 30, 30)];
     headView.contentMode = UIViewContentModeScaleAspectFill;
     headView.clipsToBounds = YES;
+    headView.layer.cornerRadius = 2;
     headView.backgroundColor = BG_GRAY_COLOR;
     [self.contentView addSubview:headView];
     
@@ -78,6 +80,10 @@
     contentLabel.font  = TEXT_FONT_LEVEL_2;
     [backView addSubview:contentLabel];
     
+    clickButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [clickButton setImage:[UIImage imageNamed:@"guidance"] forState:UIControlStateNormal];
+    [backView addSubview:clickButton];
+    
 }
 
 -(void)setValue:(LMQuestionVO *)vo
@@ -107,10 +113,12 @@
     [contentLabel sizeToFit];
     [backView sizeToFit];
     [contentLabel sizeToFit];
+    [clickButton sizeToFit];
     nameLabel.frame = CGRectMake(15+15+30, 25, nameLabel.bounds.size.width, 30);
     timeLabel.frame = CGRectMake(kScreenWidth-timeLabel.bounds.size.width-15, 25, timeLabel.bounds.size.width, 30);
-    backView.frame = CGRectMake(60, 45, kScreenWidth-75, contentHight+30);
+    backView.frame = CGRectMake(60, 55, kScreenWidth-75, contentHight+30+5);
     contentLabel.frame = CGRectMake(15, 15, kScreenWidth-105, contentHight);
+    clickButton.frame = CGRectMake(kScreenWidth-75-40, contentHight+15, 30, 20);
 
 }
 
@@ -118,7 +126,7 @@
 {
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-105, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-    return (45+conHigh+20);
+    return (60+conHigh+35);
 }
 
 @end

@@ -40,6 +40,6 @@
 //该接口是否包含图片,默认为NO
 - (BOOL)isImageInclude;
 
-//- (BOOL)iSFileDataInclude;
+- (BOOL)isVoiceInclude;
 
 @end

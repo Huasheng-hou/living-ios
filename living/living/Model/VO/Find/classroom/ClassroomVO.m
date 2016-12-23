@@ -120,6 +120,16 @@
         if (nil != [dictionary objectForKey:@"is_buy"] && ![[dictionary objectForKey:@"is_buy"] isEqual:[NSNull null]]) {
             self.isBuy = [(NSNumber *)[dictionary objectForKey:@"is_buy"] boolValue];
         }
+        
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"role"] && ![[dictionary objectForKey:@"role"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"role"] isKindOfClass:[NSString class]]) {
+            self.role = [dictionary objectForKey:@"role"];
+        }
    
         
     }

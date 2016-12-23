@@ -110,6 +110,16 @@
             self.attachment = [dictionary objectForKey:@"attachment"];
         }
         
+        if (nil != [dictionary objectForKey:@"currentIndex"] && ![[dictionary objectForKey:@"currentIndex"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"currentIndex"] isKindOfClass:[NSNumber class]]) {
+            self.currentIndex = [dictionary objectForKey:@"currentIndex"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
+        
         self.ifShowTimeLbl              = NO;
     }
     

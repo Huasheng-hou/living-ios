@@ -10,13 +10,13 @@
 
 @implementation LMChatRecordsRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize voice_uuid:(NSString *)voice_uuid
+-(id)initWithPageIndex:(NSString *)pageIndex andPageSize:(int)pageSize voice_uuid:(NSString *)voice_uuid
 {
     self = [super init];
     if (self) {
         NSMutableDictionary *body = [NSMutableDictionary new];
-        if (pageIndex != -1) {
-            [body setObject:[NSString stringWithFormat:@"%d", pageIndex] forKey:@"pageIndex"];
+        if (pageIndex) {
+            [body setObject:pageIndex forKey:@"currentIndex"];
         }
         if (pageSize != -1) {
             [body setObject:[NSString stringWithFormat:@"%d", pageSize] forKey:@"pageSize"];

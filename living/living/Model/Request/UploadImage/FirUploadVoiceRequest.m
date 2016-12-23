@@ -38,7 +38,7 @@
     return [NSString stringWithFormat:@"media/audio_upload?user_uuid=%@&password=%@",[FitUserManager sharedUserManager].uuid,[FitUserManager sharedUserManager].password];
 }
 
-- (BOOL)isImageInclude
+- (BOOL)isVoiceInclude
 {
     return YES;
 }

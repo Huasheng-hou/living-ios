@@ -187,7 +187,7 @@
                 // -1：无限循环
                 //  0：不循环
                 //  1：循环1次...
-                _player.numberOfLoops = -1;
+                _player.numberOfLoops = 1;
                 _player.volume=1.0;
                 [_player prepareToPlay];
                 [_player play];

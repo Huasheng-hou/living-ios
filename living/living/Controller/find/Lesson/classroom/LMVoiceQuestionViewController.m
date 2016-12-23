@@ -12,7 +12,6 @@
 #import "LMQuestionTableViewCell.h"
 
 @interface LMVoiceQuestionViewController ()
-
 @end
 
 @implementation LMVoiceQuestionViewController
@@ -58,7 +57,7 @@
 
 - (FitBaseRequest *)request
 {
-    LMVoiceQuesrtionRequest    *request    = [[LMVoiceQuesrtionRequest alloc] initWithPageIndex:self.current andPageSize:20];
+    LMVoiceQuesrtionRequest    *request    = [[LMVoiceQuesrtionRequest alloc] initWithPageIndex:self.current andPageSize:20 voiceUuid:_voiceUUid];
     
     return request;
 }
@@ -139,7 +138,7 @@
         
         cell    = [[LMQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = [UIColor whiteColor];
     }
     
     if (self.listData.count > indexPath.row) {

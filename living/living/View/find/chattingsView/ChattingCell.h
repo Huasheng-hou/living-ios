@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MssageVO.h"
 
+@protocol  ChattingCellDelegate;
+
 @interface ChattingCell : UITableViewCell
 
 @property(nonatomic,strong)UIImageView *headImageView;
@@ -23,7 +25,18 @@
 
 @property(nonatomic,strong)UILabel *contentLabel;
 
+@property (nonatomic, weak) id <ChattingCellDelegate> delegate;
+
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 -(void)setCellValue:(MssageVO *)content;
+@end
+
+@protocol ChattingCellDelegate <NSObject>
+
+@optional
+- (void)cellClickImage:(ChattingCell *)cell;
+- (void)cellClickVoice:(ChattingCell *)cell;
+
+
 @end

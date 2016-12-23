@@ -10,7 +10,7 @@
 
 @implementation LMVoiceQuesrtionRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize
+-(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize voiceUuid:(NSString *)voice_uuid
 {
     self = [super init];
     if (self) {
@@ -20,6 +20,10 @@
         }
         if (pageSize != -1) {
             [body setObject:[NSString stringWithFormat:@"%d", pageSize] forKey:@"pageSize"];
+        }
+        
+        if (voice_uuid) {
+            [body setObject:voice_uuid forKey:@"voice_uuid"];
         }
         
         NSMutableDictionary *parmDic = [self params];

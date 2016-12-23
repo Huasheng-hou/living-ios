@@ -46,6 +46,7 @@
 		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
 		35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */; };
 		35816FF41DF7F20E00D062CB /* EditImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF31DF7F20E00D062CB /* EditImageView.m */; };
+		359038C91E0D0D6700D5D7E1 /* LMChangeHostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */; };
 		35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */; };
 		35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */; };
 		35980BB31E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BB21E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m */; };
@@ -508,6 +509,8 @@
 		35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeViewController.m; sourceTree = "<group>"; };
 		35816FF21DF7F20A00D062CB /* EditImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditImageView.h; sourceTree = "<group>"; };
 		35816FF31DF7F20E00D062CB /* EditImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditImageView.m; sourceTree = "<group>"; };
+		359038C71E0D0D6700D5D7E1 /* LMChangeHostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeHostRequest.h; sourceTree = "<group>"; };
+		359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeHostRequest.m; sourceTree = "<group>"; };
 		35980BAB1E00E5020054EB05 /* LMPublicVoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicVoiceRequest.h; sourceTree = "<group>"; };
 		35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPublicVoiceRequest.m; sourceTree = "<group>"; };
 		35980BAE1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicVoicProjectRequest.h; sourceTree = "<group>"; };
@@ -1458,6 +1461,8 @@
 				354050411E07B35800B11027 /* LMChatRecordsRequest.m */,
 				354050471E07BC6D00B11027 /* LMVoiceQuesrtionRequest.h */,
 				354050481E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m */,
+				359038C71E0D0D6700D5D7E1 /* LMChangeHostRequest.h */,
+				359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -3863,6 +3868,7 @@
 				35B747F41DDE97F4000AFA26 /* LMLivingMapVO.m in Sources */,
 				35B748091DDE97F4000AFA26 /* CustomButton.m in Sources */,
 				35B747BB1DDE97F3000AFA26 /* LMNoticDeleteRequest.m in Sources */,
+				359038C91E0D0D6700D5D7E1 /* LMChangeHostRequest.m in Sources */,
 				35980BD51E0138FD0054EB05 /* LMMyPublicVoicRequest.m in Sources */,
 				35B748081DDE97F4000AFA26 /* APChooseView.m in Sources */,
 				35B747B41DDE97F3000AFA26 /* LMHomeDetailRequest.m in Sources */,

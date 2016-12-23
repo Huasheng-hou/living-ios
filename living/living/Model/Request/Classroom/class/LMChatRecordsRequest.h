@@ -10,6 +10,6 @@
 
 @interface LMChatRecordsRequest : FitBaseRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize voice_uuid:(NSString *)voice_uuid;
+-(id)initWithPageIndex:(NSString *)pageIndex andPageSize:(int)pageSize voice_uuid:(NSString *)voice_uuid;
 
 @end

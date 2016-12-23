@@ -64,24 +64,25 @@
     [self addSubview:_timeLabel];
     
     //声音
-//    _soundbutton=[[UIButton alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 35)];
-//    [_soundbutton.layer setBorderWidth:0.5f];
-//    [_soundbutton.titleLabel setFont:TEXT_FONT_LEVEL_2];
-//    [_soundbutton.layer setCornerRadius:3.0f];
-//    [_soundbutton.layer setMasksToBounds:YES];
-//    [_soundbutton setBackgroundColor:lightRedColor];
-//    [_soundbutton.layer setBorderColor:[UIColor redColor].CGColor];
-//    [self addSubview:_soundbutton];
-//    
-//    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 11, 17)];
-//    [imageV setImage:[UIImage imageNamed:@"cellSoundIcon"]];
-//    [_soundbutton addSubview:imageV];
-//    
-//    _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-20, 0, 20, _soundbutton.bounds.size.height)];
-//    [_duration setText:@"8”"];
-//    [_duration setFont:TEXT_FONT_LEVEL_3];
-//    [_duration setTextColor:[UIColor redColor]];
-//    [_soundbutton addSubview:_duration];
+    _soundbutton=[[UIButton alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 35)];
+    [_soundbutton.layer setBorderWidth:0.5f];
+    [_soundbutton.titleLabel setFont:TEXT_FONT_LEVEL_2];
+    [_soundbutton.layer setCornerRadius:3.0f];
+    [_soundbutton.layer setMasksToBounds:YES];
+    [_soundbutton setBackgroundColor:lightRedColor];
+    [_soundbutton.layer setBorderColor:[UIColor redColor].CGColor];
+    
+    [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_soundbutton];
+    
+    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 11, 17)];
+    [imageV setImage:[UIImage imageNamed:@"cellSoundIcon"]];
+    [_soundbutton addSubview:imageV];
+    
+    _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-20, 0, 20, _soundbutton.bounds.size.height)];
+    [_duration setFont:TEXT_FONT_LEVEL_3];
+    [_duration setTextColor:[UIColor redColor]];
+    [_soundbutton addSubview:_duration];
     
     //内容底板
     contentbgView=[[UIView alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 100)];
@@ -121,7 +122,7 @@
      //设置内容
     
     //如果为文字
-    if (vo.type&&[vo.type isEqual:@"chat"]) {
+    if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
         
         NSString *contentStr=vo.content;
         
@@ -146,6 +147,8 @@
         [contentbgView setHidden:NO];
         //隐藏图片显示控件
         [publishImageV setHidden:YES];
+        
+        [_soundbutton setHidden:YES];
     }
     
     //如果为图片
@@ -156,8 +159,46 @@
          [contentbgView setHidden:YES];
          //显示图片显示控件
          [publishImageV setHidden:NO];
+         
+         [_soundbutton setHidden:YES];
+         publishImageV.userInteractionEnabled = YES;
+         
+         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
+         [publishImageV addGestureRecognizer:tap];
+         
      }
+    
+    //如果为语音
+    if (vo.type&&[vo.type isEqual:@"voice"]) {
+        
+        [_soundbutton setFrame:CGRectMake(50, 35, kScreenWidth-65, 30)];
+        //显示文字显示控件
+        [contentbgView setHidden:YES];
+        //隐藏图片显示控件
+        [publishImageV setHidden:YES];
+        
+        [_soundbutton setHidden:NO];
+    }
    
 }
+
+
+- (void)soundPlay
+{
+    if ([_delegate respondsToSelector:@selector(cellClickVoice:)]) {
+        [_delegate cellClickVoice:self];
+    }
+}
+
+- (void)imageClick
+{
+    if ([_delegate respondsToSelector:@selector(cellClickImage:)]) {
+        [_delegate cellClickImage:self];
+    }
+}
+
+
+
+
 
 @end

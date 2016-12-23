@@ -170,6 +170,9 @@
         }else{
             LMChatViewController *roomVC = [[LMChatViewController alloc] init];
             [roomVC setHidesBottomBarWhenPushed:YES];
+            roomVC.voiceUuid = vo.voiceUuid;
+            roomVC.sign = vo.sign;
+            roomVC.role = vo.role;
             [self.navigationController pushViewController:roomVC animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
         }

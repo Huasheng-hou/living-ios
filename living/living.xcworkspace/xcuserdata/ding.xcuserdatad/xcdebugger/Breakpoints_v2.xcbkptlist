@@ -51,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/Lesson/classroom/LMVoiceQuestionViewController.m"
-            timestampString = "503909927.59528"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "504181342.346063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "-parseResponse:"
+            startingLineNumber = "880"
+            endingLineNumber = "880"
+            landmarkName = "-createWebSocket"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,13 +67,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/View/find/chattingsView/CustomToolbar.m"
-            timestampString = "504009255.846458"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "504181342.346063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "-recorderState:"
+            startingLineNumber = "891"
+            endingLineNumber = "891"
+            landmarkName = "-createWebSocket"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "504181342.346063"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "-moreViewSelectItem:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

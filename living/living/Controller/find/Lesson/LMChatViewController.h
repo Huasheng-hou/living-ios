@@ -16,8 +16,11 @@ typedef enum {
 @interface LMChatViewController : FitStatefulTableViewController
 
 @property (nonatomic,strong)NSString *voiceUuid;
+@property (nonatomic,strong)NSString *sign;
+@property (nonatomic,strong)NSString *role;
 
 @property (assign, nonatomic)   NSInteger               total;
 @property (assign, nonatomic)   FitMessageTableState    state;
+
 
 @end

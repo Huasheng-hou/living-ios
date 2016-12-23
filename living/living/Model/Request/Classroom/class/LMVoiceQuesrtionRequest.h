@@ -10,6 +10,6 @@
 
 @interface LMVoiceQuesrtionRequest : FitBaseRequest
 
--(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize;
+-(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize voiceUuid:(NSString *)voice_uuid;
 
 @end

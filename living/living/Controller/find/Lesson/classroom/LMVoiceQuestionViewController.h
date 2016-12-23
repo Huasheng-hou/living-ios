@@ -10,4 +10,5 @@
 
 @interface LMVoiceQuestionViewController : FitStatefulTableViewController
 
+@property (nonatomic,strong)NSString *voiceUUid;
 @end

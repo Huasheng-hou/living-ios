@@ -13,7 +13,6 @@
 @interface LMChoosehostViewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
     UISearchBar *_searchBar;
-//    UITableView    * table;
     NSMutableArray *hostArray;
     NSInteger  searchIndex;
 }

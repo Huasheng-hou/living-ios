@@ -36,5 +36,7 @@
 @property (nonatomic, assign) int totalNum;
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, assign) BOOL          isBuy;
+@property (nonatomic, strong) NSString *sign;
+@property (nonatomic, strong) NSString *role;
 
 @end
