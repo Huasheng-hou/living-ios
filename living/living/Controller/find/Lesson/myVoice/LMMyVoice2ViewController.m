@@ -160,21 +160,21 @@
 {
     if (self.listData.count>indexPath.row) {
         ClassroomVO *vo = self.listData[indexPath.row];
-        if (![vo.status isEqual:@"open"]) {
+//        if (![vo.status isEqual:@"open"]) {
             LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
             voiceVC.voiceUUid = vo.voiceUuid;
             [voiceVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:voiceVC animated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
             
-        }else{
-            LMChatViewController *roomVC = [[LMChatViewController alloc] init];
-            [roomVC setHidesBottomBarWhenPushed:YES];
-            roomVC.sign = vo.sign;
-            roomVC.role = vo.role;
-            [self.navigationController pushViewController:roomVC animated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
-        }
+//        }else{
+//            LMChatViewController *roomVC = [[LMChatViewController alloc] init];
+//            [roomVC setHidesBottomBarWhenPushed:YES];
+//            roomVC.sign = vo.sign;
+//            roomVC.role = vo.role;
+//            [self.navigationController pushViewController:roomVC animated:YES];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
+//        }
         
     }
     

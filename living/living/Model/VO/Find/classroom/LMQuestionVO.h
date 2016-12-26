@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *question_uuid;
 @property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *userUuid;
 
 
 @end

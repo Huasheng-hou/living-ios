@@ -132,9 +132,26 @@ LMFindCellDelegate
     
     imageURLs =@[@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/9f8d96ce455e3ce4c168a1a087cfab44.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/dba0b35d39f1513507f0bbac17e90d21.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/c643d748dc1a7c128a8d052def67a92e.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/24437ada0e0fec458a4d4b7bcd6d3b03.jpg"];
     
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
-    headView.backgroundColor = BG_GRAY_COLOR;
+
     
+    CGFloat headViewHight = 0.0;
+    
+
+        if (kScreenWidth<750) {
+            headViewHight =  90+49;
+            
+        }
+        
+        if (kScreenWidth == 750) {
+            headViewHight =  90+97;
+            
+        }
+        if (kScreenWidth>750) {
+            headViewHight =  90+146;
+        }
+
+    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight)];
+    headView.backgroundColor = BG_GRAY_COLOR;
     WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
                                                     delegate:self
                                                    imageURLs:imageURLs
@@ -146,6 +163,49 @@ LMFindCellDelegate
     loopView.location = WJPageControlAlignmentRight;
     
     [headView addSubview:loopView];
+    
+    UIView *classView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5, kScreenWidth, headViewHight)];
+    classView.backgroundColor = [UIColor clearColor];
+    [headView addSubview:classView];
+    
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
+    backView.backgroundColor = [UIColor whiteColor];
+    backView.layer.cornerRadius = 5;
+    [classView addSubview:backView];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 40, 40)];
+    imageView.image = [UIImage imageNamed:@"voiceIcon"];
+    [backView addSubview:imageView];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 15, kScreenWidth-80, 40)];
+    titleLabel.text = @"语音课堂，玩转生活";
+    titleLabel.font = TEXT_FONT_LEVEL_1;
+    [backView addSubview:titleLabel];
+    
+    UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 15+13.5, 7, 13)];
+    right.image = [UIImage imageNamed:@"rightIcon"];
+    [backView addSubview:right];
+    
+    if (kScreenWidth<750) {
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
+        footView.image = [UIImage imageNamed:@"VoiceImage"];
+        [classView addSubview:footView];
+    }
+    
+    if (kScreenWidth == 750) {
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
+        footView.image = [UIImage imageNamed:@"VoiceImage"];
+        [classView addSubview:footView];
+    }
+    if (kScreenWidth>750) {
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
+        footView.image = [UIImage imageNamed:@"VoiceImage"];
+        [classView addSubview:footView];
+    }
+    
+    [classView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(voiceClassenter)]];
+    
     self.tableView.tableHeaderView = headView;
 }
 
@@ -209,21 +269,6 @@ LMFindCellDelegate
         return h;
     }
     
-    if (indexPath.row==0) {
-        if (kScreenWidth<750) {
-            return 90+49;
-
-        }
-        
-        if (kScreenWidth == 750) {
-            return 90+97;
-        
-        }
-        if (kScreenWidth>750) {
-            return 90+146;
-        }
-    }
-    
     return 175;
 }
 
@@ -259,56 +304,8 @@ LMFindCellDelegate
     }
     
     cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
-    if (indexPath.row == 0) {
         
-        if (!cell) {
-            
-            cell    = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor = [UIColor clearColor];
-        }
-        
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
-        backView.backgroundColor = [UIColor whiteColor];
-        backView.layer.cornerRadius = 5;
-        [cell.contentView addSubview:backView];
-
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 40, 40)];
-        imageView.image = [UIImage imageNamed:@"voiceIcon"];
-        [backView addSubview:imageView];
-        
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 15, kScreenWidth-80, 40)];
-        titleLabel.text = @"语音课堂，玩转生活";
-        titleLabel.font = TEXT_FONT_LEVEL_1;
-        [backView addSubview:titleLabel];
-        
-        UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 15+13.5, 7, 13)];
-        right.image = [UIImage imageNamed:@"rightIcon"];
-        [backView addSubview:right];
-        
-        if (kScreenWidth<750) {
-            UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
-            footView.image = [UIImage imageNamed:@"VoiceImage"];
-            [cell.contentView addSubview:footView];
-        }
-        
-        if (kScreenWidth == 750) {
-            UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
-            footView.image = [UIImage imageNamed:@"VoiceImage"];
-            [cell.contentView addSubview:footView];
-        }
-        if (kScreenWidth>750) {
-            UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
-            footView.image = [UIImage imageNamed:@"VoiceImage"];
-            [cell.contentView addSubview:footView];
-        }
-   
-        
-    }else{
-        
-        
-        if (!cell) {
+    if (!cell) {
             
             cell    = [[LMFindCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -328,23 +325,19 @@ LMFindCellDelegate
         cell.tag = indexPath.row;
         [(LMFindCell *)cell setDelegate:self];
             
-        
-    }
+
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)voiceClassenter
 {
-    if (indexPath.row == 0) {
-        if (self.listData&&self.listData.count>0) {
-            NSLog(@"语言课堂");
-            LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
-            lessonVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:lessonVC animated:YES];
-        }
-    }
+    LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
+    lessonVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:lessonVC animated:YES];
 }
+
+
 
 
 

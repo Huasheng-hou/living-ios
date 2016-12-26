@@ -38,7 +38,9 @@ assistViewSelectItemDelegate,
 moreSelectItemDelegate,
 STOMPClientDelegate,
 ChattingCellDelegate,
-LMhostchooseProtocol
+LMhostchooseProtocol,
+LMquestionchooseProtocol,
+AVAudioPlayerDelegate
 >
 {
     NSTimeInterval _visiableTime;
@@ -58,6 +60,12 @@ LMhostchooseProtocol
     NSMutableArray *imageArray;
     UIView *bootView;
     NSInteger roleIndex;
+    NSInteger signIndex;
+    UIBarButtonItem * rightItem;
+    AVAudioSession *audioSession;
+    int duration;
+    
+    BOOL  isfirst;
     
 }
 @end
@@ -74,9 +82,9 @@ LMhostchooseProtocol
         self.hidesBottomBarWhenPushed   = NO;
         self.ifAddPullToRefreshControl      = NO;
         self.ifLoadReverse                  = YES;
-//        self.ifProcessLoadFirst             = YES;
+        self.ifProcessLoadFirst             = YES;
         ifloadMoreData =YES;
-        
+        isfirst = YES;
         
         [self createWebSocket];
     }
@@ -87,18 +95,21 @@ LMhostchooseProtocol
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
-     [self extraBottomViewVisiable:NO];
+    
+    moreView.hidden = YES;
+    
+    [self extraBottomViewVisiable:NO];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
-//    [self loadNewer];
     [self botttomView];
     currentIndex = nil;
     [self setupRefresh];
     reloadCount =0;
-
+    signIndex = 2;
+    
 }
 
 #pragma mark 初始化视图静态界面
@@ -116,12 +127,12 @@ LMhostchooseProtocol
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //导航栏右边按钮
-    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
-    self.navigationItem.rightBarButtonItem = item;
+    rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
     NSArray *titleArray;
     NSArray *iconArray;
     if (_role&&![_role isEqualToString:@"student"]) {
-
+        
         titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
         roleIndex = 2;
         iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
@@ -132,11 +143,11 @@ LMhostchooseProtocol
         iconArray=@[@"moreShieldIcon"];
         
     }
-        moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
-        moreView.delegate=self;
-        [moreView setHidden:YES];
-        [[UIApplication sharedApplication].keyWindow addSubview:moreView];
-
+    moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
+    moreView.delegate=self;
+    [moreView setHidden:YES];
+    [[UIApplication sharedApplication].keyWindow addSubview:moreView];
+    
 }
 
 - (void)getvoiceRecordRequest
@@ -150,33 +161,43 @@ LMhostchooseProtocol
     
     LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
     HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               NSArray * items = [self parseResponse:resp];
-                                               if (items && [items count]){
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             NSArray * items = [self parseResponse:resp];
+                                             if (items && [items count]){
+                                                 
+                                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                                     
+                                                     if (!self.ifLoadReverse) {
+                                                         [self.listData addObjectsFromArray:items];
+                                                         
+                                                         [self.tableView reloadData];
+                                                     } else {
+                                                         NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
+                                                         [self.listData removeAllObjects];
+                                                         [self.listData addObjectsFromArray:items];
+                                                         [self.listData addObjectsFromArray:tempArr];
+                                                         NSLog(@"%lu",(unsigned long)items.count);
+                                                         [self.tableView reloadData];
+                                     
+//                                                         if (isfirst == NO){
+//                                                             NSLog(@"***********%lu",items.count*(reloadCount-1));
+//                                                                   [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+//                                                         }
+                                                         if (isfirst == YES) {
+                                                             [self reLoadTableViewCell];
+                                                             isfirst = NO;
+                                                         }
+                                                         
                                                    
-                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                       
-                                                       if (!self.ifLoadReverse) {
-                                                           [self.listData addObjectsFromArray:items];
-                                                           
-                                                           [self.tableView reloadData];
-                                                       } else {
-                                                           NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
-                                                           [self.listData removeAllObjects];
-                                                           [self.listData addObjectsFromArray:items];
-                                                           [self.listData addObjectsFromArray:tempArr];
-                                                           NSLog(@"%lu",(unsigned long)items.count);
-                                                           [self.tableView reloadData];
-                                                           [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count*reloadCount inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-                                                       }
-                                                       
-                                                   });
-                                               }
-                                               self.statefulState = FitStatefulTableViewControllerStateIdle;
-                                           } failed:^(NSError *error) {
-                                               
-                                               self.statefulState = FitStatefulTableViewControllerStateIdle;
-                                           }];
+                                                     }
+                                                     
+                                                 });
+                                             }
+//                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                         } failed:^(NSError *error) {
+                                             
+//                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                         }];
     
     [proxy start];
 }
@@ -235,7 +256,7 @@ LMhostchooseProtocol
             }
         }
         if (tempArr.count > 0) {
-        MssageVO   *vo     = [tempArr objectAtIndex:0];
+            MssageVO   *vo     = [tempArr objectAtIndex:0];
             
             if (currentIndex!=nil&&[currentIndex intValue] - [vo.currentIndex intValue]<9) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -245,16 +266,17 @@ LMhostchooseProtocol
                 
                 
             }else if([currentIndex intValue] !=[vo.currentIndex intValue]){
-               currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue] -1];
-                reloadCount = reloadCount++;
+                currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue]];
+                reloadCount = reloadCount+1;
                 
             }
-   
+            
         }
+        
         return tempArr;
     }
     return nil;
-
+    
 }
 
 #pragma mark 初始化自定义工具条及附加功能视图（选择照片及提问）
@@ -276,10 +298,10 @@ LMhostchooseProtocol
         if (_sign&&[_sign isEqualToString:@"2"]){
             [self creatToolbarView];
         }
- 
+        
     }else{
         [self creatToolbarView];
-
+        
     }
     
 }
@@ -305,7 +327,7 @@ LMhostchooseProtocol
 #pragma mark 导航栏右边按钮的子按钮执行方法
 -(void)moreViewSelectItem:(NSInteger)item
 {
-        NSLog(@"===============更多选择是============%ld",(long)item);
+    NSLog(@"===============更多选择是============%ld",(long)item);
     
     if (roleIndex == 1) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否屏蔽该课程"
@@ -327,13 +349,41 @@ LMhostchooseProtocol
         
         //禁言
         if (item == 0) {
-            NSDictionary *dics = @{@"type":@"gag",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"sign":@"1"};
             
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-            NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+            //导航栏右边按钮
+            rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
+            self.navigationItem.rightBarButtonItem = rightItem;
+            NSArray *titleArray;
+            NSArray *iconArray;
             
-            NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-            [client sendTo:urlStr body:string];
+            if (signIndex == 1) {
+                NSDictionary *dics = @{@"type":@"gag",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"sign":@"2"};
+                
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                
+                NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                [client sendTo:urlStr body:string];
+                titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持"];
+                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+            }
+            
+            if (signIndex == 2) {
+                NSDictionary *dics = @{@"type":@"gag",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"sign":@"1"};
+                
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                
+                NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                [client sendTo:urlStr body:string];
+                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
+                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+            }
+            moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
+            moreView.delegate=self;
+            [moreView setHidden:YES];
+            [[UIApplication sharedApplication].keyWindow addSubview:moreView];
+            
             
             
             
@@ -343,6 +393,7 @@ LMhostchooseProtocol
             LMVoiceQuestionViewController *questVC = [[LMVoiceQuestionViewController alloc] init];
             questVC.hidesBottomBarWhenPushed = YES;
             questVC.voiceUUid = _voiceUuid;
+            questVC.delegate = self;
             [self.navigationController pushViewController:questVC animated:YES];
         }
         //屏蔽
@@ -361,7 +412,7 @@ LMhostchooseProtocol
                                                     }]];
             
             [self presentViewController:alert animated:YES completion:nil];
-
+            
         }
         
         //选择主持人
@@ -400,7 +451,7 @@ LMhostchooseProtocol
                                            }];
     [proxy start];
     
-
+    
 }
 
 - (void)getChangeHostResponse:(NSString *)resp
@@ -412,31 +463,6 @@ LMhostchooseProtocol
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"选择主持人成功！"];
-            
-            //导航栏右边按钮
-            UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
-            self.navigationItem.rightBarButtonItem = item;
-            NSArray *titleArray;
-            NSArray *iconArray;
-            if (_role&&![_role isEqualToString:@"student"]) {
-                
-                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
-                roleIndex = 2;
-                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
-            }
-            if (_role&&[_role isEqualToString:@"student"]){
-                titleArray=@[@"屏蔽"];
-                roleIndex = 1;
-                iconArray=@[@"moreShieldIcon"];
-                
-            }
-            moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
-            moreView.delegate=self;
-            [moreView setHidden:YES];
-            [[UIApplication sharedApplication].keyWindow addSubview:moreView];
-            
-            
-            
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
@@ -505,7 +531,7 @@ LMhostchooseProtocol
             if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
                 NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
-                NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings};
+                NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false"};
                 
                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
                 NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
@@ -527,11 +553,11 @@ LMhostchooseProtocol
                 
                 toorbar.inputTextView.text=@"";
             }
-        
-        [self reLoadTableViewCell];
-        
-        return NO;
-    }
+            
+            [self reLoadTableViewCell];
+            
+            return NO;
+        }
     }
     return YES;
 }
@@ -587,6 +613,8 @@ LMhostchooseProtocol
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+    moreView.hidden = YES;
+    
     NSTimeInterval timeValue;
     if (_visiableTime) {
         timeValue=_visiableTime;
@@ -603,7 +631,7 @@ LMhostchooseProtocol
 #pragma mark 选择照片及提问的执行方法
 -(void)assistViewSelectItem:(NSInteger)item
 {
-     NSLog(@"=========选择照片及提问的执行方法==========%ld",(long)item);
+    NSLog(@"=========选择照片及提问的执行方法==========%ld",(long)item);
     if (item==1) {//照片
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
         imagePickerController.delegate = self;
@@ -624,7 +652,7 @@ LMhostchooseProtocol
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
     [self getImageURL:image];
-     [picker dismissViewControllerAnimated:YES completion:^{
+    [picker dismissViewControllerAnimated:YES completion:^{
     }];
 }
 
@@ -659,7 +687,7 @@ LMhostchooseProtocol
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-//                                                       _imgURL=imgUrl;
+                                                       //                                                       _imgURL=imgUrl;
                                                        NSLog(@"%@",imgUrl);
                                                        
                                                        NSDictionary *dics = @{@"type":@"picture",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
@@ -669,7 +697,7 @@ LMhostchooseProtocol
                                                        NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                                                        [client sendTo:urlStr body:string];
                                                        
-                                                        [self reLoadTableViewCell];
+                                                       [self reLoadTableViewCell];
                                                        
                                                        
                                                    }
@@ -717,6 +745,7 @@ LMhostchooseProtocol
 #pragma mark 附加功能（选择照片，提问）展示或者收缩
 -(void)extraBottomViewVisiable:(BOOL)state
 {
+    moreView.hidden = YES;
     NSTimeInterval timeValue;
     if (_visiableTime) {
         timeValue=_visiableTime;
@@ -751,6 +780,7 @@ LMhostchooseProtocol
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
+    moreView.hidden = YES;
     NSDictionary *userInfo = [notification userInfo];
     
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
@@ -767,12 +797,12 @@ LMhostchooseProtocol
     
     [UIView animateWithDuration:animationDuration animations:^{
         
-         self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - keyboardRect.size.height - toobarHeight);
+        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - keyboardRect.size.height - toobarHeight);
         [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight-keyboardRect.size.height, kScreenWidth, toobarHeight)];
-         [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+        [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
         
-           }];
-     [self scrollTableToFoot:YES];
+    }];
+    [self scrollTableToFoot:YES];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
@@ -816,7 +846,7 @@ LMhostchooseProtocol
 {
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
     client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
-
+    
     
     NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
     
@@ -826,7 +856,7 @@ LMhostchooseProtocol
             return;
         }
         NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
-
+        
         [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
             NSLog(@"=========topic/greetings===订阅消息=============%@",message);
             NSLog(@"%@",message.body);
@@ -837,8 +867,6 @@ LMhostchooseProtocol
                                       JSONObjectWithData:respData
                                       options:NSJSONReadingMutableLeaves
                                       error:nil];
-            
-            NSLog(@"%@",respDict);
             
             MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
             
@@ -862,18 +890,20 @@ LMhostchooseProtocol
                 
                 if ([vo.type isEqual:@"voice"]) {
                     [dic setObject:vo.attachment forKey:@"voiceurl"];
+                    [dic setObject:@"voice" forKey:@"type"];
+                    [dic setObject:vo.recordingTime forKey:@"recordingTime"];
                 }
                 if ([vo.type isEqual:@"picture"]) {
                     [dic setObject:vo.attachment forKey:@"imageurl"];
+                    [dic setObject:@"picture" forKey:@"type"];
                 }
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];
-                [dic setObject:@"picture" forKey:@"type"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 [self.listData addObjectsFromArray:array2];
-
+                
             }
             
             if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.role isEqual:@"student"]&&[vo.type isEqualToString:@"gag"]) {
@@ -886,27 +916,30 @@ LMhostchooseProtocol
                 textLable.textColor = LIVING_COLOR;
                 [bootView addSubview:textLable];
                 [self.view addSubview:bootView];
+                signIndex = 2;
             }
             if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.role isEqual:@"student"]&&[vo.type isEqualToString:@"gag"])) {
                 [bootView removeFromSuperview];
+                signIndex = 1;
             }
             
             
             [self reLoadTableViewCell];
             
         }];
-
+        
     }];
-
+    
     
 }
 
 
 #pragma mark  --录制结束上传音频
 
-- (void)voiceFinish:(NSURL *)string
+- (void)voiceFinish:(NSURL *)string time:(int)timeLong
 {
     NSLog(@"%@",string);
+    duration = timeLong;
     NSArray  *paths  =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *docDir = [paths objectAtIndex:0];
     NSString *filePath = [docDir stringByAppendingPathComponent:@"/recodOutput.caf"];
@@ -929,10 +962,8 @@ LMhostchooseProtocol
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                       //                                                       _imgURL=imgUrl;
-                                                       NSLog(@"%@",imgUrl);
                                                        
-                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
+                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration]};
                                                        
                                                        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
                                                        NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
@@ -953,6 +984,7 @@ LMhostchooseProtocol
 
 - (void)setupRefresh
 {
+    moreView.hidden = YES;
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
     //tableView刚出现时，进行刷新操作
@@ -973,6 +1005,7 @@ LMhostchooseProtocol
 
 - (void)cellClickVoice:(ChattingCell *)cell
 {
+    moreView.hidden = YES;
     MssageVO *vo = self.listData[cell.tag];
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
@@ -983,18 +1016,25 @@ LMhostchooseProtocol
         //将数据保存到本地指定位置
         NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
         NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
-//        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
+        //        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
         [audioData writeToFile:outputPath atomically:YES];
         
         //播放本地音乐
-
+        NSError *audioError = nil;
+        BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
+             if(!success)
+                {
+                        NSLog(@"error doing outputaudioportoverride - %@", [audioError localizedDescription]);
+                    }
         player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
+        player.delegate = self;
         [player play];
     }
 }
 
 - (void)cellClickImage:(ChattingCell *)cell
 {
+    moreView.hidden = YES;
     NSMutableArray *array = [NSMutableArray new];
     imageArray = [NSMutableArray new];
     
@@ -1023,6 +1063,28 @@ LMhostchooseProtocol
     photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
+
+#pragma mark --问题列表返回问题
+
+- (void)backDic:(NSString *)userId content:(NSString *)content
+{
+    NSString *strings  = [content stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":userId, @"content":strings ,@"has_profile":@"true"};
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+    
+    NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+    [client sendTo:urlStr body:string];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    
+}
+
+
 
 
 @end

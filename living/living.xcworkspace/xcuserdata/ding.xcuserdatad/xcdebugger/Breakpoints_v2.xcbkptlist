@@ -51,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "504181342.346063"
+            filePath = "living/Controller/find/Lesson/LMClassroomDetailViewController.m"
+            timestampString = "504427251.538681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "880"
-            endingLineNumber = "880"
-            landmarkName = "-createWebSocket"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "-getEventListDataResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,13 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "504181342.346063"
+            filePath = "living/Controller/Base/FitStatefulTableViewController.m"
+            timestampString = "504434114.940923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "891"
-            endingLineNumber = "891"
-            landmarkName = "-createWebSocket"
+            startingLineNumber = "392"
+            endingLineNumber = "392"
+            landmarkName = "-request"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -83,13 +83,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "504181342.346063"
+            filePath = "living/Controller/Base/FitStatefulTableViewController.m"
+            timestampString = "504435152.859725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
-            landmarkName = "-moreViewSelectItem:"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "-loadNextPage"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

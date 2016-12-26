@@ -82,6 +82,7 @@
     
     clickButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [clickButton setImage:[UIImage imageNamed:@"guidance"] forState:UIControlStateNormal];
+    [clickButton addTarget:self action:@selector(imageClick) forControlEvents:UIControlEventTouchUpInside];
     [backView addSubview:clickButton];
     
 }
@@ -128,5 +129,13 @@
     CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-105, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
     return (60+conHigh+35);
 }
+
+- (void)imageClick
+{
+    if ([_delegate respondsToSelector:@selector(cellClickImage:)]) {
+        [_delegate cellClickImage:self];
+    }
+}
+
 
 @end

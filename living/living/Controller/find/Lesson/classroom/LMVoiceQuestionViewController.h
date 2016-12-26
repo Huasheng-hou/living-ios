@@ -8,7 +8,16 @@
 
 #import "FitStatefulTableViewController.h"
 
+@protocol LMquestionchooseProtocol <NSObject>
+
+- (void)backDic:(NSString *)userId content:(NSString *)content;
+
+@end
+
 @interface LMVoiceQuestionViewController : FitStatefulTableViewController
 
 @property (nonatomic,strong)NSString *voiceUUid;
+
+@property (nonatomic,assign)id<LMquestionchooseProtocol>delegate;
+
 @end

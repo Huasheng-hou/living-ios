@@ -12,6 +12,9 @@
 #import "LMQuestionTableViewCell.h"
 
 @interface LMVoiceQuestionViewController ()
+<
+LMQuestionCellDelegate
+>
 @end
 
 @implementation LMVoiceQuestionViewController
@@ -146,16 +149,26 @@
         if (vo && [vo isKindOfClass:[LMQuestionVO class]]) {
             
             [(LMQuestionTableViewCell *)cell setValue:vo];
+            [(LMQuestionTableViewCell *)cell setDelegate:self];
+            [(LMQuestionTableViewCell *)cell setTag:indexPath.row];
         }
         
     }
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)cellClickImage:(LMQuestionTableViewCell *)cell
 {
-
+    LMQuestionVO *vo = self.listData[cell.tag];
+    if (vo.status&&[vo.status isEqualToString:@"closed"]) {
+        [self textStateHUD:@"问题已关闭~"];
+    }
+    if (vo.status&&[vo.status isEqualToString:@"open"]) {
+        
+        [self.delegate backDic:vo.userUuid content:vo.content];
+    }
     
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 

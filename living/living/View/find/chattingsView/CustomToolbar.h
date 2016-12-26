@@ -14,7 +14,8 @@
 
 -(void)selectItem:(NSInteger)item;
 
--(void)voiceFinish:(NSURL *)string;
+-(void)voiceFinish:(NSURL *)string time:(int)timeLong;
+
 
 @end
 

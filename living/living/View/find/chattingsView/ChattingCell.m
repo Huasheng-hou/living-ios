@@ -79,8 +79,9 @@
     [imageV setImage:[UIImage imageNamed:@"cellSoundIcon"]];
     [_soundbutton addSubview:imageV];
     
-    _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-20, 0, 20, _soundbutton.bounds.size.height)];
+    _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height)];
     [_duration setFont:TEXT_FONT_LEVEL_3];
+    _duration.textAlignment = NSTextAlignmentRight;
     [_duration setTextColor:[UIColor redColor]];
     [_soundbutton addSubview:_duration];
     
@@ -155,6 +156,7 @@
      if (vo.type&&[vo.type isEqual:@"picture"]) {
          
          [publishImageV sd_setImageWithURL:[NSURL URLWithString:vo.imageurl]];
+        
          //隐藏文字显示控件
          [contentbgView setHidden:YES];
          //显示图片显示控件
@@ -172,6 +174,10 @@
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         
         [_soundbutton setFrame:CGRectMake(50, 35, kScreenWidth-65, 30)];
+        if (vo.recordingTime&&![vo.recordingTime isEqual:@""]) {
+           _duration.text  = [NSString stringWithFormat:@"%@",vo.recordingTime];
+         _duration.frame=CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height);
+        }
         //显示文字显示控件
         [contentbgView setHidden:YES];
         //隐藏图片显示控件

@@ -11,8 +11,10 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "FitConsts.h"
 
-@interface CustomToolbar()
+@interface CustomToolbar()<AVAudioRecorderDelegate>
 {
+    NSDate *startdate;
+    NSDate *enddate;
     
 }
 @property (nonatomic, strong) AVAudioRecorder *recoder; /**< 录音器 */
@@ -96,13 +98,20 @@
         [self recorderState:YES];
         [_sayLabel setBackgroundColor:TEXT_COLOR_LEVEL_3];
         [_sayLabel setText:@"松开 结束"];
+        startdate = [NSDate date];
     }
     
     else if(gestureRecognizer.state == UIGestureRecognizerStateEnded)
     {
         NSLog(@"=============结束录制======================");
         [self recorderState:NO];
-        [self.delegate voiceFinish:_recoder.url];
+        enddate = [NSDate date];
+        NSTimeInterval start = [startdate timeIntervalSince1970]*1;
+        NSTimeInterval end = [enddate timeIntervalSince1970]*1;
+        NSTimeInterval value = end - start;
+        
+        int time = (int)value;
+        [self.delegate voiceFinish:_recoder.url time:time];
         [_sayLabel setBackgroundColor:[UIColor clearColor]];
         [_sayLabel setText:@"按住 说话"];
     }
@@ -117,11 +126,14 @@
             [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
             [_sayLabel setHidden:NO];
             [_inputTextView setUserInteractionEnabled:NO];
+            
         }else{
             [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
             [_sayLabel setHidden:YES];
             [_inputTextView setUserInteractionEnabled:YES];
+            
         }
+        
     }else{
          [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
         [_saybutton setSelected:NO];
@@ -162,14 +174,23 @@
             // 初始化录音器
             NSError *error = nil;
             // settings:
-            // AVSampleRateKey：播放速度
-            // AVNumberOfChannelsKey：录音声道
-            self.recoder = [[AVAudioRecorder alloc] initWithURL:outputUrl settings:@{AVSampleRateKey:@(1.0)} error:&error];
+        NSDictionary *recordSetting = @{
+                                        AVFormatIDKey               : @(kAudioFormatLinearPCM),
+                                        AVSampleRateKey             : @(8000.f),
+                                        AVNumberOfChannelsKey       : @(1),
+                                        AVLinearPCMBitDepthKey      : @(16),
+                                        AVLinearPCMIsNonInterleaved : @NO,
+                                        AVLinearPCMIsFloatKey       : @NO,
+                                        AVLinearPCMIsBigEndianKey   : @NO
+                                        };
+            self.recoder = [[AVAudioRecorder alloc] initWithURL:outputUrl settings:recordSetting error:&error];
+        self.recoder.delegate = self;
             if (error) {
                 NSLog(@"initialize recoder error. reason:“%@”", error.localizedDescription);
             }else {
                 // 准备录音
                 [_recoder prepareToRecord];
+                _recoder.meteringEnabled = YES;
                 // 录音
                 [_recoder record];
             }

@@ -114,10 +114,18 @@
             && [[dictionary objectForKey:@"currentIndex"] isKindOfClass:[NSNumber class]]) {
             self.currentIndex = [dictionary objectForKey:@"currentIndex"];
         }
+        if (nil != [dictionary objectForKey:@"recordingTime"] && ![[dictionary objectForKey:@"recordingTime"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"recordingTime"] isKindOfClass:[NSNumber class]]) {
+            self.recordingTime = [dictionary objectForKey:@"recordingTime"];
+        }
         
         if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
             self.sign = [dictionary objectForKey:@"sign"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"has_profile"] && ![[dictionary objectForKey:@"has_profile"] isEqual:[NSNull null]]) {
+            self.hasProfile = [(NSNumber *)[dictionary objectForKey:@"has_profile"] boolValue];
         }
         
         self.ifShowTimeLbl              = NO;

@@ -89,6 +89,11 @@
             self.avatar = [dictionary objectForKey:@"avatar"];
         }
         
+        if (nil != [dictionary objectForKey:@"user_uuid"] && ![[dictionary objectForKey:@"user_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"user_uuid"] isKindOfClass:[NSString class]]) {
+            self.userUuid = [dictionary objectForKey:@"user_uuid"];
+        }
+        
     }
     
     return self;
