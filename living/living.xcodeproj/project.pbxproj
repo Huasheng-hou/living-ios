@@ -42,6 +42,7 @@
 		355E7B811DFFF6C90089BAB1 /* LMChoosehostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E7B801DFFF6C90089BAB1 /* LMChoosehostViewController.m */; };
 		355E7B841E000BDB0089BAB1 /* LMHostChoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 355E7B831E000BDB0089BAB1 /* LMHostChoiceRequest.m */; };
 		356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */; };
+		3567BFC11E1203FE004EF000 /* LMShieldstudentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567BFC01E1203FE004EF000 /* LMShieldstudentRequest.m */; };
 		35816FEB1DF7E3CC00D062CB /* LMArtcleTypeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */; };
 		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
 		35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */; };
@@ -501,6 +502,8 @@
 		355E7B831E000BDB0089BAB1 /* LMHostChoiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHostChoiceRequest.m; sourceTree = "<group>"; };
 		356763231DF66B1B0062B0E1 /* LMPAHeadViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPAHeadViewCell.h; sourceTree = "<group>"; };
 		356763241DF66B1B0062B0E1 /* LMPAHeadViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPAHeadViewCell.m; sourceTree = "<group>"; };
+		3567BFBF1E1203FE004EF000 /* LMShieldstudentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMShieldstudentRequest.h; sourceTree = "<group>"; };
+		3567BFC01E1203FE004EF000 /* LMShieldstudentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMShieldstudentRequest.m; sourceTree = "<group>"; };
 		35816FE91DF7E3CC00D062CB /* LMArtcleTypeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeRequest.h; sourceTree = "<group>"; };
 		35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeRequest.m; sourceTree = "<group>"; };
 		35816FEC1DF7E45C00D062CB /* LMArtcleTypeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeListRequest.h; sourceTree = "<group>"; };
@@ -1463,6 +1466,8 @@
 				354050481E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m */,
 				359038C71E0D0D6700D5D7E1 /* LMChangeHostRequest.h */,
 				359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */,
+				3567BFBF1E1203FE004EF000 /* LMShieldstudentRequest.h */,
+				3567BFC01E1203FE004EF000 /* LMShieldstudentRequest.m */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -3683,6 +3688,7 @@
 				35B747471DDE97F3000AFA26 /* LMBesureOrderViewController.m in Sources */,
 				35DCDD381DFE6ECA00813172 /* LMSegmentViewController.m in Sources */,
 				35B747841DDE97F3000AFA26 /* SYPhotoViewController.m in Sources */,
+				3567BFC11E1203FE004EF000 /* LMShieldstudentRequest.m in Sources */,
 				35B7479E1DDE97F3000AFA26 /* LMEventEndRequest.m in Sources */,
 				35B7478C1DDE97F3000AFA26 /* HTTPProxy.m in Sources */,
 				35980BCB1E0134AA0054EB05 /* LMMyVoice2ViewController.m in Sources */,

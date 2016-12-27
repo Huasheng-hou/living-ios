@@ -24,6 +24,7 @@
 #import "SYPhotoBrowser.h"
 #import "LMChoosehostViewController.h"
 #import "LMChangeHostRequest.h"
+#import "LMShieldstudentRequest.h"
 
 #define assistViewHeight  200
 #define toobarHeight 45
@@ -66,6 +67,10 @@ AVAudioPlayerDelegate
     int duration;
     
     BOOL  isfirst;
+    BOOL hasShield;
+    BOOL isShieldReload;
+    NSArray *titleArray;
+    NSArray *iconArray;
     
 }
 @end
@@ -85,6 +90,8 @@ AVAudioPlayerDelegate
         self.ifProcessLoadFirst             = YES;
         ifloadMoreData =YES;
         isfirst = YES;
+        hasShield = NO;
+        isShieldReload = NO;
         
         [self createWebSocket];
     }
@@ -127,10 +134,7 @@ AVAudioPlayerDelegate
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //导航栏右边按钮
-    rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    NSArray *titleArray;
-    NSArray *iconArray;
+
     if (_role&&![_role isEqualToString:@"student"]) {
         
         titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
@@ -143,12 +147,22 @@ AVAudioPlayerDelegate
         iconArray=@[@"moreShieldIcon"];
         
     }
+    [self addrightItem];
+
+    
+}
+
+- (void)addrightItem
+{
+    rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+
     moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
     moreView.delegate=self;
     [moreView setHidden:YES];
     [[UIApplication sharedApplication].keyWindow addSubview:moreView];
-    
 }
+
 
 - (void)getvoiceRecordRequest
 {
@@ -201,6 +215,62 @@ AVAudioPlayerDelegate
     
     [proxy start];
 }
+
+
+#pragma mark --屏蔽学员
+
+- (void)getShieldstudentData
+{
+    
+    if (ifloadMoreData==NO) {
+        [self textStateHUD:@"没有更多消息~"];
+        return;
+    }
+    NSLog(@"currentIndex*******8%@",currentIndex);
+    
+    LMShieldstudentRequest    *request    = [[LMShieldstudentRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
+    HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             NSArray * items = [self parseResponse:resp];
+                                             if (items && [items count]){
+                                                 
+                                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                                     
+                                                     if (!self.ifLoadReverse) {
+                                                         [self.listData addObjectsFromArray:items];
+                                                         
+                                                         [self.tableView reloadData];
+                                                     } else {
+                                                         NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
+                                                         [self.listData removeAllObjects];
+                                                         [self.listData addObjectsFromArray:items];
+                                                         [self.listData addObjectsFromArray:tempArr];
+                                                         NSLog(@"%lu",(unsigned long)items.count);
+                                                         [self.tableView reloadData];
+                                                         
+                                                         //                                                         if (isfirst == NO){
+                                                         //                                                             NSLog(@"***********%lu",items.count*(reloadCount-1));
+                                                         //                                                                   [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                                                         //                                                         }
+                                                         if (isfirst == YES) {
+                                                             [self reLoadTableViewCell];
+                                                             isfirst = NO;
+                                                         }
+                                                         
+                                                         
+                                                     }
+                                                     
+                                                 });
+                                             }
+                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                         } failed:^(NSError *error) {
+                                             
+                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                         }];
+    
+    [proxy start];
+}
+
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
@@ -330,7 +400,16 @@ AVAudioPlayerDelegate
     NSLog(@"===============更多选择是============%ld",(long)item);
     
     if (roleIndex == 1) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否屏蔽该课程"
+        NSString *tipString;
+        if (hasShield == NO) {
+            tipString = @"是否屏蔽该课程学员发言";
+            isShieldReload =NO;
+        }else{
+            tipString = @"是否取消屏蔽";
+            isShieldReload =YES;
+        }
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:tipString
                                                                        message:nil
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -339,7 +418,34 @@ AVAudioPlayerDelegate
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                   style:UIAlertActionStyleDestructive
                                                 handler:^(UIAlertAction*action) {
-                                                    [self textStateHUD:@"您已经屏蔽了该课程~"];
+                                                    [self.listData removeAllObjects];
+                                                    
+                                                    
+                                                    if (hasShield == NO &&isShieldReload ==NO) {
+                                                
+                                                        [self getShieldstudentData];
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                             
+                                                            titleArray=@[@"已屏蔽"];
+                                                            iconArray=@[@"moreShieldIcon"];
+                                                            [self addrightItem];
+
+                                                            hasShield = YES;
+                                                        });
+
+                                                    }
+                                                    
+                                                     if (hasShield == YES &&isShieldReload ==YES){
+                                                         
+                                                        [self getvoiceRecordRequest];
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            titleArray=@[@"屏蔽"];
+                                                            iconArray=@[@"moreShieldIcon"];
+                                                            [self addrightItem];
+
+                                                            hasShield = NO;
+                                                        });
+                                                    }
                                                     
                                                 }]];
         
@@ -349,12 +455,6 @@ AVAudioPlayerDelegate
         
         //禁言
         if (item == 0) {
-            
-            //导航栏右边按钮
-            rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
-            self.navigationItem.rightBarButtonItem = rightItem;
-            NSArray *titleArray;
-            NSArray *iconArray;
             
             if (signIndex == 1) {
                 NSDictionary *dics = @{@"type":@"gag",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"sign":@"2"};
@@ -379,14 +479,8 @@ AVAudioPlayerDelegate
                 titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
             }
-            moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
-            moreView.delegate=self;
-            [moreView setHidden:YES];
-            [[UIApplication sharedApplication].keyWindow addSubview:moreView];
-            
-            
-            
-            
+            [self addrightItem];
+    
         }
         //问题列表
         if (item == 1) {
@@ -398,7 +492,16 @@ AVAudioPlayerDelegate
         }
         //屏蔽
         if (item == 2) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否屏蔽该课程"
+            NSString *tipString;
+            if (hasShield == NO) {
+                tipString = @"是否屏蔽该课程学员发言";
+                isShieldReload =NO;
+            }else{
+                tipString = @"是否取消屏蔽";
+                isShieldReload =YES;
+            }
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:tipString
                                                                            message:nil
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消"
@@ -407,7 +510,27 @@ AVAudioPlayerDelegate
             [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                       style:UIAlertActionStyleDestructive
                                                     handler:^(UIAlertAction*action) {
-                                                        [self textStateHUD:@"您已经屏蔽了该课程~"];
+                                                        [self.listData removeAllObjects];
+                                                        
+                                                        if (hasShield == NO &&isShieldReload ==NO) {
+                                                            [self getShieldstudentData];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+
+                                                                titleArray=@[@"禁言",@"问题",@"已屏蔽",@"主持"];
+                                                                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+                                                                [self addrightItem];
+
+                                                            });
+                                                            
+                                                        }
+                                                        if (hasShield == YES &&isShieldReload ==YES) {
+                                                            [self getvoiceRecordRequest];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
+                                                                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+                                                                [self addrightItem];
+                                                            });
+                                                        }
                                                         
                                                     }]];
             
@@ -738,10 +861,6 @@ AVAudioPlayerDelegate
     }
 }
 
-
-
-
-
 #pragma mark 附加功能（选择照片，提问）展示或者收缩
 -(void)extraBottomViewVisiable:(BOOL)state
 {
@@ -999,7 +1118,13 @@ AVAudioPlayerDelegate
                                  (1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableView headerEndRefreshing];
-        [self getvoiceRecordRequest];
+        
+        if (hasShield == NO) {
+           [self getvoiceRecordRequest];
+        }else{
+            [self getShieldstudentData];
+        }
+        
     });
 }
 
@@ -1083,8 +1208,5 @@ AVAudioPlayerDelegate
 {
     
 }
-
-
-
 
 @end
