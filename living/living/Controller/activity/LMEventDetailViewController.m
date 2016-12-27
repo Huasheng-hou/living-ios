@@ -976,8 +976,9 @@ shareTypeDelegate
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
     for (int i = 0; i<cell.tag+1; i++) {
         LMProjectBodyVO *vo = eventArray[i];
-        if ([vo.projectImgs isEqual:@""]) {
-            [array addObject:vo.projectImgs];
+        
+        if (!vo.projectImgs||[vo.projectImgs isEqual:@""]) {
+            [array addObject:@""];
         }
         
     }

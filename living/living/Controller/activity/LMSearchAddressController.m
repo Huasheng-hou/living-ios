@@ -59,6 +59,7 @@ AMapLocationManagerDelegate
     [self.locationManager setDelegate:self];
     //设置期望定位精度
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+
     //设置定位超时时间
     [self.locationManager setLocationTimeout:DefaultLocationTimeout];
     //设置逆地理超时时间
