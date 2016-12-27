@@ -36,10 +36,10 @@
 {
     [super viewDidAppear:animated];
     
-//    if (self.listData.count == 0) {
+    if (self.listData.count == 0) {
     
         [self loadNoState];
-//    }
+    }
 }
 
 - (void)viewDidLoad {
@@ -72,6 +72,29 @@
 - (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
+        
+        if (headDic[@"prove"]&&![headDic[@"prove"] isEqual:@""]) {
+            if ([headDic[@"prove"] isEqualToString:@"teacher"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"ifCanpublic" object:nil];
+                });
+               
+            }    
+        }
+
+    }
     
     NSString    *result         = [bodyDic objectForKey:@"result"];
     NSString    *description    = [bodyDic objectForKey:@"description"];

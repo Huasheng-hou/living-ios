@@ -16,6 +16,14 @@
 
 -(void)voiceFinish:(NSURL *)string time:(int)timeLong;
 
+- (void)longPressBegin;
+
+- (void)longPressChanged;
+
+- (void)longPressEnd;
+
+- (void)longPressCancelled;
+
 
 @end
 

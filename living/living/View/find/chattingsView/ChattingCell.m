@@ -175,7 +175,7 @@
         
         [_soundbutton setFrame:CGRectMake(50, 35, kScreenWidth-65, 30)];
         if (vo.recordingTime&&![vo.recordingTime isEqual:@""]) {
-           _duration.text  = [NSString stringWithFormat:@"%@",vo.recordingTime];
+           _duration.text  = [NSString stringWithFormat:@"%@''",vo.recordingTime];
          _duration.frame=CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height);
         }
         //显示文字显示控件

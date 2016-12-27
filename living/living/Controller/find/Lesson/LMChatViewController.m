@@ -7,7 +7,7 @@
 //
 
 #import "LMChatViewController.h"
-#import "CustomToolbar.h"
+//#import "CustomToolbar.h"
 #import "KeyBoardAssistView.h"
 #import "MoreFunctionView.h"
 #import "ChattingCell.h"
@@ -34,19 +34,21 @@
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 UITextViewDelegate,
-selectItemDelegate,
+//selectItemDelegate,
 assistViewSelectItemDelegate,
 moreSelectItemDelegate,
 STOMPClientDelegate,
 ChattingCellDelegate,
 LMhostchooseProtocol,
 LMquestionchooseProtocol,
-AVAudioPlayerDelegate
+AVAudioPlayerDelegate,
+UIToolbarDelegate,
+AVAudioRecorderDelegate
 >
 {
     NSTimeInterval _visiableTime;
     
-    CustomToolbar *toorbar;
+    //    CustomToolbar *toorbar;
     KeyBoardAssistView *assistView;
     MoreFunctionView *moreView;
     
@@ -71,8 +73,40 @@ AVAudioPlayerDelegate
     BOOL isShieldReload;
     NSArray *titleArray;
     NSArray *iconArray;
+    NSDate *startdate;
+    NSDate *enddate;
+    
+    
+    CGPoint _tempPoint;
+    UIView *_callView;
+    UILabel *_label;
+    UIImageView *_imgView;
+    NSInteger _endState;
+    NSLayoutConstraint *_centerX;
+    AVAudioRecorder *_audioRecorder;
+    NSURL       *_recordUrl;
+    NSTimer *_timer;
+    UIImageView *_yinjieBtn;
+    
+    UIView *_maskView;
+    NSLayoutConstraint *_maskH;
+    UIToolbar *toorbar;
+    UIView *pressView;
     
 }
+
+@property(nonatomic,strong)UIImageView *imageV;
+
+@property(nonatomic,strong)UIButton *saybutton;
+
+@property(nonatomic,strong)UILabel *sayLabel;//按住说话
+
+@property(nonatomic,strong)UITextView *inputTextView;
+
+@property(nonatomic,strong)UIButton *addButton;
+@property (nonatomic, strong) AVAudioRecorder *recoder; /**< 录音器 */
+@property (nonatomic, strong) AVAudioPlayer *player; /**< 播放器 */
+
 @end
 
 @implementation LMChatViewController
@@ -134,10 +168,16 @@ AVAudioPlayerDelegate
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //导航栏右边按钮
-
+    
     if (_role&&![_role isEqualToString:@"student"]) {
         
-        titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
+        if (_sign == NO) {
+            titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
+        }else{
+            titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持"];
+        }
+        
+        
         roleIndex = 2;
         iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
     }
@@ -148,7 +188,7 @@ AVAudioPlayerDelegate
         
     }
     [self addrightItem];
-
+    
     
 }
 
@@ -156,7 +196,7 @@ AVAudioPlayerDelegate
 {
     rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
-
+    
     moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
     moreView.delegate=self;
     [moreView setHidden:YES];
@@ -192,25 +232,25 @@ AVAudioPlayerDelegate
                                                          [self.listData addObjectsFromArray:tempArr];
                                                          NSLog(@"%lu",(unsigned long)items.count);
                                                          [self.tableView reloadData];
-                                     
-//                                                         if (isfirst == NO){
-//                                                             NSLog(@"***********%lu",items.count*(reloadCount-1));
-//                                                                   [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-//                                                         }
+                                                         
+                                                         //                                                         if (isfirst == NO){
+                                                         //                                                             NSLog(@"***********%lu",items.count*(reloadCount-1));
+                                                         //                                                                   [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                                                         //                                                         }
                                                          if (isfirst == YES) {
                                                              [self reLoadTableViewCell];
                                                              isfirst = NO;
                                                          }
                                                          
-                                                   
+                                                         
                                                      }
                                                      
                                                  });
                                              }
-//                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
                                          } failed:^(NSError *error) {
                                              
-//                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
                                          }];
     
     [proxy start];
@@ -378,8 +418,55 @@ AVAudioPlayerDelegate
 
 - (void)creatToolbarView
 {
-    toorbar=[[CustomToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-    [toorbar.inputTextView setDelegate:self];
+    toorbar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
+    //语音
+    _imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 28, 28)];
+    [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
+    [toorbar addSubview:_imageV];
+    
+    _saybutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 45)];
+    //    [_saybutton setBackgroundImage:[UIImage imageNamed:@"sayImage"] forState:UIControlStateNormal];
+    [_saybutton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_saybutton setTag:0];
+    [_saybutton setSelected:NO];
+    [toorbar addSubview:_saybutton];
+    
+    //输入框
+    _inputTextView=[[UITextView alloc]initWithFrame:CGRectMake(45, 5, kScreenWidth-45-45, 35)];
+    [_inputTextView setBackgroundColor:[UIColor whiteColor]];
+    [_inputTextView.layer setCornerRadius:3.0f];
+    [_inputTextView.layer setMasksToBounds:YES];
+    [_inputTextView setKeyboardType:UIKeyboardTypeDefault];
+    [_inputTextView setReturnKeyType:UIReturnKeySend];
+    [_inputTextView setFont:[UIFont systemFontOfSize:14]];
+    [toorbar addSubview:_inputTextView];
+    
+    //按住说话
+    _sayLabel=[[UILabel alloc]initWithFrame:CGRectMake(45, 5, kScreenWidth-45-45, 35)];
+    [_sayLabel.layer setCornerRadius:3.0f];
+    [_sayLabel.layer setMasksToBounds:YES];
+    [_sayLabel setText:@"按住 说话"];
+    [_sayLabel setHidden:YES];
+    [_sayLabel setUserInteractionEnabled:YES];
+    [_sayLabel setTextAlignment:NSTextAlignmentCenter];
+    [_sayLabel setFont:[UIFont systemFontOfSize:14]];
+    [toorbar addSubview:_sayLabel];
+    
+    UILongPressGestureRecognizer *presss = [[UILongPressGestureRecognizer alloc]
+                                            initWithTarget:self action:@selector(presss:)];
+    presss.minimumPressDuration = 1.0;
+    
+    [_sayLabel addGestureRecognizer:presss];
+    
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-28-10, 8.5, 28, 28)];
+    [imageView setImage:[UIImage imageNamed:@"addImageCircle"]];
+    [toorbar addSubview:imageView];
+    //
+    _addButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-45, 0, 45, 45)];
+    [_addButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_addButton setTag:1];
+    [toorbar addSubview:_addButton];
+    [_inputTextView setDelegate:self];
     [toorbar setDelegate:self];
     [self.view addSubview:toorbar];
     
@@ -422,27 +509,27 @@ AVAudioPlayerDelegate
                                                     
                                                     
                                                     if (hasShield == NO &&isShieldReload ==NO) {
-                                                
+                                                        
                                                         [self getShieldstudentData];
                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                             
+                                                            
                                                             titleArray=@[@"已屏蔽"];
                                                             iconArray=@[@"moreShieldIcon"];
                                                             [self addrightItem];
-
+                                                            
                                                             hasShield = YES;
                                                         });
-
+                                                        
                                                     }
                                                     
-                                                     if (hasShield == YES &&isShieldReload ==YES){
-                                                         
+                                                    if (hasShield == YES &&isShieldReload ==YES){
+                                                        
                                                         [self getvoiceRecordRequest];
                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                             titleArray=@[@"屏蔽"];
                                                             iconArray=@[@"moreShieldIcon"];
                                                             [self addrightItem];
-
+                                                            
                                                             hasShield = NO;
                                                         });
                                                     }
@@ -480,7 +567,7 @@ AVAudioPlayerDelegate
                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
             }
             [self addrightItem];
-    
+            
         }
         //问题列表
         if (item == 1) {
@@ -515,11 +602,11 @@ AVAudioPlayerDelegate
                                                         if (hasShield == NO &&isShieldReload ==NO) {
                                                             [self getShieldstudentData];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
-
+                                                                
                                                                 titleArray=@[@"禁言",@"问题",@"已屏蔽",@"主持"];
                                                                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
                                                                 [self addrightItem];
-
+                                                                
                                                             });
                                                             
                                                         }
@@ -652,7 +739,7 @@ AVAudioPlayerDelegate
         }else{
             
             if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
-                NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString *strings  = [_inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
                 NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false"};
                 
@@ -662,9 +749,9 @@ AVAudioPlayerDelegate
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
                 
-                toorbar.inputTextView.text=@"";
+                _inputTextView.text=@"";
             }else{
-                NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString *strings  = [_inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
                 NSDictionary *dics = @{@"type":@"chat",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings};
                 
@@ -674,7 +761,7 @@ AVAudioPlayerDelegate
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
                 
-                toorbar.inputTextView.text=@"";
+                _inputTextView.text=@"";
             }
             
             [self reLoadTableViewCell];
@@ -714,25 +801,7 @@ AVAudioPlayerDelegate
                                                object:nil];
 }
 
-#pragma mark 语音说话及加号的执行方法（语音收缩、增加展示）
--(void)selectItem:(NSInteger)item
-{
-    [self.view endEditing:YES];
-    switch (item) {
-        case 0://语音
-        {
-            [self extraBottomViewVisiable:NO];
-        }
-            break;
-        case 1://增加
-        {
-            [self extraBottomViewVisiable:YES];
-        }
-            break;
-        default:
-            break;
-    }
-}
+
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -764,7 +833,7 @@ AVAudioPlayerDelegate
         }];
     }
     if (item==2) {//提问
-        toorbar.inputTextView.text = @"#问题# ";
+        _inputTextView.text = @"#问题# ";
         
     }
 }
@@ -1120,7 +1189,7 @@ AVAudioPlayerDelegate
         [self.tableView headerEndRefreshing];
         
         if (hasShield == NO) {
-           [self getvoiceRecordRequest];
+            [self getvoiceRecordRequest];
         }else{
             [self getShieldstudentData];
         }
@@ -1147,10 +1216,10 @@ AVAudioPlayerDelegate
         //播放本地音乐
         NSError *audioError = nil;
         BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
-             if(!success)
-                {
-                        NSLog(@"error doing outputaudioportoverride - %@", [audioError localizedDescription]);
-                    }
+        if(!success)
+        {
+            NSLog(@"error doing outputaudioportoverride - %@", [audioError localizedDescription]);
+        }
         player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
         player.delegate = self;
         [player play];
@@ -1208,5 +1277,283 @@ AVAudioPlayerDelegate
 {
     
 }
+
+- (void)addView
+{
+    
+    _callView = [[UIView alloc] initWithFrame:CGRectZero];
+    _callView.hidden = YES;
+    _callView.translatesAutoresizingMaskIntoConstraints = NO;
+    _callView.layer.cornerRadius = 10;
+    _callView.clipsToBounds = YES;
+    _callView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    [self.view addSubview:_callView];
+    
+    _label = [[UILabel alloc] initWithFrame:CGRectZero];
+    _label.translatesAutoresizingMaskIntoConstraints = NO;
+    _label.textAlignment = NSTextAlignmentCenter;
+    _label.font = [UIFont systemFontOfSize:12];
+    _label.text = @"手指上滑，取消发送";
+    _label.layer.cornerRadius = 5;
+    _label.clipsToBounds = YES;
+    _label.textColor = [UIColor whiteColor];
+    [_callView addSubview:_label];
+    
+    _imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _imgView.translatesAutoresizingMaskIntoConstraints = NO;
+    _imgView.image = [UIImage imageNamed:@"yuyin"];
+    [_callView addSubview:_imgView];
+    
+    _maskView = [[UIView alloc] initWithFrame:CGRectZero];
+    _maskView.translatesAutoresizingMaskIntoConstraints = NO;
+    _maskView.backgroundColor = [UIColor whiteColor];
+    [_callView addSubview:_maskView];
+    
+    _yinjieBtn = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _yinjieBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    _yinjieBtn.image = [UIImage imageNamed:@"yinjie（6）"];
+    [_callView addSubview:_yinjieBtn];
+    
+    
+    NSDictionary *views = NSDictionaryOfVariableBindings(_callView, _label, _imgView, _yinjieBtn, _maskView);
+    
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-80-[_callView]-80-|" options:0 metrics:nil views:views]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_callView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_callView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[_label]-|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_label]-|" options:0 metrics:nil views:views]];
+    _centerX = [NSLayoutConstraint constraintWithItem:_imgView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeCenterX multiplier:1 constant:-20];
+    [self.view addConstraint:_centerX];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_imgView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_yinjieBtn attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_imgView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_yinjieBtn attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_imgView attribute:NSLayoutAttributeRight multiplier:1 constant:10]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_imgView]-[_maskView]-|" options:0 metrics:nil views:views]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maskView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_yinjieBtn attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    _maskH = [NSLayoutConstraint constraintWithItem:_maskView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
+    [self.view addConstraint:_maskH];
+    
+    
+}
+
+- (void)endPress {
+    switch (_endState) {
+        case 0: {
+            NSLog(@"取消发送");
+            break;
+        }
+        case 1: {
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)changeImage {
+    [_recoder updateMeters];//更新测量值
+    float avg = [_recoder averagePowerForChannel:0];
+    float minValue = -60;
+    float range = 60;
+    float outRange = 100;
+    if (avg < minValue) {
+        avg = minValue;
+    }
+    float decibels = (avg + range) / range * outRange;
+    _maskH.constant = _yinjieBtn.frame.size.height - decibels * _yinjieBtn.frame.size.height / 100;
+    _maskView.layer.frame = CGRectMake(0, _yinjieBtn.frame.size.height - decibels * _yinjieBtn.frame.size.height / 100, _yinjieBtn.frame.size.width, _yinjieBtn.frame.size.height);
+    [_yinjieBtn.layer setMask:_maskView.layer];
+}
+
+#pragma mark 长安手势
+-(void)presss:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if(gestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        NSLog(@"=============开始录制=====================");
+        [self addView];
+        
+//        [self recorderState:YES];
+        [_sayLabel setBackgroundColor:TEXT_COLOR_LEVEL_3];
+        [_sayLabel setText:@"松开 结束"];
+        
+        startdate = [NSDate date];
+        
+        _callView.hidden = NO;
+        _timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
+    }
+    
+    if(gestureRecognizer.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint point = [gestureRecognizer locationInView:self.view];
+        if (point.y < _tempPoint.y - 10) {
+            _centerX.constant = 0;
+            _endState = 0;
+            _yinjieBtn.hidden = YES;
+            _label.text = @"松开手指，取消发送";
+            _label.backgroundColor = [UIColor clearColor];
+            _imgView.image = [UIImage imageNamed:@"chexiao"];
+            
+            if (!CGPointEqualToPoint(point, _tempPoint) && point.y < _tempPoint.y - 8) {
+                _tempPoint = point;
+                [_callView removeFromSuperview];
+            }
+            
+            
+        }
+    }
+    
+    if(gestureRecognizer.state == UIGestureRecognizerStateEnded)
+    {
+        NSLog(@"=============结束录制======================");
+//        [self recorderState:NO];
+        enddate = [NSDate date];
+        NSTimeInterval start = [startdate timeIntervalSince1970]*1;
+        NSTimeInterval end = [enddate timeIntervalSince1970]*1;
+        NSTimeInterval value = end - start;
+        
+        int time = (int)value;
+        [_callView removeFromSuperview];
+        [self voiceFinish:_recoder.url time:time];
+        
+        [_sayLabel setBackgroundColor:[UIColor clearColor]];
+        [_sayLabel setText:@"按住 说话"];
+    }
+}
+
+#pragma mark 按钮执行动作
+-(void)buttonAction:(UIButton *)sender
+{
+    if (sender.tag==0) {
+        sender.selected=!sender.selected;
+        if (sender.selected) {
+            [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
+            [_sayLabel setHidden:NO];
+            [_inputTextView setUserInteractionEnabled:NO];
+            [self.view endEditing:YES];
+            [self extraBottomViewVisiable:NO];
+            
+        }else{
+            [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
+            [_sayLabel setHidden:YES];
+            
+            [_inputTextView setUserInteractionEnabled:YES];
+            [_inputTextView becomeFirstResponder];
+            
+        }
+        
+    }else{
+        if (!sender.selected) {
+            [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
+            [_saybutton setSelected:NO];
+            [_sayLabel setHidden:YES];
+            [_inputTextView setUserInteractionEnabled:YES];
+            [self.view endEditing:YES];
+            [self extraBottomViewVisiable:YES];
+        }
+    }
+}
+
+#pragma mark 录音部分
+#pragma mark *** Initialize methods ***
+- (void)initializeAudioSession {
+    // 配置音频处理模式
+    AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
+    
+    NSError *error = nil;
+    
+    BOOL success = NO;
+    
+    success = [audioSessions setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+    NSAssert(success, @"set audio session category failed with error message '%@'.", [error localizedDescription]);
+    
+    // 激活音频处理
+    success = [audioSessions setActive:YES error:&error];
+    NSAssert(success, @"set audio session active failed with error message '%@'.", [error localizedDescription]);
+}
+
+#pragma mark *** Events ***
+//- (void)recorderState:(BOOL)state {
+//    // 录音
+//    if (state) {
+//        
+//        // 设置音频存储路径
+//        NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+//        NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
+//        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
+//        
+//        // 初始化录音器
+//        NSError *error = nil;
+//        // settings:
+//        NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+//        [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+//        [recordSetting setValue:[NSNumber numberWithFloat:11025.0] forKey:AVSampleRateKey];
+//        [recordSetting setValue:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
+//        [recordSetting setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+//        [recordSetting setValue:[NSNumber numberWithInt:AVAudioQualityHigh] forKey:AVEncoderAudioQualityKey];
+//        self.recoder = [[AVAudioRecorder alloc] initWithURL:outputUrl settings:recordSetting error:&error];
+//        self.recoder.delegate = self;
+//        if (error) {
+//            NSLog(@"initialize recoder error. reason:“%@”", error.localizedDescription);
+//        }else {
+//            // 准备录音
+//            [_recoder prepareToRecord];
+//            _recoder.meteringEnabled = YES;
+//            // 录音
+//            [_recoder record];
+//        }
+//    }
+//    else// 播放
+//    {
+//        
+//        // 播放录制的音频文件
+//        NSError *error = nil;
+//        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recoder.url error:&error];
+//        if (error) {
+//            NSLog(@"%@", error.localizedDescription);
+//        }else {
+//            // 设置循环次数
+//            // -1：无限循环
+//            //  0：不循环
+//            //  1：循环1次...
+//            _player.numberOfLoops = 1;
+//            _player.volume=1.0;
+//            [_player prepareToPlay];
+//            [_player play];
+//        }
+//    }
+//}
+
+#pragma mark *** Setters ***
+- (void)setRecoder:(AVAudioRecorder *)recoder {
+    if (_recoder != recoder) {
+        // 删除录制的音频文件
+        [_recoder deleteRecording];
+        
+        _recoder = nil;
+        
+        NSLog(@"==================setRecoder======================");
+        
+        _recoder = recoder;
+    }
+}
+
+- (void)setPlayer:(AVAudioPlayer *)players {
+    if (_player != players) {
+        [_player stop];
+        NSLog(@"==================setPlayer======================");
+        _player = nil;
+        
+        _player = players;
+    }
+}
+
+
 
 @end

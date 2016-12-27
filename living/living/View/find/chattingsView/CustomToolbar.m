@@ -15,6 +15,7 @@
 {
     NSDate *startdate;
     NSDate *enddate;
+    CGPoint _tempPoint;
     
 }
 @property (nonatomic, strong) AVAudioRecorder *recoder; /**< 录音器 */
@@ -98,10 +99,23 @@
         [self recorderState:YES];
         [_sayLabel setBackgroundColor:TEXT_COLOR_LEVEL_3];
         [_sayLabel setText:@"松开 结束"];
+        [self.delegate longPressBegin];
+        
         startdate = [NSDate date];
     }
     
-    else if(gestureRecognizer.state == UIGestureRecognizerStateEnded)
+    if(gestureRecognizer.state == UIGestureRecognizerStateChanged)
+    {
+        NSLog(@"=============开始录制=====================");
+//        [self recorderState:YES];
+//        [_sayLabel setBackgroundColor:TEXT_COLOR_LEVEL_3];
+//        [_sayLabel setText:@"松开 结束"];
+        [self.delegate longPressChanged];
+//
+//        startdate = [NSDate date];
+    }
+    
+     if(gestureRecognizer.state == UIGestureRecognizerStateEnded)
     {
         NSLog(@"=============结束录制======================");
         [self recorderState:NO];
@@ -114,6 +128,9 @@
         [self.delegate voiceFinish:_recoder.url time:time];
         [_sayLabel setBackgroundColor:[UIColor clearColor]];
         [_sayLabel setText:@"按住 说话"];
+    }
+    if (gestureRecognizer.state ==UIGestureRecognizerStateCancelled) {
+        [_recoder stop];
     }
 }
 
@@ -168,22 +185,21 @@
         
             // 设置音频存储路径
             NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-            NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
+            NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.wav"];
             NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
             
             // 初始化录音器
             NSError *error = nil;
             // settings:
-        NSDictionary *recordSetting = @{
-                                        AVFormatIDKey               : @(kAudioFormatLinearPCM),
-                                        AVSampleRateKey             : @(8000.f),
-                                        AVNumberOfChannelsKey       : @(1),
-                                        AVLinearPCMBitDepthKey      : @(16),
-                                        AVLinearPCMIsNonInterleaved : @NO,
-                                        AVLinearPCMIsFloatKey       : @NO,
-                                        AVLinearPCMIsBigEndianKey   : @NO
-                                        };
-            self.recoder = [[AVAudioRecorder alloc] initWithURL:outputUrl settings:recordSetting error:&error];
+        NSDictionary *settings=[NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithFloat:8000],AVSampleRateKey,
+                                [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
+                                [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
+                                [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
+                                [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
+                                [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
+                                nil];
+        self.recoder = [[AVAudioRecorder alloc] initWithURL:outputUrl settings:settings error:&error];
         self.recoder.delegate = self;
             if (error) {
                 NSLog(@"initialize recoder error. reason:“%@”", error.localizedDescription);

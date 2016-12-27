@@ -21,6 +21,7 @@ static CGFloat const ButtonHeight = 50;
 @interface LMSegmentViewController ()<moreSelectItemDelegate>
 {
     MoreFunctionView *moreView;
+    NSInteger clickItem;
 }
 
 @end
@@ -31,11 +32,19 @@ static CGFloat const ButtonHeight = 50;
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddenView) name:@"hiddenAction" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ifcanpublic) name:@"ifCanpublic" object:nil];
 
     }
     
     return self;
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [moreView setHidden:YES];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,9 +78,16 @@ static CGFloat const ButtonHeight = 50;
     
     self.navigationItem.rightBarButtonItem = rightItem;
     
-    [self moreAction];
+    [self moreAction:@"cannot"];
     
 }
+
+- (void)ifcanpublic
+{
+    [self moreAction:@"can"];
+}
+
+
 
 - (void)showAction
 {
@@ -84,11 +100,21 @@ static CGFloat const ButtonHeight = 50;
 }
 
 
-- (void)moreAction
+- (void)moreAction:(NSString *)string
 {
-    NSArray *titleArray=@[@"发布",@"我的",@"我参与"];
-    
-    NSArray *iconArray=@[@"publicVoice",@"myVoice",@"myJoin"];
+    NSArray *titleArray;
+    NSArray *iconArray;
+    if ([string isEqualToString:@"cannot"]) {
+        titleArray=@[@"我参与"];
+        clickItem = 1;
+        iconArray=@[@"myJoin"];
+    }
+    if ([string isEqualToString:@"can"]) {
+        titleArray=@[@"发布",@"我的",@"我参与"];
+        clickItem = 2;
+        iconArray=@[@"publicVoice",@"myVoice",@"myJoin"];
+    }
+
     
     moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
     moreView.delegate=self;
@@ -98,15 +124,21 @@ static CGFloat const ButtonHeight = 50;
 
 -(void)moreViewSelectItem:(NSInteger)item
 {
-    NSLog(@"%ld",(long)item);
-    if (item == 0) {
-        [self publicAction];
+    if (clickItem  == 1) {
+        if (item == 0) {
+            [self myjoin];
+        }
     }
-    if (item == 1) {
-        [self myVoice];
-    }
-    if (item == 2) {
-        [self myjoin];
+    if (clickItem  == 2) {
+        if (item == 0) {
+            [self publicAction];
+        }
+        if (item == 1) {
+            [self myVoice];
+        }
+        if (item == 2) {
+            [self myjoin];
+        }
     }
     
 }

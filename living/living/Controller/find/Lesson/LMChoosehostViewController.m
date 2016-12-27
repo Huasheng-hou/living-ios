@@ -9,6 +9,8 @@
 #import "LMChoosehostViewController.h"
 #import "LMHostChoiceRequest.h"
 #import "UIImageView+WebCache.h"
+#import "LMFriendCell.h"
+#import "LMFriendVO.h"
 
 @interface LMChoosehostViewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
@@ -35,12 +37,14 @@
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
     _searchBar.placeholder = @"检索昵称或ID";
+    _searchBar.barTintColor = BG_GRAY_COLOR;
+    _searchBar.backgroundColor = BG_GRAY_COLOR;
     [self.view addSubview:_searchBar];
     
     hostArray = [[NSMutableArray alloc]init];
     
-    self.tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight+10+50,kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight+10+64))
-                                          style:UITableViewStylePlain];
+    self.tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, kNaviHeight+kStatuBarHeight+50,kScreenWidth, kScreenHeight-(kNaviHeight+kStatuBarHeight+50))
+                                          style:UITableViewStyleGrouped];
     
     [self.tableView setBackgroundColor:BG_GRAY_COLOR];
     [self.tableView setDelegate:self];
@@ -48,7 +52,7 @@
     [self.view addSubview:self.tableView];
     
     [self.tableView setShowsVerticalScrollIndicator:NO];
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
 }
 
@@ -88,7 +92,8 @@
     
     if (bodyDict && [bodyDict objectForKey:@"result"]) {
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
-            hostArray = [bodyDict objectForKey:@"host"];
+           NSArray *array = [LMFriendVO LMFriendVOListWithArray: [bodyDict objectForKey:@"host"]];
+            [hostArray addObjectsFromArray:array];
             [self.tableView reloadData];
         }
     }
@@ -123,9 +128,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
     return hostArray.count;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.01;
 }
 
 
@@ -136,31 +148,19 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *flag=@"cellFlag";
-    UITableViewCell  *cell =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
-
-    UIImageView   *imageV = [[UIImageView alloc] init];
-    imageV.frame = CGRectMake(15, 10, 40, 40);
-    imageV.contentMode = UIViewContentModeScaleAspectFill;
-    imageV.clipsToBounds = YES;
+    static NSString *cellId = @"cellId";
     
-    NSDictionary *hostDic = hostArray[indexPath.row];
+    LMFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     
-    if (hostDic  &&![hostDic isEqual:@""])
-    {
-       [imageV sd_setImageWithURL:[NSURL URLWithString:[hostDic objectForKey:@"avatar"]]];
+    if (!cell) {
+        cell = [[LMFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
-    [cell.contentView addSubview:imageV];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, kScreenWidth-70, 60)];
-    if (hostDic &&![hostDic isEqual:@""]) {
-        nameLabel.text = [NSString stringWithFormat:@"%@(ID:%@)", [hostDic objectForKey:@"nickname"],[hostDic objectForKey:@"userId"]];
-        nameLabel.font = TEXT_FONT_LEVEL_2;
-        nameLabel.textColor = TEXT_COLOR_LEVEL_2;
-    }
-    [cell.contentView addSubview:nameLabel];
-
+    LMFriendVO *vo = hostArray[indexPath.row];
+    [cell  setData:vo];
+    
     
     return cell;
 }
@@ -168,9 +168,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *hostDic = hostArray[indexPath.row];
+    LMFriendVO *vo = hostArray[indexPath.row];
        
-    [self.delegate backhostName:hostDic[@"nickname"] andId:hostDic[@"userId"]];
+    [self.delegate backhostName:vo.nickname andId:vo.UserID];
     
     [self.navigationController popViewControllerAnimated:YES];
     

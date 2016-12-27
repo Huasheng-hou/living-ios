@@ -26,7 +26,7 @@
     
     //活动标题
     UILabel *titleLable = [UILabel new];
-    titleLable.text = @"课堂标题";
+    titleLable.text = @"课程标题";
     titleLable.font = TEXT_FONT_LEVEL_1;
     titleLable.textColor = TEXT_COLOR_LEVEL_2;
     [titleLable sizeToFit];
@@ -72,7 +72,7 @@
     [self.contentView addSubview:lineView2];
     //人均费用
     UILabel *freeLable = [UILabel new];
-    freeLable.text = @"课堂费用";
+    freeLable.text = @"课程费用";
     freeLable.font = TEXT_FONT_LEVEL_1;
     freeLable.textColor = TEXT_COLOR_LEVEL_2;
     [freeLable sizeToFit];
@@ -111,7 +111,7 @@
     
     //参加人数
     UILabel *joinLable = [UILabel new];
-    joinLable.text = @"课堂人数";
+    joinLable.text = @"课程人数";
     joinLable.font = TEXT_FONT_LEVEL_1;
     joinLable.textColor = TEXT_COLOR_LEVEL_2;
     [joinLable sizeToFit];
@@ -176,7 +176,7 @@
     _titleTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 5, kScreenWidth- titleW-30, 30)];
     _titleTF.font = TEXT_FONT_LEVEL_2;
     _titleTF.returnKeyType = UIReturnKeyDone;
-    _titleTF.placeholder = @"请输入活动标题";
+    _titleTF.placeholder = @"请输入课程标题";
     [self.contentView addSubview:_titleTF];
     
     
@@ -204,13 +204,13 @@
     _nameTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 140, kScreenWidth- titleW-30, 30)];
     _nameTF.font = TEXT_FONT_LEVEL_2;
     _nameTF.returnKeyType = UIReturnKeyDone;
-    _nameTF.placeholder = @"请输入活动联系人姓名";
+    _nameTF.placeholder = @"请输入课程联系人姓名";
     [self.contentView addSubview:_nameTF];
     
     _freeTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 185, kScreenWidth- titleW-30, 30)];
     _freeTF.font = TEXT_FONT_LEVEL_2;
     _freeTF.returnKeyType = UIReturnKeyDone;
-    _freeTF.placeholder = @"请输入活动费用";
+    _freeTF.placeholder = @"请输入课程费用";
     _freeTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_freeTF];
     
@@ -245,7 +245,7 @@
     _dateButton.layer.cornerRadius = 5;
     _dateButton.layer.borderColor = LINE_COLOR.CGColor;
     _dateButton.layer.borderWidth = 0.5;
-    _dateButton.textLabel.text =  @"请选择活动开始时间";
+    _dateButton.textLabel.text =  @"请选择课程开始时间";
     [_dateButton.textLabel sizeToFit];
     _dateButton.textLabel.frame = CGRectMake(5, 0, _dateButton.textLabel.bounds.size.width+30, 30);
     [_dateButton sizeToFit];
@@ -258,7 +258,7 @@
     _endDateButton.layer.cornerRadius = 5;
     _endDateButton.layer.borderColor = LINE_COLOR.CGColor;
     _endDateButton.layer.borderWidth = 0.5;
-    _endDateButton.textLabel.text =  @"请选择活动结束时间";
+    _endDateButton.textLabel.text =  @"请选择课程结束时间";
     [_endDateButton.textLabel sizeToFit];
     _endDateButton.textLabel.frame = CGRectMake(5, 0, _endDateButton.textLabel.bounds.size.width+30, 30);
     [_endDateButton sizeToFit];

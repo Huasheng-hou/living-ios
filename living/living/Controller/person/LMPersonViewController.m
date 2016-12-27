@@ -173,23 +173,27 @@ static CGRect oldframe;
     {
         infoModels = [[UserInfoVO alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         infoDic =[bodyDict objectForKey:@"userInfo"];
-        NSDate * date = [NSDate date];
         
-        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        
-        //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
-        NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
-        //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
-        
-        NSDate * lastYear = [date dateByAddingTimeInterval:time];
-        
-        //转化为字符串
-        NSString * startDate = [dateFormatter stringFromDate:lastYear];
-        NSLog(@"%@",startDate);
-        NSDate *endDate = [dateFormatter dateFromString:infoModels.endTime];
-        
-        [self compareOneDay:lastYear withAnotherDay:endDate];
+        if ([infoModels.franchisee isEqualToString:@"yes"]) {
+            NSDate * date = [NSDate date];
+            
+            NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            
+            //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
+            NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
+            //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
+            
+            NSDate * lastYear = [date dateByAddingTimeInterval:time];
+            
+            //转化为字符串
+            NSString * startDate = [dateFormatter stringFromDate:lastYear];
+            NSLog(@"%@",startDate);
+            NSDate *endDate = [dateFormatter dateFromString:infoModels.endTime];
+            
+            [self compareOneDay:lastYear withAnotherDay:endDate];
+        }
+
         
         [_tableView reloadData];
         
