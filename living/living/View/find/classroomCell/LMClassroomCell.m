@@ -64,8 +64,12 @@
     [backView addSubview:headV];
     
     priceLabel = [UILabel new];
+    priceLabel.text = @"￥：999999";
     priceLabel.textColor = LIVING_REDCOLOR;
+    [priceLabel sizeToFit];
+    priceLabel.frame = CGRectMake(backView.frame.size.width-10-priceLabel.bounds.size.width, 45, priceLabel.bounds.size.width, 30);
     priceLabel.font = [UIFont systemFontOfSize:18];
+    priceLabel.textAlignment  = NSTextAlignmentRight;
     [backView addSubview:priceLabel];
     
     nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 50, 100, 20)];
@@ -95,12 +99,12 @@
     titleLabel.text = list.voiceTitle;
     [headView sd_setImageWithURL:[NSURL URLWithString:list.image]];
     [headV sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
-    nameLabel.text = [NSString stringWithFormat:@"讲师：%@",list.nickname];
+    nameLabel.text = [NSString stringWithFormat:@"讲师:%@",list.nickname];
     priceLabel.text = [NSString stringWithFormat:@"￥%@",list.perCost];
     NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     timeLabel.text = [NSString stringWithFormat:@"时间：%@", [formatter stringFromDate:list.startTime]];
-    numberLabel.text = [NSString stringWithFormat:@"学员：%d",list.currentNum];
+    numberLabel.text = [NSString stringWithFormat:@"学员:%d",list.currentNum];
     
     
 }
@@ -108,10 +112,8 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [priceLabel sizeToFit];
     [nameLabel sizeToFit];
     [numberLabel sizeToFit];
-    priceLabel.frame = CGRectMake(backView.frame.size.width-10-priceLabel.bounds.size.width, 45, priceLabel.bounds.size.width, 30);
     nameLabel.frame = CGRectMake(110, 50, backView.frame.size.width-10-priceLabel.bounds.size.width-110, 20);
     numberLabel.frame = CGRectMake(backView.frame.size.width-10-numberLabel.bounds.size.width, 85, numberLabel.bounds.size.width, 35);
 }

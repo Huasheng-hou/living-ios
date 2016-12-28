@@ -536,7 +536,92 @@ static NSMutableArray *cellDataArray;
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
+    [textField addTarget:self action:@selector(textLengthChange:) forControlEvents:UIControlEventEditingChanged];
 }
+
+-(void)textLengthChange:(UITextField *)textField
+{
+    NSString *toBeString;
+    NSString *lang;
+    NSInteger MAX_STARWORDS_LENGTH = 0;
+    NSInteger textFiledTag = 0;
+    if (textField == msgCell.nameTF) {
+        toBeString = msgCell.nameTF.text;
+        lang = [textField.textInputMode primaryLanguage];
+        MAX_STARWORDS_LENGTH = 4;
+        textFiledTag = 1;
+    }
+    
+    if (textField == msgCell.titleTF) {
+        toBeString = msgCell.titleTF.text;
+        lang = [textField.textInputMode primaryLanguage];
+        MAX_STARWORDS_LENGTH = 30;
+        textFiledTag = 2;
+    }
+    if (textField == msgCell.VipFreeTF) {
+        toBeString = msgCell.VipFreeTF.text;
+        lang = [textField.textInputMode primaryLanguage];
+        MAX_STARWORDS_LENGTH = 6;
+        textFiledTag = 3;
+    }
+    if (textField == msgCell.couponTF) {
+        toBeString = msgCell.couponTF.text;
+        lang = [textField.textInputMode primaryLanguage];
+        MAX_STARWORDS_LENGTH = 6;
+        textFiledTag = 3;
+    }
+    if (textField == msgCell.freeTF) {
+        toBeString = msgCell.freeTF.text;
+        lang = [textField.textInputMode primaryLanguage];
+        MAX_STARWORDS_LENGTH = 6;
+        textFiledTag = 3;
+    }
+    
+    if ([lang isEqualToString:@"zh-Hans"])// 简体中文输入
+    {
+        //获取高亮部分
+        UITextRange *selectedRange = [textField markedTextRange];
+        UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
+        
+        // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+        if (!position)
+        {
+            if (toBeString.length > MAX_STARWORDS_LENGTH)
+            {
+                textField.text = [toBeString substringToIndex:MAX_STARWORDS_LENGTH];
+                if (textFiledTag == 1) {
+                   [self textStateHUD:@"最多输入4个字~"];
+                }
+                if (textFiledTag == 2) {
+                    [self textStateHUD:@"最多输入30个字哦~"];
+                }
+                if (textFiledTag == 3) {
+                    [self textStateHUD:@"最多不能超过100万哦~"];
+                }
+                
+            }
+        }
+        
+    }
+    // 中文输入法以外的直接对其统计限制即可，不考虑其他语种情况
+    else
+    {
+        if (toBeString.length > MAX_STARWORDS_LENGTH)
+        {
+            NSRange rangeIndex = [toBeString rangeOfComposedCharacterSequenceAtIndex:MAX_STARWORDS_LENGTH];
+            if (rangeIndex.length == 1)
+            {
+                textField.text = [toBeString substringToIndex:MAX_STARWORDS_LENGTH];
+            }
+            else
+            {
+                NSRange rangeRange = [toBeString rangeOfComposedCharacterSequencesForRange:NSMakeRange(0, MAX_STARWORDS_LENGTH)];
+                textField.text = [toBeString substringWithRange:rangeRange];
+            }
+        }
+    }
+}
+
 
 #pragma mark 编辑单元格标题
 

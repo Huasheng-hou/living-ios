@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIImageView *imageV;
 @property (nonatomic, strong)UIButton *joinButton;
 @property (nonatomic, strong)LMVoiceDetailVO *voiceVO;
+@property (nonatomic, strong)NSString *role;
 
 @property (nonatomic, weak) id <LMVoiceHeaderCellDelegate> delegate;
 

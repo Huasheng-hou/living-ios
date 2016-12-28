@@ -7,7 +7,7 @@
 //
 
 #import "LMChatViewController.h"
-//#import "CustomToolbar.h"
+#import "CustomToolbar.h"
 #import "KeyBoardAssistView.h"
 #import "MoreFunctionView.h"
 #import "ChattingCell.h"
@@ -25,6 +25,7 @@
 #import "LMChoosehostViewController.h"
 #import "LMChangeHostRequest.h"
 #import "LMShieldstudentRequest.h"
+#import "LMVoiceEndRequest.h"
 
 #define assistViewHeight  200
 #define toobarHeight 45
@@ -34,7 +35,7 @@
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 UITextViewDelegate,
-//selectItemDelegate,
+selectItemDelegate,
 assistViewSelectItemDelegate,
 moreSelectItemDelegate,
 STOMPClientDelegate,
@@ -48,7 +49,7 @@ AVAudioRecorderDelegate
 {
     NSTimeInterval _visiableTime;
     
-    //    CustomToolbar *toorbar;
+    CustomToolbar *toorbar;
     KeyBoardAssistView *assistView;
     MoreFunctionView *moreView;
     
@@ -73,8 +74,7 @@ AVAudioRecorderDelegate
     BOOL isShieldReload;
     NSArray *titleArray;
     NSArray *iconArray;
-    NSDate *startdate;
-    NSDate *enddate;
+    
     
     
     CGPoint _tempPoint;
@@ -90,7 +90,7 @@ AVAudioRecorderDelegate
     
     UIView *_maskView;
     NSLayoutConstraint *_maskH;
-    UIToolbar *toorbar;
+    
     UIView *pressView;
     
 }
@@ -104,8 +104,6 @@ AVAudioRecorderDelegate
 @property(nonatomic,strong)UITextView *inputTextView;
 
 @property(nonatomic,strong)UIButton *addButton;
-@property (nonatomic, strong) AVAudioRecorder *recoder; /**< 录音器 */
-@property (nonatomic, strong) AVAudioPlayer *player; /**< 播放器 */
 
 @end
 
@@ -149,7 +147,6 @@ AVAudioRecorderDelegate
     currentIndex = nil;
     [self setupRefresh];
     reloadCount =0;
-    signIndex = 2;
     
 }
 
@@ -171,20 +168,20 @@ AVAudioRecorderDelegate
     
     if (_role&&![_role isEqualToString:@"student"]) {
         
-        if (_sign == NO) {
-            titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
+        if ([_sign isEqualToString:@"1"]) {
+            titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
         }else{
-            titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持"];
+            titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
         }
         
         
         roleIndex = 2;
-        iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+        iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
     }
     if (_role&&[_role isEqualToString:@"student"]){
-        titleArray=@[@"屏蔽"];
+        titleArray=@[@"屏蔽",@"问题"];
         roleIndex = 1;
-        iconArray=@[@"moreShieldIcon"];
+        iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
         
     }
     [self addrightItem];
@@ -211,7 +208,6 @@ AVAudioRecorderDelegate
         [self textStateHUD:@"没有更多消息~"];
         return;
     }
-    NSLog(@"currentIndex*******8%@",currentIndex);
     
     LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
     HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
@@ -247,10 +243,10 @@ AVAudioRecorderDelegate
                                                      
                                                  });
                                              }
-                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
                                          } failed:^(NSError *error) {
                                              
-                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
                                          }];
     
     [proxy start];
@@ -266,7 +262,6 @@ AVAudioRecorderDelegate
         [self textStateHUD:@"没有更多消息~"];
         return;
     }
-    NSLog(@"currentIndex*******8%@",currentIndex);
     
     LMShieldstudentRequest    *request    = [[LMShieldstudentRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
     HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
@@ -302,10 +297,10 @@ AVAudioRecorderDelegate
                                                      
                                                  });
                                              }
-                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
                                          } failed:^(NSError *error) {
                                              
-                                             //                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
+                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
                                          }];
     
     [proxy start];
@@ -418,55 +413,8 @@ AVAudioRecorderDelegate
 
 - (void)creatToolbarView
 {
-    toorbar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-    //语音
-    _imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 28, 28)];
-    [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
-    [toorbar addSubview:_imageV];
+    toorbar=[[CustomToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
     
-    _saybutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 45)];
-    //    [_saybutton setBackgroundImage:[UIImage imageNamed:@"sayImage"] forState:UIControlStateNormal];
-    [_saybutton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_saybutton setTag:0];
-    [_saybutton setSelected:NO];
-    [toorbar addSubview:_saybutton];
-    
-    //输入框
-    _inputTextView=[[UITextView alloc]initWithFrame:CGRectMake(45, 5, kScreenWidth-45-45, 35)];
-    [_inputTextView setBackgroundColor:[UIColor whiteColor]];
-    [_inputTextView.layer setCornerRadius:3.0f];
-    [_inputTextView.layer setMasksToBounds:YES];
-    [_inputTextView setKeyboardType:UIKeyboardTypeDefault];
-    [_inputTextView setReturnKeyType:UIReturnKeySend];
-    [_inputTextView setFont:[UIFont systemFontOfSize:14]];
-    [toorbar addSubview:_inputTextView];
-    
-    //按住说话
-    _sayLabel=[[UILabel alloc]initWithFrame:CGRectMake(45, 5, kScreenWidth-45-45, 35)];
-    [_sayLabel.layer setCornerRadius:3.0f];
-    [_sayLabel.layer setMasksToBounds:YES];
-    [_sayLabel setText:@"按住 说话"];
-    [_sayLabel setHidden:YES];
-    [_sayLabel setUserInteractionEnabled:YES];
-    [_sayLabel setTextAlignment:NSTextAlignmentCenter];
-    [_sayLabel setFont:[UIFont systemFontOfSize:14]];
-    [toorbar addSubview:_sayLabel];
-    
-    UILongPressGestureRecognizer *presss = [[UILongPressGestureRecognizer alloc]
-                                            initWithTarget:self action:@selector(presss:)];
-    presss.minimumPressDuration = 1.0;
-    
-    [_sayLabel addGestureRecognizer:presss];
-    
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-28-10, 8.5, 28, 28)];
-    [imageView setImage:[UIImage imageNamed:@"addImageCircle"]];
-    [toorbar addSubview:imageView];
-    //
-    _addButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-45, 0, 45, 45)];
-    [_addButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_addButton setTag:1];
-    [toorbar addSubview:_addButton];
-    [_inputTextView setDelegate:self];
     [toorbar setDelegate:self];
     [self.view addSubview:toorbar];
     
@@ -484,66 +432,77 @@ AVAudioRecorderDelegate
 #pragma mark 导航栏右边按钮的子按钮执行方法
 -(void)moreViewSelectItem:(NSInteger)item
 {
-    NSLog(@"===============更多选择是============%ld",(long)item);
     
     if (roleIndex == 1) {
-        NSString *tipString;
-        if (hasShield == NO) {
-            tipString = @"是否屏蔽该课程学员发言";
-            isShieldReload =NO;
-        }else{
-            tipString = @"是否取消屏蔽";
-            isShieldReload =YES;
+        if (item == 0) {
+            NSString *tipString;
+            if (hasShield == NO) {
+                tipString = @"是否屏蔽该课程学员发言";
+                isShieldReload =NO;
+            }else{
+                tipString = @"是否取消屏蔽";
+                isShieldReload =YES;
+            }
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:tipString
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDestructive
+                                                    handler:^(UIAlertAction*action) {
+                                                        [self.listData removeAllObjects];
+                                                        
+                                                        
+                                                        if (hasShield == NO &&isShieldReload ==NO) {
+                                                            
+                                                            [self getShieldstudentData];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                
+                                                                titleArray=@[@"已屏蔽",@"问题"];
+                                                                iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                                                                [self addrightItem];
+                                                                
+                                                                hasShield = YES;
+                                                            });
+                                                            
+                                                        }
+                                                        
+                                                        if (hasShield == YES &&isShieldReload ==YES){
+                                                            
+                                                            [self getvoiceRecordRequest];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                titleArray=@[@"屏蔽",@"问题"];
+                                                                iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                                                                [self addrightItem];
+                                                                
+                                                                hasShield = NO;
+                                                            });
+                                                        }
+                                                        
+                                                    }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
         }
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:tipString
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                  style:UIAlertActionStyleCancel
-                                                handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                  style:UIAlertActionStyleDestructive
-                                                handler:^(UIAlertAction*action) {
-                                                    [self.listData removeAllObjects];
-                                                    
-                                                    
-                                                    if (hasShield == NO &&isShieldReload ==NO) {
-                                                        
-                                                        [self getShieldstudentData];
-                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                            
-                                                            titleArray=@[@"已屏蔽"];
-                                                            iconArray=@[@"moreShieldIcon"];
-                                                            [self addrightItem];
-                                                            
-                                                            hasShield = YES;
-                                                        });
-                                                        
-                                                    }
-                                                    
-                                                    if (hasShield == YES &&isShieldReload ==YES){
-                                                        
-                                                        [self getvoiceRecordRequest];
-                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                            titleArray=@[@"屏蔽"];
-                                                            iconArray=@[@"moreShieldIcon"];
-                                                            [self addrightItem];
-                                                            
-                                                            hasShield = NO;
-                                                        });
-                                                    }
-                                                    
-                                                }]];
+        if (item == 1) {
+            LMVoiceQuestionViewController *questVC = [[LMVoiceQuestionViewController alloc] init];
+            questVC.hidesBottomBarWhenPushed = YES;
+            questVC.voiceUUid = _voiceUuid;
+            questVC.delegate = self;
+            [self.navigationController pushViewController:questVC animated:YES];
+        }
         
-        [self presentViewController:alert animated:YES completion:nil];
+        
     }
     if (roleIndex == 2) {
         
         //禁言
         if (item == 0) {
             
-            if (signIndex == 1) {
+            if (_sign&&[_sign isEqualToString:@"1"]) {
                 NSDictionary *dics = @{@"type":@"gag",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"sign":@"2"};
                 
                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
@@ -551,11 +510,9 @@ AVAudioRecorderDelegate
                 
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
-                titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持"];
-                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
             }
             
-            if (signIndex == 2) {
+            if (_sign&&[_sign isEqualToString:@"2"]) {
                 NSDictionary *dics = @{@"type":@"gag",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"sign":@"1"};
                 
                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
@@ -563,10 +520,7 @@ AVAudioRecorderDelegate
                 
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
-                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
-                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
             }
-            [self addrightItem];
             
         }
         //问题列表
@@ -603,8 +557,8 @@ AVAudioRecorderDelegate
                                                             [self getShieldstudentData];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 
-                                                                titleArray=@[@"禁言",@"问题",@"已屏蔽",@"主持"];
-                                                                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+                                                                titleArray=@[@"禁言",@"问题",@"已屏蔽",@"主持",@"关闭"];
+                                                                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                                                                 [self addrightItem];
                                                                 
                                                             });
@@ -613,8 +567,8 @@ AVAudioRecorderDelegate
                                                         if (hasShield == YES &&isShieldReload ==YES) {
                                                             [self getvoiceRecordRequest];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持"];
-                                                                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon"];
+                                                                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                                                                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                                                                 [self addrightItem];
                                                             });
                                                         }
@@ -634,18 +588,80 @@ AVAudioRecorderDelegate
             [self.navigationController pushViewController:typeVC animated:YES];
         }
         
+        if (item == 4) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否结束课程"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDestructive
+                                                    handler:^(UIAlertAction*action) {
+                                                        [self endVoiceAction];
+                                                        
+                                                    }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }
+        
     }
     
 }
 
+-(void)endVoiceAction{
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMVoiceEndRequest *request = [[LMVoiceEndRequest alloc] initWithVoice_uuid:_voiceUuid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getendEventResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+- (void)getendEventResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    [self logoutAction:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"课程结束失败请重试"];
+    }else{
+        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"课程结束成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reload"
+                 
+                                                                    object:nil];
+            });
+            
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
 //选择主持人代理
 - (void)backhostName:(NSString *)liveRoom andId:(NSString *)userId
 {
-    NSString *hostName = liveRoom;
-    NSLog(@"***********%@",hostName);
-    
-    NSString *hostId = userId;
-    NSLog(@"***********%@",hostId);
     LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:userId nickname:liveRoom voice_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -818,6 +834,41 @@ AVAudioRecorderDelegate
         [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
         [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
     }];
+}
+#pragma mark 语音说话及加号的执行方法（语音收缩、增加展示）
+
+-(void)selectItem:(NSInteger)item
+{
+    
+    [self.view endEditing:YES];
+    
+    switch (item) {
+            
+        case 0://语音
+            
+        {
+            
+            [self extraBottomViewVisiable:NO];
+            
+        }
+            
+            break;
+            
+        case 1://增加
+            
+        {
+            
+            [self extraBottomViewVisiable:YES];
+            
+        }
+            
+            break;
+            
+        default:
+            
+            break;
+            
+    }
 }
 
 #pragma mark 选择照片及提问的执行方法
@@ -1094,24 +1145,40 @@ AVAudioRecorderDelegate
                 
             }
             
-            if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.role isEqual:@"student"]&&[vo.type isEqualToString:@"gag"]) {
-                bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-                bootView.backgroundColor = [UIColor whiteColor];
-                UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
-                textLable.text = @"已禁言";
-                textLable.font = TEXT_FONT_LEVEL_2;
-                textLable.textAlignment = NSTextAlignmentCenter;
-                textLable.textColor = LIVING_COLOR;
-                [bootView addSubview:textLable];
-                [self.view addSubview:bootView];
-                signIndex = 2;
+            if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.type isEqualToString:@"gag"]) {
+                
+                if ([vo.role isEqual:@"student"]) {
+                    bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
+                    bootView.backgroundColor = [UIColor whiteColor];
+                    UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
+                    textLable.text = @"已禁言";
+                    textLable.font = TEXT_FONT_LEVEL_2;
+                    textLable.textAlignment = NSTextAlignmentCenter;
+                    textLable.textColor = LIVING_COLOR;
+                    [bootView addSubview:textLable];
+                    [self.view addSubview:bootView];
+                }else{
+                    [moreView removeFromSuperview];
+                    
+                    titleArray=@[@"已禁言",@"问题",@"已屏蔽",@"主持",@"关闭"];
+                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                    [self addrightItem];
+                    
+                    _sign = @"2";
+                }
+                
             }
-            if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.role isEqual:@"student"]&&[vo.type isEqualToString:@"gag"])) {
-                [bootView removeFromSuperview];
-                signIndex = 1;
+            if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.type isEqualToString:@"gag"])) {
+                if ([vo.role isEqual:@"student"]) {
+                    [bootView removeFromSuperview];
+                }else{
+                    [moreView removeFromSuperview];
+                    titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                    [self addrightItem];
+                    _sign = @"1";
+                }
             }
-            
-            
             [self reLoadTableViewCell];
             
         }];
@@ -1357,8 +1424,8 @@ AVAudioRecorderDelegate
 }
 
 - (void)changeImage {
-    [_recoder updateMeters];//更新测量值
-    float avg = [_recoder averagePowerForChannel:0];
+    [toorbar.recoder updateMeters];//更新测量值
+    float avg = [toorbar.recoder averagePowerForChannel:0];
     float minValue = -60;
     float range = 60;
     float outRange = 100;
@@ -1371,188 +1438,44 @@ AVAudioRecorderDelegate
     [_yinjieBtn.layer setMask:_maskView.layer];
 }
 
-#pragma mark 长安手势
--(void)presss:(UILongPressGestureRecognizer *)gestureRecognizer
+
+- (void)longPressBegin
 {
-    if(gestureRecognizer.state == UIGestureRecognizerStateBegan)
-    {
-        NSLog(@"=============开始录制=====================");
-        [self addView];
-        
-//        [self recorderState:YES];
-        [_sayLabel setBackgroundColor:TEXT_COLOR_LEVEL_3];
-        [_sayLabel setText:@"松开 结束"];
-        
-        startdate = [NSDate date];
-        
-        _callView.hidden = NO;
-        _timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
-    }
-    
-    if(gestureRecognizer.state == UIGestureRecognizerStateChanged)
-    {
-        CGPoint point = [gestureRecognizer locationInView:self.view];
-        if (point.y < _tempPoint.y - 10) {
-            _centerX.constant = 0;
-            _endState = 0;
-            _yinjieBtn.hidden = YES;
-            _label.text = @"松开手指，取消发送";
-            _label.backgroundColor = [UIColor clearColor];
-            _imgView.image = [UIImage imageNamed:@"chexiao"];
-            
-            if (!CGPointEqualToPoint(point, _tempPoint) && point.y < _tempPoint.y - 8) {
-                _tempPoint = point;
-                [_callView removeFromSuperview];
-            }
-            
-            
-        }
-    }
-    
-    if(gestureRecognizer.state == UIGestureRecognizerStateEnded)
-    {
-        NSLog(@"=============结束录制======================");
-//        [self recorderState:NO];
-        enddate = [NSDate date];
-        NSTimeInterval start = [startdate timeIntervalSince1970]*1;
-        NSTimeInterval end = [enddate timeIntervalSince1970]*1;
-        NSTimeInterval value = end - start;
-        
-        int time = (int)value;
-        [_callView removeFromSuperview];
-        [self voiceFinish:_recoder.url time:time];
-        
-        [_sayLabel setBackgroundColor:[UIColor clearColor]];
-        [_sayLabel setText:@"按住 说话"];
-    }
+    [self addView];
+    _callView.hidden = NO;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
 }
 
-#pragma mark 按钮执行动作
--(void)buttonAction:(UIButton *)sender
+- (void)longPressChanged
 {
-    if (sender.tag==0) {
-        sender.selected=!sender.selected;
-        if (sender.selected) {
-            [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
-            [_sayLabel setHidden:NO];
-            [_inputTextView setUserInteractionEnabled:NO];
-            [self.view endEditing:YES];
-            [self extraBottomViewVisiable:NO];
-            
-        }else{
-            [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
-            [_sayLabel setHidden:YES];
-            
-            [_inputTextView setUserInteractionEnabled:YES];
-            [_inputTextView becomeFirstResponder];
-            
+    CGPoint point = [toorbar.longPressReger locationInView:self.view];
+    if (point.y < _tempPoint.y - 10) {
+        _centerX.constant = 0;
+        _endState = 0;
+        _yinjieBtn.hidden = YES;
+        _label.text = @"松开手指，取消发送";
+        _label.backgroundColor = [UIColor clearColor];
+        _imgView.image = [UIImage imageNamed:@"chexiao"];
+        
+        if (!CGPointEqualToPoint(point, _tempPoint) && point.y < _tempPoint.y - 8) {
+            _tempPoint = point;
+            [_callView removeFromSuperview];
         }
         
-    }else{
-        if (!sender.selected) {
-            [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
-            [_saybutton setSelected:NO];
-            [_sayLabel setHidden:YES];
-            [_inputTextView setUserInteractionEnabled:YES];
-            [self.view endEditing:YES];
-            [self extraBottomViewVisiable:YES];
-        }
+        
     }
 }
 
-#pragma mark 录音部分
-#pragma mark *** Initialize methods ***
-- (void)initializeAudioSession {
-    // 配置音频处理模式
-    AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
-    
-    NSError *error = nil;
-    
-    BOOL success = NO;
-    
-    success = [audioSessions setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
-    NSAssert(success, @"set audio session category failed with error message '%@'.", [error localizedDescription]);
-    
-    // 激活音频处理
-    success = [audioSessions setActive:YES error:&error];
-    NSAssert(success, @"set audio session active failed with error message '%@'.", [error localizedDescription]);
+- (void)longPressEnd
+{
+    [_callView removeFromSuperview];
 }
 
-#pragma mark *** Events ***
-//- (void)recorderState:(BOOL)state {
-//    // 录音
-//    if (state) {
-//        
-//        // 设置音频存储路径
-//        NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-//        NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
-//        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
-//        
-//        // 初始化录音器
-//        NSError *error = nil;
-//        // settings:
-//        NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
-//        [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
-//        [recordSetting setValue:[NSNumber numberWithFloat:11025.0] forKey:AVSampleRateKey];
-//        [recordSetting setValue:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
-//        [recordSetting setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
-//        [recordSetting setValue:[NSNumber numberWithInt:AVAudioQualityHigh] forKey:AVEncoderAudioQualityKey];
-//        self.recoder = [[AVAudioRecorder alloc] initWithURL:outputUrl settings:recordSetting error:&error];
-//        self.recoder.delegate = self;
-//        if (error) {
-//            NSLog(@"initialize recoder error. reason:“%@”", error.localizedDescription);
-//        }else {
-//            // 准备录音
-//            [_recoder prepareToRecord];
-//            _recoder.meteringEnabled = YES;
-//            // 录音
-//            [_recoder record];
-//        }
-//    }
-//    else// 播放
-//    {
-//        
-//        // 播放录制的音频文件
-//        NSError *error = nil;
-//        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recoder.url error:&error];
-//        if (error) {
-//            NSLog(@"%@", error.localizedDescription);
-//        }else {
-//            // 设置循环次数
-//            // -1：无限循环
-//            //  0：不循环
-//            //  1：循环1次...
-//            _player.numberOfLoops = 1;
-//            _player.volume=1.0;
-//            [_player prepareToPlay];
-//            [_player play];
-//        }
-//    }
-//}
-
-#pragma mark *** Setters ***
-- (void)setRecoder:(AVAudioRecorder *)recoder {
-    if (_recoder != recoder) {
-        // 删除录制的音频文件
-        [_recoder deleteRecording];
-        
-        _recoder = nil;
-        
-        NSLog(@"==================setRecoder======================");
-        
-        _recoder = recoder;
-    }
+- (void)longPressCancelled
+{
+    NSLog(@"取消");
 }
 
-- (void)setPlayer:(AVAudioPlayer *)players {
-    if (_player != players) {
-        [_player stop];
-        NSLog(@"==================setPlayer======================");
-        _player = nil;
-        
-        _player = players;
-    }
-}
 
 
 

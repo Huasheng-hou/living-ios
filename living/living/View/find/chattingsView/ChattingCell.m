@@ -75,7 +75,7 @@
     [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_soundbutton];
     
-    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 11, 17)];
+    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8, 11, 17)];
     [imageV setImage:[UIImage imageNamed:@"cellSoundIcon"]];
     [_soundbutton addSubview:imageV];
     
@@ -133,7 +133,7 @@
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentStr];
        
-        [paragraphStyle setLineSpacing:5];
+        [paragraphStyle setLineSpacing:2];
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
         
         _contentLabel.attributedText = attributedString;

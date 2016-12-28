@@ -14,6 +14,8 @@
 
 @property(nonatomic,strong)NSString *voiceUUid;
 
+@property(nonatomic, strong)NSString *role;
+
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;
 

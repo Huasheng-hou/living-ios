@@ -52,7 +52,6 @@
 - (void)creatUI
 {
     [super createUI];
-    
     self.tableView.frame = CGRectMake(0, -60, kScreenWidth, kScreenHeight-54);
     
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
@@ -60,6 +59,13 @@
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
+    [self createFooterView];
+}
+
+- (void)createFooterView
+{
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    self.tableView.tableFooterView = footView;
 }
 
 - (FitBaseRequest *)request
@@ -185,25 +191,42 @@
 {
     if (self.listData.count>indexPath.row) {
         ClassroomVO *vo = self.listData[indexPath.row];
-//        if (vo.isBuy==NO) {
-//            [self textStateHUD:@"您还未报名参加该课程"];
-//            return;
-//        }
-        if (![vo.status isEqual:@"open"]) {
-            [self textStateHUD:@"课程已开始，下次提前报名哦~"];
-            return;
-        }
-        
-        if ([vo.status isEqual:@"open"]) {//&&vo.isBuy ==YES
-            LMChatViewController *roomVC = [[LMChatViewController alloc] init];
-            [roomVC setHidesBottomBarWhenPushed:YES];
-            roomVC.voiceUuid = vo.voiceUuid;
-            roomVC.sign = vo.sign;
-            roomVC.role = vo.role;
-            [self.navigationController pushViewController:roomVC animated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
+        if ([vo.status isEqual:@"open"]) {
+            
+            if (vo.role&&([vo.role isEqualToString:@"host"]||[vo.role isEqualToString:@"teacher"])) {
+                LMChatViewController *roomVC = [[LMChatViewController alloc] init];
+                [roomVC setHidesBottomBarWhenPushed:YES];
+                roomVC.voiceUuid = vo.voiceUuid;
+                roomVC.sign = vo.sign;
+                roomVC.role = vo.role;
+                [self.navigationController pushViewController:roomVC animated:YES];
+            }
+            if (vo.role&&[vo.role isEqualToString:@"student"]&&vo.isBuy==YES) {
+                LMChatViewController *roomVC = [[LMChatViewController alloc] init];
+                [roomVC setHidesBottomBarWhenPushed:YES];
+                roomVC.voiceUuid = vo.voiceUuid;
+                roomVC.sign = vo.sign;
+                roomVC.role = vo.role;
+                [self.navigationController pushViewController:roomVC animated:YES];
+            }
+            
+            if (vo.role&&[vo.role isEqualToString:@"student"]&&vo.isBuy==NO) {
+                LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
+                voiceVC.voiceUUid = vo.voiceUuid;
+                [voiceVC setHidesBottomBarWhenPushed:YES];
+                [self.navigationController pushViewController:voiceVC animated:YES];
+            }
+            
+        }else{
+            LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
+            voiceVC.voiceUUid = vo.voiceUuid;
+            voiceVC.role = vo.role;
+            [voiceVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:voiceVC animated:YES];
+            
         }
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
 
 }
 

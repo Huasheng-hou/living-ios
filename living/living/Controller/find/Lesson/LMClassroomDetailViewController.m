@@ -474,6 +474,10 @@ LMVoiceHeaderCellDelegate
         [besureButton addTarget:self action:@selector(besureAction:) forControlEvents:UIControlEventTouchUpInside];
         [suggestTF addSubview:besureButton];
         
+        if (eventDic.status&&[eventDic.status isEqualToString:@"closed"]) {
+            suggestTF.userInteractionEnabled = NO;
+        }
+        
         
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 120, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
@@ -545,6 +549,7 @@ LMVoiceHeaderCellDelegate
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setValue:eventDic];
+        cell.role = _role;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         
@@ -648,6 +653,9 @@ LMVoiceHeaderCellDelegate
 #pragma mark - LMLeavemessagecell delegate -点赞
 - (void)cellWillComment:(LMVoiceCommentTableViewCell *)cell
 {
+    if (eventDic.status&&[eventDic.status isEqualToString:@"closed"]) {
+        [self textStateHUD:@"课程已结束，无法点赞"];
+    }
 
     if ([[FitUserManager sharedUserManager] isLogin]){
         
@@ -719,6 +727,9 @@ LMVoiceHeaderCellDelegate
 //回复
 - (void)cellWillReply:(LMVoiceCommentTableViewCell *)cell
 {
+    if (eventDic.status&&[eventDic.status isEqualToString:@"closed"]) {
+        [self textStateHUD:@"课程已结束，无法回复"];
+    }
     
         LMEventCommentVO *list = msgArray[cell.tag];
         

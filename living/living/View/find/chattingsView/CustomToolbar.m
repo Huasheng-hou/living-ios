@@ -7,8 +7,7 @@
 //
 
 #import "CustomToolbar.h"
-#import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioToolbox.h>
+
 #import "FitConsts.h"
 
 @interface CustomToolbar()<AVAudioRecorderDelegate>
@@ -18,8 +17,7 @@
     CGPoint _tempPoint;
     
 }
-@property (nonatomic, strong) AVAudioRecorder *recoder; /**< 录音器 */
-@property (nonatomic, strong) AVAudioPlayer *player; /**< 播放器 */
+
 
 @end
 
@@ -43,7 +41,7 @@
 {
     //语音
     _imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 28, 28)];
-    [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
+    [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
     [self addSubview:_imageV];
     
     _saybutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 45)];
@@ -74,11 +72,11 @@
     [_sayLabel setFont:[UIFont systemFontOfSize:14]];
     [self addSubview:_sayLabel];
     
-    UILongPressGestureRecognizer *longPressReger = [[UILongPressGestureRecognizer alloc]
+    _longPressReger = [[UILongPressGestureRecognizer alloc]
                                                     initWithTarget:self action:@selector(handleLongPress:)];
-    longPressReger.minimumPressDuration = 1.0;
+    _longPressReger.minimumPressDuration = 1.0;
     
-    [_sayLabel addGestureRecognizer:longPressReger];
+    [_sayLabel addGestureRecognizer:_longPressReger];
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-28-10, 8.5, 28, 28)];
     [imageView setImage:[UIImage imageNamed:@"addImageCircle"]];
@@ -107,12 +105,8 @@
     if(gestureRecognizer.state == UIGestureRecognizerStateChanged)
     {
         NSLog(@"=============开始录制=====================");
-//        [self recorderState:YES];
-//        [_sayLabel setBackgroundColor:TEXT_COLOR_LEVEL_3];
-//        [_sayLabel setText:@"松开 结束"];
         [self.delegate longPressChanged];
-//
-//        startdate = [NSDate date];
+
     }
     
      if(gestureRecognizer.state == UIGestureRecognizerStateEnded)
@@ -140,19 +134,19 @@
     if (sender.tag==0) {
         sender.selected=!sender.selected;
         if (sender.selected) {
-            [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
+            [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
             [_sayLabel setHidden:NO];
             [_inputTextView setUserInteractionEnabled:NO];
             
         }else{
-            [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
+            [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
             [_sayLabel setHidden:YES];
             [_inputTextView setUserInteractionEnabled:YES];
             
         }
         
     }else{
-         [_imageV setImage:[UIImage imageNamed:@"sayImage"]];
+         [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
         [_saybutton setSelected:NO];
         [_sayLabel setHidden:YES];
         [_inputTextView setUserInteractionEnabled:YES];
@@ -211,25 +205,25 @@
                 [_recoder record];
             }
     }
-    else// 播放
-    {
-        
-            // 播放录制的音频文件
-            NSError *error = nil;
-            self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recoder.url error:&error];
-            if (error) {
-                NSLog(@"%@", error.localizedDescription);
-            }else {
-                // 设置循环次数
-                // -1：无限循环
-                //  0：不循环
-                //  1：循环1次...
-                _player.numberOfLoops = 1;
-                _player.volume=1.0;
-                [_player prepareToPlay];
-                [_player play];
-            }
-        }
+//    else// 播放
+//    {
+//        
+//            // 播放录制的音频文件
+//            NSError *error = nil;
+//            self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recoder.url error:&error];
+//            if (error) {
+//                NSLog(@"%@", error.localizedDescription);
+//            }else {
+//                // 设置循环次数
+//                // -1：无限循环
+//                //  0：不循环
+//                //  1：循环1次...
+//                _player.numberOfLoops = 1;
+//                _player.volume=1.0;
+//                [_player prepareToPlay];
+//                [_player play];
+//            }
+//        }
 }
 
 #pragma mark *** Setters ***

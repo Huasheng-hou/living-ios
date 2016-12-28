@@ -84,7 +84,6 @@
     [self.contentView addSubview:_nameLabel];
     
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
     [_joinButton setTintColor:LIVING_COLOR];
     _joinButton.showsTouchWhenHighlighted = YES;
     _joinButton.frame = CGRectMake(0, 0, 48.f, 48.f);
@@ -144,7 +143,42 @@
 
         [_headV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.avatar]];
         _countLabel.text = [NSString stringWithFormat:@"人数：%@/%@人",_voiceVO.number,_voiceVO.limitNum];
-        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+        
+        if ([_role isEqualToString:@"student"]) {
+            if (_voiceVO.isBuy == YES) {
+                [_joinButton setTitle:@"已报名" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }else{
+                if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"open"]) {
+                    [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+                    _joinButton.userInteractionEnabled = NO;
+                }
+                if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"ready"]) {
+                    [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+                }
+                if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"closed"]) {
+                    [_joinButton setTitle:@"已结束" forState:UIControlStateNormal];
+                    _joinButton.userInteractionEnabled = NO;
+                }
+            }
+        }else{
+            if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"open"]) {
+                [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+            if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"ready"]) {
+                [_joinButton setTitle:@"未开始" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+            if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"closed"]) {
+                [_joinButton setTitle:@"已结束" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+        }
+        
+
+        
+        
         
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16]};
         conHigh = [_voiceVO.voiceTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;

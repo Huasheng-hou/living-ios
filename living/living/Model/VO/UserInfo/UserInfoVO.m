@@ -79,6 +79,11 @@
             self.province = [dictionary objectForKey:@"province"];
         }
         
+        if (nil != [dictionary objectForKey:@"prove"] && ![[dictionary objectForKey:@"prove"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"prove"] isKindOfClass:[NSString class]]) {
+            self.prove = [dictionary objectForKey:@"prove"];
+        }
+        
         if (nil != [dictionary objectForKey:@"franchisee"] && ![[dictionary objectForKey:@"franchisee"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"franchisee"] isKindOfClass:[NSString class]]) {
             self.franchisee = [dictionary objectForKey:@"franchisee"];

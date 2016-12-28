@@ -24,6 +24,7 @@
 #import "UIBarButtonItem+Badge.h"
 #import "SYPhotoBrowser.h"
 #import "LMBlacklistViewController.h"
+#import "LMMyvoicSegmentViewController.h"
 
 static CGRect oldframe;
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -220,6 +221,9 @@ static CGRect oldframe;
         return 1;
     }
     if (section==1) {
+        if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+            return 6;
+        }
         return 5;
     }
     if (section==2) {
@@ -398,6 +402,11 @@ static CGRect oldframe;
                 cell.imageView.image = [UIImage imageNamed:@"personCoupon"];
                 
                 break;
+            case 5:
+                cell.textLabel.text = @"我是讲师";
+                cell.imageView.image = [UIImage imageNamed:@"voiceIcon"];
+                
+                break;
                 
             default:
                 break;
@@ -514,6 +523,13 @@ static CGRect oldframe;
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
+        
+        if (indexPath.row == 5) {
+            LMMyvoicSegmentViewController *myVoiceVC = [[LMMyvoicSegmentViewController alloc] init];
+            myVoiceVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:myVoiceVC animated:YES];
+        }
+        
     }
     
     if (indexPath.section==2) {
