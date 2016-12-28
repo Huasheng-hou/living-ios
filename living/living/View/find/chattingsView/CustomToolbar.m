@@ -117,15 +117,13 @@
         NSTimeInterval start = [startdate timeIntervalSince1970]*1;
         NSTimeInterval end = [enddate timeIntervalSince1970]*1;
         NSTimeInterval value = end - start;
-        
+        [self.delegate longPressEnd];
         int time = (int)value;
         [self.delegate voiceFinish:_recoder.url time:time];
         [_sayLabel setBackgroundColor:[UIColor clearColor]];
         [_sayLabel setText:@"按住 说话"];
     }
-    if (gestureRecognizer.state ==UIGestureRecognizerStateCancelled) {
-        [_recoder stop];
-    }
+
 }
 
 #pragma mark 按钮执行动作
@@ -179,7 +177,7 @@
         
             // 设置音频存储路径
             NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-            NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.wav"];
+            NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
             NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
             
             // 初始化录音器
@@ -205,25 +203,25 @@
                 [_recoder record];
             }
     }
-//    else// 播放
-//    {
-//        
-//            // 播放录制的音频文件
-//            NSError *error = nil;
-//            self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recoder.url error:&error];
-//            if (error) {
-//                NSLog(@"%@", error.localizedDescription);
-//            }else {
-//                // 设置循环次数
-//                // -1：无限循环
-//                //  0：不循环
-//                //  1：循环1次...
-//                _player.numberOfLoops = 1;
-//                _player.volume=1.0;
-//                [_player prepareToPlay];
-//                [_player play];
-//            }
-//        }
+    else// 播放
+    {
+        
+            // 播放录制的音频文件
+            NSError *error = nil;
+            self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recoder.url error:&error];
+            if (error) {
+                NSLog(@"%@", error.localizedDescription);
+            }else {
+                // 设置循环次数
+                // -1：无限循环
+                //  0：不循环
+                //  1：循环1次...
+                _player.numberOfLoops = 1;
+                _player.volume=1.0;
+                [_player prepareToPlay];
+                [_player play];
+            }
+        }
 }
 
 #pragma mark *** Setters ***

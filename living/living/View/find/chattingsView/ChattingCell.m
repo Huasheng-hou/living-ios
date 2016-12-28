@@ -11,6 +11,11 @@
 #import "UIImageView+WebCache.h"
 
 #define lightRedColor [UIColor colorWithRed:255/255.0f green:240/255.0f blue:240/255.0f alpha:1.0f]
+#define LMRedColor [UIColor colorWithRed:255/255.0f green:84/255.0f blue:84/255.0f alpha:1.0f]
+#define LMBuleColor [UIColor colorWithRed:240/255.0f green:248/255.0f blue:255/255.0f alpha:1.0f]
+#define lightBuleColor [UIColor colorWithRed:55/255.0f green:155/255.0f blue:239/255.0f alpha:1.0f]
+#define LMGrayColor [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0f]
+#define LMlightGrayColor [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f]
 
 @implementation ChattingCell
 {
@@ -43,7 +48,7 @@
 {
     //头像
     _headImageView=[[UIImageView alloc]initWithFrame:CGRectMake(15, 10, 30, 30)];
-        [_headImageView setBackgroundColor:[UIColor lightGrayColor]];
+    [_headImageView setBackgroundColor:[UIColor lightGrayColor]];
     [_headImageView.layer setCornerRadius:5.0f];
     [_headImageView.layer setMasksToBounds:YES];
     [_headImageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -69,8 +74,7 @@
     [_soundbutton.titleLabel setFont:TEXT_FONT_LEVEL_2];
     [_soundbutton.layer setCornerRadius:3.0f];
     [_soundbutton.layer setMasksToBounds:YES];
-    [_soundbutton setBackgroundColor:lightRedColor];
-    [_soundbutton.layer setBorderColor:[UIColor redColor].CGColor];
+    
     
     [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_soundbutton];
@@ -90,15 +94,15 @@
     [contentbgView.layer setBorderWidth:0.5f];
     [contentbgView.layer setCornerRadius:3.0f];
     [contentbgView.layer setMasksToBounds:YES];
-    [contentbgView setBackgroundColor:lightRedColor];
-    [contentbgView.layer setBorderColor:[UIColor redColor].CGColor];
+    
+    
     [self addSubview:contentbgView];
     //内容
     _contentLabel=[[UILabel alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth-65-10, 100)];
     [_contentLabel setText:@" "];
     [_contentLabel setFont:TEXT_FONT_LEVEL_2];
     [_contentLabel setNumberOfLines:0];
-    [_contentLabel setBackgroundColor:lightRedColor];
+    
     [contentbgView addSubview:_contentLabel];
     
     publishImageV=[[UIImageView alloc]initWithFrame:CGRectMake(50, 35, 100, 150)];
@@ -111,6 +115,26 @@
 
 -(void)setCellValue:(MssageVO *)vo
 {
+   
+    if (vo.role&&[vo.role isEqualToString:@"teacher"]) {
+        [contentbgView.layer setBorderColor:LMRedColor.CGColor];
+        [contentbgView setBackgroundColor:lightRedColor];
+        [_soundbutton setBackgroundColor:lightRedColor];
+        [_soundbutton.layer setBorderColor:LMRedColor.CGColor];
+    }
+    if (vo.role&&[vo.role isEqualToString:@"host"]) {
+        [contentbgView.layer setBorderColor:lightBuleColor.CGColor];
+        [contentbgView setBackgroundColor:LMBuleColor];
+        [_soundbutton setBackgroundColor:LMBuleColor];
+        [_soundbutton.layer setBorderColor:lightBuleColor.CGColor];
+    }
+    if (vo.role&&[vo.role isEqualToString:@"student"]) {
+        [contentbgView.layer setBorderColor:LMGrayColor.CGColor];
+        [contentbgView setBackgroundColor:LMlightGrayColor];
+        [_soundbutton setBackgroundColor:LMlightGrayColor];
+        [_soundbutton.layer setBorderColor:LMGrayColor.CGColor];
+    }
+    
     //设置时间
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init]; //初始化格式器。
     [formatter setDateFormat:@"MM-dd hh:mm"];//定义时间为这种格式： YYYY-MM-dd hh:mm:ss 。

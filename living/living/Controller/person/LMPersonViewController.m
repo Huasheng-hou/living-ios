@@ -404,7 +404,7 @@ static CGRect oldframe;
                 break;
             case 5:
                 cell.textLabel.text = @"我是讲师";
-                cell.imageView.image = [UIImage imageNamed:@"voiceIcon"];
+                cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
                 
                 break;
                 

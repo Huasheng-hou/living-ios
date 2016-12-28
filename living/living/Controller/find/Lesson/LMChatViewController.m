@@ -1120,7 +1120,10 @@ AVAudioRecorderDelegate
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-                [self.listData addObjectsFromArray:array2];
+                if ([vo.type isEqual:@"chat"]) {
+                    [self.listData addObjectsFromArray:array2];
+                }
+                
             }
             
             if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"])) {
@@ -1277,7 +1280,7 @@ AVAudioRecorderDelegate
         //将数据保存到本地指定位置
         NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
         NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
-        //        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
+//        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
         [audioData writeToFile:outputPath atomically:YES];
         
         //播放本地音乐
@@ -1353,7 +1356,8 @@ AVAudioRecorderDelegate
     _callView.translatesAutoresizingMaskIntoConstraints = NO;
     _callView.layer.cornerRadius = 10;
     _callView.clipsToBounds = YES;
-    _callView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    _callView.backgroundColor = [UIColor blackColor ];
+    _callView.alpha = 0.5;
     [self.view addSubview:_callView];
     
     _label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -1385,7 +1389,7 @@ AVAudioRecorderDelegate
     NSDictionary *views = NSDictionaryOfVariableBindings(_callView, _label, _imgView, _yinjieBtn, _maskView);
     
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-80-[_callView]-80-|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-120-[_callView]-120-|" options:0 metrics:nil views:views]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_callView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_callView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
