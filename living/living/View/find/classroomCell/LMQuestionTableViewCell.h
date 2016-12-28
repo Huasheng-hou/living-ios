@@ -14,6 +14,8 @@
 
 - (void)setValue:(LMQuestionVO *)vo;
 
+@property(nonatomic,strong)NSString *roleIndex;
+
 @property (nonatomic, weak) id <LMQuestionCellDelegate> delegate;
 
 + (CGFloat)cellHigth:(NSString *)titleString;

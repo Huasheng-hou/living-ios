@@ -95,16 +95,6 @@ AVAudioRecorderDelegate
     
 }
 
-@property(nonatomic,strong)UIImageView *imageV;
-
-@property(nonatomic,strong)UIButton *saybutton;
-
-@property(nonatomic,strong)UILabel *sayLabel;//按住说话
-
-@property(nonatomic,strong)UITextView *inputTextView;
-
-@property(nonatomic,strong)UIButton *addButton;
-
 @end
 
 @implementation LMChatViewController
@@ -414,7 +404,7 @@ AVAudioRecorderDelegate
 - (void)creatToolbarView
 {
     toorbar=[[CustomToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-    
+    toorbar.inputTextView.delegate = self;
     [toorbar setDelegate:self];
     [self.view addSubview:toorbar];
     
@@ -491,6 +481,7 @@ AVAudioRecorderDelegate
             LMVoiceQuestionViewController *questVC = [[LMVoiceQuestionViewController alloc] init];
             questVC.hidesBottomBarWhenPushed = YES;
             questVC.voiceUUid = _voiceUuid;
+            questVC.roleIndex = @"1";
             questVC.delegate = self;
             [self.navigationController pushViewController:questVC animated:YES];
         }
@@ -528,6 +519,7 @@ AVAudioRecorderDelegate
             LMVoiceQuestionViewController *questVC = [[LMVoiceQuestionViewController alloc] init];
             questVC.hidesBottomBarWhenPushed = YES;
             questVC.voiceUUid = _voiceUuid;
+            questVC.roleIndex = @"2";
             questVC.delegate = self;
             [self.navigationController pushViewController:questVC animated:YES];
         }
@@ -755,7 +747,7 @@ AVAudioRecorderDelegate
         }else{
             
             if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
-                NSString *strings  = [_inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
                 NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false"};
                 
@@ -765,9 +757,9 @@ AVAudioRecorderDelegate
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
                 
-                _inputTextView.text=@"";
+                toorbar.inputTextView.text=@"";
             }else{
-                NSString *strings  = [_inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
                 NSDictionary *dics = @{@"type":@"chat",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings};
                 
@@ -777,7 +769,7 @@ AVAudioRecorderDelegate
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
                 
-                _inputTextView.text=@"";
+                toorbar.inputTextView.text=@"";
             }
             
             [self reLoadTableViewCell];
@@ -884,7 +876,7 @@ AVAudioRecorderDelegate
         }];
     }
     if (item==2) {//提问
-        _inputTextView.text = @"#问题# ";
+        toorbar.inputTextView.text = @"#问题# ";
         
     }
 }
@@ -912,9 +904,7 @@ AVAudioRecorderDelegate
     [self initStateHud];
     
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-    
-    UIImage *headImage  = [ImageHelpTool scaleImage:image];
-    request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+    request.imageData   = UIImageJPEGRepresentation(image, 1);
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
@@ -1118,6 +1108,7 @@ AVAudioRecorderDelegate
                 [dic setObject:vo.name forKey:@"name"];
                 [dic setObject:@"chat" forKey:@"type"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+                [dic setObject:vo.role forKey:@"role"];
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 if ([vo.type isEqual:@"chat"]) {
@@ -1142,6 +1133,7 @@ AVAudioRecorderDelegate
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+                [dic setObject:vo.role forKey:@"role"];
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 [self.listData addObjectsFromArray:array2];

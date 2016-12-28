@@ -37,6 +37,8 @@
 @property(nonatomic,strong)UILabel *inventory;//库存
 @property(nonatomic,strong)UILabel *dspLabel;
 
+@property(nonatomic,strong)NSString *string;
+
 @property(nonatomic,strong)CustomButton *addButton;
 @property(nonatomic,strong)CustomButton *reduceButotn;
 

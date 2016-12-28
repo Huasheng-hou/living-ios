@@ -87,8 +87,19 @@
     
 }
 
+- (void)setRoleIndex:(NSString *)roleIndex
+{
+    _roleIndex = roleIndex;
+    if ([_roleIndex isEqualToString:@"1"]) {
+        clickButton.hidden = YES;
+    }else{
+        clickButton.hidden = NO;
+    }
+}
+
 -(void)setValue:(LMQuestionVO *)vo
 {
+    
 
     [headView sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
     nameLabel.text = vo.name;

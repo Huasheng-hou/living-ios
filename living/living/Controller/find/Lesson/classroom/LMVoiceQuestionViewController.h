@@ -18,6 +18,8 @@
 
 @property (nonatomic,strong)NSString *voiceUUid;
 
+@property (nonatomic,strong)NSString *roleIndex;
+
 @property (nonatomic,assign)id<LMquestionchooseProtocol>delegate;
 
 @end

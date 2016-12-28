@@ -826,7 +826,10 @@ FitPickerViewDelegate
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
                 
                 [self textStateHUD:@"支付成功！"];
-                [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+                });
                 
             } else {
                 
@@ -948,7 +951,10 @@ FitPickerViewDelegate
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]) {
             
             [self textStateHUD:@"支付成功！"];
-            [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+            });
         } else {
             
             [self textStateHUD:bodyDict[@"description"]];
@@ -1005,7 +1011,11 @@ FitPickerViewDelegate
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * _Nonnull action) {
                                                         
-                                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                            [self dismissViewControllerAnimated:YES completion:nil];
+                                                            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+                                                        });
+                                                     
                                                     }]];
             
             [self presentViewController:alert animated:YES completion:nil];

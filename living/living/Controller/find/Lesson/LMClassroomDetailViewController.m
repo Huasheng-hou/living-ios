@@ -548,8 +548,8 @@ LMVoiceHeaderCellDelegate
         LMVoiceHeaderCell *cell = [[LMVoiceHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setValue:eventDic];
         cell.role = _role;
+        [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         
@@ -870,10 +870,9 @@ LMVoiceHeaderCellDelegate
         LMChooseView *infoView = [[LMChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         
         infoView.event  = eventDic;
-        infoView.reduceButotn.hidden = YES;
-        infoView.addButton.hidden = YES;
-        
-        
+        infoView.string = @"只能报名一份";
+        [infoView.addButton addTarget:self action:@selector(addactionNum) forControlEvents:UIControlEventTouchUpInside];
+  
         infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
         infoView.titleLabel.text = @"￥:10000";
         infoView.titleLabel.textColor = LIVING_REDCOLOR;
@@ -934,6 +933,11 @@ LMVoiceHeaderCellDelegate
     }
 }
 
+-(void)addactionNum
+{
+    [self textStateHUD:@"只能报名一份"];
+}
+
 - (void)joindataRequest:(NSNotification *)notice
 {
     if (![CheckUtils isLink]) {
@@ -973,7 +977,7 @@ LMVoiceHeaderCellDelegate
     }
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
-        [self textStateHUD:@"报名成功"];
+        [self textStateHUD:@"正在前往支付~"];
         NSString *orderID = [bodyDic objectForKey:@"order_uuid"];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

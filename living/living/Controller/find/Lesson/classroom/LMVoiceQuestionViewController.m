@@ -151,6 +151,7 @@ LMQuestionCellDelegate
             [(LMQuestionTableViewCell *)cell setValue:vo];
             [(LMQuestionTableViewCell *)cell setDelegate:self];
             [(LMQuestionTableViewCell *)cell setTag:indexPath.row];
+            [(LMQuestionTableViewCell *)cell setRoleIndex:_roleIndex];
         }
         
     }

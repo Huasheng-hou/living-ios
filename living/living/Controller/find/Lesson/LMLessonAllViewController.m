@@ -191,6 +191,7 @@
             if (vo.role&&[vo.role isEqualToString:@"student"]&&vo.isBuy==NO) {
                 LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
                 voiceVC.voiceUUid = vo.voiceUuid;
+                voiceVC.role = vo.role;
                 [voiceVC setHidesBottomBarWhenPushed:YES];
                 [self.navigationController pushViewController:voiceVC animated:YES];
             }
@@ -198,6 +199,7 @@
         }else{
             LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
             voiceVC.voiceUUid = vo.voiceUuid;
+            voiceVC.role = vo.role;
             [voiceVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:voiceVC animated:YES];
             

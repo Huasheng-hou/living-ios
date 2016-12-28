@@ -110,8 +110,13 @@
         _addButton.titleLabel.font = [UIFont systemFontOfSize:20];
         _addButton.backgroundColor = LIVING_COLOR;
         [_addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_addButton setTitle:@"+" forState:0];;
-        [_addButton addTarget:self action:@selector(addButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_addButton setTitle:@"+" forState:0];
+//        if ([_string isEqualToString:@"只能报名一份"]) {
+//            
+//        }else{
+//          [_addButton addTarget:self action:@selector(addButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//        }
+        
         [self.bottomView addSubview:_addButton];
         //减少
         _reduceButotn = [CustomButton buttonWithType:UIButtonTypeCustom];
@@ -186,6 +191,7 @@
 
 - (void)addButtonClick:(CustomButton *)sender
 {
+    
     count+=1;
     
     if (count > [_event.limitNum intValue]) {
