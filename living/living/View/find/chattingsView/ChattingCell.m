@@ -56,7 +56,7 @@
     [self addSubview:_headImageView];
     
     //名字
-    _chatNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(50, 5, kScreenWidth-75, 30)];
+    _chatNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(60, 5, kScreenWidth-75, 30)];
     [_chatNameLabel setFont:TEXT_FONT_LEVEL_2];
     [_chatNameLabel setTextColor:[UIColor blackColor]];
     [self addSubview:_chatNameLabel];
@@ -98,7 +98,7 @@
     
     [self addSubview:contentbgView];
     //内容
-    _contentLabel=[[UILabel alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth-65-10, 100)];
+    _contentLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth-65-10, 100)];
     [_contentLabel setText:@" "];
     [_contentLabel setFont:TEXT_FONT_LEVEL_2];
     [_contentLabel setNumberOfLines:0];
@@ -166,7 +166,7 @@
     
         [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10)];
          [_contentLabel setFont:TEXT_FONT_LEVEL_2];
-        [_contentLabel setFrame:CGRectMake(5, 5, kScreenWidth-65-10, contenSize.height)];
+        [_contentLabel setFrame:CGRectMake(10, 5, kScreenWidth-65-10, contenSize.height)];
         
         //显示文字显示控件
         [contentbgView setHidden:NO];
@@ -196,8 +196,20 @@
     
     //如果为语音
     if (vo.type&&[vo.type isEqual:@"voice"]) {
+        int value;
+        if (vo.recordingTime&&![vo.recordingTime isEqual:@""]) {
+            value =[vo.recordingTime intValue];
+            if (value<15) {
+                value = 15;
+            }
+            if (value>60) {
+                value = 60;
+            }
+            
+        }
+        [_soundbutton sizeToFit];
         
-        [_soundbutton setFrame:CGRectMake(50, 35, kScreenWidth-65, 30)];
+        [_soundbutton setFrame:CGRectMake(50, 35, (kScreenWidth-65)*value/60, 30)];
         if (vo.recordingTime&&![vo.recordingTime isEqual:@""]) {
            _duration.text  = [NSString stringWithFormat:@"%@''",vo.recordingTime];
          _duration.frame=CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height);

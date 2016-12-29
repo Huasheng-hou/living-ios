@@ -27,9 +27,12 @@
 #import "LMShieldstudentRequest.h"
 #import "LMVoiceEndRequest.h"
 
+#import "LGAudioKit.h"
+#import "Masonry.h"
+
 #define assistViewHeight  200
 #define toobarHeight 45
-
+#define DocumentPath  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 @interface LMChatViewController ()
 <
 UINavigationControllerDelegate,
@@ -44,7 +47,9 @@ LMhostchooseProtocol,
 LMquestionchooseProtocol,
 AVAudioPlayerDelegate,
 UIToolbarDelegate,
-AVAudioRecorderDelegate
+AVAudioRecorderDelegate,
+LGSoundRecorderDelegate,
+LGAudioPlayerDelegate
 >
 {
     NSTimeInterval _visiableTime;
@@ -66,7 +71,7 @@ AVAudioRecorderDelegate
     NSInteger roleIndex;
     NSInteger signIndex;
     UIBarButtonItem * rightItem;
-    AVAudioSession *audioSession;
+//    AVAudioSession *audioSession;
     int duration;
     
     BOOL  isfirst;
@@ -92,8 +97,10 @@ AVAudioRecorderDelegate
     NSLayoutConstraint *_maskH;
     
     UIView *pressView;
+    NSString *hostId;
     
 }
+@property (nonatomic, weak) NSTimer *timerOf60Second;
 
 @end
 
@@ -137,6 +144,7 @@ AVAudioRecorderDelegate
     currentIndex = nil;
     [self setupRefresh];
     reloadCount =0;
+    [LGAudioPlayer sharePlayer].delegate = self;
     
 }
 
@@ -651,9 +659,10 @@ AVAudioRecorderDelegate
 }
 
 
-//选择主持人代理
+#pragma mark -- 选择主持人代理
 - (void)backhostName:(NSString *)liveRoom andId:(NSString *)userId
 {
+    hostId = userId;
     LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:userId nickname:liveRoom voice_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -681,6 +690,16 @@ AVAudioRecorderDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"选择主持人成功！"];
+            
+            NSDictionary *dics = @{@"type":@"host",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"userId":hostId};
+            
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+            
+            NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+            [client sendTo:urlStr body:string];
+   
+            
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
@@ -918,7 +937,7 @@ AVAudioRecorderDelegate
                                                
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
-                                                   NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        //                                                       _imgURL=imgUrl;
                                                        NSLog(@"%@",imgUrl);
@@ -1140,6 +1159,29 @@ AVAudioRecorderDelegate
                 
             }
             
+            if (vo.type&&[vo.type isEqual:@"host"]) {
+ 
+                if (vo.role&&![vo.role isEqualToString:@"student"]) {
+                    
+                    if ([_sign isEqualToString:@"1"]) {
+                        titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                    }else{
+                        titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                    }
+                    
+                    
+                    roleIndex = 2;
+                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                }
+                if (vo.role&&[vo.role isEqualToString:@"student"]){
+                    titleArray=@[@"屏蔽",@"问题"];
+                    roleIndex = 1;
+                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                    
+                }
+                [self addrightItem];
+            }
+            
             if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.type isEqualToString:@"gag"]) {
                 
                 if ([vo.role isEqual:@"student"]) {
@@ -1184,54 +1226,6 @@ AVAudioRecorderDelegate
 }
 
 
-#pragma mark  --录制结束上传音频
-
-- (void)voiceFinish:(NSURL *)string time:(int)timeLong
-{
-    NSLog(@"%@",string);
-    duration = timeLong;
-    NSArray  *paths  =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *docDir = [paths objectAtIndex:0];
-    NSString *filePath = [docDir stringByAppendingPathComponent:@"/recodOutput.caf"];
-    NSData *imageData = [NSData dataWithContentsOfFile: filePath];
-    NSLog(@"*******voiceData******%@",imageData);
-    
-    FirUploadVoiceRequest *request = [[FirUploadVoiceRequest alloc] initWithFileName:@"file"];
-    request.fileData = imageData;
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding){
-                                               
-                                               [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                      withObject:nil
-                                                                   waitUntilDone:YES];
-                                               NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                               
-                                               NSString    *result = [bodyDict objectForKey:@"result"];
-                                               
-                                               if (result && [result isKindOfClass:[NSString class]]
-                                                   && [result isEqualToString:@"0"]) {
-                                                   NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                                   if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                       
-                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration]};
-                                                       
-                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
-                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                                                       [client sendTo:urlStr body:string];
-                                                       
-                                                       [self reLoadTableViewCell];
-                                                       
-                                                       
-                                                   }
-                                               }
-                                           } failed:^(NSError *error) {
-                                               [self hideStateHud];
-                                           }];
-    [proxy start];
-}
-
-
 - (void)setupRefresh
 {
     moreView.hidden = YES;
@@ -1261,6 +1255,7 @@ AVAudioRecorderDelegate
 
 - (void)cellClickVoice:(ChattingCell *)cell
 {
+    [player stop];
     moreView.hidden = YES;
     MssageVO *vo = self.listData[cell.tag];
     
@@ -1269,21 +1264,23 @@ AVAudioRecorderDelegate
         NSURL *url = [[NSURL alloc]initWithString:urlStr];
         NSData * audioData = [NSData dataWithContentsOfURL:url];
         
-        //将数据保存到本地指定位置
-        NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-        NSString *outputPath = [documentPath stringByAppendingString:@"/recodOutput.caf"];
-//        NSURL *outputUrl = [NSURL fileURLWithPath:outputPath];
-        [audioData writeToFile:outputPath atomically:YES];
-        
         //播放本地音乐
+        AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
+        
         NSError *audioError = nil;
-        BOOL success = [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
-        if(!success)
+        BOOL successs = [audioSessions overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
+        if(!successs)
         {
             NSLog(@"error doing outputaudioportoverride - %@", [audioError localizedDescription]);
         }
+
+        NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , @"temp"];
+        [audioData writeToFile:filePath atomically:YES];
+        
+        //播放本地音乐
+//        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
         player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
-        player.delegate = self;
         [player play];
     }
 }
@@ -1340,137 +1337,204 @@ AVAudioRecorderDelegate
     
 }
 
-- (void)addView
+- (void)startRecord
 {
-    
-    _callView = [[UIView alloc] initWithFrame:CGRectZero];
-    _callView.hidden = YES;
-    _callView.translatesAutoresizingMaskIntoConstraints = NO;
-    _callView.layer.cornerRadius = 10;
-    _callView.clipsToBounds = YES;
-    _callView.backgroundColor = [UIColor blackColor ];
-    _callView.alpha = 0.5;
-    [self.view addSubview:_callView];
-    
-    _label = [[UILabel alloc] initWithFrame:CGRectZero];
-    _label.translatesAutoresizingMaskIntoConstraints = NO;
-    _label.textAlignment = NSTextAlignmentCenter;
-    _label.font = [UIFont systemFontOfSize:12];
-    _label.text = @"手指上滑，取消发送";
-    _label.layer.cornerRadius = 5;
-    _label.clipsToBounds = YES;
-    _label.textColor = [UIColor whiteColor];
-    [_callView addSubview:_label];
-    
-    _imgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _imgView.translatesAutoresizingMaskIntoConstraints = NO;
-    _imgView.image = [UIImage imageNamed:@"yuyin"];
-    [_callView addSubview:_imgView];
-    
-    _maskView = [[UIView alloc] initWithFrame:CGRectZero];
-    _maskView.translatesAutoresizingMaskIntoConstraints = NO;
-    _maskView.backgroundColor = [UIColor whiteColor];
-    [_callView addSubview:_maskView];
-    
-    _yinjieBtn = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _yinjieBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    _yinjieBtn.image = [UIImage imageNamed:@"yinjie（6）"];
-    [_callView addSubview:_yinjieBtn];
-    
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(_callView, _label, _imgView, _yinjieBtn, _maskView);
-    
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-120-[_callView]-120-|" options:0 metrics:nil views:views]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_callView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_callView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[_label]-|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_label]-|" options:0 metrics:nil views:views]];
-    _centerX = [NSLayoutConstraint constraintWithItem:_imgView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeCenterX multiplier:1 constant:-20];
-    [self.view addConstraint:_centerX];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_imgView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_callView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_yinjieBtn attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_imgView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_yinjieBtn attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_imgView attribute:NSLayoutAttributeRight multiplier:1 constant:10]];
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_imgView]-[_maskView]-|" options:0 metrics:nil views:views]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maskView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_yinjieBtn attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-    _maskH = [NSLayoutConstraint constraintWithItem:_maskView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
-    [self.view addConstraint:_maskH];
-    
-    
-}
-
-- (void)endPress {
-    switch (_endState) {
-        case 0: {
-            NSLog(@"取消发送");
-            break;
-        }
-        case 1: {
-            
-            break;
-        }
-        default:
-            break;
+    __block BOOL isAllow = 0;
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    if ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) {
+        [audioSession performSelector:@selector(requestRecordPermission:) withObject:^(BOOL granted) {
+            if (granted) {
+                isAllow = 1;
+            } else {
+                isAllow = 0;
+            }
+        }];
     }
-}
-
-- (void)changeImage {
-    [toorbar.recoder updateMeters];//更新测量值
-    float avg = [toorbar.recoder averagePowerForChannel:0];
-    float minValue = -60;
-    float range = 60;
-    float outRange = 100;
-    if (avg < minValue) {
-        avg = minValue;
-    }
-    float decibels = (avg + range) / range * outRange;
-    _maskH.constant = _yinjieBtn.frame.size.height - decibels * _yinjieBtn.frame.size.height / 100;
-    _maskView.layer.frame = CGRectMake(0, _yinjieBtn.frame.size.height - decibels * _yinjieBtn.frame.size.height / 100, _yinjieBtn.frame.size.width, _yinjieBtn.frame.size.height);
-    [_yinjieBtn.layer setMask:_maskView.layer];
-}
-
-
-- (void)longPressBegin
-{
-    [self addView];
-    _callView.hidden = NO;
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeImage) userInfo:nil repeats:YES];
-}
-
-- (void)longPressChanged
-{
-    CGPoint point = [toorbar.longPressReger locationInView:self.view];
-    if (point.y < _tempPoint.y - 10) {
-        _centerX.constant = 0;
-        _endState = 0;
-        _yinjieBtn.hidden = YES;
-        _label.text = @"松开手指，取消发送";
-        _label.backgroundColor = [UIColor clearColor];
-        _imgView.image = [UIImage imageNamed:@"chexiao"];
-        
-        if (!CGPointEqualToPoint(point, _tempPoint) && point.y < _tempPoint.y - 8) {
-            _tempPoint = point;
-            [_callView removeFromSuperview];
+    if (isAllow) {
+        //		//停止播放
+        [[LGAudioPlayer sharePlayer] stopAudioPlayer];
+        //		//开始录音
+        [[LGSoundRecorder shareInstance] startSoundRecord:self.view recordPath:[self recordPath]];
+        //开启定时器
+        if (_timerOf60Second) {
+            [_timerOf60Second invalidate];
+            _timerOf60Second = nil;
         }
-        
+        _timerOf60Second = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(sixtyTimeStopSendVodio) userInfo:nil repeats:YES];
+    } else {
         
     }
 }
 
-- (void)longPressEnd
-{
-    [_callView removeFromSuperview];
+/**
+ *  录音结束
+ */
+- (void)confirmRecord {
+    if ([[LGSoundRecorder shareInstance] soundRecordTime] < 1.0f) {
+        if (_timerOf60Second) {
+            [_timerOf60Second invalidate];
+            _timerOf60Second = nil;
+        }
+        [self showShotTimeSign];
+        return;
+    }
+    
+    if ([[LGSoundRecorder shareInstance] soundRecordTime] < 61) {
+        [self sendSound];
+        [[LGSoundRecorder shareInstance] stopSoundRecord:self.view];
+    }
+    if (_timerOf60Second) {
+        [_timerOf60Second invalidate];
+        _timerOf60Second = nil;
+    }
 }
 
-- (void)longPressCancelled
-{
-    NSLog(@"取消");
+/**
+ *  更新录音显示状态,手指向上滑动后 提示松开取消录音
+ */
+- (void)updateCancelRecord {
+    [[LGSoundRecorder shareInstance] readyCancelSound];
 }
+
+/**
+ *  更新录音状态,手指重新滑动到范围内,提示向上取消录音
+ */
+- (void)updateContinueRecord {
+    [[LGSoundRecorder shareInstance] resetNormalRecord];
+}
+
+/**
+ *  取消录音
+ */
+- (void)cancelRecord {
+    [[LGSoundRecorder shareInstance] soundRecordFailed:self.view];
+}
+
+/**
+ *  录音时间短
+ */
+- (void)showShotTimeSign {
+    [[LGSoundRecorder shareInstance] showShotTimeSign:self.view];
+}
+
+- (void)sixtyTimeStopSendVodio {
+    int countDown = 60 - [[LGSoundRecorder shareInstance] soundRecordTime];
+    NSLog(@"countDown is %d soundRecordTime is %f",countDown,[[LGSoundRecorder shareInstance] soundRecordTime]);
+    if (countDown <= 10) {
+        [[LGSoundRecorder shareInstance] showCountdown:countDown];
+    }
+    if ([[LGSoundRecorder shareInstance] soundRecordTime] >= 59 && [[LGSoundRecorder shareInstance] soundRecordTime] <= 60) {
+        
+        if (_timerOf60Second) {
+            [_timerOf60Second invalidate];
+            _timerOf60Second = nil;
+        }
+        [toorbar.sayLabel sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+/**
+ *  语音文件存储路径
+ *
+ *  @return 路径
+ */
+- (NSString *)recordPath {
+    NSString *filePath = [DocumentPath stringByAppendingPathComponent:@"SoundFile"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:NO attributes:nil error:&error];
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }
+    return filePath;
+}
+
+#pragma mark  --录制结束上传音频
+
+- (void)sendSound
+{
+    NSString *filePath = [[LGSoundRecorder shareInstance] soundFilePath];
+    NSData *imageData = [NSData dataWithContentsOfFile: filePath];
+    NSLog(@"*******voiceData******%@",imageData);
+    duration = [[LGSoundRecorder shareInstance] soundRecordTime];
+    FirUploadVoiceRequest *request = [[FirUploadVoiceRequest alloc] initWithFileName:@"file"];
+    request.fileData = imageData;
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding){
+                                               
+                                               [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                      withObject:nil
+                                                                   waitUntilDone:YES];
+                                               NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                               
+                                               NSString    *result = [bodyDict objectForKey:@"result"];
+                                               
+                                               if (result && [result isKindOfClass:[NSString class]]
+                                                   && [result isEqualToString:@"0"]) {
+                                                   NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
+                                                   if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+                                                       
+                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration]};
+                                                       
+                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                                                       [client sendTo:urlStr body:string];
+                                                       
+                                                       [self reLoadTableViewCell];
+                                                       
+                                                       
+                                                   }
+                                               }
+                                           } failed:^(NSError *error) {
+                                               [self hideStateHud];
+                                           }];
+    [proxy start];
+}
+
+#pragma mark - LGSoundRecorderDelegate
+
+- (void)showSoundRecordFailed{
+    //	[[SoundRecorder shareInstance] soundRecordFailed:self];
+    if (_timerOf60Second) {
+        [_timerOf60Second invalidate];
+        _timerOf60Second = nil;
+    }
+}
+
+- (void)didStopSoundRecord {
+    
+}
+
+
+//- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag{
+//    //播放结束时执行的动作
+//    if (lianxunPlay < 29) {
+//        ++lianxunPlay;
+//        [self lianxuPlay];
+//    }else {
+//        lianxunPlay = 1;
+//    }
+//    
+//}
+//- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*)player error:(NSError *)error{
+//    //解码错误执行的动作
+//}
+//- (void)audioPlayerBeginInteruption:(AVAudioPlayer*)player{
+//    //处理中断的代码
+//}
+//- (void)audioPlayerEndInteruption:(AVAudioPlayer*)player{
+//    //处理中断结束的代码
+//}
+//
+//-(void)lianxuPlay
+//{
+//    myPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"k%d", lianxunPlay] ofType:@"wav"]] error:nil];
+//    myPlayer.delegate = self;
+//    [myPlayer play];
+//    
+//}
 
 
 

@@ -112,6 +112,11 @@ static CGRect oldframe;
         self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor clearColor];
     }
     
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    footView.backgroundColor = [UIColor clearColor];
+    _tableView.tableFooterView = footView;
+    
+    
 }
 
 - (void)addDot

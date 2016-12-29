@@ -565,7 +565,7 @@ LMContentTableViewCellDelegate
                 CGFloat conHigh2 = [vo.content boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
                 
                 if (!vo.images) {
-                    return 20+conHigh2;
+                    return 10+conHigh2;
                 }else{
                     NSMutableArray *imageHArray = [NSMutableArray new];
                     NSArray *arr = vo.images;
@@ -583,12 +583,12 @@ LMContentTableViewCellDelegate
                     NSInteger index =  arr.count-1;
                     
                     if (index<0) {
-                        return 20+conHigh2;
+                        return 10+conHigh2;
                     }else{
 
                         NSNumber *sum = [imageHArray valueForKeyPath:@"@sum.floatValue"];
                         CGFloat hight = [sum floatValue];
-                       return 20+conHigh2 +10 + hight;
+                       return 10+conHigh2 +10 + hight;
                     }
                 }
                 

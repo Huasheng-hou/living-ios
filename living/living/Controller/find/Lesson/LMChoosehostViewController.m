@@ -37,8 +37,9 @@
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
     _searchBar.placeholder = @"检索昵称或ID";
-    _searchBar.barTintColor = BG_GRAY_COLOR;
-    _searchBar.backgroundColor = BG_GRAY_COLOR;
+    _searchBar.barTintColor = [UIColor clearColor];
+    _searchBar.backgroundColor = LINE_COLOR;
+    _searchBar.searchBarStyle =UISearchBarStyleMinimal;
     [self.view addSubview:_searchBar];
     
     hostArray = [[NSMutableArray alloc]init];

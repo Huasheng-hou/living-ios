@@ -24,7 +24,7 @@
 -(void)addSubviews
 {
     
-    //活动标题
+    //课程标题
     UILabel *titleLable = [UILabel new];
     titleLable.text = @"课程标题";
     titleLable.font = TEXT_FONT_LEVEL_1;
@@ -180,7 +180,7 @@
     [self.contentView addSubview:_titleTF];
     
     
-    //活动地址
+    //课程地址
     
     _hostButton = [LMTimeButton buttonWithType:UIButtonTypeSystem];
     _hostButton.layer.cornerRadius = 5;
@@ -198,7 +198,7 @@
     _phoneTF.font = TEXT_FONT_LEVEL_2;
     _phoneTF.returnKeyType = UIReturnKeyDone;
     _phoneTF.keyboardType = UIKeyboardTypePhonePad;
-    _phoneTF.placeholder = @"请输入活动联系人号码";
+    _phoneTF.placeholder = @"请输入课程联系人号码";
     [self.contentView addSubview:_phoneTF];
     
     _nameTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 140, kScreenWidth- titleW-30, 30)];

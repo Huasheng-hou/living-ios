@@ -18,13 +18,15 @@
 
 -(void)voiceFinish:(NSURL *)string time:(int)timeLong;
 
-- (void)longPressBegin;
+- (void)startRecord;
 
-- (void)longPressChanged;
+- (void)cancelRecord;
 
-- (void)longPressEnd;
+- (void)confirmRecord;
 
-- (void)longPressCancelled;
+- (void)updateCancelRecord;
+
+- (void)updateContinueRecord;
 
 
 @end
@@ -35,7 +37,7 @@
 
 @property(nonatomic,strong)UIButton *saybutton;
 
-@property(nonatomic,strong)UILabel *sayLabel;//按住说话
+@property(nonatomic,strong)UIButton *sayLabel;//按住说话
 
 @property(nonatomic,strong)UITextView *inputTextView;
 

@@ -172,7 +172,7 @@
                                              if ([self isVoiceInclude] && _fileData) {
                                                  [formData appendPartWithFileData:_fileData
                                                                              name:_imageName
-                                                                         fileName:[NSString stringWithFormat:@"%@.caf", @"filename"]
+                                                                         fileName:[NSString stringWithFormat:@"%@.wav", @"filename"]
                                                                          mimeType:@"application/octet-stream"];
                                              }
                                              

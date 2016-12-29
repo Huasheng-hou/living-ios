@@ -119,7 +119,7 @@
 - (void)layoutSubviews
 {
     [contentLabel sizeToFit];
-    contentLabel.frame = CGRectMake(15, 15, kScreenWidth-30, conHighs);
+    contentLabel.frame = CGRectMake(15, 10, kScreenWidth-30, conHighs);
 }
 
 

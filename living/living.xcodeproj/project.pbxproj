@@ -7,6 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3505CDFC1E14E0BC007D896C /* LGAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CDDC1E14E0BC007D896C /* LGAudioPlayer.m */; };
+		3505CDFD1E14E0BC007D896C /* LGSoundRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CDDF1E14E0BC007D896C /* LGSoundRecorder.m */; };
+		3505CDFE1E14E0BC007D896C /* toast_cancelsend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE11E14E0BC007D896C /* toast_cancelsend@2x.png */; };
+		3505CDFF1E14E0BC007D896C /* toast_microphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE21E14E0BC007D896C /* toast_microphone@2x.png */; };
+		3505CE001E14E0BC007D896C /* toast_timeshort@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE31E14E0BC007D896C /* toast_timeshort@2x.png */; };
+		3505CE011E14E0BC007D896C /* toast_vol_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE41E14E0BC007D896C /* toast_vol_1@2x.png */; };
+		3505CE021E14E0BC007D896C /* toast_vol_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE51E14E0BC007D896C /* toast_vol_2@2x.png */; };
+		3505CE031E14E0BC007D896C /* toast_vol_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE61E14E0BC007D896C /* toast_vol_3@2x.png */; };
+		3505CE041E14E0BC007D896C /* toast_vol_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE71E14E0BC007D896C /* toast_vol_4@2x.png */; };
+		3505CE051E14E0BC007D896C /* toast_vol_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE81E14E0BC007D896C /* toast_vol_5@2x.png */; };
+		3505CE061E14E0BC007D896C /* toast_vol_6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDE91E14E0BC007D896C /* toast_vol_6@2x.png */; };
+		3505CE071E14E0BC007D896C /* toast_vol_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3505CDEA1E14E0BC007D896C /* toast_vol_7@2x.png */; };
+		3505CE081E14E0BC007D896C /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CDEE1E14E0BC007D896C /* amrFileCodec.m */; };
+		3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505CDF71E14E0BC007D896C /* libopencore-amrnb.a */; };
+		3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */; };
+		3505CE271E14E0DA007D896C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3505CE0D1E14E0DA007D896C /* Info.plist */; };
+		3505CE281E14E0DA007D896C /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE0F1E14E0DA007D896C /* MASCompositeConstraint.m */; };
+		3505CE291E14E0DA007D896C /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE121E14E0DA007D896C /* MASConstraint.m */; };
+		3505CE2A1E14E0DA007D896C /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE141E14E0DA007D896C /* MASConstraintMaker.m */; };
+		3505CE2B1E14E0DA007D896C /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE161E14E0DA007D896C /* MASLayoutConstraint.m */; };
+		3505CE2C1E14E0DA007D896C /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE1A1E14E0DA007D896C /* MASViewAttribute.m */; };
+		3505CE2D1E14E0DA007D896C /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE1C1E14E0DA007D896C /* MASViewConstraint.m */; };
+		3505CE2E1E14E0DA007D896C /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE1E1E14E0DA007D896C /* NSArray+MASAdditions.m */; };
+		3505CE2F1E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE211E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		3505CE301E14E0DA007D896C /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE231E14E0DA007D896C /* View+MASAdditions.m */; };
+		3505CE311E14E0DA007D896C /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CE261E14E0DA007D896C /* ViewController+MASAdditions.m */; };
 		351213751DF90A9E0053B83F /* BlendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213741DF90A9E0053B83F /* BlendVO.m */; };
 		351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213771DF90F000053B83F /* LMContentTableViewCell.m */; };
 		3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3512137A1DF942ED0053B83F /* LMTypeListViewController.m */; };
@@ -437,6 +463,55 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3505CDD91E14E0BC007D896C /* LGAudioKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGAudioKit.h; sourceTree = "<group>"; };
+		3505CDDB1E14E0BC007D896C /* LGAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGAudioPlayer.h; sourceTree = "<group>"; };
+		3505CDDC1E14E0BC007D896C /* LGAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGAudioPlayer.m; sourceTree = "<group>"; };
+		3505CDDE1E14E0BC007D896C /* LGSoundRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGSoundRecorder.h; sourceTree = "<group>"; };
+		3505CDDF1E14E0BC007D896C /* LGSoundRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGSoundRecorder.m; sourceTree = "<group>"; };
+		3505CDE11E14E0BC007D896C /* toast_cancelsend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_cancelsend@2x.png"; sourceTree = "<group>"; };
+		3505CDE21E14E0BC007D896C /* toast_microphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_microphone@2x.png"; sourceTree = "<group>"; };
+		3505CDE31E14E0BC007D896C /* toast_timeshort@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_timeshort@2x.png"; sourceTree = "<group>"; };
+		3505CDE41E14E0BC007D896C /* toast_vol_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_1@2x.png"; sourceTree = "<group>"; };
+		3505CDE51E14E0BC007D896C /* toast_vol_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_2@2x.png"; sourceTree = "<group>"; };
+		3505CDE61E14E0BC007D896C /* toast_vol_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_3@2x.png"; sourceTree = "<group>"; };
+		3505CDE71E14E0BC007D896C /* toast_vol_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_4@2x.png"; sourceTree = "<group>"; };
+		3505CDE81E14E0BC007D896C /* toast_vol_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_5@2x.png"; sourceTree = "<group>"; };
+		3505CDE91E14E0BC007D896C /* toast_vol_6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_6@2x.png"; sourceTree = "<group>"; };
+		3505CDEA1E14E0BC007D896C /* toast_vol_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast_vol_7@2x.png"; sourceTree = "<group>"; };
+		3505CDED1E14E0BC007D896C /* amrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amrFileCodec.h; sourceTree = "<group>"; };
+		3505CDEE1E14E0BC007D896C /* amrFileCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = amrFileCodec.m; sourceTree = "<group>"; };
+		3505CDF11E14E0BC007D896C /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
+		3505CDF21E14E0BC007D896C /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
+		3505CDF41E14E0BC007D896C /* dec_if.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dec_if.h; sourceTree = "<group>"; };
+		3505CDF51E14E0BC007D896C /* if_rom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_rom.h; sourceTree = "<group>"; };
+		3505CDF71E14E0BC007D896C /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
+		3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrwb.a"; sourceTree = "<group>"; };
+		3505CE0D1E14E0DA007D896C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3505CE0E1E14E0DA007D896C /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		3505CE0F1E14E0DA007D896C /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		3505CE101E14E0DA007D896C /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		3505CE111E14E0DA007D896C /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		3505CE121E14E0DA007D896C /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		3505CE131E14E0DA007D896C /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		3505CE141E14E0DA007D896C /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		3505CE151E14E0DA007D896C /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		3505CE161E14E0DA007D896C /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		3505CE171E14E0DA007D896C /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		3505CE181E14E0DA007D896C /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		3505CE191E14E0DA007D896C /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		3505CE1A1E14E0DA007D896C /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
+		3505CE1B1E14E0DA007D896C /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		3505CE1C1E14E0DA007D896C /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		3505CE1D1E14E0DA007D896C /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		3505CE1E1E14E0DA007D896C /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		3505CE1F1E14E0DA007D896C /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		3505CE201E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		3505CE211E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		3505CE221E14E0DA007D896C /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		3505CE231E14E0DA007D896C /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		3505CE241E14E0DA007D896C /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		3505CE251E14E0DA007D896C /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		3505CE261E14E0DA007D896C /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		351213731DF90A9E0053B83F /* BlendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendVO.h; sourceTree = "<group>"; };
 		351213741DF90A9E0053B83F /* BlendVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlendVO.m; sourceTree = "<group>"; };
 		351213761DF90F000053B83F /* LMContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMContentTableViewCell.h; sourceTree = "<group>"; };
@@ -1329,6 +1404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */,
+				3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
 				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
@@ -1361,6 +1437,7 @@
 				3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */,
 				35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */,
 				8E4C98FD1DD1D7D300B17046 /* MAMapKit.framework in Frameworks */,
+				3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */,
 				3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */,
 				35FA8E891DB5BBF000510A75 /* libssl.a in Frameworks */,
 				3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */,
@@ -1418,6 +1495,142 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3505CDD81E14E0BC007D896C /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDD91E14E0BC007D896C /* LGAudioKit.h */,
+				3505CDDA1E14E0BC007D896C /* LGSoundPlayer */,
+				3505CDDD1E14E0BC007D896C /* LGSoundRecorder */,
+				3505CDE01E14E0BC007D896C /* Resource */,
+				3505CDEB1E14E0BC007D896C /* Vendor */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
+		3505CDDA1E14E0BC007D896C /* LGSoundPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDDB1E14E0BC007D896C /* LGAudioPlayer.h */,
+				3505CDDC1E14E0BC007D896C /* LGAudioPlayer.m */,
+			);
+			path = LGSoundPlayer;
+			sourceTree = "<group>";
+		};
+		3505CDDD1E14E0BC007D896C /* LGSoundRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDDE1E14E0BC007D896C /* LGSoundRecorder.h */,
+				3505CDDF1E14E0BC007D896C /* LGSoundRecorder.m */,
+			);
+			path = LGSoundRecorder;
+			sourceTree = "<group>";
+		};
+		3505CDE01E14E0BC007D896C /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDE11E14E0BC007D896C /* toast_cancelsend@2x.png */,
+				3505CDE21E14E0BC007D896C /* toast_microphone@2x.png */,
+				3505CDE31E14E0BC007D896C /* toast_timeshort@2x.png */,
+				3505CDE41E14E0BC007D896C /* toast_vol_1@2x.png */,
+				3505CDE51E14E0BC007D896C /* toast_vol_2@2x.png */,
+				3505CDE61E14E0BC007D896C /* toast_vol_3@2x.png */,
+				3505CDE71E14E0BC007D896C /* toast_vol_4@2x.png */,
+				3505CDE81E14E0BC007D896C /* toast_vol_5@2x.png */,
+				3505CDE91E14E0BC007D896C /* toast_vol_6@2x.png */,
+				3505CDEA1E14E0BC007D896C /* toast_vol_7@2x.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		3505CDEB1E14E0BC007D896C /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				3505CE0C1E14E0DA007D896C /* Masonry */,
+				3505CDEC1E14E0BC007D896C /* AMR */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		3505CDEC1E14E0BC007D896C /* AMR */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDED1E14E0BC007D896C /* amrFileCodec.h */,
+				3505CDEE1E14E0BC007D896C /* amrFileCodec.m */,
+				3505CDEF1E14E0BC007D896C /* include */,
+				3505CDF61E14E0BC007D896C /* lib */,
+			);
+			path = AMR;
+			sourceTree = "<group>";
+		};
+		3505CDEF1E14E0BC007D896C /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDF01E14E0BC007D896C /* opencore-amrnb */,
+				3505CDF31E14E0BC007D896C /* opencore-amrwb */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		3505CDF01E14E0BC007D896C /* opencore-amrnb */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDF11E14E0BC007D896C /* interf_dec.h */,
+				3505CDF21E14E0BC007D896C /* interf_enc.h */,
+			);
+			path = "opencore-amrnb";
+			sourceTree = "<group>";
+		};
+		3505CDF31E14E0BC007D896C /* opencore-amrwb */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDF41E14E0BC007D896C /* dec_if.h */,
+				3505CDF51E14E0BC007D896C /* if_rom.h */,
+			);
+			path = "opencore-amrwb";
+			sourceTree = "<group>";
+		};
+		3505CDF61E14E0BC007D896C /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				3505CDF71E14E0BC007D896C /* libopencore-amrnb.a */,
+				3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		3505CE0C1E14E0DA007D896C /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				3505CE0D1E14E0DA007D896C /* Info.plist */,
+				3505CE0E1E14E0DA007D896C /* MASCompositeConstraint.h */,
+				3505CE0F1E14E0DA007D896C /* MASCompositeConstraint.m */,
+				3505CE101E14E0DA007D896C /* MASConstraint+Private.h */,
+				3505CE111E14E0DA007D896C /* MASConstraint.h */,
+				3505CE121E14E0DA007D896C /* MASConstraint.m */,
+				3505CE131E14E0DA007D896C /* MASConstraintMaker.h */,
+				3505CE141E14E0DA007D896C /* MASConstraintMaker.m */,
+				3505CE151E14E0DA007D896C /* MASLayoutConstraint.h */,
+				3505CE161E14E0DA007D896C /* MASLayoutConstraint.m */,
+				3505CE171E14E0DA007D896C /* Masonry.h */,
+				3505CE181E14E0DA007D896C /* MASUtilities.h */,
+				3505CE191E14E0DA007D896C /* MASViewAttribute.h */,
+				3505CE1A1E14E0DA007D896C /* MASViewAttribute.m */,
+				3505CE1B1E14E0DA007D896C /* MASViewConstraint.h */,
+				3505CE1C1E14E0DA007D896C /* MASViewConstraint.m */,
+				3505CE1D1E14E0DA007D896C /* NSArray+MASAdditions.h */,
+				3505CE1E1E14E0DA007D896C /* NSArray+MASAdditions.m */,
+				3505CE1F1E14E0DA007D896C /* NSArray+MASShorthandAdditions.h */,
+				3505CE201E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.h */,
+				3505CE211E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.m */,
+				3505CE221E14E0DA007D896C /* View+MASAdditions.h */,
+				3505CE231E14E0DA007D896C /* View+MASAdditions.m */,
+				3505CE241E14E0DA007D896C /* View+MASShorthandAdditions.h */,
+				3505CE251E14E0DA007D896C /* ViewController+MASAdditions.h */,
+				3505CE261E14E0DA007D896C /* ViewController+MASAdditions.m */,
+			);
+			path = Masonry;
+			sourceTree = "<group>";
+		};
 		351213721DF90A630053B83F /* blendVO */ = {
 			isa = PBXGroup;
 			children = (
@@ -1430,6 +1643,7 @@
 		352905D41DF54DBF0062196C /* Lesson */ = {
 			isa = PBXGroup;
 			children = (
+				3505CDD81E14E0BC007D896C /* Class */,
 				354050431E07BA1A00B11027 /* classroom */,
 				35C218341E03DF5D009371F4 /* LMChatViewController.h */,
 				35C218351E03DF62009371F4 /* LMChatViewController.m */,
@@ -3477,14 +3691,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3505CE071E14E0BC007D896C /* toast_vol_7@2x.png in Resources */,
 				35B7477F1DDE97F3000AFA26 /* LICENCE.txt in Resources */,
 				35C3778C1DEE71AD007FC70A /* citydict.plist in Resources */,
+				3505CE051E14E0BC007D896C /* toast_vol_5@2x.png in Resources */,
 				35B747FE1DDE97F4000AFA26 /* area.plist in Resources */,
 				35B747291DDE97F3000AFA26 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				35B7476F1DDE97F3000AFA26 /* InfoPlist.strings in Resources */,
 				35B748071DDE97F4000AFA26 /* scanscanBg.png in Resources */,
 				35B748041DDE97F4000AFA26 /* noticeMusic.wav in Resources */,
 				35B747361DDE97F3000AFA26 /* README.txt in Resources */,
+				3505CE271E14E0DA007D896C /* Info.plist in Resources */,
 				8E4C98FF1DD1D7DC00B17046 /* AMap.bundle in Resources */,
 				35B747301DDE97F3000AFA26 /* UMShareEditViewControlleriPad.xib in Resources */,
 				35B748011DDE97F4000AFA26 /* lightNormal.png in Resources */,
@@ -3493,6 +3710,7 @@
 				35B748001DDE97F4000AFA26 /* findpage.png in Resources */,
 				35B748031DDE97F4000AFA26 /* line.png in Resources */,
 				35B748061DDE97F4000AFA26 /* scanLine@3x.png in Resources */,
+				3505CDFF1E14E0BC007D896C /* toast_microphone@2x.png in Resources */,
 				35B7471B1DDE97F3000AFA26 /* MJRefresh.bundle in Resources */,
 				35B7473F1DDE97F3000AFA26 /* LaunchScreen.storyboard in Resources */,
 				35B747331DDE97F3000AFA26 /* UMSShareListController.xib in Resources */,
@@ -3502,16 +3720,23 @@
 				35B747231DDE97F3000AFA26 /* LICENSE in Resources */,
 				35B7472D1DDE97F3000AFA26 /* UMSCommentInputController.xib in Resources */,
 				35B747FF1DDE97F4000AFA26 /* city.plist in Resources */,
+				3505CE031E14E0BC007D896C /* toast_vol_3@2x.png in Resources */,
+				3505CE011E14E0BC007D896C /* toast_vol_1@2x.png in Resources */,
+				3505CDFE1E14E0BC007D896C /* toast_cancelsend@2x.png in Resources */,
 				35B747341DDE97F3000AFA26 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				35B7472C1DDE97F3000AFA26 /* UMSCommentDetailController.xib in Resources */,
 				35B7472F1DDE97F3000AFA26 /* UMShareEditViewController.xib in Resources */,
+				3505CE001E14E0BC007D896C /* toast_timeshort@2x.png in Resources */,
+				3505CE061E14E0BC007D896C /* toast_vol_6@2x.png in Resources */,
 				35B748051DDE97F4000AFA26 /* scanLine@2x.png in Resources */,
 				35B7472E1DDE97F3000AFA26 /* UMSCommentInputControlleriPad.xib in Resources */,
 				35B7472A1DDE97F3000AFA26 /* UMSocialLocalizable.strings in Resources */,
 				35B7473E1DDE97F3000AFA26 /* Assets.xcassets in Resources */,
 				35B747321DDE97F3000AFA26 /* UMSnsAccountViewController.xib in Resources */,
 				35C377911DEE7245007FC70A /* Property List.plist in Resources */,
+				3505CE021E14E0BC007D896C /* toast_vol_2@2x.png in Resources */,
 				35B748021DDE97F4000AFA26 /* lightSelect.png in Resources */,
+				3505CE041E14E0BC007D896C /* toast_vol_4@2x.png in Resources */,
 				35B747701DDE97F3000AFA26 /* city.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3576,10 +3801,13 @@
 				359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */,
 				35B7475A1DDE97F3000AFA26 /* LMWebViewController.m in Sources */,
 				354050491E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m in Sources */,
+				3505CE2C1E14E0DA007D896C /* MASViewAttribute.m in Sources */,
+				3505CE2A1E14E0DA007D896C /* MASConstraintMaker.m in Sources */,
 				35B747C61DDE97F3000AFA26 /* LMBalanceRequest.m in Sources */,
 				35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */,
 				35B747511DDE97F3000AFA26 /* FitBaseViewController.m in Sources */,
 				35B747EA1DDE97F4000AFA26 /* BannerVO.m in Sources */,
+				3505CE2F1E14E0DA007D896C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				35B747CE1DDE97F4000AFA26 /* LMWXPayResultRequest.m in Sources */,
 				35B747BF1DDE97F3000AFA26 /* LMloginRequest.m in Sources */,
 				35B748291DDE97F4000AFA26 /* LMRechargeCell.m in Sources */,
@@ -3615,6 +3843,7 @@
 				35980BB51E0123080054EB05 /* MoreFunctionView.m in Sources */,
 				35B747AA1DDE97F3000AFA26 /* LMFindListRequest.m in Sources */,
 				35B747F21DDE97F4000AFA26 /* LMActicleVO.m in Sources */,
+				3505CE2E1E14E0DA007D896C /* NSArray+MASAdditions.m in Sources */,
 				35B747DE1DDE97F4000AFA26 /* LMPushSendRequest.m in Sources */,
 				35B747E91DDE97F4000AFA26 /* LMBanlanceVO.m in Sources */,
 				35B7473A1DDE97F3000AFA26 /* GetMessageFromWXResp+responseWithTextOrMediaMessage.m in Sources */,
@@ -3633,6 +3862,7 @@
 				35B747A71DDE97F3000AFA26 /* LMAgreementRequest.m in Sources */,
 				35B7481D1DDE97F4000AFA26 /* LMhomePageCell.m in Sources */,
 				35B747AD1DDE97F3000AFA26 /* LMArticeDeleteRequest.m in Sources */,
+				3505CE311E14E0DA007D896C /* ViewController+MASAdditions.m in Sources */,
 				35B748251DDE97F4000AFA26 /* LMMyLivingHomeCell.m in Sources */,
 				35B747581DDE97F3000AFA26 /* LMHomePageController.m in Sources */,
 				35B747251DDE97F3000AFA26 /* SSPullToRefreshDefaultContentView.m in Sources */,
@@ -3719,6 +3949,7 @@
 				35B747411DDE97F3000AFA26 /* FitClientIDManager.m in Sources */,
 				35B747DC1DDE97F4000AFA26 /* LMPublicEventRequest.m in Sources */,
 				35B748171DDE97F4000AFA26 /* AMapTipAnnotation.m in Sources */,
+				3505CDFC1E14E0BC007D896C /* LGAudioPlayer.m in Sources */,
 				35B747A11DDE97F3000AFA26 /* LMActivityListRequest.m in Sources */,
 				35B7475E1DDE97F3000AFA26 /* LMOrderViewController.m in Sources */,
 				35B747421DDE97F3000AFA26 /* FitPayloadManager.m in Sources */,
@@ -3729,6 +3960,7 @@
 				35B747A31DDE97F3000AFA26 /* LMEventJoinRequest.m in Sources */,
 				8E0E28B11DF814AB00B735BE /* LMClassRoomViewController.m in Sources */,
 				35B7473C1DDE97F3000AFA26 /* WXMediaMessage+messageConstruct.m in Sources */,
+				3505CE081E14E0BC007D896C /* amrFileCodec.m in Sources */,
 				35B748221DDE97F4000AFA26 /* LMBusinessCell.m in Sources */,
 				35B748131DDE97F4000AFA26 /* LMProjectCell.m in Sources */,
 				35B747491DDE97F3000AFA26 /* LMMemberListViewController.m in Sources */,
@@ -3743,6 +3975,7 @@
 				3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */,
 				35B7481E1DDE97F4000AFA26 /* QRCodeReaderView.m in Sources */,
 				35B7476C1DDE97F3000AFA26 /* SQMenuShowCell.m in Sources */,
+				3505CE2B1E14E0DA007D896C /* MASLayoutConstraint.m in Sources */,
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
 				35B7480D1DDE97F4000AFA26 /* LMCouponChoseCell.m in Sources */,
 				35B747B51DDE97F3000AFA26 /* LMHomelistequest.m in Sources */,
@@ -3759,6 +3992,7 @@
 				35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */,
 				35B7477E1DDE97F3000AFA26 /* FitReachability.m in Sources */,
 				35B747C51DDE97F3000AFA26 /* LMBalanceMonthRequest.m in Sources */,
+				3505CE2D1E14E0DA007D896C /* MASViewConstraint.m in Sources */,
 				35B747751DDE97F3000AFA26 /* DALabeledCircularProgressView.m in Sources */,
 				35B747A91DDE97F3000AFA26 /* LMFindBannerRequest.m in Sources */,
 				35B747F11DDE97F4000AFA26 /* LMActicleCommentVO.m in Sources */,
@@ -3779,6 +4013,7 @@
 				35B7478B1DDE97F3000AFA26 /* UITabBar+Badge.m in Sources */,
 				8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */,
 				8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */,
+				3505CE301E14E0DA007D896C /* View+MASAdditions.m in Sources */,
 				35B748341DDE97F4000AFA26 /* LMAgeChooseButton.m in Sources */,
 				359F81841E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m in Sources */,
 				35B747CF1DDE97F4000AFA26 /* LMAliRechargeRequest.m in Sources */,
@@ -3786,6 +4021,7 @@
 				35B747C41DDE97F3000AFA26 /* LMBalanceListRequest.m in Sources */,
 				35B747831DDE97F3000AFA26 /* SYPhotoBrowser.m in Sources */,
 				35B7479B1DDE97F3000AFA26 /* LMActivityDeleteRequest.m in Sources */,
+				3505CDFD1E14E0BC007D896C /* LGSoundRecorder.m in Sources */,
 				35B748311DDE97F4000AFA26 /* FitDatePickerView.m in Sources */,
 				35B747591DDE97F3000AFA26 /* LMPublicArticleController.m in Sources */,
 				35B7470D1DDE97F3000AFA26 /* Order.m in Sources */,
@@ -3804,6 +4040,7 @@
 				35B747681DDE97F3000AFA26 /* LMPersonViewController.m in Sources */,
 				35B7482F1DDE97F4000AFA26 /* LMToolTipView.m in Sources */,
 				35B747181DDE97F3000AFA26 /* MJPhotoBrowser.m in Sources */,
+				3505CE291E14E0DA007D896C /* MASConstraint.m in Sources */,
 				35B747DF1DDE97F4000AFA26 /* LMRegisterRequest.m in Sources */,
 				35B747371DDE97F3000AFA26 /* WXApiManager.m in Sources */,
 				356763251DF66B1B0062B0E1 /* LMPAHeadViewCell.m in Sources */,
@@ -3892,6 +4129,7 @@
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
 				35980BD21E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m in Sources */,
 				355E7B671DFFC4BB0089BAB1 /* LMVoiceDetailVO.m in Sources */,
+				3505CE281E14E0DA007D896C /* MASCompositeConstraint.m in Sources */,
 				351213751DF90A9E0053B83F /* BlendVO.m in Sources */,
 				35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */,
 				35B7482E1DDE97F4000AFA26 /* LMLiveRoomCell.m in Sources */,
@@ -4081,6 +4319,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/weixinPay",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/Wechat",
+					"$(PROJECT_DIR)/living/Controller/find/Lesson/Class/Vendor/AMR/lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -4172,6 +4411,7 @@
 					"$(PROJECT_DIR)/living/3rdLibs/weixinPay",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/Wechat",
+					"$(PROJECT_DIR)/living/Controller/find/Lesson/Class/Vendor/AMR/lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (

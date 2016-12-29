@@ -174,7 +174,7 @@ static NSMutableArray *cellDataArray;
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
         commentLabel.textColor = LIVING_COLOR;
-        commentLabel.text = @"活动信息";
+        commentLabel.text = @"课程信息";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
