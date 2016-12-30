@@ -9,6 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "MssageVO.h"
 
+typedef NS_ENUM(NSUInteger, LGVoicePlayState){
+    LGVoicePlayStateNormal,/**< 未播放状态 */
+    LGVoicePlayStateDownloading,/**< 正在下载中 */
+    LGVoicePlayStatePlaying,/**< 正在播放 */
+    LGVoicePlayStateCancel,/**< 播放被取消 */
+};
+
+
 @protocol  ChattingCellDelegate;
 
 @interface ChattingCell : UITableViewCell
@@ -24,6 +32,8 @@
 @property(nonatomic,strong)UILabel *duration;
 
 @property(nonatomic,strong)UILabel *contentLabel;
+
+@property (nonatomic, assign) LGVoicePlayState voicePlayState;
 
 @property (nonatomic, weak) id <ChattingCellDelegate> delegate;
 

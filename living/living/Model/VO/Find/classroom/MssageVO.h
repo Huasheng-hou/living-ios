@@ -36,6 +36,7 @@
 @property (nonatomic, assign) NSNumber *recordingTime;
 @property (nonatomic, strong) NSString *sign;
 @property (nonatomic, strong) NSString *host_uuid;
+@property (nonatomic, strong) NSString *user_uuid;
 @property (nonatomic, assign) BOOL hasProfile;
 
 @property (nonatomic, assign) BOOL  ifShowTimeLbl;

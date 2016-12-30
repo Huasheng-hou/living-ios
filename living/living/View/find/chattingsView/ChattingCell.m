@@ -21,6 +21,9 @@
 {
     UIView *contentbgView;
     UIImageView *publishImageV;
+    UIImageView *imageV;
+    UIImageView *bootomView;
+    NSInteger roleNum;
 }
 + (instancetype)cellWithTableView:(UITableView *)tableView{
     
@@ -79,8 +82,9 @@
     [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_soundbutton];
     
-    UIImageView *imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8, 11, 17)];
-    [imageV setImage:[UIImage imageNamed:@"cellSoundIcon"]];
+    imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8, 11, 17)];
+    
+
     [_soundbutton addSubview:imageV];
     
     _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height)];
@@ -88,6 +92,12 @@
     _duration.textAlignment = NSTextAlignmentRight;
     [_duration setTextColor:[UIColor redColor]];
     [_soundbutton addSubview:_duration];
+    
+    
+    bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
+    bootomView.layer.cornerRadius = 2.5;
+    bootomView.backgroundColor = [UIColor greenColor];
+    [self addSubview:bootomView];
     
     //内容底板
     contentbgView=[[UIView alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 100)];
@@ -121,18 +131,24 @@
         [contentbgView setBackgroundColor:lightRedColor];
         [_soundbutton setBackgroundColor:lightRedColor];
         [_soundbutton.layer setBorderColor:LMRedColor.CGColor];
+        imageV.image = [UIImage imageNamed:@"Image-3"] ;
+        roleNum = 1;
     }
     if (vo.role&&[vo.role isEqualToString:@"host"]) {
         [contentbgView.layer setBorderColor:lightBuleColor.CGColor];
         [contentbgView setBackgroundColor:LMBuleColor];
         [_soundbutton setBackgroundColor:LMBuleColor];
         [_soundbutton.layer setBorderColor:lightBuleColor.CGColor];
+        imageV.image = [UIImage imageNamed:@"Image-13"] ;
+        roleNum = 2;
     }
     if (vo.role&&[vo.role isEqualToString:@"student"]) {
         [contentbgView.layer setBorderColor:LMGrayColor.CGColor];
         [contentbgView setBackgroundColor:LMlightGrayColor];
         [_soundbutton setBackgroundColor:LMlightGrayColor];
         [_soundbutton.layer setBorderColor:LMGrayColor.CGColor];
+        imageV.image = [UIImage imageNamed:@"Image-23"] ;
+        roleNum = 3;
     }
     
     //设置时间
@@ -172,6 +188,7 @@
         [contentbgView setHidden:NO];
         //隐藏图片显示控件
         [publishImageV setHidden:YES];
+        [bootomView setHidden:YES];
         
         [_soundbutton setHidden:YES];
     }
@@ -188,6 +205,7 @@
          
          [_soundbutton setHidden:YES];
          publishImageV.userInteractionEnabled = YES;
+         [bootomView setHidden:YES];
          
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
          [publishImageV addGestureRecognizer:tap];
@@ -196,7 +214,7 @@
     
     //如果为语音
     if (vo.type&&[vo.type isEqual:@"voice"]) {
-        int value;
+        int value = 0;
         if (vo.recordingTime&&![vo.recordingTime isEqual:@""]) {
             value =[vo.recordingTime intValue];
             if (value<15) {
@@ -210,10 +228,30 @@
         [_soundbutton sizeToFit];
         
         [_soundbutton setFrame:CGRectMake(50, 35, (kScreenWidth-65)*value/60, 30)];
+        
+        [bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
+
+
+        NSMutableArray *urlArray = [NSMutableArray new];
+        NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+        for (NSDictionary *dic in palyArray) {
+            [urlArray addObject:dic[@"url"]];
+            
+        }
+        
+        if ([urlArray containsObject:vo.voiceurl]) {
+            [bootomView setHidden:YES];
+        }else{
+            [bootomView setHidden:NO];
+        }
+        
+        
+
         if (vo.recordingTime&&![vo.recordingTime isEqual:@""]) {
            _duration.text  = [NSString stringWithFormat:@"%@''",vo.recordingTime];
          _duration.frame=CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height);
         }
+
         //显示文字显示控件
         [contentbgView setHidden:YES];
         //隐藏图片显示控件
@@ -228,7 +266,31 @@
 - (void)soundPlay
 {
     if ([_delegate respondsToSelector:@selector(cellClickVoice:)]) {
+        
+        if (roleNum ==1) {
+            UIImage *image1 = [UIImage imageNamed:@"Image-1"];
+            UIImage *image2 = [UIImage imageNamed:@"Image-2"];
+            UIImage *image3 = [UIImage imageNamed:@"Image-3"];
+            imageV.highlightedAnimationImages = @[image1,image2,image3];
+        }
+        if (roleNum ==2) {
+            UIImage *image1 = [UIImage imageNamed:@"Image-11"];
+            UIImage *image2 = [UIImage imageNamed:@"Image-12"];
+            UIImage *image3 = [UIImage imageNamed:@"Image-13"];
+            imageV.highlightedAnimationImages = @[image1,image2,image3];
+        }
+        if (roleNum ==3) {
+            UIImage *image1 = [UIImage imageNamed:@"Image-21"];
+            UIImage *image2 = [UIImage imageNamed:@"Image-22"];
+            UIImage *image3 = [UIImage imageNamed:@"Image-23"];
+            imageV.highlightedAnimationImages = @[image1,image2,image3];
+        }
+        
+
+        imageV.animationDuration = 1.5f;
+        imageV.animationRepeatCount = NSUIntegerMax;
         [_delegate cellClickVoice:self];
+
     }
 }
 
@@ -238,6 +300,24 @@
         [_delegate cellClickImage:self];
     }
 }
+
+- (void)setVoicePlayState:(LGVoicePlayState)voicePlayState {
+    if (_voicePlayState != voicePlayState) {
+        _voicePlayState = voicePlayState;
+    }
+    imageV.hidden = NO;
+    
+    if (_voicePlayState == LGVoicePlayStatePlaying) {
+        imageV.highlighted = YES;
+        [imageV startAnimating];
+    }else if (_voicePlayState == LGVoicePlayStateDownloading) {
+        imageV.hidden = YES;
+    }else {
+        imageV.highlighted = NO;
+        [imageV stopAnimating];
+    }
+}
+
 
 
 

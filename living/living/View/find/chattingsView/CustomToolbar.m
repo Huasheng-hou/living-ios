@@ -29,8 +29,6 @@
     self=[super initWithFrame:frame];
     if (self) {
         [self setBackgroundColor:[UIColor lightGrayColor]];
-        
-//         [self initializeAudioSession];
         [self contentWithView];
     }
     return self;
@@ -64,14 +62,15 @@
     //按住说话
 
     _sayLabel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_sayLabel setBackgroundImage:[[UIImage imageNamed:@"btn_chatbar_press_normal" ] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-    [_sayLabel setBackgroundImage:[[UIImage imageNamed:@"btn_chatbar_press_selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch] forState:UIControlStateSelected];
-    _sayLabel.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    _sayLabel=[[UIButton alloc]initWithFrame:CGRectMake(45, 5, kScreenWidth-45-45, 35)];
+    _sayLabel=[[UIButton alloc]initWithFrame:CGRectMake(45, 0, kScreenWidth-45-45, 45)];
     [_sayLabel.layer setCornerRadius:3.0f];
     [_sayLabel.layer setMasksToBounds:YES];
     _sayLabel.hidden = YES;
     [_sayLabel setTitle:@"按住 说话" forState:UIControlStateNormal];
+    [_sayLabel setTitle:@"松开 结束" forState:UIControlStateSelected];
+    [_sayLabel setBackgroundImage:[[UIImage imageNamed:@"btn_chatbar_press_normal" ] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+    [_sayLabel setBackgroundImage:[[UIImage imageNamed:@"touch"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch] forState:UIControlStateSelected];
+    _sayLabel.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [_sayLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_sayLabel addTarget:self action:@selector(startRecordVoice) forControlEvents:UIControlEventTouchDown];
     [_sayLabel addTarget:self action:@selector(cancelRecordVoice) forControlEvents:UIControlEventTouchUpOutside];
@@ -97,26 +96,36 @@
 - (void)startRecordVoice
 {
     [self.delegate startRecord];
+    _sayLabel.backgroundColor = LINE_COLOR;
+    [_sayLabel setTitle:@"松开 结束" forState:UIControlStateSelected];
 }
 
 -(void)cancelRecordVoice
 {
     [self.delegate cancelRecord];
+    _sayLabel.backgroundColor = [UIColor whiteColor];
+    [_sayLabel setTitle:@"按住 说话" forState:UIControlStateNormal];
 }
 
 - (void)confirmRecordVoice
 {
     [self.delegate confirmRecord];
+    _sayLabel.backgroundColor = [UIColor whiteColor];
+    [_sayLabel setTitle:@"按住 说话" forState:UIControlStateNormal];
 }
 
 - (void)updateCancelRecordVoice
 {
     [self.delegate updateCancelRecord];
+    _sayLabel.backgroundColor = [UIColor whiteColor];
+    [_sayLabel setTitle:@"按住 说话" forState:UIControlStateNormal];
 }
 
 - (void)updateContinueRecordVoice
 {
     [self.delegate updateContinueRecord];
+    _sayLabel.backgroundColor = [UIColor whiteColor];
+    [_sayLabel setTitle:@"按住 说话" forState:UIControlStateNormal];
 }
 
 

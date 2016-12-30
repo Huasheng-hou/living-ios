@@ -71,7 +71,6 @@ LGAudioPlayerDelegate
     NSInteger roleIndex;
     NSInteger signIndex;
     UIBarButtonItem * rightItem;
-//    AVAudioSession *audioSession;
     int duration;
     
     BOOL  isfirst;
@@ -80,24 +79,9 @@ LGAudioPlayerDelegate
     NSArray *titleArray;
     NSArray *iconArray;
     
-    
-    
-    CGPoint _tempPoint;
-    UIView *_callView;
-    UILabel *_label;
-    UIImageView *_imgView;
-    NSInteger _endState;
-    NSLayoutConstraint *_centerX;
-    AVAudioRecorder *_audioRecorder;
-    NSURL       *_recordUrl;
-    NSTimer *_timer;
-    UIImageView *_yinjieBtn;
-    
-    UIView *_maskView;
-    NSLayoutConstraint *_maskH;
-    
-    UIView *pressView;
     NSString *hostId;
+    NSInteger playIndex;
+    LGVoicePlayState voicePlayState;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -127,6 +111,14 @@ LGAudioPlayerDelegate
     
     return self;
 }
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [player stop];
+}
+
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
@@ -255,53 +247,21 @@ LGAudioPlayerDelegate
 
 - (void)getShieldstudentData
 {
+    NSMutableArray *shieldArray = [NSMutableArray new];
     
-    if (ifloadMoreData==NO) {
-        [self textStateHUD:@"没有更多消息~"];
-        return;
+    for (MssageVO *vo in self.listData) {
+        
+        NSLog(@"*****************%@",vo.role);
+        if (vo.role &&![vo.role isEqualToString:@"student"]) {
+            [shieldArray addObject:vo];
+        }
     }
     
-    LMShieldstudentRequest    *request    = [[LMShieldstudentRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
-    HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
-                                         completed:^(NSString *resp, NSStringEncoding encoding) {
-                                             NSArray * items = [self parseResponse:resp];
-                                             if (items && [items count]){
-                                                 
-                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                     
-                                                     if (!self.ifLoadReverse) {
-                                                         [self.listData addObjectsFromArray:items];
-                                                         
-                                                         [self.tableView reloadData];
-                                                     } else {
-                                                         NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
-                                                         [self.listData removeAllObjects];
-                                                         [self.listData addObjectsFromArray:items];
-                                                         [self.listData addObjectsFromArray:tempArr];
-                                                         NSLog(@"%lu",(unsigned long)items.count);
-                                                         [self.tableView reloadData];
-                                                         
-                                                         //                                                         if (isfirst == NO){
-                                                         //                                                             NSLog(@"***********%lu",items.count*(reloadCount-1));
-                                                         //                                                                   [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-                                                         //                                                         }
-                                                         if (isfirst == YES) {
-                                                             [self reLoadTableViewCell];
-                                                             isfirst = NO;
-                                                         }
-                                                         
-                                                         
-                                                     }
-                                                     
-                                                 });
-                                             }
-                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
-                                         } failed:^(NSError *error) {
-                                             
-                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
-                                         }];
+    [self.listData removeAllObjects];
+    [self.listData addObjectsFromArray:shieldArray];
+    [self reLoadTableViewCell];
     
-    [proxy start];
+
 }
 
 
@@ -451,7 +411,6 @@ LGAudioPlayerDelegate
             [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                       style:UIAlertActionStyleDestructive
                                                     handler:^(UIAlertAction*action) {
-                                                        [self.listData removeAllObjects];
                                                         
                                                         
                                                         if (hasShield == NO &&isShieldReload ==NO) {
@@ -551,7 +510,6 @@ LGAudioPlayerDelegate
             [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                       style:UIAlertActionStyleDestructive
                                                     handler:^(UIAlertAction*action) {
-                                                        [self.listData removeAllObjects];
                                                         
                                                         if (hasShield == NO &&isShieldReload ==NO) {
                                                             [self getShieldstudentData];
@@ -1085,7 +1043,7 @@ LGAudioPlayerDelegate
     
     NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
     
-    [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+    [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     
 }
 
@@ -1132,6 +1090,10 @@ LGAudioPlayerDelegate
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 if ([vo.type isEqual:@"chat"]) {
                     [self.listData addObjectsFromArray:array2];
+                }
+                
+                if (vo.user_uuid&&[vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+                    [self textStateHUD:@"问题提交成功~"];
                 }
                 
             }
@@ -1255,33 +1217,28 @@ LGAudioPlayerDelegate
 
 - (void)cellClickVoice:(ChattingCell *)cell
 {
+    
     [player stop];
+    
+    [cell setVoicePlayState:LGVoicePlayStatePlaying];
     moreView.hidden = YES;
     MssageVO *vo = self.listData[cell.tag];
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         NSString *urlStr = vo.voiceurl;
-        NSURL *url = [[NSURL alloc]initWithString:urlStr];
-        NSData * audioData = [NSData dataWithContentsOfURL:url];
+        playIndex = [vo.currentIndex integerValue];
         
         //播放本地音乐
         AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
         
         NSError *audioError = nil;
         BOOL successs = [audioSessions overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
-        if(!successs)
-        {
-            NSLog(@"error doing outputaudioportoverride - %@", [audioError localizedDescription]);
-        }
-
-        NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , @"temp"];
-        [audioData writeToFile:filePath atomically:YES];
-        
+        NSLog(@"%d",successs);
         //播放本地音乐
-//        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-        player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
-        [player play];
+        [self lianxuPlay:urlStr];
+
+        
+        
     }
 }
 
@@ -1508,33 +1465,101 @@ LGAudioPlayerDelegate
 }
 
 
-//- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag{
-//    //播放结束时执行的动作
-//    if (lianxunPlay < 29) {
-//        ++lianxunPlay;
-//        [self lianxuPlay];
-//    }else {
-//        lianxunPlay = 1;
-//    }
-//    
-//}
-//- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*)player error:(NSError *)error{
-//    //解码错误执行的动作
-//}
-//- (void)audioPlayerBeginInteruption:(AVAudioPlayer*)player{
-//    //处理中断的代码
-//}
-//- (void)audioPlayerEndInteruption:(AVAudioPlayer*)player{
-//    //处理中断结束的代码
-//}
-//
-//-(void)lianxuPlay
-//{
-//    myPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"k%d", lianxunPlay] ofType:@"wav"]] error:nil];
-//    myPlayer.delegate = self;
-//    [myPlayer play];
-//    
-//}
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag{
+    //播放结束时执行的动作
+    NSMutableArray *urlArray = [NSMutableArray new];
+    NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+    for (NSDictionary *dic in palyArray) {
+        [urlArray addObject:dic[@"url"]];
+        
+    }
+    NSMutableArray *voArray = [NSMutableArray new];
+    for (int i =0; i<self.listData.count; i++) {
+        MssageVO *vo = self.listData[i];
+        if (vo.type&&[vo.type isEqualToString:@"voice"]) {
+            if ([vo.currentIndex integerValue]>playIndex) {
+
+                
+                if ([urlArray containsObject:vo.voiceurl]) {
+                    
+                    NSLog(@"已近播过了");
+                    
+                }else
+                {
+                    [voArray addObject:vo];
+                    
+                    NSLog(@"将要播");
+                    
+                }
+                
+            }
+
+        }
+    }
+    
+    if (voArray.count>0) {
+        MssageVO *vo = voArray[0];
+        [self lianxuPlay:vo.voiceurl];
+    }
+    
+    
+}
+
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*)player error:(NSError *)error{
+    //解码错误执行的动作
+}
+- (void)audioPlayerBeginInteruption:(AVAudioPlayer*)player{
+    //处理中断的代码
+}
+- (void)audioPlayerEndInteruption:(AVAudioPlayer*)player{
+    //处理中断结束的代码
+}
+
+-(void)lianxuPlay:(NSString *)urlString
+{
+    NSMutableArray *statusArray = [NSMutableArray new];
+    NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+    [statusArray addObjectsFromArray:palyArray];
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    [dic setObject:urlString forKey:@"url"];
+    [dic setObject:@"1" forKey:@"status"];
+    if (![statusArray containsObject:dic]) {
+       [statusArray addObject:dic];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData * audioData = [NSData dataWithContentsOfURL:url];
+    player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
+    player.delegate = self;
+    [player play];
+    
+}
+
+- (void)audioPlayerStateDidChanged:(LGAudioPlayerState)audioPlayerState forIndex:(NSUInteger)index {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    ChattingCell *voiceMessageCell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    switch (audioPlayerState) {
+        case LGAudioPlayerStateNormal:
+            voicePlayState = LGVoicePlayStateNormal;
+            break;
+        case LGAudioPlayerStatePlaying:
+            voicePlayState = LGVoicePlayStatePlaying;
+            break;
+        case LGAudioPlayerStateCancel:
+            voicePlayState = LGVoicePlayStateCancel;
+            break;
+            
+        default:
+            break;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [voiceMessageCell setVoicePlayState:voicePlayState];
+    });
+}
+
 
 
 

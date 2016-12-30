@@ -16,8 +16,6 @@
 
 -(void)selectItem:(NSInteger)item;
 
--(void)voiceFinish:(NSURL *)string time:(int)timeLong;
-
 - (void)startRecord;
 
 - (void)cancelRecord;

@@ -129,6 +129,12 @@
             self.host_uuid = [dictionary objectForKey:@"host_uuid"];
         }
         
+        if (nil != [dictionary objectForKey:@"user_uuid"] && ![[dictionary objectForKey:@"user_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"user_uuid"] isKindOfClass:[NSString class]]) {
+            self.user_uuid = [dictionary objectForKey:@"user_uuid"];
+        }
+        
+        
         if (nil != [dictionary objectForKey:@"has_profile"] && ![[dictionary objectForKey:@"has_profile"] isEqual:[NSNull null]]) {
             self.hasProfile = [(NSNumber *)[dictionary objectForKey:@"has_profile"] boolValue];
         }

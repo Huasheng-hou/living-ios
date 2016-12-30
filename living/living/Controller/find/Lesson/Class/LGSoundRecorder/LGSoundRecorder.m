@@ -276,21 +276,21 @@
 		double ff = [_recorder averagePowerForChannel:0];
 		ff = ff+60;
 		if (ff>0&&ff<=10) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_0")];
+			[_imageViewAnimation setImage:GetImage(@"1")];
 		} else if (ff>10 && ff<20) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_1")];
+			[_imageViewAnimation setImage:GetImage(@"2")];
 		} else if (ff >=20 &&ff<30) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_2")];
+			[_imageViewAnimation setImage:GetImage(@"3")];
 		} else if (ff >=30 &&ff<40) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_3")];
+			[_imageViewAnimation setImage:GetImage(@"4")];
 		} else if (ff >=40 &&ff<50) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_4")];
+			[_imageViewAnimation setImage:GetImage(@"5")];
 		} else if (ff >= 50 && ff < 60) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_5")];
+			[_imageViewAnimation setImage:GetImage(@"6")];
 		} else if (ff >= 60 && ff < 70) {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_6")];
+			[_imageViewAnimation setImage:GetImage(@"7")];
 		} else {
-			[_imageViewAnimation setImage:GetImage(@"toast_vol_7")];
+			[_imageViewAnimation setImage:GetImage(@"7")];
 		}
 	}
 }
