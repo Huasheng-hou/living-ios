@@ -119,8 +119,7 @@ LGAudioPlayerDelegate
     [player stop];
 }
 
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
     
@@ -129,7 +128,8 @@ LGAudioPlayerDelegate
     [self extraBottomViewVisiable:NO];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createUI];
     [self botttomView];
@@ -137,13 +137,13 @@ LGAudioPlayerDelegate
     [self setupRefresh];
     reloadCount =0;
     [LGAudioPlayer sharePlayer].delegate = self;
-    
 }
 
 #pragma mark 初始化视图静态界面
--(void)createUI
+- (void)createUI
 {
     self.title=@"语音教室";
+    
     [super createUI];
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -156,32 +156,37 @@ LGAudioPlayerDelegate
     
     //导航栏右边按钮
     
-    if (_role&&![_role isEqualToString:@"student"]) {
+    if (_role && [_role isKindOfClass:[NSString class]] && ![_role isEqualToString:@"student"]) {
         
         if ([_sign isEqualToString:@"1"]) {
-            titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
-        }else{
-            titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+        
+            titleArray  = @[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+        } else {
+            
+            titleArray  = @[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
         }
         
-        
-        roleIndex = 2;
-        iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+        roleIndex   = 2;
+        iconArray   = @[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
     }
-    if (_role&&[_role isEqualToString:@"student"]){
-        titleArray=@[@"屏蔽",@"问题"];
-        roleIndex = 1;
-        iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+    
+    if (_role && [_role isKindOfClass:[NSString class]] && [_role isEqualToString:@"student"]){
         
+        titleArray  = @[@"屏蔽",@"问题"];
+        roleIndex   = 1;
+        iconArray   = @[@"moreShieldIcon",@"moreQuestionIcon"];
     }
+    
     [self addrightItem];
-    
-    
 }
 
 - (void)addrightItem
 {
-    rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navRightIcon"] style:UIBarButtonItemStyleDone target:self action:@selector(functionAction)];
+    rightItem   = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navRightIcon"]
+                                                   style:UIBarButtonItemStyleDone
+                                                  target:self
+                                                  action:@selector(functionAction)];
+    
     self.navigationItem.rightBarButtonItem = rightItem;
     
     moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
@@ -189,7 +194,6 @@ LGAudioPlayerDelegate
     [moreView setHidden:YES];
     [[UIApplication sharedApplication].keyWindow addSubview:moreView];
 }
-
 
 - (void)getvoiceRecordRequest
 {
@@ -219,10 +223,6 @@ LGAudioPlayerDelegate
                                                          NSLog(@"%lu",(unsigned long)items.count);
                                                          [self.tableView reloadData];
                                                          
-                                                         //                                                         if (isfirst == NO){
-                                                         //                                                             NSLog(@"***********%lu",items.count*(reloadCount-1));
-                                                         //                                                                   [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-                                                         //                                                         }
                                                          if (isfirst == YES) {
                                                              [self reLoadTableViewCell];
                                                              isfirst = NO;
@@ -616,12 +616,13 @@ LGAudioPlayerDelegate
     }
 }
 
-
 #pragma mark -- 选择主持人代理
 - (void)backhostName:(NSString *)liveRoom andId:(NSString *)userId
 {
     hostId = userId;
+    
     LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:userId nickname:liveRoom voice_uuid:_voiceUuid];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -635,17 +636,19 @@ LGAudioPlayerDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
 
 - (void)getChangeHostResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     [self logoutAction:resp];
+    
     if (!bodyDic) {
+    
         [self textStateHUD:@"选择主持人失败！"];
-    }else{
+    } else {
+        
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"选择主持人成功！"];
             
@@ -664,19 +667,17 @@ LGAudioPlayerDelegate
     }
 }
 
-
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"self.listData.count   %lu",(unsigned long)self.listData.count);
     return self.listData.count;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MssageVO *vo = self.listData[indexPath.row];
     
-    if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
+    if (vo.type && ([vo.type isEqual:@"chat"] || [vo.type isEqual:@"question"])) {
+        
         NSString *contentStr=vo.content;
         
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
@@ -689,20 +690,21 @@ LGAudioPlayerDelegate
         
         return contenSize.height+55;
     }
-    if (vo.type&&[vo.type isEqual:@"picture"]) {
+    
+    if (vo.type && [vo.type isEqual:@"picture"]) {
         
-        return 150+55;
+        return 150 + 55;
     }
     
-    if (vo.type&&[vo.type isEqual:@"voice"]) {
-        return 55+30;
+    if (vo.type && [vo.type isEqual:@"voice"]) {
+        
+        return 55 + 30;
     }
     
     return 0;
 }
 
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ChattingCell *cell=[ChattingCell cellWithTableView:tableView];
     
@@ -714,14 +716,15 @@ LGAudioPlayerDelegate
 }
 
 #pragma mark 输入完成后发送消息，（数组中添加数据并重新加载cell）
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
         
-        if (textView.text.length==0||[textView.text isEqual:@""]) {
+        if (textView.text.length == 0 || [textView.text isEqual:@""]) {
+            
             [self textStateHUD:@"请输入文字"];
             return NO;
-        }else{
+        } else {
             
             if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
                 NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -735,7 +738,8 @@ LGAudioPlayerDelegate
                 [client sendTo:urlStr body:string];
                 
                 toorbar.inputTextView.text=@"";
-            }else{
+            } else {
+                
                 NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
                 NSDictionary *dics = @{@"type":@"chat",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings};
@@ -761,6 +765,7 @@ LGAudioPlayerDelegate
 -(void)reLoadTableViewCell
 {
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         [self.tableView reloadData];
         [self scrollTableToFoot:YES];
     });
@@ -786,49 +791,46 @@ LGAudioPlayerDelegate
                                                object:nil];
 }
 
-
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     moreView.hidden = YES;
     
     NSTimeInterval timeValue;
+    
     if (_visiableTime) {
-        timeValue=_visiableTime;
-    }else{
+        
+        timeValue = _visiableTime;
+    } else {
+        
         timeValue=0.2f;
     }
+    
     [UIView animateWithDuration:timeValue animations:^{
+    
         self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
+        
         [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
         [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
     }];
 }
+
 #pragma mark 语音说话及加号的执行方法（语音收缩、增加展示）
 
--(void)selectItem:(NSInteger)item
+- (void)selectItem:(NSInteger)item
 {
-    
     [self.view endEditing:YES];
     
     switch (item) {
             
         case 0://语音
-            
         {
-            
             [self extraBottomViewVisiable:NO];
-            
         }
-            
             break;
             
         case 1://增加
-            
         {
-            
             [self extraBottomViewVisiable:YES];
-            
         }
             
             break;
@@ -836,36 +838,39 @@ LGAudioPlayerDelegate
         default:
             
             break;
-            
     }
 }
 
 #pragma mark 选择照片及提问的执行方法
--(void)assistViewSelectItem:(NSInteger)item
+- (void)assistViewSelectItem:(NSInteger)item
 {
-    NSLog(@"=========选择照片及提问的执行方法==========%ld",(long)item);
-    if (item==1) {//照片
+    if (item == 1) {//照片
+        
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+        
         imagePickerController.delegate = self;
         imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePickerController.modalTransitionStyle = UIModalPresentationCustom;
+        
         [self presentViewController:imagePickerController animated:YES completion:^{
+            
         }];
     }
-    if (item==2) {//提问
-        toorbar.inputTextView.text = @"#问题# ";
+    
+    if (item == 2) {//提问
         
+        toorbar.inputTextView.text = @"#问题# ";
     }
 }
 
 #pragma mark 选择照片后添加数组 重新加载cell
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
     [self getImageURL:image];
-    [picker dismissViewControllerAnimated:YES completion:^{
-    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark 获取头像的url
@@ -949,7 +954,7 @@ LGAudioPlayerDelegate
 }
 
 #pragma mark 附加功能（选择照片，提问）展示或者收缩
--(void)extraBottomViewVisiable:(BOOL)state
+- (void)extraBottomViewVisiable:(BOOL)state
 {
     moreView.hidden = YES;
     NSTimeInterval timeValue;
@@ -960,7 +965,9 @@ LGAudioPlayerDelegate
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
         if (state) {
+        
             [UIView animateWithDuration:timeValue animations:^{
                 
                 self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-assistViewHeight-toobarHeight);
@@ -969,7 +976,9 @@ LGAudioPlayerDelegate
                 [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toobarHeight,kScreenWidth, toobarHeight)];
                 [assistView setFrame:CGRectMake(0, kScreenHeight-assistViewHeight, kScreenWidth, assistViewHeight)];
             } ];
-        }else{
+            
+        } else {
+            
             [UIView animateWithDuration:timeValue animations:^{
                 
                 self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
@@ -1008,6 +1017,7 @@ LGAudioPlayerDelegate
         [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
         
     }];
+    
     [self scrollTableToFoot:YES];
 }
 
@@ -1031,28 +1041,27 @@ LGAudioPlayerDelegate
 
 - (void)keyboardDidHide:(NSNotification *)notification
 {
+    
 }
 
 #pragma mark   滚动表格到底部
 - (void)scrollTableToFoot:(BOOL)animated
 {
     NSInteger s = [self.tableView numberOfSections];
-    if (s<1) return;
+    if (s < 1) return;
     NSInteger r = [self.tableView numberOfRowsInSection:s-1];
-    if (r<1) return;
+    
+    if (r < 1) return;
     
     NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
     
     [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-    
 }
 
-
--(void)createWebSocket
+- (void)createWebSocket
 {
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
     client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
-    
     
     NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
     
@@ -1413,10 +1422,13 @@ LGAudioPlayerDelegate
 {
     NSString *filePath = [[LGSoundRecorder shareInstance] soundFilePath];
     NSData *imageData = [NSData dataWithContentsOfFile: filePath];
-    NSLog(@"*******voiceData******%@",imageData);
+    
     duration = [[LGSoundRecorder shareInstance] soundRecordTime];
+    
     FirUploadVoiceRequest *request = [[FirUploadVoiceRequest alloc] initWithFileName:@"file"];
+    
     request.fileData = imageData;
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
                                                
@@ -1452,8 +1464,8 @@ LGAudioPlayerDelegate
 
 #pragma mark - LGSoundRecorderDelegate
 
-- (void)showSoundRecordFailed{
-    //	[[SoundRecorder shareInstance] soundRecordFailed:self];
+- (void)showSoundRecordFailed
+{
     if (_timerOf60Second) {
         [_timerOf60Second invalidate];
         _timerOf60Second = nil;
@@ -1464,59 +1476,60 @@ LGAudioPlayerDelegate
     
 }
 
-
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag{
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag
+{
     //播放结束时执行的动作
     NSMutableArray *urlArray = [NSMutableArray new];
     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+    
     for (NSDictionary *dic in palyArray) {
+    
         [urlArray addObject:dic[@"url"]];
-        
     }
+    
     NSMutableArray *voArray = [NSMutableArray new];
-    for (int i =0; i<self.listData.count; i++) {
+    
+    for (int i = 0; i < self.listData.count; i++) {
+        
         MssageVO *vo = self.listData[i];
-        if (vo.type&&[vo.type isEqualToString:@"voice"]) {
+        
+        if (vo.type && [vo.type isEqualToString:@"voice"]) {
+            
             if ([vo.currentIndex integerValue]>playIndex) {
-
-                
+    
                 if ([urlArray containsObject:vo.voiceurl]) {
                     
-                    NSLog(@"已近播过了");
+                } else {
                     
-                }else
-                {
                     [voArray addObject:vo];
-                    
-                    NSLog(@"将要播");
-                    
                 }
-                
             }
-
         }
     }
     
-    if (voArray.count>0) {
+    if (voArray.count > 0) {
+        
         MssageVO *vo = voArray[0];
         [self lianxuPlay:vo.voiceurl];
     }
-    
-    
 }
 
-
-- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*)player error:(NSError *)error{
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*)player error:(NSError *)error
+{
     //解码错误执行的动作
 }
-- (void)audioPlayerBeginInteruption:(AVAudioPlayer*)player{
+
+- (void)audioPlayerBeginInteruption:(AVAudioPlayer*)player
+{
     //处理中断的代码
 }
-- (void)audioPlayerEndInteruption:(AVAudioPlayer*)player{
+
+- (void)audioPlayerEndInteruption:(AVAudioPlayer*)player
+{
     //处理中断结束的代码
 }
 
--(void)lianxuPlay:(NSString *)urlString
+- (void)lianxuPlay:(NSString *)urlString
 {
     NSMutableArray *statusArray = [NSMutableArray new];
     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
@@ -1559,9 +1572,5 @@ LGAudioPlayerDelegate
         [voiceMessageCell setVoicePlayState:voicePlayState];
     });
 }
-
-
-
-
 
 @end
