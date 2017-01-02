@@ -49,6 +49,7 @@
     }
     return self;
 }
+
 -(void)addSubviews
 {
     UIView *cellbackView = [[UIView alloc] initWithFrame:CGRectMake(14.5, 14.5, kScreenWidth-29, 151)];
@@ -253,7 +254,7 @@
     [super layoutSubviews];
     [_orderNumLabel sizeToFit];
     [_paytypeLabel sizeToFit];
-    [_titleLabel sizeToFit];
+    
     [_priceLabel sizeToFit];
     [_timeLabel sizeToFit];
     [_deleteButton sizeToFit];
@@ -262,9 +263,20 @@
     [_deductionImage sizeToFit];
     [_couponLabel sizeToFit];
     
+    CGFloat     titleHeight = ceil([_titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth - 120, 50)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:[NSDictionary dictionaryWithObject:_titleLabel.font forKey:NSFontAttributeName]
+                                                                  context:[[NSStringDrawingContext alloc] init]].size.height);
+    
+    if (titleHeight > 35) {
+        
+        titleHeight     = 35;
+    }
+    
     _orderNumLabel.frame = CGRectMake(10, 0, _orderNumLabel.bounds.size.width, 35);
     _paytypeLabel.frame = CGRectMake(kScreenWidth-40-_paytypeLabel.bounds.size.width, 0, _paytypeLabel.bounds.size.width, 35);
-    _titleLabel.frame = CGRectMake(80, 45, kScreenWidth-120, _titleLabel.bounds.size.height*2);
+    
+    _titleLabel.frame = CGRectMake(80, 45, kScreenWidth-120, titleHeight);
     _priceLabel.frame = CGRectMake(kScreenWidth-40-_priceLabel.bounds.size.width, 90, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
     _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);
     
