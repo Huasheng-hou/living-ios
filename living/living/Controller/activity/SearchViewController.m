@@ -410,20 +410,12 @@
                     
                     [[NSUserDefaults standardUserDefaults] setObject:newArray forKey:@"searchArr"];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
-                     
-                                                                        object:nil];
-                    
-                    
+object:nil];
                 }
-                
             }];
         }];
-        
-        
     }
-
 }
-
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
