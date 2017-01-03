@@ -130,6 +130,8 @@ LMVoiceHeaderCellDelegate
 {
     [super viewDidDisappear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    self.navigationController.navigationBar.hidden  = NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 - (void)viewDidLoad

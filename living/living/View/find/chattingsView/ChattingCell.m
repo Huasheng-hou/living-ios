@@ -178,11 +178,11 @@
         
         _contentLabel.attributedText = attributedString;
 
-        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-75, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
     
         [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10)];
          [_contentLabel setFont:TEXT_FONT_LEVEL_2];
-        [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10, contenSize.height)];
+        [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
         
         //显示文字显示控件
         [contentbgView setHidden:NO];

@@ -15,7 +15,7 @@
 {
     self=[super initWithFrame:frame];
     if (self) {
-        [self setBackgroundColor:[UIColor colorWithRed:235/255.0f green:235/255.0f blue:237/255.0f alpha:1.0f]];
+        [self setBackgroundColor:[UIColor whiteColor]];
         [self contentWithView];
     }
     return self;
@@ -40,9 +40,9 @@
             [label setFrame:CGRectMake(kScreenWidth/2+offset, 50+buttonW, buttonW, 50)];
             [button setBackgroundImage:[UIImage imageNamed:@"questionIcon"] forState:UIControlStateNormal];
         }
-        [button.layer setCornerRadius:10.0f];
-        [button.layer setMasksToBounds:YES];
-        [button.layer setBorderWidth:0.5f];
+//        [button.layer setCornerRadius:10.0f];
+//        [button.layer setMasksToBounds:YES];
+//        [button.layer setBorderWidth:0.5f];
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         [button setTag:i];
         [button.layer setBorderColor:LINE_COLOR.CGColor];
@@ -53,6 +53,11 @@
         [label setFont:[UIFont systemFontOfSize:13]];
         [label setTextColor:[UIColor grayColor]];
         [self addSubview:label];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 0.5)];
+        lineView.backgroundColor = LINE_COLOR;
+        [self addSubview:lineView];
+        
     }
 }
 

@@ -150,9 +150,9 @@ LGAudioPlayerDelegate
     
     [self.tableView setFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight)];
     
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
+//    [self.tableView setBackgroundColor:[UIColor whiteColor]];
     
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+//    [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //导航栏右边按钮
     
@@ -372,6 +372,7 @@ LGAudioPlayerDelegate
 - (void)creatToolbarView
 {
     toorbar=[[CustomToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
+    toorbar.backgroundColor = [UIColor whiteColor];
     toorbar.inputTextView.delegate = self;
     [toorbar setDelegate:self];
     [self.view addSubview:toorbar];
@@ -686,7 +687,7 @@ LGAudioPlayerDelegate
         
         [paragraphStyle setLineSpacing:5];
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
-        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-75, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
         
         return contenSize.height+55+10;
     }
@@ -697,8 +698,7 @@ LGAudioPlayerDelegate
     }
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
-//        return 55+30+10;
-        return 150 + 55;
+        return 55+30+10;
     }
     
     return 0;
@@ -710,6 +710,7 @@ LGAudioPlayerDelegate
     
     MssageVO *vo = self.listData[indexPath.row];
     [cell setCellValue:vo];
+    cell.backgroundColor = [UIColor clearColor];
     cell.tag = indexPath.row;
     cell.delegate = self;
     return cell;
@@ -1061,7 +1062,7 @@ LGAudioPlayerDelegate
 - (void)createWebSocket
 {
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
-    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:YES];
+    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
     
     NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
     
