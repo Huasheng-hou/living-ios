@@ -687,15 +687,15 @@ LGAudioPlayerDelegate
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-75, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
         
-        return contenSize.height+55;
+        return contenSize.height+55+10;
     }
     if (vo.type&&[vo.type isEqual:@"picture"]) {
         
-        return 150+55;
+        return 150+55+10;
     }
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
-        return 55+30;
+        return 55+30+10;
     }
     
     return 0;
@@ -1051,7 +1051,7 @@ LGAudioPlayerDelegate
 -(void)createWebSocket
 {
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
-    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
+    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:YES];
     
     
     NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];

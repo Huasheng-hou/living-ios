@@ -82,7 +82,7 @@
     [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_soundbutton];
     
-    imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8, 11, 17)];
+    imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8+5, 11, 17)];
     
 
     [_soundbutton addSubview:imageV];
@@ -96,7 +96,7 @@
     
     bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
     bootomView.layer.cornerRadius = 2.5;
-    bootomView.backgroundColor = [UIColor greenColor];
+    bootomView.backgroundColor = [UIColor redColor];
     [self addSubview:bootomView];
     
     //内容底板
@@ -180,9 +180,9 @@
 
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-75, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
     
-        [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10)];
+        [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10)];
          [_contentLabel setFont:TEXT_FONT_LEVEL_2];
-        [_contentLabel setFrame:CGRectMake(10, 5, kScreenWidth-65-10, contenSize.height)];
+        [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10, contenSize.height)];
         
         //显示文字显示控件
         [contentbgView setHidden:NO];
@@ -227,7 +227,7 @@
         }
         [_soundbutton sizeToFit];
         
-        [_soundbutton setFrame:CGRectMake(50, 35, (kScreenWidth-65)*value/60, 30)];
+        [_soundbutton setFrame:CGRectMake(50, 35, (kScreenWidth-65)*value/60, 30+10)];
         
         [bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
 
