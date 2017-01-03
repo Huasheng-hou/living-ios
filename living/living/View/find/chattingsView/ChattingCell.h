@@ -33,6 +33,8 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 
 @property(nonatomic,strong)UILabel *contentLabel;
 
+@property(nonatomic,strong)UIImageView *bootomView;
+
 @property (nonatomic, assign) LGVoicePlayState voicePlayState;
 
 @property (nonatomic, weak) id <ChattingCellDelegate> delegate;

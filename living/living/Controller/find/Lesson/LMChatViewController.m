@@ -82,6 +82,7 @@ LGAudioPlayerDelegate
     NSString *hostId;
     NSInteger playIndex;
     LGVoicePlayState voicePlayState;
+    NSMutableArray *listArray;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -134,7 +135,9 @@ LGAudioPlayerDelegate
     [self createUI];
     [self botttomView];
     currentIndex = nil;
-    [self setupRefresh];
+//    [self setupRefresh];
+    [self loadNewer];
+    listArray = [NSMutableArray new];
     reloadCount =0;
     [LGAudioPlayer sharePlayer].delegate = self;
 }
@@ -195,53 +198,17 @@ LGAudioPlayerDelegate
     [[UIApplication sharedApplication].keyWindow addSubview:moreView];
 }
 
-- (void)getvoiceRecordRequest
+
+- (FitBaseRequest *)request
 {
-    
     if (ifloadMoreData==NO) {
         [self textStateHUD:@"没有更多消息~"];
-        return;
+        return nil;
     }
     
     LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
-    HTTPProxy *proxy  = [HTTPProxy loadWithRequest:request
-                                         completed:^(NSString *resp, NSStringEncoding encoding) {
-                                             NSArray * items = [self parseResponse:resp];
-                                             if (items && [items count]){
-                                                 
-                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                     
-                                                     if (!self.ifLoadReverse) {
-                                                         [self.listData addObjectsFromArray:items];
-                                                         
-                                                         [self.tableView reloadData];
-                                                     } else {
-                                                         NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
-                                                         [self.listData removeAllObjects];
-                                                         [self.listData addObjectsFromArray:items];
-                                                         [self.listData addObjectsFromArray:tempArr];
-                                                         NSLog(@"%lu",(unsigned long)items.count);
-                                                         [self.tableView reloadData];
-                                                         
-                                                         if (isfirst == YES) {
-                                                             [self reLoadTableViewCell];
-                                                             isfirst = NO;
-                                                         }
-                                                         
-                                                         
-                                                     }
-                                                     
-                                                 });
-                                             }
-                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
-                                         } failed:^(NSError *error) {
-                                             
-                                             self.statefulState = FitStatefulTableViewControllerStateIdle;
-                                         }];
-    
-    [proxy start];
+    return request;
 }
-
 
 #pragma mark --屏蔽学员
 
@@ -256,6 +223,7 @@ LGAudioPlayerDelegate
             [shieldArray addObject:vo];
         }
     }
+    reloadCount=1;
     
     [self.listData removeAllObjects];
     [self.listData addObjectsFromArray:shieldArray];
@@ -300,25 +268,6 @@ LGAudioPlayerDelegate
         NSArray *tempArr    = [MssageVO MssageVOListWithArray:[bodyDic objectForKey:@"list"]];
         
         if (tempArr.count > 0) {
-            
-            for (int i = 0; i < tempArr.count; i ++) {
-                
-                MssageVO   *vo     = [tempArr objectAtIndex:i];
-                vo.ifShowTimeLbl    = YES;
-                
-                for (int j = 0; j < i; j ++) {
-                    
-                    MssageVO   *olderVO    = [tempArr objectAtIndex:j];
-                    
-                    if ([olderVO.time timeIntervalSince1970] - [vo.time timeIntervalSince1970]  < 180 && olderVO.ifShowTimeLbl) {
-                        
-                        vo.ifShowTimeLbl    = NO;
-                        break;
-                    }
-                }
-            }
-        }
-        if (tempArr.count > 0) {
             MssageVO   *vo     = [tempArr objectAtIndex:0];
             
             if (currentIndex!=nil&&[currentIndex intValue] - [vo.currentIndex intValue]<9) {
@@ -327,19 +276,22 @@ LGAudioPlayerDelegate
                     ifloadMoreData =NO;
                 });
                 
-                
             }else if([currentIndex intValue] !=[vo.currentIndex intValue]){
                 currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue]];
                 reloadCount = reloadCount+1;
                 
             }
-            
         }
         
         return tempArr;
     }
     return nil;
     
+}
+
+- (void)firstPageLoadedProcess
+{
+    [self scrollTableToFoot:NO];
 }
 
 #pragma mark 初始化自定义工具条及附加功能视图（选择照片及提问）
@@ -429,8 +381,7 @@ LGAudioPlayerDelegate
                                                         }
                                                         
                                                         if (hasShield == YES &&isShieldReload ==YES){
-                                                            
-                                                            [self getvoiceRecordRequest];
+                                                        
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 titleArray=@[@"屏蔽",@"问题"];
                                                                 iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
@@ -524,7 +475,6 @@ LGAudioPlayerDelegate
                                                             
                                                         }
                                                         if (hasShield == YES &&isShieldReload ==YES) {
-                                                            [self getvoiceRecordRequest];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                                                                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
@@ -716,6 +666,49 @@ LGAudioPlayerDelegate
     return cell;
 }
 
+#pragma mark UITextView Delegate
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    CGSize size = textView.contentSize;
+    size.height -= 2;
+    
+    if ( size.height >= 68 ) {
+        
+        size.height = 68;
+    }
+    else if ( size.height <= 34 ) {
+        
+        size.height = 34;
+    }
+    
+    if ( size.height != textView.frame.size.height ) {
+        
+        CGFloat span = size.height - textView.frame.size.height;
+        
+        CGRect frame = toorbar.frame;
+        frame.origin.y -= span;
+        frame.size.height += span;
+        toorbar.frame = frame;
+        
+        CGFloat centerY = frame.size.height / 2;
+        
+        frame = textView.frame;
+        frame.size = size;
+        textView.frame = frame;
+        
+        CGPoint center = textView.center;
+        center.y = centerY;
+        textView.center = center;
+        
+        frame = self.tableView.frame;
+        frame.size.height -= span;
+        self.tableView.frame = frame;
+    }
+    
+    [self scrollTableToFoot:YES];
+}
+
 #pragma mark 输入完成后发送消息，（数组中添加数据并重新加载cell）
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -861,6 +854,7 @@ LGAudioPlayerDelegate
     if (item == 2) {//提问
         
         toorbar.inputTextView.text = @"#问题# ";
+        [toorbar.inputTextView becomeFirstResponder];
     }
 }
 
@@ -1198,32 +1192,67 @@ LGAudioPlayerDelegate
 }
 
 
-- (void)setupRefresh
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    moreView.hidden = YES;
-    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
-    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    //tableView刚出现时，进行刷新操作
-    [self.tableView headerBeginRefreshing];
-    
+    if (!self.ifLoadReverse) {
+        if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame))) < 44.0
+            && self.statefulState == FitStatefulTableViewControllerStateIdle
+            && [self canLoadMore]) {
+            [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+        }
+    } else {
+        if (-64 == self.tableView.contentOffset.y && self.statefulState == FitStatefulTableViewControllerStateIdle) {
+            [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+        }
+    }
 }
 
-- (void)headerRereshing
+
+- (void)loadNextPage
 {
-    // 2.0秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)
-                                 (1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        [self.tableView headerEndRefreshing];
+    if (self.statefulState == FitStatefulTableViewControllerStateLoadingNextPage) return;
+    
         
-        if (hasShield == NO) {
-            [self getvoiceRecordRequest];
-        }else{
-            [self getShieldstudentData];
-        }
+        self.statefulState = FitStatefulTableViewControllerStateLoadingNextPage;
         
-    });
+        //        切换页码到下一页
+        
+        FitBaseRequest * req = [self request];
+        table_proxy = [HTTPProxy loadWithRequest:req completed:^(NSString *resp, NSStringEncoding encoding) {
+            
+            NSArray * items = [self parseResponse:resp];
+            
+            if (items && [items count]){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if (!self.ifLoadReverse) {
+                        [self.listData addObjectsFromArray:items];
+                        
+                        [self.tableView reloadData];
+                    } else {
+                        NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
+                        [self.listData removeAllObjects];
+                        [self.listData addObjectsFromArray:items];
+                        [self.listData addObjectsFromArray:tempArr];
+                        
+                        [self.tableView reloadData];
+                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    }
+                    
+                });
+            }
+            self.statefulState = FitStatefulTableViewControllerStateIdle;
+        } failed:^(NSError *error) {
+            
+            self.statefulState = FitStatefulTableViewControllerStateIdle;
+        }];
+        
+        [table_proxy start];
 }
+
+
+
 
 - (void)cellClickVoice:(ChattingCell *)cell
 {
@@ -1246,9 +1275,19 @@ LGAudioPlayerDelegate
         NSLog(@"%d",successs);
         //播放本地音乐
         [self lianxuPlay:urlStr];
-
         
+        NSMutableArray *urlArray = [NSMutableArray new];
+        NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+        for (NSDictionary *dic in palyArray) {
+            [urlArray addObject:dic[@"url"]];
+            
+        }
         
+        if ([urlArray containsObject:vo.voiceurl]) {
+            [cell.bootomView setHidden:YES];
+            [self.tableView reloadData];
+        }
+  
     }
 }
 
@@ -1299,10 +1338,10 @@ LGAudioPlayerDelegate
     [client sendTo:urlStr body:string];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    
+//}
 
 - (void)startRecord
 {
@@ -1548,6 +1587,8 @@ LGAudioPlayerDelegate
     player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
     player.delegate = self;
     [player play];
+    
+    
     
 }
 

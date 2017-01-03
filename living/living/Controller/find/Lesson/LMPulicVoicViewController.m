@@ -577,6 +577,13 @@ static NSMutableArray *cellDataArray;
         textFiledTag = 3;
     }
     
+    if (textField == msgCell.joincountTF) {
+        toBeString = msgCell.joincountTF.text;
+        lang = [textField.textInputMode primaryLanguage];
+        MAX_STARWORDS_LENGTH = 3;
+        textFiledTag = 4;
+    }
+    
     if ([lang isEqualToString:@"zh-Hans"])// 简体中文输入
     {
         //获取高亮部分
@@ -597,6 +604,9 @@ static NSMutableArray *cellDataArray;
                 }
                 if (textFiledTag == 3) {
                     [self textStateHUD:@"最多不能超过100万哦~"];
+                }
+                if (textFiledTag == 3) {
+                    [self textStateHUD:@"最多不能超过500人哦~"];
                 }
                 
             }
@@ -857,6 +867,12 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
+    if ((msgCell.joincountTF.text.length>0)) {
+        if ([msgCell.joincountTF.text intValue]>500) {
+            [ self textStateHUD:@"课程人数不能超过500人~"];
+            return;
+        }
+    }
     
     if ([startstring isEqual:@"请选择活动开始时间"]) {
         [ self textStateHUD:@"请选择开始时间"];

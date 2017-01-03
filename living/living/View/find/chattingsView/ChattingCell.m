@@ -22,7 +22,7 @@
     UIView *contentbgView;
     UIImageView *publishImageV;
     UIImageView *imageV;
-    UIImageView *bootomView;
+    
     NSInteger roleNum;
 }
 + (instancetype)cellWithTableView:(UITableView *)tableView{
@@ -94,10 +94,10 @@
     [_soundbutton addSubview:_duration];
     
     
-    bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
-    bootomView.layer.cornerRadius = 2.5;
-    bootomView.backgroundColor = [UIColor redColor];
-    [self addSubview:bootomView];
+    _bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
+    _bootomView.layer.cornerRadius = 2.5;
+    _bootomView.backgroundColor = [UIColor redColor];
+    [self addSubview:_bootomView];
     
     //内容底板
     contentbgView=[[UIView alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 100)];
@@ -188,7 +188,7 @@
         [contentbgView setHidden:NO];
         //隐藏图片显示控件
         [publishImageV setHidden:YES];
-        [bootomView setHidden:YES];
+        [_bootomView setHidden:YES];
         
         [_soundbutton setHidden:YES];
     }
@@ -205,7 +205,7 @@
          
          [_soundbutton setHidden:YES];
          publishImageV.userInteractionEnabled = YES;
-         [bootomView setHidden:YES];
+         [_bootomView setHidden:YES];
          
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
          [publishImageV addGestureRecognizer:tap];
@@ -229,7 +229,7 @@
         
         [_soundbutton setFrame:CGRectMake(50, 35, (kScreenWidth-65)*value/60, 30+10)];
         
-        [bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
+        [_bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
 
 
         NSMutableArray *urlArray = [NSMutableArray new];
@@ -240,9 +240,9 @@
         }
         
         if ([urlArray containsObject:vo.voiceurl]) {
-            [bootomView setHidden:YES];
+            [_bootomView setHidden:YES];
         }else{
-            [bootomView setHidden:NO];
+            [_bootomView setHidden:NO];
         }
         
         
