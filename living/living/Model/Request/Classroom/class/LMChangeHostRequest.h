@@ -10,6 +10,6 @@
 
 @interface LMChangeHostRequest : FitBaseRequest
 
-- (id)initWithUserId:(NSString *)userId nickname:(NSString *)nickname voice_uuid:(NSString *)voice_uuid;
+- (id)initWithUserId:(NSInteger)userId voice_uuid:(NSString *)voice_uuid;
 
 @end

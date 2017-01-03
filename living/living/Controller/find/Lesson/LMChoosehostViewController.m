@@ -169,7 +169,7 @@
 {
     LMFriendVO *vo = hostArray[indexPath.row];
        
-    [self.delegate backhostName:vo.nickname andId:vo.UserID];
+    [self.delegate backhostName:vo.nickname andId:vo.userId];
     
     [self.navigationController popViewControllerAnimated:YES];
     

@@ -10,7 +10,7 @@
 
 @implementation LMChangeHostRequest
 
-- (id)initWithUserId:(NSString *)userId nickname:(NSString *)nickname voice_uuid:(NSString *)voice_uuid
+- (id)initWithUserId:(NSInteger)userId voice_uuid:(NSString *)voice_uuid
 {
     self = [super init];
     
@@ -18,13 +18,10 @@
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-        if (userId) {
-            [bodyDict setObject:userId forKey:@"userId"];
+        if (userId != -1) {
+            [bodyDict setObject:[NSString stringWithFormat:@"%ld", (long)userId] forKey:@"userId"];
         }
-        
-        if (nickname){
-            [bodyDict setObject:nickname forKey:@"nickname"];
-        }
+    
         
         if (voice_uuid){
             [bodyDict setObject:voice_uuid forKey:@"voice_uuid"];

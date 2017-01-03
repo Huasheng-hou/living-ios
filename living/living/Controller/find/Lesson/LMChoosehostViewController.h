@@ -10,7 +10,7 @@
 
 @protocol LMhostchooseProtocol <NSObject>
 
--(void)backhostName:(NSString *)liveRoom andId:(NSString *)userId;
+-(void)backhostName:(NSString *)liveRoom andId:(NSInteger)userId;
 
 @end
 @interface LMChoosehostViewController :FitTableViewController

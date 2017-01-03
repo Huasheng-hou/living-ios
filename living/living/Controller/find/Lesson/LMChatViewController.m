@@ -79,10 +79,11 @@ LGAudioPlayerDelegate
     NSArray *titleArray;
     NSArray *iconArray;
     
-    NSString *hostId;
+    NSInteger hostId;
     NSInteger playIndex;
     LGVoicePlayState voicePlayState;
     NSMutableArray *listArray;
+    NSInteger voiceIndex;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -568,11 +569,11 @@ LGAudioPlayerDelegate
 }
 
 #pragma mark -- 选择主持人代理
-- (void)backhostName:(NSString *)liveRoom andId:(NSString *)userId
+- (void)backhostName:(NSString *)liveRoom andId:(NSInteger)userId
 {
     hostId = userId;
-    
-    LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:userId nickname:liveRoom voice_uuid:_voiceUuid];
+
+    LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:hostId voice_uuid:_voiceUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -597,13 +598,13 @@ LGAudioPlayerDelegate
     
     if (!bodyDic) {
     
-        [self textStateHUD:@"选择主持人失败！"];
+        [self textStateHUD:@"更换主持人失败！"];
     } else {
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            [self textStateHUD:@"选择主持人成功！"];
+            [self textStateHUD:@"更换主持人成功！"];
             
-            NSDictionary *dics = @{@"type":@"host",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"userId":hostId};
+            NSDictionary *dics = @{@"type":@"host",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"userId":[NSString stringWithFormat:@"%ld",(long)hostId]};
             
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
             NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
@@ -819,6 +820,8 @@ LGAudioPlayerDelegate
         case 0://语音
         {
             [self extraBottomViewVisiable:NO];
+            voiceIndex =1;
+            
         }
             break;
             
@@ -959,13 +962,13 @@ LGAudioPlayerDelegate
         timeValue=0.2f;
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
         if (state) {
         
             [UIView animateWithDuration:timeValue animations:^{
                 
-                self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-assistViewHeight-toobarHeight);
+                self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight-assistViewHeight);
                 [self scrollTableToFoot:YES];
                 
                 [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toobarHeight,kScreenWidth, toobarHeight)];
@@ -983,7 +986,7 @@ LGAudioPlayerDelegate
                 [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
             }];
         }
-    });
+//    });
 }
 
 #pragma mark Keyboard events
@@ -1009,7 +1012,7 @@ LGAudioPlayerDelegate
         
         self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - keyboardRect.size.height - toobarHeight);
         [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight-keyboardRect.size.height, kScreenWidth, toobarHeight)];
-        [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+        [assistView setFrame:CGRectMake(0, kScreenHeight-keyboardRect.size.height, kScreenWidth, assistViewHeight)];
         
     }];
     
@@ -1027,10 +1030,16 @@ LGAudioPlayerDelegate
     
     [UIView animateWithDuration:animationDuration animations:^{
         
-        [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
-        [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
         
-        self.tableView.frame           = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight);
+        if (voiceIndex == 1) {
+           [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
+            [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+            self.tableView.frame    = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight);
+        }else{
+            [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toobarHeight,kScreenWidth, toobarHeight)];
+            [assistView setFrame:CGRectMake(0, kScreenHeight-assistViewHeight, kScreenWidth, assistViewHeight)];
+            self.tableView.frame    = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight-assistViewHeight);
+        }
     }];
 }
 

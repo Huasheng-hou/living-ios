@@ -349,12 +349,12 @@ static NSMutableArray *cellDataArray;
     [self.navigationController pushViewController:typeVC animated:YES];
 }
 
-- (void)backhostName:(NSString *)liveRoom andId:(NSString *)userId
+- (void)backhostName:(NSString *)liveRoom andId:(NSInteger )userId
 {
     type = 2;
     typeString  = liveRoom;
     msgCell.hostButton.textLabel.text = liveRoom;
-    UserId = userId;
+    UserId = [NSString stringWithFormat:@"%ld",(long)userId];
     [self.tableView reloadData];
 }
 
