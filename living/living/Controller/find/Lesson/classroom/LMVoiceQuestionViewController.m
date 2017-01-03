@@ -176,7 +176,7 @@ LMQuestionCellDelegate
                                                 }
                                                 if (vo.status&&[vo.status isEqualToString:@"open"]) {
                                                     
-                                                    [self.delegate backDic:vo.userUuid content:vo.content];
+                                                    [self.delegate backDic:vo.userUuid content:vo.content questionUuid:vo.question_uuid];
                                                 }
                                                 
                                                 [self.navigationController popViewControllerAnimated:NO];

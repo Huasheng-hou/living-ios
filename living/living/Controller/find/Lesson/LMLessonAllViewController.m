@@ -46,7 +46,7 @@
     [super viewDidLoad];
     self.title = @"语音课堂";
     [self creatUI];
-    [self loadNewer];
+//    [self loadNewer];
 }
 
 - (void)creatUI
@@ -88,7 +88,7 @@
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
         NSArray *resultArr = [ClassroomVO ClassroomVOListWithArray:[bodyDic objectForKey:@"list"]];
-        
+        NSLog(@"******************8%@",resultArr);
         if (resultArr&&resultArr.count>0) {
             return resultArr;
         }

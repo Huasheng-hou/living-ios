@@ -111,6 +111,8 @@
         
         NSArray *resultArr = [ClassroomVO ClassroomVOListWithArray:[bodyDic objectForKey:@"list"]];
         
+        NSLog(@"******************%@",resultArr);
+        
         if (resultArr&&resultArr.count>0) {
            return resultArr;
         }

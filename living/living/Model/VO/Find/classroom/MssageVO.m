@@ -133,6 +133,15 @@
             && [[dictionary objectForKey:@"user_uuid"] isKindOfClass:[NSString class]]) {
             self.user_uuid = [dictionary objectForKey:@"user_uuid"];
         }
+        if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            self.status = [dictionary objectForKey:@"status"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"question_uuid"] && ![[dictionary objectForKey:@"question_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"question_uuid"] isKindOfClass:[NSString class]]) {
+            self.questionUuid = [dictionary objectForKey:@"question_uuid"];
+        }
         
         
         if (nil != [dictionary objectForKey:@"has_profile"] && ![[dictionary objectForKey:@"has_profile"] isEqual:[NSNull null]]) {

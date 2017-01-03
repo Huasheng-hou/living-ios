@@ -10,7 +10,7 @@
 
 @protocol LMquestionchooseProtocol <NSObject>
 
-- (void)backDic:(NSString *)userId content:(NSString *)content;
+- (void)backDic:(NSString *)userId content:(NSString *)content questionUuid:(NSString *)questionUuid;
 
 @end
 

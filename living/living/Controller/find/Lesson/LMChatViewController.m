@@ -26,6 +26,7 @@
 #import "LMChangeHostRequest.h"
 #import "LMShieldstudentRequest.h"
 #import "LMVoiceEndRequest.h"
+#import "LMCloseQuestionRequest.h"
 
 #import "LGAudioKit.h"
 #import "Masonry.h"
@@ -640,7 +641,12 @@ LGAudioPlayerDelegate
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
         
-        return contenSize.height+55+10;
+        if ([vo.type isEqual:@"question"]) {
+            return contenSize.height+55+10+20;
+        }else{
+            return contenSize.height+55+10;
+        }
+        
     }
     
     if (vo.type && [vo.type isEqual:@"picture"]) {
@@ -1062,6 +1068,9 @@ LGAudioPlayerDelegate
     [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 }
 
+
+#pragma mark -- 获取websocket数据
+
 - (void)createWebSocket
 {
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
@@ -1099,6 +1108,10 @@ LGAudioPlayerDelegate
                 [dic setObject:@"chat" forKey:@"type"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 [dic setObject:vo.role forKey:@"role"];
+
+                if ([vo.type isEqual:@"question"]) {
+                  [dic setObject:vo.questionUuid forKey:@"question_uuid"];
+                }
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 if ([vo.type isEqual:@"chat"]) {
@@ -1334,11 +1347,11 @@ LGAudioPlayerDelegate
 
 #pragma mark --问题列表返回问题
 
-- (void)backDic:(NSString *)userId content:(NSString *)content
+- (void)backDic:(NSString *)userId content:(NSString *)content questionUuid:(NSString *)questionUuid
 {
     NSString *strings  = [content stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":userId, @"content":strings ,@"has_profile":@"true"};
+    NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":userId, @"content":strings ,@"has_profile":@"true",@"questionUuid":questionUuid};
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
     NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
@@ -1346,11 +1359,6 @@ LGAudioPlayerDelegate
     NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
     [client sendTo:urlStr body:string];
 }
-
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    
-//}
 
 - (void)startRecord
 {
@@ -1623,5 +1631,49 @@ LGAudioPlayerDelegate
         [voiceMessageCell setVoicePlayState:voicePlayState];
     });
 }
+
+#pragma mark --关闭问题
+
+- (void)cellcloseQuestion:(ChattingCell *)cell
+{
+    NSLog(@"*************关闭问题");
+    MssageVO *vo = self.listData[cell.tag];
+    LMCloseQuestionRequest *request = [[LMCloseQuestionRequest alloc] initWithQuestionUuid:vo.questionUuid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getCloseQuestion:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+    
+}
+
+- (void)getCloseQuestion:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"问题关闭失败"];
+    }else{
+        if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            [self textStateHUD:@"问题关闭成功"];
+            
+            [self.tableView reloadData];
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+
+
+
 
 @end

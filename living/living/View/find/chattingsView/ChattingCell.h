@@ -49,6 +49,7 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 @optional
 - (void)cellClickImage:(ChattingCell *)cell;
 - (void)cellClickVoice:(ChattingCell *)cell;
+- (void)cellcloseQuestion:(ChattingCell *)cell;
 
 
 @end

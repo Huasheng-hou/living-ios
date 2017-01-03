@@ -22,7 +22,7 @@
     UIView *contentbgView;
     UIImageView *publishImageV;
     UIImageView *imageV;
-    
+    UIButton *endButton;
     NSInteger roleNum;
 }
 + (instancetype)cellWithTableView:(UITableView *)tableView{
@@ -121,6 +121,11 @@
     [publishImageV.layer setMasksToBounds:YES];
     [publishImageV setBackgroundColor:BG_GRAY_COLOR];
     [self addSubview:publishImageV];
+    
+    endButton =[[UIButton alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 35)];
+    [endButton setHidden:YES];
+    [self addSubview:endButton];
+    
 }
 
 -(void)setCellValue:(MssageVO *)vo
@@ -179,10 +184,32 @@
         _contentLabel.attributedText = attributedString;
 
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
-    
-        [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10)];
-         [_contentLabel setFont:TEXT_FONT_LEVEL_2];
-        [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
+
+        if ([vo.type isEqualToString:@"question"]) {
+            
+            if ([vo.status isEqualToString:@"closed"]) {
+                [endButton setImage:[UIImage imageNamed:@"endRedIcon"] forState:UIControlStateNormal];
+            }
+            
+            if ([vo.status isEqualToString:@"open"]) {
+                [endButton setImage:[UIImage imageNamed:@"endGrayIcon"] forState:UIControlStateNormal];
+                [endButton addTarget:self action:@selector(endQuestion) forControlEvents:UIControlEventTouchUpInside];
+            }
+            if (vo.role&&![vo.role isEqualToString:@"student"]) {
+               [endButton setHidden:NO];
+            }
+
+            [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10+15)];
+            [_contentLabel setFont:TEXT_FONT_LEVEL_2];
+            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height+15)];
+            [endButton sizeToFit];
+            endButton.frame = CGRectMake(kScreenWidth-10-10-20, 35+contenSize.height+10+10+15-20, 20, 20);
+            
+        }else{
+            [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10)];
+            [_contentLabel setFont:TEXT_FONT_LEVEL_2];
+            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
+        }
         
         //显示文字显示控件
         [contentbgView setHidden:NO];
@@ -206,7 +233,7 @@
          [_soundbutton setHidden:YES];
          publishImageV.userInteractionEnabled = YES;
          [_bootomView setHidden:YES];
-         
+         [endButton setHidden:YES];
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
          [publishImageV addGestureRecognizer:tap];
          
@@ -258,6 +285,7 @@
         [publishImageV setHidden:YES];
         
         [_soundbutton setHidden:NO];
+        [endButton setHidden:YES];
     }
    
 }
@@ -300,6 +328,15 @@
         [_delegate cellClickImage:self];
     }
 }
+
+- (void)endQuestion
+{
+    if ([_delegate respondsToSelector:@selector(cellcloseQuestion:)]) {
+        [_delegate cellcloseQuestion:self];
+    }
+}
+
+
 
 - (void)setVoicePlayState:(LGVoicePlayState)voicePlayState {
     if (_voicePlayState != voicePlayState) {

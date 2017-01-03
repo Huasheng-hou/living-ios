@@ -422,6 +422,7 @@
 		35DE847A1E15EF1F00314EA8 /* 1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DE84791E15EF1F00314EA8 /* 1@2x.png */; };
 		35DE847C1E15F0B100314EA8 /* 6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DE847B1E15F0B100314EA8 /* 6@2x.png */; };
 		35DE847E1E15F23300314EA8 /* touch.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DE847D1E15F23300314EA8 /* touch.png */; };
+		35DE84811E1BA37E00314EA8 /* LMCloseQuestionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DE84801E1BA37E00314EA8 /* LMCloseQuestionRequest.m */; };
 		35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E686701DEFC89600B43000 /* LMArtcleFootView.m */; };
 		35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F1AB6E1E08F3C1003304EE /* MssageVO.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
@@ -1348,6 +1349,8 @@
 		35DE84791E15EF1F00314EA8 /* 1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1@2x.png"; sourceTree = "<group>"; };
 		35DE847B1E15F0B100314EA8 /* 6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6@2x.png"; sourceTree = "<group>"; };
 		35DE847D1E15F23300314EA8 /* touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touch.png; sourceTree = "<group>"; };
+		35DE847F1E1BA37E00314EA8 /* LMCloseQuestionRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCloseQuestionRequest.h; sourceTree = "<group>"; };
+		35DE84801E1BA37E00314EA8 /* LMCloseQuestionRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCloseQuestionRequest.m; sourceTree = "<group>"; };
 		35E6866F1DEFC89600B43000 /* LMArtcleFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleFootView.h; sourceTree = "<group>"; };
 		35E686701DEFC89600B43000 /* LMArtcleFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleFootView.m; sourceTree = "<group>"; };
 		35F1AB6D1E08F3C1003304EE /* MssageVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MssageVO.h; sourceTree = "<group>"; };
@@ -1685,6 +1688,8 @@
 				359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */,
 				3567BFBF1E1203FE004EF000 /* LMShieldstudentRequest.h */,
 				3567BFC01E1203FE004EF000 /* LMShieldstudentRequest.m */,
+				35DE847F1E1BA37E00314EA8 /* LMCloseQuestionRequest.h */,
+				35DE84801E1BA37E00314EA8 /* LMCloseQuestionRequest.m */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -3901,6 +3906,7 @@
 				35B7477A1DDE97F3000AFA26 /* UIImage+ImageFromArrayUtils.m in Sources */,
 				35B747B21DDE97F3000AFA26 /* LMCommentArticleRequest.m in Sources */,
 				35B747141DDE97F3000AFA26 /* RSADataSigner.m in Sources */,
+				35DE84811E1BA37E00314EA8 /* LMCloseQuestionRequest.m in Sources */,
 				355E7B811DFFF6C90089BAB1 /* LMChoosehostViewController.m in Sources */,
 				35B747261DDE97F3000AFA26 /* SSPullToRefreshSimpleContentView.m in Sources */,
 				35B747C11DDE97F3000AFA26 /* LMAliPayRequest.m in Sources */,

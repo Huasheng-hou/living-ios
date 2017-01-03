@@ -37,7 +37,9 @@
 @property (nonatomic, strong) NSString *sign;
 @property (nonatomic, strong) NSString *host_uuid;
 @property (nonatomic, strong) NSString *user_uuid;
+@property (nonatomic, strong) NSString *status;
 @property (nonatomic, assign) BOOL hasProfile;
+@property (nonatomic, strong) NSString *questionUuid;
 
 @property (nonatomic, assign) BOOL  ifShowTimeLbl;
 
