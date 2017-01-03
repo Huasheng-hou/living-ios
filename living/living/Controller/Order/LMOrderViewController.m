@@ -36,6 +36,7 @@
 #import "MJRefresh.h"
 
 #import "LMActivityDetailController.h"
+#import "LMClassroomDetailViewController.h"
 
 #import "LMCouponMsgRequest.h"
 #define PAGER_SIZE      20
@@ -234,12 +235,32 @@ LMOrderCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row >= self.listData.count) {
+        
+        return;
+    }
+    
     LMOrderVO *list =[self.listData objectAtIndex:indexPath.row];
     
-    LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
-    detailVC.eventUuid = list.eventUuid;
-    
-    [self.navigationController pushViewController:detailVC animated:YES];
+    if (list && [list isKindOfClass:[LMOrderVO class]]) {
+        
+        if (list.type && [list.type isKindOfClass:[NSString class]] && [list.type isEqualToString:@"event"]) {
+            
+            LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+            detailVC.eventUuid = list.eventUuid;
+            
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+        
+        if (list.type && [list.type isKindOfClass:[NSString class]] && [list.type isEqualToString:@"voice"]) {
+            
+            LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
+            voiceVC.voiceUUid = list.voiceUuid;
+
+            [voiceVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:voiceVC animated:YES];
+        }
+    }
 }
 
 #pragma mark - LMOrderCell delegate -
