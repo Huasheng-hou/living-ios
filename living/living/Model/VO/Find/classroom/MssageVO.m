@@ -143,10 +143,16 @@
             self.questionUuid = [dictionary objectForKey:@"question_uuid"];
         }
         
+        if (nil != [dictionary objectForKey:@"transcodingUrl"] && ![[dictionary objectForKey:@"transcodingUrl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"transcodingUrl"] isKindOfClass:[NSString class]]) {
+            self.transcodingUrl = [dictionary objectForKey:@"transcodingUrl"];
+        }
         
         if (nil != [dictionary objectForKey:@"has_profile"] && ![[dictionary objectForKey:@"has_profile"] isEqual:[NSNull null]]) {
             self.hasProfile = [(NSNumber *)[dictionary objectForKey:@"has_profile"] boolValue];
         }
+        
+        
         
         self.ifShowTimeLbl              = NO;
     }

@@ -40,6 +40,7 @@
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, assign) BOOL hasProfile;
 @property (nonatomic, strong) NSString *questionUuid;
+@property (nonatomic, strong) NSString *transcodingUrl;
 
 @property (nonatomic, assign) BOOL  ifShowTimeLbl;
 

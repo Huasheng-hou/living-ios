@@ -21,7 +21,6 @@
 {
     UIView *contentbgView;
     UIImageView *publishImageV;
-    UIImageView *imageV;
     UIButton *endButton;
     NSInteger roleNum;
 }
@@ -82,10 +81,10 @@
     [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_soundbutton];
     
-    imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8+5, 11, 17)];
+    _animalImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8+5, 11, 17)];
     
 
-    [_soundbutton addSubview:imageV];
+    [_soundbutton addSubview:_animalImage];
     
     _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height)];
     [_duration setFont:TEXT_FONT_LEVEL_3];
@@ -136,7 +135,7 @@
         [contentbgView setBackgroundColor:lightRedColor];
         [_soundbutton setBackgroundColor:lightRedColor];
         [_soundbutton.layer setBorderColor:LMRedColor.CGColor];
-        imageV.image = [UIImage imageNamed:@"Image-3"] ;
+        _animalImage.image = [UIImage imageNamed:@"Image-3"] ;
         roleNum = 1;
     }
     if (vo.role&&[vo.role isEqualToString:@"host"]) {
@@ -144,7 +143,7 @@
         [contentbgView setBackgroundColor:LMBuleColor];
         [_soundbutton setBackgroundColor:LMBuleColor];
         [_soundbutton.layer setBorderColor:lightBuleColor.CGColor];
-        imageV.image = [UIImage imageNamed:@"Image-13"] ;
+        _animalImage.image = [UIImage imageNamed:@"Image-13"] ;
         roleNum = 2;
     }
     if (vo.role&&[vo.role isEqualToString:@"student"]) {
@@ -152,9 +151,35 @@
         [contentbgView setBackgroundColor:LMlightGrayColor];
         [_soundbutton setBackgroundColor:LMlightGrayColor];
         [_soundbutton.layer setBorderColor:LMGrayColor.CGColor];
-        imageV.image = [UIImage imageNamed:@"Image-23"] ;
+        _animalImage.image = [UIImage imageNamed:@"Image-23"] ;
         roleNum = 3;
     }
+    
+    if (roleNum ==1) {
+        UIImage *image1 = [UIImage imageNamed:@"Image-1"];
+        UIImage *image2 = [UIImage imageNamed:@"Image-2"];
+        UIImage *image3 = [UIImage imageNamed:@"Image-3"];
+        _animalImage.highlightedAnimationImages = @[image1,image2,image3];
+    }
+    if (roleNum ==2) {
+        UIImage *image1 = [UIImage imageNamed:@"Image-11"];
+        UIImage *image2 = [UIImage imageNamed:@"Image-12"];
+        UIImage *image3 = [UIImage imageNamed:@"Image-13"];
+        _animalImage.highlightedAnimationImages = @[image1,image2,image3];
+    }
+    if (roleNum ==3) {
+        UIImage *image1 = [UIImage imageNamed:@"Image-21"];
+        UIImage *image2 = [UIImage imageNamed:@"Image-22"];
+        UIImage *image3 = [UIImage imageNamed:@"Image-23"];
+        _animalImage.highlightedAnimationImages = @[image1,image2,image3];
+    }
+    
+    
+    _animalImage.animationDuration = 1.5f;
+    _animalImage.animationRepeatCount = NSUIntegerMax;
+    [_animalImage startAnimating];
+    
+    
     
     //设置时间
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init]; //初始化格式器。
@@ -294,28 +319,6 @@
 {
     if ([_delegate respondsToSelector:@selector(cellClickVoice:)]) {
         
-        if (roleNum ==1) {
-            UIImage *image1 = [UIImage imageNamed:@"Image-1"];
-            UIImage *image2 = [UIImage imageNamed:@"Image-2"];
-            UIImage *image3 = [UIImage imageNamed:@"Image-3"];
-            imageV.highlightedAnimationImages = @[image1,image2,image3];
-        }
-        if (roleNum ==2) {
-            UIImage *image1 = [UIImage imageNamed:@"Image-11"];
-            UIImage *image2 = [UIImage imageNamed:@"Image-12"];
-            UIImage *image3 = [UIImage imageNamed:@"Image-13"];
-            imageV.highlightedAnimationImages = @[image1,image2,image3];
-        }
-        if (roleNum ==3) {
-            UIImage *image1 = [UIImage imageNamed:@"Image-21"];
-            UIImage *image2 = [UIImage imageNamed:@"Image-22"];
-            UIImage *image3 = [UIImage imageNamed:@"Image-23"];
-            imageV.highlightedAnimationImages = @[image1,image2,image3];
-        }
-        
-
-        imageV.animationDuration = 1.5f;
-        imageV.animationRepeatCount = NSUIntegerMax;
         [_delegate cellClickVoice:self];
 
     }
@@ -341,16 +344,16 @@
     if (_voicePlayState != voicePlayState) {
         _voicePlayState = voicePlayState;
     }
-    imageV.hidden = NO;
+    _animalImage.hidden = NO;
     
     if (_voicePlayState == LGVoicePlayStatePlaying) {
-        imageV.highlighted = YES;
-        [imageV startAnimating];
+        _animalImage.highlighted = YES;
+        [_animalImage startAnimating];
     }else if (_voicePlayState == LGVoicePlayStateDownloading) {
-        imageV.hidden = YES;
+        _animalImage.hidden = YES;
     }else {
-        imageV.highlighted = NO;
-        [imageV stopAnimating];
+        _animalImage.highlighted = NO;
+        [_animalImage stopAnimating];
     }
 }
 

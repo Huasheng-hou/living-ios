@@ -86,6 +86,7 @@ LGAudioPlayerDelegate
     NSMutableArray *listArray;
     NSInteger voiceIndex;
     NSMutableArray *messageArray;
+    NSInteger playTag;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -201,10 +202,6 @@ LGAudioPlayerDelegate
 
 - (FitBaseRequest *)request
 {
-    if (ifloadMoreData==NO) {
-        [self textStateHUD:@"没有更多消息~"];
-        return nil;
-    }
     
     LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
     return request;
@@ -1264,6 +1261,11 @@ LGAudioPlayerDelegate
 
 - (void)loadNextPage
 {
+    if (ifloadMoreData==NO) {
+        [self textStateHUD:@"没有更多消息~"];
+        return;
+    }
+    
     if (self.statefulState == FitStatefulTableViewControllerStateLoadingNextPage) return;
     
         
@@ -1339,9 +1341,11 @@ LGAudioPlayerDelegate
     MssageVO *vo = self.listData[cell.tag];
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
+        
+        
         NSString *urlStr = vo.voiceurl;
         playIndex = [vo.currentIndex integerValue];
-        
+        playTag = cell.tag;
         //播放本地音乐
         AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
         
@@ -1588,6 +1592,11 @@ LGAudioPlayerDelegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag
 {
+    
+    ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag    inSection:0]];
+    [cell setVoicePlayState:LGVoicePlayStateCancel];
+    [cell.animalImage stopAnimating];
+    
     //播放结束时执行的动作
     NSMutableArray *urlArray = [NSMutableArray new];
     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
@@ -1596,6 +1605,8 @@ LGAudioPlayerDelegate
     
         [urlArray addObject:dic[@"url"]];
     }
+    
+    NSMutableArray *newArray = [NSMutableArray new];
     
     NSMutableArray *voArray = [NSMutableArray new];
     
@@ -1608,10 +1619,12 @@ LGAudioPlayerDelegate
             if ([vo.currentIndex integerValue]>playIndex) {
     
                 if ([urlArray containsObject:vo.voiceurl]) {
-                    
+                    NSLog(@"*********8已播放");
                 } else {
-                    
+                    NSLog(@"******888未播放");
                     [voArray addObject:vo];
+                    NSString *string = [NSString stringWithFormat:@"%d",i];
+                    [newArray addObject:string];
                 }
             }
         }
@@ -1621,6 +1634,10 @@ LGAudioPlayerDelegate
         
         MssageVO *vo = voArray[0];
         [self lianxuPlay:vo.voiceurl];
+        playTag = [newArray[0] integerValue];
+        ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag    inSection:0]];
+        [cell setVoicePlayState:LGVoicePlayStatePlaying];
+        cell.bootomView.hidden = YES;
     }
 }
 
