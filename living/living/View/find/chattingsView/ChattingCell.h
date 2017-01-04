@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
--(void)setCellValue:(MssageVO *)content;
+-(void)setCellValue:(MssageVO *)content role:(NSString *)role;
 @end
 
 @protocol ChattingCellDelegate <NSObject>

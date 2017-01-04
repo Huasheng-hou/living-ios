@@ -128,7 +128,7 @@
     
 }
 
--(void)setCellValue:(MssageVO *)vo
+-(void)setCellValue:(MssageVO *)vo role:(NSString *)role
 {
    
     if (vo.role&&[vo.role isEqualToString:@"teacher"]) {
@@ -185,27 +185,26 @@
 
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
 
-        if ([vo.type isEqualToString:@"question"]) {
+        if ([vo.type isEqualToString:@"question"]&&![role isEqualToString:@"student"]) {
             
             if ([vo.status isEqualToString:@"closed"]) {
                 [endButton setImage:[UIImage imageNamed:@"endRedIcon"] forState:UIControlStateNormal];
-            }
-            
-            if ([vo.status isEqualToString:@"open"]) {
+
+            }else{
                 [endButton setImage:[UIImage imageNamed:@"endGrayIcon"] forState:UIControlStateNormal];
                 [endButton addTarget:self action:@selector(endQuestion) forControlEvents:UIControlEventTouchUpInside];
             }
-            if (vo.role&&![vo.role isEqualToString:@"student"]) {
-               [endButton setHidden:NO];
-            }
+            [endButton setHidden:NO];
+            [endButton sizeToFit];
+            endButton.frame = CGRectMake(kScreenWidth-10-10-20, 35+contenSize.height+10+10+15-20, 20, 20);
 
             [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10+15)];
             [_contentLabel setFont:TEXT_FONT_LEVEL_2];
             [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height+15)];
-            [endButton sizeToFit];
-            endButton.frame = CGRectMake(kScreenWidth-10-10-20, 35+contenSize.height+10+10+15-20, 20, 20);
+
             
         }else{
+            [endButton setHidden:YES];
             [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10)];
             [_contentLabel setFont:TEXT_FONT_LEVEL_2];
             [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];

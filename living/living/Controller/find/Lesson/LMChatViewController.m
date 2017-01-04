@@ -85,6 +85,7 @@ LGAudioPlayerDelegate
     LGVoicePlayState voicePlayState;
     NSMutableArray *listArray;
     NSInteger voiceIndex;
+    NSMutableArray *messageArray;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -140,6 +141,7 @@ LGAudioPlayerDelegate
 //    [self setupRefresh];
     [self loadNewer];
     listArray = [NSMutableArray new];
+    messageArray = [NSMutableArray new];
     reloadCount =0;
     [LGAudioPlayer sharePlayer].delegate = self;
 }
@@ -154,10 +156,6 @@ LGAudioPlayerDelegate
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.tableView setFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight)];
-    
-//    [self.tableView setBackgroundColor:[UIColor whiteColor]];
-    
-//    [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //导航栏右边按钮
     
@@ -217,7 +215,7 @@ LGAudioPlayerDelegate
 - (void)getShieldstudentData
 {
     NSMutableArray *shieldArray = [NSMutableArray new];
-    
+    [listArray addObjectsFromArray:self.listData];
     for (MssageVO *vo in self.listData) {
         
         NSLog(@"*****************%@",vo.role);
@@ -384,6 +382,9 @@ LGAudioPlayerDelegate
                                                         
                                                         if (hasShield == YES &&isShieldReload ==YES){
                                                         
+                                                            [self.listData removeAllObjects];
+                                                            [self.listData addObjectsFromArray:listArray];
+                                                            [self reLoadTableViewCell];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 titleArray=@[@"屏蔽",@"问题"];
                                                                 iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
@@ -465,22 +466,30 @@ LGAudioPlayerDelegate
                                                       style:UIAlertActionStyleDestructive
                                                     handler:^(UIAlertAction*action) {
                                                         
-                                                        if (hasShield == NO &&isShieldReload ==NO) {
+                                                        if (hasShield == NO) {
                                                             [self getShieldstudentData];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 
                                                                 titleArray=@[@"禁言",@"问题",@"已屏蔽",@"主持",@"关闭"];
                                                                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                                                                 [self addrightItem];
+                                                                hasShield = YES;
                                                                 
                                                             });
                                                             
                                                         }
-                                                        if (hasShield == YES &&isShieldReload ==YES) {
+                                                        if (hasShield == YES&&isShieldReload ==YES) {
+                                                            
+                                                            [self.listData removeAllObjects];
+                                                            [self.listData addObjectsFromArray:listArray];
+                                                            [self reLoadTableViewCell];
+                                                            
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                                                                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                                                                 [self addrightItem];
+                                                                
+                                                                hasShield =NO;
                                                             });
                                                         }
                                                         
@@ -666,7 +675,7 @@ LGAudioPlayerDelegate
     ChattingCell *cell=[ChattingCell cellWithTableView:tableView];
     
     MssageVO *vo = self.listData[indexPath.row];
-    [cell setCellValue:vo];
+    [cell setCellValue:vo role:_role];
     cell.backgroundColor = [UIColor clearColor];
     cell.tag = indexPath.row;
     cell.delegate = self;
@@ -1115,12 +1124,25 @@ LGAudioPlayerDelegate
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 if ([vo.type isEqual:@"chat"]) {
-                    [self.listData addObjectsFromArray:array2];
+                    if (hasShield==NO) {
+                        [self.listData addObjectsFromArray:array2];
+                    }else{
+                        if (vo.role&&![vo.role isEqualToString:@"student"]) {
+                           [self.listData addObjectsFromArray:array2];
+                        }else{
+                           [listArray addObjectsFromArray:array2];
+                        }
+                        
+                    }
+                    
+                    
+                }else{
+                    if (vo.user_uuid&&[vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+                        [self textStateHUD:@"问题提交成功~"];
+                    }
                 }
                 
-                if (vo.user_uuid&&[vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-                    [self textStateHUD:@"问题提交成功~"];
-                }
+
                 
             }
             
@@ -1143,7 +1165,16 @@ LGAudioPlayerDelegate
                 [dic setObject:vo.role forKey:@"role"];
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-                [self.listData addObjectsFromArray:array2];
+                
+                if (hasShield==NO) {
+                    [self.listData addObjectsFromArray:array2];
+                }else{
+                    if (vo.role&&![vo.role isEqualToString:@"student"]) {
+                        [self.listData addObjectsFromArray:array2];
+                    }else{
+                        [listArray addObjectsFromArray:array2];
+                    }
+                }
                 
             }
             
@@ -1189,7 +1220,7 @@ LGAudioPlayerDelegate
                     iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                     [self addrightItem];
                     
-                    _sign = @"2";
+                    _sign = @"1";
                 }
                 
             }
@@ -1201,7 +1232,7 @@ LGAudioPlayerDelegate
                     titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                     iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                     [self addrightItem];
-                    _sign = @"1";
+                    _sign = @"2";
                 }
             }
             [self reLoadTableViewCell];
@@ -1213,6 +1244,7 @@ LGAudioPlayerDelegate
     
 }
 
+#pragma mark ---下拉加载数据
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -1257,9 +1289,30 @@ LGAudioPlayerDelegate
                         [self.listData removeAllObjects];
                         [self.listData addObjectsFromArray:items];
                         [self.listData addObjectsFromArray:tempArr];
+                        NSMutableArray *messageArr = [NSMutableArray arrayWithArray:listArray];
+                        [listArray removeAllObjects];
+                        [listArray addObjectsFromArray:items];
+                        [listArray addObjectsFromArray:messageArr];
+                        if (hasShield==YES) {
+                            NSMutableArray *shieldArray = [NSMutableArray new];
+                            for (MssageVO *vo in self.listData) {
+                                
+                                NSLog(@"*****************%@",vo.role);
+                                if (vo.role &&![vo.role isEqualToString:@"student"]) {
+                                    [shieldArray addObject:vo];
+                                }
+                            }
+                            reloadCount=1;
+                            [self.listData removeAllObjects];
+                            [self.listData addObjectsFromArray:shieldArray];
+                            [self.tableView reloadData];
+                        }else{
+                            [self.tableView reloadData];
+                            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                        }
                         
-                        [self.tableView reloadData];
-                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                        
+
                     }
                     
                 });
