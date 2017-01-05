@@ -1466,7 +1466,7 @@ LMVoiceHeaderCellDelegate
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 LMChatViewController *roomVC = [[LMChatViewController alloc] init];
                 roomVC.voiceUuid =eventDic.voiceUuid;
-                roomVC.role = @"teacher";
+                roomVC.roles = @"teacher";
                 [roomVC setHidesBottomBarWhenPushed:YES];
                 [self.navigationController pushViewController:roomVC animated:YES];
                 

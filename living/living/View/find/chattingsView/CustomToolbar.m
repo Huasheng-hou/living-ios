@@ -38,11 +38,11 @@
 -(void)contentWithView
 {
     //语音
-    _imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8.5, 28, 28)];
+    _imageV=[[UIImageView alloc]initWithFrame:CGRectMake(10, 11, 28, 28)];
     [_imageV setImage:[UIImage imageNamed:@"sayImageIcon"]];
     [self addSubview:_imageV];
     
-    _saybutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 45)];
+    _saybutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
 //    [_saybutton setBackgroundImage:[UIImage imageNamed:@"sayImage"] forState:UIControlStateNormal];
     [_saybutton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     [_saybutton setTag:0];
@@ -50,7 +50,7 @@
     [self addSubview:_saybutton];
     
     //输入框
-    _inputTextView=[[UITextView alloc]initWithFrame:CGRectMake(45, 5, kScreenWidth-45-45, 35)];
+    _inputTextView=[[UITextView alloc]initWithFrame:CGRectMake(45, 7, kScreenWidth-45-45, 36)];
     [_inputTextView setBackgroundColor:[UIColor whiteColor]];
     [_inputTextView.layer setCornerRadius:3.0f];
     [_inputTextView.layer setMasksToBounds:YES];
@@ -62,7 +62,7 @@
     //按住说话
 
     _sayLabel = [UIButton buttonWithType:UIButtonTypeCustom];
-    _sayLabel=[[UIButton alloc]initWithFrame:CGRectMake(45, 0, kScreenWidth-45-45, 45)];
+    _sayLabel=[[UIButton alloc]initWithFrame:CGRectMake(45, 7, kScreenWidth-45-45, 36)];
     [_sayLabel.layer setCornerRadius:3.0f];
     [_sayLabel.layer setMasksToBounds:YES];
     _sayLabel.hidden = YES;
@@ -82,11 +82,11 @@
     
     
     
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-28-10, 8.5, 28, 28)];
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-28-10, 11, 28, 28)];
     [imageView setImage:[UIImage imageNamed:@"addImageCircle"]];
     [self addSubview:imageView];
     //
-    _addButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-45, 0, 45, 45)];
+    _addButton=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-45, 0, 45, 50)];
     [_addButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     [_addButton setTag:1];
     [self addSubview:_addButton];
@@ -97,7 +97,7 @@
 {
     [self.delegate startRecord];
     _sayLabel.backgroundColor = LINE_COLOR;
-    [_sayLabel setTitle:@"松开 结束" forState:UIControlStateSelected];
+    [_sayLabel setTitle:@"松开 结束" forState:UIControlStateNormal];
 }
 
 -(void)cancelRecordVoice

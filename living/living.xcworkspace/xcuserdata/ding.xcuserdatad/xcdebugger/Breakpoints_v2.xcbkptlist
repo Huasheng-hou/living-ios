@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "505219192.782973"
+            timestampString = "505307607.299428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1684"
-            endingLineNumber = "1684"
+            startingLineNumber = "1757"
+            endingLineNumber = "1757"
             landmarkName = "-audioPlayerStateDidChanged:forIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -100,11 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "505219192.782973"
+            timestampString = "505307607.299428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1687"
-            endingLineNumber = "1687"
+            startingLineNumber = "1760"
+            endingLineNumber = "1760"
             landmarkName = "-audioPlayerStateDidChanged:forIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -116,11 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "505219192.782973"
+            timestampString = "505307607.299428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1692"
-            endingLineNumber = "1692"
+            startingLineNumber = "1765"
+            endingLineNumber = "1765"
             landmarkName = "-audioPlayerStateDidChanged:forIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "505219192.782973"
+            timestampString = "505307607.299428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1700"
-            endingLineNumber = "1700"
+            startingLineNumber = "1773"
+            endingLineNumber = "1773"
             landmarkName = "-audioPlayerStateDidChanged:forIndex:"
             landmarkType = "7">
             <Locations>
@@ -148,11 +148,11 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/find/Lesson/LMChatViewController.m"
-                  timestampString = "505219193.041507"
+                  timestampString = "505307607.925552"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1700"
-                  endingLineNumber = "1700"
+                  startingLineNumber = "1773"
+                  endingLineNumber = "1773"
                   offsetFromSymbolStart = "308">
                </Location>
                <Location
@@ -163,11 +163,11 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/find/Lesson/LMChatViewController.m"
-                  timestampString = "505219193.043817"
+                  timestampString = "505307607.928966"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1700"
-                  endingLineNumber = "1700"
+                  startingLineNumber = "1773"
+                  endingLineNumber = "1773"
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>

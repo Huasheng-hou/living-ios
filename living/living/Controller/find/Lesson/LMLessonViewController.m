@@ -200,7 +200,7 @@
                 [roomVC setHidesBottomBarWhenPushed:YES];
                 roomVC.voiceUuid = vo.voiceUuid;
                 roomVC.sign = vo.sign;
-                roomVC.role = vo.role;
+                roomVC.roles = vo.role;
                 [self.navigationController pushViewController:roomVC animated:YES];
             }
             if (vo.role&&[vo.role isEqualToString:@"student"]&&vo.isBuy==YES) {
@@ -208,7 +208,7 @@
                 [roomVC setHidesBottomBarWhenPushed:YES];
                 roomVC.voiceUuid = vo.voiceUuid;
                 roomVC.sign = vo.sign;
-                roomVC.role = vo.role;
+                roomVC.roles = vo.role;
                 [self.navigationController pushViewController:roomVC animated:YES];
             }
             

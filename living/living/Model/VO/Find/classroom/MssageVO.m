@@ -72,11 +72,8 @@
         if (nil != [dictionary objectForKey:@"time"] && ![[dictionary objectForKey:@"time"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"time"] isKindOfClass:[NSString class]]) {
             
-            NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
             
-            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            
-            self.time = [formatter dateFromString:[dictionary objectForKey:@"time"]];
+            self.time = [dictionary objectForKey:@"time"];
         }
         
         
@@ -155,6 +152,7 @@
         
         
         self.ifShowTimeLbl              = NO;
+        self.ifStopAnimal               = NO;
     }
     
     return self;

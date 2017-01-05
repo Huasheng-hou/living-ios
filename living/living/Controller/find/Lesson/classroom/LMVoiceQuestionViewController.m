@@ -162,6 +162,7 @@ LMQuestionCellDelegate
 {
     
     LMQuestionVO *vo = self.listData[cell.tag];
+    NSLog(@"**************%@",vo.content);
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否转发问题"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -172,14 +173,20 @@ LMQuestionCellDelegate
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
                                                 if (vo.status&&[vo.status isEqualToString:@"closed"]) {
-                                                    [self textStateHUD:@"问题已关闭~"];
+//                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                        
+                                                        [self textStateHUD:@"问题已关闭~"];
+//                                                    });
+
+                                                    
                                                 }
                                                 if (vo.status&&[vo.status isEqualToString:@"open"]) {
                                                     
                                                     [self.delegate backDic:vo.userUuid content:vo.content questionUuid:vo.question_uuid];
+                                                    [self.navigationController popViewControllerAnimated:NO];
                                                 }
                                                 
-                                                [self.navigationController popViewControllerAnimated:NO];
+                                                
                                                 
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];

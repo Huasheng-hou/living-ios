@@ -58,7 +58,7 @@
     [self addSubview:_headImageView];
     
     //名字
-    _chatNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(60, 5, kScreenWidth-75, 30)];
+    _chatNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 5, kScreenWidth-75, 30)];
     [_chatNameLabel setFont:TEXT_FONT_LEVEL_2];
     [_chatNameLabel setTextColor:[UIColor blackColor]];
     [self addSubview:_chatNameLabel];
@@ -71,7 +71,7 @@
     [self addSubview:_timeLabel];
     
     //声音
-    _soundbutton=[[UIButton alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 35)];
+    _soundbutton=[[UIButton alloc]initWithFrame:CGRectMake(55, 35, kScreenWidth-70, 35)];
     [_soundbutton.layer setBorderWidth:0.5f];
     [_soundbutton.titleLabel setFont:TEXT_FONT_LEVEL_2];
     [_soundbutton.layer setCornerRadius:3.0f];
@@ -93,13 +93,14 @@
     [_soundbutton addSubview:_duration];
     
     
-    _bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
+    _bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+55, 35, 5, 5)];
     _bootomView.layer.cornerRadius = 2.5;
+    _bootomView.layer.masksToBounds = YES;
     _bootomView.backgroundColor = [UIColor redColor];
     [self addSubview:_bootomView];
     
     //内容底板
-    contentbgView=[[UIView alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 100)];
+    contentbgView=[[UIView alloc]initWithFrame:CGRectMake(55, 35, kScreenWidth-70, 100)];
     [contentbgView.layer setBorderWidth:0.5f];
     [contentbgView.layer setCornerRadius:3.0f];
     [contentbgView.layer setMasksToBounds:YES];
@@ -107,21 +108,21 @@
     
     [self addSubview:contentbgView];
     //内容
-    _contentLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth-65-10, 100)];
+    _contentLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth-70-10, 100)];
     [_contentLabel setText:@" "];
     [_contentLabel setFont:TEXT_FONT_LEVEL_2];
     [_contentLabel setNumberOfLines:0];
     
     [contentbgView addSubview:_contentLabel];
     
-    publishImageV=[[UIImageView alloc]initWithFrame:CGRectMake(50, 35, 100, 150)];
+    publishImageV=[[UIImageView alloc]initWithFrame:CGRectMake(50, 36, 100, 150)];
     [publishImageV setContentMode:UIViewContentModeScaleAspectFill];
     [publishImageV.layer setCornerRadius:3.0f];
     [publishImageV.layer setMasksToBounds:YES];
-    [publishImageV setBackgroundColor:BG_GRAY_COLOR];
+    [publishImageV setBackgroundColor:[UIColor lightGrayColor]];
     [self addSubview:publishImageV];
     
-    endButton =[[UIButton alloc]initWithFrame:CGRectMake(50, 35, kScreenWidth-65, 35)];
+    endButton =[[UIButton alloc]initWithFrame:CGRectMake(55, 35, kScreenWidth-65, 35)];
     [endButton setHidden:YES];
     [self addSubview:endButton];
     
@@ -177,15 +178,18 @@
     
     _animalImage.animationDuration = 1.5f;
     _animalImage.animationRepeatCount = NSUIntegerMax;
-    [_animalImage startAnimating];
+    if (vo.ifStopAnimal==NO) {
+       [_animalImage startAnimating];
+    }else{
+    
+        [_animalImage stopAnimating];
+    }
+    
     
     
     
     //设置时间
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init]; //初始化格式器。
-    [formatter setDateFormat:@"MM-dd hh:mm"];//定义时间为这种格式： YYYY-MM-dd hh:mm:ss 。
-    NSString *currentTime = [formatter stringFromDate:vo.time];
-    [_timeLabel setText:currentTime];
+    _timeLabel.text = [self getUTCFormateDate:vo.time];
     
     _chatNameLabel.text = vo.name;
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:vo.headimgurl]];
@@ -208,7 +212,7 @@
         
         _contentLabel.attributedText = attributedString;
 
-        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
 
         if ([vo.type isEqualToString:@"question"]&&![role isEqualToString:@"student"]) {
             
@@ -223,14 +227,14 @@
             [endButton sizeToFit];
             endButton.frame = CGRectMake(kScreenWidth-10-10-20, 35+contenSize.height+10+10+15-20, 20, 20);
 
-            [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10+15)];
+            [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-70, contenSize.height+10+10+15)];
             [_contentLabel setFont:TEXT_FONT_LEVEL_2];
-            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height+15)];
+            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-70-10-10, contenSize.height+15)];
 
             
         }else{
             [endButton setHidden:YES];
-            [contentbgView setFrame:CGRectMake(50, 35, kScreenWidth-65, contenSize.height+10+10)];
+            [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
             [_contentLabel setFont:TEXT_FONT_LEVEL_2];
             [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
         }
@@ -278,9 +282,9 @@
         }
         [_soundbutton sizeToFit];
         
-        [_soundbutton setFrame:CGRectMake(50, 35, (kScreenWidth-65)*value/60, 30+10)];
+        [_soundbutton setFrame:CGRectMake(55, 37, (kScreenWidth-70)*value/60, 30+10)];
         
-        [_bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+50, 35, 5, 5)];
+        [_bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+55, 35, 5, 5)];
 
 
         NSMutableArray *urlArray = [NSMutableArray new];
@@ -356,6 +360,55 @@
         [_animalImage stopAnimating];
     }
 }
+
+
+-(NSString *)getUTCFormateDate:(NSString *)newDate
+{
+    NSString *str=[newDate substringWithRange:NSMakeRange(0, 16)];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    NSDate *newsDateFormatted = [dateFormatter dateFromString:str];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [dateFormatter setTimeZone:timeZone];
+    
+    NSDate* current_date = [[NSDate alloc] init];
+    NSTimeInterval time=[current_date timeIntervalSinceDate:newsDateFormatted];//间隔的秒数
+    int month=((int)time)/(3600*24*30);
+    int day=((int)time)/(3600*24);
+    int hour=((int)time)%(3600*24)/3600;
+    int minute=((int)time)%(3600*24)/60;
+    
+    NSString *dateContent  = nil;
+    
+    if(month!=0){
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM月dd日"];
+        
+        NSString *str= [dateFormatter stringFromDate:newsDateFormatted];
+        
+        dateContent = str;
+    }else if(day!=0){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM月dd日"];
+        
+        NSString *str= [dateFormatter stringFromDate:newsDateFormatted];
+        dateContent = str;
+    }else if(hour!=0){
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",hour,@"小时前"];
+    }else if(minute !=0){
+        dateContent = [NSString stringWithFormat:@"%@%i%@",@"   ",minute,@"分钟前"];
+        
+    }else
+    {
+        dateContent =@"刚刚";
+    }
+    
+    return dateContent;
+}
+
 
 
 

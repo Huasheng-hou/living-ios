@@ -24,7 +24,7 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *content;
-@property (nonatomic, strong) NSDate *time;
+@property (nonatomic, strong) NSString *time;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *role;
 @property (nonatomic, strong) NSString *headimgurl;
@@ -43,5 +43,6 @@
 @property (nonatomic, strong) NSString *transcodingUrl;
 
 @property (nonatomic, assign) BOOL  ifShowTimeLbl;
+@property (nonatomic, assign) BOOL  ifStopAnimal;
 
 @end

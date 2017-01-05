@@ -17,7 +17,7 @@ typedef enum {
 
 @property (nonatomic,strong)NSString *voiceUuid;
 @property (nonatomic,strong)NSString *sign;
-@property (nonatomic,strong)NSString *role;
+@property (nonatomic,strong)NSString *roles;
 
 @property (assign, nonatomic)   NSInteger               total;
 @property (assign, nonatomic)   FitMessageTableState    state;

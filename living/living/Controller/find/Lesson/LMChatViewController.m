@@ -32,7 +32,7 @@
 #import "Masonry.h"
 
 #define assistViewHeight  200
-#define toobarHeight 45
+#define toobarHeight 50
 #define DocumentPath  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 @interface LMChatViewController ()
 <
@@ -84,9 +84,11 @@ LGAudioPlayerDelegate
     NSInteger playIndex;
     LGVoicePlayState voicePlayState;
     NSMutableArray *listArray;
-    NSInteger voiceIndex;
     NSMutableArray *messageArray;
     NSInteger playTag;
+    NSString *_role;
+    CGFloat toolBarChangeH;
+    NSInteger stopTag;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -111,10 +113,17 @@ LGAudioPlayerDelegate
         hasShield = NO;
         isShieldReload = NO;
         
+        
         [self createWebSocket];
     }
     
     return self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    moreView.hidden = YES;
 }
 
 
@@ -145,6 +154,9 @@ LGAudioPlayerDelegate
     messageArray = [NSMutableArray new];
     reloadCount =0;
     [LGAudioPlayer sharePlayer].delegate = self;
+    toolBarChangeH=0;
+    
+    NSLog(@"***********%@",_voiceUuid);
 }
 
 #pragma mark 初始化视图静态界面
@@ -157,9 +169,19 @@ LGAudioPlayerDelegate
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.tableView setFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight)];
+    if ([_roles isEqualToString:@"student"]) {
+        _role = @"student";
+    }
+    if ([_roles isEqualToString:@"host"]) {
+        _role = @"host";
+    }
+    if ([_roles isEqualToString:@"teacher"]) {
+        _role = @"teacher";
+    }
+    
     
     //导航栏右边按钮
-    
+    NSLog(@"*********************%@",_role);
     if (_role && [_role isKindOfClass:[NSString class]] && ![_role isEqualToString:@"student"]) {
         
         if ([_sign isEqualToString:@"1"]) {
@@ -321,7 +343,7 @@ LGAudioPlayerDelegate
 - (void)creatToolbarView
 {
     toorbar=[[CustomToolbar alloc]initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-    toorbar.backgroundColor = [UIColor whiteColor];
+    toorbar.backgroundColor = BG_GRAY_COLOR;
     toorbar.inputTextView.delegate = self;
     [toorbar setDelegate:self];
     [self.view addSubview:toorbar];
@@ -703,7 +725,8 @@ LGAudioPlayerDelegate
         frame.origin.y -= span;
         frame.size.height += span;
         toorbar.frame = frame;
-        
+        NSLog(@"****************************%f",toorbar.frame.size.height);
+        toolBarChangeH = toorbar.frame.size.height;
         CGFloat centerY = frame.size.height / 2;
         
         frame = textView.frame;
@@ -814,10 +837,18 @@ LGAudioPlayerDelegate
     
     [UIView animateWithDuration:timeValue animations:^{
     
-        self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
-        
-        [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
-        [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+        if (toolBarChangeH>50) {
+            self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
+            
+            [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
+            [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+        }else{
+            self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
+            
+            [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
+            [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+        }
+
     }];
 }
 
@@ -832,7 +863,6 @@ LGAudioPlayerDelegate
         case 0://语音
         {
             [self extraBottomViewVisiable:NO];
-            voiceIndex =1;
             
         }
             break;
@@ -910,7 +940,7 @@ LGAudioPlayerDelegate
                                                
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
-                                                   NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
+                                                   NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        //                                                       _imgURL=imgUrl;
                                                        NSLog(@"%@",imgUrl);
@@ -967,6 +997,7 @@ LGAudioPlayerDelegate
 - (void)extraBottomViewVisiable:(BOOL)state
 {
     moreView.hidden = YES;
+    toorbar.inputTextView.text = @"";
     NSTimeInterval timeValue;
     if (_visiableTime) {
         timeValue=_visiableTime;
@@ -982,8 +1013,12 @@ LGAudioPlayerDelegate
                 
                 self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight-assistViewHeight);
                 [self scrollTableToFoot:YES];
+                if (toolBarChangeH>50) {
+                    [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
+                }else{
+                    [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toobarHeight,kScreenWidth, toobarHeight)];
+                }
                 
-                [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toobarHeight,kScreenWidth, toobarHeight)];
                 [assistView setFrame:CGRectMake(0, kScreenHeight-assistViewHeight, kScreenWidth, assistViewHeight)];
             } ];
             
@@ -993,8 +1028,12 @@ LGAudioPlayerDelegate
                 
                 self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
                 [self scrollTableToFoot:YES];
+                if (toolBarChangeH>50) {
+                    [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
+                }else{
+                    [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
+                }
                 
-                [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
                 [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
             }];
         }
@@ -1007,7 +1046,6 @@ LGAudioPlayerDelegate
 {
     moreView.hidden = YES;
     NSDictionary *userInfo = [notification userInfo];
-    
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     
     CGRect keyboardRect = [aValue CGRectValue];
@@ -1019,16 +1057,25 @@ LGAudioPlayerDelegate
     [animationDurationValue getValue:&animationDuration];
     
     _visiableTime=animationDuration;
-    
     [UIView animateWithDuration:animationDuration animations:^{
         
-        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - keyboardRect.size.height - toobarHeight);
-        [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight-keyboardRect.size.height, kScreenWidth, toobarHeight)];
-        [assistView setFrame:CGRectMake(0, kScreenHeight-keyboardRect.size.height, kScreenWidth, assistViewHeight)];
-        
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:animationDuration animations:^{
+            
+            if (toolBarChangeH>50) {
+                [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH-keyboardRect.size.height, kScreenWidth, toolBarChangeH)];
+            }else{
+                [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight-keyboardRect.size.height, kScreenWidth, toobarHeight)];
+            }
+            
+
+            self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - keyboardRect.size.height - toobarHeight);
+            
+            [assistView setFrame:CGRectMake(0, kScreenHeight-keyboardRect.size.height, kScreenWidth, assistViewHeight)];
+            [self scrollTableToFoot:YES];
+        }];
     }];
     
-    [self scrollTableToFoot:YES];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
@@ -1042,16 +1089,16 @@ LGAudioPlayerDelegate
     
     [UIView animateWithDuration:animationDuration animations:^{
         
-        
-        if (voiceIndex == 1) {
-           [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
+        if (toolBarChangeH>50) {
+            [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
             [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
-            self.tableView.frame    = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight);
+            self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBarChangeH);
         }else{
-            [toorbar setFrame:CGRectMake(0, kScreenHeight-assistViewHeight-toobarHeight,kScreenWidth, toobarHeight)];
-            [assistView setFrame:CGRectMake(0, kScreenHeight-assistViewHeight, kScreenWidth, assistViewHeight)];
-            self.tableView.frame    = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight-assistViewHeight);
+            [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
+            [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+            self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight);
         }
+
     }];
 }
 
@@ -1111,12 +1158,18 @@ LGAudioPlayerDelegate
                 [dic setObject:content forKey:@"content"];
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];
-                [dic setObject:@"chat" forKey:@"type"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 [dic setObject:vo.role forKey:@"role"];
 
+                
+                
                 if ([vo.type isEqual:@"question"]) {
-                  [dic setObject:vo.questionUuid forKey:@"question_uuid"];
+                    [dic setObject:@"question" forKey:@"type"];
+                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+                       [dic setObject:vo.questionUuid forKey:@"question_uuid"];
+                    }
+                }else{
+                    [dic setObject:@"chat" forKey:@"type"];
                 }
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
@@ -1132,14 +1185,17 @@ LGAudioPlayerDelegate
                         
                     }
                     
-                    
                 }else{
-                    if (vo.user_uuid&&[vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+
+                        if (![vo.role isEqualToString:@"student"]) {
+                            [listArray addObjectsFromArray:array2];
+                            [self.listData addObjectsFromArray:array2];
+                        }
+                    }else{
                         [self textStateHUD:@"问题提交成功~"];
                     }
                 }
-                
-
                 
             }
             
@@ -1151,6 +1207,7 @@ LGAudioPlayerDelegate
                     [dic setObject:vo.attachment forKey:@"voiceurl"];
                     [dic setObject:@"voice" forKey:@"type"];
                     [dic setObject:vo.recordingTime forKey:@"recordingTime"];
+                    [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
                 }
                 if ([vo.type isEqual:@"picture"]) {
                     [dic setObject:vo.attachment forKey:@"imageurl"];
@@ -1262,7 +1319,10 @@ LGAudioPlayerDelegate
 - (void)loadNextPage
 {
     if (ifloadMoreData==NO) {
-        [self textStateHUD:@"没有更多消息~"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self textStateHUD:@"没有更多消息~"];
+        });
+        
         return;
     }
     
@@ -1334,12 +1394,20 @@ LGAudioPlayerDelegate
 - (void)cellClickVoice:(ChattingCell *)cell
 {
     
+    for (MssageVO *vo in self.listData) {
+        vo.ifStopAnimal = YES;
+    }
     [player stop];
     
-    [cell setVoicePlayState:LGVoicePlayStatePlaying];
     moreView.hidden = YES;
     MssageVO *vo = self.listData[cell.tag];
-    
+    vo.ifStopAnimal = NO;
+    if (vo.ifStopAnimal == NO) {
+        [cell setVoicePlayState:LGVoicePlayStatePlaying];
+    }else{
+        [cell setVoicePlayState:LGVoicePlayStateCancel];
+    }
+    [self.tableView reloadData];
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         
         
@@ -1406,9 +1474,11 @@ LGAudioPlayerDelegate
 
 - (void)backDic:(NSString *)userId content:(NSString *)content questionUuid:(NSString *)questionUuid
 {
+    
+    NSLog(@"***********%@",questionUuid);
     NSString *strings  = [content stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":userId, @"content":strings ,@"has_profile":@"true",@"questionUuid":questionUuid};
+    NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false",@"question_uuid":questionUuid};
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
     NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
@@ -1556,9 +1626,10 @@ LGAudioPlayerDelegate
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
+                                                     NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        
-                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration]};
+                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration],@"transcodingUrl":voiceUrl};
                                                        
                                                        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
                                                        NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
@@ -1708,6 +1779,8 @@ LGAudioPlayerDelegate
 {
     NSLog(@"*************关闭问题");
     MssageVO *vo = self.listData[cell.tag];
+    
+    NSLog(@"****************%@",vo.questionUuid);
     LMCloseQuestionRequest *request = [[LMCloseQuestionRequest alloc] initWithQuestionUuid:vo.questionUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -1734,8 +1807,7 @@ LGAudioPlayerDelegate
     }else{
         if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"问题关闭成功"];
-            
-            [self.tableView reloadData];
+            [self loadNoState];
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
