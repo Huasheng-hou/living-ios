@@ -40,6 +40,12 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+//    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"参加人员";

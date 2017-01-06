@@ -153,6 +153,7 @@
         
         self.ifShowTimeLbl              = NO;
         self.ifStopAnimal               = NO;
+        self.ifchangeText               = NO;
     }
     
     return self;

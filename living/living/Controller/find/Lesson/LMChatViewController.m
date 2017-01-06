@@ -30,6 +30,7 @@
 
 #import "LGAudioKit.h"
 #import "Masonry.h"
+#import "LMVoiceChangeTextRequest.h"
 
 #define assistViewHeight  200
 #define toobarHeight 50
@@ -89,6 +90,10 @@ LGAudioPlayerDelegate
     NSString *_role;
     CGFloat toolBarChangeH;
     NSInteger stopTag;
+    UIActivityIndicatorView *activity;
+    UIView *headView;
+    
+    UIView *changeView;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -683,7 +688,13 @@ LGAudioPlayerDelegate
     }
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
-        return 55+30+10;
+        if (vo.ifchangeText ==YES) {
+            return 180;
+        }else{
+          return 55+30+10;
+        }
+        
+        
     }
     
     return 0;
@@ -824,7 +835,7 @@ LGAudioPlayerDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     moreView.hidden = YES;
-    
+    [changeView removeFromSuperview];
     NSTimeInterval timeValue;
     
     if (_visiableTime) {
@@ -1207,7 +1218,12 @@ LGAudioPlayerDelegate
                     [dic setObject:vo.attachment forKey:@"voiceurl"];
                     [dic setObject:@"voice" forKey:@"type"];
                     [dic setObject:vo.recordingTime forKey:@"recordingTime"];
-                    [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
+                    if (vo.transcodingUrl&&![vo.transcodingUrl isEqualToString:@""]) {
+                        [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
+                        [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                    }
+                    
+                    
                 }
                 if ([vo.type isEqual:@"picture"]) {
                     [dic setObject:vo.attachment forKey:@"imageurl"];
@@ -1302,6 +1318,7 @@ LGAudioPlayerDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    [changeView removeFromSuperview];
     if (!self.ifLoadReverse) {
         if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame))) < 44.0
             && self.statefulState == FitStatefulTableViewControllerStateIdle
@@ -1310,6 +1327,7 @@ LGAudioPlayerDelegate
         }
     } else {
         if (-64 == self.tableView.contentOffset.y && self.statefulState == FitStatefulTableViewControllerStateIdle) {
+            
             [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
         }
     }
@@ -1318,9 +1336,11 @@ LGAudioPlayerDelegate
 
 - (void)loadNextPage
 {
+    [self loadActivity];
     if (ifloadMoreData==NO) {
         dispatch_async(dispatch_get_main_queue(), ^{
            [self textStateHUD:@"没有更多消息~"];
+            [activity removeFromSuperview];
         });
         
         return;
@@ -1341,7 +1361,7 @@ LGAudioPlayerDelegate
             if (items && [items count]){
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                    [activity removeFromSuperview];
                     if (!self.ifLoadReverse) {
                         [self.listData addObjectsFromArray:items];
                         
@@ -1604,6 +1624,15 @@ LGAudioPlayerDelegate
 
 - (void)sendSound
 {
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    [self initStateHud];
+    
     NSString *filePath = [[LGSoundRecorder shareInstance] soundFilePath];
     NSData *imageData = [NSData dataWithContentsOfFile: filePath];
     
@@ -1815,7 +1844,110 @@ LGAudioPlayerDelegate
 }
 
 
+//原生菊花
+-(void)loadActivity
+{
+    activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];//指定进度轮的大小
+    [activity setCenter:CGPointMake(kScreenWidth/2, 90)];//指定进度轮中心点
+    [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];//设置进度轮显示类型
+    [self.view addSubview:activity];
+    [activity startAnimating];
+}
 
+#pragma mark --语音转文字
+-(void)cellVoiceChangeText:(ChattingCell *)cell
+{
+
+    [changeView removeFromSuperview];
+    changeView = [[UIView alloc] initWithFrame:CGRectMake(55, cell.frame.origin.y-30, 100, 30)];
+    UILabel *textLabel = [UILabel new];
+    textLabel.text = @"转文字";
+    textLabel.font = TEXT_FONT_LEVEL_2;
+    textLabel.textColor = TEXT_COLOR_LEVEL_2;
+    textLabel.backgroundColor = [UIColor lightGrayColor];
+    textLabel.textAlignment = NSTextAlignmentCenter;
+    [textLabel sizeToFit];
+    textLabel.frame = CGRectMake(10, 0, textLabel.bounds.size.width+20, 30);
+    textLabel.userInteractionEnabled = YES;
+    [changeView addSubview:textLabel];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeTextAction:)];
+    changeView.tag = cell.tag;
+    [changeView addGestureRecognizer:tap];
+    NSLog(@"********1********%ld",(long)cell.tag);
+    [self.tableView addSubview:changeView];
+}
+
+- (void)changeTextAction:(UITapGestureRecognizer *)tap
+{
+//    ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tap.view.tag    inSection:0]];
+//    [cell.changeTextLabel setHidden:NO];
+//    
+//    [self.tableView reloadData];
+    
+    [self changeTextRequest:tap.view.tag];
+    NSLog(@"********2********%ld",(long)tap.view.tag);
+
+}
+
+- (void)changeTextRequest:(NSInteger)index
+{
+    [self initStateHud];
+    MssageVO *vo = self.listData[index];
+    NSLog(@"********3********%ld",(long)index);
+    LMVoiceChangeTextRequest *request = [[LMVoiceChangeTextRequest alloc] initWithtranscodingUrl:vo.transcodingUrl andcurrentIndex:[vo.currentIndex intValue] voice_uuid:_voiceUuid];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getchangeTextRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                               [self hideStateHud];
+                                           }];
+    [proxy start];
+}
+
+- (void)getchangeTextRespond:(NSString *)resp
+{
+    [self hideStateHud];
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+
+        [self textStateHUD:@"转文字失败~"];
+    }else{
+        if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+
+            NSLog(@"***********%@",bodyDic);
+            NSLog(@"%@",bodyDic[@"turnSound"]);
+            
+            UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+            topView.backgroundColor = [UIColor whiteColor];
+            [self.view.window addSubview:topView];
+            
+            UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, kScreenWidth-60, kScreenHeight)];
+            textLabel.numberOfLines = 0;
+            textLabel.textAlignment = NSTextAlignmentCenter;
+            textLabel.text =bodyDic[@"turnSound"];
+            [topView addSubview:textLabel];
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenTopView:)];
+            [topView addGestureRecognizer:tap];
+            
+        }else{
+            [self textStateHUD:[bodyDic objectForKey:@"description"]];
+        }
+    }
+}
+
+- (void)hiddenTopView:(UITapGestureRecognizer *)tap
+{
+    [changeView removeFromSuperview];
+    [tap.view removeFromSuperview];
+}
 
 
 @end

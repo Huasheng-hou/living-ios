@@ -76,14 +76,24 @@
     [_soundbutton.titleLabel setFont:TEXT_FONT_LEVEL_2];
     [_soundbutton.layer setCornerRadius:3.0f];
     [_soundbutton.layer setMasksToBounds:YES];
-    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(buttonTouchedLongTime:)];
+    longPress.minimumPressDuration = 0.8; //定义按的时间
+    [_soundbutton  addGestureRecognizer:longPress];
     
     [_soundbutton addTarget:self action:@selector(soundPlay) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_soundbutton];
     
-    _animalImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8+5, 11, 17)];
     
-
+//    _changeTextLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 75, kScreenWidth-70, 50)];
+//    [_changeTextLabel.layer setBorderWidth:0.5f];
+//    [_changeTextLabel.layer setCornerRadius:3.0f];
+//    [_changeTextLabel.layer setMasksToBounds:YES];
+//    _changeTextLabel.text = @"...........hwrbgw";
+//    [self addSubview:_changeTextLabel];
+    
+    [self addSubview:contentbgView];
+    
+    _animalImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8+5, 11, 17)];
     [_soundbutton addSubview:_animalImage];
     
     _duration=[[UILabel alloc]initWithFrame:CGRectMake(_soundbutton.bounds.size.width-60, 0, 50, _soundbutton.bounds.size.height)];
@@ -246,6 +256,7 @@
         [_bootomView setHidden:YES];
         
         [_soundbutton setHidden:YES];
+//        [_changeTextLabel setHidden:YES];
     }
     
     //如果为图片
@@ -262,6 +273,7 @@
          publishImageV.userInteractionEnabled = YES;
          [_bootomView setHidden:YES];
          [endButton setHidden:YES];
+//         [_changeTextLabel setHidden:YES];
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
          [publishImageV addGestureRecognizer:tap];
          
@@ -314,6 +326,7 @@
         
         [_soundbutton setHidden:NO];
         [endButton setHidden:YES];
+//        [_changeTextLabel setHidden:YES];
     }
    
 }
@@ -407,6 +420,21 @@
     }
     
     return dateContent;
+}
+
+
+- (void)buttonTouchedLongTime:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan) {
+    
+    NSLog(@"***********");
+    if ([_delegate respondsToSelector:@selector(cellVoiceChangeText:)]) {
+//        [_changeTextLabel setHidden:NO];
+        [_delegate cellVoiceChangeText:self];
+        
+    }
+    }
+    
 }
 
 

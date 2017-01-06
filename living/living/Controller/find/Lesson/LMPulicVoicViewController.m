@@ -60,6 +60,7 @@ LMhostchooseProtocol
     NSInteger  type;
     NSString *UserId;
     UIButton *publicButton;
+    NSInteger index;
     
 }
 
@@ -949,9 +950,9 @@ static NSMutableArray *cellDataArray;
 
 - (void)publicProject
 {
-    for (int i =0; i<cellDataArray.count; i++) {
+    
         
-        NSDictionary *dic=cellDataArray[i];
+        NSDictionary *dic=cellDataArray[index];
         
         LMPublicVoicProjectRequest *request = [[LMPublicVoicProjectRequest alloc]initWithVoice_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
         
@@ -969,7 +970,7 @@ static NSMutableArray *cellDataArray;
                                                     publicButton.userInteractionEnabled = YES;
                                                }];
         [proxy start];
-    }
+    
 }
 
 - (void)getEventPublicProjectDataResponse:(NSString *)resp
@@ -981,6 +982,11 @@ static NSMutableArray *cellDataArray;
          publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
+            index++;
+            if (index<cellDataArray.count) {
+                [self publicProject];
+            }else{
             [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -991,7 +997,7 @@ static NSMutableArray *cellDataArray;
                                                                     object:nil];
             });
             
-            
+            }
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];

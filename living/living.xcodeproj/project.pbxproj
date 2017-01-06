@@ -33,6 +33,7 @@
 		351213811DF964FD0053B83F /* LMBlackListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213801DF964FD0053B83F /* LMBlackListRequest.m */; };
 		351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213831DF965FB0053B83F /* LMCancelauthorRequest.m */; };
 		351213871DF969AC0053B83F /* LMBlackWriterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213861DF969AC0053B83F /* LMBlackWriterRequest.m */; };
+		3527A8A51E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */; };
 		352905D71DF54E470062196C /* LMLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352905D61DF54E470062196C /* LMLessonViewController.m */; };
 		353AA87B1E1E3B520035D21C /* touch.png in Resources */ = {isa = PBXBuildFile; fileRef = 353AA87A1E1E3B520035D21C /* touch.png */; };
 		354050421E07B35800B11027 /* LMChatRecordsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050411E07B35800B11027 /* LMChatRecordsRequest.m */; };
@@ -521,6 +522,8 @@
 		351213831DF965FB0053B83F /* LMCancelauthorRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCancelauthorRequest.m; sourceTree = "<group>"; };
 		351213851DF969AC0053B83F /* LMBlackWriterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBlackWriterRequest.h; sourceTree = "<group>"; };
 		351213861DF969AC0053B83F /* LMBlackWriterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlackWriterRequest.m; sourceTree = "<group>"; };
+		3527A8A31E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceChangeTextRequest.h; sourceTree = "<group>"; };
+		3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceChangeTextRequest.m; sourceTree = "<group>"; };
 		352905D51DF54E470062196C /* LMLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonViewController.h; sourceTree = "<group>"; };
 		352905D61DF54E470062196C /* LMLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLessonViewController.m; sourceTree = "<group>"; };
 		353AA87A1E1E3B520035D21C /* touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touch.png; sourceTree = "<group>"; };
@@ -1690,6 +1693,8 @@
 				3567BFC01E1203FE004EF000 /* LMShieldstudentRequest.m */,
 				35DE847F1E1BA37E00314EA8 /* LMCloseQuestionRequest.h */,
 				35DE84801E1BA37E00314EA8 /* LMCloseQuestionRequest.m */,
+				3527A8A31E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.h */,
+				3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */,
 			);
 			path = class;
 			sourceTree = "<group>";
@@ -4084,6 +4089,7 @@
 				35980BBF1E0132020054EB05 /* LMMyjoinSegmentViewController.m in Sources */,
 				35B747F31DDE97F4000AFA26 /* LMLivingInfoVO.m in Sources */,
 				35B7480A1DDE97F4000AFA26 /* LMActivityCell.m in Sources */,
+				3527A8A51E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m in Sources */,
 				3540504C1E07BCD200B11027 /* LMQuestionVO.m in Sources */,
 				35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */,
 				359F81901E027B850070F6C7 /* LMVoiceCommentReplyRequest.m in Sources */,
