@@ -1021,8 +1021,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)publicProject
 {
-    
-        
         NSDictionary *dic=cellDataArray[index];
         
         LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
@@ -1036,7 +1034,7 @@ static NSMutableArray *cellDataArray;
                                                } failed:^(NSError *error) {
                                                    
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"发布失败"
+                                                                          withObject:@"网络错误"
                                                                        waitUntilDone:YES];
                                                     publicButton.userInteractionEnabled = YES;
                                                }];

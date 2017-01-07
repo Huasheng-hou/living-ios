@@ -35,6 +35,7 @@
 		351213871DF969AC0053B83F /* LMBlackWriterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213861DF969AC0053B83F /* LMBlackWriterRequest.m */; };
 		3527A8A51E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */; };
 		352905D71DF54E470062196C /* LMLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352905D61DF54E470062196C /* LMLessonViewController.m */; };
+		3535CFF71E20E98100280C34 /* LMWobsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3535CFF61E20E98100280C34 /* LMWobsocket.m */; };
 		353AA87B1E1E3B520035D21C /* touch.png in Resources */ = {isa = PBXBuildFile; fileRef = 353AA87A1E1E3B520035D21C /* touch.png */; };
 		354050421E07B35800B11027 /* LMChatRecordsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050411E07B35800B11027 /* LMChatRecordsRequest.m */; };
 		354050461E07BA8700B11027 /* LMVoiceQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354050451E07BA8700B11027 /* LMVoiceQuestionViewController.m */; };
@@ -526,6 +527,8 @@
 		3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceChangeTextRequest.m; sourceTree = "<group>"; };
 		352905D51DF54E470062196C /* LMLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonViewController.h; sourceTree = "<group>"; };
 		352905D61DF54E470062196C /* LMLessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLessonViewController.m; sourceTree = "<group>"; };
+		3535CFF51E20E97B00280C34 /* LMWobsocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMWobsocket.h; sourceTree = "<group>"; };
+		3535CFF61E20E98100280C34 /* LMWobsocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMWobsocket.m; sourceTree = "<group>"; };
 		353AA87A1E1E3B520035D21C /* touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touch.png; sourceTree = "<group>"; };
 		354050401E07B35800B11027 /* LMChatRecordsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChatRecordsRequest.h; sourceTree = "<group>"; };
 		354050411E07B35800B11027 /* LMChatRecordsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChatRecordsRequest.m; sourceTree = "<group>"; };
@@ -1680,6 +1683,15 @@
 			path = Lesson;
 			sourceTree = "<group>";
 		};
+		3535CFF11E20BD9B00280C34 /* websocket */ = {
+			isa = PBXGroup;
+			children = (
+				3535CFF51E20E97B00280C34 /* LMWobsocket.h */,
+				3535CFF61E20E98100280C34 /* LMWobsocket.m */,
+			);
+			path = websocket;
+			sourceTree = "<group>";
+		};
 		3540503F1E07B31E00B11027 /* class */ = {
 			isa = PBXGroup;
 			children = (
@@ -2558,6 +2570,7 @@
 		35B745671DDE97F2000AFA26 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3535CFF11E20BD9B00280C34 /* websocket */,
 				35B745681DDE97F2000AFA26 /* dot */,
 				35B7456F1DDE97F2000AFA26 /* HTTPProxy.h */,
 				35B745701DDE97F2000AFA26 /* HTTPProxy.m */,
@@ -4164,6 +4177,7 @@
 				35B747B61DDE97F3000AFA26 /* LMLivingHomeListRequest.m in Sources */,
 				35B747901DDE97F3000AFA26 /* LMBalanceList.m in Sources */,
 				355E7B6A1DFFCD5F0089BAB1 /* LMVoiceHeaderCell.m in Sources */,
+				3535CFF71E20E98100280C34 /* LMWobsocket.m in Sources */,
 				35B747981DDE97F3000AFA26 /* LMMonthDetailBody.m in Sources */,
 				35B747D21DDE97F4000AFA26 /* LMWXRechargrRequest.m in Sources */,
 				35B7471D1DDE97F3000AFA26 /* MJRefreshConst.m in Sources */,

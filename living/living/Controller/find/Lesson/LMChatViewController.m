@@ -31,6 +31,7 @@
 #import "LGAudioKit.h"
 #import "Masonry.h"
 #import "LMVoiceChangeTextRequest.h"
+#import "LMWobsocket.h"
 
 #define assistViewHeight  200
 #define toobarHeight 50
@@ -136,6 +137,7 @@ LGAudioPlayerDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
+    [client disconnect];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -293,8 +295,8 @@ LGAudioPlayerDelegate
         
         if (tempArr.count > 0) {
             MssageVO   *vo     = [tempArr objectAtIndex:0];
-            
-            if (currentIndex!=nil&&[currentIndex intValue] - [vo.currentIndex intValue]<9) {
+            NSLog(@"**********==========*******%d",[currentIndex intValue] - [vo.currentIndex intValue]);
+            if (currentIndex!=nil&&[currentIndex intValue] - [vo.currentIndex intValue]<10) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self textStateHUD:@"没有更多消息~"];
                     ifloadMoreData =NO;
@@ -777,6 +779,7 @@ LGAudioPlayerDelegate
                 
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
+                [self textStateHUD:@"问题提交成功~"];
                 
                 toorbar.inputTextView.text=@"";
             } else {
@@ -1137,8 +1140,12 @@ LGAudioPlayerDelegate
 
 - (void)createWebSocket
 {
-    NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
-    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
+    
+//    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
+    
+    client = [LMWobsocket shareWebsocket];
+    
+//    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
     
     NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
     
@@ -1150,8 +1157,7 @@ LGAudioPlayerDelegate
         NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
         
         [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
-            NSLog(@"=========topic/greetings===订阅消息=============%@",message);
-            NSLog(@"%@",message.body);
+            NSLog(@"=========topic/greetings===订阅消息=============%@",message.body);
             NSString *resp = [NSString stringWithFormat:@"%@",message.body];
             
             NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
@@ -1223,6 +1229,19 @@ LGAudioPlayerDelegate
                         [dic setObject:vo.currentIndex forKey:@"currentIndex"];
                     }
                     
+                    if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+                        NSMutableArray *statusArray = [NSMutableArray new];
+                        NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+                        [statusArray addObjectsFromArray:palyArray];
+                        NSMutableDictionary *dic = [NSMutableDictionary new];
+                        [dic setObject:vo.attachment forKey:@"url"];
+                        [dic setObject:@"1" forKey:@"status"];
+                        if (![statusArray containsObject:dic]) {
+                            [statusArray addObject:dic];
+                        }
+                        [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                    }  
                     
                 }
                 if ([vo.type isEqual:@"picture"]) {
@@ -1250,7 +1269,7 @@ LGAudioPlayerDelegate
             
             if (vo.type&&[vo.type isEqual:@"host"]) {
  
-                if (vo.role&&![vo.role isEqualToString:@"student"]) {
+                if (_role&&![_role isEqualToString:@"student"]) {
                     
                     if ([_sign isEqualToString:@"1"]) {
                         titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
@@ -1262,7 +1281,7 @@ LGAudioPlayerDelegate
                     roleIndex = 2;
                     iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                 }
-                if (vo.role&&[vo.role isEqualToString:@"student"]){
+                if (_role&&[_role isEqualToString:@"student"]){
                     titleArray=@[@"屏蔽",@"问题"];
                     roleIndex = 1;
                     iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
@@ -1273,7 +1292,14 @@ LGAudioPlayerDelegate
             
             if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.type isEqualToString:@"gag"]) {
                 
-                if ([vo.role isEqual:@"student"]) {
+                if ([_role isEqual:@"student"]) {
+                    
+                    [moreView removeFromSuperview];
+                    
+                    titleArray=@[@"屏蔽",@"问题"];
+                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                    [self addrightItem];
+                    
                     bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
                     bootView.backgroundColor = [UIColor whiteColor];
                     UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
@@ -1283,6 +1309,7 @@ LGAudioPlayerDelegate
                     textLable.textColor = LIVING_COLOR;
                     [bootView addSubview:textLable];
                     [self.view addSubview:bootView];
+                    _sign = @"1";
                 }else{
                     [moreView removeFromSuperview];
                     
@@ -1295,8 +1322,15 @@ LGAudioPlayerDelegate
                 
             }
             if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.type isEqualToString:@"gag"])) {
-                if ([vo.role isEqual:@"student"]) {
+                if ([_role isEqual:@"student"]) {
+                    
+                    [moreView removeFromSuperview];
+                    
+                    titleArray=@[@"屏蔽",@"问题"];
+                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                    [self addrightItem];
                     [bootView removeFromSuperview];
+                    _sign = @"2";
                 }else{
                     [moreView removeFromSuperview];
                     titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
@@ -1312,6 +1346,17 @@ LGAudioPlayerDelegate
     }];
     
     
+}
+
+- (void)websocketConnect
+{
+    if (client.connected ==NO) {
+        NSLog(@"连接失败");
+        
+        
+    }else{
+        NSLog(@"连接成功");
+    }
 }
 
 #pragma mark ---下拉加载数据
@@ -1836,6 +1881,7 @@ LGAudioPlayerDelegate
     }else{
         if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"问题关闭成功"];
+            currentIndex = nil;
             [self loadNoState];
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];

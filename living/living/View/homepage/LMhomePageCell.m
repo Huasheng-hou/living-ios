@@ -154,14 +154,12 @@
     _contentLabel.frame = CGRectMake(145, 20 + _titleLabel.bounds.size.height, kScreenWidth-160, 50);
     
     
-    if (kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width - _nameLabel.frame.size.width < 0) {
-        
-        _nameLabel.frame = CGRectMake(_nameLabel.frame.origin.x, _nameLabel.frame.origin.y, kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width, _nameLabel.frame.size.height);
-    }
-    
-
-    _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 95, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
-
+//    if (kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width - _nameLabel.frame.size.width < 0) {
+//        
+//        _nameLabel.frame = CGRectMake(_nameLabel.frame.origin.x, 95, kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width, _nameLabel.frame.size.height+20);
+//    }else{
+    _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 95, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height+20);
+//    }
 
     _typeView.frame = CGRectMake(-5, -5, _width+10, _titleLabel.bounds.size.height+10);
 

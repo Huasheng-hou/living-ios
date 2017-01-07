@@ -391,7 +391,7 @@ LMVoiceHeaderCellDelegate
         commentLabel.font = [UIFont systemFontOfSize:13.f];
         
         commentLabel.textColor = TEXT_COLOR_LEVEL_2;
-        commentLabel.text = @"课堂信息";
+        commentLabel.text = @"课程信息";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
@@ -420,7 +420,7 @@ LMVoiceHeaderCellDelegate
         commentLabel.font = [UIFont systemFontOfSize:13.f];
         
         commentLabel.textColor = TEXT_COLOR_LEVEL_2;
-        commentLabel.text = @"项目介绍";
+        commentLabel.text = @"课程介绍";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
@@ -916,7 +916,7 @@ LMVoiceHeaderCellDelegate
             infoView.dspLabel.text = eventDic.notices;
         }
         
-        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %@/%@人",eventDic.number,eventDic.limitNum];
+        infoView.inventory.text = [NSString stringWithFormat:@"课程人数 %@/%@人",eventDic.number,eventDic.limitNum];
         
         [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.image]];
         

@@ -103,10 +103,11 @@
     [_soundbutton addSubview:_duration];
     
     
-    _bootomView = [[UIImageView alloc] initWithFrame:CGRectMake(_soundbutton.bounds.size.width+3+55, 35, 5, 5)];
-    _bootomView.layer.cornerRadius = 2.5;
-    _bootomView.layer.masksToBounds = YES;
-    _bootomView.backgroundColor = [UIColor redColor];
+    _bootomView = [[UIImageView alloc] init];
+//    _bootomView.layer.cornerRadius = 2.5;
+//    _bootomView.layer.masksToBounds = YES;
+//    _bootomView.clipsToBounds =YES;
+//    _bootomView.backgroundColor = [UIColor redColor];
     [self addSubview:_bootomView];
     
     //内容底板
@@ -228,10 +229,12 @@
             
             if ([vo.status isEqualToString:@"closed"]) {
                 [endButton setImage:[UIImage imageNamed:@"endRedIcon"] forState:UIControlStateNormal];
+                endButton.userInteractionEnabled = NO;
 
             }else{
                 [endButton setImage:[UIImage imageNamed:@"endGrayIcon"] forState:UIControlStateNormal];
                 [endButton addTarget:self action:@selector(endQuestion) forControlEvents:UIControlEventTouchUpInside];
+                endButton.userInteractionEnabled = YES;
             }
             [endButton setHidden:NO];
             [endButton sizeToFit];
@@ -295,8 +298,11 @@
         [_soundbutton sizeToFit];
         
         [_soundbutton setFrame:CGRectMake(55, 37, (kScreenWidth-70)*value/60, 30+10)];
-        
-        [_bootomView setFrame:CGRectMake(_soundbutton.bounds.size.width+3+55, 35, 5, 5)];
+        [_bootomView sizeToFit];
+        [_bootomView setFrame:CGRectMake((NSInteger)_soundbutton.bounds.size.width+3+55, 35, 5, 5)];
+        _bootomView.layer.cornerRadius = 2.5;
+        _bootomView.clipsToBounds =YES;
+        _bootomView.backgroundColor = [UIColor redColor];
 
 
         NSMutableArray *urlArray = [NSMutableArray new];
