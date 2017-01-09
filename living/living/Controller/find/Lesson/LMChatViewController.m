@@ -564,6 +564,8 @@ LGAudioPlayerDelegate
         return;
     }
     
+    [self initStateHud];
+    
     LMVoiceEndRequest *request = [[LMVoiceEndRequest alloc] initWithVoice_uuid:_voiceUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -1904,6 +1906,7 @@ LGAudioPlayerDelegate
 -(void)cellVoiceChangeText:(ChattingCell *)cell
 {
 
+
     [changeView removeFromSuperview];
     changeView = [[UIView alloc] initWithFrame:CGRectMake(55, cell.frame.origin.y-30, 100, 30)];
     UILabel *textLabel = [UILabel new];
@@ -1929,7 +1932,10 @@ LGAudioPlayerDelegate
 //    [cell.changeTextLabel setHidden:NO];
 //    
 //    [self.tableView reloadData];
-    
+    [player stop];
+    ChattingCell *cells = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag    inSection:0]];
+    [cells setVoicePlayState:LGVoicePlayStateCancel];
+    [cells.animalImage stopAnimating];
     [self changeTextRequest:tap.view.tag];
     NSLog(@"********2********%ld",(long)tap.view.tag);
 

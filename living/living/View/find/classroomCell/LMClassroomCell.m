@@ -102,7 +102,7 @@
     nameLabel.text = [NSString stringWithFormat:@"讲师:%@",list.nickname];
     priceLabel.text = [NSString stringWithFormat:@"￥%@",list.perCost];
     NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     timeLabel.text = [NSString stringWithFormat:@"时间：%@", [formatter stringFromDate:list.startTime]];
     numberLabel.text = [NSString stringWithFormat:@"学员:%d",list.currentNum];
     

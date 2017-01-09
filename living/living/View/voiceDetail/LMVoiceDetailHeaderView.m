@@ -11,6 +11,7 @@
 #import "ImageHelpTool.h"
 #import "FitConsts.h"
 #import "LMVoiceDetailVO.h"
+#import "FitUserManager.h"
 
 @implementation LMVoiceDetailHeaderView
 {
@@ -102,21 +103,62 @@
     [_countLabel sizeToFit];
     _countLabel.frame = CGRectMake(60, 35+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    
-    NSString *string = [NSString stringWithFormat:@"%@", _event.status];
-    
-    if ([string isEqual:@"ready"]) {
-        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
-    }
-    if ([string isEqual:@"open"]) {
-        [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
-        _joinButton.userInteractionEnabled = NO;
-    }
-    if ([string isEqual:@"closed"]) {
-        [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+    if ([_role isEqualToString:@"student"]) {
+        if (_event.isBuy == YES) {
+            [_joinButton setTitle:@"已报名" forState:UIControlStateNormal];
+            _joinButton.userInteractionEnabled = NO;
+        }else{
+            if (_event.status&&[_event.status isEqualToString:@"open"]) {
+                [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+            if (_event.status&&[_event.status isEqualToString:@"ready"]) {
+                [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+            }
+            if (_event.status&&[_event.status isEqualToString:@"closed"]) {
+                [_joinButton setTitle:@"已结束" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+        }
+    }else{
+        if ([[FitUserManager sharedUserManager].uuid isEqualToString:event.userUuid]) {
+            if (_event.status&&[_event.status isEqualToString:@"open"]) {
+                [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+            if (_event.status&&[_event.status isEqualToString:@"ready"]) {
+                [_joinButton setTitle:@"未开始" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+            if (_event.status&&[_event.status isEqualToString:@"closed"]) {
+                [_joinButton setTitle:@"已结束" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+        }else{
+            if (_event.isBuy == YES) {
+                [_joinButton setTitle:@"已报名" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }else{
+                if (_event.status&&[_event.status isEqualToString:@"open"]) {
+                    [_joinButton setTitle:@"已开始" forState:UIControlStateNormal];
+                    _joinButton.userInteractionEnabled = NO;
+                }
+                if (_event.status&&[_event.status isEqualToString:@"ready"]) {
+                    [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+                }
+                if (_event.status&&[_event.status isEqualToString:@"closed"]) {
+                    [_joinButton setTitle:@"已结束" forState:UIControlStateNormal];
+                    _joinButton.userInteractionEnabled = NO;
+                }
+            }
+        }
         
-        _joinButton.userInteractionEnabled = NO;
+        
+
     }
+    
+    
+    
 }
 
 - (void)joinButtonPressed

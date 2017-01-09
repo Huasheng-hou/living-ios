@@ -311,6 +311,7 @@ LMVoiceHeaderCellDelegate
             }
         }
         [headerView setEvent:eventDic];
+        headerView.role = _role;
         [self.tableView reloadData];
         
     } else {

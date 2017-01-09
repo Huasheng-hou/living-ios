@@ -19,6 +19,7 @@
 @interface LMVoiceDetailHeaderView : UIView
 
 @property   (retain, nonatomic) LMVoiceDetailVO   *event;
+@property   (nonatomic, strong) NSString *role;
 
 @property   (weak, nonatomic)   id <LMVoiceDetailHeaderViewDelegate>   delegate;
 
