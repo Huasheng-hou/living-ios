@@ -296,17 +296,26 @@ LGAudioPlayerDelegate
         if (tempArr.count > 0) {
             MssageVO   *vo     = [tempArr objectAtIndex:0];
             NSLog(@"**********==========*******%d",[currentIndex intValue] - [vo.currentIndex intValue]);
-            if (currentIndex!=nil&&[currentIndex intValue] - [vo.currentIndex intValue]<10) {
+            NSLog(@"%@>>>>>>>>>>",currentIndex);
+            NSLog(@"%@^^^^^^^^^^^^",vo.currentIndex);
+            NSLog(@"******    ******* %@",total);
+            if ([total intValue]<10) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self textStateHUD:@"没有更多消息~"];
                     ifloadMoreData =NO;
                 });
                 
             }else if([currentIndex intValue] !=[vo.currentIndex intValue]){
                 currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue]];
+                NSLog(@"***********%@",currentIndex);
                 reloadCount = reloadCount+1;
+                [activity stopAnimating];
                 
             }
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self textStateHUD:@"没有更多消息~"];
+                [activity stopAnimating];
+            });
         }
         
         return tempArr;
@@ -1180,8 +1189,6 @@ LGAudioPlayerDelegate
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 [dic setObject:vo.role forKey:@"role"];
 
-                
-                
                 if ([vo.type isEqual:@"question"]) {
                     [dic setObject:@"question" forKey:@"type"];
                     if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
