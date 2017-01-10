@@ -14,13 +14,11 @@
 #import "LMVoiceDetailHeaderView.h"
 #import "LMClassMessageCell.h"
 #import "LMVoiceHeaderCell.h"
-
 #import "LMVoiceDetailRequest.h"
 
 #import "LMEventCommentVO.h"
 #import "LMVoiceDetailVO.h"
 #import "LMProjectsBody.h"
-
 #import "LMVoiceJoinRequest.h"
 #import "LMVoiceCommentRequest.h"
 #import "LMVoiceCommentPariseRequest.h"
@@ -31,7 +29,6 @@
 
 #import "LMBesureOrderViewController.h"
 #import "FitNavigationController.h"
-
 #import "LMVoiceDeleteCommentRequest.h"
 #import "LMVoiceDeleteReplyRequest.h"
 #import "ImageHelpTool.h"
@@ -42,7 +39,6 @@
 #import "HBShareView.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
-
 #import "LMVoiceMemeberListViewController.h"
 #import "LMChatViewController.h"
 
@@ -67,7 +63,6 @@ LMVoiceHeaderCellDelegate
     UITextView *suggestTF;
     // * 顶部报名横幅
     LMVoiceDetailHeaderView *headerView;
-    
     NSMutableArray *msgArray;
     NSMutableArray *eventArray;
     LMVoiceDetailVO *eventDic;
@@ -76,12 +71,9 @@ LMVoiceHeaderCellDelegate
     UIView *backView;
     NSString *commitUUid;
     NSMutableDictionary *orderDic;
-    
     NSMutableArray *imageArray;
-    
     NSString *status;
     UIBarButtonItem *rightItem;
-    
     NSString *vipString;
     NSInteger  hiddenIndex;
     UIView *backgroundViews;
@@ -92,7 +84,6 @@ LMVoiceHeaderCellDelegate
     CGFloat contentSize;
     NSInteger _rows;
     CGFloat bgViewY;
-
     NSMutableArray *clickArr;
     NSInteger textIndex;
 }
@@ -159,7 +150,6 @@ LMVoiceHeaderCellDelegate
 {
     self.tableView  = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
                                                    style:UITableViewStyleGrouped];
-    
     self.tableView.delegate     = self;
     self.tableView.dataSource   = self;
     self.tableView.keyboardDismissMode      = UIScrollViewKeyboardDismissModeOnDrag;
@@ -181,8 +171,6 @@ LMVoiceHeaderCellDelegate
 
 -(void)shareButton
 {
-
-    
     HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     shareView.delegate=self;
     [self.view addSubview:shareView];
@@ -304,8 +292,6 @@ LMVoiceHeaderCellDelegate
             }
             
             if ([eventDic.number intValue]>0&&[status isEqual:@"结束"]) {
-                
-                
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endVoice)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
@@ -383,27 +369,22 @@ LMVoiceHeaderCellDelegate
     if (section == 1) {
         
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
-        
         UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
         commentView.backgroundColor = [UIColor whiteColor];
         [headView addSubview:commentView];
-        
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        
         commentLabel.textColor = TEXT_COLOR_LEVEL_2;
         commentLabel.text = @"课程信息";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
         
-        
         UIView *line = [UIView new];
         line.backgroundColor =LIVING_COLOR;
         [line sizeToFit];
         line.frame =CGRectMake(0, 10+1, 3.f, commentLabel.bounds.size.height-2);
         [commentView addSubview:line];
-        
         headView.backgroundColor = [UIColor clearColor];
         
         
@@ -412,29 +393,24 @@ LMVoiceHeaderCellDelegate
     
     if (section==2){
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
-        
         UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 35)];
         commentView.backgroundColor = [UIColor whiteColor];
         [headView addSubview:commentView];
         
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        
         commentLabel.textColor = TEXT_COLOR_LEVEL_2;
         commentLabel.text = @"课程介绍";
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 10, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
         
-        
         UIView *line = [UIView new];
         line.backgroundColor =LIVING_COLOR;
         [line sizeToFit];
         line.frame =CGRectMake(0, 10+1, 3.f, commentLabel.bounds.size.height-2);
         [commentView addSubview:line];
-        
         headView.backgroundColor = [UIColor clearColor];
-        
         return headView;
     }
     if (section == 3) {
@@ -447,7 +423,6 @@ LMVoiceHeaderCellDelegate
         
         UILabel *commentLabel = [UILabel new];
         commentLabel.font = [UIFont systemFontOfSize:13.f];
-        
         commentLabel.textColor = TEXT_COLOR_LEVEL_2;
         commentLabel.text = @"留言列表";
         suggestTF = [[UITextView alloc] initWithFrame:CGRectMake(15, 10, kScreenWidth-30, 100)];
@@ -482,25 +457,19 @@ LMVoiceHeaderCellDelegate
             suggestTF.userInteractionEnabled = NO;
         }
         
-        
         [commentLabel sizeToFit];
         commentLabel.frame = CGRectMake(15, 120, commentLabel.bounds.size.width, commentLabel.bounds.size.height);
         [commentView addSubview:commentLabel];
-        
         
         UIView *line = [UIView new];
         line.backgroundColor =LIVING_COLOR;
         [line sizeToFit];
         line.frame =CGRectMake(0, 120+1, 3.f, commentLabel.bounds.size.height-2);
         [commentView addSubview:line];
-        
         headView.backgroundColor = [UIColor clearColor];
-        
         
         return headView;
     }
-
-    
     return nil;
 }
 
@@ -548,15 +517,12 @@ LMVoiceHeaderCellDelegate
 {
     if (indexPath.section==0) {
         static NSString *cellId = @"cellIdd";
-        
         LMVoiceHeaderCell *cell = [[LMVoiceHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.role = _role;
         [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
-        
         return cell;
     }
     
@@ -566,17 +532,12 @@ LMVoiceHeaderCellDelegate
         static NSString *cellId = @"cellIddd";
         
         LMClassMessageCell *cell = [[LMClassMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         [cell setValue:eventDic];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
-        
         cell.delegate = self;
-        
         UITapGestureRecognizer   *hintLblTap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callTelephone)];
         [cell.numberLabel addGestureRecognizer:hintLblTap];
-        
         
         return cell;
     }
@@ -595,12 +556,9 @@ LMVoiceHeaderCellDelegate
             cell.index = 1;
         }
         cell.tag = indexPath.row;
-        
         cell.delegate = self;
-        
         [cell setValue:list];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
-        
         return cell;
     }
     
@@ -610,7 +568,6 @@ LMVoiceHeaderCellDelegate
         LMVoiceCommentTableViewCell *cell = [[LMVoiceCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMEventCommentVO *list = msgArray[indexPath.row];
-        
         [cell setValue:list];
         cell.delegate = self;
         cell.tag = indexPath.row;
@@ -620,7 +577,6 @@ LMVoiceHeaderCellDelegate
         tap.minimumPressDuration = 1.0;
         cell.contentView.tag = indexPath.row;
         [cell.contentView addGestureRecognizer:tap];
-        
         return cell;
     }
     
@@ -670,8 +626,6 @@ LMVoiceHeaderCellDelegate
         }
         
         LMEventCommentVO *list = msgArray[cell.tag];
-        
-        
         LMVoiceCommentPariseRequest *request = [[LMVoiceCommentPariseRequest alloc] initWithVoice_uuid:_voiceUUid commentUuid:list.commentUuid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -773,10 +727,8 @@ LMVoiceHeaderCellDelegate
         sureButton.layer.cornerRadius   = 4;
         sureButton.layer.borderWidth    = .5;
         sureButton.layer.borderColor    = LIVING_COLOR.CGColor;
-        
         [sureButton setTitle:@"确认" forState:UIControlStateNormal];
         [sureButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-        
         sureButton.tintColor = [UIColor whiteColor];
         [sureButton addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
         [commentText addSubview:sureButton];
@@ -789,7 +741,6 @@ LMVoiceHeaderCellDelegate
         [closeButton addTarget:self action:@selector(closeComment) forControlEvents:UIControlEventTouchUpInside];
         
         [commentsView addSubview:closeButton];
-        
         [commentsView addSubview:commentText];
     }
     [self.view.window addSubview:commentsView];//添加到window上或者其他视图也行，只要在视图以外就好了
@@ -804,7 +755,6 @@ LMVoiceHeaderCellDelegate
     }
     
     [self commitDataRequest];
-    
     [commentText resignFirstResponder];
     self.tableView.userInteractionEnabled = YES;
 }
@@ -841,7 +791,6 @@ LMVoiceHeaderCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         [self textStateHUD:@"回复成功"];
-        
         commentText.text    = @"";
         [self getEventListDataRequest];
     } else {
@@ -882,8 +831,7 @@ LMVoiceHeaderCellDelegate
         infoView.titleLabel.textColor = LIVING_REDCOLOR;
         infoView.titleLabel.font = [UIFont systemFontOfSize:17];
         [infoView.bottomView addSubview:infoView.titleLabel];
-        
-        
+
         infoView.title2 = [UILabel new];
         infoView.title2.text = @"￥:10000";
         infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
@@ -892,7 +840,6 @@ LMVoiceHeaderCellDelegate
         [infoView.bottomView addSubview:infoView.title2];
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
-            
             
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
@@ -920,15 +867,11 @@ LMVoiceHeaderCellDelegate
         infoView.inventory.text = [NSString stringWithFormat:@"课程人数 %@/%@人",eventDic.number,eventDic.limitNum];
         
         [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.image]];
-        
         infoView.orderInfo = orderDic;
-        
         [self.view addSubview:infoView];
-        
+
         UIView *view = [infoView viewWithTag:1000];
-        
         [UIView animateWithDuration:0.2 animations:^{
-            
             view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
         }];
     } else {
@@ -987,7 +930,6 @@ LMVoiceHeaderCellDelegate
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
-            
             OrderVC.orderUUid   = orderID;
             OrderVC.dict        = orderDic;
             OrderVC.Type        = @"voice";
@@ -1004,7 +946,6 @@ LMVoiceHeaderCellDelegate
         [self textStateHUD:str];
     }
 }
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -1053,7 +994,6 @@ LMVoiceHeaderCellDelegate
             [self besureAction:@""];
         }
         if ([textView isEqual:commentText]) {
-            
             [commentText resignFirstResponder];
             self.tableView.userInteractionEnabled = YES;
             [self sendComment];
@@ -1072,11 +1012,9 @@ LMVoiceHeaderCellDelegate
     if ([[FitUserManager sharedUserManager] isLogin]) {
         
         [self initStateHud];
-        
         [self.view endEditing:YES];
         
         if (suggestTF.text.length<=0) {
-            
             [self textStateHUD:@"请输入内容"];
             return;
         }
@@ -1120,7 +1058,6 @@ LMVoiceHeaderCellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"留言成功"];
-            
             [self getEventListDataRequest];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 tipLabel.hidden=NO;
@@ -1205,9 +1142,7 @@ LMVoiceHeaderCellDelegate
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     [self logoutAction:resp];
-    
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
         [self textStateHUD:@"删除成功"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
@@ -1232,7 +1167,6 @@ LMVoiceHeaderCellDelegate
     if (![list.userUuid isEqual:[FitUserManager sharedUserManager].uuid]) {
         
         return;
-        
     } else {
         
         if (tap.state == UIGestureRecognizerStateEnded) {
@@ -1363,7 +1297,6 @@ LMVoiceHeaderCellDelegate
     }else{
         return;
     }
-    
 }
 
 #pragma mark --课程项目大图
@@ -1431,7 +1364,6 @@ LMVoiceHeaderCellDelegate
 
 -(void)startVoiceAction{
     
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络"];
@@ -1471,7 +1403,6 @@ LMVoiceHeaderCellDelegate
                 [roomVC setHidesBottomBarWhenPushed:YES];
                 [self.navigationController pushViewController:roomVC animated:YES];
                 
-                
             });
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -1498,7 +1429,6 @@ LMVoiceHeaderCellDelegate
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
     
 }
 
@@ -1536,7 +1466,6 @@ LMVoiceHeaderCellDelegate
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"课程结束成功"];
-            
             [self getEventListDataRequest];
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -1643,13 +1572,11 @@ LMVoiceHeaderCellDelegate
         UIImageWriteToSavedPhotosAlbum(bigImage,self,  @selector(image:didFinishSavingWithError:contextInfo:imageview:), NULL);
     }]];
     
-    
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 [alert dismissViewControllerAnimated:YES completion:nil];
                                             }]];
-    
     [self presentViewController:alert animated:YES completion:nil];
     
 }
@@ -1679,7 +1606,6 @@ LMVoiceHeaderCellDelegate
     [self textStateHUD:msg];
     [self scrollViewDidScroll:self.tableView];
     
-    
 }
 
 - (void)cellShareImage:(LMVoiceHeaderCell *)cell
@@ -1703,8 +1629,8 @@ LMVoiceHeaderCellDelegate
 
 - (void)shareType:(NSInteger)type
 {
-//    NSString *urlString = @"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
-    NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
+    NSString *urlString = @"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
+//    NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
     
     switch (type) {
         case 1://微信好友
@@ -1728,7 +1654,6 @@ LMVoiceHeaderCellDelegate
             WXWebpageObject *web=[WXWebpageObject object];
             web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
             message.mediaObject=web;
-            
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
             req.bText=NO;
             req.message=message;
@@ -1741,7 +1666,6 @@ LMVoiceHeaderCellDelegate
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
 //                        message.description=eventDic.describe;
-            
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1822,7 +1746,6 @@ LMVoiceHeaderCellDelegate
     [self logoutAction:resp];
     
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
         [self textStateHUD:@"评论成功"];
         textcView.text  = @"";
         tipLabel.hidden =NO;
