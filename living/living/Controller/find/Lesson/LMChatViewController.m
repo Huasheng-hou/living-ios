@@ -2005,12 +2005,23 @@ LGAudioPlayerDelegate
     UILabel *textLabel = [UILabel new];
     textLabel.text = @"转文字";
     textLabel.font = TEXT_FONT_LEVEL_2;
-    textLabel.textColor = TEXT_COLOR_LEVEL_2;
-    textLabel.backgroundColor = [UIColor lightGrayColor];
+    textLabel.textColor = [UIColor whiteColor];
+    textLabel.backgroundColor = [UIColor blackColor];
     textLabel.textAlignment = NSTextAlignmentCenter;
+    textLabel.layer.cornerRadius = 4;
+    textLabel.clipsToBounds = YES;
     [textLabel sizeToFit];
     textLabel.frame = CGRectMake(10, 0, textLabel.bounds.size.width+20, 30);
     textLabel.userInteractionEnabled = YES;
+    
+    UIView *downView = [[UIView alloc] initWithFrame:CGRectMake(40, 25, 10, 10)];
+    downView.backgroundColor = [UIColor blackColor];
+    downView.layer.cornerRadius = 10;
+    downView.clipsToBounds = YES;
+    [changeView addSubview:downView];
+    
+    
+    
     [changeView addSubview:textLabel];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeTextAction:)];
     changeView.tag = cell.tag;
