@@ -154,6 +154,7 @@
         self.ifShowTimeLbl              = NO;
         self.ifStopAnimal               = NO;
         self.ifchangeText               = NO;
+        self.isfirstClick               = NO;
     }
     
     return self;

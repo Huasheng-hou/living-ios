@@ -45,5 +45,6 @@
 @property (nonatomic, assign) BOOL  ifShowTimeLbl;
 @property (nonatomic, assign) BOOL  ifStopAnimal;
 @property (nonatomic, assign) BOOL  ifchangeText;
+@property (nonatomic, assign) BOOL  isfirstClick;
 
 @end

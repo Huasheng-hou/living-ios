@@ -16,7 +16,7 @@ static STOMPClient *client;
 {
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
     if (!client) {
-        
+    
         client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
     }
     return client;

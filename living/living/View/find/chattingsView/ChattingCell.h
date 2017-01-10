@@ -36,6 +36,8 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 @property(nonatomic,strong)UIImageView *bootomView;
 
 @property(nonatomic,strong)UIImageView *animalImage;
+
+@property(nonatomic,strong)NSString *playStatus;
 //@property(nonatomic,strong)UILabel *changeTextLabel;
 
 @property (nonatomic, assign) LGVoicePlayState voicePlayState;

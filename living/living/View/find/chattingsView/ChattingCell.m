@@ -194,11 +194,7 @@
     }else{
     
         [_animalImage stopAnimating];
-    }
-    
-    
-    
-    
+    }  
     //设置时间
     _timeLabel.text = [self getUTCFormateDate:vo.time];
     
@@ -225,16 +221,32 @@
 
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
 
-        if ([vo.type isEqualToString:@"question"]&&![role isEqualToString:@"student"]) {
+        if ([vo.type isEqualToString:@"question"]) {
             
-            if ([vo.status isEqualToString:@"closed"]) {
-                [endButton setImage:[UIImage imageNamed:@"endRedIcon"] forState:UIControlStateNormal];
-                endButton.userInteractionEnabled = NO;
+            if (![role isEqualToString:@"student"]) {
+                if ([vo.status isEqualToString:@"closed"]) {
+                    [endButton setImage:[UIImage imageNamed:@"endRedIcon"] forState:UIControlStateNormal];
+                    endButton.userInteractionEnabled = NO;
+                    
+                }else{
+                    [endButton setImage:[UIImage imageNamed:@"endGrayIcon"] forState:UIControlStateNormal];
+                    [endButton addTarget:self action:@selector(endQuestion) forControlEvents:UIControlEventTouchUpInside];
+                    
+                    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endQuestion)];
+                    [contentbgView addGestureRecognizer:tap];
+                }
 
             }else{
-                [endButton setImage:[UIImage imageNamed:@"endGrayIcon"] forState:UIControlStateNormal];
-                [endButton addTarget:self action:@selector(endQuestion) forControlEvents:UIControlEventTouchUpInside];
-                endButton.userInteractionEnabled = YES;
+                if ([vo.status isEqualToString:@"closed"]) {
+                    [endButton setImage:[UIImage imageNamed:@"endRedIcon"] forState:UIControlStateNormal];
+                    endButton.userInteractionEnabled = NO;
+                    
+                }else{
+                    [endButton setImage:[UIImage imageNamed:@"endGrayIcon"] forState:UIControlStateNormal];
+                    [endButton addTarget:self action:@selector(endQuestion) forControlEvents:UIControlEventTouchUpInside];
+                    endButton.userInteractionEnabled = NO;
+                }
+ 
             }
             [endButton setHidden:NO];
             [endButton sizeToFit];
@@ -372,11 +384,13 @@
     if (_voicePlayState == LGVoicePlayStatePlaying) {
         _animalImage.highlighted = YES;
         [_animalImage startAnimating];
+        _playStatus = @"play";
     }else if (_voicePlayState == LGVoicePlayStateDownloading) {
         _animalImage.hidden = YES;
     }else {
         _animalImage.highlighted = NO;
         [_animalImage stopAnimating];
+        _playStatus = @"stop";
     }
 }
 

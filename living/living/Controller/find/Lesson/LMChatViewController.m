@@ -130,6 +130,7 @@ LGAudioPlayerDelegate
 {
     [super viewWillDisappear:animated];
     moreView.hidden = YES;
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
 
@@ -137,7 +138,7 @@ LGAudioPlayerDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
-    [client disconnect];
+    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -186,6 +187,13 @@ LGAudioPlayerDelegate
         _role = @"teacher";
     }
     
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"backIcon"]
+                                                                 style:UIBarButtonItemStyleDone
+                                                                target:self
+                                                                action:@selector(backAction)];
+    
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
     
     //导航栏右边按钮
     NSLog(@"*********************%@",_role);
@@ -211,6 +219,13 @@ LGAudioPlayerDelegate
     }
     
     [self addrightItem];
+}
+
+-(void)backAction
+{
+    
+    [client disconnect];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)addrightItem
@@ -405,9 +420,8 @@ LGAudioPlayerDelegate
                                                             
                                                             [self getShieldstudentData];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                                
                                                                 titleArray=@[@"已屏蔽",@"问题"];
-                                                                iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                                                            iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
                                                                 [self addrightItem];
                                                                 
                                                                 hasShield = YES;
@@ -419,6 +433,7 @@ LGAudioPlayerDelegate
                                                         
                                                             [self.listData removeAllObjects];
                                                             [self.listData addObjectsFromArray:listArray];
+                                                            listArray = [NSMutableArray new];
                                                             [self reLoadTableViewCell];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 titleArray=@[@"屏蔽",@"问题"];
@@ -514,7 +529,6 @@ LGAudioPlayerDelegate
                                                             
                                                         }
                                                         if (hasShield == YES&&isShieldReload ==YES) {
-                                                            
                                                             [self.listData removeAllObjects];
                                                             [self.listData addObjectsFromArray:listArray];
                                                             [self reLoadTableViewCell];
@@ -779,7 +793,8 @@ LGAudioPlayerDelegate
             [self textStateHUD:@"请输入文字"];
             return NO;
         } else {
-            
+            if (client.connected==YES) {
+
             if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
                 NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
@@ -806,6 +821,9 @@ LGAudioPlayerDelegate
                 [client sendTo:urlStr body:string];
                 
                 toorbar.inputTextView.text=@"";
+            }
+            }else{
+                [self textStateHUD:@"发送失败~"];
             }
             
             [self reLoadTableViewCell];
@@ -975,7 +993,17 @@ LGAudioPlayerDelegate
                                                        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
                                                        NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                                                        NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                                                       [client sendTo:urlStr body:string];
+                                                       if (client.connected ==YES) {
+                                                           [client sendTo:urlStr body:string];
+                                                           
+                                                       }else{
+                                                           dispatch_async(dispatch_get_main_queue()
+                                                                          , ^{
+                                                                              [self textStateHUD:@"发送失败~"];
+                                                                          });
+                                                           
+                                                       }
+                                                       
                                                        
                                                        [self reLoadTableViewCell];
                                                        
@@ -1165,6 +1193,11 @@ LGAudioPlayerDelegate
             NSLog(@"================连接失败=============%@", error);
             return;
         }
+        if (client.connected == NO) {
+            [self textStateHUD:@"连接失败，请返回主页后重试~"];
+            NSLog(@"连接失败，请返回主页后重试~");
+        }
+        
         NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
         
         [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
@@ -1254,7 +1287,11 @@ LGAudioPlayerDelegate
                     
                 }
                 if ([vo.type isEqual:@"picture"]) {
-                    [dic setObject:vo.attachment forKey:@"imageurl"];
+                    
+                    if (vo.attachment) {
+                      [dic setObject:vo.attachment forKey:@"imageurl"];
+                    }
+                    
                     [dic setObject:@"picture" forKey:@"type"];
                 }
                 [dic setObject:vo.time forKey:@"time"];
@@ -1286,9 +1323,9 @@ LGAudioPlayerDelegate
                         titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                     }
                     
-                    
                     roleIndex = 2;
-                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                    [bootView removeFromSuperview];
                 }
                 if (_role&&[_role isEqualToString:@"student"]){
                     titleArray=@[@"屏蔽",@"问题"];
@@ -1353,6 +1390,12 @@ LGAudioPlayerDelegate
         }];
         
     }];
+    
+    if (client.connected==NO) {
+        
+//        [self textStateHUD:@"连接失败，请返回主页后重试~"];
+        NSLog(@"&*&*^&^&^^&^&^未连接");
+    }
     
     
 }
@@ -1471,10 +1514,16 @@ LGAudioPlayerDelegate
     for (MssageVO *vo in self.listData) {
         vo.ifStopAnimal = YES;
     }
-    [player stop];
     
+    [player stop];
     moreView.hidden = YES;
     MssageVO *vo = self.listData[cell.tag];
+    if ([cell.playStatus isEqualToString:@"play"]) {
+        [player stop];
+        [cell setVoicePlayState:LGVoicePlayStateCancel];
+        return;
+    }
+    
     vo.ifStopAnimal = NO;
     if (vo.ifStopAnimal == NO) {
         [cell setVoicePlayState:LGVoicePlayStatePlaying];
@@ -1517,6 +1566,11 @@ LGAudioPlayerDelegate
     moreView.hidden = YES;
     NSMutableArray *array = [NSMutableArray new];
     imageArray = [NSMutableArray new];
+    MssageVO *message=self.listData[cell.tag];
+    if (!message.imageurl) {
+        return;
+    }
+    
     
     for (int i = 0; i < self.listData.count; i++) {
         
@@ -1527,21 +1581,23 @@ LGAudioPlayerDelegate
             [imageArray addObject: Projectslist.imageurl];
         }
     }
-    
-    SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
-    
-    for (int j = 0; j<cell.tag+1; j++) {
+    if (imageArray.count>0) {
+        SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
         
-        MssageVO *vo = self.listData[j];
-        
-        if (!vo.imageurl||[vo.imageurl isEqual:@""]) {
+        for (int j = 0; j<cell.tag+1; j++) {
             
-            [array addObject:@""];
+            MssageVO *vo = self.listData[j];
+            
+            if (!vo.imageurl||[vo.imageurl isEqual:@""]) {
+                
+                [array addObject:@""];
+            }
         }
+        
+        photoBrowser.initialPageIndex = cell.tag-array.count;
+        [self presentViewController:photoBrowser animated:YES completion:nil];
     }
-    
-    photoBrowser.initialPageIndex = cell.tag-array.count;
-    [self presentViewController:photoBrowser animated:YES completion:nil];
+
 }
 
 #pragma mark --问题列表返回问题
@@ -1717,7 +1773,12 @@ LGAudioPlayerDelegate
                                                        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
                                                        NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                                                        NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                                                       [client sendTo:urlStr body:string];
+                                                       if (client.connected ==YES) {
+                                                           [client sendTo:urlStr body:string];
+                                                           
+                                                       }else{
+                                                           [self textStateHUD:@"发送失败~"];
+                                                       }
                                                        
                                                        [self reLoadTableViewCell];
                                                        
@@ -1860,11 +1921,36 @@ LGAudioPlayerDelegate
 
 - (void)cellcloseQuestion:(ChattingCell *)cell
 {
-    NSLog(@"*************关闭问题");
-    MssageVO *vo = self.listData[cell.tag];
     
-    NSLog(@"****************%@",vo.questionUuid);
-    LMCloseQuestionRequest *request = [[LMCloseQuestionRequest alloc] initWithQuestionUuid:vo.questionUuid];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否关闭问题"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                              MssageVO *vo = self.listData[cell.tag];
+                                                [self closeQuestion:vo.questionUuid];
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+    
+    
+    
+
+    
+}
+
+- (void)closeQuestion:(NSString *)questionUuid
+{
+    NSLog(@"*************关闭问题");
+    
+    LMCloseQuestionRequest *request = [[LMCloseQuestionRequest alloc] initWithQuestionUuid:questionUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1879,8 +1965,8 @@ LGAudioPlayerDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
 }
+
 
 - (void)getCloseQuestion:(NSString *)resp
 {
