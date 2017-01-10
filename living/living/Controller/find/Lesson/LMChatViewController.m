@@ -1328,15 +1328,32 @@ LGAudioPlayerDelegate
                     [bootView removeFromSuperview];
                 }
                 if (_role&&[_role isEqualToString:@"student"]){
-                    titleArray=@[@"屏蔽",@"问题"];
-                    roleIndex = 1;
-                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                    
+                    if ([[FitUserManager sharedUserManager].uuid isEqualToString:vo.host_uuid]) {
+                        if ([_sign isEqualToString:@"1"]) {
+                            titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                        }else{
+                            titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                        }
+                        
+                        roleIndex = 2;
+                        iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                        [bootView removeFromSuperview];
+                    }else{
+                        titleArray=@[@"屏蔽",@"问题"];
+                        roleIndex = 1;
+                        iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                    }
+                    
+ 
                     
                 }
                 [self addrightItem];
             }
             
             if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.type isEqualToString:@"gag"]) {
+                
+                [self textStateHUD:@"已禁言"];
                 
                 if ([_role isEqual:@"student"]) {
                     
@@ -1368,6 +1385,8 @@ LGAudioPlayerDelegate
                 
             }
             if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.type isEqualToString:@"gag"])) {
+                
+                [self textStateHUD:@"禁言解除"];
                 if ([_role isEqual:@"student"]) {
                     
                     [moreView removeFromSuperview];
@@ -1938,12 +1957,6 @@ LGAudioPlayerDelegate
     
     [self presentViewController:alert animated:YES completion:nil];
     
-    
-    
-    
-    
-
-    
 }
 
 - (void)closeQuestion:(NSString *)questionUuid
@@ -2032,10 +2045,6 @@ LGAudioPlayerDelegate
 
 - (void)changeTextAction:(UITapGestureRecognizer *)tap
 {
-//    ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tap.view.tag    inSection:0]];
-//    [cell.changeTextLabel setHidden:NO];
-//    
-//    [self.tableView reloadData];
     [player stop];
     ChattingCell *cells = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag    inSection:0]];
     [cells setVoicePlayState:LGVoicePlayStateCancel];
