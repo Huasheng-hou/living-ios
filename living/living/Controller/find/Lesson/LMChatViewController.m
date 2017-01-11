@@ -1285,7 +1285,7 @@ LGAudioPlayerDelegate
             
             MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
             
-            if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
+            if (vo.type&&[vo.type isEqual:@"chat"]) {
                 NSMutableDictionary *dic = [NSMutableDictionary new];
                 NSMutableArray *array = [NSMutableArray new];
 //                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -1295,14 +1295,8 @@ LGAudioPlayerDelegate
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 [dic setObject:vo.role forKey:@"role"];
 
-                if ([vo.type isEqual:@"question"]) {
-                    [dic setObject:@"question" forKey:@"type"];
-                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
-                       [dic setObject:vo.questionUuid forKey:@"question_uuid"];
-                    }
-                }else{
-                    [dic setObject:@"chat" forKey:@"type"];
-                }
+                [dic setObject:@"chat" forKey:@"type"];
+                
                 [array addObject:dic];
                 NSArray *array2 = [MssageVO MssageVOListWithArray:array];
                 if ([vo.type isEqual:@"chat"]) {
@@ -1317,9 +1311,30 @@ LGAudioPlayerDelegate
                         
                     }
                     
-                }else{
-                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+                }
+            }
+            
+            if (vo.type&&[vo.type isEqual:@"question"]) {
+                NSMutableDictionary *dic = [NSMutableDictionary new];
+                NSMutableArray *array = [NSMutableArray new];
+                //                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                [dic setObject:vo.content forKey:@"content"];
+                [dic setObject:vo.time forKey:@"time"];
+                [dic setObject:vo.name forKey:@"name"];
+                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+                [dic setObject:vo.role forKey:@"role"];
+                
 
+                [dic setObject:@"question" forKey:@"type"];
+                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+                        [dic setObject:vo.questionUuid forKey:@"question_uuid"];
+                    }
+                
+                [array addObject:dic];
+                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+
+                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+                        
                         if (![vo.role isEqualToString:@"student"]) {
                             [listArray addObjectsFromArray:array2];
                             [self.listData addObjectsFromArray:array2];
@@ -1328,8 +1343,6 @@ LGAudioPlayerDelegate
                         [self textStateHUD:@"问题提交成功~"];
                     }
                 }
-                
-            }
             
             if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"])) {
                 NSMutableDictionary *dic = [NSMutableDictionary new];
