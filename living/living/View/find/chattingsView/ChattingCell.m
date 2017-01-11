@@ -206,20 +206,27 @@
     //如果为文字
     if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
         
+        NSLog(@"%@",vo.content);
+        
         NSString *contentStr=vo.content;
-        
-         [_contentLabel setText:contentStr];
-        
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-        
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentStr];
-       
-        [paragraphStyle setLineSpacing:2];
-        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
-        
-        _contentLabel.attributedText = attributedString;
-
-        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+        CGSize contenSize = CGSizeZero;
+        if (vo.content) {
+            
+            
+            [_contentLabel setText:contentStr];
+            
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+            
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentStr];
+            
+            [paragraphStyle setLineSpacing:2];
+            [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
+            
+            _contentLabel.attributedText = attributedString;
+                    contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+        }else{
+            [_contentLabel setText:@" "];
+        }
 
         if ([vo.type isEqualToString:@"question"]) {
             

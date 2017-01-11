@@ -95,6 +95,7 @@ LGAudioPlayerDelegate
     UIView *headView;
     
     UIView *changeView;
+    NSString *UserID;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -156,7 +157,6 @@ LGAudioPlayerDelegate
     [self createUI];
     [self botttomView];
     currentIndex = nil;
-//    [self setupRefresh];
     [self loadNewer];
     listArray = [NSMutableArray new];
     messageArray = [NSMutableArray new];
@@ -296,10 +296,34 @@ LGAudioPlayerDelegate
         if (headDic[@"avatar"]&&![headDic[@"avatar"] isEqual:@""]) {
             avartar = headDic[@"avatar"];
         }
+        if (headDic[@"userId"]&&![headDic[@"userId"] isEqual:@""]) {
+            UserID = headDic[@"userId"];
+        }
+        
     }
     
     NSString    *result = [bodyDic objectForKey:@"result"];
     NSString    *total  = [bodyDic objectForKey:@"count"];
+    NSString    *hostID  = [bodyDic objectForKey:@"host_uuid"];
+    NSString    *sign  = [bodyDic objectForKey:@"sign"];
+    
+    if ([sign isEqualToString:@"1"]) {
+        if ([hostID isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+            [bootView removeFromSuperview];
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self creatBootView];
+            });
+            
+            
+        }
+    }else if ([sign isEqualToString:@"2"]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [bootView removeFromSuperview];
+        });
+        
+    }
+    
     
     self.max = ceil([total floatValue] / 10) - 1;
     imageArray = [NSMutableArray new];
@@ -310,10 +334,6 @@ LGAudioPlayerDelegate
         
         if (tempArr.count > 0) {
             MssageVO   *vo     = [tempArr objectAtIndex:0];
-            NSLog(@"**********==========*******%d",[currentIndex intValue] - [vo.currentIndex intValue]);
-            NSLog(@"%@>>>>>>>>>>",currentIndex);
-            NSLog(@"%@^^^^^^^^^^^^",vo.currentIndex);
-            NSLog(@"******    ******* %@",total);
             if ([total intValue]<10) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     ifloadMoreData =NO;
@@ -321,7 +341,6 @@ LGAudioPlayerDelegate
                 
             }else if([currentIndex intValue] !=[vo.currentIndex intValue]){
                 currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue]];
-                NSLog(@"***********%@",currentIndex);
                 reloadCount = reloadCount+1;
                 [activity stopAnimating];
                 
@@ -350,15 +369,8 @@ LGAudioPlayerDelegate
     if ([_role isEqualToString:@"student"]) {
         if (_sign&&[_sign isEqualToString:@"1"]) {
             [self creatToolbarView];
-            bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-            bootView.backgroundColor = [UIColor whiteColor];
-            UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
-            textLable.text = @"已禁言";
-            textLable.font = TEXT_FONT_LEVEL_2;
-            textLable.textAlignment = NSTextAlignmentCenter;
-            textLable.textColor = LIVING_COLOR;
-            [bootView addSubview:textLable];
-            [self.view addSubview:bootView];
+            [self creatBootView];
+
         }
         if (_sign&&[_sign isEqualToString:@"2"]){
             [self creatToolbarView];
@@ -369,6 +381,19 @@ LGAudioPlayerDelegate
         
     }
     
+}
+
+- (void)creatBootView
+{
+    bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
+    bootView.backgroundColor = [UIColor whiteColor];
+    UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
+    textLable.text = @"已禁言";
+    textLable.font = TEXT_FONT_LEVEL_2;
+    textLable.textAlignment = NSTextAlignmentCenter;
+    textLable.textColor = LIVING_COLOR;
+    [bootView addSubview:textLable];
+    [self.view addSubview:bootView];
 }
 
 - (void)creatToolbarView
@@ -458,7 +483,6 @@ LGAudioPlayerDelegate
             [self.navigationController pushViewController:questVC animated:YES];
         }
         
-        
     }
     if (roleIndex == 2) {
         
@@ -472,7 +496,17 @@ LGAudioPlayerDelegate
                 NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                 
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                [client sendTo:urlStr body:string];
+                if (client.connected ==YES) {
+                    [client sendTo:urlStr body:string];
+                    
+                }else{
+                    dispatch_async(dispatch_get_main_queue()
+                                   , ^{
+                                       [self textStateHUD:@"禁言失败，请重试~"];
+                                       [self createWebSocket];
+                                   });
+                    
+                }
             }
             
             if (_sign&&[_sign isEqualToString:@"2"]) {
@@ -482,7 +516,17 @@ LGAudioPlayerDelegate
                 NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                 
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                [client sendTo:urlStr body:string];
+                if (client.connected ==YES) {
+                    [client sendTo:urlStr body:string];
+                    
+                }else{
+                    dispatch_async(dispatch_get_main_queue()
+                                   , ^{
+                                       [self textStateHUD:@"解禁失败，请重试~"];
+                                       [self createWebSocket];
+                                   });
+                    
+                }
             }
             
         }
@@ -633,6 +677,11 @@ LGAudioPlayerDelegate
 - (void)backhostName:(NSString *)liveRoom andId:(NSInteger)userId
 {
     hostId = userId;
+    if (hostId==[UserID integerValue]) {
+        [self textStateHUD:@"不能更换主持人为自己~"];
+        return;
+    }
+    
 
     LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:hostId voice_uuid:_voiceUuid];
     
@@ -671,7 +720,17 @@ LGAudioPlayerDelegate
             NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
             
             NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-            [client sendTo:urlStr body:string];
+            if (client.connected ==YES) {
+                [client sendTo:urlStr body:string];
+                
+            }else{
+                dispatch_async(dispatch_get_main_queue()
+                               , ^{
+                                   [self textStateHUD:@"更换主持人失败，请重试~"];
+                                   [self createWebSocket];
+                               });
+                
+            }
    
             
         }else{
@@ -804,8 +863,19 @@ LGAudioPlayerDelegate
                 NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                 
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                [client sendTo:urlStr body:string];
-                [self textStateHUD:@"问题提交成功~"];
+                if (client.connected ==YES) {
+                    [client sendTo:urlStr body:string];
+                    [self textStateHUD:@"问题提交成功"];
+                    
+                }else{
+                    dispatch_async(dispatch_get_main_queue()
+                                   , ^{
+                                       [self textStateHUD:@"问题提交失败，请重试~"];
+                                       [self createWebSocket];
+                                   });
+                    
+                }
+
                 
                 toorbar.inputTextView.text=@"";
             } else {
@@ -820,10 +890,12 @@ LGAudioPlayerDelegate
                 NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                 [client sendTo:urlStr body:string];
                 
+                
                 toorbar.inputTextView.text=@"";
             }
             }else{
-                [self textStateHUD:@"发送失败~"];
+                [self textStateHUD:@"发送失败,请重试~"];
+                [self createWebSocket];
             }
             
             [self reLoadTableViewCell];
@@ -999,7 +1071,8 @@ LGAudioPlayerDelegate
                                                        }else{
                                                            dispatch_async(dispatch_get_main_queue()
                                                                           , ^{
-                                                                              [self textStateHUD:@"发送失败~"];
+                                                                              [self textStateHUD:@"发送失败，请重试~"];
+                                                                              [self createWebSocket];
                                                                           });
                                                            
                                                        }
@@ -1215,8 +1288,8 @@ LGAudioPlayerDelegate
             if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
                 NSMutableDictionary *dic = [NSMutableDictionary new];
                 NSMutableArray *array = [NSMutableArray new];
-                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                [dic setObject:content forKey:@"content"];
+//                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                [dic setObject:vo.content forKey:@"content"];
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
@@ -1314,8 +1387,18 @@ LGAudioPlayerDelegate
             }
             
             if (vo.type&&[vo.type isEqual:@"host"]) {
+                [moreView removeFromSuperview];
  
                 if (_role&&![_role isEqualToString:@"student"]) {
+                    
+                    if ([_role isEqualToString:@"host"]) {
+                        if (![[FitUserManager sharedUserManager].uuid isEqualToString:vo.host_uuid]) {
+                            titleArray=@[@"屏蔽",@"问题"];
+                            roleIndex = 1;
+                            iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                            _role = @"student";
+                        }
+                    }else{
                     
                     if ([_sign isEqualToString:@"1"]) {
                         titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
@@ -1326,6 +1409,7 @@ LGAudioPlayerDelegate
                     roleIndex = 2;
                 iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                     [bootView removeFromSuperview];
+                    }
                 }
                 if (_role&&[_role isEqualToString:@"student"]){
                     
@@ -1337,6 +1421,7 @@ LGAudioPlayerDelegate
                         }
                         
                         roleIndex = 2;
+                        _role = @"host";
                         iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                         [bootView removeFromSuperview];
                     }else{
@@ -1344,9 +1429,7 @@ LGAudioPlayerDelegate
                         roleIndex = 1;
                         iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
                     }
-                    
- 
-                    
+   
                 }
                 [self addrightItem];
             }
@@ -1376,7 +1459,7 @@ LGAudioPlayerDelegate
                 }else{
                     [moreView removeFromSuperview];
                     
-                    titleArray=@[@"已禁言",@"问题",@"已屏蔽",@"主持",@"关闭"];
+                    titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                     iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                     [self addrightItem];
                     
@@ -1394,7 +1477,7 @@ LGAudioPlayerDelegate
                     titleArray=@[@"屏蔽",@"问题"];
                     iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
                     [self addrightItem];
-                    [bootView removeFromSuperview];
+                    
                     _sign = @"2";
                 }else{
                     [moreView removeFromSuperview];
@@ -1403,7 +1486,12 @@ LGAudioPlayerDelegate
                     [self addrightItem];
                     _sign = @"2";
                 }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [bootView removeFromSuperview];
+                });
             }
+
+            
             [self reLoadTableViewCell];
             
         }];
@@ -1633,7 +1721,17 @@ LGAudioPlayerDelegate
     NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
     
     NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-    [client sendTo:urlStr body:string];
+    if (client.connected ==YES) {
+        [client sendTo:urlStr body:string];
+        
+    }else{
+        dispatch_async(dispatch_get_main_queue()
+                       , ^{
+                           [self textStateHUD:@"发送失败，请重试~"];
+                           [self createWebSocket];
+                       });
+        
+    }
 }
 
 - (void)startRecord
@@ -1797,6 +1895,7 @@ LGAudioPlayerDelegate
                                                            
                                                        }else{
                                                            [self textStateHUD:@"发送失败~"];
+                                                           [self createWebSocket];
                                                        }
                                                        
                                                        [self reLoadTableViewCell];
@@ -2014,7 +2113,7 @@ LGAudioPlayerDelegate
 
 
     [changeView removeFromSuperview];
-    changeView = [[UIView alloc] initWithFrame:CGRectMake(55, cell.frame.origin.y-30, 100, 30)];
+    changeView = [[UIView alloc] initWithFrame:CGRectMake(55, cell.frame.origin.y, 100, 30)];
     UILabel *textLabel = [UILabel new];
     textLabel.text = @"转文字";
     textLabel.font = TEXT_FONT_LEVEL_2;
