@@ -1289,6 +1289,10 @@ LGAudioPlayerDelegate
                 NSMutableDictionary *dic = [NSMutableDictionary new];
                 NSMutableArray *array = [NSMutableArray new];
 //                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                
+                NSLog(@"********************************%@",vo.content);
+                
+                
                 [dic setObject:vo.content forKey:@"content"];
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];

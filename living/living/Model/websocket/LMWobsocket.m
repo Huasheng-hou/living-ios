@@ -14,7 +14,10 @@ static STOMPClient *client;
 
 +(STOMPClient *)shareWebsocket
 {
+//    NSURL *websocketUrl = [NSURL URLWithString:@"ws://websocket.yaoguo1818.com/live-connect/websocket"];
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://121.43.40.58/live-connect/websocket"];
+    
+    
     if (!client) {
     
         client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
