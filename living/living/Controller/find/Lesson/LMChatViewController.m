@@ -1288,12 +1288,15 @@ LGAudioPlayerDelegate
             if (vo.type&&[vo.type isEqual:@"chat"]) {
                 NSMutableDictionary *dic = [NSMutableDictionary new];
                 NSMutableArray *array = [NSMutableArray new];
-//                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
                 NSLog(@"********************************%@",vo.content);
-                
-                
-                [dic setObject:vo.content forKey:@"content"];
+                if (content==nil) {
+                    [dic setObject:vo.content forKey:@"content"];
+                }else{
+                    [dic setObject:content forKey:@"content"];
+                    
+                }
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];
@@ -1321,8 +1324,13 @@ LGAudioPlayerDelegate
             if (vo.type&&[vo.type isEqual:@"question"]) {
                 NSMutableDictionary *dic = [NSMutableDictionary new];
                 NSMutableArray *array = [NSMutableArray new];
-                //                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                [dic setObject:vo.content forKey:@"content"];
+                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                if (content==nil) {
+                    [dic setObject:vo.content forKey:@"content"];
+                }else{
+                    [dic setObject:content forKey:@"content"];
+                    
+                }
                 [dic setObject:vo.time forKey:@"time"];
                 [dic setObject:vo.name forKey:@"name"];
                 [dic setObject:vo.headimgurl forKey:@"headimgurl"];

@@ -169,7 +169,7 @@ UITableViewDataSource
 
         cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
 
-        cell.backgroundColor = [UIColor clearColor];
+//        cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];

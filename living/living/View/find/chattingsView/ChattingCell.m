@@ -207,12 +207,15 @@
     if (vo.type&&([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
         
         NSLog(@"%@",vo.content);
-        
-        NSString *contentStr=vo.content;
+        NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *contentStr;
+        if (content==nil) {
+            contentStr = vo.content;
+        }else{
+            contentStr = content;
+        }
         CGSize contenSize = CGSizeZero;
         if (vo.content) {
-            
-            
             [_contentLabel setText:contentStr];
             
             NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
@@ -223,9 +226,19 @@
             [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
             
             _contentLabel.attributedText = attributedString;
-                    contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+            contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+            
+            NSLog(@"********%f",contenSize.height);
+            
+            
+            [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
+            [_contentLabel setFont:TEXT_FONT_LEVEL_2];
+            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
         }else{
             [_contentLabel setText:@" "];
+            [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
+            [_contentLabel setFont:TEXT_FONT_LEVEL_2];
+            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
         }
 
         if ([vo.type isEqualToString:@"question"]) {
