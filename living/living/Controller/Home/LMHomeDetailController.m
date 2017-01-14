@@ -528,7 +528,7 @@ LMContentTableViewCellDelegate
                                                 attributes:attributes5
                                                    context:nil].size.height;
             
-            CGFloat conHigh2 = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+            CGFloat conHigh2 = [articleData.describe boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height+5;
             
             return 65 + conHigh +conHigh2+10;
         }
@@ -562,10 +562,10 @@ LMContentTableViewCellDelegate
                     attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
                 }
                 
-                CGFloat conHigh2 = [vo.content boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+                CGFloat conHigh2 = [vo.content boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+5;
                 
                 if (!vo.images) {
-                    return 10+conHigh2;
+                    return 20+conHigh2;
                 }else{
                     NSMutableArray *imageHArray = [NSMutableArray new];
                     NSArray *arr = vo.images;
@@ -588,7 +588,7 @@ LMContentTableViewCellDelegate
 
                         NSNumber *sum = [imageHArray valueForKeyPath:@"@sum.floatValue"];
                         CGFloat hight = [sum floatValue];
-                       return 10+conHigh2 +10 + hight;
+                       return 10+conHigh2 + hight;
                     }
                 }
                 
@@ -692,10 +692,10 @@ LMContentTableViewCellDelegate
                     attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
                 }
                 
-                CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+                CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+10;
                 
                 if (!articleData.articleImgs) {
-                    return 10+conHigh2;
+                    return 20+conHigh2;
                 }else{
                     
                     NSMutableArray *newHight = [NSMutableArray new];
@@ -986,7 +986,7 @@ LMContentTableViewCellDelegate
                     [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
                 }
                 
-                CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+                CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+10;
                 [contentLabel sizeToFit];
                 
                 [cell.contentView addSubview:contentLabel];

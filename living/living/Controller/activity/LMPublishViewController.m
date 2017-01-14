@@ -715,14 +715,14 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 单元格刚创建后的数据
 
-- (void)projectDataStorageWithArrayIndex:(NSInteger)index
+- (void)projectDataStorageWithArrayIndex:(NSInteger)indexs
 {
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
     [dic setObject:@"" forKey:@"title"];
     [dic setObject:@"" forKey:@"content"];
     [dic setObject:@"" forKey:@"image"];
     
-    [cellDataArray insertObject:dic atIndex:index];
+    [cellDataArray insertObject:dic atIndex:indexs];
 }
 
 #pragma mark UIImagePickerController代理函数
