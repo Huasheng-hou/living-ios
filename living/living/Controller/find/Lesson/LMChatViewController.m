@@ -31,11 +31,11 @@
 #import "LGAudioKit.h"
 #import "Masonry.h"
 #import "LMVoiceChangeTextRequest.h"
-#import "LMWobsocket.h"
 
 #define assistViewHeight  200
 #define toobarHeight 50
 #define DocumentPath  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
 @interface LMChatViewController ()
 <
 UINavigationControllerDelegate,
@@ -120,6 +120,7 @@ LGAudioPlayerDelegate
         hasShield = NO;
         isShieldReload = NO;
         
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
         
         [self createWebSocket];
     }
@@ -156,15 +157,23 @@ LGAudioPlayerDelegate
     [super viewDidLoad];
     [self createUI];
     [self botttomView];
-    currentIndex = nil;
-    [self loadNewer];
-    listArray = [NSMutableArray new];
-    messageArray = [NSMutableArray new];
-    reloadCount =0;
-    [LGAudioPlayer sharePlayer].delegate = self;
-    toolBarChangeH=0;
     
-    NSLog(@"***********%@",_voiceUuid);
+    currentIndex = nil;
+    
+    [self loadNewer];
+    
+    listArray       = [NSMutableArray new];
+    messageArray    = [NSMutableArray new];
+    reloadCount     = 0;
+    
+    [LGAudioPlayer sharePlayer].delegate = self;
+    
+    toolBarChangeH  = 0;
+}
+
+- (void)websocketDidDisconnect:(NSError *)error
+{
+    
 }
 
 #pragma mark 初始化视图静态界面
@@ -1026,7 +1035,7 @@ LGAudioPlayerDelegate
 {
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
-    [self getImageURL:image];
+    [self getImageURL:[ImageHelpTool scaleImage:image]];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1250,158 +1259,62 @@ LGAudioPlayerDelegate
     [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 }
 
-
 #pragma mark -- 获取websocket数据
 
 - (void)createWebSocket
 {
-    
-//    client=[[STOMPClient alloc]initWithURL:websocketUrl webSocketHeaders:nil useHeartbeat:NO];
-    
     client = [LMWobsocket shareWebsocket];
-    
-//    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
     
     NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
     
     [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
         if (error) {
-            NSLog(@"================连接失败=============%@", error);
+        
             return;
         }
-        if (client.connected == NO) {
-            [self textStateHUD:@"连接失败，请返回主页后重试~"];
-            NSLog(@"连接失败，请返回主页后重试~");
-        }
         
-        NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
-        
-        [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
-            NSLog(@"=========topic/greetings===订阅消息=============%@",message.body);
-            NSString *resp = [NSString stringWithFormat:@"%@",message.body];
-            
-            NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-            NSDictionary *respDict = [NSJSONSerialization
-                                      JSONObjectWithData:respData
-                                      options:NSJSONReadingMutableLeaves
-                                      error:nil];
-            
-            MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
-            
-            if (vo.type&&[vo.type isEqual:@"chat"]) {
-                NSMutableDictionary *dic = [NSMutableDictionary new];
-                NSMutableArray *array = [NSMutableArray new];
-                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                
-                NSLog(@"********************************%@",vo.content);
-                if (content==nil) {
-                    [dic setObject:vo.content forKey:@"content"];
-                }else{
-                    [dic setObject:content forKey:@"content"];
-                    
-                }
-                [dic setObject:vo.time forKey:@"time"];
-                [dic setObject:vo.name forKey:@"name"];
-                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
-                [dic setObject:vo.role forKey:@"role"];
+        [self subscribeTopic];
+    }];
+}
 
-                [dic setObject:@"chat" forKey:@"type"];
+- (void)subscribeTopic
+{
+    NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
+    
+    [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
+        
+        NSString *resp = [NSString stringWithFormat:@"%@",message.body];
+        
+        NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSDictionary *respDict = [NSJSONSerialization
+                                  JSONObjectWithData:respData
+                                  options:NSJSONReadingMutableLeaves
+                                  error:nil];
+        
+        MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
+        
+        if (vo.type && [vo.type isEqual:@"chat"]) {
+            
+            NSMutableDictionary *dic = [NSMutableDictionary new];
+            NSMutableArray *array = [NSMutableArray new];
+            NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            if (content==nil) {
+                [dic setObject:vo.content forKey:@"content"];
+            }else{
+                [dic setObject:content forKey:@"content"];
                 
-                [array addObject:dic];
-                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-                if ([vo.type isEqual:@"chat"]) {
-                    if (hasShield==NO) {
-                        [self.listData addObjectsFromArray:array2];
-                    }else{
-                        if (vo.role&&![vo.role isEqualToString:@"student"]) {
-                           [self.listData addObjectsFromArray:array2];
-                        }else{
-                           [listArray addObjectsFromArray:array2];
-                        }
-                        
-                    }
-                    
-                }
             }
+            [dic setObject:vo.time forKey:@"time"];
+            [dic setObject:vo.name forKey:@"name"];
+            [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            [dic setObject:vo.role forKey:@"role"];
             
-            if (vo.type&&[vo.type isEqual:@"question"]) {
-                NSMutableDictionary *dic = [NSMutableDictionary new];
-                NSMutableArray *array = [NSMutableArray new];
-                NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                if (content==nil) {
-                    [dic setObject:vo.content forKey:@"content"];
-                }else{
-                    [dic setObject:content forKey:@"content"];
-                    
-                }
-                [dic setObject:vo.time forKey:@"time"];
-                [dic setObject:vo.name forKey:@"name"];
-                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
-                [dic setObject:vo.role forKey:@"role"];
-                
-
-                [dic setObject:@"question" forKey:@"type"];
-                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
-                        [dic setObject:vo.questionUuid forKey:@"question_uuid"];
-                    }
-                
-                [array addObject:dic];
-                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-
-                    if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
-                        
-                        if (![vo.role isEqualToString:@"student"]) {
-                            [listArray addObjectsFromArray:array2];
-                            [self.listData addObjectsFromArray:array2];
-                        }
-                    }else{
-                        [self textStateHUD:@"问题提交成功~"];
-                    }
-                }
+            [dic setObject:@"chat" forKey:@"type"];
             
-            if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"])) {
-                NSMutableDictionary *dic = [NSMutableDictionary new];
-                NSMutableArray *array = [NSMutableArray new];
-                
-                if ([vo.type isEqual:@"voice"]) {
-                    [dic setObject:vo.attachment forKey:@"voiceurl"];
-                    [dic setObject:@"voice" forKey:@"type"];
-                    [dic setObject:vo.recordingTime forKey:@"recordingTime"];
-                    if (vo.transcodingUrl&&![vo.transcodingUrl isEqualToString:@""]) {
-                        [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
-                        [dic setObject:vo.currentIndex forKey:@"currentIndex"];
-                    }
-                    
-                    if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-                        NSMutableArray *statusArray = [NSMutableArray new];
-                        NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
-                        [statusArray addObjectsFromArray:palyArray];
-                        NSMutableDictionary *dic = [NSMutableDictionary new];
-                        [dic setObject:vo.attachment forKey:@"url"];
-                        [dic setObject:@"1" forKey:@"status"];
-                        if (![statusArray containsObject:dic]) {
-                            [statusArray addObject:dic];
-                        }
-                        [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
-                        [[NSUserDefaults standardUserDefaults] synchronize];
-                    }  
-                    
-                }
-                if ([vo.type isEqual:@"picture"]) {
-                    
-                    if (vo.attachment) {
-                      [dic setObject:vo.attachment forKey:@"imageurl"];
-                    }
-                    
-                    [dic setObject:@"picture" forKey:@"type"];
-                }
-                [dic setObject:vo.time forKey:@"time"];
-                [dic setObject:vo.name forKey:@"name"];
-                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
-                [dic setObject:vo.role forKey:@"role"];
-                [array addObject:dic];
-                NSArray *array2 = [MssageVO MssageVOListWithArray:array];
-                
+            [array addObject:dic];
+            NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+            if ([vo.type isEqual:@"chat"]) {
                 if (hasShield==NO) {
                     [self.listData addObjectsFromArray:array2];
                 }else{
@@ -1410,23 +1323,115 @@ LGAudioPlayerDelegate
                     }else{
                         [listArray addObjectsFromArray:array2];
                     }
+                    
                 }
                 
             }
+        }
+        
+        if (vo.type&&[vo.type isEqual:@"question"]) {
+            NSMutableDictionary *dic = [NSMutableDictionary new];
+            NSMutableArray *array = [NSMutableArray new];
+            NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            if (content==nil) {
+                [dic setObject:vo.content forKey:@"content"];
+            }else{
+                [dic setObject:content forKey:@"content"];
+                
+            }
+            [dic setObject:vo.time forKey:@"time"];
+            [dic setObject:vo.name forKey:@"name"];
+            [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            [dic setObject:vo.role forKey:@"role"];
             
-            if (vo.type&&[vo.type isEqual:@"host"]) {
-                [moreView removeFromSuperview];
- 
-                if (_role&&![_role isEqualToString:@"student"]) {
-                    
-                    if ([_role isEqualToString:@"host"]) {
-                        if (![[FitUserManager sharedUserManager].uuid isEqualToString:vo.host_uuid]) {
-                            titleArray=@[@"屏蔽",@"问题"];
-                            roleIndex = 1;
-                            iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
-                            _role = @"student";
-                        }
-                    }else{
+            
+            [dic setObject:@"question" forKey:@"type"];
+            if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+                [dic setObject:vo.questionUuid forKey:@"question_uuid"];
+            }
+            
+            [array addObject:dic];
+            NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+            
+            if (vo.questionUuid&&![vo.questionUuid isEqualToString:@""]) {
+                
+                if (![vo.role isEqualToString:@"student"]) {
+                    [listArray addObjectsFromArray:array2];
+                    [self.listData addObjectsFromArray:array2];
+                }
+            }else{
+                [self textStateHUD:@"问题提交成功~"];
+            }
+        }
+        
+        if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"])) {
+            NSMutableDictionary *dic = [NSMutableDictionary new];
+            NSMutableArray *array = [NSMutableArray new];
+            
+            if ([vo.type isEqual:@"voice"]) {
+                [dic setObject:vo.attachment forKey:@"voiceurl"];
+                [dic setObject:@"voice" forKey:@"type"];
+                [dic setObject:vo.recordingTime forKey:@"recordingTime"];
+                if (vo.transcodingUrl&&![vo.transcodingUrl isEqualToString:@""]) {
+                    [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
+                    [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                }
+                
+                if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+                    NSMutableArray *statusArray = [NSMutableArray new];
+                    NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
+                    [statusArray addObjectsFromArray:palyArray];
+                    NSMutableDictionary *dic = [NSMutableDictionary new];
+                    [dic setObject:vo.attachment forKey:@"url"];
+                    [dic setObject:@"1" forKey:@"status"];
+                    if (![statusArray containsObject:dic]) {
+                        [statusArray addObject:dic];
+                    }
+                    [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+                
+            }
+            if ([vo.type isEqual:@"picture"]) {
+                
+                if (vo.attachment) {
+                    [dic setObject:vo.attachment forKey:@"imageurl"];
+                }
+                
+                [dic setObject:@"picture" forKey:@"type"];
+            }
+            [dic setObject:vo.time forKey:@"time"];
+            [dic setObject:vo.name forKey:@"name"];
+            [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            [dic setObject:vo.role forKey:@"role"];
+            [array addObject:dic];
+            NSArray *array2 = [MssageVO MssageVOListWithArray:array];
+            
+            if (hasShield==NO) {
+                [self.listData addObjectsFromArray:array2];
+            }else{
+                if (vo.role&&![vo.role isEqualToString:@"student"]) {
+                    [self.listData addObjectsFromArray:array2];
+                }else{
+                    [listArray addObjectsFromArray:array2];
+                }
+            }
+            
+        }
+        
+        if (vo.type&&[vo.type isEqual:@"host"]) {
+            [moreView removeFromSuperview];
+            
+            if (_role&&![_role isEqualToString:@"student"]) {
+                
+                if ([_role isEqualToString:@"host"]) {
+                    if (![[FitUserManager sharedUserManager].uuid isEqualToString:vo.host_uuid]) {
+                        titleArray=@[@"屏蔽",@"问题"];
+                        roleIndex = 1;
+                        iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                        _role = @"student";
+                    }
+                }else{
                     
                     if ([_sign isEqualToString:@"1"]) {
                         titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
@@ -1435,112 +1440,120 @@ LGAudioPlayerDelegate
                     }
                     
                     roleIndex = 2;
-                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
                     [bootView removeFromSuperview];
-                    }
                 }
-                if (_role&&[_role isEqualToString:@"student"]){
-                    
-                    if ([[FitUserManager sharedUserManager].uuid isEqualToString:vo.host_uuid]) {
-                        if ([_sign isEqualToString:@"1"]) {
-                            titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
-                        }else{
-                            titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
-                        }
-                        
-                        roleIndex = 2;
-                        _role = @"host";
-                        iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
-                        [bootView removeFromSuperview];
+            }
+            if (_role&&[_role isEqualToString:@"student"]){
+                
+                if ([[FitUserManager sharedUserManager].uuid isEqualToString:vo.host_uuid]) {
+                    if ([_sign isEqualToString:@"1"]) {
+                        titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                     }else{
-                        titleArray=@[@"屏蔽",@"问题"];
-                        roleIndex = 1;
-                        iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                        titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
                     }
-   
+                    
+                    roleIndex = 2;
+                    _role = @"host";
+                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                    [bootView removeFromSuperview];
+                }else{
+                    titleArray=@[@"屏蔽",@"问题"];
+                    roleIndex = 1;
+                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
                 }
-                [self addrightItem];
+                
             }
+            [self addrightItem];
+        }
+        
+        if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.type isEqualToString:@"gag"]) {
             
-            if (vo.type&&[vo.sign isEqual:@"1"]&&[vo.type isEqualToString:@"gag"]) {
+            [self textStateHUD:@"已禁言"];
+            
+            if ([_role isEqual:@"student"]) {
                 
-                [self textStateHUD:@"已禁言"];
-                
-                if ([_role isEqual:@"student"]) {
-                    
-                    [moreView removeFromSuperview];
-                    
-                    titleArray=@[@"屏蔽",@"问题"];
-                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
-                    [self addrightItem];
-                    
-                    bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
-                    bootView.backgroundColor = [UIColor whiteColor];
-                    UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
-                    textLable.text = @"已禁言";
-                    textLable.font = TEXT_FONT_LEVEL_2;
-                    textLable.textAlignment = NSTextAlignmentCenter;
-                    textLable.textColor = LIVING_COLOR;
-                    [bootView addSubview:textLable];
-                    [self.view addSubview:bootView];
-                    _sign = @"1";
-                }else{
-                    [moreView removeFromSuperview];
-                    
-                    titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
-                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
-                    [self addrightItem];
-                    
-                    _sign = @"1";
-                }
-                
-            }
-            if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.type isEqualToString:@"gag"])) {
-                
-                [self textStateHUD:@"禁言解除"];
-                [bootView setHidden:YES];
-                if ([_role isEqual:@"student"]) {
-                    
-                    [moreView removeFromSuperview];
-                    
-                    titleArray=@[@"屏蔽",@"问题"];
-                    iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
-                    [self addrightItem];
-                    
-                    _sign = @"2";
-                }else{
-                    [moreView removeFromSuperview];
-                    titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
-                    iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
-                    [self addrightItem];
-                    _sign = @"2";
-                }
-            }
 
+                [moreView removeFromSuperview];
+                
+                titleArray=@[@"屏蔽",@"问题"];
+                iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                [self addrightItem];
+                
+                bootView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-toobarHeight, kScreenWidth, toobarHeight)];
+                bootView.backgroundColor = [UIColor whiteColor];
+                UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, toobarHeight)];
+                textLable.text = @"已禁言";
+                textLable.font = TEXT_FONT_LEVEL_2;
+                textLable.textAlignment = NSTextAlignmentCenter;
+                textLable.textColor = LIVING_COLOR;
+                [bootView addSubview:textLable];
+                [self.view addSubview:bootView];
+                _sign = @"1";
+            }else{
+                [moreView removeFromSuperview];
+                
+                titleArray=@[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                [self addrightItem];
+                
+                _sign = @"1";
+            }
             
-            [self reLoadTableViewCell];
+        }
+        if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.type isEqualToString:@"gag"])) {
             
-        }];
+            [self textStateHUD:@"禁言解除"];
+            if ([_role isEqual:@"student"]) {
+                
+                [moreView removeFromSuperview];
+                
+                titleArray=@[@"屏蔽",@"问题"];
+                iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                [self addrightItem];
+                
+                _sign = @"2";
+            }else{
+                [moreView removeFromSuperview];
+                titleArray=@[@"禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
+                iconArray=@[@"stopTalkIcon",@"moreQuestionIcon",@"moreShieldIcon",@"morePresideIcon",@"moreClose"];
+                [self addrightItem];
+                _sign = @"2";
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [bootView removeFromSuperview];
+            });
+        }
         
+        [self performSelector:@selector(reLoadTableViewCell) withObject:nil afterDelay:0.1];
     }];
-    
-    if (client.connected==NO) {
-        
-//        [self textStateHUD:@"连接失败，请返回主页后重试~"];
-        NSLog(@"&*&*^&^&^^&^&^未连接");
-    }
-    
-    
 }
 
 - (void)websocketConnect
 {
-    if (client.connected ==NO) {
-        NSLog(@"连接失败");
+    if (!client || ![client isKindOfClass:[STOMPClient class]]) {
         
+        return;
+    }
+    
+    if (client.connected == NO) {
         
-    }else{
-        NSLog(@"连接成功");
+        NSLog(@"0");
+        
+        NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
+        
+        [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+            if (error) {
+                
+                return;
+            }
+            
+            [self subscribeTopic];
+        }];
+        
+    } else {
+        
+        NSLog(@"1");
     }
 }
 
@@ -1747,16 +1760,19 @@ LGAudioPlayerDelegate
     NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
     
     NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-    if (client.connected ==YES) {
+    
+    if (client.connected == YES) {
+        
         [client sendTo:urlStr body:string];
         
-    }else{
+    } else {
+        
         dispatch_async(dispatch_get_main_queue()
                        , ^{
+                           
                            [self textStateHUD:@"发送失败，请重试~"];
                            [self createWebSocket];
                        });
-        
     }
 }
 
@@ -1792,12 +1808,16 @@ LGAudioPlayerDelegate
 /**
  *  录音结束
  */
-- (void)confirmRecord {
+- (void)confirmRecord
+{
     if ([[LGSoundRecorder shareInstance] soundRecordTime] < 1.0f) {
+        
         if (_timerOf60Second) {
+        
             [_timerOf60Second invalidate];
             _timerOf60Second = nil;
         }
+        
         [self showShotTimeSign];
         return;
     }
@@ -1975,12 +1995,12 @@ LGAudioPlayerDelegate
         
         if (vo.type && [vo.type isEqualToString:@"voice"]) {
             
-            if ([vo.currentIndex integerValue]>playIndex) {
+            if ([vo.currentIndex integerValue] > playIndex) {
     
                 if ([urlArray containsObject:vo.voiceurl]) {
-                    NSLog(@"*********8已播放");
+                    
                 } else {
-                    NSLog(@"******888未播放");
+
                     [voArray addObject:vo];
                     NSString *string = [NSString stringWithFormat:@"%d",i];
                     [newArray addObject:string];
@@ -2033,12 +2053,10 @@ LGAudioPlayerDelegate
     player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
     player.delegate = self;
     [player play];
-    
-    
-    
 }
 
-- (void)audioPlayerStateDidChanged:(LGAudioPlayerState)audioPlayerState forIndex:(NSUInteger)index {
+- (void)audioPlayerStateDidChanged:(LGAudioPlayerState)audioPlayerState forIndex:(NSUInteger)index
+{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     ChattingCell *voiceMessageCell = [self.tableView cellForRowAtIndexPath:indexPath];
     
@@ -2065,7 +2083,6 @@ LGAudioPlayerDelegate
 
 - (void)cellcloseQuestion:(ChattingCell *)cell
 {
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否关闭问题"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -2081,13 +2098,10 @@ LGAudioPlayerDelegate
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
 }
 
 - (void)closeQuestion:(NSString *)questionUuid
 {
-    NSLog(@"*************关闭问题");
-    
     LMCloseQuestionRequest *request = [[LMCloseQuestionRequest alloc] initWithQuestionUuid:questionUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -2104,7 +2118,6 @@ LGAudioPlayerDelegate
                                            }];
     [proxy start];
 }
-
 
 - (void)getCloseQuestion:(NSString *)resp
 {
