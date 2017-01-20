@@ -107,6 +107,17 @@ LMhomePageCellDelegate
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
     self.tableView.tableHeaderView = headView;
+    
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(publicAction)];
+        
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    
+
 }
 
 - (void)adjustIndicator:(UIView *)loadingView
@@ -234,19 +245,6 @@ LMhomePageCellDelegate
     NSString    *description    = [bodyDic objectForKey:@"description"];
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
-        
-        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"] || [franchisee isEqual:@"yes"]) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(publicAction)];
-                
-                self.navigationItem.rightBarButtonItem = rightItem;
-            });
-        }
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         

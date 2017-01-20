@@ -576,19 +576,30 @@ LMContentTableViewCellDelegate
                         CGFloat imageVW = [dic[@"width"] floatValue];
                         
                         CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
-                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+5];
+                        NSString *string = [NSString stringWithFormat:@"%f",imageViewH+10];
                         [imageHArray addObject:string];
                     }
                     
                     NSInteger index =  arr.count-1;
                     
                     if (index<0) {
-                        return 10+conHigh2;
+                        if (indexPath.row==newImageArray.count-1) {
+                           return 20+conHigh2;
+                        }else{
+                            return 10+conHigh2;
+                        }
+                        
+                        
                     }else{
 
                         NSNumber *sum = [imageHArray valueForKeyPath:@"@sum.floatValue"];
                         CGFloat hight = [sum floatValue];
-                       return 10+conHigh2 + hight;
+                        if (indexPath.row==newImageArray.count-1) {
+                            return 20+conHigh2 + hight;
+                        }else{
+                            return 10+conHigh2 + hight;
+                        }
+                       
                     }
                 }
                 
@@ -986,7 +997,7 @@ LMContentTableViewCellDelegate
                     [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
                 }
                 
-                CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+10;
+                CGFloat conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+15;
                 [contentLabel sizeToFit];
                 
                 [cell.contentView addSubview:contentLabel];
@@ -1031,7 +1042,7 @@ LMContentTableViewCellDelegate
                         [cell.contentView addSubview:headImage];
                         
                     }
-                    contentLabel.frame = CGRectMake(15, 20+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHighs);
+                    contentLabel.frame = CGRectMake(15, 10+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHighs);
                     
                 }else{
                     contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
@@ -1405,18 +1416,36 @@ LMContentTableViewCellDelegate
 #pragma mark  --点击图片放大
 - (void)clickViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
-    BlendVO *vo = newImageArray[viewTag];
-    NSArray *imgArray;
-    imgArray = vo.images;
     NSMutableArray *new = [NSMutableArray new];
-    for (NSDictionary *dic in imgArray) {
-        NSString *string = dic[@"url"];
-        [new addObject:string];
+    for (BlendVO *vo in newImageArray) {
+        NSArray *imgArray;
+        imgArray = vo.images;
+        for (NSDictionary *dic in imgArray) {
+            NSString *string = dic[@"url"];
+            [new addObject:string];
+        }
+        NSLog(@"%@",new);
     }
-    NSLog(@"%@",new);
+    NSLog(@"********%@",new);
+    NSMutableArray *countArray = [NSMutableArray new];
+    if (viewTag>0) {
+        for (int i = 0; i<viewTag; i++) {
+            BlendVO *vo = newImageArray[i];
+            NSArray *imgArray = vo.images;
+            for (NSDictionary *dic in imgArray) {
+                NSString *string = dic[@"url"];
+                [countArray addObject:string];
+            }
+        }
+    }
     
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:new delegate:self];
-    photoBrowser.initialPageIndex = tag;
+    if (viewTag>0) {
+       photoBrowser.initialPageIndex = tag+countArray.count;
+    }else{
+        photoBrowser.initialPageIndex = tag;
+    }
+    
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 

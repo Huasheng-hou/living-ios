@@ -40,10 +40,7 @@
 
 @property(nonatomic,strong)UIButton *imageButton;
 
-
 @property(nonatomic,strong)UIImageView *imgView;
-
-
 
 @property(nonatomic,strong)UITextView *applyTextView;
 

@@ -310,13 +310,15 @@ LGAudioPlayerDelegate
     if ([sign isEqualToString:@"1"]) {
         if ([hostID isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             [bootView removeFromSuperview];
-        }else{
+        }else if([_role isEqualToString:@"student"]){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self creatBootView];
             });
-            
-            
+   
+        }else if(![_role isEqualToString:@"student"]){
+            [bootView removeFromSuperview];
         }
+        
     }else if ([sign isEqualToString:@"2"]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [bootView removeFromSuperview];
@@ -377,8 +379,9 @@ LGAudioPlayerDelegate
         }
         
     }else{
-        [self creatToolbarView];
         
+        [self creatToolbarView];
+        [bootView removeFromSuperview];
     }
     
 }
@@ -1495,6 +1498,7 @@ LGAudioPlayerDelegate
             if (vo.type&&([vo.sign isEqual:@"2"]&&[vo.type isEqualToString:@"gag"])) {
                 
                 [self textStateHUD:@"禁言解除"];
+                [bootView setHidden:YES];
                 if ([_role isEqual:@"student"]) {
                     
                     [moreView removeFromSuperview];
@@ -1511,9 +1515,6 @@ LGAudioPlayerDelegate
                     [self addrightItem];
                     _sign = @"2";
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [bootView removeFromSuperview];
-                });
             }
 
             

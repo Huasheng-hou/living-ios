@@ -25,6 +25,7 @@ LMhomePageCellDelegate
     UIImageView *headerView;
     UIView *backgroundViews;
     UIImageView *imageViews;
+    NSString *franchisee;
 }
 
 
@@ -151,7 +152,24 @@ LMhomePageCellDelegate
 - (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSData          *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary    *respDict = [NSJSONSerialization JSONObjectWithData:respData
+                                                                options:NSJSONReadingMutableLeaves
+                                                                  error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
         
+        if ([headDic objectForKey:@"franchisee"] && ![[headDic objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[headDic objectForKey:@"franchisee"] isKindOfClass:[NSString class]] && [headDic[@"franchisee"] isEqual:@"yes"]) {
+            
+            franchisee = @"yes";
+        }
+    }
+    
         infoDic = [bodyDic objectForKey:@"map"];
         NSString    *result         = [bodyDic objectForKey:@"result"];
         
@@ -233,7 +251,7 @@ LMhomePageCellDelegate
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //头像
         headerView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
-        headerView.layer.cornerRadius = 5;
+        headerView.layer.cornerRadius = 35;
         headerView.backgroundColor = BG_GRAY_COLOR;
         headerView.contentMode = UIViewContentModeScaleAspectFill;
         headerView.clipsToBounds = YES;
@@ -247,6 +265,22 @@ LMhomePageCellDelegate
         }
         [cell.contentView addSubview:headerView];
         
+        if (franchisee&&[franchisee isEqualToString:@"yes"]) {
+            UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
+            Vimage.contentMode = UIViewContentModeScaleAspectFill;
+            Vimage.image = [UIImage imageNamed:@"BigVRed"];
+            Vimage.clipsToBounds = YES;
+            [cell.contentView addSubview:Vimage];
+        }
+//
+//        if (infoDic.sign&&[infoDic.sign isEqualToString:@"menber"]) {
+//            UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
+//            Vimage.contentMode = UIViewContentModeScaleAspectFill;
+//            Vimage.image = [UIImage imageNamed:@"BigVBlue"];
+//            Vimage.clipsToBounds = YES;
+//            [cell.contentView addSubview:Vimage];
+//        }
+//        
         //nick
         UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,20,30,30)];
         nicklabel.font = TEXT_FONT_LEVEL_1;

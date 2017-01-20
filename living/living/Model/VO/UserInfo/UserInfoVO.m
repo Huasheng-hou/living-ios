@@ -89,6 +89,11 @@
             self.franchisee = [dictionary objectForKey:@"franchisee"];
         }
         
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
+        
         if (nil != [dictionary objectForKey:@"birthday"] && ![[dictionary objectForKey:@"birthday"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"birthday"] isKindOfClass:[NSString class]]) {
             self.birthday = [dictionary objectForKey:@"birthday"];

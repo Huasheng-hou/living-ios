@@ -32,6 +32,12 @@
     
     return self;
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
+}
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -205,7 +211,6 @@
             
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView

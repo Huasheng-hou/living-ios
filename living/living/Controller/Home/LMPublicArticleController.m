@@ -348,11 +348,11 @@ static NSMutableArray *cellDataArray;
         
         NSInteger length    = cellDataArray.count;
         
-        if (length >= 10) {
-            
-            [self textStateHUD:@"提交已达上限"];
-            return;
-        }
+//        if (length >= 10) {
+//            
+//            [self textStateHUD:@"提交已达上限"];
+//            return;
+//        }
         
         [self projectDataStorageWithArrayIndex:length];
         [self refreshData];

@@ -42,6 +42,12 @@
     }
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"语音课堂";
