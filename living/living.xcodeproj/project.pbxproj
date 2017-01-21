@@ -445,7 +445,6 @@
 		8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601E1DC84C59001D7098 /* libstdc++.tbd */; };
 		8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0760271DC892AE001D7098 /* MapKit.framework */; };
 		8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28AD1DF8101600B735BE /* LMSegmentView.m */; };
-		8E0E28B11DF814AB00B735BE /* LMClassRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */; };
 		8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */; };
 		8E0E28BC1DF8234100B735BE /* FitChatFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B61DF8234100B735BE /* FitChatFaceView.m */; };
 		8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */; };
@@ -1381,8 +1380,6 @@
 		8E0760271DC892AE001D7098 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8E0E28AC1DF8101600B735BE /* LMSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSegmentView.h; sourceTree = "<group>"; };
 		8E0E28AD1DF8101600B735BE /* LMSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSegmentView.m; sourceTree = "<group>"; };
-		8E0E28AF1DF814AB00B735BE /* LMClassRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMClassRoomViewController.h; sourceTree = "<group>"; };
-		8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMClassRoomViewController.m; sourceTree = "<group>"; };
 		8E0E28B31DF8234100B735BE /* FitChatExpressionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatExpressionView.h; sourceTree = "<group>"; };
 		8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatExpressionView.m; sourceTree = "<group>"; };
 		8E0E28B51DF8234100B735BE /* FitChatFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatFaceView.h; sourceTree = "<group>"; };
@@ -1667,8 +1664,6 @@
 				352905D61DF54E470062196C /* LMLessonViewController.m */,
 				35DCDD3B1DFE73D300813172 /* LMLessonAllViewController.h */,
 				35DCDD3C1DFE73D300813172 /* LMLessonAllViewController.m */,
-				8E0E28AF1DF814AB00B735BE /* LMClassRoomViewController.h */,
-				8E0E28B01DF814AB00B735BE /* LMClassRoomViewController.m */,
 				355E7B591DFFB3550089BAB1 /* LMClassroomDetailViewController.h */,
 				355E7B5A1DFFB3550089BAB1 /* LMClassroomDetailViewController.m */,
 				355E7B771DFFE8C50089BAB1 /* LMPulicVoicViewController.h */,
@@ -3986,7 +3981,6 @@
 				35B747FB1DDE97F4000AFA26 /* UserInfoVO.m in Sources */,
 				35B747BE1DDE97F3000AFA26 /* LMGetCaptchaRequest.m in Sources */,
 				35B747A31DDE97F3000AFA26 /* LMEventJoinRequest.m in Sources */,
-				8E0E28B11DF814AB00B735BE /* LMClassRoomViewController.m in Sources */,
 				35B7473C1DDE97F3000AFA26 /* WXMediaMessage+messageConstruct.m in Sources */,
 				3505CE081E14E0BC007D896C /* amrFileCodec.m in Sources */,
 				35B748221DDE97F4000AFA26 /* LMBusinessCell.m in Sources */,

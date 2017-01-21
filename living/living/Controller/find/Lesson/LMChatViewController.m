@@ -203,9 +203,6 @@ LGAudioPlayerDelegate
     
     self.navigationItem.leftBarButtonItem = leftItem;
     
-    
-    //导航栏右边按钮
-    NSLog(@"*********************%@",_role);
     if (_role && [_role isKindOfClass:[NSString class]] && ![_role isEqualToString:@"student"]) {
         
         if ([_sign isEqualToString:@"1"]) {
@@ -230,9 +227,8 @@ LGAudioPlayerDelegate
     [self addrightItem];
 }
 
--(void)backAction
+- (void)backAction
 {
-    
     [client disconnect];
     [self.navigationController popViewControllerAnimated:YES];
 }

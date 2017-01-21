@@ -23,5 +23,4 @@ typedef enum {
 @property (assign, nonatomic)   NSInteger               total;
 @property (assign, nonatomic)   FitMessageTableState    state;
 
-
 @end
