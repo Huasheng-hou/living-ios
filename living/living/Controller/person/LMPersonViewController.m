@@ -297,19 +297,18 @@ static CGRect oldframe;
                 
             }
             [cell.contentView addSubview:headerView];
-            
-            if (infoModel.franchisee&&[infoModel.franchisee isEqualToString:@"yes"]) {
-                UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
-                Vimage.contentMode = UIViewContentModeScaleAspectFill;
-                Vimage.image = [UIImage imageNamed:@"BigVRed"];
-                Vimage.clipsToBounds = YES;
-                [cell.contentView addSubview:Vimage];
-            }
-            
+    
             if (infoModel.sign&&[infoModel.sign isEqualToString:@"menber"]) {
                 UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
                 Vimage.contentMode = UIViewContentModeScaleAspectFill;
                 Vimage.image = [UIImage imageNamed:@"BigVBlue"];
+                Vimage.clipsToBounds = YES;
+                [cell.contentView addSubview:Vimage];
+            }
+            if (infoModel.franchisee&&[infoModel.franchisee isEqualToString:@"yes"]) {
+                UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
+                Vimage.contentMode = UIViewContentModeScaleAspectFill;
+                Vimage.image = [UIImage imageNamed:@"BigVRed"];
                 Vimage.clipsToBounds = YES;
                 [cell.contentView addSubview:Vimage];
             }

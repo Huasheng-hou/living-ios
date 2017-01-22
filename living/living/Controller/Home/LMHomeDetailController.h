@@ -14,6 +14,10 @@
 
 @property(nonatomic, strong) NSString *artcleuuid;
 
+@property(nonatomic, strong) NSString *franchisee;
+
+@property(nonatomic, strong) NSString *sign;
+
 
 
 // 带tab, nav, status的y向缩放

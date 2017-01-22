@@ -31,6 +31,8 @@
 @property(nonatomic, retain) NSString *userUuid;
 @property(nonatomic, retain) NSString *avatar;
 @property(nonatomic, retain) NSString *type;
+@property(nonatomic, retain) NSString *franchisee;
+@property(nonatomic, retain) NSString *sign;
 
 
 
