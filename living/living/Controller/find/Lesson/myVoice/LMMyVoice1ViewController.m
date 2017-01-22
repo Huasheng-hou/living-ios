@@ -154,58 +154,44 @@
     }
     
     if (self.listData.count > indexPath.row) {
+        
         ClassroomVO *vo = self.listData[indexPath.row];
+        
         if (vo && [vo isKindOfClass:[ClassroomVO class]]) {
             
             [(LMClassroomCell *)cell setValue:vo];
         }
-        
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count>indexPath.row) {
-        ClassroomVO *vo = self.listData[indexPath.row];
+    if (self.listData.count > indexPath.row) {
+        
+        ClassroomVO     *vo = self.listData[indexPath.row];
+        
         if ([vo.status isEqual:@"open"]) {
         
-//            if (vo.role&&([vo.role isEqualToString:@"host"]||[vo.role isEqualToString:@"teacher"])) {
                 LMChatViewController *roomVC = [[LMChatViewController alloc] init];
                 [roomVC setHidesBottomBarWhenPushed:YES];
                 roomVC.voiceUuid = vo.voiceUuid;
                 roomVC.sign = vo.sign;
-                roomVC.roles = vo.role;
+                roomVC.roles = @"teacher";
+            
                 [self.navigationController pushViewController:roomVC animated:YES];
-//            }
-//            if (vo.role&&[vo.role isEqualToString:@"student"]&&vo.isBuy==YES) {
-//                LMChatViewController *roomVC = [[LMChatViewController alloc] init];
-//                [roomVC setHidesBottomBarWhenPushed:YES];
-//                roomVC.voiceUuid = vo.voiceUuid;
-//                roomVC.sign = vo.sign;
-//                roomVC.roles = vo.role;
-//                [self.navigationController pushViewController:roomVC animated:YES];
-//            }
-//            
-//            if (vo.role&&[vo.role isEqualToString:@"student"]&&vo.isBuy==NO) {
-//                LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
-//                voiceVC.voiceUUid = vo.voiceUuid;
-//                voiceVC.role = vo.role;
-//                [voiceVC setHidesBottomBarWhenPushed:YES];
-//                [self.navigationController pushViewController:voiceVC animated:YES];
-//            }
-//            
-        }else{
+            
+        } else {
+            
             LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];
             voiceVC.voiceUUid = vo.voiceUuid;
             voiceVC.role = vo.role;
             [voiceVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:voiceVC animated:YES];
-            
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenAction" object:nil];
 }
 
 @end

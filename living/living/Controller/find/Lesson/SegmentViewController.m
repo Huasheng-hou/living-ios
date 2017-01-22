@@ -92,20 +92,19 @@ UIScrollViewDelegate
     _mainScrollView.contentSize = CGSizeMake(MainScreenWidth * subViewControllers.count, MainScreenHeight - self.buttonHeight);
     [_mainScrollView setScrollEnabled:YES];
     [_mainScrollView setPagingEnabled:YES];
-//    if (_segmentControlType == 0) {
-//        _mainScrollView.scrollEnabled = YES;
-//    }
-//    else {
-//        _mainScrollView.scrollEnabled = NO;
-//    }
+
     [_mainScrollView setShowsVerticalScrollIndicator:NO];
     [_mainScrollView setShowsHorizontalScrollIndicator:NO];
     _mainScrollView.bounces = NO;
     _mainScrollView.delegate = self;
+
     [self.view addSubview:_mainScrollView];
+    
     [subViewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+    
         UIViewController *viewController = (UIViewController *)_subViewControllers[idx];
         viewController.view.frame = CGRectMake(idx * MainScreenWidth, 0, MainScreenWidth, _mainScrollView.frame.size.height);
+        
         [_mainScrollView addSubview:viewController.view];
         [self addChildViewController:viewController];
     }];
