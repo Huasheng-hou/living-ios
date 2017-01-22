@@ -377,7 +377,8 @@ LMhomePageCellDelegate
             
             detailVC.hidesBottomBarWhenPushed = YES;
             detailVC.artcleuuid = vo.articleUuid;
-            
+            detailVC.franchisee = vo.franchisee;
+            detailVC.sign = vo.sign;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }

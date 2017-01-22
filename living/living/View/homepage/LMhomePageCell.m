@@ -26,6 +26,9 @@
 @property (nonatomic, strong) UIView *typeView;
 @property (nonatomic, assign) CGFloat width;
 
+@property (nonatomic, strong) UIImageView *VImage;
+@property (nonatomic, assign) NSInteger VIndex;
+
 
 @end
 
@@ -44,7 +47,6 @@
 -(void)addSubviews
 {
     _imageV = [UIImageView new];
-    _imageV.image = [UIImage imageNamed:@"112"];
     _imageV.backgroundColor = BG_GRAY_COLOR;
     
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
@@ -103,6 +105,12 @@
     line.backgroundColor = LINE_COLOR;
     
     [self.contentView addSubview:line];
+    
+    _VImage = [UIImageView new];
+    _imageV.contentMode = UIViewContentModeScaleAspectFill;
+    _imageV.clipsToBounds = YES;
+    [self.contentView addSubview:_VImage];
+    
 }
 
 - (void)setValue:(LMActicleVO *)list
@@ -134,6 +142,17 @@
         _titleLabel.text = list.articleTitle;
         _titleLabel.userInteractionEnabled = NO;
     }
+    _VIndex = 2;
+    
+    if (list.sign&&[list.sign isEqualToString:@"menber"]) {
+        _VIndex = 1;
+        _VImage.image = [UIImage imageNamed:@"BigVBlue"];
+    }
+    if (list.franchisee&&[list.franchisee isEqualToString:@"yes"]) {
+        _VIndex = 1;
+        _VImage.image = [UIImage imageNamed:@"BigVRed"];
+
+    }
     
     [self layoutSubviews];
 }
@@ -147,6 +166,7 @@
     [_timeLabel sizeToFit];
     [_contentLabel sizeToFit];
     [_typeView sizeToFit];
+    [_VImage sizeToFit];
     
     _imageV.frame = CGRectMake(15, 15, 120, 100);
     _titleLabel.frame = CGRectMake(145, 17, kScreenWidth-160, _titleLabel.bounds.size.height);
@@ -162,8 +182,19 @@
 //    }
 
     _typeView.frame = CGRectMake(-5, -5, _width+10, _titleLabel.bounds.size.height+10);
+    
+    if (_VIndex == 1) {
+        _VImage.hidden = NO;
+        _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width-20, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+        _VImage.frame = CGRectMake(kScreenWidth-25-_nameLabel.bounds.size.width-10, 105, 14, 14);
 
-    _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    }else{
+        _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+        _VImage.hidden = YES;
+    }
+    
+
+
 
 }
 
