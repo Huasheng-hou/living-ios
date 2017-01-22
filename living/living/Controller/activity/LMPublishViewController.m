@@ -64,6 +64,7 @@ addressTypeDelegate
     UIButton *publicButton;
     NSMutableArray *updateArray;
     NSInteger index;
+    NSString *useCounpon;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -91,6 +92,7 @@ static NSMutableArray *cellDataArray;
     [self creatUI];
     
     [self initSearch];
+    useCounpon = @"1";
 }
 
 - (void)initSearch
@@ -164,7 +166,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +kScreenWidth*3/5+90;
+        return 490 +kScreenWidth*3/5+90+45;
     }
     if (indexPath.section==1) {
         return 340;
@@ -282,6 +284,9 @@ static NSMutableArray *cellDataArray;
         [msgCell.imageButton setTag:0];
         
         [msgCell.mapButton addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
+        
+        [msgCell.UseButton addTarget:self action:@selector(useCounpon) forControlEvents:UIControlEventTouchUpInside];
+        [msgCell.unUseButton addTarget:self action:@selector(UNuseCounpon) forControlEvents:UIControlEventTouchUpInside];
         
         return msgCell;
     }
@@ -976,7 +981,7 @@ static NSMutableArray *cellDataArray;
     }
     
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1114,5 +1119,29 @@ static NSMutableArray *cellDataArray;
         [self.tableView reloadData];
     });
 }
+
+//是否允许使用优惠券
+- (void)useCounpon
+{
+    NSLog(@"使用优惠券");
+    useCounpon = @"1";
+    msgCell.UseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.unUseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+    
+}
+
+- (void)UNuseCounpon
+{
+    NSLog(@"不使用优惠券");
+    useCounpon = @"2";
+    msgCell.unUseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.UseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+}
+
+
 
 @end

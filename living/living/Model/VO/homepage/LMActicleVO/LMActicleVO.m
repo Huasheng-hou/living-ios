@@ -99,6 +99,11 @@
             self.sign = [dictionary objectForKey:@"sign"];
         }
         
+        if (nil != [dictionary objectForKey:@"group"] && ![[dictionary objectForKey:@"group"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"group"] isKindOfClass:[NSString class]]) {
+            self.group = [dictionary objectForKey:@"group"];
+        }
+        
         
     }
     

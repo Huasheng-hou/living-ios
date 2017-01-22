@@ -237,9 +237,22 @@
     _couponTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_couponTF];
     
+    //是否抵用
+    _UseButton = [LMChoseCounponButton buttonWithType:UIButtonTypeSystem];
+    _UseButton.textLabel.text =  @"是";
+    _UseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    [_UseButton sizeToFit];
+    _UseButton.frame = CGRectMake(titleW+20+20, 275, 60, 30);
     
+    [self.contentView addSubview:_UseButton];
     
-    
+    _unUseButton = [LMChoseCounponButton buttonWithType:UIButtonTypeSystem];
+    _unUseButton.textLabel.text =  @"否";
+    _unUseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    _unUseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+    [_unUseButton sizeToFit];
+    _unUseButton.frame = CGRectMake(titleW+20+20+80, 275, 60, 30);
+    [self.contentView addSubview:_unUseButton];
     
     
     

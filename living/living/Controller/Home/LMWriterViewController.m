@@ -273,7 +273,7 @@ LMhomePageCellDelegate
             [cell.contentView addSubview:Vimage];
         }
 
-        if (_sign&&[_sign isEqualToString:@"menber"]) {
+        if (_sign&&[_sign isEqualToString:@"menber"]&&![_franchisee isEqualToString:@"yes"]) {
             UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
             Vimage.contentMode = UIViewContentModeScaleAspectFill;
             Vimage.image = [UIImage imageNamed:@"BigVBlue"];

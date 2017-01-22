@@ -298,7 +298,7 @@ static CGRect oldframe;
             }
             [cell.contentView addSubview:headerView];
     
-            if (infoModel.sign&&[infoModel.sign isEqualToString:@"menber"]) {
+            if (infoModel.sign&&[infoModel.sign isEqualToString:@"menber"]&&![infoModel.franchisee isEqualToString:@"yes"]) {
                 UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
                 Vimage.contentMode = UIViewContentModeScaleAspectFill;
                 Vimage.image = [UIImage imageNamed:@"BigVBlue"];

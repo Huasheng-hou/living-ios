@@ -26,6 +26,7 @@
            limit_number:(int)limit_number
                 notices:(NSString *)notices
 franchiseePrice:(NSString *)franchiseePrice
+              available:(NSString *)available
 
 {
     self = [super init];
@@ -84,6 +85,9 @@ franchiseePrice:(NSString *)franchiseePrice
         
         if (franchiseePrice){
             [bodyDict setObject:franchiseePrice forKey:@"franchiseePrice"];
+        }
+        if (available){
+            [bodyDict setObject:available forKey:@"available"];
         }
 
         

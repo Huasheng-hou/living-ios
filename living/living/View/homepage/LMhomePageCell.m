@@ -144,7 +144,7 @@
     }
     _VIndex = 2;
     
-    if (list.sign&&[list.sign isEqualToString:@"menber"]) {
+    if (list.sign&&[list.sign isEqualToString:@"menber"]&&![list.franchisee isEqualToString:@"yes"]) {
         _VIndex = 1;
         _VImage.image = [UIImage imageNamed:@"BigVBlue"];
     }

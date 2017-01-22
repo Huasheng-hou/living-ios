@@ -22,6 +22,7 @@
 #import "LMWebViewController.h"
 
 #import "LMArtcleTypeViewController.h"
+#import "LMHomeVoiceDetailController.h"
 
 #import "BannerVO.h"
 
@@ -373,26 +374,33 @@ LMhomePageCellDelegate
         
         if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
             
-            LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+            if (vo.group&&[vo.group isEqualToString:@"article"]) {
+                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
             
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.artcleuuid = vo.articleUuid;
-            detailVC.franchisee = vo.franchisee;
-            detailVC.sign = vo.sign;
-            [self.navigationController pushViewController:detailVC animated:YES];
+            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            
+
         }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
-
-- (void)typeClick
-{
-    LMArtcleTypeViewController *typeVC = [[LMArtcleTypeViewController alloc] initWithType:@"生活"];
-    [self.navigationController pushViewController:typeVC animated:YES];
-}
-
 
 
 #pragma mark  --cell click delegat
