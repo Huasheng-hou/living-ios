@@ -144,14 +144,16 @@
     return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CELL_IDENTIFI"];
 }
 
--(void)logoutAction:(NSString *)resp
+- (void)logoutAction:(NSString *)resp
 {
     NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary *respDict = [NSJSONSerialization
                               JSONObjectWithData:respData
                               options:NSJSONReadingMutableLeaves
-                              error:nil];
+                                error:nil];
+    
     NSDictionary *body = [respDict objectForKey:@"head"];
+    
     if ([body[@"returnCode"] isEqualToString:@"002"]){
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
@@ -169,16 +171,10 @@
                                                     [self.navigationController popViewControllerAnimated:NO];
                                                     
                                                     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
-                                                    
-                                                    
                                                 }]];
         
         [self presentViewController:alert animated:YES completion:nil];
     }
-    
 }
-
-
-
 
 @end
