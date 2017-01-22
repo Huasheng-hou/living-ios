@@ -407,7 +407,8 @@ LMhomePageCellDelegate
             
             LMWriterViewController *writerVC = [[LMWriterViewController alloc] initWithUUid:vo.userUuid];
             writerVC.hidesBottomBarWhenPushed = YES;
-            
+            writerVC.franchisee = vo.franchisee;
+            writerVC.sign = vo.sign;
             [self.navigationController pushViewController:writerVC animated:YES];
         }
     }

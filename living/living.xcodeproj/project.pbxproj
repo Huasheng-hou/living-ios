@@ -426,6 +426,7 @@
 		35DE847C1E15F0B100314EA8 /* 6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DE847B1E15F0B100314EA8 /* 6@2x.png */; };
 		35DE84811E1BA37E00314EA8 /* LMCloseQuestionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DE84801E1BA37E00314EA8 /* LMCloseQuestionRequest.m */; };
 		35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E686701DEFC89600B43000 /* LMArtcleFootView.m */; };
+		35E92E5B1E3457F900EE6DE6 /* LMChoseCounponButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E92E5A1E3457F900EE6DE6 /* LMChoseCounponButton.m */; };
 		35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F1AB6E1E08F3C1003304EE /* MssageVO.m */; };
 		35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */; };
 		35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E841DB5B80200510A75 /* AlipaySDK.framework */; };
@@ -1358,6 +1359,8 @@
 		35DE84801E1BA37E00314EA8 /* LMCloseQuestionRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCloseQuestionRequest.m; sourceTree = "<group>"; };
 		35E6866F1DEFC89600B43000 /* LMArtcleFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleFootView.h; sourceTree = "<group>"; };
 		35E686701DEFC89600B43000 /* LMArtcleFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleFootView.m; sourceTree = "<group>"; };
+		35E92E591E3457F900EE6DE6 /* LMChoseCounponButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChoseCounponButton.h; sourceTree = "<group>"; };
+		35E92E5A1E3457F900EE6DE6 /* LMChoseCounponButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChoseCounponButton.m; sourceTree = "<group>"; };
 		35F1AB6D1E08F3C1003304EE /* MssageVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MssageVO.h; sourceTree = "<group>"; };
 		35F1AB6E1E08F3C1003304EE /* MssageVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MssageVO.m; sourceTree = "<group>"; };
 		35FA8E821DB5B7FD00510A75 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
@@ -3337,6 +3340,8 @@
 				35B746B91DDE97F3000AFA26 /* mapView */,
 				35B746BE1DDE97F3000AFA26 /* NavMapBottom */,
 				35B746C11DDE97F3000AFA26 /* SQMenuShowView */,
+				35E92E591E3457F900EE6DE6 /* LMChoseCounponButton.h */,
+				35E92E5A1E3457F900EE6DE6 /* LMChoseCounponButton.m */,
 			);
 			path = activity;
 			sourceTree = "<group>";
@@ -4148,6 +4153,7 @@
 				355E7B791DFFE8C50089BAB1 /* LMPulicVoicViewController.m in Sources */,
 				8E0E28BE1DF8234100B735BE /* FitChatWarningView.m in Sources */,
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
+				35E92E5B1E3457F900EE6DE6 /* LMChoseCounponButton.m in Sources */,
 				3512137E1DF963C10053B83F /* LMBlacklistViewController.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
 				35980BD21E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m in Sources */,

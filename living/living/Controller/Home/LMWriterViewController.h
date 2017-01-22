@@ -14,5 +14,8 @@
 
 
 -(id)initWithUUid:(NSString *)writerUUid;
+@property(nonatomic, strong) NSString *franchisee;
+
+@property(nonatomic, strong) NSString *sign;
 
 @end

@@ -265,22 +265,22 @@ LMhomePageCellDelegate
         }
         [cell.contentView addSubview:headerView];
         
-        if (franchisee&&[franchisee isEqualToString:@"yes"]) {
+        if (_franchisee&&[_franchisee isEqualToString:@"yes"]) {
             UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
             Vimage.contentMode = UIViewContentModeScaleAspectFill;
             Vimage.image = [UIImage imageNamed:@"BigVRed"];
             Vimage.clipsToBounds = YES;
             [cell.contentView addSubview:Vimage];
         }
-//
-//        if (infoDic.sign&&[infoDic.sign isEqualToString:@"menber"]) {
-//            UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
-//            Vimage.contentMode = UIViewContentModeScaleAspectFill;
-//            Vimage.image = [UIImage imageNamed:@"BigVBlue"];
-//            Vimage.clipsToBounds = YES;
-//            [cell.contentView addSubview:Vimage];
-//        }
-//        
+
+        if (_sign&&[_sign isEqualToString:@"menber"]) {
+            UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(68, 68, 14, 14)];
+            Vimage.contentMode = UIViewContentModeScaleAspectFill;
+            Vimage.image = [UIImage imageNamed:@"BigVBlue"];
+            Vimage.clipsToBounds = YES;
+            [cell.contentView addSubview:Vimage];
+        }
+        
         //nick
         UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(100,20,30,30)];
         nicklabel.font = TEXT_FONT_LEVEL_1;
