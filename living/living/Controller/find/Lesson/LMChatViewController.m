@@ -111,7 +111,6 @@ LGAudioPlayerDelegate
     if (self) {
 
         self.hidesBottomBarWhenPushed   = NO;
-        
         self.listData   = [NSMutableArray new];
         
         ifloadMoreData =YES;
@@ -2158,35 +2157,39 @@ LGAudioPlayerDelegate
 - (void)getCloseQuestion:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     if (!bodyDic) {
+        
         [self textStateHUD:@"问题关闭失败"];
-    }else{
+    } else {
+        
         if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
             [self textStateHUD:@"问题关闭成功"];
             currentIndex = nil;
-//            [self loadNoState];
-        }else{
+        } else {
+            
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
     }
 }
 
-
 //原生菊花
--(void)loadActivity
+- (void)loadActivity
 {
-    activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];//指定进度轮的大小
-    [activity setCenter:CGPointMake(kScreenWidth/2, 90)];//指定进度轮中心点
-    [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];//设置进度轮显示类型
-    [self.view addSubview:activity];
-    [activity startAnimating];
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];//指定进度轮的大小
+        [activity setCenter:CGPointMake(kScreenWidth / 2, 90)];//指定进度轮中心点
+        [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];//设置进度轮显示类型
+        [self.view addSubview:activity];
+        [activity startAnimating];
+    });
 }
 
 #pragma mark --语音转文字
--(void)cellVoiceChangeText:(ChattingCell *)cell
+- (void)cellVoiceChangeText:(ChattingCell *)cell
 {
-
-
     [changeView removeFromSuperview];
     changeView = [[UIView alloc] initWithFrame:CGRectMake(55, cell.frame.origin.y, 100, 30)];
     UILabel *textLabel = [UILabel new];
@@ -2207,13 +2210,11 @@ LGAudioPlayerDelegate
     downView.clipsToBounds = YES;
     [changeView addSubview:downView];
     
-    
-    
     [changeView addSubview:textLabel];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeTextAction:)];
     changeView.tag = cell.tag;
     [changeView addGestureRecognizer:tap];
-    NSLog(@"********1********%ld",(long)cell.tag);
+    
     [self.tableView addSubview:changeView];
 }
 
@@ -2224,15 +2225,13 @@ LGAudioPlayerDelegate
     [cells setVoicePlayState:LGVoicePlayStateCancel];
     [cells.animalImage stopAnimating];
     [self changeTextRequest:tap.view.tag];
-    NSLog(@"********2********%ld",(long)tap.view.tag);
-
 }
 
 - (void)changeTextRequest:(NSInteger)index
 {
     [self initStateHud];
     MssageVO *vo = self.listData[index];
-    NSLog(@"********3********%ld",(long)index);
+    
     LMVoiceChangeTextRequest *request = [[LMVoiceChangeTextRequest alloc] initWithtranscodingUrl:vo.transcodingUrl andcurrentIndex:[vo.currentIndex intValue] voice_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -2253,15 +2252,16 @@ LGAudioPlayerDelegate
 - (void)getchangeTextRespond:(NSString *)resp
 {
     [self hideStateHud];
+    
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
     if (!bodyDic) {
 
         [self textStateHUD:@"转文字失败~"];
-    }else{
+        
+    } else {
+        
         if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-
-            NSLog(@"***********%@",bodyDic);
-            NSLog(@"%@",bodyDic[@"turnSound"]);
             
             UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
             topView.backgroundColor = [UIColor whiteColor];
@@ -2287,6 +2287,5 @@ LGAudioPlayerDelegate
     [changeView removeFromSuperview];
     [tap.view removeFromSuperview];
 }
-
 
 @end
