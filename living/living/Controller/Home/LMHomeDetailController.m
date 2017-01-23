@@ -917,15 +917,6 @@ LMContentTableViewCellDelegate
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(WriterVC)];
                 [nameLabel addGestureRecognizer:tap];
                 
-                if (_sign&&[_sign isEqualToString:@"menber"]&&![_franchisee isEqualToString:@"yes"]) {
-                    UIImageView *Vimage = [[UIImageView alloc] init];
-                    Vimage.contentMode = UIViewContentModeScaleAspectFill;
-                    Vimage.image = [UIImage imageNamed:@"BigVBlue"];
-                    Vimage.clipsToBounds = YES;
-                    [Vimage sizeToFit];
-                    Vimage.frame = CGRectMake(40+nameLabel.bounds.size.width, conHigh+25+3, 14, 14);
-                    [cell.contentView addSubview:Vimage];
-                }
                 if (_franchisee&&[_franchisee isEqualToString:@"yes"]) {
                     UIImageView *Vimage = [[UIImageView alloc] init];
                     Vimage.contentMode = UIViewContentModeScaleAspectFill;
@@ -1170,15 +1161,6 @@ LMContentTableViewCellDelegate
         line.frame = CGRectMake(15, conHigh+60, kScreenWidth-30, 0.5);
         [cell.contentView addSubview:line];
         
-        if (_sign&&[_sign isEqualToString:@"menber"]) {
-            UIImageView *Vimage = [[UIImageView alloc] init];
-            Vimage.contentMode = UIViewContentModeScaleAspectFill;
-            Vimage.image = [UIImage imageNamed:@"BigVBlue"];
-            Vimage.clipsToBounds = YES;
-            [Vimage sizeToFit];
-            Vimage.frame = CGRectMake(40+nameLabel.bounds.size.width, conHigh+25, 14, 14);
-            [cell.contentView addSubview:Vimage];
-        }
         if (_franchisee&&[_franchisee isEqualToString:@"yes"]) {
             UIImageView *Vimage = [[UIImageView alloc] init];
             Vimage.contentMode = UIViewContentModeScaleAspectFill;

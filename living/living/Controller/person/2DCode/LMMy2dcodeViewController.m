@@ -225,6 +225,11 @@
             [strs addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,11)];
             
             endTimeLabel.attributedText = strs;
+            
+            if (![[FitUserManager sharedUserManager].franchisee isEqualToString:@"yes"]) {
+                endTimeLabel.hidden = YES;
+            }
+            
         }
     }
 }

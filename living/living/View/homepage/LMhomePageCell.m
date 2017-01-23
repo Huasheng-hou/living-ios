@@ -188,10 +188,6 @@
     }
     _VIndex = 2;
     
-    if (list.sign&&[list.sign isEqualToString:@"menber"]&&![list.franchisee isEqualToString:@"yes"]) {
-        _VIndex = 1;
-        _VImage.image = [UIImage imageNamed:@"BigVBlue"];
-    }
     if (list.franchisee&&[list.franchisee isEqualToString:@"yes"]) {
         _VIndex = 1;
         _VImage.image = [UIImage imageNamed:@"BigVRed"];
@@ -230,7 +226,7 @@
     if (_VIndex == 1) {
         _VImage.hidden = NO;
         _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width-20, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-        _VImage.frame = CGRectMake(kScreenWidth-25-_nameLabel.bounds.size.width-10, 105, 14, 14);
+        _VImage.frame = CGRectMake(kScreenWidth-25-_nameLabel.bounds.size.width-10, 105+(_timeLabel.bounds.size.height-14)/2, 14, 14);
 
     }else{
         _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
