@@ -109,13 +109,8 @@ LGAudioPlayerDelegate
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        
-//        self.ifRemoveLoadNoState        = NO;
-//        self.ifShowTableSeparator       = NO;
+
         self.hidesBottomBarWhenPushed   = NO;
-//        self.ifAddPullToRefreshControl      = NO;
-//        self.ifLoadReverse                  = YES;
-//        self.ifProcessLoadFirst             = YES;
         
         self.listData   = [NSMutableArray new];
         
@@ -144,7 +139,8 @@ LGAudioPlayerDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
-    [timer invalidate];  
+    [timer invalidate];
+    timer = nil;
     
 }
 
@@ -193,7 +189,7 @@ LGAudioPlayerDelegate
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 [_listData addObjectsFromArray:items];
-                [self.tableView reloadData];
+                [self reLoadTableViewCell];
             });
             
         } else {
