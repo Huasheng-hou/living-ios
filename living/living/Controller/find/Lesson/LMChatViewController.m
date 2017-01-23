@@ -97,6 +97,7 @@ LGAudioPlayerDelegate
     UIView *changeView;
     NSString *UserID;
     NSTimer *timer;
+    CGFloat koardH;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -946,7 +947,12 @@ LGAudioPlayerDelegate
                 [self textStateHUD:@"发送失败,请重试~"];
                 [self createWebSocket];
             }
-            
+//            [self.view endEditing:YES];
+            if ([toorbar.inputTextView.text isEqualToString:@""]) {
+            self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - koardH - toobarHeight);
+                [toorbar setFrame:CGRectMake(0, toorbar.frame.origin.y+(toorbar.frame.size.height-toobarHeight),kScreenWidth, toobarHeight)];
+                toorbar.inputTextView.frame = CGRectMake(45, 7, kScreenWidth-45-45, 36);
+                }
             [self reLoadTableViewCell];
             
             return NO;
@@ -1002,10 +1008,20 @@ LGAudioPlayerDelegate
     [UIView animateWithDuration:timeValue animations:^{
     
         if (toolBarChangeH>50) {
-            self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
             
-            [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
-            [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+            if ([toorbar.inputTextView.text isEqualToString:@""]) {
+                self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
+                
+                [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
+                toorbar.inputTextView.frame = CGRectMake(45, 7, kScreenWidth-45-45, 36);
+                [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+            }else{
+                self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
+                
+                [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
+                [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+            }
+
         }else{
             self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
             
@@ -1227,7 +1243,7 @@ LGAudioPlayerDelegate
     
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
-    
+    koardH =keyboardRect.size.height;
     _visiableTime=animationDuration;
     [UIView animateWithDuration:animationDuration animations:^{
         
@@ -1266,9 +1282,18 @@ LGAudioPlayerDelegate
         
         if (toolBarChangeH > 50) {
             
-            [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
-            [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
-            self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBarChangeH);
+            if ([toorbar.inputTextView.text isEqualToString:@""]) {
+                toolBarChangeH = 45;
+                [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
+                toorbar.inputTextView.frame = CGRectMake(45, 7, kScreenWidth-45-45, 36);
+                [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+                self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBarChangeH);
+            }else{
+                [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
+                [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
+                self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBarChangeH);
+            }
+
         } else {
          
             [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
