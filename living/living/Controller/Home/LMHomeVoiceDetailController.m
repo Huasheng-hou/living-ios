@@ -1014,9 +1014,11 @@ LMContentTableViewCellDelegate
 {
     [self dismissSelf];
     
-    HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-    shareView.delegate=self;
-    [self.view addSubview:shareView];
+    [self textStateHUD:@"暂不支持分享~"];
+    
+//    HBShareView *shareView=[[HBShareView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+//    shareView.delegate=self;
+//    [self.view addSubview:shareView];
 }
 -(void)bigBtnButton
 {
@@ -1882,93 +1884,95 @@ LMContentTableViewCellDelegate
         
     }
     if (clickArr.count%2 == 1) {
-        blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50)];
-        blackView.backgroundColor = [UIColor blackColor];
-        blackView.alpha = 0.5;
-        [self.view addSubview:blackView];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
-        [blackView addGestureRecognizer:tap];
-        
-        
-        addView =[[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
-        addView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:addView];
-        
-        [UIView animateWithDuration:0.3f animations:^{
-            [addView setFrame:CGRectMake(0, kScreenHeight*2/3-45, kScreenWidth, kScreenHeight/3)];
-        }];
-        
-        
-        UILabel *type = [UILabel new];
-        type.text = @"字号大小";
-        type.font = TEXT_FONT_LEVEL_1;
-        type.textColor =TEXT_COLOR_LEVEL_1;
-        type.textAlignment = NSTextAlignmentCenter;
-        [type sizeToFit];
-        [addView addSubview:type];
-        
-        bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [bigBtn setTitle:@"大" forState:UIControlStateNormal];
-        bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-        [bigBtn sizeToFit];
-        [addView addSubview:bigBtn];
-        [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [midBtn setTitle:@"中" forState:UIControlStateNormal];
-        midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-        [midBtn sizeToFit];
-        [addView addSubview:midBtn];
-        [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
-        
-        smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [smallBtn setTitle:@"小" forState:UIControlStateNormal];
-        smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-        [smallBtn sizeToFit];
-        [addView addSubview:smallBtn];
-        [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        type.frame = CGRectMake(15, 0, type.bounds.size.width, 45);
-        smallBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/6, 45);
-        midBtn.frame = CGRectMake(kScreenWidth*2/3, 0, kScreenWidth/6, 45);
-        bigBtn.frame = CGRectMake(kScreenWidth*5/6, 0, kScreenWidth/6, 45);
-        
-        if (typeIndex ==1) {
-            [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-        }
-        if (typeIndex ==2) {
-            [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-        }
-        if (typeIndex ==3) {
-            [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
-        }
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, kScreenWidth, 0.5)];
-        lineView.backgroundColor = LINE_COLOR;
-        [addView addSubview:lineView];
-        
-        UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [writeButton setTitle:@"作者文章空间" forState:UIControlStateNormal];
-        writeButton.titleLabel.font = TEXT_FONT_LEVEL_1;
-        [writeButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
-        [writeButton sizeToFit];
-        writeButton.frame = CGRectMake(kScreenWidth/2-80, addView.bounds.size.height/2, 160, 45);
-        
-        writeButton.layer.cornerRadius = 22.5;
-        writeButton.layer.borderColor = LIVING_COLOR.CGColor;
-        writeButton.layer.borderWidth = 0.5;
-        
-        [addView addSubview:writeButton];
-        [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
+        [self textStateHUD:@"更多内容敬请期待~"];
+//        blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50)];
+//        blackView.backgroundColor = [UIColor blackColor];
+//        blackView.alpha = 0.5;
+//        [self.view addSubview:blackView];
+//        
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+//        [blackView addGestureRecognizer:tap];
+//        
+//        
+//        addView =[[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight/3)];
+//        addView.backgroundColor = [UIColor whiteColor];
+//        [self.view addSubview:addView];
+//        
+//        [UIView animateWithDuration:0.3f animations:^{
+//            [addView setFrame:CGRectMake(0, kScreenHeight*2/3-45, kScreenWidth, kScreenHeight/3)];
+//        }];
+//        
+//        
+//        UILabel *type = [UILabel new];
+//        type.text = @"字号大小";
+//        type.font = TEXT_FONT_LEVEL_1;
+//        type.textColor =TEXT_COLOR_LEVEL_1;
+//        type.textAlignment = NSTextAlignmentCenter;
+//        [type sizeToFit];
+//        [addView addSubview:type];
+//        
+//        bigBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [bigBtn setTitle:@"大" forState:UIControlStateNormal];
+//        bigBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+//        [bigBtn sizeToFit];
+//        [addView addSubview:bigBtn];
+//        [bigBtn addTarget:self action:@selector(bigBtnButton) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        
+//        midBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [midBtn setTitle:@"中" forState:UIControlStateNormal];
+//        midBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+//        [midBtn sizeToFit];
+//        [addView addSubview:midBtn];
+//        [midBtn addTarget:self action:@selector(midBtnButton) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        smallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [smallBtn setTitle:@"小" forState:UIControlStateNormal];
+//        smallBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+//        [smallBtn sizeToFit];
+//        [addView addSubview:smallBtn];
+//        [smallBtn addTarget:self action:@selector(smallBtnButton) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        
+//        type.frame = CGRectMake(15, 0, type.bounds.size.width, 45);
+//        smallBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/6, 45);
+//        midBtn.frame = CGRectMake(kScreenWidth*2/3, 0, kScreenWidth/6, 45);
+//        bigBtn.frame = CGRectMake(kScreenWidth*5/6, 0, kScreenWidth/6, 45);
+//        
+//        if (typeIndex ==1) {
+//            [bigBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+//            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+//            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+//        }
+//        if (typeIndex ==2) {
+//            [midBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+//            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+//            [smallBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+//        }
+//        if (typeIndex ==3) {
+//            [smallBtn setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+//            [bigBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+//            [midBtn setTitleColor:TEXT_COLOR_LEVEL_3 forState:UIControlStateNormal];
+//        }
+//        
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, kScreenWidth, 0.5)];
+//        lineView.backgroundColor = LINE_COLOR;
+//        [addView addSubview:lineView];
+//        
+//        UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [writeButton setTitle:@"作者文章空间" forState:UIControlStateNormal];
+//        writeButton.titleLabel.font = TEXT_FONT_LEVEL_1;
+//        [writeButton setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+//        [writeButton sizeToFit];
+//        writeButton.frame = CGRectMake(kScreenWidth/2-80, addView.bounds.size.height/2, 160, 45);
+//        
+//        writeButton.layer.cornerRadius = 22.5;
+//        writeButton.layer.borderColor = LIVING_COLOR.CGColor;
+//        writeButton.layer.borderWidth = 0.5;
+//        
+//        [addView addSubview:writeButton];
+//        [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
         
         
     }else{
@@ -2032,11 +2036,17 @@ LMContentTableViewCellDelegate
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag
 {
 
+    if (voiceIndex>voiceArray.count-1) {
+        return;
+    }
     NSString *urlstring = voiceArray[voiceIndex];
     voiceIndex = voiceIndex+1;
+
     NSLog(@"%ld",(long)voiceIndex);
     NSLog(@"%@",urlstring);
     [self playVoice:urlstring];
+    
+
 
 }
 

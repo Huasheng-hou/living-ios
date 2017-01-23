@@ -119,12 +119,6 @@ LMVoiceHeaderCellDelegate
     [self scrollViewDidScroll:self.tableView];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-//    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-
-}
 
 - (void)viewDidLoad
 {

@@ -606,7 +606,7 @@ static NSMutableArray *cellDataArray;
                 if (textFiledTag == 3) {
                     [self textStateHUD:@"最多不能超过100万哦~"];
                 }
-                if (textFiledTag == 3) {
+                if (textFiledTag == 4) {
                     [self textStateHUD:@"最多不能超过500人哦~"];
                 }
                 

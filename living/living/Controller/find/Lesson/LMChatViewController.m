@@ -96,6 +96,7 @@ LGAudioPlayerDelegate
     
     UIView *changeView;
     NSString *UserID;
+    NSTimer *timer;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -123,7 +124,7 @@ LGAudioPlayerDelegate
         hasShield = NO;
         isShieldReload = NO;
         
-        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
         
         [self createWebSocket];
     }
@@ -143,6 +144,7 @@ LGAudioPlayerDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
+    [timer invalidate];  
     
 }
 
@@ -172,6 +174,9 @@ LGAudioPlayerDelegate
     [LGAudioPlayer sharePlayer].delegate = self;
     
     toolBarChangeH  = 0;
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(createWebSocket) userInfo:nil repeats:YES];
 }
 
 - (void)loadNewer

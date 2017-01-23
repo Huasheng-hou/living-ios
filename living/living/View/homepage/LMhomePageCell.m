@@ -116,7 +116,51 @@
 - (void)setValue:(LMActicleVO *)list
 {
     _nameLabel.text = list.articleName;
-    _contentLabel.text = list.articleContent;
+    
+    if ([list.group isEqualToString:@"voice"]) {
+        NSString *contentString = list.articleContent;
+        NSData *respData = [contentString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSDictionary *respDict = [NSJSONSerialization
+                                  JSONObjectWithData:respData
+                                  options:NSJSONReadingMutableLeaves
+                                  error:nil];
+        
+        NSMutableArray *contentArray = [NSMutableArray new];
+        NSMutableArray *contarray = [NSMutableArray new];
+        contentArray = [respDict objectForKey:@"content"];
+        for (NSDictionary *dic in contentArray) {
+            NSString *role;
+            
+            if ([dic[@"role"] isEqualToString:@"teacher"]) {
+                role = @"讲师";
+            }
+            if ([dic[@"role"] isEqualToString:@"host"]) {
+                role = @"主持人";
+            }
+            
+            NSString *content = dic[@"content"];
+            if (role!= nil&&content!=nil) {
+                NSString *con = [NSString stringWithFormat:@"%@：%@\n",role,content];
+                [contarray addObject:con];
+            }
+        }
+        NSString *conStr;
+        for (int i = 0; i<contarray.count; i++) {
+            if (i<1) {
+                conStr = contarray[0];
+            }else{
+              conStr = [NSString stringWithFormat:@"%@%@",conStr,contarray[i]];
+            }
+        }
+        
+        _contentLabel.text = conStr;
+        
+        
+    }else{
+       _contentLabel.text = list.articleContent;
+    }
+    
+    
     [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     _timeLabel.text = [self getUTCFormateDate:list.publishTime];
     
