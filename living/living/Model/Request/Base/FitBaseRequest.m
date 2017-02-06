@@ -102,6 +102,11 @@
     return NO;
 }
 
+- (BOOL)iSFileDataInclude;
+{
+    return NO;
+}
+
 
 - (BOOL)isPost
 {
@@ -177,7 +182,28 @@
                                              }
                                              
                                          }];
+        }else if ([self iSFileDataInclude]){
+            
+                afRequest = [httpClient multipartFormRequestWithMethod:@"POST"
+                                                                  path:[self methodPath]
+                                                            parameters:nil
+                                             constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                                 
+                                                 [formData appendPartWithFormData:[self toJSONData:[self query]]
+                                                                             name:@"json_package"];
+                                                 
+                                                 if ([self iSFileDataInclude] && _fileData) {
+                                                     [formData appendPartWithFileData:_fileData
+                                                                                 name:@"filename"
+                                                                             fileName:[NSString stringWithFormat:@"%@.mp4", @"filename"]
+                                                                             mimeType:@"video/quicktime"];
+                                                 }
+                                                 
+                                             }];
+            
+
         }
+        
         
         
     } else {

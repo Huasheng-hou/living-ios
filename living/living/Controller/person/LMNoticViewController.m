@@ -61,6 +61,7 @@ UITableViewDataSource
     [self.view addSubview:_tableView];
     _tableView.allowsMultipleSelection = YES;
     _tableView.allowsMultipleSelectionDuringEditing = YES;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(EditAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -141,7 +142,7 @@ UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 170;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -168,15 +169,17 @@ UITableViewDataSource
     if (!cell) {
 
         cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-
-//        cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
     }
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     if ([Estring isEqual:@"完成"]) {
         cell.INDEX = 1;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    }else{
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     [cell setXScale:self.xScale yScale:self.yScaleWithAll];

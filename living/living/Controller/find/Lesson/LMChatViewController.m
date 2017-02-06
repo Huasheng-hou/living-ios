@@ -797,15 +797,22 @@ LGAudioPlayerDelegate
     
     if (vo.type && ([vo.type isEqual:@"chat"] || [vo.type isEqual:@"question"])) {
         
-        NSString *contentStr=vo.content;
+        
+        NSString *content = [vo.content stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *contentStr;
+        if (content==nil) {
+            contentStr = vo.content;
+        }else{
+            contentStr = content;
+        }
         
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentStr];
         
-        [paragraphStyle setLineSpacing:5];
+        [paragraphStyle setLineSpacing:2];
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, contentStr.length)];
-        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-85, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
+        CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
         
         if ([vo.type isEqual:@"question"]) {
             return contenSize.height+55+10+20;

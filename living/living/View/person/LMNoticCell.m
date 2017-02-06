@@ -25,6 +25,8 @@
 
 @property(nonatomic,retain)UILabel *titleLabel;
 
+@property(nonatomic,retain)UIView *whiteView;
+
 @end
 
 
@@ -43,36 +45,43 @@
 
 -(void)addSubviews
 {
-    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 50, 50)];
+    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 50, 40, 40)];
+    _headImage.layer.cornerRadius = 20;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
     _headImage.clipsToBounds = YES;
+    
     [self.contentView addSubview:_headImage];
+    
+    _whiteView = [UIView new];
+    _whiteView.backgroundColor = [UIColor whiteColor];
+    _whiteView.layer.cornerRadius = 3;
+    _whiteView.contentMode = UIViewContentModeScaleAspectFill;
+    _whiteView.clipsToBounds = YES;
+    [self.contentView addSubview:_whiteView];
     
     _typeLabel = [UILabel new];
     _typeLabel.font = TEXT_FONT_LEVEL_2;
     _typeLabel.textColor = TEXT_COLOR_LEVEL_1;
-    [self.contentView addSubview:_typeLabel];
+    [_whiteView addSubview:_typeLabel];
     
     _timeLabel = [UILabel new];
     _timeLabel.font = TEXT_FONT_LEVEL_3;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_3;
+    _timeLabel.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_timeLabel];
     
     _titleLabel = [UILabel new];
     _titleLabel.font = TEXT_FONT_LEVEL_2;
     _titleLabel.textColor = TEXT_COLOR_LEVEL_1;
-    [self.contentView addSubview:_titleLabel];
+    [_whiteView addSubview:_titleLabel];
     
     
     _contentLabel = [UILabel new];
     _contentLabel.font = TEXT_FONT_LEVEL_2;
     _contentLabel.textColor = TEXT_COLOR_LEVEL_2;
-    [self.contentView addSubview:_contentLabel];
+    [_whiteView addSubview:_contentLabel];
     
-    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-4, 0, 4, 70)];
-    leftView.backgroundColor = LIVING_COLOR;
-    [self.contentView addSubview:leftView];
-    
+
 }
 
 
@@ -110,7 +119,7 @@
     _contentLabel.text = list.content;
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [formatter setDateFormat:@"yy-MM-dd HH:mm"];
     
     if (list.noticeTime && [list.noticeTime isKindOfClass:[NSDate class]]) {
         
@@ -156,6 +165,21 @@
     _yScale = yScale;
 }
 
+
++ (CGFloat)cellHigth:(NSString *)titleString
+{
+    NSDictionary *attributes    = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    
+    CGFloat conHigh = [titleString boundingRectWithSize:CGSizeMake(kScreenWidth-70, 100000)
+                                                options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                             attributes:attributes
+                                                context:nil].size.height;
+    
+    return (75 + conHigh + 18 + 0.5);
+}
+
+
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
@@ -163,19 +187,22 @@
     [_timeLabel sizeToFit];
     [_contentLabel sizeToFit];
     [_titleLabel sizeToFit];
-    
-    _typeLabel.frame = CGRectMake(72, _timeLabel.bounds.size.height+15, _typeLabel.bounds.size.width,  30);
+    [_whiteView sizeToFit];
+    _whiteView.frame = CGRectMake(70, 50, kScreenWidth-140, 30 + _titleLabel.bounds.size.height+20);
+    _timeLabel.frame = CGRectMake(0, 20, kScreenWidth, _timeLabel.bounds.size.height);
+    _typeLabel.frame = CGRectMake(5, 5, _typeLabel.bounds.size.width,  30);
     
     if (_INDEX==1) {
-       _timeLabel.frame = CGRectMake(kScreenWidth-65-_timeLabel.bounds.size.width, 12, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-        _titleLabel.frame = CGRectMake(72, 12, 35+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
+        
+        _titleLabel.frame = CGRectMake(5, 5, 35+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
     }else{
-       _timeLabel.frame = CGRectMake(kScreenWidth-15-_timeLabel.bounds.size.width, 12, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-        _titleLabel.frame = CGRectMake(72, 12, 85+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
+       
+        _titleLabel.frame = CGRectMake(5, 5, 85+_timeLabel.bounds.size.width, _titleLabel.bounds.size.height);
     }
     
 
-    _contentLabel.frame = CGRectMake(72+_typeLabel.bounds.size.width, _timeLabel.bounds.size.height+15, kScreenWidth-85-_typeLabel.bounds.size.width, 30);
+    _typeLabel.frame = CGRectMake(5, 5+_titleLabel.bounds.size.height, _typeLabel.bounds.size.width,  30);
+    _contentLabel.frame = CGRectMake(5+_typeLabel.bounds.size.width, 5+_titleLabel.bounds.size.height, kScreenWidth-140-_typeLabel.bounds.size.width, 30);
 
     
     

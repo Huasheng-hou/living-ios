@@ -42,4 +42,6 @@
 
 - (BOOL)isVoiceInclude;
 
+- (BOOL)iSFileDataInclude;
+
 @end

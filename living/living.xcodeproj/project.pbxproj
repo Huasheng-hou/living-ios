@@ -96,6 +96,7 @@
 		359F81961E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81951E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m */; };
 		359F81991E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81981E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m */; };
 		359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */; };
+		35B0734C1E48247300FEB168 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B0734B1E48247300FEB168 /* Photos.framework */; };
 		35B1A11C1DED146B00055E7D /* LMSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */; };
 		35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */; };
 		35B286FE1E347CF400B2AA40 /* LMHomeVoiceDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B286FD1E347CF400B2AA40 /* LMHomeVoiceDetailController.m */; };
@@ -644,6 +645,7 @@
 		359F81981E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceDeleteReplyRequest.m; sourceTree = "<group>"; };
 		359F819A1E0282030070F6C7 /* LMVoiceJoinRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceJoinRequest.h; sourceTree = "<group>"; };
 		359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceJoinRequest.m; sourceTree = "<group>"; };
+		35B0734B1E48247300FEB168 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		35B1A11B1DED146B00055E7D /* LMSearchAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchAddressController.m; sourceTree = "<group>"; };
 		35B1A11E1DED19F200055E7D /* LMISLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMISLoginRequest.h; sourceTree = "<group>"; };
 		35B1A11F1DED19F200055E7D /* LMISLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMISLoginRequest.m; sourceTree = "<group>"; };
@@ -1417,6 +1419,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B0734C1E48247300FEB168 /* Photos.framework in Frameworks */,
 				35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */,
 				3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
@@ -1467,6 +1470,7 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35B0734B1E48247300FEB168 /* Photos.framework */,
 				35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */,
 				35B748391DDE9B37000AFA26 /* UMMobClick.framework */,
 				8E4C98FE1DD1D7DC00B17046 /* AMap.bundle */,

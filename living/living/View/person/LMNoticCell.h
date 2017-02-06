@@ -22,4 +22,6 @@
 
 -(void)setData:(LMNoticVO *)list;
 
++ (CGFloat)cellHigth:(NSString *)titleString;
+
 @end
