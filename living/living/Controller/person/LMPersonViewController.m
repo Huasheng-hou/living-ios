@@ -317,7 +317,7 @@ static CGRect oldframe;
             [cell.contentView addSubview:genderImage];
             
             if (infoModel.sign&&[infoModel.sign isEqualToString:@"menber"]) {
-                UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100+5+16, 18, 47, 19)];
+                UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100+5+16, 20, 38, 16)];
                 Vimage.contentMode = UIViewContentModeScaleAspectFill;
                 Vimage.image = [UIImage imageNamed:@"BigVBlue"];
                 Vimage.clipsToBounds = YES;
