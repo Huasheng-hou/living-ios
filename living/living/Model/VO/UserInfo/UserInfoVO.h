@@ -32,6 +32,9 @@
 @property (nonatomic, strong) NSString *birthday;
 @property (nonatomic, assign) int orderNumber;
 @property (nonatomic, strong) NSString *totalEventNum;
+@property (nonatomic, strong) NSString *franchisee;
+@property (nonatomic, strong) NSString *sign;
+@property (nonatomic, strong) NSString *prove;
 @property (nonatomic, strong) NSString *province;
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, assign) int livingNumber;

@@ -24,7 +24,7 @@
 
 - (NSString *)serverHost
 {
-    return @"http://app.cars48db.com/wechat-api/iosapp";
+    return @"http://120.26.137.44/java-web/iosapp";
 }
 
 

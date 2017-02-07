@@ -119,6 +119,14 @@
             && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
             self.sign = [dictionary objectForKey:@"sign"];
         }
+        if (nil != [dictionary objectForKey:@"voiceUuid"] && ![[dictionary objectForKey:@"voiceUuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voiceUuid"] isKindOfClass:[NSString class]]) {
+            self.voiceUuid = [dictionary objectForKey:@"voiceUuid"];
+        }
+        if (nil != [dictionary objectForKey:@"voiceTitle"] && ![[dictionary objectForKey:@"voiceTitle"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voiceTitle"] isKindOfClass:[NSString class]]) {
+            self.voiceTitle = [dictionary objectForKey:@"voiceTitle"];
+        }
  
     }
     

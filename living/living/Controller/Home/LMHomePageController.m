@@ -22,6 +22,7 @@
 #import "LMWebViewController.h"
 
 #import "LMArtcleTypeViewController.h"
+#import "LMHomeVoiceDetailController.h"
 
 #import "BannerVO.h"
 
@@ -107,6 +108,17 @@ LMhomePageCellDelegate
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
     self.tableView.tableHeaderView = headView;
+    
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(publicAction)];
+        
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    
+
 }
 
 - (void)adjustIndicator:(UIView *)loadingView
@@ -235,19 +247,6 @@ LMhomePageCellDelegate
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
-        if ([[FitUserManager sharedUserManager].franchisee isEqual:@"yes"] || [franchisee isEqual:@"yes"]) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(publicAction)];
-                
-                self.navigationItem.rightBarButtonItem = rightItem;
-            });
-        }
-        
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
         return [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];
@@ -375,25 +374,33 @@ LMhomePageCellDelegate
         
         if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
             
-            LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+            if (vo.group&&[vo.group isEqualToString:@"article"]) {
+                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
             
-            detailVC.hidesBottomBarWhenPushed = YES;
-            detailVC.artcleuuid = vo.articleUuid;
+            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
             
-            [self.navigationController pushViewController:detailVC animated:YES];
+
         }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
-
-- (void)typeClick
-{
-    LMArtcleTypeViewController *typeVC = [[LMArtcleTypeViewController alloc] initWithType:@"生活"];
-    [self.navigationController pushViewController:typeVC animated:YES];
-}
-
 
 
 #pragma mark  --cell click delegat
@@ -408,7 +415,8 @@ LMhomePageCellDelegate
             
             LMWriterViewController *writerVC = [[LMWriterViewController alloc] initWithUUid:vo.userUuid];
             writerVC.hidesBottomBarWhenPushed = YES;
-            
+            writerVC.franchisee = vo.franchisee;
+            writerVC.sign = vo.sign;
             [self.navigationController pushViewController:writerVC animated:YES];
         }
     }

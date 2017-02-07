@@ -24,6 +24,7 @@
 #import "UIBarButtonItem+Badge.h"
 #import "SYPhotoBrowser.h"
 #import "LMBlacklistViewController.h"
+#import "LMMyvoicSegmentViewController.h"
 
 static CGRect oldframe;
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -45,7 +46,6 @@ static CGRect oldframe;
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
-    
 
     if (![[FitUserManager sharedUserManager] isLogin]) {
         NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
@@ -111,6 +111,10 @@ static CGRect oldframe;
         self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor clearColor];
     }
     
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    footView.backgroundColor = [UIColor clearColor];
+    _tableView.tableFooterView = footView;
+    
 }
 
 - (void)addDot
@@ -129,7 +133,7 @@ static CGRect oldframe;
     
     LMNoticViewController *noticVC = [[LMNoticViewController alloc] init];
     [noticVC setHidesBottomBarWhenPushed:YES];
-    
+    noticVC.nameString = infoModels.nickName;
     [self.navigationController pushViewController:noticVC animated:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_notic" object:nil];
@@ -173,23 +177,24 @@ static CGRect oldframe;
     {
         infoModels = [[UserInfoVO alloc] initWithDictionary:[bodyDict objectForKey:@"userInfo"]];
         infoDic =[bodyDict objectForKey:@"userInfo"];
-        NSDate * date = [NSDate date];
         
-        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        
-        //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
-        NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
-        //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
-        
-        NSDate * lastYear = [date dateByAddingTimeInterval:time];
-        
-        //转化为字符串
-        NSString * startDate = [dateFormatter stringFromDate:lastYear];
-        NSLog(@"%@",startDate);
-        NSDate *endDate = [dateFormatter dateFromString:infoModels.endTime];
-        
-        [self compareOneDay:lastYear withAnotherDay:endDate];
+        if ([infoModels.franchisee isEqualToString:@"yes"]) {
+            NSDate * date = [NSDate date];
+            
+            NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            //设置时间间隔（秒）
+            NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
+            //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
+            NSDate * lastYear = [date dateByAddingTimeInterval:time];
+            //转化为字符串
+            NSString * startDate = [dateFormatter stringFromDate:lastYear];
+            NSLog(@"%@",startDate);
+            NSDate *endDate = [dateFormatter dateFromString:infoModels.endTime];
+            
+            [self compareOneDay:lastYear withAnotherDay:endDate];
+        }
+
         
         [_tableView reloadData];
         
@@ -216,6 +221,9 @@ static CGRect oldframe;
         return 1;
     }
     if (section==1) {
+        if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+            return 6;
+        }
         return 5;
     }
     if (section==2) {
@@ -297,7 +305,6 @@ static CGRect oldframe;
             nicklabel.text = str;
             [cell.contentView addSubview:nicklabel];
             
-            
             //gender icon
             UIImageView *genderImage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100, 22, 16, 16)];
             if (infoModel.gender) {
@@ -309,9 +316,17 @@ static CGRect oldframe;
             }
             [cell.contentView addSubview:genderImage];
             
+            if (infoModel.sign&&[infoModel.sign isEqualToString:@"menber"]) {
+                UIImageView *Vimage = [[UIImageView alloc] initWithFrame:CGRectMake(textSize.width+5+100+5+16, 20, 38, 16)];
+                Vimage.contentMode = UIViewContentModeScaleAspectFill;
+                Vimage.image = [UIImage imageNamed:@"BigVBlue"];
+                Vimage.clipsToBounds = YES;
+                [cell.contentView addSubview:Vimage];
+            }
+            
             //id
             
-            UILabel     *idLabel = [[UILabel alloc] initWithFrame:CGRectMake(textSize.width + 5 + 100 + 23, 22, kScreenWidth-(textSize.width+5+100+23)-15, 16)];
+            UILabel     *idLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 75, kScreenWidth-(textSize.width+5+100+23)-15, 16)];
             NSString    *userID  = [NSString stringWithFormat:@"%d", infoModel.userId];
             
             if (userID) {
@@ -320,7 +335,7 @@ static CGRect oldframe;
             }
             
             [idLabel setFont:TEXT_FONT_LEVEL_3];
-            idLabel.textColor = TEXT_COLOR_LEVEL_2;
+            idLabel.textColor = TEXT_COLOR_LEVEL_3;
             [cell.contentView addSubview:idLabel];
             
             //下划线
@@ -329,32 +344,30 @@ static CGRect oldframe;
             [cell.contentView addSubview:lineLabel];
             
             //余额
-            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 60, 80, 20)];
+            UILabel *question = [[UILabel alloc] initWithFrame:CGRectMake(100, 55, 80, 20)];
             question.text = [NSString stringWithFormat:@"余额 ￥%.2f", infoModel.balance];
             question.font = TEXT_FONT_LEVEL_3;
             question.textColor = TEXT_COLOR_LEVEL_3;
             [question sizeToFit];
-            question.frame = CGRectMake(100, 60, question.bounds.size.width, 20);
+            question.frame = CGRectMake(100, 55, question.bounds.size.width, 20);
             [cell.contentView addSubview:question];
             
-            
-            
             //订单
-            UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
+            UILabel *reward = [[UILabel alloc] initWithFrame:CGRectMake(180, 55, 80, 20)];
             reward.text = [NSString stringWithFormat:@"订单 %d", infoModel.orderNumber];
             reward.font = TEXT_FONT_LEVEL_3;
             reward.textColor = TEXT_COLOR_LEVEL_3;
             [reward sizeToFit];
-            reward.frame = CGRectMake(115+question.bounds.size.width, 60, reward.bounds.size.width, 20);
+            reward.frame = CGRectMake(115+question.bounds.size.width, 55, reward.bounds.size.width, 20);
             [cell.contentView addSubview:reward];
             
             //生活馆
-            UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 60, 80, 20)];
+            UILabel *living = [[UILabel alloc] initWithFrame:CGRectMake(180, 55, 80, 20)];
             living.text = [NSString stringWithFormat:@"生活馆 %d", infoModel.livingNumber];
             living.font = TEXT_FONT_LEVEL_3;
             living.textColor = TEXT_COLOR_LEVEL_3;
             [living sizeToFit];
-            living.frame = CGRectMake(130+question.bounds.size.width+reward.bounds.size.width, 60, living.bounds.size.width, 20);
+            living.frame = CGRectMake(130+question.bounds.size.width+reward.bounds.size.width, 55, living.bounds.size.width, 20);
             [cell.contentView addSubview:living];
             
             UIImageView *right = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-20, 63, 7, 14)];
@@ -392,6 +405,11 @@ static CGRect oldframe;
             case 4:
                 cell.textLabel.text = @"我的优惠券";
                 cell.imageView.image = [UIImage imageNamed:@"personCoupon"];
+                
+                break;
+            case 5:
+                cell.textLabel.text = @"我是讲师";
+                cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
                 
                 break;
                 
@@ -510,6 +528,13 @@ static CGRect oldframe;
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
+        
+        if (indexPath.row == 5) {
+            LMMyvoicSegmentViewController *myVoiceVC = [[LMMyvoicSegmentViewController alloc] init];
+            myVoiceVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:myVoiceVC animated:YES];
+        }
+        
     }
     
     if (indexPath.section==2) {
@@ -558,9 +583,7 @@ static CGRect oldframe;
 - (void)showImage:(UIImageView *)avatarImageView{
     self.navigationController.navigationBar.hidden=YES;
     self.tabBarController.tabBar.hidden = YES;
-//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     UIImage *image=avatarImageView.image;
-//    UIWindow *window=[UIApplication sharedApplication].keyWindow;
     backgroundViews=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     oldframe=[avatarImageView convertRect:avatarImageView.bounds toView:self.view];
     backgroundViews.backgroundColor=[UIColor blackColor];
@@ -671,10 +694,7 @@ static CGRect oldframe;
     self.navigationController.navigationBar.hidden=NO;
     self.tabBarController.tabBar.hidden = NO;
     [self textStateHUD:msg];
-    
-    
 }
-
 
 - (void)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
 {
@@ -700,7 +720,6 @@ static CGRect oldframe;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LM_ADD_NOTIFICATION" object:nil];
         [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"xufei_dot"];
     }
-    //NSLog(@"Both dates are the same");
 }
 
 

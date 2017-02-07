@@ -38,5 +38,10 @@
 @property (nonatomic, retain) NSString *couponMoney;
 @property (nonatomic, retain) NSString *discountMoney;
 @property (nonatomic, assign) int status;
+@property (nonatomic, retain) NSString *voiceStatus;
+@property (nonatomic, retain) NSString *type;
+@property (nonatomic, retain) NSString *voiceTitle;
+@property (nonatomic, retain) NSString *voiceUuid;
+@property (nonatomic, retain) NSString *voiceImages;
 
 @end

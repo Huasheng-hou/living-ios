@@ -70,7 +70,7 @@
         attributes2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0],NSParagraphStyleAttributeName:paragraphStyle};
     }
     
-    conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height;
+    conHighs = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+6;
     
     
     if (vo.images) {
@@ -119,7 +119,7 @@
 - (void)layoutSubviews
 {
     [contentLabel sizeToFit];
-    contentLabel.frame = CGRectMake(15, 15, kScreenWidth-30, conHighs);
+    contentLabel.frame = CGRectMake(15, 9, kScreenWidth-30, conHighs);
 }
 
 

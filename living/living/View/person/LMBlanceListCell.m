@@ -102,7 +102,7 @@
     }
 }
 
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     [_titleLabel sizeToFit];
@@ -110,13 +110,10 @@
     [_timeLabel sizeToFit];
     [_balanceLabel sizeToFit];
     
-    
-    _titleLabel.frame = CGRectMake(15, 5, _titleLabel.bounds.size.width, 25);
+    _titleLabel.frame = CGRectMake(15, 5, kScreenWidth - 30, 25);
     _detailLable.frame = CGRectMake(15, 32, _detailLable.bounds.size.width, _detailLable.bounds.size.height);
     _timeLabel.frame = CGRectMake(15, 70-_timeLabel.bounds.size.height, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     _balanceLabel.frame = CGRectMake(kScreenWidth-15-_balanceLabel.bounds.size.width, 0, _balanceLabel.bounds.size.width, 75);
-    
 }
-
 
 @end

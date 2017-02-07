@@ -132,6 +132,8 @@ FitPickerViewDelegate
 - (void)dismissitemPressed
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
 }
 
 - (void)getOrderData
@@ -205,8 +207,12 @@ FitPickerViewDelegate
             return 1;
         }
         if (section == 1) {
-            
-            return 7;
+        
+            if ([_Type isEqualToString:@"voice"]) {
+                return 6;
+            }else{
+                return 7;
+            }
         }
     }
     if (tableView==_couponView) {
@@ -309,7 +315,12 @@ FitPickerViewDelegate
             
             
             UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 30, kScreenWidth-55, 60)];
-            titleLabel.text = orderdata.eventName;
+            if ([_Type isEqualToString:@"voice"]) {
+                titleLabel.text = orderdata.voiceTitle;
+            }else{
+               titleLabel.text = orderdata.eventName;
+            }
+            
             titleLabel.numberOfLines = 0;
             titleLabel.font = TEXT_FONT_LEVEL_2;
             titleLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -460,9 +471,13 @@ FitPickerViewDelegate
                     
                     break;
                 case 1:
-                    
-                    cell.textLabel.text = @"活动名称:";
-                    cell.detailTextLabel.text = orderInfos.eventName;
+                    if ([_Type isEqual:@"voice"]) {
+                        cell.textLabel.text = @"课程名称:";
+                        cell.detailTextLabel.text = orderInfos.voiceTitle;
+                    }else{
+                        cell.textLabel.text = @"活动名称:";
+                        cell.detailTextLabel.text = orderInfos.eventName;
+                    }
                     
                     break;
                 case 2:
@@ -480,7 +495,7 @@ FitPickerViewDelegate
                         cell.detailTextLabel.text = @"";
                     } else {
                         
-                        cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%@",orderInfos.validatedPrice];
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%@",orderInfos.averagePrice];
                     }
                     
                     break;
@@ -493,8 +508,12 @@ FitPickerViewDelegate
                     }
                     break;
                 case 5:
+                    if ([_Type isEqual:@"voice"]) {
+                        cell.textLabel.text       = @"课程时间:";
+                    }else{
+                        cell.textLabel.text       = @"活动时间:";
+                    }
                     
-                    cell.textLabel.text                 = @"活动时间:";
                     cell.detailTextLabel.numberOfLines  = 3;
                     
                     if (orderInfos.startTime == nil) {
@@ -807,7 +826,10 @@ FitPickerViewDelegate
             if ([bodyDict[@"trade_state"] isEqualToString:@"SUCCESS"]) {
                 
                 [self textStateHUD:@"支付成功！"];
-                [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+                });
                 
             } else {
                 
@@ -929,7 +951,10 @@ FitPickerViewDelegate
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]) {
             
             [self textStateHUD:@"支付成功！"];
-            [self performSelector:@selector(dismissitemPressed) withObject:nil afterDelay:1];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+            });
         } else {
             
             [self textStateHUD:bodyDict[@"description"]];
@@ -986,7 +1011,11 @@ FitPickerViewDelegate
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * _Nonnull action) {
                                                         
-                                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                            [self dismissViewControllerAnimated:YES completion:nil];
+                                                            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+                                                        });
+                                                     
                                                     }]];
             
             [self presentViewController:alert animated:YES completion:nil];

@@ -24,6 +24,7 @@
 #import "UIImageView+WebCache.h"
 #import "LMAddressChooseView.h"
 
+
 @interface LMPublishViewController ()
 <
 UITableViewDelegate,
@@ -60,6 +61,10 @@ addressTypeDelegate
     NSMutableArray *projectImageArray;
     LMAddressChooseView *addView;
     LMAddressChooseView *addView2;
+    UIButton *publicButton;
+    NSMutableArray *updateArray;
+    NSInteger index;
+    NSString *useCounpon;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -80,13 +85,14 @@ static NSMutableArray *cellDataArray;
     for (int i=0; i<10; i++) {
         [projectImageArray addObject:@""];
     }
-    
+    index = 0;
     [self projectDataStorageWithArrayIndex:0];
+    updateArray = [NSMutableArray new];
     
     [self creatUI];
     
     [self initSearch];
-
+    useCounpon = @"1";
 }
 
 - (void)initSearch
@@ -94,18 +100,6 @@ static NSMutableArray *cellDataArray;
     if (self.search==nil) {
         self.search     = [[AMapSearchAPI alloc] init];
     }
-}
-
--(void)initMapView
-{
-    if (self.mapView==nil) {
-        self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
-    }
-    
-    self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
-    
-    self.mapView.allowsBackgroundLocationUpdates    = NO;
-    self.mapView.showsUserLocation                  = YES;
 }
 
 - (void)creatUI
@@ -118,7 +112,6 @@ static NSMutableArray *cellDataArray;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-
     
     [self creatFootView];
 }
@@ -128,7 +121,7 @@ static NSMutableArray *cellDataArray;
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     footView.backgroundColor = [UIColor clearColor];
     
-    UIButton *publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [publicButton setTitle:@"确认并发布" forState:UIControlStateNormal];
     publicButton.layer.cornerRadius = 5;
     publicButton.titleLabel.font = TEXT_FONT_LEVEL_2;
@@ -173,7 +166,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +kScreenWidth*3/5+90;
+        return 490 +kScreenWidth*3/5+90+45;
     }
     if (indexPath.section==1) {
         return 340;
@@ -291,6 +284,9 @@ static NSMutableArray *cellDataArray;
         [msgCell.imageButton setTag:0];
         
         [msgCell.mapButton addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
+        
+        [msgCell.UseButton addTarget:self action:@selector(useCounpon) forControlEvents:UIControlEventTouchUpInside];
+        [msgCell.unUseButton addTarget:self action:@selector(UNuseCounpon) forControlEvents:UIControlEventTouchUpInside];
         
         return msgCell;
     }
@@ -550,7 +546,6 @@ static NSMutableArray *cellDataArray;
             //在这里做你响应return键的代码
             [self.view endEditing:YES];
             return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-            
         }
     }
     if ([textView isEqual:addView2.addressTF]) {
@@ -558,14 +553,10 @@ static NSMutableArray *cellDataArray;
             //在这里做你响应return键的代码
             [self.view endEditing:YES];
             return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-            
         }
     }
-
-    
     return YES;
 }
-
 
 #pragma mark  textView代理方法
 
@@ -723,21 +714,20 @@ static NSMutableArray *cellDataArray;
         [dic setObject:text forKey:@"title"];
     }
     
-    
     [self refreshData];
     
 }
 
 #pragma mark 单元格刚创建后的数据
 
-- (void)projectDataStorageWithArrayIndex:(NSInteger)index
+- (void)projectDataStorageWithArrayIndex:(NSInteger)indexs
 {
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
     [dic setObject:@"" forKey:@"title"];
     [dic setObject:@"" forKey:@"content"];
     [dic setObject:@"" forKey:@"image"];
     
-    [cellDataArray insertObject:dic atIndex:index];
+    [cellDataArray insertObject:dic atIndex:indexs];
 }
 
 #pragma mark UIImagePickerController代理函数
@@ -914,6 +904,7 @@ static NSMutableArray *cellDataArray;
 -(void)publishButtonAction:(id)sender
 {
     [self.view endEditing:YES];
+    publicButton.userInteractionEnabled = NO;
     
     NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
@@ -990,7 +981,7 @@ static NSMutableArray *cellDataArray;
     }
     
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1002,6 +993,7 @@ static NSMutableArray *cellDataArray;
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"网络错误"
                                                                    waitUntilDone:YES];
+                                               publicButton.userInteractionEnabled = YES;
                                            }];
     [proxy start];
     
@@ -1013,6 +1005,7 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
@@ -1024,6 +1017,7 @@ static NSMutableArray *cellDataArray;
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }
@@ -1032,9 +1026,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)publicProject
 {
-    for (int i =0; i<cellDataArray.count; i++) {
-        
-        NSDictionary *dic=cellDataArray[i];
+        NSDictionary *dic=cellDataArray[index];
         
         LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
         
@@ -1047,11 +1039,12 @@ static NSMutableArray *cellDataArray;
                                                } failed:^(NSError *error) {
                                                    
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"发布失败"
+                                                                          withObject:@"网络错误"
                                                                        waitUntilDone:YES];
+                                                    publicButton.userInteractionEnabled = YES;
                                                }];
         [proxy start];
-    }
+    
 }
 
 - (void)getEventPublicProjectDataResponse:(NSString *)resp
@@ -1060,8 +1053,15 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
+            index++;
+            if (index<cellDataArray.count) {
+                [self publicProject];
+            }else{
+            
             [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -1071,11 +1071,12 @@ static NSMutableArray *cellDataArray;
                  
                                                                     object:nil];
             });
-            
+            }
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }
@@ -1118,5 +1119,29 @@ static NSMutableArray *cellDataArray;
         [self.tableView reloadData];
     });
 }
+
+//是否允许使用优惠券
+- (void)useCounpon
+{
+    NSLog(@"使用优惠券");
+    useCounpon = @"1";
+    msgCell.UseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.unUseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+    
+}
+
+- (void)UNuseCounpon
+{
+    NSLog(@"不使用优惠券");
+    useCounpon = @"2";
+    msgCell.unUseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.UseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+}
+
+
 
 @end

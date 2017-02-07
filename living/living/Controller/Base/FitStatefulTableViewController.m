@@ -89,7 +89,7 @@ static const int kLoadingCellTag = 2571;
 // 隐藏状态提示文字
 - (void)hideHUDView
 {
-    [stateHud hideAnimated:YES afterDelay:0.3];
+    [stateHud hide:YES afterDelay:0.3];
 }
 
 // 滚动表格到底部

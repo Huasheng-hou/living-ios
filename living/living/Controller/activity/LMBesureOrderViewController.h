@@ -12,5 +12,6 @@
 
 @property (nonatomic,strong)    NSString            *orderUUid;
 @property (nonatomic,strong)    NSMutableDictionary *dict;
+@property (nonatomic, strong)   NSString  *Type;
 
 @end

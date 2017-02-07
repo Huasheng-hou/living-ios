@@ -9,12 +9,9 @@
 #import "LMSearchAddressController.h"
 #import "POIAnnotation.h"
 #import "GeocodeAnnotation.h"
-
 #import "NSString+StringHelper.h"
-
 #define DefaultLocationTimeout 10
 #define DefaultReGeocodeTimeout 5
-
 
 @interface LMSearchAddressController ()
 <
@@ -25,14 +22,10 @@ AMapLocationManagerDelegate
 >
 {
     NSMutableDictionary *cellDic;
-    
     UISearchBar *_searchBar;
-    
     CLGeocoder *_geocoder;
-    
     double locationY;
     double locationX;
-    
     UIActivityIndicatorView *activity;
 }
 @property (nonatomic, strong) AMapLocationManager *locationManager;
@@ -45,9 +38,6 @@ AMapLocationManagerDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    if (!_listData) {
-//        _listData = [[NSMutableArray alloc] initWithCapacity:0];
-//    }
     cellDic=[NSMutableDictionary dictionaryWithCapacity:0];
     
     [self createUI];
@@ -62,19 +52,16 @@ AMapLocationManagerDelegate
 }
 
 #pragma mark ============定位===============
-/**********************************************/
 - (void)configLocationManager
 {
     self.locationManager = [[AMapLocationManager alloc] init];
     
     [self.locationManager setDelegate:self];
-    
     //设置期望定位精度
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-    
+
     //设置定位超时时间
     [self.locationManager setLocationTimeout:DefaultLocationTimeout];
-    
     //设置逆地理超时时间
     [self.locationManager setReGeocodeTimeout:DefaultReGeocodeTimeout];
     //进行单次定位请求

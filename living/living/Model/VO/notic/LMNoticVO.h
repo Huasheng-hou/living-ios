@@ -34,5 +34,7 @@
 @property (nonatomic, retain) NSString *articleTitle;
 @property (nonatomic, retain) NSString *eventName;
 @property (nonatomic, retain) NSString *sign;
+@property (nonatomic, retain) NSString *voiceUuid;
+@property (nonatomic, retain) NSString *voiceTitle;
 
 @end

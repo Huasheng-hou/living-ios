@@ -52,6 +52,9 @@
         codeSting = [headerData objectForKey:@"code"];
         [self creatImageView];
     }
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)get2DcodeRequest
@@ -113,9 +116,7 @@
         msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
         [self.view addSubview:msgLabel];
         
-        
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
+
         
     }
 }
@@ -225,6 +226,11 @@
             [strs addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,11)];
             
             endTimeLabel.attributedText = strs;
+            
+            if (![[FitUserManager sharedUserManager].franchisee isEqualToString:@"yes"]) {
+                endTimeLabel.hidden = YES;
+            }
+            
         }
     }
 }

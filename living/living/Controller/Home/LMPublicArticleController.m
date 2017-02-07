@@ -51,6 +51,7 @@ LMTypeListProtocol
     UILabel *typeLabel;
     NSString *typeString;
     NSInteger  type;
+    NSMutableArray *imageURLArray;
 }
 
 @end
@@ -92,6 +93,7 @@ static NSMutableArray *cellDataArray;
     
     [self projectDataStorageWithArrayIndex:0];
     projectImageArray   = [NSMutableArray arrayWithCapacity:10];
+    imageURLArray = [NSMutableArray new];
     
     for (int i = 0; i < 10; i++) {
      
@@ -346,11 +348,11 @@ static NSMutableArray *cellDataArray;
         
         NSInteger length    = cellDataArray.count;
         
-        if (length >= 10) {
-            
-            [self textStateHUD:@"提交已达上限"];
-            return;
-        }
+//        if (length >= 10) {
+//            
+//            [self textStateHUD:@"提交已达上限"];
+//            return;
+//        }
         
         [self projectDataStorageWithArrayIndex:length];
         [self refreshData];
@@ -385,19 +387,6 @@ static NSMutableArray *cellDataArray;
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
-{
-    [imageViewArray addObject:image];
-    
-    [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-
-
-    [self getImageURL:imageViewArray];
-    
-    [self refreshData];
-
-    [pickImage dismissViewControllerAnimated:YES completion:nil];
-}
 
 #pragma mark - ZYQAssetPickerController Delegate
 
@@ -414,7 +403,20 @@ static NSMutableArray *cellDataArray;
             
             [imageArray addObject:tempImg];
             
+            NSLog(@"****imageArray****%@",imageArray);
+            
+            
+
+            
+            
+            
+            
             [imageViewArray addObject:tempImg];
+            
+            
+            NSLog(@"******imageViewArray****%@",imageViewArray);
+            
+            
         }
         
         [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
@@ -473,10 +475,13 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
+    
+    NSLog(@"*******imgArr*****  %@",imgArr);
+    
     [self textStateHUD:@"上传中..."];
     [self initStateHud];
 
-    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:8];
+//    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:8];
     
     NSMutableArray *urlArray = [NSMutableArray new];
 
@@ -495,34 +500,52 @@ static NSMutableArray *cellDataArray;
                                                    
                                                    if (result && [result isKindOfClass:[NSString class]]
                                                        && [result isEqualToString:@"0"]) {
+                                                    
                                                        
                                                        NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                        
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
                                                            [urlArray addObject:imgUrl];
+                                                           
+                                                           NSLog(@"****^^^^^^^^1   %@",urlArray);
+                                                           
+                                                           
                                                        } else {
                                                            
                                                            [urlArray addObject:@""];
+                                                           NSLog(@"****^^^^^^^^2   %@",urlArray);
                                                        }
                                                       
                                                    } else {
                                                        
                                                        [urlArray addObject:@""];
+                                                       NSLog(@"****^^^^^^^^3   %@",urlArray);
                                                    }
+                                                   NSLog(@"****^^^^^^^^4   %@",urlArray);
                                                    
                                                    if (urlArray.count == imgArr.count) {
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           NSLog(@"****^^^^^^^^5   %@",urlArray);
+                                                           [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
+                                                           [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       });
 
-                                                       [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       
                                                    }
                                                    
                                                } failed:^(NSError *error) {
-        
+                                                   
                                                    [urlArray addObject:@""];
                                                    
                                                    if (urlArray.count == imgArr.count) {
 
-                                                       [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           NSLog(@"****^^^^^^^^6   %@",urlArray);
+                                                           [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
+                                                           [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                       });
+
                                                    }
                                                }];
         
@@ -670,7 +693,10 @@ static NSMutableArray *cellDataArray;
 - (void)deleteViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
     NSMutableArray *newArray = projectImageArray[viewTag];
-    
+    NSLog(@"*****imageViewArray********%@",cellDataArray[viewTag]);
+    NSMutableArray *urlArray = [NSMutableArray new];
+    urlArray = [cellDataArray[viewTag] objectForKey:@"image"];
+    NSLog(@"*****^^^^^^^^^^%@",urlArray);
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除图片"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -685,12 +711,22 @@ static NSMutableArray *cellDataArray;
                                                 if (newArray.count > tag) {
                                                     
                                                     [newArray removeObjectAtIndex:tag];
+                                                    if ([urlArray isKindOfClass:[NSArray class]]&& urlArray.count > tag) {
+                                                        [urlArray removeObjectAtIndex:tag];
+                                                        NSLog(@"*****^^^^^^^^^^%@",urlArray);
+                                                        [cellDataArray[viewTag] setObject:urlArray forKey:@"image"];
+                                                        
+                                                        NSLog(@"***#*#*#*#**#*#*#**#%@",cellDataArray[viewTag]);
+                                                    }
+
                                                 }
                                                 
                                                 if (imageArray.count > tag) {
                                                     
                                                     [imageArray removeObjectAtIndex:tag];
+
                                                 }
+                                            
                                                 
                                                 [self refreshData];
                                                 
@@ -778,6 +814,9 @@ static NSMutableArray *cellDataArray;
     }
  
     self.navigationItem.rightBarButtonItem.enabled  = NO;
+    
+    NSLog(@"***********imageUrl**********%@",array);
+    
     
     LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
                                                                                    Article_title:titleTF.text

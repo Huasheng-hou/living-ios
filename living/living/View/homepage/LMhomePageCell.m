@@ -23,6 +23,12 @@
 
 @property (nonatomic, strong) UILabel *contentLabel;
 
+@property (nonatomic, strong) UIView *typeView;
+@property (nonatomic, assign) CGFloat width;
+
+@property (nonatomic, strong) UIImageView *VImage;
+@property (nonatomic, assign) NSInteger VIndex;
+
 
 @end
 
@@ -41,7 +47,6 @@
 -(void)addSubviews
 {
     _imageV = [UIImageView new];
-    _imageV.image = [UIImage imageNamed:@"112"];
     _imageV.backgroundColor = BG_GRAY_COLOR;
     
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
@@ -58,9 +63,14 @@
     [self.contentView addSubview:_titleLabel];
     _titleLabel.userInteractionEnabled = YES;
     
+    _typeView = [UIView new];
+    _typeView.backgroundColor = [UIColor clearColor];
+    [_titleLabel addSubview:_typeView];
+    
+    
     UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(articletitleClick)];
     
-    [_titleLabel addGestureRecognizer:tap2];
+    [_typeView addGestureRecognizer:tap2];
     
     _contentLabel = [UILabel new];
     _contentLabel.numberOfLines  = 2;
@@ -95,12 +105,62 @@
     line.backgroundColor = LINE_COLOR;
     
     [self.contentView addSubview:line];
+    
+    _VImage = [UIImageView new];
+    _imageV.contentMode = UIViewContentModeScaleAspectFill;
+    _imageV.clipsToBounds = YES;
+    [self.contentView addSubview:_VImage];
+    
 }
 
 - (void)setValue:(LMActicleVO *)list
 {
     _nameLabel.text = list.articleName;
-    _contentLabel.text = list.articleContent;
+    
+    if ([list.group isEqualToString:@"voice"]) {
+        NSString *contentString = list.articleContent;
+        NSData *respData = [contentString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSDictionary *respDict = [NSJSONSerialization
+                                  JSONObjectWithData:respData
+                                  options:NSJSONReadingMutableLeaves
+                                  error:nil];
+        
+        NSMutableArray *contentArray = [NSMutableArray new];
+        NSMutableArray *contarray = [NSMutableArray new];
+        contentArray = [respDict objectForKey:@"content"];
+        for (NSDictionary *dic in contentArray) {
+            NSString *role;
+            
+            if ([dic[@"role"] isEqualToString:@"teacher"]) {
+                role = @"讲师";
+            }
+            if ([dic[@"role"] isEqualToString:@"host"]) {
+                role = @"主持人";
+            }
+            
+            NSString *content = dic[@"content"];
+            if (role!= nil&&content!=nil) {
+                NSString *con = [NSString stringWithFormat:@"%@：%@\n",role,content];
+                [contarray addObject:con];
+            }
+        }
+        NSString *conStr;
+        for (int i = 0; i<contarray.count; i++) {
+            if (i<1) {
+                conStr = contarray[0];
+            }else{
+              conStr = [NSString stringWithFormat:@"%@%@",conStr,contarray[i]];
+            }
+        }
+        
+        _contentLabel.text = conStr;
+        
+        
+    }else{
+       _contentLabel.text = list.articleContent;
+    }
+    
+    
     [_imageV sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     _timeLabel.text = [self getUTCFormateDate:list.publishTime];
     
@@ -116,10 +176,22 @@
         _titleLabel.attributedText = str;
         _titleLabel.userInteractionEnabled  = YES;
         
+        NSDictionary *attrs = @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16]};
+        CGSize size=[[NSString stringWithFormat:@"#%@#",list.type] sizeWithAttributes:attrs];
+        _width = size.width;
+        
+        
     } else {
         
         _titleLabel.text = list.articleTitle;
         _titleLabel.userInteractionEnabled = NO;
+    }
+    _VIndex = 2;
+    
+    if (list.franchisee&&[list.franchisee isEqualToString:@"yes"]) {
+        _VIndex = 1;
+        _VImage.image = [UIImage imageNamed:@"BigVRed"];
+
     }
     
     [self layoutSubviews];
@@ -133,6 +205,8 @@
     [_titleLabel sizeToFit];
     [_timeLabel sizeToFit];
     [_contentLabel sizeToFit];
+    [_typeView sizeToFit];
+    [_VImage sizeToFit];
     
     _imageV.frame = CGRectMake(15, 15, 120, 100);
     _titleLabel.frame = CGRectMake(145, 17, kScreenWidth-160, _titleLabel.bounds.size.height);
@@ -140,14 +214,28 @@
     _contentLabel.frame = CGRectMake(145, 20 + _titleLabel.bounds.size.height, kScreenWidth-160, 50);
     
     
-    if (kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width - _nameLabel.frame.size.width < 0) {
-        
-        _nameLabel.frame = CGRectMake(_nameLabel.frame.origin.x, _nameLabel.frame.origin.y, kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width, _nameLabel.frame.size.height);
+//    if (kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width - _nameLabel.frame.size.width < 0) {
+//        
+//        _nameLabel.frame = CGRectMake(_nameLabel.frame.origin.x, 95, kScreenWidth - 30 - 10 - 10 - _timeLabel.frame.size.width, _nameLabel.frame.size.height+20);
+//    }else{
+    _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 95, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height+20);
+//    }
+
+    _typeView.frame = CGRectMake(-5, -5, _width+10, _titleLabel.bounds.size.height+10);
+    
+    if (_VIndex == 1) {
+        _VImage.hidden = NO;
+        _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width-20, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+        _VImage.frame = CGRectMake(kScreenWidth-25-_nameLabel.bounds.size.width-10, 105+(_timeLabel.bounds.size.height-14)/2, 14, 14);
+
+    }else{
+        _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+        _VImage.hidden = YES;
     }
     
-    
-    _timeLabel.frame = CGRectMake(kScreenWidth-25-_timeLabel.bounds.size.width -_nameLabel.bounds.size.width, 105, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
-    _nameLabel.frame = CGRectMake(kScreenWidth-15-_nameLabel.bounds.size.width, 105, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
+
+
+
 }
 
 - (void)articleNameClick

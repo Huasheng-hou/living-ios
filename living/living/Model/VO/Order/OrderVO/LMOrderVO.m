@@ -127,6 +127,31 @@
             self.status =[(NSNumber *) [dictionary objectForKey:@"status"] intValue];
         }
         
+        if (nil != [dictionary objectForKey:@"voiceStatus"] && ![[dictionary objectForKey:@"voiceStatus"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voiceStatus"] isKindOfClass:[NSString class]]) {
+            self.voiceStatus = [dictionary objectForKey:@"voiceStatus"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"type"] && ![[dictionary objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            self.type = [dictionary objectForKey:@"type"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"voice_uuid"] && ![[dictionary objectForKey:@"voice_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voice_uuid"] isKindOfClass:[NSString class]]) {
+            self.voiceUuid = [dictionary objectForKey:@"voice_uuid"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"voice_title"] && ![[dictionary objectForKey:@"voice_title"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voice_title"] isKindOfClass:[NSString class]]) {
+            self.voiceTitle = [dictionary objectForKey:@"voice_title"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"voice_images"] && ![[dictionary objectForKey:@"voice_images"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voice_images"] isKindOfClass:[NSString class]]) {
+            self.voiceImages = [dictionary objectForKey:@"voice_images"];
+        }
+        
         
         
     }

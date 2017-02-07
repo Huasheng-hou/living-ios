@@ -54,6 +54,14 @@
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
     [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_2 range:NSMakeRange(0, 1)];
     _priceLabel.attributedText = str;
+    
+    //使用条件
+    _typeLabel=[[UILabel alloc]initWithFrame:CGRectMake(_imageV.bounds.size.width*2/3, 60, _imageV.bounds.size.width/3, 20)];
+    [_typeLabel setText:@"无限制"];
+    [_typeLabel setTextColor:[UIColor redColor]];
+    [_typeLabel setTextAlignment:NSTextAlignmentCenter];
+    [_typeLabel setFont:[UIFont systemFontOfSize:12]];
+    [_imageV addSubview:_typeLabel];
 }
 
 

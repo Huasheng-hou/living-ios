@@ -90,6 +90,19 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.type = [dictionary objectForKey:@"type"];
         }
+        if (nil != [dictionary objectForKey:@"franchisee"] && ![[dictionary objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"franchisee"] isKindOfClass:[NSString class]]) {
+            self.franchisee = [dictionary objectForKey:@"franchisee"];
+        }
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"group"] && ![[dictionary objectForKey:@"group"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"group"] isKindOfClass:[NSString class]]) {
+            self.group = [dictionary objectForKey:@"group"];
+        }
         
         
     }

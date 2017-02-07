@@ -168,6 +168,27 @@
 //
 - (void)logOutAction
 {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否退出登录"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self besureLoginOUt];
+                                                
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+
+}
+
+- (void)besureLoginOUt
+{
+    
     [[FitUserManager sharedUserManager] logout];
     NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
     
