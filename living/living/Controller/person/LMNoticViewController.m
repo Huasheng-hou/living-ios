@@ -30,6 +30,7 @@ UITableViewDataSource
     NSMutableArray *cellArray;
     NSInteger Index;
     UIView *footView;
+    NSString *name;
 }
 
 @end
@@ -118,6 +119,27 @@ UITableViewDataSource
 - (void)getNoticListDataResponse:(NSString *)resp
 {
     NSDictionary    *bodyDic = [VOUtil parseBody:resp];
+    
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (coderesult && ![coderesult isEqual:[NSNull null]] && [coderesult isKindOfClass:[NSString class]] && [coderesult isEqualToString:@"000"]) {
+        
+        if (headDic[@"nick_name"]&&![headDic[@"nick_name"] isEqual:@""]) {
+            name = headDic[@"nick_name"];
+        }
+
+        
+    }
+    
     listArray = [NSMutableArray new];
     
     if (!bodyDic) {
@@ -142,7 +164,20 @@ UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 170;
+    LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
+    
+    if (list.sign&&[list.sign isEqualToString:@"article"]) {
+            return [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.articleTitle content:list.content];
+    }
+    if (list.sign&&[list.sign isEqualToString:@"event"]) {
+        return [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.eventName content:list.content];
+    }
+    if (list.sign&&[list.sign isEqualToString:@"voice"]) {
+        return [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.voiceTitle content:list.content];
+    }
+    
+    return 0;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -174,7 +209,7 @@ UITableViewDataSource
     }
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
-    [cell  setData:list];
+    [cell  setData:list name:_nameString];
     if ([Estring isEqual:@"完成"]) {
         cell.INDEX = 1;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;

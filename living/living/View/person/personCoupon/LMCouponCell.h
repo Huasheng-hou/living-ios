@@ -16,7 +16,10 @@
 @property(nonatomic,strong)UITextView *contentLabel;
 
 @property(nonatomic,strong)UILabel *priceLabel;
+
 @property(nonatomic,strong)UIImageView *imageV;
+
+@property(nonatomic,strong)UILabel *typeLabel;
 
 
 -(void)setValue:(LMCouponVO *)list;

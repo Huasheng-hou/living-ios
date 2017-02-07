@@ -114,6 +114,7 @@
 
 #define LIVING_COLOR                [UIColor colorWithRed:250/255.0 green:108/255.0 blue:35/255.0 alpha:1.0]
 #define LIVING_REDCOLOR             [UIColor colorWithRed:250.0/255.0 green:81/255.0 blue:81.0/255.0 alpha:1.0]
+#define LIVING_BLUECOLOR            [UIColor colorWithRed:68.0/255.0 green:133.0/255.0 blue:212.0/255.0 alpha:1.0]
 
 
 

@@ -133,7 +133,7 @@ static CGRect oldframe;
     
     LMNoticViewController *noticVC = [[LMNoticViewController alloc] init];
     [noticVC setHidesBottomBarWhenPushed:YES];
-    
+    noticVC.nameString = infoModels.nickName;
     [self.navigationController pushViewController:noticVC animated:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_notic" object:nil];
