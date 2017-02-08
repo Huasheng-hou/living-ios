@@ -815,23 +815,23 @@ LGAudioPlayerDelegate
         CGSize contenSize = [contentStr boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT)                                           options: NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:TEXT_FONT_LEVEL_2,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
         
         if ([vo.type isEqual:@"question"]) {
-            return contenSize.height+55+10+20;
+            return contenSize.height+55+10+20+20;
         }else{
-            return contenSize.height+55+10;
+            return contenSize.height+55+10+20;
         }
         
     }
     
     if (vo.type && [vo.type isEqual:@"picture"]) {
         
-        return 150+55+10;
+        return 150+55+10+10;
     }
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         if (vo.ifchangeText ==YES) {
             return 180;
         }else{
-          return 55+30+10;
+          return 55+30+10+10;
         }
         
         

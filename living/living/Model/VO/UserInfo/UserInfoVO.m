@@ -119,6 +119,11 @@
             && [[dictionary objectForKey:@"gender"] isKindOfClass:[NSString class]]) {
             self.gender = [dictionary objectForKey:@"gender"];
         }
+        
+        if (nil != [dictionary objectForKey:@"privileges"] && ![[dictionary objectForKey:@"privileges"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"privileges"] isKindOfClass:[NSString class]]) {
+            self.privileges = [dictionary objectForKey:@"privileges"];
+        }
 
         if (nil != [dictionary objectForKey:@"order_number"] && ![[dictionary objectForKey:@"order_number"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"order_number"] isKindOfClass:[NSNumber class]]) {

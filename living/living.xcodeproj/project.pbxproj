@@ -441,6 +441,7 @@
 		35FA8E931DB5BC8600510A75 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E921DB5BC8600510A75 /* libc++.tbd */; };
 		35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E941DB5BCBD00510A75 /* QuartzCore.framework */; };
 		35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FA8E961DB5BCE500510A75 /* UIKit.framework */; };
+		35FB58161E4AE48300378199 /* LMHostoryEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FB58151E4AE48300378199 /* LMHostoryEventViewController.m */; };
 		3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D069E18A025DABE98552EA /* libPods-living.a */; };
 		66A52E931DFBE008000BDFE2 /* LMActivityHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A52E921DFBE008000BDFE2 /* LMActivityHeaderView.m */; };
 		8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E07601A1DC84C06001D7098 /* libiconv.tbd */; };
@@ -1379,6 +1380,8 @@
 		35FA8E921DB5BC8600510A75 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		35FA8E941DB5BCBD00510A75 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		35FA8E961DB5BCE500510A75 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		35FB58141E4AE48300378199 /* LMHostoryEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHostoryEventViewController.h; sourceTree = "<group>"; };
+		35FB58151E4AE48300378199 /* LMHostoryEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHostoryEventViewController.m; sourceTree = "<group>"; };
 		66A52E911DFBDFF8000BDFE2 /* LMActivityHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMActivityHeaderView.h; sourceTree = "<group>"; };
 		66A52E921DFBE008000BDFE2 /* LMActivityHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityHeaderView.m; sourceTree = "<group>"; };
 		79D069E18A025DABE98552EA /* libPods-living.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-living.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2398,6 +2401,8 @@
 				35B7451F1DDE97F2000AFA26 /* LMPersonViewController.m */,
 				3512137C1DF963C10053B83F /* LMBlacklistViewController.h */,
 				3512137D1DF963C10053B83F /* LMBlacklistViewController.m */,
+				35FB58141E4AE48300378199 /* LMHostoryEventViewController.h */,
+				35FB58151E4AE48300378199 /* LMHostoryEventViewController.m */,
 				35B745201DDE97F2000AFA26 /* setting */,
 				35B745271DDE97F2000AFA26 /* SQMenuShowView */,
 			);
@@ -3939,6 +3944,7 @@
 				35B747C11DDE97F3000AFA26 /* LMAliPayRequest.m in Sources */,
 				35816FEB1DF7E3CC00D062CB /* LMArtcleTypeRequest.m in Sources */,
 				35B747921DDE97F3000AFA26 /* LMCouponBody.m in Sources */,
+				35FB58161E4AE48300378199 /* LMHostoryEventViewController.m in Sources */,
 				35B747D51DDE97F4000AFA26 /* LMFranchiseeResultAliRequest.m in Sources */,
 				35B747571DDE97F3000AFA26 /* LMHomeDetailController.m in Sources */,
 				355E7B6D1DFFD1980089BAB1 /* LMVoiceProjectCell.m in Sources */,

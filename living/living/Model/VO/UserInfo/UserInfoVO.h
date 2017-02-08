@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSString *sign;
 @property (nonatomic, strong) NSString *prove;
 @property (nonatomic, strong) NSString *province;
+@property (nonatomic, strong) NSString *privileges;
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, assign) int livingNumber;
 @property (nonatomic, assign) int userId;

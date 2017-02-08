@@ -389,13 +389,13 @@ UITableViewDataSource
     return nil;
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0
-        && self.statefulState == FitStatefulTableViewControllerStateIdle
-        && [self canLoadMore]) {
-        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
-    }
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0
+//        && self.statefulState == FitStatefulTableViewControllerStateIdle
+//        && [self canLoadMore]) {
+//        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+//    }
+//}
 
 @end

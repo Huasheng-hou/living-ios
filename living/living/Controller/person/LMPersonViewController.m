@@ -25,6 +25,7 @@
 #import "SYPhotoBrowser.h"
 #import "LMBlacklistViewController.h"
 #import "LMMyvoicSegmentViewController.h"
+#import "LMHostoryEventViewController.h"
 
 static CGRect oldframe;
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -221,10 +222,20 @@ static CGRect oldframe;
         return 1;
     }
     if (section==1) {
-        if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+        
+        if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
+            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                return 7;
+            }
             return 6;
+        }else{
+            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                return 6;
+            }
+            return 5;
         }
-        return 5;
+        
+
     }
     if (section==2) {
         return 2;
@@ -412,6 +423,11 @@ static CGRect oldframe;
                 cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
                 
                 break;
+            case 6:
+                cell.textLabel.text = @"历史活动";
+                cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
+                
+                break;
                 
             default:
                 break;
@@ -535,6 +551,14 @@ static CGRect oldframe;
             [self.navigationController pushViewController:myVoiceVC animated:YES];
         }
         
+        if (indexPath.row == 6) {
+            LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
+            myVoiceVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:myVoiceVC animated:YES];
+            
+            
+        }
+        
     }
     
     if (indexPath.section==2) {
@@ -550,10 +574,12 @@ static CGRect oldframe;
             if (infoModel.province!=nil) {
                 setVC.address = [NSString stringWithFormat:@"%@-%@",infoModel.province,infoModel.city];
             }
+            
             setVC.name = infoModel.nickName;
             setVC.gender = infoModel.gender;
             setVC.headURL = infoModel.avatar;
             setVC.endTime = infoModel.endTime;
+            setVC.franchisee = infoModels.franchisee;
             
             [self.navigationController pushViewController:setVC animated:YES];
         }

@@ -84,13 +84,6 @@
     [self addSubview:_soundbutton];
     
     
-//    _changeTextLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 75, kScreenWidth-70, 50)];
-//    [_changeTextLabel.layer setBorderWidth:0.5f];
-//    [_changeTextLabel.layer setCornerRadius:3.0f];
-//    [_changeTextLabel.layer setMasksToBounds:YES];
-//    _changeTextLabel.text = @"...........hwrbgw";
-//    [self addSubview:_changeTextLabel];
-    
     [self addSubview:contentbgView];
     
     _animalImage=[[UIImageView alloc]initWithFrame:CGRectMake(10, 8+5, 11, 17)];
@@ -104,10 +97,6 @@
     
     
     _bootomView = [[UIImageView alloc] init];
-//    _bootomView.layer.cornerRadius = 2.5;
-//    _bootomView.layer.masksToBounds = YES;
-//    _bootomView.clipsToBounds =YES;
-//    _bootomView.backgroundColor = [UIColor redColor];
     [self addSubview:_bootomView];
     
     //内容底板
@@ -230,8 +219,13 @@
             
             NSLog(@"********%f",contenSize.height);
             
+            [_contentLabel sizeToFit];
+            if (_contentLabel.bounds.size.width<kScreenWidth-65-20) {
+               [contentbgView setFrame:CGRectMake(55, 37, _contentLabel.bounds.size.width+20, contenSize.height+10+10)];
+            }else{
+               [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
+            }
             
-            [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
             [_contentLabel setFont:TEXT_FONT_LEVEL_2];
             [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
         }else{
@@ -279,9 +273,13 @@
             
         }else{
             [endButton setHidden:YES];
-            [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
-            [_contentLabel setFont:TEXT_FONT_LEVEL_2];
-            [_contentLabel setFrame:CGRectMake(10, 10, kScreenWidth-65-10-10, contenSize.height)];
+            [_contentLabel sizeToFit];
+            if (_contentLabel.bounds.size.width<kScreenWidth-65-20) {
+                [contentbgView setFrame:CGRectMake(55, 37, _contentLabel.bounds.size.width+20, contenSize.height+10+10)];
+            }else{
+                [contentbgView setFrame:CGRectMake(55, 37, kScreenWidth-65, contenSize.height+10+10)];
+            }
+            
         }
         
         //显示文字显示控件
@@ -291,7 +289,6 @@
         [_bootomView setHidden:YES];
         
         [_soundbutton setHidden:YES];
-//        [_changeTextLabel setHidden:YES];
     }
     
     //如果为图片
@@ -308,7 +305,6 @@
          publishImageV.userInteractionEnabled = YES;
          [_bootomView setHidden:YES];
          [endButton setHidden:YES];
-//         [_changeTextLabel setHidden:YES];
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
          [publishImageV addGestureRecognizer:tap];
          
@@ -364,7 +360,6 @@
         
         [_soundbutton setHidden:NO];
         [endButton setHidden:YES];
-//        [_changeTextLabel setHidden:YES];
     }
    
 }
@@ -469,17 +464,12 @@
     
     NSLog(@"***********");
     if ([_delegate respondsToSelector:@selector(cellVoiceChangeText:)]) {
-//        [_changeTextLabel setHidden:NO];
         [_delegate cellVoiceChangeText:self];
         
     }
     }
     
 }
-
-
-
-
 
 
 

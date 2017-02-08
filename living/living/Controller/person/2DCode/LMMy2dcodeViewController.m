@@ -194,7 +194,7 @@
         NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         
-        //设置时间间隔（秒）（这个我是计算出来的，不知道有没有简便的方法 )
+        //设置时间间隔（秒）
         NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
         //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
         
@@ -227,8 +227,11 @@
             
             endTimeLabel.attributedText = strs;
             
-            if (![[FitUserManager sharedUserManager].franchisee isEqualToString:@"yes"]) {
+            if (![_franchisee isEqualToString:@"yes"]) {
                 endTimeLabel.hidden = YES;
+            }else{
+                endTimeLabel.hidden = NO;
+                
             }
             
         }
