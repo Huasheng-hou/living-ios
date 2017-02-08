@@ -260,6 +260,7 @@ UITableViewDataSource
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         NSMutableArray *voArray = [NSMutableArray new];
+        
         for (int i = 0; i<listArray.count; i++) {
             
             if (indexPath.section==i+1) {
@@ -389,13 +390,13 @@ UITableViewDataSource
     return nil;
 }
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) - 49)) < 44.0
-//        && self.statefulState == FitStatefulTableViewControllerStateIdle
-//        && [self canLoadMore]) {
-//        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
-//    }
-//}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (fabs(self.tableView.contentSize.height - (self.tableView.contentOffset.y + CGRectGetHeight(self.tableView.frame) )) < 44.0
+        && self.statefulState == FitStatefulTableViewControllerStateIdle
+        && [self canLoadMore]) {
+        [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
+    }
+}
 
 @end

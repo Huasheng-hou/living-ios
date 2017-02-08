@@ -21,7 +21,7 @@
 
 #define PAGER_SIZE      20
 
-@interface LMHostoryEventViewController ()
+@interface LMHostoryEventViewController ()<LMactivityCellDelegate>
 {
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
@@ -220,7 +220,8 @@
         
         if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
             
-            [(LMActivityCell *)cell setActivityList:vo index:0] ;
+            [(LMActivityCell *)cell setActivityList:vo index:3] ;
+            [(LMActivityCell *)cell setDelegate:self];
         }
     }
     
@@ -258,6 +259,11 @@
         && [self canLoadMore]) {
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
     }
+}
+
+-(void)cellWillClick:(LMActivityCell *)cell
+{
+    NSLog(@"上架~~~~~~~~~~~~~~");
 }
 
 

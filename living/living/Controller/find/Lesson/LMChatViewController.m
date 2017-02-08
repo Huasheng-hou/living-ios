@@ -2320,4 +2320,13 @@ LGAudioPlayerDelegate
     [tap.view removeFromSuperview];
 }
 
+-(void)cellTipAction:(ChattingCell *)cell
+{
+    NSLog(@"打赏~~~~~~~~~~~~~~~~~~~~~~~~~~");
+}
+
+
+
+
+
 @end

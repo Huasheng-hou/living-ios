@@ -38,7 +38,8 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 @property(nonatomic,strong)UIImageView *animalImage;
 
 @property(nonatomic,strong)NSString *playStatus;
-//@property(nonatomic,strong)UILabel *changeTextLabel;
+
+@property(nonatomic,strong)UIButton *packetButton;
 
 @property (nonatomic, assign) LGVoicePlayState voicePlayState;
 
@@ -53,10 +54,14 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 
 @optional
 - (void)cellClickImage:(ChattingCell *)cell;
+
 - (void)cellClickVoice:(ChattingCell *)cell;
+
 - (void)cellcloseQuestion:(ChattingCell *)cell;
 
 - (void)cellVoiceChangeText:(ChattingCell *)cell;
+
+- (void)cellTipAction:(ChattingCell *)cell;
 
 
 @end

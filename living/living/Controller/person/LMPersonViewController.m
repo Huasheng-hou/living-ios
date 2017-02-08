@@ -223,17 +223,17 @@ static CGRect oldframe;
     }
     if (section==1) {
         
-        if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
-            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
-                return 7;
-            }
-            return 6;
-        }else{
+        //if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
+            //if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                //return 7;
+           // }
+           // return 6;
+        //}else{
             if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
                 return 6;
             }
             return 5;
-        }
+       // }
         
 
     }
@@ -425,7 +425,7 @@ static CGRect oldframe;
                 break;
             case 6:
                 cell.textLabel.text = @"历史活动";
-                cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
+                cell.imageView.image = [UIImage imageNamed:@"hostory"];
                 
                 break;
                 

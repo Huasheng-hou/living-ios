@@ -63,6 +63,11 @@
     [_chatNameLabel setTextColor:[UIColor blackColor]];
     [self addSubview:_chatNameLabel];
     
+    _packetButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_packetButton setImage:[UIImage imageNamed:@"Redpacket"] forState:UIControlStateNormal];
+    [self addSubview:_packetButton];
+    
+    
     //时间
     _timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(60, 5, kScreenWidth-75, 30)];
     [_timeLabel setTextAlignment:NSTextAlignmentRight];
@@ -188,6 +193,12 @@
     _timeLabel.text = [self getUTCFormateDate:vo.time];
     
     _chatNameLabel.text = vo.name;
+    [_chatNameLabel sizeToFit];
+    _chatNameLabel.frame = CGRectMake(55, 5, _chatNameLabel.bounds.size.width, 30);
+//  _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
+    
+    [_packetButton addTarget:self action:@selector(tipAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:vo.headimgurl]];
     
      //设置内容
@@ -385,6 +396,14 @@
 {
     if ([_delegate respondsToSelector:@selector(cellcloseQuestion:)]) {
         [_delegate cellcloseQuestion:self];
+    }
+}
+
+
+- (void)tipAction:(UIButton *)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellTipAction:)]) {
+        [_delegate cellTipAction:self];
     }
 }
 
