@@ -36,6 +36,9 @@
 #define toobarHeight 50
 #define DocumentPath  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
+#define secondsToNanoseconds(t) (t * 1000000000) // in nanoseconds
+#define gotSignal(semaphore, timeout) ((dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, secondsToNanoseconds(timeout)))) == 0l)
+
 @interface LMChatViewController ()
 <
 UINavigationControllerDelegate,
@@ -119,9 +122,11 @@ LGAudioPlayerDelegate
         hasShield = NO;
         isShieldReload = NO;
         
-//        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
-        
         [self createWebSocket];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+        
+
     }
     
     return self;
@@ -171,8 +176,6 @@ LGAudioPlayerDelegate
     
     toolBarChangeH  = 0;
     
-    
-    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(createWebSocket) userInfo:nil repeats:YES];
 }
 
 - (void)loadNewer
@@ -553,6 +556,7 @@ LGAudioPlayerDelegate
                     dispatch_async(dispatch_get_main_queue()
                                    , ^{
                                        [self textStateHUD:@"禁言失败，请重试~"];
+                                       [client disconnect];
                                        [self createWebSocket];
                                    });
                     
@@ -573,6 +577,7 @@ LGAudioPlayerDelegate
                     dispatch_async(dispatch_get_main_queue()
                                    , ^{
                                        [self textStateHUD:@"解禁失败，请重试~"];
+                                       [client disconnect];
                                        [self createWebSocket];
                                    });
                     
@@ -1147,6 +1152,7 @@ LGAudioPlayerDelegate
                                                            dispatch_async(dispatch_get_main_queue()
                                                                           , ^{
                                                                               [self textStateHUD:@"发送失败，请重试~"];
+                                                                              [client disconnect];
                                                                               [self createWebSocket];
                                                                           });
                                                            
@@ -1338,17 +1344,31 @@ LGAudioPlayerDelegate
 {
     client = [LMWobsocket shareWebsocket];
     
-    NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
+//    NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
     
-    [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
-        if (error) {
-        
-            return;
-        }
-        
-        [self subscribeTopic];
-    }];
+//    [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+//        if (error) {
+//        
+//            return;
+//        }
+//        
+//        [self subscribeTopic];
+//    }];
+    
+    
+    dispatch_semaphore_t connected = dispatch_semaphore_create(0);
+    
+    [client connectWithLogin:@"1"
+                         passcode:@"2"
+                completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+                    if (!error) {
+                        dispatch_semaphore_signal(connected);
+                    }
+                    [self subscribeTopic];
+                }];
+    
 }
+
 
 - (void)subscribeTopic
 {
@@ -1613,16 +1633,26 @@ LGAudioPlayerDelegate
         
         NSLog(@"0");
         client = [LMWobsocket shareWebsocket];
-        NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
+//        NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
+//        
+//        [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+//            if (error) {
+//                
+//                return;
+//            }
+//            
+//            [self subscribeTopic];
+//        }];
+        dispatch_semaphore_t connected = dispatch_semaphore_create(0);
+        [client connectWithLogin:@"1"
+                        passcode:@"2"
+               completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+                   if (!error) {
+                       dispatch_semaphore_signal(connected);
+                   }
+                   [self subscribeTopic];
+               }];
         
-        [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
-            if (error) {
-                
-                return;
-            }
-            
-            [self subscribeTopic];
-        }];
         
     } else {
         
@@ -1828,6 +1858,7 @@ LGAudioPlayerDelegate
                        , ^{
                            
                            [self textStateHUD:@"发送失败，请重试~"];
+                           [client disconnect];
                            [self createWebSocket];
                        });
     }
@@ -2014,6 +2045,7 @@ LGAudioPlayerDelegate
                                                            
                                                        }else{
                                                            [self textStateHUD:@"发送失败~"];
+                                                           [client disconnect];
                                                            [self createWebSocket];
                                                        }
                                                        
