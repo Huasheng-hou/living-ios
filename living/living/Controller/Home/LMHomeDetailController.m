@@ -1502,7 +1502,7 @@ LMContentTableViewCellDelegate
                                                } failed:^(NSError *error) {
                                                    
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"点赞失败"
+                                                                          withObject:@"网络错误"
                                                                        waitUntilDone:YES];
                                                }];
         [proxy start];

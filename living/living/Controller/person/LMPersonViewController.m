@@ -223,17 +223,17 @@ static CGRect oldframe;
     }
     if (section==1) {
         
-        //if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
-            //if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
-                //return 7;
-           // }
-           // return 6;
-        //}else{
+        if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
+            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                return 7;
+            }
+            return 6;
+        }else{
             if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
                 return 6;
             }
             return 5;
-       // }
+        }
         
 
     }

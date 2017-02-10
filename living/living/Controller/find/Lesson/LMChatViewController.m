@@ -119,7 +119,7 @@ LGAudioPlayerDelegate
         hasShield = NO;
         isShieldReload = NO;
         
-        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
+//        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
         
         [self createWebSocket];
     }
@@ -350,7 +350,7 @@ LGAudioPlayerDelegate
     NSString    *total  = [bodyDic objectForKey:@"count"];
     NSString    *hostID  = [bodyDic objectForKey:@"host_uuid"];
     NSString    *sign  = [bodyDic objectForKey:@"sign"];
-    
+    NSString    *description    = [bodyDic objectForKey:@"description"];
     if ([sign isEqualToString:@"1"]) {
         if ([hostID isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             [bootView removeFromSuperview];
@@ -399,6 +399,9 @@ LGAudioPlayerDelegate
         }
         
         return tempArr;
+    }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
     return nil;
     
@@ -925,12 +928,12 @@ LGAudioPlayerDelegate
                     
                 } else {
                     
-                    dispatch_async(dispatch_get_main_queue()
-                                   , ^{
+                   // dispatch_async(dispatch_get_main_queue()
+                     //              , ^{
                                        
                                        [self textStateHUD:@"问题提交失败，请重试~"];
                                        [self createWebSocket];
-                                   });
+                       //            });
                 }
 
                 toorbar.inputTextView.text=@"";
@@ -1609,7 +1612,7 @@ LGAudioPlayerDelegate
     if (client.connected == NO) {
         
         NSLog(@"0");
-        
+        client = [LMWobsocket shareWebsocket];
         NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
         
         [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
@@ -1701,7 +1704,10 @@ LGAudioPlayerDelegate
         }
         
     } failed:^(NSError *error) {
-        
+        [activity removeFromSuperview];
+        [self performSelectorOnMainThread:@selector(textStateHUD:)
+                               withObject:@"网络错误"
+                            waitUntilDone:YES];
     }];
     
     [proxy start];
