@@ -41,6 +41,8 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 
 @property(nonatomic,strong)UIButton *packetButton;
 
+@property(nonatomic,strong)UIImageView *publishImageV;
+
 @property (nonatomic, assign) LGVoicePlayState voicePlayState;
 
 @property (nonatomic, weak) id <ChattingCellDelegate> delegate;
@@ -62,6 +64,8 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 - (void)cellVoiceChangeText:(ChattingCell *)cell;
 
 - (void)cellTipAction:(ChattingCell *)cell;
+
+- (void)cellloagTapAction:(ChattingCell *)cell;
 
 
 @end

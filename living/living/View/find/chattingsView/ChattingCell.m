@@ -20,7 +20,6 @@
 @implementation ChattingCell
 {
     UIView *contentbgView;
-    UIImageView *publishImageV;
     UIButton *endButton;
     NSInteger roleNum;
 }
@@ -120,12 +119,16 @@
     
     [contentbgView addSubview:_contentLabel];
     
-    publishImageV=[[UIImageView alloc]initWithFrame:CGRectMake(50, 36, 100, 150)];
-    [publishImageV setContentMode:UIViewContentModeScaleAspectFill];
-    [publishImageV.layer setCornerRadius:3.0f];
-    [publishImageV.layer setMasksToBounds:YES];
-    [publishImageV setBackgroundColor:[UIColor lightGrayColor]];
-    [self addSubview:publishImageV];
+    _publishImageV=[[UIImageView alloc]initWithFrame:CGRectMake(50, 36, 100, 150)];
+    [_publishImageV setContentMode:UIViewContentModeScaleAspectFill];
+    [_publishImageV.layer setCornerRadius:3.0f];
+    [_publishImageV.layer setMasksToBounds:YES];
+    [_publishImageV setBackgroundColor:[UIColor lightGrayColor]];
+    
+    UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imglongTapClick:)];
+    [_publishImageV addGestureRecognizer:longTap];
+    
+    [self addSubview:_publishImageV];
     
     endButton =[[UIButton alloc]initWithFrame:CGRectMake(55, 35, kScreenWidth-65, 35)];
     [endButton setHidden:YES];
@@ -296,7 +299,7 @@
         //显示文字显示控件
         [contentbgView setHidden:NO];
         //隐藏图片显示控件
-        [publishImageV setHidden:YES];
+        [_publishImageV setHidden:YES];
         [_bootomView setHidden:YES];
         
         [_soundbutton setHidden:YES];
@@ -305,19 +308,19 @@
     //如果为图片
      if (vo.type&&[vo.type isEqual:@"picture"]) {
          
-         [publishImageV sd_setImageWithURL:[NSURL URLWithString:vo.imageurl]];
+         [_publishImageV sd_setImageWithURL:[NSURL URLWithString:vo.imageurl]];
         
          //隐藏文字显示控件
          [contentbgView setHidden:YES];
          //显示图片显示控件
-         [publishImageV setHidden:NO];
+         [_publishImageV setHidden:NO];
          
          [_soundbutton setHidden:YES];
-         publishImageV.userInteractionEnabled = YES;
+         _publishImageV.userInteractionEnabled = YES;
          [_bootomView setHidden:YES];
          [endButton setHidden:YES];
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
-         [publishImageV addGestureRecognizer:tap];
+         [_publishImageV addGestureRecognizer:tap];
          
      }
     
@@ -367,7 +370,7 @@
         //显示文字显示控件
         [contentbgView setHidden:YES];
         //隐藏图片显示控件
-        [publishImageV setHidden:YES];
+        [_publishImageV setHidden:YES];
         
         [_soundbutton setHidden:NO];
         [endButton setHidden:YES];
@@ -406,6 +409,21 @@
         [_delegate cellTipAction:self];
     }
 }
+
+- (void)imglongTapClick:(UILongPressGestureRecognizer *)gesture
+{
+    
+    if(gesture.state==UIGestureRecognizerStateBegan)
+        
+    {
+
+    if ([_delegate respondsToSelector:@selector(cellloagTapAction:)]) {
+        [_delegate cellloagTapAction:self];
+    }
+    }
+}
+
+
 
 
 

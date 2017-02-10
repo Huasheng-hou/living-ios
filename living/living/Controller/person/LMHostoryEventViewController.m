@@ -9,10 +9,8 @@
 #import "LMHostoryEventViewController.h"
 #import "LMActivityDetailController.h"
 #import "LMPublishViewController.h"
-#import "LMActivityListRequest.h"
+#import "LMEventOverRequest.h"
 #import "LMActivityCell.h"
-
-#import "LMActivityDeleteRequest.h"
 #import "SQMenuShowView.h"
 #import "ActivityListVO.h"
 #import "LMMyPublicViewController.h"
@@ -112,7 +110,7 @@
     }
     
     
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:city];
+    LMEventOverRequest   *request    = [[LMEventOverRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andUser_uuid:[FitUserManager sharedUserManager].uuid];
     
     return request;
 }

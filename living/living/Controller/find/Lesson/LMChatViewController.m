@@ -31,6 +31,10 @@
 #import "LGAudioKit.h"
 #import "Masonry.h"
 #import "LMVoiceChangeTextRequest.h"
+#import "LMKeepImageView.h"
+#import "UIImageView+WebCache.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "ZYQAssetPickerController.h"
 
 #define assistViewHeight  200
 #define toobarHeight 50
@@ -38,6 +42,15 @@
 
 #define secondsToNanoseconds(t) (t * 1000000000) // in nanoseconds
 #define gotSignal(semaphore, timeout) ((dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, secondsToNanoseconds(timeout)))) == 0l)
+
+
+// 视频URL路径
+#define KVideoUrlPath   \
+[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"VideoURL"]
+
+// caches路径
+#define KCachesPath   \
+[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 @interface LMChatViewController ()
 <
@@ -55,7 +68,8 @@ AVAudioPlayerDelegate,
 UIToolbarDelegate,
 AVAudioRecorderDelegate,
 LGSoundRecorderDelegate,
-LGAudioPlayerDelegate
+LGAudioPlayerDelegate,
+ZYQAssetPickerControllerDelegate
 >
 {
     NSTimeInterval _visiableTime;
@@ -102,6 +116,10 @@ LGAudioPlayerDelegate
     NSTimer *timer;
     CGFloat koardH;
     
+    LMKeepImageView *backButtonView;
+    UIImage *keepImage;
+    NSInteger timerIndex;
+    
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
 
@@ -144,8 +162,13 @@ LGAudioPlayerDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
-    [timer invalidate];
-    timer = nil;
+    if (timerIndex == 1) {
+        [timer invalidate];
+        timer = nil;
+    }else{
+        
+    }
+
     
 }
 
@@ -175,6 +198,8 @@ LGAudioPlayerDelegate
     [LGAudioPlayer sharePlayer].delegate = self;
     
     toolBarChangeH  = 0;
+    
+    timerIndex = 1;
     
 }
 
@@ -533,6 +558,7 @@ LGAudioPlayerDelegate
             questVC.voiceUUid = _voiceUuid;
             questVC.roleIndex = @"1";
             questVC.delegate = self;
+            timerIndex = 2;
             [self.navigationController pushViewController:questVC animated:YES];
         }
         
@@ -1078,20 +1104,45 @@ LGAudioPlayerDelegate
 #pragma mark 选择照片及提问的执行方法
 - (void)assistViewSelectItem:(NSInteger)item
 {
-    if (item == 1) {//照片
+    
+    if (item == 1) {//小视频
+        NSLog(@"点击进入相册，添加视频");
+        ZYQAssetPickerController *picker = [[ZYQAssetPickerController alloc] init];
+        picker.maximumNumberOfSelection = 1;
+        picker.assetsFilter = [ALAssetsFilter allVideos];
+        picker.showEmptyGroups=NO;
+        picker.delegate=self;
+        
+        picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+                NSTimeInterval duration = [[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyDuration] doubleValue];
+                return duration < 10;
+            } else {
+                return YES;
+            }
+        }];
+        
+        timerIndex = 2;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+        
+
+    }
+    
+    if (item == 2) {//照片
         
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
         
         imagePickerController.delegate = self;
         imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePickerController.modalTransitionStyle = UIModalPresentationCustom;
-        
+        timerIndex = 2;
         [self presentViewController:imagePickerController animated:YES completion:^{
             
         }];
     }
     
-    if (item == 2) {//提问
+    if (item == 3) {//提问
         
         toorbar.inputTextView.text = @"#问题# ";
         [toorbar.inputTextView becomeFirstResponder];
@@ -2363,6 +2414,120 @@ LGAudioPlayerDelegate
     NSLog(@"打赏~~~~~~~~~~~~~~~~~~~~~~~~~~");
 }
 
+
+#pragma mark --长按保存图片到相册
+
+- (void)cellloagTapAction:(ChattingCell *)cell
+{
+    backButtonView = [[LMKeepImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    [[[UIApplication sharedApplication].windows lastObject] addSubview:backButtonView];
+    
+    backButtonView.rihgtButton.tag = cell.tag;
+    
+    [backButtonView.leftButton addTarget:self action:@selector(CancelAction:) forControlEvents:UIControlEventTouchUpInside];
+    [backButtonView.rihgtButton addTarget:self action:@selector(BesureAction:) forControlEvents:UIControlEventTouchUpInside];
+    keepImage = cell.publishImageV.image;
+    
+
+    
+}
+
+- (void)CancelAction:(UIButton *)sender
+{
+    [backButtonView removeFromSuperview];
+}
+
+- (void)BesureAction:(UIButton *)sender
+{
+    
+    [backButtonView removeFromSuperview];
+    NSLog(@"%ld",(long)sender.tag);
+    
+    UIImageWriteToSavedPhotosAlbum(keepImage,self,@selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:),nil);
+    
+
+}
+
+- (void)imageSavedToPhotosAlbum:(UIImage*)image didFinishSavingWithError:  (NSError*)error contextInfo:(void*)contextInfo
+{
+    
+    if(!error) {
+        [self textStateHUD:@"保存成功"];
+    }else{
+        [self textStateHUD:@"保存失败，请重试~"];
+    }
+}
+
+#pragma mark - ZYQAssetPickerController Delegate
+-(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
+
+    for (int i=0; i<assets.count; i++) {
+        ALAsset *asset=assets[i];
+        ALAssetRepresentation * representation = asset.defaultRepresentation;
+        
+
+        UIImage *tempImg = [UIImage imageWithCGImage:asset.thumbnail];
+        NSData *data = UIImageJPEGRepresentation(tempImg, 1);
+        [self videoWithUrl:representation.url withFileName:representation.filename];
+        NSLog(@"~~~~~~~~~%@~~~~~~~",representation.url);
+        NSLog(@"~~~~~~~~~%@~~~~~~~",representation.filename);
+        
+        NSString* picPath = [NSString stringWithFormat:@"%@/%@",KVideoUrlPath,representation.filename];
+        NSLog(@"***********~~~~~~~~~%@~~~~~~~",picPath);
+        
+        if(data){
+            NSData *videoData = [NSData dataWithContentsOfFile: picPath];
+            NSLog(@"~~~~~~~~~~~~~~~~%@~~~~~~~~~~~~",videoData);
+            NSLog(@"~~~~~~~~~~~~~~~~%@",data);
+        }
+
+        }
+    
+}
+
+// 将原始视频的URL转化为NSData数据,写入沙盒
+- (void)videoWithUrl:(NSURL *)url withFileName:(NSString *)fileName
+{
+    // 解析一下,为什么视频不像图片一样一次性开辟本身大小的内存写入?
+    // 想想,如果1个视频有1G多,难道直接开辟1G多的空间大小来写?
+    // 创建存放原始图的文件夹--->VideoURL
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:KVideoUrlPath]) {
+        [fileManager createDirectoryAtPath:KVideoUrlPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    ALAssetsLibrary *assetLibrary = [[ALAssetsLibrary alloc] init];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (url) {
+            [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset) {
+                ALAssetRepresentation *rep = [asset defaultRepresentation];
+                NSString * videoPath = [KVideoUrlPath stringByAppendingPathComponent:fileName];
+                const char *cvideoPath = [videoPath UTF8String];
+                FILE *file = fopen(cvideoPath, "a+");
+                if (file) {
+                    const int bufferSize = 11024 * 1024;
+                    // 初始化一个1M的buffer
+                    Byte *buffer = (Byte*)malloc(bufferSize);
+                    NSUInteger read = 0, offset = 0, written = 0;
+                    NSError* err = nil;
+                    if (rep.size != 0)
+                    {
+                        do {
+                            read = [rep getBytes:buffer fromOffset:offset length:bufferSize error:&err];
+                            written = fwrite(buffer, sizeof(char), read, file);
+                            offset += read;
+                        } while (read != 0 && !err);//没到结尾，没出错，ok继续
+                    }
+                    // 释放缓冲区，关闭文件
+                    free(buffer);
+                    buffer = NULL;
+                    fclose(file);
+                    file = NULL;
+                    
+                }
+            } failureBlock:nil];
+        }
+    });
+}
 
 
 

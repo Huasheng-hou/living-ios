@@ -25,19 +25,24 @@
 {
     NSInteger buttonW=60;
     NSInteger offset=30;
-    NSArray *titleArray=@[@"照片",@"提问"];
+    NSArray *titleArray=@[@"小视频",@"照片",@"提问"];
     
-    for (int i=1; i<=2; i++) {
+    for (int i=1; i<=3; i++) {
         UIButton *button=[[UIButton alloc]init];
         UILabel *label=[[UILabel alloc]init];
         if (i==1) {
-            [button setFrame:CGRectMake(kScreenWidth/2-offset-buttonW, 50, buttonW, buttonW)];
-            [label setFrame:CGRectMake(kScreenWidth/2-offset-buttonW, 50+buttonW, buttonW, 50)];
-            [button setBackgroundImage:[UIImage imageNamed:@"photoIcon"] forState:UIControlStateNormal];
+            [button setFrame:CGRectMake((kScreenWidth-180)/4, 50, buttonW, buttonW)];
+            [label setFrame:CGRectMake((kScreenWidth-180)/4, 50+buttonW, buttonW, 50)];
+            [button setBackgroundImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
         }
         if (i==2) {
-            [button setFrame:CGRectMake(kScreenWidth/2+offset, 50, buttonW, buttonW)];
-            [label setFrame:CGRectMake(kScreenWidth/2+offset, 50+buttonW, buttonW, 50)];
+            [button setFrame:CGRectMake((kScreenWidth-180)/2+buttonW, 50, buttonW, buttonW)];
+            [label setFrame:CGRectMake((kScreenWidth-180)/2+buttonW, 50+buttonW, buttonW, 50)];
+            [button setBackgroundImage:[UIImage imageNamed:@"photoIcon"] forState:UIControlStateNormal];
+        }
+        if (i==3) {
+            [button setFrame:CGRectMake((kScreenWidth-180)*3/4+buttonW*2, 50, buttonW, buttonW)];
+            [label setFrame:CGRectMake((kScreenWidth-180)*3/4+buttonW*2, 50+buttonW, buttonW, 50)];
             [button setBackgroundImage:[UIImage imageNamed:@"questionIcon"] forState:UIControlStateNormal];
         }
 //        [button.layer setCornerRadius:10.0f];
