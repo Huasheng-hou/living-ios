@@ -15,7 +15,7 @@
 @property (strong, nonatomic)   NSData                  * imageData;
 @property (strong, nonatomic)   NSString                * imageName;
 @property (strong,nonatomic)    NSData                  * fileData;
-
+@property (strong,nonatomic)    NSData                  * videoData;
 //无输入参数初始化
 - (id)initWithNone;
 

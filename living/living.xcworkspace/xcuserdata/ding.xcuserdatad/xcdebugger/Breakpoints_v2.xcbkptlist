@@ -36,12 +36,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "508413512.194285"
+            timestampString = "508577903.655974"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2480"
-            endingLineNumber = "2480"
-            landmarkName = "-assetPickerController:didFinishPickingAssets:"
+            startingLineNumber = "2657"
+            endingLineNumber = "2657"
+            landmarkName = "-sendVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Model/Request/Base/FitBaseRequest.m"
+            timestampString = "508577582.839609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "-req"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

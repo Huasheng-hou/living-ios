@@ -23,6 +23,7 @@
 @synthesize imageData       =       _imageData;
 @synthesize imageName       =       _imageName;
 @synthesize fileData        =       _fileData;
+@synthesize videoData       =       _videoData;
 
 - (id)initWithNone
 {
@@ -192,8 +193,8 @@
                                                  [formData appendPartWithFormData:[self toJSONData:[self query]]
                                                                              name:@"json_package"];
                                                  
-                                                 if ([self iSFileDataInclude] && _fileData) {
-                                                     [formData appendPartWithFileData:_fileData
+                                                 if ([self iSFileDataInclude] && _videoData) {
+                                                     [formData appendPartWithFileData:_videoData
                                                                                  name:@"filename"
                                                                              fileName:[NSString stringWithFormat:@"%@.mp4", @"filename"]
                                                                              mimeType:@"video/quicktime"];

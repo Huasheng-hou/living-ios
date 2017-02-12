@@ -16,10 +16,17 @@
 #import "LMMyPublicViewController.h"
 #import "SXButton.h"
 #import "SearchViewController.h"
+#import "FitDatePickerView.h"
+#import "LMHostoryView.h"
+#import "LMEventUpstoreRequest.h"
 
 #define PAGER_SIZE      20
 
-@interface LMHostoryEventViewController ()<LMactivityCellDelegate>
+@interface LMHostoryEventViewController ()
+<
+LMactivityCellDelegate,
+FitDatePickerDelegate
+>
 {
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
@@ -31,6 +38,8 @@
     NSMutableArray   *pageIndexArray;
     BOOL                reload;
     NSString         *city;
+    LMHostoryView    *hostoryView;
+    NSInteger  dateIndex;
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -222,7 +231,7 @@
             [(LMActivityCell *)cell setDelegate:self];
         }
     }
-    
+    [(LMActivityCell *)cell setTag: indexPath.row];
     [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
@@ -261,8 +270,121 @@
 
 -(void)cellWillClick:(LMActivityCell *)cell
 {
-    NSLog(@"上架~~~~~~~~~~~~~~");
+    
+    hostoryView = [[LMHostoryView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    [[[UIApplication sharedApplication].windows lastObject] addSubview:hostoryView];
+    
+    
+    [hostoryView.startButton addTarget:self action:@selector(startAction:) forControlEvents:UIControlEventTouchUpInside];
+    [hostoryView.finishButton addTarget:self action:@selector(finishAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    hostoryView.upstoreButton.tag = cell.tag;
+    [hostoryView.upstoreButton addTarget:self action:@selector(upstoreAction:) forControlEvents:UIControlEventTouchUpInside];
+    NSLog(@"%ld",(long)cell.tag);
+    
 }
+
+- (void)startAction:(UIButton *)sender
+{
+    NSLog(@"开始时间~~~~");
+    dateIndex = 0;
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *currentDate;
+    
+    currentDate = [NSDate date];
+    
+    [FitDatePickerView showWithMinimumDate:currentDate
+                               MaximumDate:[formatter dateFromString:@"2950-01-01"]
+                               CurrentDate:currentDate
+                                      Mode:UIDatePickerModeDateAndTime
+                                  Delegate:self];
+}
+
+- (void)finishAction:(UIButton *)sender
+{
+    NSLog(@"结束时间~~~~");
+    
+    dateIndex = 1;
+    
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *currentDate;
+    if ([hostoryView.startButton.textLabel.text isEqual:@"请选择开始时间          "]) {
+        currentDate = [NSDate date];
+    }else{
+        
+        NSString *dateString=hostoryView.startButton.textLabel.text;
+        
+        currentDate=[formatter dateFromString:dateString];
+        
+    }
+    
+    [FitDatePickerView showWithMinimumDate:currentDate
+                               MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
+                               CurrentDate:currentDate
+                                      Mode:UIDatePickerModeDateAndTime
+                                  Delegate:self];
+}
+
+- (void)upstoreAction:(UIButton *)sender
+{
+    NSLog(@"上架~~~~");
+    NSLog(@"sender.tag           %ld",(long)sender.tag);
+     ActivityListVO  *vo = [self.listData objectAtIndex:sender.tag];
+    [hostoryView removeFromSuperview];
+    LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.EventUuid andstart_time:hostoryView.startButton.textLabel.text andend_time:hostoryView.finishButton.textLabel.text];
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(upstoreRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+
+                                           }];
+    [proxy start];
+    
+}
+
+- (void)upstoreRespond:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"重新上架失败~"];
+        return;
+    }
+    NSString *result    = [bodyDic objectForKey:@"result"];
+    
+    if (result && [result intValue] == 0){
+        [self textStateHUD:@"已重新上架~"];
+        [self loadNoState];
+    }
+}
+
+
+#pragma mark - 日期选择
+
+- (void)didSelectedDate:(NSDate *)date
+{
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    
+    if (dateIndex == 0) {
+        
+        hostoryView.startButton.textLabel.text   = [formatter stringFromDate:date];
+    }
+    if (dateIndex == 1) {
+        
+        hostoryView.finishButton.textLabel.text   = [formatter stringFromDate:date];
+    }
+}
+
+
 
 
 @end

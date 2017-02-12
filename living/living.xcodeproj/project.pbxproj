@@ -22,6 +22,10 @@
 		351213811DF964FD0053B83F /* LMBlackListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213801DF964FD0053B83F /* LMBlackListRequest.m */; };
 		351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213831DF965FB0053B83F /* LMCancelauthorRequest.m */; };
 		351213871DF969AC0053B83F /* LMBlackWriterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213861DF969AC0053B83F /* LMBlackWriterRequest.m */; };
+		3524CF721E4FFD6A00651E64 /* LMHostoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF711E4FFD6A00651E64 /* LMHostoryView.m */; };
+		3524CF751E5010FD00651E64 /* LMEventUpstoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF741E5010FD00651E64 /* LMEventUpstoreRequest.m */; };
+		3524CF781E50349300651E64 /* LMNumberMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF771E50349300651E64 /* LMNumberMessageRequest.m */; };
+		3524CF7B1E503D8E00651E64 /* FirUploadVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF7A1E503D8E00651E64 /* FirUploadVideoRequest.m */; };
 		3527A8A51E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */; };
 		352905D71DF54E470062196C /* LMLessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 352905D61DF54E470062196C /* LMLessonViewController.m */; };
 		3533A76A1E4D83BC0088734A /* ALiAssetReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3533A7651E4D83BC0088734A /* ALiAssetReader.m */; };
@@ -504,6 +508,14 @@
 		351213831DF965FB0053B83F /* LMCancelauthorRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCancelauthorRequest.m; sourceTree = "<group>"; };
 		351213851DF969AC0053B83F /* LMBlackWriterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBlackWriterRequest.h; sourceTree = "<group>"; };
 		351213861DF969AC0053B83F /* LMBlackWriterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlackWriterRequest.m; sourceTree = "<group>"; };
+		3524CF701E4FFD6A00651E64 /* LMHostoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHostoryView.h; sourceTree = "<group>"; };
+		3524CF711E4FFD6A00651E64 /* LMHostoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHostoryView.m; sourceTree = "<group>"; };
+		3524CF731E5010FD00651E64 /* LMEventUpstoreRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventUpstoreRequest.h; sourceTree = "<group>"; };
+		3524CF741E5010FD00651E64 /* LMEventUpstoreRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventUpstoreRequest.m; sourceTree = "<group>"; };
+		3524CF761E50349300651E64 /* LMNumberMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNumberMessageRequest.h; sourceTree = "<group>"; };
+		3524CF771E50349300651E64 /* LMNumberMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNumberMessageRequest.m; sourceTree = "<group>"; };
+		3524CF791E503D8E00651E64 /* FirUploadVideoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirUploadVideoRequest.h; sourceTree = "<group>"; };
+		3524CF7A1E503D8E00651E64 /* FirUploadVideoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirUploadVideoRequest.m; sourceTree = "<group>"; };
 		3527A8A31E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceChangeTextRequest.h; sourceTree = "<group>"; };
 		3527A8A41E1F8BCF00CD8DC6 /* LMVoiceChangeTextRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceChangeTextRequest.m; sourceTree = "<group>"; };
 		352905D51DF54E470062196C /* LMLessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLessonViewController.h; sourceTree = "<group>"; };
@@ -2970,6 +2982,8 @@
 				351213861DF969AC0053B83F /* LMBlackWriterRequest.m */,
 				3533A7911E4DC9020088734A /* LMEventOverRequest.h */,
 				3533A7921E4DC9020088734A /* LMEventOverRequest.m */,
+				3524CF731E5010FD00651E64 /* LMEventUpstoreRequest.h */,
+				3524CF741E5010FD00651E64 /* LMEventUpstoreRequest.m */,
 			);
 			path = person;
 			sourceTree = "<group>";
@@ -3054,6 +3068,8 @@
 				35B7463A1DDE97F3000AFA26 /* FirUploadImageRequest.m */,
 				354298D21E0A207E001E11B4 /* FirUploadVoiceRequest.h */,
 				354298D31E0A207E001E11B4 /* FirUploadVoiceRequest.m */,
+				3524CF791E503D8E00651E64 /* FirUploadVideoRequest.h */,
+				3524CF7A1E503D8E00651E64 /* FirUploadVideoRequest.m */,
 			);
 			path = UploadImage;
 			sourceTree = "<group>";
@@ -3478,6 +3494,8 @@
 				35B746E41DDE97F3000AFA26 /* LMRechargeCell.m */,
 				35B746E51DDE97F3000AFA26 /* LMRePayCell.h */,
 				35B746E61DDE97F3000AFA26 /* LMRePayCell.m */,
+				3524CF701E4FFD6A00651E64 /* LMHostoryView.h */,
+				3524CF711E4FFD6A00651E64 /* LMHostoryView.m */,
 				35B746E71DDE97F3000AFA26 /* myfriend */,
 				35B746EA1DDE97F3000AFA26 /* personCoupon */,
 				35B746ED1DDE97F3000AFA26 /* personMyliveRoom */,
@@ -3615,6 +3633,8 @@
 				359F81981E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m */,
 				359F819A1E0282030070F6C7 /* LMVoiceJoinRequest.h */,
 				359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */,
+				3524CF761E50349300651E64 /* LMNumberMessageRequest.h */,
+				3524CF771E50349300651E64 /* LMNumberMessageRequest.m */,
 			);
 			path = Classroom;
 			sourceTree = "<group>";
@@ -3941,6 +3961,7 @@
 				35B7481D1DDE97F4000AFA26 /* LMhomePageCell.m in Sources */,
 				35B747AD1DDE97F3000AFA26 /* LMArticeDeleteRequest.m in Sources */,
 				35B748251DDE97F4000AFA26 /* LMMyLivingHomeCell.m in Sources */,
+				3524CF7B1E503D8E00651E64 /* FirUploadVideoRequest.m in Sources */,
 				3533A7841E4D84D00088734A /* AliPlayerControlView.m in Sources */,
 				35B747581DDE97F3000AFA26 /* LMHomePageController.m in Sources */,
 				35B747251DDE97F3000AFA26 /* SSPullToRefreshDefaultContentView.m in Sources */,
@@ -4179,6 +4200,7 @@
 				35B747C31DDE97F3000AFA26 /* LMBalanceChargeRequest.m in Sources */,
 				35B7480E1DDE97F4000AFA26 /* LMEventMsgCell.m in Sources */,
 				35B747ED1DDE97F4000AFA26 /* LMFriendVO.m in Sources */,
+				3524CF781E50349300651E64 /* LMNumberMessageRequest.m in Sources */,
 				35B747E71DDE97F4000AFA26 /* LMBalanceBillVO.m in Sources */,
 				35B747F91DDE97F4000AFA26 /* PayloadVO.m in Sources */,
 				35B747101DDE97F3000AFA26 /* DataVerifier.m in Sources */,
@@ -4202,6 +4224,7 @@
 				35B747C81DDE97F3000AFA26 /* LMCouponUseRequest.m in Sources */,
 				35B747B91DDE97F3000AFA26 /* LMCouponRequest.m in Sources */,
 				35B747121DDE97F3000AFA26 /* NSDataEx.m in Sources */,
+				3524CF721E4FFD6A00651E64 /* LMHostoryView.m in Sources */,
 				35980BB31E011B6D0054EB05 /* LMVoiceCommentTableViewCell.m in Sources */,
 				35B747891DDE97F3000AFA26 /* UIBarButtonItem+Badge.m in Sources */,
 				35B747EB1DDE97F4000AFA26 /* LMCouponVO.m in Sources */,
@@ -4232,6 +4255,7 @@
 				35B747901DDE97F3000AFA26 /* LMBalanceList.m in Sources */,
 				355E7B6A1DFFCD5F0089BAB1 /* LMVoiceHeaderCell.m in Sources */,
 				3535CFF71E20E98100280C34 /* LMWobsocket.m in Sources */,
+				3524CF751E5010FD00651E64 /* LMEventUpstoreRequest.m in Sources */,
 				35B747981DDE97F3000AFA26 /* LMMonthDetailBody.m in Sources */,
 				35B747D21DDE97F4000AFA26 /* LMWXRechargrRequest.m in Sources */,
 				35B7471D1DDE97F3000AFA26 /* MJRefreshConst.m in Sources */,

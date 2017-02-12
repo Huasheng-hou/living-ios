@@ -35,6 +35,8 @@
 #import "UIImageView+WebCache.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ZYQAssetPickerController.h"
+#import "LMNumberMessageRequest.h"
+#import "FirUploadVideoRequest.h"
 
 #define assistViewHeight  200
 #define toobarHeight 50
@@ -119,6 +121,8 @@ ZYQAssetPickerControllerDelegate
     LMKeepImageView *backButtonView;
     UIImage *keepImage;
     NSInteger timerIndex;
+    NSTimer *messageTimer;
+    NSMutableArray *currentArray;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -142,7 +146,9 @@ ZYQAssetPickerControllerDelegate
         
         [self createWebSocket];
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
+        messageTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(messageConnect) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+        [[NSRunLoop currentRunLoop] addTimer:messageTimer forMode:NSRunLoopCommonModes];
         
 
     }
@@ -1423,6 +1429,12 @@ ZYQAssetPickerControllerDelegate
 
 - (void)subscribeTopic
 {
+    NSMutableArray *newNumArray = [NSMutableArray new];
+    for (MssageVO *vo in self.listData) {
+        if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
+            [newNumArray addObject:vo.currentIndex];
+        }
+    }
     NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
     
     [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
@@ -1436,6 +1448,12 @@ ZYQAssetPickerControllerDelegate
                                   error:nil];
         
         MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
+        NSNumber *number = vo.currentIndex ;
+        
+        if ([newNumArray containsObject: number]) {
+            return ;
+        }
+        
         
         if (vo.type && [vo.type isEqual:@"chat"]) {
             
@@ -1453,7 +1471,7 @@ ZYQAssetPickerControllerDelegate
             [dic setObject:vo.name forKey:@"name"];
             [dic setObject:vo.headimgurl forKey:@"headimgurl"];
             [dic setObject:vo.role forKey:@"role"];
-            
+            [dic setObject:vo.currentIndex forKey:@"currentIndex"];
             [dic setObject:@"chat" forKey:@"type"];
             
             [array addObject:dic];
@@ -1486,6 +1504,7 @@ ZYQAssetPickerControllerDelegate
             [dic setObject:vo.time forKey:@"time"];
             [dic setObject:vo.name forKey:@"name"];
             [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            [dic setObject:vo.currentIndex forKey:@"currentIndex"];
             [dic setObject:vo.role forKey:@"role"];
             
             
@@ -1516,9 +1535,10 @@ ZYQAssetPickerControllerDelegate
                 [dic setObject:vo.attachment forKey:@"voiceurl"];
                 [dic setObject:@"voice" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
+                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
                 if (vo.transcodingUrl&&![vo.transcodingUrl isEqualToString:@""]) {
                     [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
-                    [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                   // [dic setObject:vo.currentIndex forKey:@"currentIndex"];
                 }
                 
                 if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
@@ -1547,6 +1567,7 @@ ZYQAssetPickerControllerDelegate
             [dic setObject:vo.time forKey:@"time"];
             [dic setObject:vo.name forKey:@"name"];
             [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            [dic setObject:vo.currentIndex forKey:@"currentIndex"];
             [dic setObject:vo.role forKey:@"role"];
             [array addObject:dic];
             NSArray *array2 = [MssageVO MssageVOListWithArray:array];
@@ -2372,7 +2393,7 @@ ZYQAssetPickerControllerDelegate
 
 - (void)getchangeTextRespond:(NSString *)resp
 {
-    [self hideStateHud];
+   
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
@@ -2383,7 +2404,7 @@ ZYQAssetPickerControllerDelegate
     } else {
         
         if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            
+            [self hideStateHud];
             UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
             topView.backgroundColor = [UIColor whiteColor];
             [self.view.window addSubview:topView];
@@ -2441,11 +2462,8 @@ ZYQAssetPickerControllerDelegate
 {
     
     [backButtonView removeFromSuperview];
-    NSLog(@"%ld",(long)sender.tag);
-    
     UIImageWriteToSavedPhotosAlbum(keepImage,self,@selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:),nil);
     
-
 }
 
 - (void)imageSavedToPhotosAlbum:(UIImage*)image didFinishSavingWithError:  (NSError*)error contextInfo:(void*)contextInfo
@@ -2472,13 +2490,16 @@ ZYQAssetPickerControllerDelegate
         NSLog(@"~~~~~~~~~%@~~~~~~~",representation.url);
         NSLog(@"~~~~~~~~~%@~~~~~~~",representation.filename);
         
-        NSString* picPath = [NSString stringWithFormat:@"%@/%@",KVideoUrlPath,representation.filename];
-        NSLog(@"***********~~~~~~~~~%@~~~~~~~",picPath);
+//        NSString* picPath = [NSString stringWithFormat:@"%@/%@",KVideoUrlPath,representation.filename];
+        NSString * videoPath = [KVideoUrlPath stringByAppendingPathComponent:representation.filename];
+        NSLog(@"***********~~~~~~~~~%@~~~~~~~",videoPath);
         
         if(data){
-            NSData *videoData = [NSData dataWithContentsOfFile: picPath];
+            NSData *videoData = [NSData dataWithContentsOfFile: videoPath];
             NSLog(@"~~~~~~~~~~~~~~~~%@~~~~~~~~~~~~",videoData);
-            NSLog(@"~~~~~~~~~~~~~~~~%@",data);
+            
+//            NSLog(@"~~~~~~~~~~~~~~~~%@",data);
+            [self sendVideo:videoData];
         }
 
         }
@@ -2527,6 +2548,146 @@ ZYQAssetPickerControllerDelegate
             } failureBlock:nil];
         }
     });
+}
+
+- (void)messageConnect
+{
+    currentArray = [NSMutableArray new];
+    for (MssageVO *vo in self.listData) {
+        if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
+            [currentArray addObject:vo.currentIndex];
+        }
+    }
+    
+    NSArray *result = [currentArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        
+        return [obj1 compare:obj2]; //升序
+        
+    }];
+    
+    if (result.count>1) {
+        for (int i = 1; i<result.count-1; i++) {
+            if (i+1<=result.count) {
+                if ([result[i+1] intValue]-[result[i] intValue]>1) {
+                    [self getmessageRequest:[result[i] intValue]+1];
+                }
+            }
+            
+        }
+    }
+    
+
+    
+}
+
+- (void)getmessageRequest:(int)messageNumber
+{
+    LMNumberMessageRequest *request = [[LMNumberMessageRequest alloc] initWithCurrentIndex:messageNumber andVoiceUuid:_voiceUuid];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getmessageRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                               [self hideStateHud];
+                                           }];
+    [proxy start];
+}
+
+- (void)getmessageRespond:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"加载数据失败"];
+    }
+    
+    NSString    *result = [bodyDic objectForKey:@"result"];
+    NSString    *description    = [bodyDic objectForKey:@"description"];
+    if (result && [result isEqualToString:@"0"]) {
+        
+        NSArray *tempArr    = [MssageVO MssageVOListWithArray:[bodyDic objectForKey:@"message"]];
+        [self.listData addObjectsFromArray:tempArr];
+        [self.tableView reloadData];
+        
+    }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
+    }
+
+    
+    
+}
+
+
+#pragma mark  --上传视频
+
+- (void)sendVideo:(NSData *)data
+{
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    [self initStateHud];
+    
+//    NSString *filePath = [[LGSoundRecorder shareInstance] soundFilePath];
+//    NSData *imageData = [NSData dataWithContentsOfFile: filePath];
+    
+//    duration = [[LGSoundRecorder shareInstance] soundRecordTime];
+    
+    NSLog(@"%@",data);
+    
+    FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
+    
+    request.videoData = data;
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding){
+                                               
+                                               [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                      withObject:nil
+                                                                   waitUntilDone:YES];
+                                               NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+//
+//                                               NSString    *result = [bodyDict objectForKey:@"result"];
+//
+//                                               if (result && [result isKindOfClass:[NSString class]]
+//                                                   && [result isEqualToString:@"0"]) {
+//                                                   NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
+//                                                   NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
+//                                                   if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
+//
+//                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration],@"transcodingUrl":voiceUrl};
+//
+//                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+//                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+//                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+//                                                       if (client.connected ==YES) {
+//                                                           [client sendTo:urlStr body:string];
+//
+//                                                       }else{
+//                                                           [self textStateHUD:@"发送失败~"];
+//                                                           [client disconnect];
+//                                                           [self createWebSocket];
+//                                                       }
+//
+//                                                       [self reLoadTableViewCell];
+//
+//
+//                                                   }
+//                                               }
+                                           } failed:^(NSError *error) {
+                                               [self hideStateHud];
+                                           }];
+    [proxy start];
 }
 
 
