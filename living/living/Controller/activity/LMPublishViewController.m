@@ -904,7 +904,7 @@ static NSMutableArray *cellDataArray;
 -(void)publishButtonAction:(id)sender
 {
     [self.view endEditing:YES];
-    publicButton.userInteractionEnabled = NO;
+    
     
     NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
@@ -969,6 +969,7 @@ static NSMutableArray *cellDataArray;
     }
     
     [self initStateHud];
+    publicButton.userInteractionEnabled = NO;
     
     NSString *latitudeString;
     NSString *longitudeString;

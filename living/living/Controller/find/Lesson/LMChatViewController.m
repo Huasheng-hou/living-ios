@@ -48,11 +48,11 @@
 
 // 视频URL路径
 #define KVideoUrlPath   \
-[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"VideoURL"]
+[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"VideoURL"]
 
 // caches路径
 #define KCachesPath   \
-[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 @interface LMChatViewController ()
 <
@@ -1113,6 +1113,7 @@ ZYQAssetPickerControllerDelegate
     
     if (item == 1) {//小视频
         NSLog(@"点击进入相册，添加视频");
+//        [self textStateHUD:@"该功能暂未开放~"];
         ZYQAssetPickerController *picker = [[ZYQAssetPickerController alloc] init];
         picker.maximumNumberOfSelection = 1;
         picker.assetsFilter = [ALAssetsFilter allVideos];
@@ -2491,18 +2492,41 @@ ZYQAssetPickerControllerDelegate
         NSLog(@"~~~~~~~~~%@~~~~~~~",representation.filename);
         
 //        NSString* picPath = [NSString stringWithFormat:@"%@/%@",KVideoUrlPath,representation.filename];
-        NSString * videoPath = [KVideoUrlPath stringByAppendingPathComponent:representation.filename];
-        NSLog(@"***********~~~~~~~~~%@~~~~~~~",videoPath);
+
+    
         
-        if(data){
-            NSData *videoData = [NSData dataWithContentsOfFile: videoPath];
-            NSLog(@"~~~~~~~~~~~~~~~~%@~~~~~~~~~~~~",videoData);
+//        if(data){
+
             
 //            NSLog(@"~~~~~~~~~~~~~~~~%@",data);
-            [self sendVideo:videoData];
-        }
+
+//        }
+        
+        ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
+        
+        [assetLibrary assetForURL:representation.url resultBlock:^(ALAsset *asset){
+            
+            ALAssetRepresentation *rep = [asset defaultRepresentation];
+            
+            Byte *buffer = (Byte*)malloc(rep.size);
+            
+            NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+            // 这个data便是 转换成功的视频data 有了data边可以进行上传了
+            NSData *Data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            [self sendVideo:Data];
+            
+        }failureBlock:^(NSError *err) {
+            
+            NSLog(@"error: ------------------------%@",err);
+            
+        }];
+        
 
         }
+    
+    
+    
+    
     
 }
 
@@ -2510,7 +2534,6 @@ ZYQAssetPickerControllerDelegate
 - (void)videoWithUrl:(NSURL *)url withFileName:(NSString *)fileName
 {
     // 解析一下,为什么视频不像图片一样一次性开辟本身大小的内存写入?
-    // 想想,如果1个视频有1G多,难道直接开辟1G多的空间大小来写?
     // 创建存放原始图的文件夹--->VideoURL
     NSFileManager * fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:KVideoUrlPath]) {
@@ -2630,6 +2653,11 @@ ZYQAssetPickerControllerDelegate
 - (void)sendVideo:(NSData *)data
 {
     
+    
+    
+    NSLog(@"~~~~~~~~~~~~~~~~%@~~~~~~~~~~~~",data);
+    
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -2638,12 +2666,8 @@ ZYQAssetPickerControllerDelegate
     
     [self initStateHud];
     
-//    NSString *filePath = [[LGSoundRecorder shareInstance] soundFilePath];
-//    NSData *imageData = [NSData dataWithContentsOfFile: filePath];
-    
-//    duration = [[LGSoundRecorder shareInstance] soundRecordTime];
-    
-    NSLog(@"%@",data);
+
+
     
     FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
     

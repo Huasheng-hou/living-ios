@@ -23,6 +23,7 @@
 
 #import "LMArtcleTypeViewController.h"
 #import "LMHomeVoiceDetailController.h"
+#import "LMClassroomDetailViewController.h"
 
 #import "BannerVO.h"
 
@@ -266,7 +267,7 @@ LMhomePageCellDelegate
     if (_bannerArray.count>index) {
         
         BannerVO *vo = _bannerArray[index];
-        
+        //活动
         if ([vo.Type isEqualToString:@"event"]) {
             
             if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]){
@@ -279,7 +280,7 @@ LMhomePageCellDelegate
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
-        
+        //文章
         if ([vo.Type isEqualToString:@"article"]) {
             
             if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
@@ -292,7 +293,7 @@ LMhomePageCellDelegate
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
-        
+        //web
         if ([vo.Type isEqualToString:@"web"]) {
             
             if (vo.webUrl && [vo.webUrl isKindOfClass:[NSString class]] && ![vo.webUrl isEqualToString:@""]) {
@@ -304,6 +305,19 @@ LMhomePageCellDelegate
                 webVC.urlString                 = vo.webUrl;
                 
                 [self.navigationController pushViewController:webVC animated:YES];
+            }
+        }
+        //语音课堂
+        if ([vo.Type isEqualToString:@"voice"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+                
+                LMClassroomDetailViewController *eventVC = [[LMClassroomDetailViewController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.voiceUUid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
     }

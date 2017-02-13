@@ -195,7 +195,7 @@
                                                  
                                                  if ([self iSFileDataInclude] && _videoData) {
                                                      [formData appendPartWithFileData:_videoData
-                                                                                 name:@"filename"
+                                                                                 name:_imageName
                                                                              fileName:[NSString stringWithFormat:@"%@.mp4", @"filename"]
                                                                              mimeType:@"video/quicktime"];
                                                  }

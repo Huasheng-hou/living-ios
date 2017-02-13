@@ -36,11 +36,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "508577903.655974"
+            timestampString = "508657476.966378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2657"
-            endingLineNumber = "2657"
+            startingLineNumber = "2681"
+            endingLineNumber = "2681"
+            landmarkName = "-sendVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508656445.761717"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2497"
+            endingLineNumber = "2497"
+            landmarkName = "-assetPickerController:didFinishPickingAssets:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508657476.966378"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2658"
+            endingLineNumber = "2658"
+            landmarkName = "-sendVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508657476.966378"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2661"
+            endingLineNumber = "2661"
             landmarkName = "-sendVideo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -52,11 +100,138 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Model/Request/Base/FitBaseRequest.m"
-            timestampString = "508577582.839609"
+            timestampString = "508658072.177305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "188"
             endingLineNumber = "188"
+            landmarkName = "-req"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Model/Request/Base/FitBaseRequest.m"
+            timestampString = "508658072.85722"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "-req"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Model/Request/Base/FitBaseRequest.m"
+            timestampString = "508658073.585274"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "-req"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__21-[FitBaseRequest req]_block_invoke.118"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Model/Request/Base/FitBaseRequest.m"
+                  timestampString = "508659294.370039"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "203"
+                  endingLineNumber = "203"
+                  offsetFromSymbolStart = "492">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.123"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Model/Request/Base/FitBaseRequest.m"
+                  timestampString = "508659294.37491"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "203"
+                  endingLineNumber = "203"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.124"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Model/Request/Base/FitBaseRequest.m"
+                  timestampString = "508659294.378915"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "203"
+                  endingLineNumber = "203"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508658145.93548"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2672"
+            endingLineNumber = "2672"
+            landmarkName = "-sendVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Model/Request/Base/FitBaseRequest.m"
+            timestampString = "508658175.141288"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "-req"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Model/Request/Base/FitBaseRequest.m"
+            timestampString = "508658176.637571"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "-req"
             landmarkType = "7">
          </BreakpointContent>
