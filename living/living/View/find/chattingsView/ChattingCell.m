@@ -198,7 +198,7 @@
     _chatNameLabel.text = vo.name;
     [_chatNameLabel sizeToFit];
     _chatNameLabel.frame = CGRectMake(55, 5, _chatNameLabel.bounds.size.width, 30);
-//  _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
+  _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
     
     [_packetButton addTarget:self action:@selector(tipAction:) forControlEvents:UIControlEventTouchUpInside];
     

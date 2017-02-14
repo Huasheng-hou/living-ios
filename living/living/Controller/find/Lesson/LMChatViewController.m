@@ -37,6 +37,9 @@
 #import "ZYQAssetPickerController.h"
 #import "LMNumberMessageRequest.h"
 #import "FirUploadVideoRequest.h"
+#import "LMExceptionalView.h"
+#import "UIImageView+WebCache.h"
+#import "LMRewardBlanceRequest.h"
 
 #define assistViewHeight  200
 #define toobarHeight 50
@@ -71,7 +74,8 @@ UIToolbarDelegate,
 AVAudioRecorderDelegate,
 LGSoundRecorderDelegate,
 LGAudioPlayerDelegate,
-ZYQAssetPickerControllerDelegate
+ZYQAssetPickerControllerDelegate,
+LMExceptionalViewDelegate
 >
 {
     NSTimeInterval _visiableTime;
@@ -119,6 +123,7 @@ ZYQAssetPickerControllerDelegate
     CGFloat koardH;
     
     LMKeepImageView *backButtonView;
+    LMExceptionalView *ExceptionalView;
     UIImage *keepImage;
     NSInteger timerIndex;
     NSTimer *messageTimer;
@@ -1468,6 +1473,7 @@ ZYQAssetPickerControllerDelegate
                 [dic setObject:content forKey:@"content"];
                 
             }
+            [dic setObject:vo.user_uuid forKey:@"user_uuid"];
             [dic setObject:vo.time forKey:@"time"];
             [dic setObject:vo.name forKey:@"name"];
             [dic setObject:vo.headimgurl forKey:@"headimgurl"];
@@ -1502,6 +1508,7 @@ ZYQAssetPickerControllerDelegate
                 [dic setObject:content forKey:@"content"];
                 
             }
+            [dic setObject:vo.user_uuid forKey:@"user_uuid"];
             [dic setObject:vo.time forKey:@"time"];
             [dic setObject:vo.name forKey:@"name"];
             [dic setObject:vo.headimgurl forKey:@"headimgurl"];
@@ -1528,11 +1535,12 @@ ZYQAssetPickerControllerDelegate
             }
         }
         
-        if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"])) {
+        if (vo.type&&([vo.type isEqual:@"picture"]||[vo.type isEqual:@"voice"]||[vo.type isEqual:@"video"])) {
             NSMutableDictionary *dic = [NSMutableDictionary new];
             NSMutableArray *array = [NSMutableArray new];
             
             if ([vo.type isEqual:@"voice"]) {
+                [dic setObject:vo.user_uuid forKey:@"user_uuid"];
                 [dic setObject:vo.attachment forKey:@"voiceurl"];
                 [dic setObject:@"voice" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
@@ -1557,6 +1565,30 @@ ZYQAssetPickerControllerDelegate
                 }
                 
             }
+            
+            if ([vo.type isEqual:@"video"]) {
+                [dic setObject:vo.user_uuid forKey:@"user_uuid"];
+                [dic setObject:vo.attachment forKey:@"voiceurl"];
+                [dic setObject:@"video" forKey:@"type"];
+                [dic setObject:vo.recordingTime forKey:@"recordingTime"];
+                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                
+                if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
+                    NSMutableArray *statusArray = [NSMutableArray new];
+                    NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"VideoreadStatus"];
+                    [statusArray addObjectsFromArray:palyArray];
+                    NSMutableDictionary *dic = [NSMutableDictionary new];
+                    [dic setObject:vo.attachment forKey:@"url"];
+                    [dic setObject:@"1" forKey:@"status"];
+                    if (![statusArray containsObject:dic]) {
+                        [statusArray addObject:dic];
+                    }
+                    [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"VideoreadStatus"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+                
+            }
+            
             if ([vo.type isEqual:@"picture"]) {
                 
                 if (vo.attachment) {
@@ -1565,6 +1597,7 @@ ZYQAssetPickerControllerDelegate
                 
                 [dic setObject:@"picture" forKey:@"type"];
             }
+            [dic setObject:vo.user_uuid forKey:@"user_uuid"];
             [dic setObject:vo.time forKey:@"time"];
             [dic setObject:vo.name forKey:@"name"];
             [dic setObject:vo.headimgurl forKey:@"headimgurl"];
@@ -2401,6 +2434,7 @@ ZYQAssetPickerControllerDelegate
     if (!bodyDic) {
 
         [self textStateHUD:@"转文字失败~"];
+        return;
         
     } else {
         
@@ -2434,8 +2468,65 @@ ZYQAssetPickerControllerDelegate
 -(void)cellTipAction:(ChattingCell *)cell
 {
     NSLog(@"打赏~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    
+    ExceptionalView = [[LMExceptionalView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    ExceptionalView.delegate = self;
+    ExceptionalView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    [[[UIApplication sharedApplication].windows lastObject] addSubview:ExceptionalView];
+    ExceptionalView.tag = cell.tag;
+    MssageVO *vo = self.listData[cell.tag];
+    [ExceptionalView.headerView sd_setImageWithURL:[NSURL URLWithString:vo.headimgurl]];
+    
+    [ExceptionalView.cancelButton addTarget:self action:@selector(closeViewAction) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
+- (void)closeViewAction
+{
+    [ExceptionalView removeFromSuperview];
+}
+
+//打赏
+-(void)ViewForMoney:(LMExceptionalView *)LMview Viewtag:(NSInteger)Viewtag
+{
+    NSArray *moneyArray = @[@"2",@"5",@"10",@"50",@"100",@"200"];
+    NSLog(@"~~~%ld",(long)Viewtag);
+    MssageVO *vo = self.listData[LMview.tag];
+    LMRewardBlanceRequest *request = [[LMRewardBlanceRequest alloc] initWithVoice_uuid:_voiceUuid user_uuid:vo.user_uuid money_reward:moneyArray[Viewtag]];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getrewardMoneyRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                               [self hideStateHud];
+                                           }];
+    [proxy start];
+}
+
+-(void)getrewardMoneyRespond:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    if (!bodyDic) {
+        [self textStateHUD:@"打赏失败"];
+        return;
+    }
+    if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+
+        [self textStateHUD:@"您已成功打赏~~"];
+        [self closeViewAction];
+        
+    }else{
+        [self textStateHUD:[bodyDic objectForKey:@"description"]];
+    }
+    
+}
 
 #pragma mark --长按保存图片到相册
 
@@ -2484,24 +2575,9 @@ ZYQAssetPickerControllerDelegate
         ALAsset *asset=assets[i];
         ALAssetRepresentation * representation = asset.defaultRepresentation;
         
-
         UIImage *tempImg = [UIImage imageWithCGImage:asset.thumbnail];
         NSData *data = UIImageJPEGRepresentation(tempImg, 1);
-        [self videoWithUrl:representation.url withFileName:representation.filename];
-        NSLog(@"~~~~~~~~~%@~~~~~~~",representation.url);
-        NSLog(@"~~~~~~~~~%@~~~~~~~",representation.filename);
-        
-//        NSString* picPath = [NSString stringWithFormat:@"%@/%@",KVideoUrlPath,representation.filename];
 
-    
-        
-//        if(data){
-
-            
-//            NSLog(@"~~~~~~~~~~~~~~~~%@",data);
-
-//        }
-        
         ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
         
         [assetLibrary assetForURL:representation.url resultBlock:^(ALAsset *asset){
@@ -2513,6 +2589,13 @@ ZYQAssetPickerControllerDelegate
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             // 这个data便是 转换成功的视频data 有了data边可以进行上传了
             NSData *Data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentD = [paths objectAtIndex:0];
+            NSString *configFile = [documentD stringByAppendingString:@"123.mp4"];
+            NSFileManager *fm = [NSFileManager defaultManager];
+            [fm createFileAtPath:configFile contents:Data attributes:nil];
+            [data writeToFile:configFile atomically:YES];
+            
             [self sendVideo:Data];
             
         }failureBlock:^(NSError *err) {
@@ -2520,58 +2603,11 @@ ZYQAssetPickerControllerDelegate
             NSLog(@"error: ------------------------%@",err);
             
         }];
-        
 
         }
     
-    
-    
-    
-    
 }
 
-// 将原始视频的URL转化为NSData数据,写入沙盒
-- (void)videoWithUrl:(NSURL *)url withFileName:(NSString *)fileName
-{
-    // 解析一下,为什么视频不像图片一样一次性开辟本身大小的内存写入?
-    // 创建存放原始图的文件夹--->VideoURL
-    NSFileManager * fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:KVideoUrlPath]) {
-        [fileManager createDirectoryAtPath:KVideoUrlPath withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    ALAssetsLibrary *assetLibrary = [[ALAssetsLibrary alloc] init];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (url) {
-            [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset) {
-                ALAssetRepresentation *rep = [asset defaultRepresentation];
-                NSString * videoPath = [KVideoUrlPath stringByAppendingPathComponent:fileName];
-                const char *cvideoPath = [videoPath UTF8String];
-                FILE *file = fopen(cvideoPath, "a+");
-                if (file) {
-                    const int bufferSize = 11024 * 1024;
-                    // 初始化一个1M的buffer
-                    Byte *buffer = (Byte*)malloc(bufferSize);
-                    NSUInteger read = 0, offset = 0, written = 0;
-                    NSError* err = nil;
-                    if (rep.size != 0)
-                    {
-                        do {
-                            read = [rep getBytes:buffer fromOffset:offset length:bufferSize error:&err];
-                            written = fwrite(buffer, sizeof(char), read, file);
-                            offset += read;
-                        } while (read != 0 && !err);//没到结尾，没出错，ok继续
-                    }
-                    // 释放缓冲区，关闭文件
-                    free(buffer);
-                    buffer = NULL;
-                    fclose(file);
-                    file = NULL;
-                    
-                }
-            } failureBlock:nil];
-        }
-    });
-}
 
 - (void)messageConnect
 {
@@ -2653,11 +2689,6 @@ ZYQAssetPickerControllerDelegate
 - (void)sendVideo:(NSData *)data
 {
     
-    
-    
-    NSLog(@"~~~~~~~~~~~~~~~~%@~~~~~~~~~~~~",data);
-    
-    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -2666,8 +2697,6 @@ ZYQAssetPickerControllerDelegate
     
     [self initStateHud];
     
-
-
     
     FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
     
@@ -2681,33 +2710,32 @@ ZYQAssetPickerControllerDelegate
                                                                    waitUntilDone:YES];
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
 //
-//                                               NSString    *result = [bodyDict objectForKey:@"result"];
-//
-//                                               if (result && [result isKindOfClass:[NSString class]]
-//                                                   && [result isEqualToString:@"0"]) {
-//                                                   NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
-//                                                   NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
-//                                                   if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-//
-//                                                       NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration],@"transcodingUrl":voiceUrl};
-//
-//                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-//                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
-//                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-//                                                       if (client.connected ==YES) {
-//                                                           [client sendTo:urlStr body:string];
-//
-//                                                       }else{
-//                                                           [self textStateHUD:@"发送失败~"];
-//                                                           [client disconnect];
-//                                                           [self createWebSocket];
-//                                                       }
-//
-//                                                       [self reLoadTableViewCell];
-//
-//
-//                                                   }
-//                                               }
+                                               NSString    *result = [bodyDict objectForKey:@"result"];
+
+                                               if (result && [result isKindOfClass:[NSString class]]
+                                                   && [result isEqualToString:@"0"]) {
+                                                   NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   if (voiceUrl && [voiceUrl isKindOfClass:[NSString class]]) {
+
+                                                       NSDictionary *dics = @{@"type":@"video",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":voiceUrl};
+
+                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                                                       if (client.connected ==YES) {
+                                                           [client sendTo:urlStr body:string];
+
+                                                       }else{
+                                                           [self textStateHUD:@"发送失败~"];
+                                                           [client disconnect];
+                                                           [self createWebSocket];
+                                                       }
+
+                                                       [self reLoadTableViewCell];
+
+
+                                                   }
+                                               }
                                            } failed:^(NSError *error) {
                                                [self hideStateHud];
                                            }];

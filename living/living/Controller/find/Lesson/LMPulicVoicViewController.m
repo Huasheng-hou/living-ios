@@ -61,6 +61,7 @@ LMhostchooseProtocol
     NSString *UserId;
     UIButton *publicButton;
     NSInteger index;
+    NSString *useCounpon;
     
 }
 
@@ -86,6 +87,7 @@ static NSMutableArray *cellDataArray;
     [self creatUI];
     type = 1;
     UserId = @"";
+    useCounpon = @"1";
     
 }
 
@@ -155,7 +157,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +kScreenWidth*3/5+45;
+        return 490 +kScreenWidth*3/5+90;
     }
     if (indexPath.section==1) {
         return 340;
@@ -273,6 +275,10 @@ static NSMutableArray *cellDataArray;
         [msgCell.imageButton setTag:0];
         
         
+        [msgCell.UseButton addTarget:self action:@selector(useCounpon) forControlEvents:UIControlEventTouchUpInside];
+        [msgCell.unUseButton addTarget:self action:@selector(UNuseCounpon) forControlEvents:UIControlEventTouchUpInside];
+        
+        
         return msgCell;
     }
     if (indexPath.section==1) {
@@ -330,6 +336,32 @@ static NSMutableArray *cellDataArray;
     }
     return nil;
 }
+
+//是否允许使用优惠券
+- (void)useCounpon
+{
+    NSLog(@"使用优惠券");
+    useCounpon = @"1";
+    msgCell.UseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.unUseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+    
+}
+
+- (void)UNuseCounpon
+{
+    NSLog(@"不使用优惠券");
+    useCounpon = @"2";
+    msgCell.unUseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.UseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+}
+
+
+
+
 
 - (void)closeCell:(UIButton *)button
 {
@@ -905,7 +937,7 @@ static NSMutableArray *cellDataArray;
     }
      publicButton.userInteractionEnabled = YES;
 
-    LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc] initWithvoice_title:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString image:_imgURL host:UserId limit_number:[msgCell.joincountTF.text intValue]  notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text];
+    LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc] initWithvoice_title:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString image:_imgURL host:UserId limit_number:[msgCell.joincountTF.text intValue]  notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

@@ -138,7 +138,7 @@
     
     if ([self isPost]) {
         
-        if (![self isImageInclude]&&![self isVoiceInclude]) {
+        if (![self isImageInclude]&&![self isVoiceInclude]&&![self iSFileDataInclude]) {
             
             afRequest   = [httpClient requestWithMethod:@"POST"
                                                    path:[self methodPath]

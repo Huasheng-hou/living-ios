@@ -22,6 +22,8 @@
 		351213811DF964FD0053B83F /* LMBlackListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213801DF964FD0053B83F /* LMBlackListRequest.m */; };
 		351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213831DF965FB0053B83F /* LMCancelauthorRequest.m */; };
 		351213871DF969AC0053B83F /* LMBlackWriterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213861DF969AC0053B83F /* LMBlackWriterRequest.m */; };
+		351751251E529B99005B5E69 /* LMExceptionalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 351751241E529B99005B5E69 /* LMExceptionalView.m */; };
+		351751281E52D7CE005B5E69 /* LMRewardBlanceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 351751271E52D7CE005B5E69 /* LMRewardBlanceRequest.m */; };
 		3524CF721E4FFD6A00651E64 /* LMHostoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF711E4FFD6A00651E64 /* LMHostoryView.m */; };
 		3524CF751E5010FD00651E64 /* LMEventUpstoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF741E5010FD00651E64 /* LMEventUpstoreRequest.m */; };
 		3524CF781E50349300651E64 /* LMNumberMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3524CF771E50349300651E64 /* LMNumberMessageRequest.m */; };
@@ -508,6 +510,10 @@
 		351213831DF965FB0053B83F /* LMCancelauthorRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCancelauthorRequest.m; sourceTree = "<group>"; };
 		351213851DF969AC0053B83F /* LMBlackWriterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBlackWriterRequest.h; sourceTree = "<group>"; };
 		351213861DF969AC0053B83F /* LMBlackWriterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBlackWriterRequest.m; sourceTree = "<group>"; };
+		351751231E529B99005B5E69 /* LMExceptionalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExceptionalView.h; sourceTree = "<group>"; };
+		351751241E529B99005B5E69 /* LMExceptionalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExceptionalView.m; sourceTree = "<group>"; };
+		351751261E52D7CE005B5E69 /* LMRewardBlanceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRewardBlanceRequest.h; sourceTree = "<group>"; };
+		351751271E52D7CE005B5E69 /* LMRewardBlanceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRewardBlanceRequest.m; sourceTree = "<group>"; };
 		3524CF701E4FFD6A00651E64 /* LMHostoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHostoryView.h; sourceTree = "<group>"; };
 		3524CF711E4FFD6A00651E64 /* LMHostoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHostoryView.m; sourceTree = "<group>"; };
 		3524CF731E5010FD00651E64 /* LMEventUpstoreRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventUpstoreRequest.h; sourceTree = "<group>"; };
@@ -3635,6 +3641,8 @@
 				359F819B1E0282030070F6C7 /* LMVoiceJoinRequest.m */,
 				3524CF761E50349300651E64 /* LMNumberMessageRequest.h */,
 				3524CF771E50349300651E64 /* LMNumberMessageRequest.m */,
+				351751261E52D7CE005B5E69 /* LMRewardBlanceRequest.h */,
+				351751271E52D7CE005B5E69 /* LMRewardBlanceRequest.m */,
 			);
 			path = Classroom;
 			sourceTree = "<group>";
@@ -3646,6 +3654,8 @@
 				35DCDD441DFE8C8A00813172 /* LMClassroomCell.m */,
 				3540504D1E07BF4F00B11027 /* LMQuestionTableViewCell.h */,
 				3540504E1E07BF4F00B11027 /* LMQuestionTableViewCell.m */,
+				351751231E529B99005B5E69 /* LMExceptionalView.h */,
+				351751241E529B99005B5E69 /* LMExceptionalView.m */,
 			);
 			path = classroomCell;
 			sourceTree = "<group>";
@@ -4182,8 +4192,10 @@
 				35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */,
 				35B7475F1DDE97F3000AFA26 /* LMFranchiseeViewController.m in Sources */,
 				35B747CD1DDE97F4000AFA26 /* LMWXPayRequest.m in Sources */,
+				351751251E529B99005B5E69 /* LMExceptionalView.m in Sources */,
 				35B7474F1DDE97F3000AFA26 /* LMBlanceDetailController.m in Sources */,
 				35B747671DDE97F3000AFA26 /* LMNoticViewController.m in Sources */,
+				351751281E52D7CE005B5E69 /* LMRewardBlanceRequest.m in Sources */,
 				35B748141DDE97F4000AFA26 /* LMPublicEventListCell.m in Sources */,
 				35B747381DDE97F3000AFA26 /* WXApiRequestHandler.m in Sources */,
 				354050421E07B35800B11027 /* LMChatRecordsRequest.m in Sources */,
