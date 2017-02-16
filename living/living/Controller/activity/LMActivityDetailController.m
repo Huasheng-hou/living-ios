@@ -92,6 +92,7 @@ APChooseViewDelegate
     
     NSString *nameString;
     NSString *phoneString;
+    NSString *telephoneString;
 }
 
 @end
@@ -204,12 +205,16 @@ APChooseViewDelegate
         if ([headDic[@"sign"] isEqual:@"menber"]) {
             vipString = @"vipString";
         }
+        if (headDic[@"telphone"]&&![headDic[@"telphone"] isEqual:@"" ]) {
+            telephoneString= headDic[@"telphone"];
+        }
+        
         if (headDic[@"phone"]&&![headDic[@"phone"] isEqual:@"" ]) {
             phoneString = headDic[@"phone"];
         }
         
-        if (headDic[@"nick_name"]&&![headDic[@"nick_name"] isEqual:@"" ]) {
-            nameString = headDic[@"nick_name"];
+        if (headDic[@"name"]&&![headDic[@"name"] isEqual:@"" ]) {
+            nameString = headDic[@"name"];
         }
     }
     
@@ -981,12 +986,53 @@ APChooseViewDelegate
                                                }];
         [proxy start];
     }else{
+        if (telephoneString&&![telephoneString isEqual:@""]) {
+            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+            
+            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }else{
+            
+        }
+        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
         //增加确定按钮；
         [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //获取第1个输入框；
-            phoneString = alertController.textFields.firstObject.text;
-            [self APChooseViewSelectItem:num];
+            nameString = alertController.textFields.firstObject.text;
+            
+            phoneString = alertController.textFields.lastObject.text;
+            
+            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+            
+            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
             
             
         }]];
@@ -995,6 +1041,10 @@ APChooseViewDelegate
         [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
         
         //定义第一个输入框；
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入真实姓名";
+        }];
+        
         [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             textField.placeholder = @"请输入手机号";
         }];

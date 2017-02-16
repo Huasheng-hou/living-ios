@@ -1167,7 +1167,7 @@ LMContentTableViewCellDelegate
             Vimage.image = [UIImage imageNamed:@"BigVRed"];
             Vimage.clipsToBounds = YES;
             [Vimage sizeToFit];
-            Vimage.frame = CGRectMake(40+nameLabel.bounds.size.width, conHigh+25, 14, 14);
+            Vimage.frame = CGRectMake(40+nameLabel.bounds.size.width+3, conHigh+25+3, 14, 14);
             [cell.contentView addSubview:Vimage];
         }
         

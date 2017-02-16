@@ -342,6 +342,18 @@ FitDatePickerDelegate
      ActivityListVO  *vo = [self.listData objectAtIndex:sender.tag];
     [hostoryView removeFromSuperview];
     [self initStateHud];
+    if ([hostoryView.startButton.textLabel.text isEqual:@"请选择开始时间          "]) {
+        [self textStateHUD:@"请输入开始时间"];
+        return;
+    }
+    
+    if ([hostoryView.finishButton.textLabel.text isEqual:@"请选择结束时间         "]) {
+        [self textStateHUD:@"请输入结束时间"];
+        return;
+    }
+    
+    
+    
     LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.EventUuid andstart_time:hostoryView.startButton.textLabel.text andend_time:hostoryView.finishButton.textLabel.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {

@@ -24,7 +24,7 @@
 
 - (void)initViews
 {
-    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(30, kScreenHeight/2-60, kScreenWidth-60, 180)];
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(30, kScreenHeight/2-120, kScreenWidth-60, 180)];
     buttonView.backgroundColor = [UIColor whiteColor];
     buttonView.layer.cornerRadius = 5;
     [self addSubview:buttonView];

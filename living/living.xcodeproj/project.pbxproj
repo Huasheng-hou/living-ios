@@ -15,6 +15,7 @@
 		3505CE081E14E0BC007D896C /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 3505CDEE1E14E0BC007D896C /* amrFileCodec.m */; };
 		3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505CDF71E14E0BC007D896C /* libopencore-amrnb.a */; };
 		3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */; };
+		350C1BF81E556CEE00251DD9 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C1BF71E556CEE00251DD9 /* PlayerViewController.m */; };
 		351213751DF90A9E0053B83F /* BlendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213741DF90A9E0053B83F /* BlendVO.m */; };
 		351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213771DF90F000053B83F /* LMContentTableViewCell.m */; };
 		3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3512137A1DF942ED0053B83F /* LMTypeListViewController.m */; };
@@ -497,6 +498,8 @@
 		3505CDF51E14E0BC007D896C /* if_rom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_rom.h; sourceTree = "<group>"; };
 		3505CDF71E14E0BC007D896C /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
 		3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrwb.a"; sourceTree = "<group>"; };
+		350C1BF71E556CEE00251DD9 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
+		350C1BF91E556CFC00251DD9 /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		351213731DF90A9E0053B83F /* BlendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendVO.h; sourceTree = "<group>"; };
 		351213741DF90A9E0053B83F /* BlendVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlendVO.m; sourceTree = "<group>"; };
 		351213761DF90F000053B83F /* LMContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMContentTableViewCell.h; sourceTree = "<group>"; };
@@ -1770,6 +1773,8 @@
 		354050431E07BA1A00B11027 /* classroom */ = {
 			isa = PBXGroup;
 			children = (
+				350C1BF91E556CFC00251DD9 /* PlayerViewController.h */,
+				350C1BF71E556CEE00251DD9 /* PlayerViewController.m */,
 				3533A7751E4D84B60088734A /* ALiPlayViewController.h */,
 				3533A7761E4D84BC0088734A /* ALiPlayViewController.m */,
 				3533A7721E4D83EB0088734A /* PortaitRecorderViewController.h */,
@@ -4157,6 +4162,7 @@
 				35B7474A1DDE97F3000AFA26 /* LMMyPublicViewController.m in Sources */,
 				359F818D1E027A0C0070F6C7 /* LMVoiceCommentRequest.m in Sources */,
 				35DCDD3A1DFE71E900813172 /* SegmentViewController.m in Sources */,
+				350C1BF81E556CEE00251DD9 /* PlayerViewController.m in Sources */,
 				359F81931E027C5F0070F6C7 /* LMVoiceCommentPariseRequest.m in Sources */,
 				35B7481F1DDE97F4000AFA26 /* WJLoopView.m in Sources */,
 				35B747741DDE97F3000AFA26 /* DACircularProgressView.m in Sources */,

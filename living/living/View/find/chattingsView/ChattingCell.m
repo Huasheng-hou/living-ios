@@ -204,11 +204,13 @@
     _chatNameLabel.text = vo.name;
     [_chatNameLabel sizeToFit];
     _chatNameLabel.frame = CGRectMake(55, 5, _chatNameLabel.bounds.size.width, 30);
-    
-    if (![[FitUserManager sharedUserManager].uuid isEqualToString:vo.user_uuid]) {
-       _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
-    }else{
+    [_packetButton sizeToFit];
+    if ([[FitUserManager sharedUserManager].uuid isEqualToString:vo.user_uuid]) {
         [_packetButton setHidden:YES];
+
+    }else{
+        _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
+        [_packetButton setHidden:NO];
     }
     
   

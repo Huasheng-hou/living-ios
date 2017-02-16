@@ -89,6 +89,7 @@ LMChooseViewDelegate
     NSInteger textIndex;
     NSString *nameString;
     NSString *phoneString;
+    NSString *telephoneString;
 }
 
 @end
@@ -216,12 +217,16 @@ LMChooseViewDelegate
             vipString = @"vipString";
         }
         
+        if (headDic[@"telphone"]&&![headDic[@"telphone"] isEqual:@"" ]) {
+            telephoneString= headDic[@"telphone"];
+        }
+        
         if (headDic[@"phone"]&&![headDic[@"phone"] isEqual:@"" ]) {
             phoneString = headDic[@"phone"];
         }
         
-        if (headDic[@"nick_name"]&&![headDic[@"nick_name"] isEqual:@"" ]) {
-            nameString = headDic[@"nick_name"];
+        if (headDic[@"name"]&&![headDic[@"name"] isEqual:@"" ]) {
+            nameString = headDic[@"name"];
         }
     }
     
@@ -913,12 +918,51 @@ LMChooseViewDelegate
         [proxy start];
 
     }else{
+        if (telephoneString&&![telephoneString isEqual:@""]) {
+            
+            LMVoiceJoinRequest *request = [[LMVoiceJoinRequest alloc] initWithVoice_uuid:_voiceUUid name:nameString phone:telephoneString];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }else{
+            
+        }
+        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
         //增加确定按钮；
         [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //获取第1个输入框；
-            phoneString = alertController.textFields.firstObject.text;
-            [self LMChooseViewSelectItem];
+            nameString = alertController.textFields.firstObject.text;
+            
+            phoneString = alertController.textFields.lastObject.text;
+
+            
+            LMVoiceJoinRequest *request = [[LMVoiceJoinRequest alloc] initWithVoice_uuid:_voiceUUid  name:nameString phone:telephoneString];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
             
             
         }]];
@@ -928,12 +972,17 @@ LMChooseViewDelegate
         
         //定义第一个输入框；
         [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入真实姓名";
+        }];
+        
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             textField.placeholder = @"请输入手机号";
         }];
         
         
         [self presentViewController:alertController animated:true completion:nil];
     }
+    
 }
 
 - (void)getEventjoinDataResponse:(NSString *)resp

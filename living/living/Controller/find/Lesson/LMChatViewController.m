@@ -44,6 +44,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "PlayerViewController.h"
 
 
 #define assistViewHeight  200
@@ -135,6 +136,7 @@ LMExceptionalViewDelegate
     NSMutableArray *currentArray;
     NSString *imageString;
     int  timeNum;
+    NSData *videoData;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -158,6 +160,12 @@ LMExceptionalViewDelegate
         isShieldReload = NO;
         
         [self createWebSocket];
+        
+        [timer invalidate];
+        [messageTimer invalidate];
+        timer = nil;
+        messageTimer = nil;
+        
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
         messageTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(messageConnect) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -181,13 +189,6 @@ LMExceptionalViewDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
-    if (timerIndex == 3) {
-        [timer invalidate];
-        timer = nil;
-    }else{
-        
-    }
-    
     
 }
 
@@ -442,7 +443,6 @@ LMExceptionalViewDelegate
             }
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self textStateHUD:@"没有更多消息~"];
                 [activity stopAnimating];
             });
         }
@@ -1208,9 +1208,7 @@ LMExceptionalViewDelegate
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
                                                
-                                               [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                      withObject:nil
-                                                                   waitUntilDone:YES];
+
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                
                                                NSString    *result = [bodyDict objectForKey:@"result"];
@@ -1220,6 +1218,8 @@ LMExceptionalViewDelegate
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        if (index == 1) {
+                                                           
+                                                           
                                                            NSDictionary *dics = @{@"type":@"picture",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
                                                            
                                                            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
@@ -1238,10 +1238,18 @@ LMExceptionalViewDelegate
                                                                
                                                            }
                                                            
+                                                           [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                                  withObject:nil
+                                                                               waitUntilDone:YES];
+                                                           
                                                            [self reLoadTableViewCell];
 
                                                        }else{
                                                            imageString = imgUrl;
+                                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                                               [self sendVideo:videoData];
+                                                           });
+                                                           
                                                        }
                                                    }
                                                    
@@ -1573,7 +1581,7 @@ LMExceptionalViewDelegate
             
             if ([vo.type isEqual:@"video"]) {
                 [dic setObject:vo.user_uuid forKey:@"user_uuid"];
-                [dic setObject:vo.videourl forKey:@"url"];
+                [dic setObject:vo.videourl forKey:@"videourl"];
                 [dic setObject:@"video" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
                 [dic setObject:vo.currentIndex forKey:@"currentIndex"];
@@ -1584,7 +1592,7 @@ LMExceptionalViewDelegate
                     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"VideoreadStatus"];
                     [statusArray addObjectsFromArray:palyArray];
                     NSMutableDictionary *dic = [NSMutableDictionary new];
-                    [dic setObject:vo.videourl forKey:@"url"];
+                    [dic setObject:vo.videourl forKey:@"videourl"];
                     [dic setObject:@"1" forKey:@"status"];
                     if (![statusArray containsObject:dic]) {
                         [statusArray addObject:dic];
@@ -1792,7 +1800,6 @@ LMExceptionalViewDelegate
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [self textStateHUD:@"没有更多消息~"];
             [activity removeFromSuperview];
         });
         
@@ -1889,7 +1896,6 @@ LMExceptionalViewDelegate
         
         NSError *audioError = nil;
         BOOL successs = [audioSessions overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
-        NSLog(@"%d",successs);
         //播放本地音乐
         [self lianxuPlay:urlStr];
         
@@ -2167,7 +2173,9 @@ LMExceptionalViewDelegate
                                                    }
                                                }
                                            } failed:^(NSError *error) {
-                                               [self hideStateHud];
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
                                            }];
     [proxy start];
 }
@@ -2473,7 +2481,6 @@ LMExceptionalViewDelegate
 
 -(void)cellTipAction:(ChattingCell *)cell
 {
-    NSLog(@"打赏~~~~~~~~~~~~~~~~~~~~~~~~~~");
     
     ExceptionalView = [[LMExceptionalView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     ExceptionalView.delegate = self;
@@ -2496,7 +2503,6 @@ LMExceptionalViewDelegate
 -(void)ViewForMoney:(LMExceptionalView *)LMview Viewtag:(NSInteger)Viewtag
 {
     NSArray *moneyArray = @[@"2",@"5",@"10",@"50",@"100",@"200"];
-    NSLog(@"~~~%ld",(long)Viewtag);
     MssageVO *vo = self.listData[LMview.tag];
     LMRewardBlanceRequest *request = [[LMRewardBlanceRequest alloc] initWithVoice_uuid:_voiceUuid user_uuid:vo.user_uuid money_reward:moneyArray[Viewtag]];
     
@@ -2581,18 +2587,7 @@ LMExceptionalViewDelegate
         
         ALAsset *asset=assets[i];
         
-        if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo] ){
-            
-            NSString * date =[asset valueForProperty:ALAssetPropertyDuration];
-          float doubleNum =  [date doubleValue] +0.5;
-            timeNum =  (int)(doubleNum+0.5);
-                UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self getImageURL:[ImageHelpTool scaleImage:image]  index:2];
-            });
 
-            }
-        
         ALAssetRepresentation * representation = asset.defaultRepresentation;
         ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc]  init];
         [assetsLibrary assetForURL:representation.url resultBlock:^(ALAsset *asset){
@@ -2603,14 +2598,24 @@ LMExceptionalViewDelegate
             
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             // 这个data便是 转换成功的视频data 有了data边可以进行上传了
-            NSData *Data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            videoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentD = [paths objectAtIndex:0];
             NSString *configFile = [documentD stringByAppendingString:@"123.mp4"];
-            [Data writeToFile:configFile atomically:YES];
+            [videoData writeToFile:configFile atomically:YES];
+            
+            if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo] ){
+                
+                NSString * date =[asset valueForProperty:ALAssetPropertyDuration];
+                float doubleNum =  [date doubleValue] +0.5;
+                timeNum =  (int)(doubleNum+0.5);
+                UIImage *image = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
+                
+                [self getImageURL:image  index:2];
+                
+            }
             
             
-            [self sendVideo:Data];
             
         }failureBlock:^(NSError *err) {
             NSLog(@"error: ------------------------%@",err);
@@ -2637,7 +2642,6 @@ LMExceptionalViewDelegate
     if (result.count>1) {
         for (int i = 1; i<result.count-1; i++) {
             if (i+1<=result.count) {
-                NSLog(@"%d  %d  %d",[result[i+1]intValue]-[result[i] intValue],[result[i+1]intValue],[result[i]intValue]);
                 if ([result[i+1] intValue]-[result[i] intValue]>1) {
                     [self getmessageRequest:[result[i] intValue]+1];
                 }
@@ -2756,27 +2760,33 @@ LMExceptionalViewDelegate
                                                    }
                                                }
                                            } failed:^(NSError *error) {
-                                               [self hideStateHud];
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
                                            }];
     [proxy start];
 }
 
 - (void)cellplayVideoAction:(ChattingCell *)cell
 {
-    NSLog(@"播放视频~~~~~~~~~~~~~~~~~~~~~~~~");
     MssageVO *vo = self.listData[cell.tag];
     [self video_play:vo.videourl];
 }
 
 - (void)video_play:(NSString*)filename
 {
-    NSURL*videoPathURL=[NSURL URLWithString:filename];//videoPathURL是视频播放地址
-    MPMoviePlayerViewController *playViewController=[[MPMoviePlayerViewController alloc] initWithContentURL:videoPathURL];
-    MPMoviePlayerController *players=[playViewController moviePlayer];
-    players.scalingMode=MPMovieScalingModeAspectFit;
-    players.controlStyle=MPMovieControlStyleNone;
-    [players play];
-    [self.navigationController presentViewController:playViewController animated:YES completion:nil];
+
+    if (filename&&![filename isEqual:@""]) {
+        PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:filename];
+        [self presentViewController:playVC animated:NO completion:^{
+        }];
+        
+    }else{
+        [self textStateHUD:@"未获取视频文件~"];
+    }
+    
+
 }
 
 
