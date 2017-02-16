@@ -10,6 +10,7 @@
 
 @interface LMVoiceJoinRequest : FitBaseRequest
 
-- (id)initWithVoice_uuid:(NSString *)voice_uuid;
+- (id)initWithVoice_uuid:(NSString *)voice_uuid name:(NSString *)name
+                   phone:(NSString *)phone;
 
 @end

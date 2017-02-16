@@ -153,10 +153,13 @@
 {
     totalNumber = [[_orderInfo objectForKey:@"total_number"] intValue];
     totalNum = [[_orderInfo objectForKey:@"total_num"] intValue];
+//    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithObjectsAndKeys:_numLabel.text,@"num", nil] ;
+//
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"purchase" object:dic];
     
-    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithObjectsAndKeys:_numLabel.text,@"num", nil] ;
-    //
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"purchase" object:dic];
+    [self.delegate APChooseViewSelectItem:totalNumber];
+
     
     
     UIView *view = [self viewWithTag:1000];

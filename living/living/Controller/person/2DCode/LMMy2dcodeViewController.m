@@ -100,7 +100,7 @@
         //将数据缓存到本地
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
         NSString *path = [paths objectAtIndex:0];
-        NSString *filename = [path stringByAppendingPathComponent:@"contact.plist"];
+        NSString *filename = [path stringByAppendingPathComponent:@"img.plist"];
         NSMutableDictionary *userInfo;
         userInfo=[[NSMutableDictionary alloc]initWithDictionary:bodyDic];
         [userInfo writeToFile:filename atomically:YES];

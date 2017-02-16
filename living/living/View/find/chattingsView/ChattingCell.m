@@ -9,6 +9,7 @@
 #import "ChattingCell.h"
 #import "FitConsts.h"
 #import "UIImageView+WebCache.h"
+#import "FitUserManager.h"
 
 #define lightRedColor [UIColor colorWithRed:255/255.0f green:240/255.0f blue:240/255.0f alpha:1.0f]
 #define LMRedColor [UIColor colorWithRed:255/255.0f green:84/255.0f blue:84/255.0f alpha:1.0f]
@@ -22,6 +23,7 @@
     UIView *contentbgView;
     UIButton *endButton;
     NSInteger roleNum;
+    UIButton *playButton;
 }
 + (instancetype)cellWithTableView:(UITableView *)tableView{
     
@@ -134,6 +136,10 @@
     [endButton setHidden:YES];
     [self addSubview:endButton];
     
+    playButton =[[UIButton alloc]initWithFrame:CGRectMake(50, 36, 100, 150)];
+    [playButton setHidden:YES];
+    [self addSubview:playButton];
+    
 }
 
 -(void)setCellValue:(MssageVO *)vo role:(NSString *)role
@@ -198,7 +204,14 @@
     _chatNameLabel.text = vo.name;
     [_chatNameLabel sizeToFit];
     _chatNameLabel.frame = CGRectMake(55, 5, _chatNameLabel.bounds.size.width, 30);
-  _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
+    
+    if (![[FitUserManager sharedUserManager].uuid isEqualToString:vo.user_uuid]) {
+       _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
+    }else{
+        [_packetButton setHidden:YES];
+    }
+    
+  
     
     [_packetButton addTarget:self action:@selector(tipAction:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -303,6 +316,7 @@
         [_bootomView setHidden:YES];
         
         [_soundbutton setHidden:YES];
+        [playButton setHidden:YES];
     }
     
     //如果为图片
@@ -321,8 +335,35 @@
          [endButton setHidden:YES];
          UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
          [_publishImageV addGestureRecognizer:tap];
+         [playButton setHidden:YES];
          
      }
+    
+    //如果为视频
+    if (vo.type&&[vo.type isEqual:@"video"]) {
+        NSLog(@"%@",vo.cover);
+        if (vo.cover) {
+           [_publishImageV sd_setImageWithURL:[NSURL URLWithString:vo.cover]];
+        }
+        
+        [playButton setImage:[UIImage imageNamed:@"playIcon"] forState:UIControlStateNormal];
+        [playButton addTarget:self action:@selector(playVideoAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        //隐藏文字显示控件
+        [contentbgView setHidden:YES];
+        //显示图片显示控件
+        [_publishImageV setHidden:NO];
+        
+        [_soundbutton setHidden:YES];
+        _publishImageV.userInteractionEnabled = YES;
+        [_bootomView setHidden:YES];
+        [endButton setHidden:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClick)];
+        [_publishImageV addGestureRecognizer:tap];
+        [playButton setHidden:NO];
+        
+    }
+    
     
     //如果为语音
     if (vo.type&&[vo.type isEqual:@"voice"]) {
@@ -374,6 +415,7 @@
         
         [_soundbutton setHidden:NO];
         [endButton setHidden:YES];
+        [playButton setHidden:YES];
     }
    
 }
@@ -423,7 +465,12 @@
     }
 }
 
-
+- (void)playVideoAction
+{
+    if ([_delegate respondsToSelector:@selector(cellplayVideoAction:)]) {
+        [_delegate cellplayVideoAction:self];
+    }
+}
 
 
 

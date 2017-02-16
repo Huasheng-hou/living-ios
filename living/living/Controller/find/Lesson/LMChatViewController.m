@@ -40,6 +40,11 @@
 #import "LMExceptionalView.h"
 #import "UIImageView+WebCache.h"
 #import "LMRewardBlanceRequest.h"
+#import <Photos/Photos.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import <MediaPlayer/MediaPlayer.h>
+
 
 #define assistViewHeight  200
 #define toobarHeight 50
@@ -128,9 +133,12 @@ LMExceptionalViewDelegate
     NSInteger timerIndex;
     NSTimer *messageTimer;
     NSMutableArray *currentArray;
+    NSString *imageString;
+    int  timeNum;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
+@property (nonatomic,strong) NSMutableArray   *groupArrays;
 
 @end
 
@@ -140,7 +148,7 @@ LMExceptionalViewDelegate
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-
+        
         self.hidesBottomBarWhenPushed   = NO;
         self.listData   = [NSMutableArray new];
         
@@ -155,7 +163,7 @@ LMExceptionalViewDelegate
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         [[NSRunLoop currentRunLoop] addTimer:messageTimer forMode:NSRunLoopCommonModes];
         
-
+        
     }
     
     return self;
@@ -173,13 +181,13 @@ LMExceptionalViewDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
-    if (timerIndex == 1) {
+    if (timerIndex == 3) {
         [timer invalidate];
         timer = nil;
     }else{
         
     }
-
+    
     
 }
 
@@ -211,6 +219,8 @@ LMExceptionalViewDelegate
     toolBarChangeH  = 0;
     
     timerIndex = 1;
+    
+    self.groupArrays = [NSMutableArray array];
     
 }
 
@@ -262,7 +272,7 @@ LMExceptionalViewDelegate
     [self.tableView setFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight)];
     
     if ([_roles isEqualToString:@"student"]) {
-    
+        
         _role = @"student";
     }
     
@@ -286,7 +296,7 @@ LMExceptionalViewDelegate
     if (_role && [_role isKindOfClass:[NSString class]] && ![_role isEqualToString:@"student"]) {
         
         if ([_sign isEqualToString:@"1"]) {
-        
+            
             titleArray  = @[@"已禁言",@"问题",@"屏蔽",@"主持",@"关闭"];
         } else {
             
@@ -397,7 +407,7 @@ LMExceptionalViewDelegate
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self creatBootView];
             });
-   
+            
         }else if(![_role isEqualToString:@"student"]){
             [bootView removeFromSuperview];
         }
@@ -458,7 +468,7 @@ LMExceptionalViewDelegate
         if (_sign&&[_sign isEqualToString:@"1"]) {
             [self creatToolbarView];
             [self creatBootView];
-
+            
         }
         if (_sign&&[_sign isEqualToString:@"2"]){
             [self creatToolbarView];
@@ -535,7 +545,7 @@ LMExceptionalViewDelegate
                                                             [self getShieldstudentData];
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 titleArray=@[@"已屏蔽",@"问题"];
-                                                            iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
+                                                                iconArray=@[@"moreShieldIcon",@"moreQuestionIcon"];
                                                                 [self addrightItem];
                                                                 
                                                                 hasShield = YES;
@@ -544,7 +554,7 @@ LMExceptionalViewDelegate
                                                         }
                                                         
                                                         if (hasShield == YES &&isShieldReload ==YES){
-                                                        
+                                                            
                                                             [self.listData removeAllObjects];
                                                             [self.listData addObjectsFromArray:listArray];
                                                             listArray = [NSMutableArray new];
@@ -774,7 +784,7 @@ LMExceptionalViewDelegate
         return;
     }
     
-
+    
     LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:hostId voice_uuid:_voiceUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -799,7 +809,7 @@ LMExceptionalViewDelegate
     [self logoutAction:resp];
     
     if (!bodyDic) {
-    
+        
         [self textStateHUD:@"更换主持人失败！"];
     } else {
         
@@ -823,7 +833,7 @@ LMExceptionalViewDelegate
                                });
                 
             }
-   
+            
             
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -876,11 +886,17 @@ LMExceptionalViewDelegate
         if (vo.ifchangeText ==YES) {
             return 180;
         }else{
-          return 55+30+10+10;
+            return 55+30+10+10;
         }
         
+    }
+    
+    if (vo.type&&[vo.type isEqual:@"video"]) {
+        
+        return 180+20;
         
     }
+    
     
     return 0;
 }
@@ -921,7 +937,7 @@ LMExceptionalViewDelegate
         frame.origin.y -= span;
         frame.size.height += span;
         toorbar.frame = frame;
-
+        
         toolBarChangeH = toorbar.frame.size.height;
         CGFloat centerY = frame.size.height / 2;
         
@@ -952,59 +968,59 @@ LMExceptionalViewDelegate
             return NO;
         } else {
             if (client.connected==YES) {
-
-            if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
-                NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
-                NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false"};
-                
-                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-                NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
-                
-                NSString *urlStr    = [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                
-                if (client.connected == YES) {
+                if (textView.text.length>5&&[[textView.text substringToIndex:5] isEqualToString:@"#问题# "]) {
+                    NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     
-                    [client sendTo:urlStr body:string];
-                    [self textStateHUD:@"问题提交成功"];
+                    NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false"};
+                    
+                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                    NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                    
+                    NSString *urlStr    = [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                    
+                    if (client.connected == YES) {
+                        
+                        [client sendTo:urlStr body:string];
+                        [self textStateHUD:@"问题提交成功"];
+                        
+                    } else {
+                        
+                        // dispatch_async(dispatch_get_main_queue()
+                        //              , ^{
+                        
+                        [self textStateHUD:@"问题提交失败，请重试~"];
+                        [self createWebSocket];
+                        //            });
+                    }
+                    
+                    toorbar.inputTextView.text=@"";
                     
                 } else {
                     
-                   // dispatch_async(dispatch_get_main_queue()
-                     //              , ^{
-                                       
-                                       [self textStateHUD:@"问题提交失败，请重试~"];
-                                       [self createWebSocket];
-                       //            });
+                    NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    
+                    NSDictionary *dics = @{@"type":@"chat",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings};
+                    
+                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                    NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                    
+                    NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                    [client sendTo:urlStr body:string];
+                    
+                    
+                    toorbar.inputTextView.text=@"";
                 }
-
-                toorbar.inputTextView.text=@"";
-
-            } else {
-                
-                NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                
-                NSDictionary *dics = @{@"type":@"chat",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings};
-                
-                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-                NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
-                
-                NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                [client sendTo:urlStr body:string];
-                
-                
-                toorbar.inputTextView.text=@"";
-            }
             }else{
                 [self textStateHUD:@"发送失败,请重试~"];
                 [self createWebSocket];
             }
-//            [self.view endEditing:YES];
+            //            [self.view endEditing:YES];
             if ([toorbar.inputTextView.text isEqualToString:@""]) {
-            self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - koardH - toobarHeight);
+                self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - koardH - toobarHeight);
                 [toorbar setFrame:CGRectMake(0, toorbar.frame.origin.y+(toorbar.frame.size.height-toobarHeight),kScreenWidth, toobarHeight)];
                 toorbar.inputTextView.frame = CGRectMake(45, 7, kScreenWidth-45-45, 36);
-                }
+            }
             [self reLoadTableViewCell];
             
             return NO;
@@ -1058,7 +1074,7 @@ LMExceptionalViewDelegate
     }
     
     [UIView animateWithDuration:timeValue animations:^{
-    
+        
         if (toolBarChangeH>50) {
             
             if ([toorbar.inputTextView.text isEqualToString:@""]) {
@@ -1073,14 +1089,14 @@ LMExceptionalViewDelegate
                 [toorbar setFrame:CGRectMake(0, kScreenHeight-toolBarChangeH,kScreenWidth, toolBarChangeH)];
                 [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
             }
-
+            
         }else{
             self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight);
             
             [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
             [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
         }
-
+        
     }];
 }
 
@@ -1118,7 +1134,7 @@ LMExceptionalViewDelegate
     
     if (item == 1) {//小视频
         NSLog(@"点击进入相册，添加视频");
-//        [self textStateHUD:@"该功能暂未开放~"];
+        //        [self textStateHUD:@"该功能暂未开放~"];
         ZYQAssetPickerController *picker = [[ZYQAssetPickerController alloc] init];
         picker.maximumNumberOfSelection = 1;
         picker.assetsFilter = [ALAssetsFilter allVideos];
@@ -1138,7 +1154,7 @@ LMExceptionalViewDelegate
         
         [self presentViewController:picker animated:YES completion:NULL];
         
-
+        
     }
     
     if (item == 2) {//照片
@@ -1166,24 +1182,27 @@ LMExceptionalViewDelegate
 {
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
-    [self getImageURL:[ImageHelpTool scaleImage:image]];
+    [self getImageURL:[ImageHelpTool scaleImage:image] index:1];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark 获取头像的url
 
-- (void)getImageURL:(UIImage*)image
+- (void)getImageURL:(UIImage*)image index:(NSInteger)index
 {
+    [self initStateHud];
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
     
-    [self initStateHud];
+
     
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+
+    
     request.imageData   = UIImageJPEGRepresentation(image, 1);
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -1200,32 +1219,32 @@ LMExceptionalViewDelegate
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
-                                                       //                                                       _imgURL=imgUrl;
-                                                       NSLog(@"%@",imgUrl);
-                                                       
-                                                       NSDictionary *dics = @{@"type":@"picture",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
-                                                       
-                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
-                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
-                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
-                                                       if (client.connected ==YES) {
-                                                           [client sendTo:urlStr body:string];
+                                                       if (index == 1) {
+                                                           NSDictionary *dics = @{@"type":@"picture",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
                                                            
+                                                           NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                                                           NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                                                           NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                                                           if (client.connected ==YES) {
+                                                               [client sendTo:urlStr body:string];
+                                                               
+                                                           }else{
+                                                               dispatch_async(dispatch_get_main_queue()
+                                                                              , ^{
+                                                                                  [self textStateHUD:@"发送失败，请重试~"];
+                                                                                  [client disconnect];
+                                                                                  [self createWebSocket];
+                                                                              });
+                                                               
+                                                           }
+                                                           
+                                                           [self reLoadTableViewCell];
+
                                                        }else{
-                                                           dispatch_async(dispatch_get_main_queue()
-                                                                          , ^{
-                                                                              [self textStateHUD:@"发送失败，请重试~"];
-                                                                              [client disconnect];
-                                                                              [self createWebSocket];
-                                                                          });
-                                                           
+                                                           imageString = imgUrl;
                                                        }
-                                                       
-                                                       
-                                                       [self reLoadTableViewCell];
-                                                       
-                                                       
                                                    }
+                                                   
                                                }
                                            } failed:^(NSError *error) {
                                                [self hideStateHud];
@@ -1276,7 +1295,7 @@ LMExceptionalViewDelegate
     }
     
     if (state) {
-    
+        
         [UIView animateWithDuration:timeValue animations:^{
             
             self.tableView.frame=CGRectMake(0, 0, kScreenWidth, kScreenHeight-toobarHeight-assistViewHeight);
@@ -1332,9 +1351,9 @@ LMExceptionalViewDelegate
         [UIView animateWithDuration:animationDuration animations:^{
             
             if (toolBarChangeH>50) {
-        
+                
                 [toorbar setFrame:CGRectMake(0, kScreenHeight - toolBarChangeH - keyboardRect.size.height, kScreenWidth, toolBarChangeH)];
-            
+                
             } else {
                 
                 [toorbar setFrame:CGRectMake(0, kScreenHeight - toobarHeight - keyboardRect.size.height, kScreenWidth, toobarHeight)];
@@ -1372,9 +1391,9 @@ LMExceptionalViewDelegate
                 [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
                 self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBarChangeH);
             }
-
+            
         } else {
-         
+            
             [toorbar setFrame:CGRectMake(0, kScreenHeight-toobarHeight,kScreenWidth, toobarHeight)];
             [assistView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, assistViewHeight)];
             self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toobarHeight);
@@ -1407,28 +1426,16 @@ LMExceptionalViewDelegate
 {
     client = [LMWobsocket shareWebsocket];
     
-//    NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
-    
-//    [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
-//        if (error) {
-//        
-//            return;
-//        }
-//        
-//        [self subscribeTopic];
-//    }];
-    
-    
     dispatch_semaphore_t connected = dispatch_semaphore_create(0);
     
     [client connectWithLogin:@"1"
-                         passcode:@"2"
-                completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
-                    if (!error) {
-                        dispatch_semaphore_signal(connected);
-                    }
-                    [self subscribeTopic];
-                }];
+                    passcode:@"2"
+           completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+               if (!error) {
+                   dispatch_semaphore_signal(connected);
+               }
+               [self subscribeTopic];
+           }];
     
 }
 
@@ -1459,7 +1466,6 @@ LMExceptionalViewDelegate
         if ([newNumArray containsObject: number]) {
             return ;
         }
-        
         
         if (vo.type && [vo.type isEqual:@"chat"]) {
             
@@ -1492,7 +1498,6 @@ LMExceptionalViewDelegate
                     }else{
                         [listArray addObjectsFromArray:array2];
                     }
-                    
                 }
                 
             }
@@ -1547,7 +1552,7 @@ LMExceptionalViewDelegate
                 [dic setObject:vo.currentIndex forKey:@"currentIndex"];
                 if (vo.transcodingUrl&&![vo.transcodingUrl isEqualToString:@""]) {
                     [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
-                   // [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                    // [dic setObject:vo.currentIndex forKey:@"currentIndex"];
                 }
                 
                 if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
@@ -1568,17 +1573,18 @@ LMExceptionalViewDelegate
             
             if ([vo.type isEqual:@"video"]) {
                 [dic setObject:vo.user_uuid forKey:@"user_uuid"];
-                [dic setObject:vo.attachment forKey:@"voiceurl"];
+                [dic setObject:vo.videourl forKey:@"url"];
                 [dic setObject:@"video" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
                 [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                [dic setObject:vo.cover forKey:@"cover"];
                 
                 if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
                     NSMutableArray *statusArray = [NSMutableArray new];
                     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"VideoreadStatus"];
                     [statusArray addObjectsFromArray:palyArray];
                     NSMutableDictionary *dic = [NSMutableDictionary new];
-                    [dic setObject:vo.attachment forKey:@"url"];
+                    [dic setObject:vo.videourl forKey:@"url"];
                     [dic setObject:@"1" forKey:@"status"];
                     if (![statusArray containsObject:dic]) {
                         [statusArray addObject:dic];
@@ -1672,7 +1678,7 @@ LMExceptionalViewDelegate
             
             if ([_role isEqual:@"student"]) {
                 
-
+                
                 [moreView removeFromSuperview];
                 
                 titleArray=@[@"屏蔽",@"问题"];
@@ -1739,16 +1745,16 @@ LMExceptionalViewDelegate
         
         NSLog(@"0");
         client = [LMWobsocket shareWebsocket];
-//        NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
-//        
-//        [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
-//            if (error) {
-//                
-//                return;
-//            }
-//            
-//            [self subscribeTopic];
-//        }];
+        //        NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
+        //
+        //        [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+        //            if (error) {
+        //
+        //                return;
+        //            }
+        //
+        //            [self subscribeTopic];
+        //        }];
         dispatch_semaphore_t connected = dispatch_semaphore_create(0);
         [client connectWithLogin:@"1"
                         passcode:@"2"
@@ -1771,7 +1777,7 @@ LMExceptionalViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [changeView removeFromSuperview];
-
+    
     if (-64 == self.tableView.contentOffset.y) {
         
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
@@ -1785,7 +1791,7 @@ LMExceptionalViewDelegate
     if (ifloadMoreData == NO) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-        
+            
             [self textStateHUD:@"没有更多消息~"];
             [activity removeFromSuperview];
         });
@@ -1805,7 +1811,7 @@ LMExceptionalViewDelegate
                 [activity removeFromSuperview];
                 
                 NSMutableArray *tempArr = [NSMutableArray arrayWithArray:self.listData];
-            
+                
                 [self.listData removeAllObjects];
                 [self.listData addObjectsFromArray:items];
                 [self.listData addObjectsFromArray:tempArr];
@@ -1898,7 +1904,7 @@ LMExceptionalViewDelegate
             [cell.bootomView setHidden:YES];
             [self.tableView reloadData];
         }
-  
+        
     }
 }
 
@@ -1938,7 +1944,7 @@ LMExceptionalViewDelegate
         photoBrowser.initialPageIndex = cell.tag-array.count;
         [self presentViewController:photoBrowser animated:YES completion:nil];
     }
-
+    
 }
 
 #pragma mark --问题列表返回问题
@@ -2012,7 +2018,7 @@ LMExceptionalViewDelegate
     if ([[LGSoundRecorder shareInstance] soundRecordTime] < 1.0f) {
         
         if (_timerOf60Second) {
-        
+            
             [_timerOf60Second invalidate];
             _timerOf60Second = nil;
         }
@@ -2068,9 +2074,9 @@ LMExceptionalViewDelegate
 - (void)sixtyTimeStopSendVodio
 {
     int countDown = 60 - [[LGSoundRecorder shareInstance] soundRecordTime];
-
+    
     if (countDown <= 10) {
-
+        
         [[LGSoundRecorder shareInstance] showCountdown:countDown];
     }
     
@@ -2138,7 +2144,7 @@ LMExceptionalViewDelegate
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"outputFileOSSUrl"];
-                                                     NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        
                                                        NSDictionary *dics = @{@"type":@"voice",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl,@"recordingTime":[NSString stringWithFormat:@"%d",duration],@"transcodingUrl":voiceUrl};
@@ -2192,7 +2198,7 @@ LMExceptionalViewDelegate
     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
     
     for (NSDictionary *dic in palyArray) {
-    
+        
         [urlArray addObject:dic[@"url"]];
     }
     
@@ -2207,11 +2213,11 @@ LMExceptionalViewDelegate
         if (vo.type && [vo.type isEqualToString:@"voice"]) {
             
             if ([vo.currentIndex integerValue] > playIndex) {
-    
+                
                 if ([urlArray containsObject:vo.voiceurl]) {
                     
                 } else {
-
+                    
                     [voArray addObject:vo];
                     NSString *string = [NSString stringWithFormat:@"%d",i];
                     [newArray addObject:string];
@@ -2255,7 +2261,7 @@ LMExceptionalViewDelegate
     [dic setObject:urlString forKey:@"url"];
     [dic setObject:@"1" forKey:@"status"];
     if (![statusArray containsObject:dic]) {
-       [statusArray addObject:dic];
+        [statusArray addObject:dic];
     }
     [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -2303,7 +2309,7 @@ LMExceptionalViewDelegate
     [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction*action) {
-                                              MssageVO *vo = self.listData[cell.tag];
+                                                MssageVO *vo = self.listData[cell.tag];
                                                 [self closeQuestion:vo.questionUuid];
                                                 
                                             }]];
@@ -2354,7 +2360,7 @@ LMExceptionalViewDelegate
 - (void)loadActivity
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-       
+        
         activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];//指定进度轮的大小
         [activity setCenter:CGPointMake(kScreenWidth / 2, 90)];//指定进度轮中心点
         [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];//设置进度轮显示类型
@@ -2427,12 +2433,12 @@ LMExceptionalViewDelegate
 
 - (void)getchangeTextRespond:(NSString *)resp
 {
-   
+    
     
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     if (!bodyDic) {
-
+        
         [self textStateHUD:@"转文字失败~"];
         return;
         
@@ -2518,7 +2524,7 @@ LMExceptionalViewDelegate
         return;
     }
     if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-
+        
         [self textStateHUD:@"您已成功打赏~~"];
         [self closeViewAction];
         
@@ -2541,7 +2547,7 @@ LMExceptionalViewDelegate
     [backButtonView.rihgtButton addTarget:self action:@selector(BesureAction:) forControlEvents:UIControlEventTouchUpInside];
     keepImage = cell.publishImageV.image;
     
-
+    
     
 }
 
@@ -2570,17 +2576,26 @@ LMExceptionalViewDelegate
 
 #pragma mark - ZYQAssetPickerController Delegate
 -(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
-
+    
     for (int i=0; i<assets.count; i++) {
+        
         ALAsset *asset=assets[i];
-        ALAssetRepresentation * representation = asset.defaultRepresentation;
         
-        UIImage *tempImg = [UIImage imageWithCGImage:asset.thumbnail];
-        NSData *data = UIImageJPEGRepresentation(tempImg, 1);
+        if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo] ){
+            
+            NSString * date =[asset valueForProperty:ALAssetPropertyDuration];
+          float doubleNum =  [date doubleValue] +0.5;
+            timeNum =  (int)(doubleNum+0.5);
+                UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self getImageURL:[ImageHelpTool scaleImage:image]  index:2];
+            });
 
-        ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
+            }
         
-        [assetLibrary assetForURL:representation.url resultBlock:^(ALAsset *asset){
+        ALAssetRepresentation * representation = asset.defaultRepresentation;
+        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc]  init];
+        [assetsLibrary assetForURL:representation.url resultBlock:^(ALAsset *asset){
             
             ALAssetRepresentation *rep = [asset defaultRepresentation];
             
@@ -2592,20 +2607,15 @@ LMExceptionalViewDelegate
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentD = [paths objectAtIndex:0];
             NSString *configFile = [documentD stringByAppendingString:@"123.mp4"];
-            NSFileManager *fm = [NSFileManager defaultManager];
-            [fm createFileAtPath:configFile contents:Data attributes:nil];
-            [data writeToFile:configFile atomically:YES];
+            [Data writeToFile:configFile atomically:YES];
+            
             
             [self sendVideo:Data];
             
         }failureBlock:^(NSError *err) {
-            
             NSLog(@"error: ------------------------%@",err);
-            
         }];
-
-        }
-    
+    }
 }
 
 
@@ -2627,15 +2637,16 @@ LMExceptionalViewDelegate
     if (result.count>1) {
         for (int i = 1; i<result.count-1; i++) {
             if (i+1<=result.count) {
+                NSLog(@"%d  %d  %d",[result[i+1]intValue]-[result[i] intValue],[result[i+1]intValue],[result[i]intValue]);
                 if ([result[i+1] intValue]-[result[i] intValue]>1) {
                     [self getmessageRequest:[result[i] intValue]+1];
                 }
             }
             
         }
+        [self getmessageRequest:[result[result.count-1] intValue]];
     }
     
-
     
 }
 
@@ -2671,6 +2682,19 @@ LMExceptionalViewDelegate
     if (result && [result isEqualToString:@"0"]) {
         
         NSArray *tempArr    = [MssageVO MssageVOListWithArray:[bodyDic objectForKey:@"message"]];
+        
+        MssageVO *message = tempArr[0];
+        NSNumber *string =message.currentIndex;
+        NSMutableArray *newArray = [NSMutableArray new];
+        for (MssageVO *vo in self.listData) {
+            if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
+                [newArray addObject:vo.currentIndex];
+            }
+        }
+        if ([newArray containsObject:string]) {
+            return;
+        }
+        
         [self.listData addObjectsFromArray:tempArr];
         [self.tableView reloadData];
         
@@ -2678,8 +2702,6 @@ LMExceptionalViewDelegate
         
         [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
-
-    
     
 }
 
@@ -2688,15 +2710,12 @@ LMExceptionalViewDelegate
 
 - (void)sendVideo:(NSData *)data
 {
-    
+    [self initStateHud];
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    
-    [self initStateHud];
-    
     
     FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
     
@@ -2709,31 +2728,31 @@ LMExceptionalViewDelegate
                                                                       withObject:nil
                                                                    waitUntilDone:YES];
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-//
+                                               //
                                                NSString    *result = [bodyDict objectForKey:@"result"];
-
+                                               
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
                                                    if (voiceUrl && [voiceUrl isKindOfClass:[NSString class]]) {
-
-                                                       NSDictionary *dics = @{@"type":@"video",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":voiceUrl};
-
+                                                       
+                                                       NSDictionary *dics = @{@"type":@"video",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":voiceUrl,@"recordingTime":[NSString stringWithFormat:@"%d",timeNum],@"cover":imageString};
+                                                       
                                                        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
                                                        NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
                                                        NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
                                                        if (client.connected ==YES) {
                                                            [client sendTo:urlStr body:string];
-
+                                                           
                                                        }else{
                                                            [self textStateHUD:@"发送失败~"];
                                                            [client disconnect];
                                                            [self createWebSocket];
                                                        }
-
+                                                       
                                                        [self reLoadTableViewCell];
-
-
+                                                       
+                                                       
                                                    }
                                                }
                                            } failed:^(NSError *error) {
@@ -2742,7 +2761,23 @@ LMExceptionalViewDelegate
     [proxy start];
 }
 
+- (void)cellplayVideoAction:(ChattingCell *)cell
+{
+    NSLog(@"播放视频~~~~~~~~~~~~~~~~~~~~~~~~");
+    MssageVO *vo = self.listData[cell.tag];
+    [self video_play:vo.videourl];
+}
 
+- (void)video_play:(NSString*)filename
+{
+    NSURL*videoPathURL=[NSURL URLWithString:filename];//videoPathURL是视频播放地址
+    MPMoviePlayerViewController *playViewController=[[MPMoviePlayerViewController alloc] initWithContentURL:videoPathURL];
+    MPMoviePlayerController *players=[playViewController moviePlayer];
+    players.scalingMode=MPMovieScalingModeAspectFit;
+    players.controlStyle=MPMovieControlStyleNone;
+    [players play];
+    [self.navigationController presentViewController:playViewController animated:YES completion:nil];
+}
 
 
 @end

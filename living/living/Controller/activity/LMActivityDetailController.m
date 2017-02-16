@@ -56,7 +56,8 @@ LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate,
 LMEventMsgCellDelegate,
 LMActivityMsgCellDelegate,
-shareTypeDelegate
+shareTypeDelegate,
+APChooseViewDelegate
 >
 {
     UILabel  *tipLabel;
@@ -88,6 +89,9 @@ shareTypeDelegate
     UIView *backgroundViews;
     UIImageView *imageViews;
     UIImage *bigImage;
+    
+    NSString *nameString;
+    NSString *phoneString;
 }
 
 @end
@@ -199,6 +203,13 @@ shareTypeDelegate
         
         if ([headDic[@"sign"] isEqual:@"menber"]) {
             vipString = @"vipString";
+        }
+        if (headDic[@"phone"]&&![headDic[@"phone"] isEqual:@"" ]) {
+            phoneString = headDic[@"phone"];
+        }
+        
+        if (headDic[@"nick_name"]&&![headDic[@"nick_name"] isEqual:@"" ]) {
+            nameString = headDic[@"nick_name"];
         }
     }
     
@@ -878,7 +889,7 @@ shareTypeDelegate
     if ([[FitUserManager sharedUserManager] isLogin]){
 
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-        
+        infoView.delegate = self;
         infoView.event  = eventDic;
         
         infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
@@ -940,35 +951,59 @@ shareTypeDelegate
     }
 }
 
-- (void)joindataRequest:(NSNotification *)notice
+- (void)APChooseViewSelectItem:(NSInteger)num
 {
-    if (![CheckUtils isLink]) {
+    if (phoneString&&![phoneString isEqualToString:@""]) {
+        if (![CheckUtils isLink]) {
+            
+            [self textStateHUD:@"无网络"];
+            return;
+        }
         
-        [self textStateHUD:@"无网络"];
-        return;
+        [self initStateHud];
+        
+        
+        NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+        
+        LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:phoneString];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
+        //增加确定按钮；
+        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //获取第1个输入框；
+            phoneString = alertController.textFields.firstObject.text;
+            [self APChooseViewSelectItem:num];
+            
+            
+        }]];
+        
+        //增加取消按钮；
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+        
+        //定义第一个输入框；
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入手机号";
+        }];
+
+        
+        [self presentViewController:alertController animated:true completion:nil];
     }
-    
-    [self initStateHud];
-    
-    NSMutableDictionary *orderNum=notice.object;
-    
-    NSString *num = [NSString stringWithFormat:@"%@",orderNum[@"num"]];
-    
-    LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:num];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+
+
 }
 
 - (void)getEventjoinDataResponse:(NSString *)resp
@@ -976,6 +1011,7 @@ shareTypeDelegate
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     [self logoutAction:resp];
+    
     
     if (!bodyDic) {
         

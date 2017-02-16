@@ -552,11 +552,11 @@ static CGRect oldframe;
         }
         
         if (indexPath.row == 6) {
-//            LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
-//            myVoiceVC.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:myVoiceVC animated:YES];
+            LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
+            myVoiceVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:myVoiceVC animated:YES];
             
-            [self textStateHUD:@"该功能暂未开放~"];
+//            [self textStateHUD:@"该功能暂未开放~"];
         }
         
     }

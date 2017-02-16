@@ -10,6 +10,15 @@
 #import "CustomButton.h"
 #import "LMEventBodyVO.h"
 
+@protocol APChooseViewDelegate;
+
+
+@protocol APChooseViewDelegate <NSObject>
+
+-(void)APChooseViewSelectItem:(NSInteger)num;
+
+@end
+
 @interface APChooseView : UIView
 {
     int count ;
@@ -32,6 +41,9 @@
 
 @property (nonatomic , strong)UIControl *control;
 
+@property(nonatomic , strong)NSString *phoneString;
+
+@property(nonatomic,strong)id<APChooseViewDelegate>delegate;
 
 @property(nonatomic,strong)UILabel *titleLabel;//价格
 @property(nonatomic,strong)UILabel *title2;//价格

@@ -139,6 +139,15 @@
             && [[dictionary objectForKey:@"question_uuid"] isKindOfClass:[NSString class]]) {
             self.questionUuid = [dictionary objectForKey:@"question_uuid"];
         }
+        if (nil != [dictionary objectForKey:@"videourl"] && ![[dictionary objectForKey:@"videourl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"videourl"] isKindOfClass:[NSString class]]) {
+            self.videourl = [dictionary objectForKey:@"videourl"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"cover"] && ![[dictionary objectForKey:@"cover"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"cover"] isKindOfClass:[NSString class]]) {
+            self.cover = [dictionary objectForKey:@"cover"];
+        }
         
         if (nil != [dictionary objectForKey:@"transcodingUrl"] && ![[dictionary objectForKey:@"transcodingUrl"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"transcodingUrl"] isKindOfClass:[NSString class]]) {

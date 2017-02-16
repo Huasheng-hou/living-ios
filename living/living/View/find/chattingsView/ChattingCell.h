@@ -67,5 +67,7 @@ typedef NS_ENUM(NSUInteger, LGVoicePlayState){
 
 - (void)cellloagTapAction:(ChattingCell *)cell;
 
+- (void)cellplayVideoAction:(ChattingCell *)cell;
+
 
 @end

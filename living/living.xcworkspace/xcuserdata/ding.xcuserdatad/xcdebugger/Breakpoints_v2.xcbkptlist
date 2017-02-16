@@ -36,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "508747505.555639"
+            timestampString = "508909733.395344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2715"
-            endingLineNumber = "2715"
-            landmarkName = "-sendVideo:"
+            startingLineNumber = "1203"
+            endingLineNumber = "1203"
+            landmarkName = "-getImageURL:index:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -52,12 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "508747749.686485"
+            timestampString = "508909735.475028"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2727"
-            endingLineNumber = "2727"
-            landmarkName = "-sendVideo:"
+            startingLineNumber = "1220"
+            endingLineNumber = "1220"
+            landmarkName = "-getImageURL:index:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -68,11 +68,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "508747763.137259"
+            timestampString = "508909741.994977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2720"
             endingLineNumber = "2720"
+            landmarkName = "-sendVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508909747.130707"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2736"
+            endingLineNumber = "2736"
+            landmarkName = "-sendVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508909805.72223"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1206"
+            endingLineNumber = "1206"
+            landmarkName = "-getImageURL:index:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "508909998.052794"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2724"
+            endingLineNumber = "2724"
             landmarkName = "-sendVideo:"
             landmarkType = "7">
          </BreakpointContent>

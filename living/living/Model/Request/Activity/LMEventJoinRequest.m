@@ -10,7 +10,10 @@
 
 @implementation LMEventJoinRequest
 
--(id)initWithEvent_uuid:(NSString *)event_uuid order_nums:(NSString *)order_nums
+-(id)initWithEvent_uuid:(NSString *)event_uuid
+             order_nums:(NSString *)order_nums
+                   name:(NSString *)name
+                  phone:(NSString *)phone
 
 {
     self = [super init];
@@ -25,6 +28,14 @@
         
         if (order_nums){
             [bodyDict setObject:order_nums forKey:@"order_nums"];
+        }
+        
+        if (name){
+            [bodyDict setObject:name forKey:@"name"];
+        }
+        
+        if (phone){
+            [bodyDict setObject:phone forKey:@"phone"];
         }
         
         NSMutableDictionary *paramsDict = [self params];

@@ -22,6 +22,8 @@ static CGFloat const ButtonHeight = 50;
 {
     MoreFunctionView *moreView;
     NSInteger clickItem;
+    UIView *backView ;
+    NSInteger index;
 }
 
 @end
@@ -37,12 +39,6 @@ static CGFloat const ButtonHeight = 50;
     }
     
     return self;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [moreView setHidden:YES];
 }
 
 
@@ -78,25 +74,31 @@ static CGFloat const ButtonHeight = 50;
     
     self.navigationItem.rightBarButtonItem = rightItem;
     
-    [self moreAction:@"cannot"];
+    
     
 }
 
 - (void)ifcanpublic
 {
-    [self moreAction:@"can"];
+    index = 1;
+
 }
 
 
 
 - (void)showAction
 {
-    [moreView setHidden:NO];
+    if (index==1) {
+        [self moreAction:@"can"];
+    }else{
+        [self moreAction:@"cannot"];
+    }
+
 }
 
 - (void)hiddenView
 {
-    [moreView setHidden:YES];
+    [backView setHidden:YES];
 }
 
 
@@ -118,8 +120,16 @@ static CGFloat const ButtonHeight = 50;
     
     moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
     moreView.delegate=self;
-    [moreView setHidden:YES];
-    [[UIApplication sharedApplication].keyWindow addSubview:moreView];
+   
+    
+    backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    backView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [backView addSubview:moreView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+    [backView addGestureRecognizer:tap];
+    
+    [[UIApplication sharedApplication].keyWindow addSubview:backView];
 }
 
 -(void)moreViewSelectItem:(NSInteger)item
@@ -140,7 +150,13 @@ static CGFloat const ButtonHeight = 50;
             [self myjoin];
         }
     }
+    [backView setHidden:YES];
     
+}
+
+-(void)tapAction
+{
+    [backView setHidden:YES];
 }
 
 

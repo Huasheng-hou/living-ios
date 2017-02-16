@@ -29,7 +29,9 @@
 @property (nonatomic, strong) NSString *role;
 @property (nonatomic, strong) NSString *headimgurl;
 @property (nonatomic, strong) NSString *voiceurl;
+@property (nonatomic, strong) NSString *videourl;
 @property (nonatomic, strong) NSString *imageurl;
+@property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *attachment;
 @property (nonatomic, assign) NSNumber *currentIndex;

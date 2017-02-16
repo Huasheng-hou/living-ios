@@ -18,4 +18,6 @@
 
 @property(nonatomic,strong)UIButton *upstoreButton;
 
+@property(nonatomic,strong)UIButton *cancelButton;
+
 @end

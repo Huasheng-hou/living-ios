@@ -272,6 +272,8 @@ FitDatePickerDelegate
 {
     
     hostoryView = [[LMHostoryView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    hostoryView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     [[[UIApplication sharedApplication].windows lastObject] addSubview:hostoryView];
     
     
@@ -281,7 +283,14 @@ FitDatePickerDelegate
     hostoryView.upstoreButton.tag = cell.tag;
     [hostoryView.upstoreButton addTarget:self action:@selector(upstoreAction:) forControlEvents:UIControlEventTouchUpInside];
     NSLog(@"%ld",(long)cell.tag);
+    [hostoryView.cancelButton addTarget:self action:@selector(cancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
+
     
+}
+
+- (void)cancelButtonAction
+{
+    [hostoryView removeFromSuperview];
 }
 
 - (void)startAction:(UIButton *)sender
@@ -329,10 +338,10 @@ FitDatePickerDelegate
 
 - (void)upstoreAction:(UIButton *)sender
 {
-    NSLog(@"上架~~~~");
-    NSLog(@"sender.tag           %ld",(long)sender.tag);
+
      ActivityListVO  *vo = [self.listData objectAtIndex:sender.tag];
     [hostoryView removeFromSuperview];
+    [self initStateHud];
     LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.EventUuid andstart_time:hostoryView.startButton.textLabel.text andend_time:hostoryView.finishButton.textLabel.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -363,6 +372,9 @@ FitDatePickerDelegate
     if (result && [result intValue] == 0){
         [self textStateHUD:@"已重新上架~"];
         [self loadNoState];
+    }else{
+        NSString *string = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:string];
     }
 }
 

@@ -10,7 +10,8 @@
 
 @implementation LMVoiceJoinRequest
 
-- (id)initWithVoice_uuid:(NSString *)voice_uuid
+- (id)initWithVoice_uuid:(NSString *)voice_uuid name:(NSString *)name
+                   phone:(NSString *)phone
 {
     self = [super init];
     
@@ -20,6 +21,14 @@
         
         if (voice_uuid){
             [bodyDict setObject:voice_uuid forKey:@"voice_uuid"];
+        }
+        
+        if (name){
+            [bodyDict setObject:name forKey:@"name"];
+        }
+        
+        if (phone){
+            [bodyDict setObject:phone forKey:@"phone"];
         }
         
         NSMutableDictionary *paramsDict = [self params];

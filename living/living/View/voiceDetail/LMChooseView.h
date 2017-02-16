@@ -10,6 +10,13 @@
 #import "CustomButton.h"
 #import "LMVoiceDetailVO.h"
 
+@protocol LMChooseViewDelegate;
+
+@protocol LMChooseViewDelegate <NSObject>
+-(void)LMChooseViewSelectItem;
+
+@end
+
 @interface LMChooseView : UIView
 {
     int count ;
@@ -31,6 +38,7 @@
 
 @property (nonatomic , strong)UIControl *control;
 
+@property(nonatomic,strong)id<LMChooseViewDelegate>delegate;
 
 @property(nonatomic,strong)UILabel *titleLabel;//价格
 @property(nonatomic,strong)UILabel *title2;//价格

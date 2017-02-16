@@ -85,6 +85,11 @@
     _upstoreButton.frame = CGRectMake(kScreenWidth/2-70, 135, 80, 30);
     [buttonView addSubview:_upstoreButton];
     
+    _cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_cancelButton setImage:[UIImage imageNamed:@"cancelIcon"] forState:UIControlStateNormal];
+    _cancelButton.frame = CGRectMake(0, 0, 40, 40);
+    [buttonView addSubview:_cancelButton];
+    
 
     
 

@@ -157,11 +157,7 @@
 - (void)exitButtonClick
 {
     totalNumber = [[_orderInfo objectForKey:@"total_number"] intValue];
-    totalNum = [[_orderInfo objectForKey:@"total_num"] intValue];
-    
-    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithObjectsAndKeys:_numLabel.text,@"num", nil] ;
-    //
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"joinOrder" object:dic];
+    [self.delegate LMChooseViewSelectItem];
     
     
     UIView *view = [self viewWithTag:1000];
