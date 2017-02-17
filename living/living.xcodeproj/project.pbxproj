@@ -98,6 +98,13 @@
 		35980BDB1E014C340054EB05 /* LMVoiceDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BDA1E014C340054EB05 /* LMVoiceDeleteRequest.m */; };
 		35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */; };
 		35980BE11E014DFD0054EB05 /* LMVoiceEndRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */; };
+		359DBD6F1E56DC2F00555565 /* KZVideoConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 359DBD641E56DC2F00555565 /* KZVideoConfig.m */; };
+		359DBD701E56DC2F00555565 /* KZVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 359DBD661E56DC2F00555565 /* KZVideoListViewController.m */; };
+		359DBD711E56DC2F00555565 /* KZVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 359DBD681E56DC2F00555565 /* KZVideoPlayer.m */; };
+		359DBD721E56DC2F00555565 /* KZVideoSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 359DBD6A1E56DC2F00555565 /* KZVideoSupport.m */; };
+		359DBD731E56DC2F00555565 /* KZVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 359DBD6C1E56DC2F00555565 /* KZVideoViewController.m */; };
+		359DBD741E56DC2F00555565 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 359DBD6D1E56DC2F00555565 /* LICENSE */; };
+		359DBD751E56DC2F00555565 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 359DBD6E1E56DC2F00555565 /* README.md */; };
 		359F11B31E54198800DA1EAE /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F11B21E54198800DA1EAE /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		359F81841E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81831E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m */; };
 		359F81871E025F710070F6C7 /* LMVoiceMemberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359F81861E025F710070F6C7 /* LMVoiceMemberRequest.m */; };
@@ -657,6 +664,18 @@
 		35980BDD1E014D340054EB05 /* LMVoiceStartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceStartRequest.m; sourceTree = "<group>"; };
 		35980BDF1E014DFD0054EB05 /* LMVoiceEndRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceEndRequest.h; sourceTree = "<group>"; };
 		35980BE01E014DFD0054EB05 /* LMVoiceEndRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMVoiceEndRequest.m; sourceTree = "<group>"; };
+		359DBD631E56DC2F00555565 /* KZVideoConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KZVideoConfig.h; sourceTree = "<group>"; };
+		359DBD641E56DC2F00555565 /* KZVideoConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoConfig.m; sourceTree = "<group>"; };
+		359DBD651E56DC2F00555565 /* KZVideoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KZVideoListViewController.h; sourceTree = "<group>"; };
+		359DBD661E56DC2F00555565 /* KZVideoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoListViewController.m; sourceTree = "<group>"; };
+		359DBD671E56DC2F00555565 /* KZVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KZVideoPlayer.h; sourceTree = "<group>"; };
+		359DBD681E56DC2F00555565 /* KZVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoPlayer.m; sourceTree = "<group>"; };
+		359DBD691E56DC2F00555565 /* KZVideoSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KZVideoSupport.h; sourceTree = "<group>"; };
+		359DBD6A1E56DC2F00555565 /* KZVideoSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoSupport.m; sourceTree = "<group>"; };
+		359DBD6B1E56DC2F00555565 /* KZVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KZVideoViewController.h; sourceTree = "<group>"; };
+		359DBD6C1E56DC2F00555565 /* KZVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoViewController.m; sourceTree = "<group>"; };
+		359DBD6D1E56DC2F00555565 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		359DBD6E1E56DC2F00555565 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		359F11B11E54198800DA1EAE /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		359F11B21E54198800DA1EAE /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		359F81821E025F1F0070F6C7 /* LMVoiceMemeberListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMVoiceMemeberListViewController.h; sourceTree = "<group>"; };
@@ -1910,6 +1929,33 @@
 			path = myvoice;
 			sourceTree = "<group>";
 		};
+		359DBD611E56DC2F00555565 /* KZSmallVideoRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				359DBD621E56DC2F00555565 /* KZSmallVideoRecorder */,
+				359DBD6D1E56DC2F00555565 /* LICENSE */,
+				359DBD6E1E56DC2F00555565 /* README.md */,
+			);
+			path = KZSmallVideoRecorder;
+			sourceTree = "<group>";
+		};
+		359DBD621E56DC2F00555565 /* KZSmallVideoRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				359DBD631E56DC2F00555565 /* KZVideoConfig.h */,
+				359DBD641E56DC2F00555565 /* KZVideoConfig.m */,
+				359DBD651E56DC2F00555565 /* KZVideoListViewController.h */,
+				359DBD661E56DC2F00555565 /* KZVideoListViewController.m */,
+				359DBD671E56DC2F00555565 /* KZVideoPlayer.h */,
+				359DBD681E56DC2F00555565 /* KZVideoPlayer.m */,
+				359DBD691E56DC2F00555565 /* KZVideoSupport.h */,
+				359DBD6A1E56DC2F00555565 /* KZVideoSupport.m */,
+				359DBD6B1E56DC2F00555565 /* KZVideoViewController.h */,
+				359DBD6C1E56DC2F00555565 /* KZVideoViewController.m */,
+			);
+			path = KZSmallVideoRecorder;
+			sourceTree = "<group>";
+		};
 		359F11B01E54198800DA1EAE /* ALAssetsLibrary-CustomPhotoAlbum */ = {
 			isa = PBXGroup;
 			children = (
@@ -2408,6 +2454,7 @@
 		35B744F71DDE97F2000AFA26 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				359DBD611E56DC2F00555565 /* KZSmallVideoRecorder */,
 				35B744F81DDE97F2000AFA26 /* LMHomeDetailController.h */,
 				35B744F91DDE97F2000AFA26 /* LMHomeDetailController.m */,
 				35B286FC1E347CF400B2AA40 /* LMHomeVoiceDetailController.h */,
@@ -3778,7 +3825,7 @@
 				TargetAttributes = {
 					3547F32D1D9901780068F04E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2BPVM7PZ48;
+						DevelopmentTeam = PXS9X73T7L;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3857,6 +3904,7 @@
 				35B7472E1DDE97F3000AFA26 /* UMSCommentInputControlleriPad.xib in Resources */,
 				35B7472A1DDE97F3000AFA26 /* UMSocialLocalizable.strings in Resources */,
 				35B7473E1DDE97F3000AFA26 /* Assets.xcassets in Resources */,
+				359DBD741E56DC2F00555565 /* LICENSE in Resources */,
 				35B747321DDE97F3000AFA26 /* UMSnsAccountViewController.xib in Resources */,
 				35C377911DEE7245007FC70A /* Property List.plist in Resources */,
 				35B748021DDE97F4000AFA26 /* lightSelect.png in Resources */,
@@ -3942,6 +3990,7 @@
 				35B1A1201DED19F200055E7D /* LMISLoginRequest.m in Sources */,
 				35B747DB1DDE97F4000AFA26 /* LMPublicArticleRequest.m in Sources */,
 				35B747FA1DDE97F4000AFA26 /* FirPersonVO.m in Sources */,
+				359DBD701E56DC2F00555565 /* KZVideoListViewController.m in Sources */,
 				35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */,
 				3533A7861E4D84D00088734A /* ALiTopToolView.m in Sources */,
 				35980BC21E0133CD0054EB05 /* LMMyJoin1ViewController.m in Sources */,
@@ -4038,6 +4087,7 @@
 				35B7476B1DDE97F3000AFA26 /* LMVersionViewController.m in Sources */,
 				35B747EF1DDE97F4000AFA26 /* LMArticleBodyVO.m in Sources */,
 				35B748321DDE97F4000AFA26 /* FitPickerThreeLevelView.m in Sources */,
+				359DBD6F1E56DC2F00555565 /* KZVideoConfig.m in Sources */,
 				35B747661DDE97F3000AFA26 /* LMMyLivingViewController.m in Sources */,
 				35B7470E1DDE97F3000AFA26 /* base64.m in Sources */,
 				35B747B81DDE97F3000AFA26 /* LMWriterDataRequest.m in Sources */,
@@ -4049,6 +4099,7 @@
 				35B747841DDE97F3000AFA26 /* SYPhotoViewController.m in Sources */,
 				3567BFC11E1203FE004EF000 /* LMShieldstudentRequest.m in Sources */,
 				3533A76A1E4D83BC0088734A /* ALiAssetReader.m in Sources */,
+				359DBD721E56DC2F00555565 /* KZVideoSupport.m in Sources */,
 				35B7479E1DDE97F3000AFA26 /* LMEventEndRequest.m in Sources */,
 				35B7478C1DDE97F3000AFA26 /* HTTPProxy.m in Sources */,
 				35980BCB1E0134AA0054EB05 /* LMMyVoice2ViewController.m in Sources */,
@@ -4060,6 +4111,7 @@
 				354298D41E0A207E001E11B4 /* FirUploadVoiceRequest.m in Sources */,
 				35B7475D1DDE97F3000AFA26 /* LMRegisterViewController.m in Sources */,
 				35B748151DDE97F4000AFA26 /* LMPublicMsgCell.m in Sources */,
+				359DBD731E56DC2F00555565 /* KZVideoViewController.m in Sources */,
 				35B747561DDE97F3000AFA26 /* LMFindViewController.m in Sources */,
 				35980BD81E0139210054EB05 /* LMMyPublicVoicFinish.m in Sources */,
 				35B7476E1DDE97F3000AFA26 /* SQMenuShowView.m in Sources */,
@@ -4111,6 +4163,7 @@
 				35B747B51DDE97F3000AFA26 /* LMHomelistequest.m in Sources */,
 				35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */,
 				355E7B841E000BDB0089BAB1 /* LMHostChoiceRequest.m in Sources */,
+				359DBD751E56DC2F00555565 /* README.md in Sources */,
 				35B747721DDE97F3000AFA26 /* FitColorConvertFactory.m in Sources */,
 				35B747971DDE97F3000AFA26 /* LMMonthDetailBill.m in Sources */,
 				35B7474B1DDE97F3000AFA26 /* LMNavMapViewController.m in Sources */,
@@ -4225,6 +4278,7 @@
 				35B7480B1DDE97F4000AFA26 /* LMActivityheadCell.m in Sources */,
 				35B747851DDE97F3000AFA26 /* FitThumbImageHelper.m in Sources */,
 				35B748231DDE97F4000AFA26 /* LMChargeButton.m in Sources */,
+				359DBD711E56DC2F00555565 /* KZVideoPlayer.m in Sources */,
 				35C218411E03DF83009371F4 /* CustomToolbar.m in Sources */,
 				35B7474C1DDE97F3000AFA26 /* LMPublishViewController.m in Sources */,
 				35B747A41DDE97F3000AFA26 /* LMEventLivingMsgRequest.m in Sources */,
@@ -4441,7 +4495,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				DEVELOPMENT_TEAM = PXS9X73T7L;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4518,7 +4572,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4534,7 +4588,7 @@
 				CODE_SIGN_ENTITLEMENTS = "living/腰果生活.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2BPVM7PZ48;
+				DEVELOPMENT_TEAM = PXS9X73T7L;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4611,7 +4665,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.liveHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LifeHall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

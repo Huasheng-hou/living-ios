@@ -16,6 +16,7 @@
 #import "LMPAHeadViewCell.h"
 #import "EditImageView.h"
 #import "LMTypeListViewController.h"
+#import "KZVideoViewController.h"
 
 @interface LMPublicArticleController ()
 <
@@ -30,7 +31,8 @@ ZYQAssetPickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 LMPAHeadViewCellDelegate,
 editViewDelegate,
-LMTypeListProtocol
+LMTypeListProtocol,
+KZVideoViewControllerDelegate
 >
 {
     UIImagePickerController *pickImage;
@@ -403,19 +405,7 @@ static NSMutableArray *cellDataArray;
             
             [imageArray addObject:tempImg];
             
-            NSLog(@"****imageArray****%@",imageArray);
-            
-            
-
-            
-            
-            
-            
             [imageViewArray addObject:tempImg];
-            
-            
-            NSLog(@"******imageViewArray****%@",imageViewArray);
-            
             
         }
         
@@ -661,6 +651,12 @@ static NSMutableArray *cellDataArray;
                                                          message:@"相机不可用" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alert show];
         }
+    }
+    if (buttonIndex == 2) {
+        NSLog(@"小视频~~~~~");
+        KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
+        videoVC.delegate = self;
+        [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
     }
 }
 
@@ -929,6 +925,78 @@ static NSMutableArray *cellDataArray;
     typeString  = liveRoom;
   
     [self.tableView reloadData];
+}
+
+
+#pragma mark  视频录制或选择后回调
+- (void)videoViewController:(KZVideoViewController *)videoController didRecordVideo:(KZVideoModel *)videoModel{
+    
+    
+    NSURL* videoUrl = [NSURL URLWithString:videoModel.videoAbsolutePath];
+    
+    [self getImageURL:projectImageArray[addImageIndex]];
+    
+    [self movFileTransformToMP4WithSourceUrl:videoUrl completion:^(NSString *Mp4FilePath) {
+    
+        videoModel.videoAbsolutePath = Mp4FilePath;
+    }];
+    
+//    _videoModel = videoModel;
+    
+//    [self playerVideo:videoModel];
+    
+    
+}
+
+#pragma mark  mov格式转MP4
+- (void)movFileTransformToMP4WithSourceUrl:(NSURL *)sourceUrl completion:(void(^)(NSString *Mp4FilePath))comepleteBlock
+{
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceUrl options:nil];
+    
+    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    
+    if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality])
+        
+    {
+        
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetLowQuality];
+        
+        exportSession.outputURL = sourceUrl;
+        
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        
+        CMTime start = CMTimeMakeWithSeconds(1.0, 600);
+        
+        CMTime duration = CMTimeMakeWithSeconds(3.0, 600);
+        
+        CMTimeRange range = CMTimeRangeMake(start, duration);
+        
+        exportSession.timeRange = range;
+        
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            
+            switch ([exportSession status]) {
+                    
+                case AVAssetExportSessionStatusFailed:
+                    NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusCancelled:
+                    
+                    NSLog(@"Export canceled");
+                    
+                    break;
+                    
+                default:
+                    
+                    break;
+                    
+            }
+            
+        }];
+        
+    }
 }
 
 @end
