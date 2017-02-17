@@ -165,7 +165,7 @@ LMExceptionalViewDelegate
         [messageTimer invalidate];
         timer = nil;
         messageTimer = nil;
-        
+
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
         messageTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(messageConnect) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -189,6 +189,11 @@ LMExceptionalViewDelegate
 {
     [super viewDidDisappear:animated];
     [player stop];
+    
+    [timer invalidate];
+    [messageTimer invalidate];
+    timer = nil;
+    messageTimer = nil;
     
 }
 
