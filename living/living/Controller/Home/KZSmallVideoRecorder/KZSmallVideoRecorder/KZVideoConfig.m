@@ -3,7 +3,7 @@
 //  KZWeChatSmallVideo_OC
 //
 //  Created by HouKangzhu on 16/7/19.
-//  Copyright © 2016年 侯康柱. All rights reserved.
+//  Copyright © 2016年 . All rights reserved.
 //
 
 #import "KZVideoConfig.h"

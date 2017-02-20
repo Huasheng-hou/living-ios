@@ -30,11 +30,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "living/Controller/Home/LMPublicArticleController.m"
-            timestampString = "509009529.926092"
+            timestampString = "509251830.939451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "935"
-            endingLineNumber = "935"
+            startingLineNumber = "947"
+            endingLineNumber = "947"
+            landmarkName = "-videoViewController:didRecordVideo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/Home/LMPublicArticleController.m"
+            timestampString = "509251830.939451"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "949"
+            endingLineNumber = "949"
             landmarkName = "-videoViewController:didRecordVideo:"
             landmarkType = "7">
          </BreakpointContent>

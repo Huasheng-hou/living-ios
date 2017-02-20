@@ -38,7 +38,6 @@
 #import "LMNumberMessageRequest.h"
 #import "FirUploadVideoRequest.h"
 #import "LMExceptionalView.h"
-#import "UIImageView+WebCache.h"
 #import "LMRewardBlanceRequest.h"
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -454,6 +453,9 @@ LMExceptionalViewDelegate
         
         return tempArr;
     }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [activity stopAnimating];
+        });
         
         [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
@@ -1494,10 +1496,30 @@ LMExceptionalViewDelegate
             }
             [dic setObject:vo.user_uuid forKey:@"user_uuid"];
             [dic setObject:vo.time forKey:@"time"];
-            [dic setObject:vo.name forKey:@"name"];
-            [dic setObject:vo.headimgurl forKey:@"headimgurl"];
-            [dic setObject:vo.role forKey:@"role"];
-            [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+            if (vo.name&&![vo.name isEqual:@""]) {
+                [dic setObject:vo.name forKey:@"name"];
+            }else{
+                [dic setObject:@"" forKey:@"name"];
+            }
+            
+            if (vo.headimgurl&&![vo.headimgurl isEqual:@""]) {
+                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            }else{
+                [dic setObject:@"" forKey:@"headimgurl"];
+            }
+            
+            if (vo.role&&![vo.role isEqual:@""]) {
+                [dic setObject:vo.role forKey:@"role"];
+            }else{
+                [dic setObject:@"" forKey:@"role"];
+            }
+            
+            if (vo.currentIndex&&![vo.currentIndex isEqual:@""]) {
+                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+            }else{
+                [dic setObject:@"" forKey:@"currentIndex"];
+            }
+            
             [dic setObject:@"chat" forKey:@"type"];
             
             [array addObject:dic];
@@ -1528,10 +1550,29 @@ LMExceptionalViewDelegate
             }
             [dic setObject:vo.user_uuid forKey:@"user_uuid"];
             [dic setObject:vo.time forKey:@"time"];
-            [dic setObject:vo.name forKey:@"name"];
-            [dic setObject:vo.headimgurl forKey:@"headimgurl"];
-            [dic setObject:vo.currentIndex forKey:@"currentIndex"];
-            [dic setObject:vo.role forKey:@"role"];
+            if (vo.name&&![vo.name isEqual:@""]) {
+                [dic setObject:vo.name forKey:@"name"];
+            }else{
+                [dic setObject:@"" forKey:@"name"];
+            }
+            
+            if (vo.headimgurl&&![vo.headimgurl isEqual:@""]) {
+                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            }else{
+                [dic setObject:@"" forKey:@"headimgurl"];
+            }
+            
+            if (vo.role&&![vo.role isEqual:@""]) {
+                [dic setObject:vo.role forKey:@"role"];
+            }else{
+                [dic setObject:@"" forKey:@"role"];
+            }
+            
+            if (vo.currentIndex&&![vo.currentIndex isEqual:@""]) {
+                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+            }else{
+                [dic setObject:@"" forKey:@"currentIndex"];
+            }
             
             
             [dic setObject:@"question" forKey:@"type"];
@@ -1562,7 +1603,29 @@ LMExceptionalViewDelegate
                 [dic setObject:vo.attachment forKey:@"voiceurl"];
                 [dic setObject:@"voice" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
-                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                if (vo.name&&![vo.name isEqual:@""]) {
+                    [dic setObject:vo.name forKey:@"name"];
+                }else{
+                    [dic setObject:@"" forKey:@"name"];
+                }
+                
+                if (vo.headimgurl&&![vo.headimgurl isEqual:@""]) {
+                    [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+                }else{
+                    [dic setObject:@"" forKey:@"headimgurl"];
+                }
+                
+                if (vo.role&&![vo.role isEqual:@""]) {
+                    [dic setObject:vo.role forKey:@"role"];
+                }else{
+                    [dic setObject:@"" forKey:@"role"];
+                }
+                
+                if (vo.currentIndex&&![vo.currentIndex isEqual:@""]) {
+                    [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                }else{
+                    [dic setObject:@"" forKey:@"currentIndex"];
+                }
                 if (vo.transcodingUrl&&![vo.transcodingUrl isEqualToString:@""]) {
                     [dic setObject:vo.transcodingUrl forKey:@"transcodingUrl"];
                     // [dic setObject:vo.currentIndex forKey:@"currentIndex"];
@@ -1589,7 +1652,29 @@ LMExceptionalViewDelegate
                 [dic setObject:vo.videourl forKey:@"videourl"];
                 [dic setObject:@"video" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
-                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                if (vo.name&&![vo.name isEqual:@""]) {
+                    [dic setObject:vo.name forKey:@"name"];
+                }else{
+                    [dic setObject:@"" forKey:@"name"];
+                }
+                
+                if (vo.headimgurl&&![vo.headimgurl isEqual:@""]) {
+                    [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+                }else{
+                    [dic setObject:@"" forKey:@"headimgurl"];
+                }
+                
+                if (vo.role&&![vo.role isEqual:@""]) {
+                    [dic setObject:vo.role forKey:@"role"];
+                }else{
+                    [dic setObject:@"" forKey:@"role"];
+                }
+                
+                if (vo.currentIndex&&![vo.currentIndex isEqual:@""]) {
+                    [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+                }else{
+                    [dic setObject:@"" forKey:@"currentIndex"];
+                }
                 [dic setObject:vo.cover forKey:@"cover"];
                 
                 if ([vo.user_uuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
@@ -1618,10 +1703,29 @@ LMExceptionalViewDelegate
             }
             [dic setObject:vo.user_uuid forKey:@"user_uuid"];
             [dic setObject:vo.time forKey:@"time"];
-            [dic setObject:vo.name forKey:@"name"];
-            [dic setObject:vo.headimgurl forKey:@"headimgurl"];
-            [dic setObject:vo.currentIndex forKey:@"currentIndex"];
-            [dic setObject:vo.role forKey:@"role"];
+            if (vo.name&&![vo.name isEqual:@""]) {
+                [dic setObject:vo.name forKey:@"name"];
+            }else{
+                [dic setObject:@"" forKey:@"name"];
+            }
+            
+            if (vo.headimgurl&&![vo.headimgurl isEqual:@""]) {
+                [dic setObject:vo.headimgurl forKey:@"headimgurl"];
+            }else{
+                [dic setObject:@"" forKey:@"headimgurl"];
+            }
+            
+            if (vo.role&&![vo.role isEqual:@""]) {
+                [dic setObject:vo.role forKey:@"role"];
+            }else{
+                [dic setObject:@"" forKey:@"role"];
+            }
+            
+            if (vo.currentIndex&&![vo.currentIndex isEqual:@""]) {
+                [dic setObject:vo.currentIndex forKey:@"currentIndex"];
+            }else{
+                [dic setObject:@"" forKey:@"currentIndex"];
+            }
             [array addObject:dic];
             NSArray *array2 = [MssageVO MssageVOListWithArray:array];
             
@@ -1789,7 +1893,11 @@ LMExceptionalViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [changeView removeFromSuperview];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [changeView removeFromSuperview];
+    });
+    
+    
     
     if (-64 == self.tableView.contentOffset.y) {
         
@@ -1889,7 +1997,12 @@ LMExceptionalViewDelegate
     }else{
         [cell setVoicePlayState:LGVoicePlayStateCancel];
     }
-    [self.tableView reloadData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       [self.tableView reloadData];
+    });
+    
+    
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         
         
@@ -1912,8 +2025,11 @@ LMExceptionalViewDelegate
         }
         
         if ([urlArray containsObject:vo.voiceurl]) {
-            [cell.bootomView setHidden:YES];
-            [self.tableView reloadData];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [cell.bootomView setHidden:YES];
+                [self.tableView reloadData];
+            });
         }
         
     }
@@ -2278,11 +2394,25 @@ LMExceptionalViewDelegate
     }
     [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData * audioData = [NSData dataWithContentsOfURL:url];
-    player = [[AVAudioPlayer alloc] initWithData:audioData error:nil];
-    player.delegate = self;
-    [player play];
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+        NSURL *url = [[NSURL alloc]initWithString:urlString];
+        NSData * audioData = [NSData dataWithContentsOfURL:url];
+        
+        //将数据保存到本地指定位置
+        NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@.wav", docDirPath , @"temp"];
+        [audioData writeToFile:filePath atomically:YES];
+        
+        //播放本地音乐
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+        player.delegate = self;
+        [player play];
+    });
+
+
 }
 
 - (void)audioPlayerStateDidChanged:(LGAudioPlayerState)audioPlayerState forIndex:(NSUInteger)index
@@ -2645,14 +2775,6 @@ LMExceptionalViewDelegate
     }];
     
     if (result.count>1) {
-        for (int i = 1; i<result.count-1; i++) {
-            if (i+1<=result.count) {
-                if ([result[i+1] intValue]-[result[i] intValue]>1) {
-                    [self getmessageRequest:[result[i] intValue]+1];
-                }
-            }
-            
-        }
         [self getmessageRequest:[result[result.count-1] intValue]];
     }
     
@@ -2671,9 +2793,6 @@ LMExceptionalViewDelegate
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
                                                
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
                                                [self hideStateHud];
                                            }];
     [proxy start];
