@@ -27,4 +27,8 @@
 
 @property(nonatomic,strong)UIButton *deleteBt;
 
+@property(nonatomic,strong)UIButton *videoButton;
+
+@property(nonatomic,strong)UIImageView *VideoImgView;
+
 @end

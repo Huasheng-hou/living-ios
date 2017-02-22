@@ -325,6 +325,9 @@ static NSMutableArray *cellDataArray;
         [cell.eventButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell.eventButton setTag:indexPath.row+10];
         
+        [cell.videoButton addTarget:self action:@selector(VideoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.videoButton setTag:indexPath.row+10];
+        
         [cell.deleteBt setHidden:NO];
         
         if (cellDataArray.count==1) {
@@ -516,6 +519,19 @@ static NSMutableArray *cellDataArray;
                                                     cancelButtonTitle:@"取消"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:@"相册", @"拍照",nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
+    actionSheet = nil;
+}
+
+- (void)VideoButtonAction:(UIButton *)button
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"相册", @"拍摄",nil];
     
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
@@ -843,6 +859,11 @@ static NSMutableArray *cellDataArray;
         
     }
 }
+
+
+
+
+
 
 #pragma mark UIActionSheet ======================代理函数
 

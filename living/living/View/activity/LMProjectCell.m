@@ -119,6 +119,22 @@
 
     _eventButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 240, 70, 70)];
     [self addSubview:_eventButton];
+    
+    
+    UIView *VideoBackView = [[UIView alloc] initWithFrame:CGRectMake(90, 240, 70, 70)];
+    VideoBackView.layer.borderColor = LINE_COLOR.CGColor;
+    VideoBackView.layer.borderWidth=0.5;
+    [self addSubview:VideoBackView];
+    
+    UIImageView *VideoImage = [[UIImageView alloc] initWithFrame:CGRectMake(25, 23, 20, 22)];
+    VideoImage.image = [UIImage imageNamed:@"publicProgram"];
+    [VideoBackView addSubview:VideoImage];
+    
+    _VideoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(90, 240, 70, 70)];
+    [self addSubview:_VideoImgView];
+    
+    _videoButton = [[UIButton alloc]initWithFrame:CGRectMake(90, 240, 70, 70)];
+    [self addSubview:_videoButton];
    
 
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 330, kScreenWidth, 10)];

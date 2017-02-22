@@ -33,7 +33,6 @@
 #import "LMVoiceChangeTextRequest.h"
 #import "LMKeepImageView.h"
 #import "UIImageView+WebCache.h"
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "ZYQAssetPickerController.h"
 #import "LMNumberMessageRequest.h"
 #import "FirUploadVideoRequest.h"

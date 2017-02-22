@@ -18,6 +18,13 @@
 #import "LMTypeListViewController.h"
 #import "KZVideoViewController.h"
 #import "UIImageView+WebCache.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "ZYQAssetPickerController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "PlayerViewController.h"
+#import <Photos/Photos.h>
+#import "FirUploadVideoRequest.h"
 
 @interface LMPublicArticleController ()
 <
@@ -55,6 +62,10 @@ KZVideoViewControllerDelegate
     NSString *typeString;
     NSInteger  type;
     NSMutableArray *imageURLArray;
+    NSData *videoData;
+    NSString *typeIndex;
+    NSString *videoUrl;
+    
 }
 
 @end
@@ -88,7 +99,7 @@ static NSMutableArray *cellDataArray;
     self.navigationItem.leftBarButtonItem = leftItem;
     
     [self createUI];
-    
+    typeIndex = nil;
     type = 1;
     imageArray      = [NSMutableArray arrayWithCapacity:0];
     imageViewArray  = [NSMutableArray new];
@@ -395,6 +406,9 @@ static NSMutableArray *cellDataArray;
 
 - (void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
 {
+    
+    NSMutableArray *updateImageArray = [NSMutableArray new];
+    typeIndex = nil;
     if (assets.count > 0) {
         
         for (int i = 0; i < assets.count; i++) {
@@ -402,19 +416,50 @@ static NSMutableArray *cellDataArray;
             imageNum++;
             
             ALAsset *asset=assets[i];
-            UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+            NSLog(@"%@",[asset valueForProperty:ALAssetPropertyType]);
+            if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+                typeIndex =[NSString stringWithFormat:@"%ld",imageNum];
+                
+                ALAssetRepresentation * representation = asset.defaultRepresentation;
+                NSLog(@"%@",representation.url);
+                    ALAssetRepresentation *rep = [asset defaultRepresentation];
+                    
+                    Byte *buffer = (Byte*)malloc(rep.size);
+                    
+                    NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+                    // 这个data便是 转换成功的视频data 有了data边可以进行上传了
+                    videoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                    NSString *documentD = [paths objectAtIndex:0];
+                    NSString *configFile = [documentD stringByAppendingString:@"123.mp4"];
+                    [videoData writeToFile:configFile atomically:YES];
+                
+                    UIImage *VideoImage = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
+                    [imageArray addObject:VideoImage];
+                    
+                    [imageViewArray addObject:VideoImage];
+                [updateImageArray addObject:VideoImage];
+ 
+            }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
+                UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+                [imageArray addObject:tempImg];
+                
+                [imageViewArray addObject:tempImg];
+                [updateImageArray addObject:tempImg];
+                
+            }
             
-            [imageArray addObject:tempImg];
+            [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
             
-            [imageViewArray addObject:tempImg];
             
+            [self refreshData];
         }
-        
-        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-        
-        [self getImageURL:projectImageArray[addImageIndex]];
-        [self refreshData];
+        [self getImageURL:updateImageArray];
     }
+
+
+
+    
 }
 
 - (void)addViewTag:(NSInteger)viewTag
@@ -446,7 +491,7 @@ static NSMutableArray *cellDataArray;
                                   delegate:self
                                   cancelButtonTitle:@"取消"
                                   destructiveButtonTitle:nil
-                                  otherButtonTitles:@"相册", @"拍照",nil];
+                                  otherButtonTitles:@"相册", @"拍照",@"录制小视频",@"本地选取小视频",nil];
     
     actionSheet.actionSheetStyle    = UIActionSheetStyleBlackOpaque;
     actionSheet.tag                 = viewTag;
@@ -466,13 +511,10 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    
     NSLog(@"*******imgArr*****  %@",imgArr);
     
     [self textStateHUD:@"上传中..."];
     [self initStateHud];
-
-//    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:8];
     
     NSMutableArray *urlArray = [NSMutableArray new];
 
@@ -518,8 +560,15 @@ static NSMutableArray *cellDataArray;
                                                    if (urlArray.count == imgArr.count) {
                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                            NSLog(@"****^^^^^^^^5   %@",urlArray);
-                                                           [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
-                                                           [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                           
+                                                           if (typeIndex&&![typeIndex isEqual:@""]) {
+                                                               [self sendVideo:videoData andArray:urlArray];
+                                                           }else{
+                                                                [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
+                                                               [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                           }
+                                                           
+                                                          
                                                        });
 
                                                        
@@ -533,8 +582,16 @@ static NSMutableArray *cellDataArray;
 
                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                            NSLog(@"****^^^^^^^^6   %@",urlArray);
-                                                           [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
-                                                           [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+
+                                                           
+                                                           if (typeIndex&&![typeIndex isEqual:@""]) {
+                                                               [self sendVideo:videoData andArray:urlArray];
+                                                           }else{
+                                                               
+                                                                [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
+                                                               [self modifyCellDataImage:addImageIndex andImageUrl:urlArray];
+                                                           }
+
                                                        });
 
                                                    }
@@ -548,15 +605,32 @@ static NSMutableArray *cellDataArray;
 
 - (void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSMutableArray *)imageUrl
 {
-    NSMutableDictionary *dic=cellDataArray[row];
-    
-    if (imageUrl) {
- 
-        [dic setObject:imageUrl forKey:@"image"];
-    } else {
-        
-        [dic setObject:@[@""] forKey:@"image"];
+    NSLog(@"%@",typeIndex);
+    NSMutableArray *newArray=cellDataArray[row];
+    for (int i = 0; i<newArray.count-1; i++) {
+        NSMutableDictionary *dic= newArray[i];
+        if (typeIndex&&i == ([typeIndex intValue] -1)) {
+            
+            [dic setObject:imageUrl[i] forKey:@"coverUrl"];
+            [dic setObject:@"video" forKey:@"type"];
+            if (videoUrl&&![videoUrl isEqual:@""]) {
+                [dic setObject:videoUrl forKey:@"videoUrl"];
+                
+            }
+            
+        }else{
+            if (imageUrl) {
+                
+                [dic setObject:imageUrl[i] forKey:@"pictureUrl"];
+                [dic setObject:@"picture" forKey:@"type"];
+            } else {
+                
+                [dic setObject:@[@""] forKey:@"pictureUrl"];
+            }
+        }
+
     }
+    
 }
 
 #pragma mark 编辑单元格项目介绍
@@ -585,8 +659,9 @@ static NSMutableArray *cellDataArray;
 - (void)projectDataStorageWithArrayIndex:(NSInteger)index
 {
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
+    NSMutableArray *array = [NSMutableArray new];
     [dic setObject:@"" forKey:@"content"];
-    [dic setObject:@"" forKey:@"image"];
+    [dic setObject:array forKey:@"images"];
     
     [cellDataArray insertObject:dic atIndex:index];
 }
@@ -653,12 +728,31 @@ static NSMutableArray *cellDataArray;
             [alert show];
         }
     }
-//    if (buttonIndex == 2) {
-//        NSLog(@"小视频~~~~~");
-//        KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
-//        videoVC.delegate = self;
-//        [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
-//    }
+    if (buttonIndex == 2) {
+        NSLog(@"小视频~~~~~");
+        KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
+        videoVC.delegate = self;
+        [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
+    }
+    if (buttonIndex == 3) {
+        NSLog(@"小视频~~~~~");
+        ZYQAssetPickerController *pickerV = [[ZYQAssetPickerController alloc] init];
+        pickerV.maximumNumberOfSelection = 1;
+        pickerV.assetsFilter = [ALAssetsFilter allVideos];
+        pickerV.showEmptyGroups=NO;
+        pickerV.delegate=self;
+        
+        pickerV.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+                NSTimeInterval duration = [[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyDuration] doubleValue];
+                return duration < 10;
+            } else {
+                return YES;
+            }
+        }];
+        
+        [self presentViewController:pickerV animated:YES completion:NULL];
+    }
 }
 
 #pragma mark 发布成功后等待跳转的页面
@@ -690,7 +784,6 @@ static NSMutableArray *cellDataArray;
 - (void)deleteViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
     NSMutableArray *newArray = projectImageArray[viewTag];
-    NSLog(@"*****imageViewArray********%@",cellDataArray[viewTag]);
     NSMutableArray *urlArray = [NSMutableArray new];
     urlArray = [cellDataArray[viewTag] objectForKey:@"image"];
     NSLog(@"*****^^^^^^^^^^%@",urlArray);
@@ -929,88 +1022,137 @@ static NSMutableArray *cellDataArray;
 }
 
 
-//#pragma mark  视频录制或选择后回调
-//- (void)videoViewController:(KZVideoViewController *)videoController didRecordVideo:(KZVideoModel *)videoModel{
-//    
-//    
-//    NSURL* videoUrl = [NSURL URLWithString:videoModel.videoAbsolutePath];
-//    
-//    NSURL* imageUrl = [NSURL URLWithString:videoModel.thumAbsolutePath];
-//    
-//    UIImageView *imageV = [UIImageView new];
-//    [imageV sd_setImageWithURL:imageUrl];
-//    
-//    
-//    UIImage *image =[UIImage new];
-//    
-//    image = imageV.image;
-//    
-//    NSMutableArray *newImageArray = [NSMutableArray new];
-//    [newImageArray addObject:image];
-//
-//    [self getImageURL:newImageArray];
-//    
-//    [self movFileTransformToMP4WithSourceUrl:videoUrl completion:^(NSString *Mp4FilePath) {
-//    
-//        videoModel.videoAbsolutePath = Mp4FilePath;
-//    }];
-//    
-////    _videoModel = videoModel;
-//    
-////    [self playerVideo:videoModel];
-//    
-//    
-//}
-//
-//#pragma mark  mov格式转MP4
-//- (void)movFileTransformToMP4WithSourceUrl:(NSURL *)sourceUrl completion:(void(^)(NSString *Mp4FilePath))comepleteBlock
-//{
-//    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceUrl options:nil];
-//    
-//    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
-//    
-//    if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality])
-//        
-//    {
-//        
-//        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetLowQuality];
-//        
-//        exportSession.outputURL = sourceUrl;
-//        
-//        exportSession.outputFileType = AVFileTypeMPEG4;
-//        
-//        CMTime start = CMTimeMakeWithSeconds(1.0, 600);
-//        
-//        CMTime duration = CMTimeMakeWithSeconds(3.0, 600);
-//        
-//        CMTimeRange range = CMTimeRangeMake(start, duration);
-//        
-//        exportSession.timeRange = range;
-//        
-//        [exportSession exportAsynchronouslyWithCompletionHandler:^{
-//            
-//            switch ([exportSession status]) {
-//                    
-//                case AVAssetExportSessionStatusFailed:
-//                    NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
-//                    
-//                    break;
-//                    
-//                case AVAssetExportSessionStatusCancelled:
-//                    
-//                    NSLog(@"Export canceled");
-//                    
-//                    break;
-//                    
-//                default:
-//                    
-//                    break;
-//                    
-//            }
-//            
-//        }];
-//        
-//    }
-//}
+#pragma mark  视频录制或选择后回调
+- (void)videoViewController:(KZVideoViewController *)videoController didRecordVideo:(KZVideoModel *)videoModel{
+    
+    
+    NSURL* videoUrl = [NSURL URLWithString:videoModel.videoAbsolutePath];
+    
+    NSURL* imageUrl = [NSURL URLWithString:videoModel.thumAbsolutePath];
+    
+    UIImageView *imageV = [UIImageView new];
+    [imageV sd_setImageWithURL:imageUrl];
+    
+    
+    UIImage *image =[UIImage new];
+    
+    image = imageV.image;
+    
+    NSMutableArray *newImageArray = [NSMutableArray new];
+    [newImageArray addObject:image];
+
+    [self getImageURL:newImageArray];
+    
+    [self movFileTransformToMP4WithSourceUrl:videoUrl completion:^(NSString *Mp4FilePath) {
+    
+        videoModel.videoAbsolutePath = Mp4FilePath;
+    }];
+    
+//    _videoModel = videoModel;
+    
+//    [self playerVideo:videoModel];
+    
+    
+}
+
+#pragma mark  mov格式转MP4
+- (void)movFileTransformToMP4WithSourceUrl:(NSURL *)sourceUrl completion:(void(^)(NSString *Mp4FilePath))comepleteBlock
+{
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceUrl options:nil];
+    
+    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    
+    if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality])
+        
+    {
+        
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetLowQuality];
+        
+        exportSession.outputURL = sourceUrl;
+        
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        
+        CMTime start = CMTimeMakeWithSeconds(1.0, 600);
+        
+        CMTime duration = CMTimeMakeWithSeconds(3.0, 600);
+        
+        CMTimeRange range = CMTimeRangeMake(start, duration);
+        
+        exportSession.timeRange = range;
+        
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            
+            switch ([exportSession status]) {
+                    
+                case AVAssetExportSessionStatusFailed:
+                    NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusCancelled:
+                    
+                    NSLog(@"Export canceled");
+                    
+                    break;
+                    
+                default:
+                    
+                    break;
+                    
+            }
+            
+        }];
+        
+    }
+}
+
+#pragma mark  --上传视频
+
+- (void)sendVideo:(NSData *)data andArray:(NSMutableArray *)array
+{
+    [self initStateHud];
+    [self textStateHUD:@"上传中..."];
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    
+    FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
+    
+    request.videoData = data;
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding){
+                                               
+                                               [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
+                                               NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                               //
+                                               NSString    *result = [bodyDict objectForKey:@"result"];
+                                               
+                                               if (result && [result isKindOfClass:[NSString class]]
+                                                   && [result isEqualToString:@"0"]) {
+                                                   NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   if (voiceUrl && [voiceUrl isKindOfClass:[NSString class]]) {
+                                                       
+                                                       videoUrl = voiceUrl;
+                                                       
+
+                                                        [self modifyCellDataImage:addImageIndex andImageUrl:array];
+ 
+                                                       
+                                                   }
+                                               }
+                                               
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
 
 @end
