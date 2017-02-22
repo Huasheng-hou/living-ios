@@ -35,6 +35,7 @@
 #import "LMContentTableViewCell.h"
 #import "LMBlackWriterRequest.h"
 #import "LMArtcleTypeViewController.h"
+#import "PlayerViewController.h"
 
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
@@ -1022,22 +1023,36 @@ LMContentTableViewCellDelegate
                     for (int i = 0; i<arr.count; i++) {
                         
                         NSDictionary *dic = arr[i];
+                        UIImageView *headImage = [UIImageView new];
                         
                         CGFloat imageVH = [dic[@"height"] floatValue];
                         CGFloat imageVW = [dic[@"width"] floatValue];
                         CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
                         
-                        [imageArray addObject:[dic objectForKey:@"url"]];
-                        UIImageView *headImage = [UIImageView new];
-                        [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                        if ([dic[@"type"] isEqual:@"video"]) {
+//                           [imageArray addObject:[dic objectForKey:@"coverUrl"]];
+                           [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"coverUrl"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapVideoAction:)];
+                            headImage.tag = i;
+                            [headImage addGestureRecognizer:tap];
+                        }else{
+                           [imageArray addObject:[dic objectForKey:@"url"]];
+                           [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
+                            headImage.tag = i;
+                            [headImage addGestureRecognizer:tap];
+                        }
+                        if (!dic[@"height"]) {
+                            imageVH = 300;
+                            imageVW = kScreenWidth;
+                        }
+
                         headImage.backgroundColor = BG_GRAY_COLOR;
                         
                         headImage.contentMode = UIViewContentModeScaleAspectFill;
                         [headImage setClipsToBounds:YES];
                         
-                        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
-                        headImage.tag = i;
-                        [headImage addGestureRecognizer:tap];
+
                         headImage.userInteractionEnabled = YES;
                         if (i>0) {
                             headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
@@ -2240,6 +2255,22 @@ LMContentTableViewCellDelegate
     writerVC.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:writerVC animated:YES];
+}
+
+- (void)tapVideoAction:(UITapGestureRecognizer*)tap
+{
+    NSArray *arr =articleData.articleImgs;
+    NSDictionary *dic = arr[tap.view.tag];
+    if (dic[@"videoUrl"]&&![dic[@"videoUrl"] isEqual:@""]) {
+        PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:dic[@"videoUrl"]];
+        [self presentViewController:playVC animated:NO completion:^{
+        }];
+        
+    }else{
+        [self textStateHUD:@"未获取视频文件~"];
+    }
+    
+    
 }
 
 

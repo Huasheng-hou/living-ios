@@ -606,9 +606,11 @@ static NSMutableArray *cellDataArray;
 - (void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSMutableArray *)imageUrl
 {
     NSLog(@"%@",typeIndex);
-    NSMutableArray *newArray=cellDataArray[row];
-    for (int i = 0; i<newArray.count-1; i++) {
-        NSMutableDictionary *dic= newArray[i];
+    NSMutableDictionary *newDic=cellDataArray[row];
+
+    NSMutableArray  *newArray= newDic[@"images"];
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    for (int i = 0; i<imageUrl.count; i++) {
         if (typeIndex&&i == ([typeIndex intValue] -1)) {
             
             [dic setObject:imageUrl[i] forKey:@"coverUrl"];
@@ -628,8 +630,10 @@ static NSMutableArray *cellDataArray;
                 [dic setObject:@[@""] forKey:@"pictureUrl"];
             }
         }
-
+        [newArray addObject:dic];
+        
     }
+
     
 }
 
