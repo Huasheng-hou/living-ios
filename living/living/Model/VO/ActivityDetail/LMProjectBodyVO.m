@@ -83,6 +83,24 @@
             self.height=[(NSNumber *) [dictionary objectForKey:@"height"] floatValue];
         }
         
+        if (nil != [dictionary objectForKey:@"coverHeight"] && ![[dictionary objectForKey:@"coverHeight"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coverHeight"] isKindOfClass:[NSNumber class]]) {
+            self.coverHeight=[(NSNumber *) [dictionary objectForKey:@"coverHeight"] floatValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"coverWidth"] && ![[dictionary objectForKey:@"coverWidth"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coverWidth"] isKindOfClass:[NSNumber class]]) {
+            self.coverWidth=[(NSNumber *) [dictionary objectForKey:@"coverWidth"] floatValue];
+        }
+        if (nil != [dictionary objectForKey:@"coverUrl"] && ![[dictionary objectForKey:@"coverUrl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coverUrl"] isKindOfClass:[NSString class]]) {
+            self.coverUrl= [dictionary objectForKey:@"coverUrl"];
+        }
+        if (nil != [dictionary objectForKey:@"videoUrl"] && ![[dictionary objectForKey:@"videoUrl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"videoUrl"] isKindOfClass:[NSString class]]) {
+            self.videoUrl= [dictionary objectForKey:@"videoUrl"];
+        }
+        
     }
     return self;
 }

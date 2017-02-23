@@ -15,6 +15,8 @@
 
 -(void)clickViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag;
 
+-(void)clickViewVideoTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag;
+
 @end
 
 @interface LMContentTableViewCell : UITableViewCell

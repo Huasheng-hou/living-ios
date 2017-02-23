@@ -42,6 +42,7 @@
 #import "HBShareView.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
+#import "PlayerViewController.h"
 
 //地图导航
 #import "LMNavMapViewController.h"
@@ -338,20 +339,23 @@ APChooseViewDelegate
                 NSString *string = list.projectTitle;
                 NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
                 CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-                
+                CGFloat videoHight = 0;
+                if (list.coverUrl&&![list.coverUrl isEqual:@""]) {
+                    videoHight =list.coverHeight*(kScreenWidth-30)/list.coverWidth+20;
+                }
                 
                 if (list.projectImgs ==nil||!list.projectImgs||[list.projectImgs isEqual:@""]) {
                     if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
-                        return 30 + conHigh;
+                        return 30 + conHigh +videoHight;
                     }else{
-                        return 50 + conHigh + [LMEventMsgCell cellHigth:list.projectDsp];
+                        return 50 + conHigh + [LMEventMsgCell cellHigth:list.projectDsp] +videoHight;
                     }
                     
                 } else {
                     if (list.projectDsp ==nil||!list.projectDsp||[list.projectDsp isEqual:@""]) {
-                        return list.height*(kScreenWidth-30)/list.width + conHigh+30;
+                        return list.height*(kScreenWidth-30)/list.width + conHigh+30 +videoHight;
                     }else{
-                        return list.height*(kScreenWidth-30)/list.width + conHigh + [LMEventMsgCell cellHigth:list.projectDsp]+50;
+                        return list.height*(kScreenWidth-30)/list.width + conHigh + [LMEventMsgCell cellHigth:list.projectDsp]+50 +videoHight;
                     }
                     
                     
@@ -1887,6 +1891,27 @@ APChooseViewDelegate
             
         default:
             break;
+    }
+}
+
+-(void)cellProjectVideo:(LMEventMsgCell *)cell
+{
+    NSString *string = [NSString new];
+    for (LMProjectBodyVO *vo in eventArray) {
+        if (vo.videoUrl&&![vo.videoUrl isEqual:@""]) {
+            string = vo.videoUrl;
+        }
+
+    }
+
+    
+    if (string&&![string isEqual:@""]) {
+        PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:string];
+        [self presentViewController:playVC animated:NO completion:^{
+        }];
+        
+    }else{
+        [self textStateHUD:@"未获取视频文件~"];
     }
 }
 

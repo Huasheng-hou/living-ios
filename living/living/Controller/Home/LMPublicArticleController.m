@@ -25,6 +25,9 @@
 #import "PlayerViewController.h"
 #import <Photos/Photos.h>
 #import "FirUploadVideoRequest.h"
+#import <AVFoundation/AVAsset.h>
+#import <AVFoundation/AVAssetImageGenerator.h>
+#import <AVFoundation/AVTime.h>
 
 @interface LMPublicArticleController ()
 <
@@ -65,6 +68,7 @@ KZVideoViewControllerDelegate
     NSData *videoData;
     NSString *typeIndex;
     NSString *videoUrl;
+    NSMutableArray *updateImageArray;
     
 }
 
@@ -407,7 +411,7 @@ static NSMutableArray *cellDataArray;
 - (void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
 {
     
-    NSMutableArray *updateImageArray = [NSMutableArray new];
+    updateImageArray = [NSMutableArray new];
     typeIndex = nil;
     if (assets.count > 0) {
         
@@ -435,10 +439,11 @@ static NSMutableArray *cellDataArray;
                     [videoData writeToFile:configFile atomically:YES];
                 
                     UIImage *VideoImage = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
-                    [imageArray addObject:VideoImage];
+                   UIImage *newImage = [ImageHelpTool imageWithImage:VideoImage scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth*3/4)];
+                    [imageArray addObject:newImage];
                     
-                    [imageViewArray addObject:VideoImage];
-                [updateImageArray addObject:VideoImage];
+                    [imageViewArray addObject:newImage];
+                    [updateImageArray addObject:newImage];
  
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
@@ -611,7 +616,7 @@ static NSMutableArray *cellDataArray;
     NSMutableArray  *newArray= newDic[@"images"];
     NSMutableDictionary *dic = [NSMutableDictionary new];
     for (int i = 0; i<imageUrl.count; i++) {
-        if (typeIndex&&i == ([typeIndex intValue] -1)) {
+        if (typeIndex) {
             
             [dic setObject:imageUrl[i] forKey:@"coverUrl"];
             [dic setObject:@"video" forKey:@"type"];
@@ -734,12 +739,22 @@ static NSMutableArray *cellDataArray;
     }
     if (buttonIndex == 2) {
         NSLog(@"小视频~~~~~");
+        if (videoUrl&&![videoUrl isEqual:@""]) {
+            [self textStateHUD:@"只能添加一个视频"];
+            return;
+        }
+        
         KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
         videoVC.delegate = self;
         [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
+
     }
     if (buttonIndex == 3) {
         NSLog(@"小视频~~~~~");
+        if (videoUrl&&![videoUrl isEqual:@""]) {
+            [self textStateHUD:@"只能添加一个视频"];
+            return;
+        }
         ZYQAssetPickerController *pickerV = [[ZYQAssetPickerController alloc] init];
         pickerV.maximumNumberOfSelection = 1;
         pickerV.assetsFilter = [ALAssetsFilter allVideos];
@@ -789,7 +804,7 @@ static NSMutableArray *cellDataArray;
 {
     NSMutableArray *newArray = projectImageArray[viewTag];
     NSMutableArray *urlArray = [NSMutableArray new];
-    urlArray = [cellDataArray[viewTag] objectForKey:@"image"];
+    urlArray = [cellDataArray[viewTag] objectForKey:@"images"];
     NSLog(@"*****^^^^^^^^^^%@",urlArray);
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否删除图片"
                                                                    message:nil
@@ -808,7 +823,7 @@ static NSMutableArray *cellDataArray;
                                                     if ([urlArray isKindOfClass:[NSArray class]]&& urlArray.count > tag) {
                                                         [urlArray removeObjectAtIndex:tag];
                                                         NSLog(@"*****^^^^^^^^^^%@",urlArray);
-                                                        [cellDataArray[viewTag] setObject:urlArray forKey:@"image"];
+                                                        [cellDataArray[viewTag] setObject:urlArray forKey:@"images"];
                                                         
                                                         NSLog(@"***#*#*#*#**#*#*#**#%@",cellDataArray[viewTag]);
                                                     }
@@ -854,7 +869,7 @@ static NSMutableArray *cellDataArray;
         dic = cellDataArray[i];
         
         NSString *string    = [dic objectForKey:@"content"];
-        NSArray  *arr       = [dic objectForKey:@"image"];
+        NSArray  *arr       = [dic objectForKey:@"images"];
         
         if (string && [string isKindOfClass:[NSString class]]) {
             
@@ -874,7 +889,7 @@ static NSMutableArray *cellDataArray;
     NSDictionary *contentDic = cellDataArray[0];
     
     NSString *cont = [contentDic objectForKey:@"content"];
-    NSArray *array = [contentDic objectForKey:@"image"];
+    NSArray *array = [contentDic objectForKey:@"images"];
     
     if (!cont || cont.length < 1) {
         
@@ -917,7 +932,7 @@ static NSMutableArray *cellDataArray;
                                                                                       Descrition:discribleTF.text
                                                                                      andImageURL:array
                                                                                          andType:typeString
-                                                                                           blend:new];
+                                                                                           blend:new sign:@"2"];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1028,35 +1043,47 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark  视频录制或选择后回调
 - (void)videoViewController:(KZVideoViewController *)videoController didRecordVideo:(KZVideoModel *)videoModel{
+    imageNum++;
+    typeIndex =[NSString stringWithFormat:@"%ld",imageNum];
+    updateImageArray = [NSMutableArray new];
     
+    NSURL* videoUrls = [NSURL URLWithString:videoModel.videoAbsolutePath];
     
-    NSURL* videoUrl = [NSURL URLWithString:videoModel.videoAbsolutePath];
-    
-    NSURL* imageUrl = [NSURL URLWithString:videoModel.thumAbsolutePath];
-    
-    UIImageView *imageV = [UIImageView new];
-    [imageV sd_setImageWithURL:imageUrl];
-    
-    
-    UIImage *image =[UIImage new];
-    
-    image = imageV.image;
-    
-    NSMutableArray *newImageArray = [NSMutableArray new];
-    [newImageArray addObject:image];
-
-    [self getImageURL:newImageArray];
-    
-    [self movFileTransformToMP4WithSourceUrl:videoUrl completion:^(NSString *Mp4FilePath) {
+    [self movFileTransformToMP4WithSourceUrl:videoUrls completion:^(NSString *Mp4FilePath) {
     
         videoModel.videoAbsolutePath = Mp4FilePath;
     }];
     
-//    _videoModel = videoModel;
-    
-//    [self playerVideo:videoModel];
+    videoData = [NSData dataWithContentsOfFile:videoModel.videoAbsolutePath];
     
     
+    UIImage  *image = [UIImage imageWithContentsOfFile:videoModel.thumAbsolutePath];
+
+    UIImage *newImage = [ImageHelpTool imageWithImage:image scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth*3/4)];
+    [updateImageArray addObject:newImage];
+    [imageArray addObject:newImage];
+    
+    [imageViewArray addObject:newImage];
+    [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+    
+    [self refreshData];
+    [self getImageURL:updateImageArray];
+    
+    
+}
+- (UIImage*) getVideoPreViewImage:(NSURL *)path
+{
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:path options:nil];
+    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    
+    assetGen.appliesPreferredTrackTransform = YES;
+    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+    NSError *error = nil;
+    CMTime actualTime;
+    CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
+    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+    CGImageRelease(image);
+    return videoImage;
 }
 
 #pragma mark  mov格式转MP4
@@ -1114,8 +1141,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)sendVideo:(NSData *)data andArray:(NSMutableArray *)array
 {
-    [self initStateHud];
-    [self textStateHUD:@"上传中..."];
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
@@ -1141,6 +1166,9 @@ static NSMutableArray *cellDataArray;
                                                    if (voiceUrl && [voiceUrl isKindOfClass:[NSString class]]) {
                                                        
                                                        videoUrl = voiceUrl;
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"上传视频成功"
+                                                                           waitUntilDone:YES];
                                                        
 
                                                         [self modifyCellDataImage:addImageIndex andImageUrl:array];

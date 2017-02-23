@@ -1031,6 +1031,10 @@ LMContentTableViewCellDelegate
                         
                         if ([dic[@"type"] isEqual:@"video"]) {
 //                           [imageArray addObject:[dic objectForKey:@"coverUrl"]];
+                            UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21, imageViewH/2-21, 42, 42)];
+                            playView.image = [UIImage imageNamed:@"playIcon"];
+                            playView.userInteractionEnabled = YES;
+                            [headImage addSubview:playView];
                            [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"coverUrl"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
                             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapVideoAction:)];
                             headImage.tag = i;
@@ -1457,8 +1461,11 @@ LMContentTableViewCellDelegate
         NSArray *imgArray;
         imgArray = vo.images;
         for (NSDictionary *dic in imgArray) {
-            NSString *string = dic[@"url"];
-            [new addObject:string];
+            if (dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
+                NSString *string = dic[@"url"];
+                [new addObject:string];
+            }
+
         }
         NSLog(@"%@",new);
     }
@@ -1483,6 +1490,33 @@ LMContentTableViewCellDelegate
     }
     
     [self presentViewController:photoBrowser animated:YES completion:nil];
+}
+
+#pragma mark  --点击播放视频
+
+- (void)clickViewVideoTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
+{
+    NSString *string = [NSString new];
+    for (BlendVO *vo in newImageArray) {
+        NSArray *imgArray;
+        imgArray = vo.images;
+        for (NSDictionary *dic in imgArray) {
+            if (dic[@"type"]&&[dic[@"type"] isEqual:@"video"]) {
+              string = dic[@"videoUrl"];
+            }
+            
+        }
+    }
+    NSLog(@"********%@",string);
+    
+    if (string&&![string isEqual:@""]) {
+        PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:string];
+        [self presentViewController:playVC animated:NO completion:^{
+        }];
+        
+    }else{
+        [self textStateHUD:@"未获取视频文件~"];
+    }
 }
 
 #pragma mark - LMCommentCell delegate -评论点赞

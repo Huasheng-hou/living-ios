@@ -86,16 +86,33 @@
             CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
             
             UIImageView *headImage = [UIImageView new];
-            [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+            
+            if ([dic[@"type"] isEqual:@"video"]) {
+                
+                UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21, imageViewH/2-21, 42, 42)];
+                playView.image = [UIImage imageNamed:@"playIcon"];
+                playView.userInteractionEnabled = YES;
+                [headImage addSubview:playView];
+
+                [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"coverUrl"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapVideoAction:)];
+                headImage.tag = i;
+                [headImage addGestureRecognizer:tap];
+            }else{
+                [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
+                headImage.tag = i;
+                [headImage addGestureRecognizer:tap];
+            }
+            if (!dic[@"height"]) {
+                imageVH = 300;
+                imageVW = kScreenWidth;
+            }
+   
             headImage.backgroundColor = BG_GRAY_COLOR;
             
             headImage.contentMode = UIViewContentModeScaleAspectFill;
             [headImage setClipsToBounds:YES];
-            
-            headImage.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
-            headImage.tag = i;
-            [headImage addGestureRecognizer:tap];
             headImage.userInteractionEnabled = YES;
             [headImage sizeToFit];
             if (i>0) {
@@ -127,6 +144,12 @@
 {
     [self.delegate  clickViewTag:self.tag andSubViewTag:sender.view.tag];
 }
+
+- (void)tapVideoAction:(UITapGestureRecognizer *)sender
+{
+    [self.delegate  clickViewVideoTag:self.tag andSubViewTag:sender.view.tag];
+}
+
 
 
 @end

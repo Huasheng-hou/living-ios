@@ -158,6 +158,17 @@
     return cell;
 }
 
+
+
+
+
+
+
+
+
+
+
+
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
     if (tap.state == UIGestureRecognizerStateEnded) {

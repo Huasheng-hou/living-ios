@@ -15,6 +15,7 @@
             Descrition:(NSString *)descrition
             andImageURL:(NSArray *)article_imgs
                     andType:(NSString *)type
-                      blend:(NSArray *)blend;
+                      blend:(NSArray *)blend
+                       sign:(NSString *)sign;
 
 @end

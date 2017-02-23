@@ -3,7 +3,7 @@
 //  KZWeChatSmallVideo_OC
 //
 //  Created by HouKangzhu on 16/7/19.
-//  Copyright © 2016年 . All rights reserved.
+//  Copyright © 2016年 侯康柱. All rights reserved.
 //
 
 #import "KZVideoConfig.h"
@@ -26,11 +26,11 @@ void kz_dispatch_after(float time, dispatch_block_t block)
 }
 
 + (CGSize)videoViewDefaultSize {
-    return CGSizeMake(kzSCREEN_WIDTH, kzSCREEN_WIDTH/kzVideo_w_h);
+    return CGSizeMake(kzSCREEN_WIDTH, kzSCREEN_WIDTH);
 }
 
 + (CGSize)defualtVideoSize {
-    return CGSizeMake(kzVideoWidthPX, kzVideoWidthPX/kzVideo_w_h);
+    return CGSizeMake(kzSCREEN_WIDTH*(kzSCREEN_WIDTH/kzSCREEN_HEIGHT), kzSCREEN_WIDTH);
 }
 
 + (NSArray *)gradualColors {
