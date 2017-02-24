@@ -71,6 +71,8 @@
 #define TEXT_FONT_BOLD_14           [UIFont fontWithName:@"Helvetica-Bold"        size:14]
 #define TEXT_FONT_BOLD_16           [UIFont fontWithName:@"Helvetica-Bold"        size:16]
 #define TEXT_FONT_BOLD_18           [UIFont fontWithName:@"Helvetica-Bold"        size:18]
+#define TEXT_FONT_BOLD_20           [UIFont fontWithName:@"Helvetica-Bold"        size:20]
+#define TEXT_FONT_BOLD_22           [UIFont fontWithName:@"Helvetica-Bold"        size:22]
 #define TEXT_FONT_OBLIQUE_12        [UIFont fontWithName:@"Helvetica-Oblique"     size:12]
 
 //------------------色值--------------------
