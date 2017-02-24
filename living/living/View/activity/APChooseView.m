@@ -158,7 +158,7 @@
 //    
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"purchase" object:dic];
     
-    [self.delegate APChooseViewSelectItem:totalNumber];
+    [self.delegate APChooseViewSelectItem:[_numLabel.text intValue]];
 
     
     
