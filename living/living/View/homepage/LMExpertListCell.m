@@ -44,11 +44,14 @@
     
     for (int i=0; i<count; i++) {
         _icon = [[UIImageView alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10, iconW, iconW)];
-        _icon.image = [UIImage imageNamed:@""];
+        _icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
         _icon.layer.masksToBounds = YES;
         _icon.layer.cornerRadius = 25;
         _icon.backgroundColor = BG_GRAY_COLOR;
         [_scrollView addSubview:_icon];
+        _icon.userInteractionEnabled = YES;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapIcon:)];
+        [_icon addGestureRecognizer:tap];
         
         _name = [[UILabel alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10+iconW+10, iconW, 20)];
         _name.text = @"李莺莺";
@@ -64,5 +67,10 @@
     
 }
 
-
+- (void)tapIcon:(UITapGestureRecognizer *)tap{
+    
+    NSLog(@"点击达人头像");
+    [self.delegate gotoNextPage:tap.view.tag];
+    
+}
 @end

@@ -38,15 +38,14 @@
     [self.contentView addSubview:backView];
     
     backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.bounds.size.width-20, 205)];
-    backImage.image = [UIImage imageNamed:@"cellHeadImageIcon"];
+    backImage.image = [UIImage imageNamed:@"demo"];
     backImage.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:backImage];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(20, 110, self.bounds.size.width-40, 60)];
-    title.text = @"腰·美丽|用一束光的时间与你相遇青春不负的冬日";
+    title.text = @"腰·美丽 丨 用一束光的时间与你相遇青春不负的冬日";
     title.textColor = [UIColor whiteColor];
-    title.font = TEXT_FONT_LEVEL_1;
-    //title.backgroundColor = COLOR_BLACK_LIGHT;
+    title.font = TEXT_FONT_BOLDOBLIQUE_16;
     title.numberOfLines = 2;
     [backView addSubview:title];
     

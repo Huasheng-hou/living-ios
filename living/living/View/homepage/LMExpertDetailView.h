@@ -1,5 +1,5 @@
 //
-//  LMExpertHotArticleCell.h
+//  LMExpertDetailView.h
 //  living
 //
 //  Created by Huasheng on 2017/2/24.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
-@interface LMExpertHotArticleCell : UITableViewCell
-
+@interface LMExpertDetailView : UIView
 
 @end

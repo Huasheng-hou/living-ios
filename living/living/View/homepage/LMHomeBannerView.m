@@ -38,11 +38,11 @@
     
     _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
     CGFloat cellW = kScreenWidth/4;
-    CGFloat cellH = 200;
-    CGFloat imageX = cellW/3;
-    CGFloat imageY = cellH/4-10;
-    CGFloat imageWd = imageX;
-    CGFloat imageHt = cellH/4+10;
+    CGFloat cellH = 122;
+    CGFloat imageX = 25;
+    CGFloat imageY = 25;
+    CGFloat imageWd = 30;
+    CGFloat imageHt = 32;
     CGFloat imageCount = 7;
     NSArray * listName = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福", @"Yao·运动", @"Yao·学习", @"Yao·干哈"];
     for (int i=0; i<imageCount; i++) {
@@ -55,14 +55,15 @@
         
         
         UIImageView * headImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageX, imageY, imageWd, imageHt)];
+        headImage.image = [UIImage imageNamed:@"banners"];
         headImage.backgroundColor = BG_GRAY_COLOR;
         [backView addSubview:headImage];
         
-        UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(0, cellH/2+20, cellW, 40)];
+        UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(0, imageHt+imageY+10, cellW, 15)];
         typeName.textAlignment = NSTextAlignmentCenter;
         typeName.text = listName[i];
-        typeName.textColor = TEXT_COLOR_LEVEL_2;
-        typeName.font = TEXT_FONT_LEVEL_1;
+        typeName.textColor = TEXT_COLOR_LEVEL_4;
+        typeName.font = TEXT_FONT_LEVEL_2;
         [backView addSubview:typeName];
         
         [_scrollView addSubview:backView];
@@ -76,16 +77,16 @@
     [self addSubview:_scrollView];
     
     
-    _botLine = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, 2)];
-    _botLine.center = CGPointMake(self.center.x, cellH/2+70);
+    _botLine = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 2)];
+    _botLine.center = CGPointMake(self.center.x, imageY+imageHt+10+15+20);
     _botLine.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:0.2];
     _botLine.layer.masksToBounds = YES;
     _botLine.layer.cornerRadius = 2;
     [self addSubview:_botLine];
     
     
-    _scrollLine = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 2)];
-    _scrollLine.center = CGPointMake(_botLine.center.x-15, cellH/2+70);
+    _scrollLine = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 15, 2)];
+    _scrollLine.center = CGPointMake(_botLine.center.x-7.5, imageY+imageHt+10+15+20);
     _scrollLine.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5];
     _scrollLine.layer.masksToBounds = YES;
     _scrollLine.layer.cornerRadius = 2;
@@ -104,7 +105,7 @@
 }
 
 - (void)animationWhenScroll:(CGFloat)percent{
-    CGFloat x = 30 * percent + originX;
+    CGFloat x = 15 * percent + originX;
     [UIView animateWithDuration:0.4 animations:^{
        
         CGRect rect = CGRectMake(x, _scrollLine.frame.origin.y, _scrollLine.frame.size.width, _scrollLine.frame.size.height);

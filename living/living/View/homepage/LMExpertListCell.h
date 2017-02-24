@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LMExpertListDelegate <NSObject>
+
+- (void)gotoNextPage:(NSInteger)index;
+
+@end
 @interface LMExpertListCell : UITableViewCell
 
 @property (nonatomic, assign)NSInteger count;
-
+@property (nonatomic, weak)id <LMExpertListDelegate> delegate;
 @end

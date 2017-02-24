@@ -43,8 +43,8 @@
     title = [[UILabel alloc] initWithFrame:CGRectMake(120, 10, self.bounds.size.width-130, 25)];
     title.text = @"比较大的大提琴体验课";
     //title.backgroundColor = [UIColor yellowColor];
-    title.textColor = TEXT_COLOR_LEVEL_2;
-    title.font = TEXT_FONT_LEVEL_2;
+    title.textColor = TEXT_COLOR_LEVEL_3;
+    title.font = TEXT_FONT_BOLD_14;
     [backView addSubview:title];
     
     

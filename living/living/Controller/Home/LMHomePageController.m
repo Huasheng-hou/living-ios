@@ -127,10 +127,11 @@ LMHomeBannerDelegate
         UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
-    
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     sectionList = @[@"腰果推荐", @"热门文章"];
     
-    LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 200)];
+    LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 122)];
     banner.delegate = self;
     self.tableView.tableHeaderView = banner;
 
@@ -283,6 +284,10 @@ LMHomeBannerDelegate
         {
             NSLog(@"Yao·美丽");
             LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] init];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
             bdVC.title = @"Yao·美丽";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
@@ -448,7 +453,7 @@ LMHomeBannerDelegate
         headerTitle.font = TEXT_FONT_LEVEL_3;
         headerTitle.numberOfLines = 2;
         
-        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"\n   |  腰果推荐"];
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"\n   丨  腰果推荐"];
         [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
         headerTitle.attributedText = [[NSAttributedString alloc] initWithAttributedString:attr];
         [headerView addSubview:headerTitle];
@@ -458,7 +463,7 @@ LMHomeBannerDelegate
         headerTitle.backgroundColor = [UIColor whiteColor];
         headerTitle.textColor = TEXT_COLOR_LEVEL_3;
         headerTitle.font = TEXT_FONT_LEVEL_3;
-        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"   |  热门文章"];
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"   丨  热门文章"];
         [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
         headerTitle.attributedText = attr;
         [headerView addSubview:headerTitle];

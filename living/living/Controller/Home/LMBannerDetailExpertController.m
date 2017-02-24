@@ -8,7 +8,9 @@
 
 #import "LMBannerDetailExpertController.h"
 #import "LMExpertListCell.h"
-@interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource>
+#import "LMExpertHotArticleCell.h"
+#import "LMExpertDetailController.h"
+@interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource,LMExpertListDelegate>
 
 @end
 
@@ -37,13 +39,13 @@
 #pragma mark tableview代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (section == 0) {
-        return 5;
+        return 1;
     }
     if (section == 1) {
         return 5;
@@ -57,7 +59,7 @@
         return 100;
     }
     if (indexPath.section == 1) {
-        return 200;
+        return 210;
     }
     return 0;
 }
@@ -87,16 +89,34 @@
         if (!cell) {
             cell = [[LMExpertListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.count = 8;
+        cell.delegate = self;
         return cell;
     }
     if (indexPath.section == 1) {
-        
+        LMExpertHotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"hotCell"];
+        if (!cell) {
+            cell = [[LMExpertHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotCell"];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }
     return nil;
 }
 
-
+#pragma mark 点击达人头像进入详情代理方法
+- (void)gotoNextPage:(NSInteger)index{
+    
+    LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
+    vc.title = @"李莺莺的空间";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
 
 
 @end
