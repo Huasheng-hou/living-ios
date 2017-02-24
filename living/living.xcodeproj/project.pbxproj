@@ -74,6 +74,11 @@
 		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
 		35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */; };
 		35816FF41DF7F20E00D062CB /* EditImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF31DF7F20E00D062CB /* EditImageView.m */; };
+		358ED9141E5FC38B006B88BC /* LMMessageBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358ED9131E5FC38B006B88BC /* LMMessageBoardViewController.m */; };
+		358ED9171E5FC69C006B88BC /* LMMyMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358ED9161E5FC69C006B88BC /* LMMyMessageViewController.m */; };
+		358ED91A1E5FC711006B88BC /* LMMyMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 358ED9191E5FC711006B88BC /* LMMyMessageRequest.m */; };
+		358ED9201E5FCD6E006B88BC /* LMFriendMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 358ED91F1E5FCD6E006B88BC /* LMFriendMessageRequest.m */; };
+		358ED9231E5FFCC3006B88BC /* LMLevavingMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 358ED9221E5FFCC3006B88BC /* LMLevavingMessageRequest.m */; };
 		359038C91E0D0D6700D5D7E1 /* LMChangeHostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */; };
 		35980BAD1E00E5020054EB05 /* LMPublicVoiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAC1E00E5020054EB05 /* LMPublicVoiceRequest.m */; };
 		35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35980BAF1E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m */; };
@@ -603,6 +608,16 @@
 		35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeViewController.m; sourceTree = "<group>"; };
 		35816FF21DF7F20A00D062CB /* EditImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditImageView.h; sourceTree = "<group>"; };
 		35816FF31DF7F20E00D062CB /* EditImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditImageView.m; sourceTree = "<group>"; };
+		358ED9121E5FC38B006B88BC /* LMMessageBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMessageBoardViewController.h; sourceTree = "<group>"; };
+		358ED9131E5FC38B006B88BC /* LMMessageBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMessageBoardViewController.m; sourceTree = "<group>"; };
+		358ED9151E5FC69C006B88BC /* LMMyMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyMessageViewController.h; sourceTree = "<group>"; };
+		358ED9161E5FC69C006B88BC /* LMMyMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyMessageViewController.m; sourceTree = "<group>"; };
+		358ED9181E5FC711006B88BC /* LMMyMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyMessageRequest.h; sourceTree = "<group>"; };
+		358ED9191E5FC711006B88BC /* LMMyMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyMessageRequest.m; sourceTree = "<group>"; };
+		358ED91E1E5FCD6E006B88BC /* LMFriendMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendMessageRequest.h; sourceTree = "<group>"; };
+		358ED91F1E5FCD6E006B88BC /* LMFriendMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendMessageRequest.m; sourceTree = "<group>"; };
+		358ED9211E5FFCC3006B88BC /* LMLevavingMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLevavingMessageRequest.h; sourceTree = "<group>"; };
+		358ED9221E5FFCC3006B88BC /* LMLevavingMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLevavingMessageRequest.m; sourceTree = "<group>"; };
 		359038C71E0D0D6700D5D7E1 /* LMChangeHostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeHostRequest.h; sourceTree = "<group>"; };
 		359038C81E0D0D6700D5D7E1 /* LMChangeHostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeHostRequest.m; sourceTree = "<group>"; };
 		35980BAB1E00E5020054EB05 /* LMPublicVoiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicVoiceRequest.h; sourceTree = "<group>"; };
@@ -2408,6 +2423,10 @@
 				35B745191DDE97F2000AFA26 /* LMMyFriendViewController.m */,
 				35B7451A1DDE97F2000AFA26 /* LMMyLivingViewController.h */,
 				35B7451B1DDE97F2000AFA26 /* LMMyLivingViewController.m */,
+				358ED9121E5FC38B006B88BC /* LMMessageBoardViewController.h */,
+				358ED9131E5FC38B006B88BC /* LMMessageBoardViewController.m */,
+				358ED9151E5FC69C006B88BC /* LMMyMessageViewController.h */,
+				358ED9161E5FC69C006B88BC /* LMMyMessageViewController.m */,
 				35B7451C1DDE97F2000AFA26 /* LMNoticViewController.h */,
 				35B7451D1DDE97F2000AFA26 /* LMNoticViewController.m */,
 				35B7451E1DDE97F2000AFA26 /* LMPersonViewController.h */,
@@ -2989,6 +3008,12 @@
 				35B746251DDE97F3000AFA26 /* LMFriendDataRequest.m */,
 				35B746261DDE97F3000AFA26 /* LMFriendListRequest.h */,
 				35B746271DDE97F3000AFA26 /* LMFriendListRequest.m */,
+				358ED9181E5FC711006B88BC /* LMMyMessageRequest.h */,
+				358ED9191E5FC711006B88BC /* LMMyMessageRequest.m */,
+				358ED91E1E5FCD6E006B88BC /* LMFriendMessageRequest.h */,
+				358ED91F1E5FCD6E006B88BC /* LMFriendMessageRequest.m */,
+				358ED9211E5FFCC3006B88BC /* LMLevavingMessageRequest.h */,
+				358ED9221E5FFCC3006B88BC /* LMLevavingMessageRequest.m */,
 			);
 			path = friend;
 			sourceTree = "<group>";
@@ -3998,6 +4023,7 @@
 				35B747711DDE97F3000AFA26 /* CncpStartTime.m in Sources */,
 				359F818A1E0270E20070F6C7 /* LMVoiceMemberVO.m in Sources */,
 				35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */,
+				358ED9171E5FC69C006B88BC /* LMMyMessageViewController.m in Sources */,
 				35B747781DDE97F3000AFA26 /* FitConsts.m in Sources */,
 				354298D41E0A207E001E11B4 /* FirUploadVoiceRequest.m in Sources */,
 				35B7475D1DDE97F3000AFA26 /* LMRegisterViewController.m in Sources */,
@@ -4041,6 +4067,7 @@
 				35816FF41DF7F20E00D062CB /* EditImageView.m in Sources */,
 				35B747F01DDE97F4000AFA26 /* LMAuthorVO.m in Sources */,
 				35B747FD1DDE97F4000AFA26 /* VOUtil.m in Sources */,
+				358ED9231E5FFCC3006B88BC /* LMLevavingMessageRequest.m in Sources */,
 				35B7473B1DDE97F3000AFA26 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */,
 				35B7479A1DDE97F3000AFA26 /* LMCreaterListRequest.m in Sources */,
 				355E7B731DFFD5900089BAB1 /* LMChooseView.m in Sources */,
@@ -4120,6 +4147,7 @@
 				35B747391DDE97F3000AFA26 /* WXApiResponseHandler.m in Sources */,
 				359F81991E027E020070F6C7 /* LMVoiceDeleteReplyRequest.m in Sources */,
 				35B748331DDE97F4000AFA26 /* FitPickerView.m in Sources */,
+				358ED9141E5FC38B006B88BC /* LMMessageBoardViewController.m in Sources */,
 				35B747AE1DDE97F3000AFA26 /* LMArticleCommentDeleteRequest.m in Sources */,
 				35B7473D1DDE97F3000AFA26 /* AppDelegate.m in Sources */,
 				351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */,
@@ -4138,6 +4166,7 @@
 				35B7475B1DDE97F3000AFA26 /* LMWriterViewController.m in Sources */,
 				35B747951DDE97F3000AFA26 /* LMLiveRoomLivingInfo.m in Sources */,
 				35B747C21DDE97F3000AFA26 /* LMAlipayResultRequest.m in Sources */,
+				358ED91A1E5FC711006B88BC /* LMMyMessageRequest.m in Sources */,
 				35B747961DDE97F3000AFA26 /* LMLiveRoomMap.m in Sources */,
 				35B7479D1DDE97F3000AFA26 /* LMEventReplydeleteRequest.m in Sources */,
 				35B747131DDE97F3000AFA26 /* openssl_wrapper.m in Sources */,
@@ -4213,6 +4242,7 @@
 				35B748271DDE97F4000AFA26 /* LMOrderCell.m in Sources */,
 				35B747E01DDE97F4000AFA26 /* FirUploadImageRequest.m in Sources */,
 				355E7B701DFFD2C10089BAB1 /* LMProjectsBody.m in Sources */,
+				358ED9201E5FCD6E006B88BC /* LMFriendMessageRequest.m in Sources */,
 				35B747CA1DDE97F4000AFA26 /* LMOrderpayRequest.m in Sources */,
 				35B747501DDE97F3000AFA26 /* LMRechargeViewController.m in Sources */,
 				35761C821E5EB77D000834D0 /* KZVideoPlayer.m in Sources */,

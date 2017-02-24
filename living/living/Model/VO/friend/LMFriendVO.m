@@ -84,6 +84,10 @@
             self.UserID = [dictionary objectForKey:@"userId"];
         };
         
+        if (nil != [dictionary objectForKey:@"content"] && ![[dictionary objectForKey:@"content"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"content"] isKindOfClass:[NSString class]]) {
+            self.content = [dictionary objectForKey:@"content"];
+        }
         
     }
     

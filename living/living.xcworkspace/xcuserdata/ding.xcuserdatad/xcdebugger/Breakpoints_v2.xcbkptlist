@@ -206,7 +206,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublishViewController.m"
-                  timestampString = "509536528.551"
+                  timestampString = "509620757.076249"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "857"
@@ -221,7 +221,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublishViewController.m"
-                  timestampString = "509536528.553184"
+                  timestampString = "509620757.079835"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "857"
@@ -340,6 +340,38 @@
             startingLineNumber = "835"
             endingLineNumber = "835"
             landmarkName = "-getImageURL:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/View/activity/APChooseView.m"
+            timestampString = "509620020.68568"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "-exitButtonClick"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/activity/LMActivityDetailController.m"
+            timestampString = "509620088.084512"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "979"
+            endingLineNumber = "979"
+            landmarkName = "-APChooseViewSelectItem:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

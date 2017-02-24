@@ -28,5 +28,6 @@
 @property (nonatomic, retain) NSString *address;
 @property (nonatomic, retain) NSString *UserID;
 @property (nonatomic, assign) int  userId;
+@property (nonatomic, retain) NSString *content;
 
 @end
