@@ -15,9 +15,9 @@
 {
     self = [super initWithRootViewController:rootViewController];
     if (self) {
-        self.navigationBar.tintColor                    = [UIColor whiteColor];
-        self.navigationBar.barTintColor                 = LIVING_COLOR;
-        self.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+        self.navigationBar.tintColor                    = [UIColor blackColor];
+        self.navigationBar.barTintColor                 = [UIColor whiteColor];
+        self.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],
                                                            NSForegroundColorAttributeName, nil];
     }
     return self;
@@ -26,5 +26,6 @@
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
+    //return UIStatusBarStyleDefault;
 }
 @end

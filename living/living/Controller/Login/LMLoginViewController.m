@@ -108,51 +108,40 @@ WXApiDelegate
     
     self.tableView.keyboardDismissMode  = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.separatorInset       = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
     self.tableView.tableHeaderView = headView;
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStylePlain target:self action:@selector(submitBtnPressed)];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"浏览看看" style:UIBarButtonItemStylePlain target:self action:@selector(justLook:)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
-    
-    UIView  *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
-    UILabel *hintLbl    = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 15)];
-    hintLbl.textAlignment   = NSTextAlignmentCenter;
-    hintLbl.font            = TEXT_FONT_LEVEL_3;
-
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果生活服务协议》"];
-    [str addAttribute:NSForegroundColorAttributeName value:LIVING_REDCOLOR range:NSMakeRange(11,str.length-11)];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
-    
-    hintLbl.attributedText = str;
-    
-    [footerView addSubview:hintLbl];
-    [footerView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                             action:@selector(lookProtocol)]];
-    
-    UIBarButtonItem *leftButton     = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@""]
+    UIBarButtonItem *leftButton     = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"turnright"]
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:nil];
-    
     self.navigationItem.leftBarButtonItem = leftButton;
-    self.tableView.tableFooterView  = footerView;
+}
+
+- (void)justLook:(UIBarButtonItem *)item{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ( [WXApi isWXAppInstalled ]) {
-        return 4;
+        return 5;
     }
-    return 3;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 70+kScreenHeight/3;
+        return 70;
     }
     if (indexPath.row == 1) {
         return 90;
@@ -161,9 +150,11 @@ WXApiDelegate
         return 60;
     }
     if (indexPath.row == 3) {
-        return 60;
+        return 40;
     }
-    
+    if (indexPath.row == 4) {
+        return 200;
+    }
     return 0;
 }
 
@@ -177,29 +168,13 @@ WXApiDelegate
     cell.userInteractionEnabled = YES;
     
     if (indexPath.row == 0) {
-
         
         
-        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, kScreenHeight/3)];
+        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 45, 20, 20)];
+        phoneView.image = [UIImage imageNamed:@"activity"];
+        [cell.contentView addSubview:phoneView];
         
-        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-45, kScreenHeight/6-45, 90, 90)];
-        iconView.layer.cornerRadius = 20;
-        iconView.clipsToBounds = YES;
-        iconView.contentMode = UIViewContentModeScaleAspectFill;
-        iconView.image = [UIImage imageNamed:@"editMsg"];
-        [headView addSubview:iconView];
-        [cell.contentView addSubview:headView];
-        
-        UILabel *appName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-50, kScreenHeight/6+65, 100, 30)];
-        appName.text = @"腰果生活";
-        appName.textColor = TEXT_COLOR_LEVEL_1;
-        appName.textAlignment = NSTextAlignmentCenter;
-        appName.font = [UIFont systemFontOfSize:18];
-        [cell.contentView addSubview:appName];
-        
-        
-        
-        _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(20, 30+kScreenHeight/3, kScreenWidth - 120, 50)];
+        _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(70, 30, kScreenWidth - 170, 50)];
         _phoneTF.keyboardType   = UIKeyboardTypePhonePad;
         _phoneTF.placeholder    = @"请输入手机号码";
         _phoneTF.delegate       = self;
@@ -208,13 +183,18 @@ WXApiDelegate
         
         [cell.contentView addSubview:_phoneTF];
         
-        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(20, 79+kScreenHeight/3, kScreenWidth - 40, 0.5)];
+        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(20, 79, kScreenWidth - 40, 0.5)];
         
         botLine.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:botLine];
     }
     if (indexPath.row == 1) {
-        _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 10, kScreenWidth - 140, 50)];
+        
+        UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
+        codeView.image = [UIImage imageNamed:@"activity"];
+        [cell.contentView addSubview:codeView];
+        
+        _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(70, 10, kScreenWidth - 190, 50)];
         _codeTF.placeholder     = @"请输入验证号码";
         _codeTF.font = [UIFont systemFontOfSize:17];
         _codeTF.keyboardType    = UIKeyboardTypePhonePad;
@@ -254,7 +234,7 @@ WXApiDelegate
         
     }
     if (indexPath.row == 2) {
-        cell.backgroundColor = [UIColor clearColor];
+        //cell.backgroundColor = [UIColor clearColor];
         _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
@@ -270,22 +250,95 @@ WXApiDelegate
     }
     
     if (indexPath.row == 3) {
-        cell.backgroundColor = [UIColor clearColor];
-        _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
-        _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
-        [_loginBtn setBackgroundColor:LIVING_COLOR];
-        _loginBtn.frame  = CGRectMake(15, 15, kScreenWidth - 30, 45);
-        _loginBtn.layer.cornerRadius    = 5.0f;
-        _loginBtn.clipsToBounds         = YES;
+        UIView  *protocol = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
+        UILabel *hintLbl    = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 15)];
+        hintLbl.textAlignment   = NSTextAlignmentCenter;
+        hintLbl.font            = TEXT_FONT_LEVEL_3;
         
-        [_loginBtn setTitle:@"微信登录" forState:UIControlStateNormal];
-        [_loginBtn addTarget:self action:@selector(wxinLoginAction) forControlEvents:UIControlEventTouchUpInside];
         
-        [cell.contentView addSubview:_loginBtn];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果生活服务协议》"];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_REDCOLOR range:NSMakeRange(11,str.length-11)];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
+        
+        hintLbl.attributedText = str;
+        
+        [protocol addSubview:hintLbl];
+        [protocol addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(lookProtocol)]];
+        [cell.contentView addSubview:protocol];
+        
+
     }
     
+    if (indexPath.row == 4) {
+        
+        CGFloat lineW = 100;
+        CGFloat lineGap = 10;
+        
+        
+        UILabel * other = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 30)];
+        other.center = CGPointMake(cell.contentView.center.x, 110);
+        other.text = @"其它方式登录";
+        other.font = TEXT_FONT_LEVEL_3;
+        other.textColor = [UIColor blackColor];
+        [cell.contentView addSubview:other];
+        
+        UILabel * leftLine = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(other.frame)-lineGap-lineW, CGRectGetMinY(other.frame)+CGRectGetHeight(other.frame)/2-0.25, lineW, 0.5)];
+        leftLine.backgroundColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:leftLine];
+        
+        UILabel * rightLine = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(other.frame)+lineGap, CGRectGetMinY(other.frame)+CGRectGetHeight(other.frame)/2-0.25, lineW, 0.5)];
+        rightLine.backgroundColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:rightLine];
+        
+        
+        NSArray *imageNames = @[@"", @"", @""];
+        CGFloat w = 30;
+        CGFloat gap = 20;
+        CGFloat mainW = w*3 + gap*2;
+        UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 150, mainW, w)];
+        backView.center = CGPointMake(cell.contentView.center.x, 150);
+        for (int i=0; i<3; i++) {
+            UIButton * thirdLogin = [[UIButton alloc] initWithFrame:CGRectMake(i*(w+gap), 0, w, w)];
+            [thirdLogin setBackgroundImage:[UIImage imageNamed:@"share-1"] forState:UIControlStateNormal];
+            thirdLogin.tag = 300+i;
+            [thirdLogin addTarget:self action:@selector(loginByOtherType:) forControlEvents:UIControlEventTouchUpInside];
+            [backView addSubview:thirdLogin];
+        }
+        [cell.contentView addSubview:backView];
+
+    }
     return cell;
 }
+
+#pragma mark 第三方登录
+- (void)loginByOtherType:(UIButton *)btn{
+    
+    switch (btn.tag) {
+        case 300:
+        {
+            //新浪登录
+            
+        }
+            break;
+        case 301:
+        {
+            //微信登录
+            [self wxinLoginAction];
+            
+        }
+            break;
+        case 302:
+        {
+            //支付宝登录
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 
 #pragma mark 验证码60s倒计时
 

@@ -1,9 +1,9 @@
 //
-//  SegmentViewController.h
-//  SegmentView
+//  LMSegmentController.h
+//  living
 //
-//  Created by tom.sun on 16/5/26.
-//  Copyright © 2016年 tom.sun. All rights reserved.
+//  Created by Huasheng on 2017/2/23.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, SegmentControlStyle) {
     SegmentControlTypeFixed   //内容部分固定
 };
 
-@interface SegmentViewController : UIViewController
+@interface LMSegmentController : UIViewController
 //标签栏标题数组
 @property (nonatomic, strong) NSArray *titleArray;
 //每个标签对应ViewController数组
@@ -45,11 +45,12 @@ typedef NS_ENUM(NSInteger, SegmentControlStyle) {
 //标签栏类型，默认为滚动
 @property (nonatomic, assign) SegmentHeaderType segmentHeaderType;
 //内容类型，默认为滚动
-@property (nonatomic, assign) SegmentControlStyle segmentControlType;
+//@property (nonatomic, assign) SegmentControlStyle segmentControlType;
 
 //初始化方法
 - (void)initSegment;
 //点击标签栏按钮调用方法
 - (void)didSelectSegmentIndex:(NSInteger)index;
 - (void)addParentController:(UIViewController *)viewController;
+
 @end

@@ -18,7 +18,6 @@
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
 #import "LMWriterViewController.h"
-#import "LMHomeDetailController.h"
 #import "LMWebViewController.h"
 
 #import "LMArtcleTypeViewController.h"
@@ -27,15 +26,23 @@
 
 #import "BannerVO.h"
 
+
+#import "LMRecommendCell.h"
+#import "HotArticleCell.h"
+#import "LMHomeBannerView.h"
+#import "LMBannerDetailController.h"
+
 #define PAGER_SIZE      20
 
 @interface LMHomePageController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
-WJLoopViewDelegate,
-LMhomePageCellDelegate
+LMHomeBannerDelegate
 >
+//WJLoopViewDelegate,
+//LMhomePageCellDelegate
+
 {
     UIView *headView;
     UIBarButtonItem *backItem;
@@ -47,6 +54,10 @@ LMhomePageCellDelegate
     
     NSArray         *_bannerArray;
     NSMutableArray  *stateArray;
+    
+    
+    NSArray * sectionList;
+    
 }
 
 @end
@@ -68,7 +79,11 @@ LMhomePageCellDelegate
     
     return self;
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = NO;
+}
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -92,33 +107,32 @@ LMhomePageCellDelegate
     
     [self creatUI];
     
-    [self getBannerDataRequest];
-    [self loadNewer];
+    //[self getBannerDataRequest];
+    //[self loadNewer];
 }
 
 - (void)creatUI
 {
     [super createUI];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
-    
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
-    headView.backgroundColor = BG_GRAY_COLOR;
-    self.tableView.tableHeaderView = headView;
-    
+    self.tableView.backgroundColor = [UIColor whiteColor];
     if ([[FitUserManager sharedUserManager] isLogin]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(publicAction)];
         
+        UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     
+    sectionList = @[@"腰果推荐", @"热门文章"];
+    
+    LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 200)];
+    banner.delegate = self;
+    self.tableView.tableHeaderView = banner;
 
 }
 
@@ -136,6 +150,7 @@ LMhomePageCellDelegate
     }
 }
 
+#pragma mark 发布文章
 - (void)publicAction
 {
     LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
@@ -260,6 +275,63 @@ LMhomePageCellDelegate
     return nil;
 }
 
+#pragma mark banner代理函数
+- (void)gotoNextPage:(NSInteger)index{
+    
+    switch (index) {
+        case 10:
+        {
+            NSLog(@"Yao·美丽");
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] init];
+            bdVC.title = @"Yao·美丽";
+            [self.navigationController pushViewController:bdVC animated:YES];
+            break;
+        }
+        case 11:
+        {
+            NSLog(@"Yao·健康");
+            
+            break;
+        }
+        case 12:
+        {
+            NSLog(@"Yao·美食");
+            
+            break;
+        }
+        case 13:
+        {
+            NSLog(@"Yao·幸福");
+            
+            break;
+        }
+        case 14:
+        {
+            NSLog(@"Yao·运动");
+            
+            break;
+        }
+        case 15:
+        {
+            NSLog(@"Yao·学习");
+            
+            break;
+        }
+        case 16:
+        {
+            NSLog(@"Yao·干哈");
+            
+            break;
+        }
+        
+        default:
+            break;
+    }
+    
+    
+    
+}
+
 #pragma mark scrollview代理函数
 
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
@@ -322,96 +394,171 @@ LMhomePageCellDelegate
         }
     }
 }
+#pragma mark tableView代理函数
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 2;
+}
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        return 2;
+    }
+    if (section == 1) {
+        return 4;
+    }
+    return 0;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
-    
-    if (h) {
-        
-        return h;
+
+    if (indexPath.section == 0) {
+        return 110;
     }
-    
-    return 130;
+    if (indexPath.section == 1) {
+        return 215;
+    }
+    return 0;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.01;
+    return 50;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    if (section == 0) {
+        return 10;
+    }
+        return 0;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+    headerView.backgroundColor = BG_GRAY_COLOR;
+    
+    if (section == 0) {
+        UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 40)];
+        headerTitle.backgroundColor = [UIColor whiteColor];
+        headerTitle.textColor = TEXT_COLOR_LEVEL_3;
+        headerTitle.font = TEXT_FONT_LEVEL_3;
+        headerTitle.numberOfLines = 2;
+        
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"\n   |  腰果推荐"];
+        [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
+        headerTitle.attributedText = [[NSAttributedString alloc] initWithAttributedString:attr];
+        [headerView addSubview:headerTitle];
+    }else{
+        headerView.backgroundColor = [UIColor whiteColor];
+        UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 20)];
+        headerTitle.backgroundColor = [UIColor whiteColor];
+        headerTitle.textColor = TEXT_COLOR_LEVEL_3;
+        headerTitle.font = TEXT_FONT_LEVEL_3;
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"   |  热门文章"];
+        [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
+        headerTitle.attributedText = attr;
+        [headerView addSubview:headerTitle];
+    }
+    
+    return headerView;
+}
+
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//    
+//    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.size.width, 10)];
+//    view.backgroundColor = [UIColor whiteColor];
+//    
+//    return view;
+//}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    
-    UITableViewCell *cell   = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    if (cell) {
+    if (indexPath.section == 0) {
+        LMRecommendCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[LMRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    if (indexPath.section == 1) {
         
+        HotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (!cell) {
+            cell = [[HotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
-    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
     
-    if (!cell) {
-        
-        cell    = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+//    UITableViewCell *cell   = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+//    
+//    if (cell) {
+//        
+//        return cell;
+//    }
+//    
+//    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
+//    
+//    if (!cell) {
+//        
+//        cell    = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
+//    
+//    if (self.listData.count > indexPath.row) {
+//        
+//        LMActicleVO     *vo = self.listData[indexPath.row];
+//        
+//        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+//            
+//        [(LMhomePageCell *)cell setValue:vo];
+//        }
+//    }
+//    
+//    cell.tag = indexPath.row;
+//    [(LMhomePageCell *)cell setDelegate:self];
     
-    if (self.listData.count > indexPath.row) {
-        
-        LMActicleVO     *vo = self.listData[indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-            
-            [(LMhomePageCell *)cell setValue:vo];
-        }
-    }
-    
-    cell.tag = indexPath.row;
-    [(LMhomePageCell *)cell setDelegate:self];
-    
-    return cell;
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count > indexPath.row) {
-        
-        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-            
-            if (vo.group&&[vo.group isEqualToString:@"article"]) {
-                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-                
-                detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.artcleuuid = vo.articleUuid;
-                detailVC.franchisee = vo.franchisee;
-                detailVC.sign = vo.sign;
-                [self.navigationController pushViewController:detailVC animated:YES];
-            }
-            
-            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
-                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
-                
-                detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.artcleuuid = vo.articleUuid;
-                detailVC.franchisee = vo.franchisee;
-                detailVC.sign = vo.sign;
-                [self.navigationController pushViewController:detailVC animated:YES];
-            }
-            
-
-        }
-    }
-    
+//    if (self.listData.count > indexPath.row) {
+//        
+//        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
+//        
+//        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+//            
+//            if (vo.group&&[vo.group isEqualToString:@"article"]) {
+//                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+//                
+//                detailVC.hidesBottomBarWhenPushed = YES;
+//                detailVC.artcleuuid = vo.articleUuid;
+//                detailVC.franchisee = vo.franchisee;
+//                detailVC.sign = vo.sign;
+//                [self.navigationController pushViewController:detailVC animated:YES];
+//            }
+//            
+//            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+//                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+//                
+//                detailVC.hidesBottomBarWhenPushed = YES;
+//                detailVC.artcleuuid = vo.articleUuid;
+//                detailVC.franchisee = vo.franchisee;
+//                detailVC.sign = vo.sign;
+//                [self.navigationController pushViewController:detailVC animated:YES];
+//            }
+//            
+//
+//        }
+//    }
+//    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }

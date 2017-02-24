@@ -1,12 +1,12 @@
 //
-//  SegmentViewController.m
-//  SegmentView
+//  LMSegmentController.m
+//  living
 //
-//  Created by tom.sun on 16/5/26.
-//  Copyright © 2016年 tom.sun. All rights reserved.
+//  Created by Huasheng on 2017/2/23.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "SegmentViewController.h"
+#import "LMSegmentController.h"
 #import "FitConsts.h"
 
 #define HEADBTN_TAG                 10000
@@ -18,8 +18,7 @@
 #define Default_FontSize            16
 #define MainScreenWidth             [[UIScreen mainScreen]bounds].size.width
 #define MainScreenHeight            [[UIScreen mainScreen]bounds].size.height
-
-@interface SegmentViewController ()
+@interface LMSegmentController ()
 <
 UIScrollViewDelegate
 >
@@ -29,8 +28,8 @@ UIScrollViewDelegate
 @property (nonatomic, assign) NSInteger     selectIndex;
 @end
 
-@implementation SegmentViewController
 
+@implementation LMSegmentController
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -73,10 +72,11 @@ UIScrollViewDelegate
         }
     }
     
-    NSInteger lineWidth=80;
-    NSInteger margin=(self.buttonWidth-lineWidth)/2;
+    UIView * bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 1+self.buttonHeight - self.bottomLineHeight, kScreenWidth, 1)];
+    bottomLine.backgroundColor = BG_GRAY_COLOR;
+    [self.headerView addSubview:bottomLine];
     
-    _lineView = [[UIView alloc] initWithFrame:CGRectMake(margin, self.buttonHeight - self.bottomLineHeight, lineWidth, self.bottomLineHeight)];
+    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.buttonHeight - self.bottomLineHeight, self.buttonWidth, self.bottomLineHeight)];
     _lineView.backgroundColor = self.bottomLineColor;
     [self.headerView addSubview:_lineView];
 }
@@ -90,18 +90,18 @@ UIScrollViewDelegate
 {
     _mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.buttonHeight, MainScreenWidth, MainScreenHeight - self.buttonHeight)];
     _mainScrollView.contentSize = CGSizeMake(MainScreenWidth * subViewControllers.count, MainScreenHeight - self.buttonHeight);
-    [_mainScrollView setScrollEnabled:YES];
+    [_mainScrollView setScrollEnabled:NO];
     [_mainScrollView setPagingEnabled:YES];
-
+    
     [_mainScrollView setShowsVerticalScrollIndicator:NO];
     [_mainScrollView setShowsHorizontalScrollIndicator:NO];
     _mainScrollView.bounces = NO;
     _mainScrollView.delegate = self;
-
+    
     [self.view addSubview:_mainScrollView];
     
     [subViewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
-    
+        
         UIViewController *viewController = (UIViewController *)_subViewControllers[idx];
         viewController.view.frame = CGRectMake(idx * MainScreenWidth, 0, MainScreenWidth, _mainScrollView.frame.size.height);
         
@@ -145,10 +145,7 @@ UIScrollViewDelegate
     
     CGRect rect = self.lineView.frame;
     
-    NSInteger lineWidth=70;
-    NSInteger margin=(self.buttonWidth-lineWidth)/2;
-    
-    rect.origin.x = (index - HEADBTN_TAG) * (kScreenWidth/2)+margin;
+    rect.origin.x = (index - HEADBTN_TAG) * self.buttonWidth;
     [UIView animateWithDuration:0.3 animations:^{
         self.lineView.frame = rect;
     }];
@@ -176,7 +173,7 @@ UIScrollViewDelegate
 {
     float xx = scrollView.contentOffset.x * (_buttonWidth / MainScreenWidth) - _buttonWidth;
     [_headerView scrollRectToVisible:CGRectMake(xx, 0, MainScreenWidth, _headerView.frame.size.height) animated:YES];
-   
+    
     
 }
 
