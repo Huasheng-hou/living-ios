@@ -197,38 +197,6 @@
             endingLineNumber = "857"
             landmarkName = "-getImageURL:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LMPublishViewController getImageURL:]"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublishViewController.m"
-                  timestampString = "509620757.076249"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "857"
-                  endingLineNumber = "857"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LMPublishViewController getImageURL:]"
-                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublishViewController.m"
-                  timestampString = "509620757.079835"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "857"
-                  endingLineNumber = "857"
-                  offsetFromSymbolStart = "724">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
