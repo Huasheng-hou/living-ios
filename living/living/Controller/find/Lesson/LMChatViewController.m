@@ -136,6 +136,8 @@ LMExceptionalViewDelegate
     int  timeNum;
     NSData *videoData;
     
+    NSString *playVoiceURL;
+    
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
 @property (nonatomic,strong) NSMutableArray   *groupArrays;
@@ -160,14 +162,10 @@ LMExceptionalViewDelegate
         [self createWebSocket];
         
         [timer invalidate];
-        [messageTimer invalidate];
         timer = nil;
-        messageTimer = nil;
 
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(websocketConnect) userInfo:nil repeats:YES];
-        messageTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(messageConnect) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-        [[NSRunLoop currentRunLoop] addTimer:messageTimer forMode:NSRunLoopCommonModes];
         
         
     }
@@ -342,14 +340,6 @@ LMExceptionalViewDelegate
     [[UIApplication sharedApplication].keyWindow addSubview:moreView];
 }
 
-
-- (FitBaseRequest *)request
-{
-    
-    LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
-    return request;
-}
-
 #pragma mark --屏蔽学员
 
 - (void)getShieldstudentData
@@ -369,6 +359,13 @@ LMExceptionalViewDelegate
     [self.listData removeAllObjects];
     [self.listData addObjectsFromArray:shieldArray];
     [self reLoadTableViewCell];
+}
+
+- (FitBaseRequest *)request
+{
+    
+    LMChatRecordsRequest    *request    = [[LMChatRecordsRequest alloc] initWithPageIndex:currentIndex andPageSize:10 voice_uuid:_voiceUuid];
+    return request;
 }
 
 - (NSArray *)parseResponse:(NSString *)resp
@@ -406,7 +403,10 @@ LMExceptionalViewDelegate
     NSString    *description    = [bodyDic objectForKey:@"description"];
     if ([sign isEqualToString:@"1"]) {
         if ([hostID isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-            [bootView removeFromSuperview];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [bootView removeFromSuperview];
+            });
+            
         }else if([_role isEqualToString:@"student"]){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self creatBootView];
@@ -441,7 +441,9 @@ LMExceptionalViewDelegate
             }else if([currentIndex intValue] !=[vo.currentIndex intValue]){
                 currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue]];
                 reloadCount = reloadCount+1;
-                [activity stopAnimating];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [activity stopAnimating];
+                });
                 
             }
         }else{
@@ -449,6 +451,16 @@ LMExceptionalViewDelegate
                 [activity stopAnimating];
             });
         }
+        
+//        [self messageConnect];
+        
+        NSMutableArray *new = [NSMutableArray new];
+        for (MssageVO *vo in self.listData) {
+            [new addObject:vo.currentIndex];
+        }
+        
+        NSLog(@"####################*****************%@",new);
+        
         
         return tempArr;
     }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
@@ -1188,7 +1200,7 @@ LMExceptionalViewDelegate
 {
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     
-    [self getImageURL:[ImageHelpTool scaleImage:image] index:1];
+    [self getImageURL:image index:1];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1477,8 +1489,10 @@ LMExceptionalViewDelegate
         MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
         NSNumber *number = vo.currentIndex ;
         
-        if ([newNumArray containsObject: number]) {
-            return ;
+        for (int i = 0; i<newNumArray.count; i++) {
+            if ([newNumArray[i] isEqual:number]) {
+                return ;
+            }
         }
         
         if (vo.type && [vo.type isEqual:@"chat"]) {
@@ -1648,7 +1662,15 @@ LMExceptionalViewDelegate
             
             if ([vo.type isEqual:@"video"]) {
                 [dic setObject:vo.user_uuid forKey:@"user_uuid"];
-                [dic setObject:vo.videourl forKey:@"videourl"];
+                if (vo.videourl&&![vo.videourl isEqualToString:@""]) {
+                    [dic setObject:vo.videourl forKey:@"videourl"];
+                }else{
+                    if (vo.attachment&&![vo.attachment isEqualToString:@""]) {
+                        [dic setObject:vo.attachment forKey:@"videourl"];
+                    }
+                }
+                
+                
                 [dic setObject:@"video" forKey:@"type"];
                 [dic setObject:vo.recordingTime forKey:@"recordingTime"];
                 if (vo.name&&![vo.name isEqual:@""]) {
@@ -1861,16 +1883,6 @@ LMExceptionalViewDelegate
         
         NSLog(@"0");
         client = [LMWobsocket shareWebsocket];
-        //        NSDictionary *dict=[[NSDictionary alloc]initWithObjectsAndKeys:@"Cookie",@"session=random", nil];
-        //
-        //        [client connectWithHeaders:dict completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
-        //            if (error) {
-        //
-        //                return;
-        //            }
-        //
-        //            [self subscribeTopic];
-        //        }];
         dispatch_semaphore_t connected = dispatch_semaphore_create(0);
         [client connectWithLogin:@"1"
                         passcode:@"2"
@@ -1895,9 +1907,7 @@ LMExceptionalViewDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         [changeView removeFromSuperview];
     });
-    
-    
-    
+
     if (-64 == self.tableView.contentOffset.y) {
         
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
@@ -1965,7 +1975,10 @@ LMExceptionalViewDelegate
         }
         
     } failed:^(NSError *error) {
-        [activity removeFromSuperview];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [activity removeFromSuperview];
+        });
+        
         [self performSelectorOnMainThread:@selector(textStateHUD:)
                                withObject:@"网络错误"
                             waitUntilDone:YES];
@@ -1985,11 +1998,9 @@ LMExceptionalViewDelegate
     moreView.hidden = YES;
     MssageVO *vo = self.listData[cell.tag];
     if ([cell.playStatus isEqualToString:@"play"]) {
-        [player stop];
         [cell setVoicePlayState:LGVoicePlayStateCancel];
         return;
     }
-    
     vo.ifStopAnimal = NO;
     if (vo.ifStopAnimal == NO) {
         [cell setVoicePlayState:LGVoicePlayStatePlaying];
@@ -2006,6 +2017,7 @@ LMExceptionalViewDelegate
         
         
         NSString *urlStr = vo.voiceurl;
+        playVoiceURL = urlStr;
         playIndex = [vo.currentIndex integerValue];
         playTag = cell.tag;
         //播放本地音乐
@@ -2357,7 +2369,11 @@ LMExceptionalViewDelegate
     if (voArray.count > 0) {
         
         MssageVO *vo = voArray[0];
-        [self lianxuPlay:vo.voiceurl];
+        if (vo.voiceurl) {
+            [self lianxuPlay:vo.voiceurl];
+            playVoiceURL = vo.voiceurl;
+        }
+
         playTag = [newArray[0] integerValue];
         ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag    inSection:0]];
         [cell setVoicePlayState:LGVoicePlayStatePlaying];
@@ -2382,6 +2398,7 @@ LMExceptionalViewDelegate
 
 - (void)lianxuPlay:(NSString *)urlString
 {
+    
     NSMutableArray *statusArray = [NSMutableArray new];
     NSArray *palyArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readStatus"];
     [statusArray addObjectsFromArray:palyArray];
@@ -2393,11 +2410,32 @@ LMExceptionalViewDelegate
     }
     [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+    NSLog(@"playVoiceURL****************1111111%@",playVoiceURL);
+    NSLog(@"urlString****************2222222%@",urlString);
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
         NSURL *url = [[NSURL alloc]initWithString:urlString];
         NSData * audioData = [NSData dataWithContentsOfURL:url];
+        
+        NSLog(@"playVoiceURL****************333333%@",playVoiceURL);
+        NSLog(@"urlString****************444444%@",urlString);
+        
+        if (![playVoiceURL isEqualToString:urlString]) {
+
+            return;
+        }else{
+            
+            ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag  inSection:0]];
+
+            MssageVO *vo = self.listData[cell.tag];
+            vo.ifStopAnimal = NO;
+            if (vo.ifStopAnimal == NO) {
+                [cell setVoicePlayState:LGVoicePlayStatePlaying];
+            }else{
+                [cell setVoicePlayState:LGVoicePlayStateCancel];
+            }
+
+        }
         
         //将数据保存到本地指定位置
         NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -2715,7 +2753,8 @@ LMExceptionalViewDelegate
 }
 
 #pragma mark - ZYQAssetPickerController Delegate
--(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
+-(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
     
     for (int i=0; i<assets.count; i++) {
         
@@ -2757,7 +2796,7 @@ LMExceptionalViewDelegate
     }
 }
 
-
+#pragma mark -- 数据丢包查询
 - (void)messageConnect
 {
     currentArray = [NSMutableArray new];
@@ -2799,6 +2838,9 @@ LMExceptionalViewDelegate
 
 - (void)getmessageRespond:(NSString *)resp
 {
+    
+    [self performSelector:@selector(messageConnect) withObject:nil afterDelay:1.0];
+    
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if (!bodyDic) {
         [self textStateHUD:@"加载数据失败"];
@@ -2810,19 +2852,28 @@ LMExceptionalViewDelegate
         
         NSArray *tempArr    = [MssageVO MssageVOListWithArray:[bodyDic objectForKey:@"message"]];
         
-        MssageVO *message = tempArr[0];
-        NSNumber *string =message.currentIndex;
-        NSMutableArray *newArray = [NSMutableArray new];
-        for (MssageVO *vo in self.listData) {
-            if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
-                [newArray addObject:vo.currentIndex];
+        if (tempArr&&![tempArr isEqual:@""]&&[tempArr isKindOfClass:[NSArray class]]) {
+            
+            for (MssageVO *vo in tempArr) {
+                NSNumber *string =vo.currentIndex;
+                NSMutableArray *newArray = [NSMutableArray new];
+                for (MssageVO *vo in self.listData) {
+                    if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
+                        [newArray addObject:vo.currentIndex];
+                    }
+                }
+                
+                for (int i = 0; i<newArray.count; i++) {
+                    if ([newArray[i] isEqual:string]) {
+                        return;
+                    }
+                }
+                
+                [self.listData addObjectsFromArray:tempArr];
             }
         }
-        if ([newArray containsObject:string]) {
-            return;
-        }
-        
-        [self.listData addObjectsFromArray:tempArr];
+
+
         [self.tableView reloadData];
         
     }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
