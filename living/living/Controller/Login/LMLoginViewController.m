@@ -75,7 +75,7 @@ WXApiDelegate
     if (self) {
         
         self.title  = @"登录";
-    
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didFinishedWechatLogin:)
                                                      name:LM_WECHAT_LOGIN_CALLBACK_NOTIFICATION
@@ -108,21 +108,18 @@ WXApiDelegate
     
     self.tableView.keyboardDismissMode  = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.separatorInset       = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
-    self.tableView.tableHeaderView = headView;
-    
-    
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"浏览看看" style:UIBarButtonItemStylePlain target:self action:@selector(justLook:)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
-    UIBarButtonItem *leftButton     = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"turnright"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:nil];
-    self.navigationItem.leftBarButtonItem = leftButton;
+    UIImageView * leftImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"turnright"]];
+    leftImage.transform = CGAffineTransformMakeRotation(M_PI);
+    UIBarButtonItem *leftItem     = [[UIBarButtonItem alloc] initWithCustomView:leftImage];
+    self.navigationItem.leftBarButtonItem = leftItem;
 }
 
 - (void)justLook:(UIBarButtonItem *)item{
@@ -170,64 +167,65 @@ WXApiDelegate
     if (indexPath.row == 0) {
         
         
-        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 45, 20, 20)];
+        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 40, 15, 20)];
         phoneView.image = [UIImage imageNamed:@"activity"];
         [cell.contentView addSubview:phoneView];
         
-        _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(70, 30, kScreenWidth - 170, 50)];
+        _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(40, 40, kScreenWidth - 50, 20)];
         _phoneTF.keyboardType   = UIKeyboardTypePhonePad;
         _phoneTF.placeholder    = @"请输入手机号码";
         _phoneTF.delegate       = self;
-        _phoneTF.textColor      = [UIColor blackColor];
+        _phoneTF.font           = TEXT_FONT_LEVEL_3;
+        _phoneTF.textColor      = TEXT_COLOR_LEVEL_4;
         [_phoneTF setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
         
         [cell.contentView addSubview:_phoneTF];
         
-        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(20, 79, kScreenWidth - 40, 0.5)];
+        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(10, 70, kScreenWidth - 20, 0.5)];
         
         botLine.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:botLine];
     }
     if (indexPath.row == 1) {
         
-        UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
+        UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 15, 20)];
         codeView.image = [UIImage imageNamed:@"activity"];
         [cell.contentView addSubview:codeView];
         
-        _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(70, 10, kScreenWidth - 190, 50)];
+        _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(40, 10, kScreenWidth - 95, 20)];
         _codeTF.placeholder     = @"请输入验证号码";
         _codeTF.font = [UIFont systemFontOfSize:17];
         _codeTF.keyboardType    = UIKeyboardTypePhonePad;
         _codeTF.delegate = self;
         _codeTF.tag = 0412;
+        _codeTF.font = TEXT_FONT_LEVEL_3;
+        _codeTF.textColor = TEXT_COLOR_LEVEL_4;
         [_codeTF setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
-        
-        _codeTF.textColor       = [UIColor blackColor];
         
         [cell.contentView addSubview:_codeTF];
         
-        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 111, 10, 10, 50)];
+        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 85, 10, 10, 20)];
         
         lbl.text            = @"/";
-        lbl.font            = [UIFont boldSystemFontOfSize:18];
-        lbl.textColor       = LIVING_REDCOLOR;
+        lbl.font            = [UIFont boldSystemFontOfSize:16];
+        lbl.textColor       = ORANGE_COLOR;
         lbl.textAlignment   = NSTextAlignmentCenter;
         [cell.contentView addSubview:lbl];
         
         codeBtn                    = [[UILabel alloc]init];
         codeBtn.layer.cornerRadius = 5;
-        codeBtn.frame              = CGRectMake(kScreenWidth - 108, 10, 100, 50);
+        codeBtn.frame              = CGRectMake(kScreenWidth - 75, 10, 65, 20);
         codeBtn.text               = @"获取验证码";
-        codeBtn.textColor          = LIVING_REDCOLOR;
+        codeBtn.textColor          = ORANGE_COLOR;
         codeBtn.userInteractionEnabled = YES;
         codeBtn.clipsToBounds      = YES;
         codeBtn.textAlignment      = NSTextAlignmentCenter;
-        codeBtn.font                = TEXT_FONT_LEVEL_1;
+        codeBtn.font                = TEXT_FONT_LEVEL_3;
         UITapGestureRecognizer      *codeButTap    = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(loginBtnPressed)];
         [codeBtn addGestureRecognizer:codeButTap];
         [cell.contentView addSubview:codeBtn];
         
-        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(20, 59, kScreenWidth - 40, 0.5)];
+        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(20, 40, kScreenWidth - 20, 0.5)];
         
         botLine.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:botLine];
@@ -238,7 +236,7 @@ WXApiDelegate
         _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
-        [_loginBtn setBackgroundColor:LIVING_COLOR];
+        [_loginBtn setBackgroundColor:BTN_ORANGE_COLOR];
         _loginBtn.frame  = CGRectMake(15, 15, kScreenWidth - 30, 45);
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;
@@ -257,8 +255,8 @@ WXApiDelegate
         
         
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果生活服务协议》"];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_REDCOLOR range:NSMakeRange(11,str.length-11)];
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0,11)];
+        [str addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(11,str.length-11)];
+        [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_4 range:NSMakeRange(0,11)];
         
         hintLbl.attributedText = str;
         
@@ -272,15 +270,15 @@ WXApiDelegate
     
     if (indexPath.row == 4) {
         
-        CGFloat lineW = 100;
+        CGFloat lineW = 40;
         CGFloat lineGap = 10;
         
         
-        UILabel * other = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 30)];
+        UILabel * other = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 65, 15)];
         other.center = CGPointMake(cell.contentView.center.x, 110);
         other.text = @"其它方式登录";
-        other.font = TEXT_FONT_LEVEL_3;
-        other.textColor = [UIColor blackColor];
+        other.textColor = TEXT_COLOR_LEVEL_4;
+        other.font = TEXT_FONT_LEVEL_4;
         [cell.contentView addSubview:other];
         
         UILabel * leftLine = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(other.frame)-lineGap-lineW, CGRectGetMinY(other.frame)+CGRectGetHeight(other.frame)/2-0.25, lineW, 0.5)];
@@ -292,15 +290,15 @@ WXApiDelegate
         [cell.contentView addSubview:rightLine];
         
         
-        NSArray *imageNames = @[@"", @"", @""];
-        CGFloat w = 30;
+        NSArray *imageNames = @[@"share-1", @"share-1", @"share-1"];
+        CGFloat w = 40;
         CGFloat gap = 20;
         CGFloat mainW = w*3 + gap*2;
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 150, mainW, w)];
         backView.center = CGPointMake(cell.contentView.center.x, 150);
         for (int i=0; i<3; i++) {
             UIButton * thirdLogin = [[UIButton alloc] initWithFrame:CGRectMake(i*(w+gap), 0, w, w)];
-            [thirdLogin setBackgroundImage:[UIImage imageNamed:@"share-1"] forState:UIControlStateNormal];
+            [thirdLogin setBackgroundImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
             thirdLogin.tag = 300+i;
             [thirdLogin addTarget:self action:@selector(loginByOtherType:) forControlEvents:UIControlEventTouchUpInside];
             [backView addSubview:thirdLogin];

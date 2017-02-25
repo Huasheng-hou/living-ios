@@ -469,6 +469,9 @@
 		874642201E5FFF4200D2CCDE /* LMExpertDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8746421F1E5FFF4200D2CCDE /* LMExpertDetailController.m */; };
 		874642231E60031D00D2CCDE /* LMExpertDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 874642221E60031D00D2CCDE /* LMExpertDetailView.m */; };
 		874642261E60243D00D2CCDE /* LMMakerHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 874642251E60243D00D2CCDE /* LMMakerHeadView.m */; };
+		877290D41E614EF200519550 /* LMSubmitSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 877290D31E614EF200519550 /* LMSubmitSuccessController.m */; };
+		877290D71E6153D700519550 /* LMSubmitSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 877290D61E6153D700519550 /* LMSubmitSuccessView.m */; };
+		877290DA1E61565700519550 /* LMNearbyLifeMuseumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 877290D91E61565700519550 /* LMNearbyLifeMuseumCell.m */; };
 		87B74DE11E5E82E3001E3E57 /* LMHomeBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B74DE01E5E82E3001E3E57 /* LMHomeBannerView.m */; };
 		87B74DF91E5EB0B3001E3E57 /* LMBannerDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B74DF81E5EB0B3001E3E57 /* LMBannerDetailController.m */; };
 		87B74DFF1E5EB138001E3E57 /* LMBannerDetailCommonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B74DFE1E5EB138001E3E57 /* LMBannerDetailCommonController.m */; };
@@ -1460,6 +1463,12 @@
 		874642221E60031D00D2CCDE /* LMExpertDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertDetailView.m; sourceTree = "<group>"; };
 		874642241E60243D00D2CCDE /* LMMakerHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMakerHeadView.h; sourceTree = "<group>"; };
 		874642251E60243D00D2CCDE /* LMMakerHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMakerHeadView.m; sourceTree = "<group>"; };
+		877290D21E614EF200519550 /* LMSubmitSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSubmitSuccessController.h; sourceTree = "<group>"; };
+		877290D31E614EF200519550 /* LMSubmitSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSubmitSuccessController.m; sourceTree = "<group>"; };
+		877290D51E6153D700519550 /* LMSubmitSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSubmitSuccessView.h; sourceTree = "<group>"; };
+		877290D61E6153D700519550 /* LMSubmitSuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSubmitSuccessView.m; sourceTree = "<group>"; };
+		877290D81E61565700519550 /* LMNearbyLifeMuseumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNearbyLifeMuseumCell.h; sourceTree = "<group>"; };
+		877290D91E61565700519550 /* LMNearbyLifeMuseumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNearbyLifeMuseumCell.m; sourceTree = "<group>"; };
 		87B74DDF1E5E82E3001E3E57 /* LMHomeBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeBannerView.h; sourceTree = "<group>"; };
 		87B74DE01E5E82E3001E3E57 /* LMHomeBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeBannerView.m; sourceTree = "<group>"; };
 		87B74DF71E5EB0B3001E3E57 /* LMBannerDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBannerDetailController.h; sourceTree = "<group>"; };
@@ -2522,6 +2531,8 @@
 				87B74E0A1E5EBEDA001E3E57 /* LMSegmentController.m */,
 				8746421E1E5FFF4200D2CCDE /* LMExpertDetailController.h */,
 				8746421F1E5FFF4200D2CCDE /* LMExpertDetailController.m */,
+				877290D21E614EF200519550 /* LMSubmitSuccessController.h */,
+				877290D31E614EF200519550 /* LMSubmitSuccessController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3601,6 +3612,10 @@
 				874642221E60031D00D2CCDE /* LMExpertDetailView.m */,
 				874642241E60243D00D2CCDE /* LMMakerHeadView.h */,
 				874642251E60243D00D2CCDE /* LMMakerHeadView.m */,
+				877290D51E6153D700519550 /* LMSubmitSuccessView.h */,
+				877290D61E6153D700519550 /* LMSubmitSuccessView.m */,
+				877290D81E61565700519550 /* LMNearbyLifeMuseumCell.h */,
+				877290D91E61565700519550 /* LMNearbyLifeMuseumCell.m */,
 			);
 			path = homepage;
 			sourceTree = "<group>";
@@ -4184,6 +4199,7 @@
 				35B748151DDE97F4000AFA26 /* LMPublicMsgCell.m in Sources */,
 				359DBD731E56DC2F00555565 /* KZVideoViewController.m in Sources */,
 				35B747561DDE97F3000AFA26 /* LMFindViewController.m in Sources */,
+				877290DA1E61565700519550 /* LMNearbyLifeMuseumCell.m in Sources */,
 				35980BD81E0139210054EB05 /* LMMyPublicVoicFinish.m in Sources */,
 				35B7476E1DDE97F3000AFA26 /* SQMenuShowView.m in Sources */,
 				35B286FE1E347CF400B2AA40 /* LMHomeVoiceDetailController.m in Sources */,
@@ -4256,6 +4272,7 @@
 				35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */,
 				35B747691DDE97F3000AFA26 /* LMAddviceViewController.m in Sources */,
 				35B747221DDE97F3000AFA26 /* UIView+MJExtension.m in Sources */,
+				877290D41E614EF200519550 /* LMSubmitSuccessController.m in Sources */,
 				35B747C71DDE97F3000AFA26 /* LMCouponMsgRequest.m in Sources */,
 				35B747541DDE97F3000AFA26 /* FitTabbarController.m in Sources */,
 				35B748181DDE97F4000AFA26 /* POIAnnotation.m in Sources */,
@@ -4421,6 +4438,7 @@
 				3535CFF71E20E98100280C34 /* LMWobsocket.m in Sources */,
 				3524CF751E5010FD00651E64 /* LMEventUpstoreRequest.m in Sources */,
 				35B747981DDE97F3000AFA26 /* LMMonthDetailBody.m in Sources */,
+				877290D71E6153D700519550 /* LMSubmitSuccessView.m in Sources */,
 				35B747D21DDE97F4000AFA26 /* LMWXRechargrRequest.m in Sources */,
 				35B7471D1DDE97F3000AFA26 /* MJRefreshConst.m in Sources */,
 				35B748241DDE97F4000AFA26 /* LMLiveRoomNameCell.m in Sources */,

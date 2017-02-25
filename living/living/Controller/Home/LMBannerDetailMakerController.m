@@ -24,12 +24,18 @@
     
     
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:@"联系我们" style:UIBarButtonItemStylePlain target:self action:@selector(contactUs)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    
+}
 
 - (void)createUI{
 
-    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:@"联系我们" style:UIBarButtonItemStylePlain target:self action:@selector(contactUs)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+ 
     
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     

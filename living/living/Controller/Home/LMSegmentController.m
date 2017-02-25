@@ -149,6 +149,10 @@ UIScrollViewDelegate
     [UIView animateWithDuration:0.3 animations:^{
         self.lineView.frame = rect;
     }];
+    
+    
+    [self.delegate changeNavigationItem:index];
+    
 }
 
 #pragma mark - ScrollViewDelegate

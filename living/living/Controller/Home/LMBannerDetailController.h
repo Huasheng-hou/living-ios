@@ -6,8 +6,7 @@
 //  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface LMBannerDetailController : UIViewController
+#import "FitBaseViewController.h"
+@interface LMBannerDetailController : FitBaseViewController
 
 @end

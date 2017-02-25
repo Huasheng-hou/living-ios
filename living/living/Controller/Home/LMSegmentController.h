@@ -17,7 +17,19 @@ typedef NS_ENUM(NSInteger, SegmentControlStyle) {
     SegmentControlTypeFixed   //内容部分固定
 };
 
+
+@protocol LMSegmentDelegate <NSObject>
+
+- (void)changeNavigationItem:(NSInteger)index;
+
+@end
+
 @interface LMSegmentController : UIViewController
+
+@property (nonatomic, weak)id <LMSegmentDelegate> delegate;
+
+
+
 //标签栏标题数组
 @property (nonatomic, strong) NSArray *titleArray;
 //每个标签对应ViewController数组
