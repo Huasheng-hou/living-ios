@@ -24,19 +24,9 @@
     
     
 }
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:@"联系我们" style:UIBarButtonItemStylePlain target:self action:@selector(contactUs)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    
-    
-}
 
 - (void)createUI{
 
- 
-    
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-102) collectionViewLayout:layout];
@@ -49,11 +39,7 @@
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"mainCell"];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead"];
 }
-#pragma mark 联系我们
-- (void)contactUs{
-    
-    NSLog(@"联系我们");
-}
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     
     return 5;

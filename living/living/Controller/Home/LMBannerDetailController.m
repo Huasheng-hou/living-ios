@@ -158,6 +158,7 @@ static CGFloat const ButtonHeight = 38;
     [botView addSubview:tips];
     
     nameTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 35, kScreenWidth-20, 25)];
+    nameTF.keyboardType = UIKeyboardTypeNamePhonePad;
     nameTF.placeholder = @" 姓名";
     nameTF.textColor = TEXT_COLOR_LEVEL_4;
     nameTF.font = TEXT_FONT_LEVEL_2;
@@ -169,6 +170,7 @@ static CGFloat const ButtonHeight = 38;
     [botView addSubview:nameTF];
     
     phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 75, kScreenWidth-20, 25)];
+    phoneTF.keyboardType = UIKeyboardTypeNumberPad;
     phoneTF.placeholder = @" 电话";
     phoneTF.textColor = TEXT_COLOR_LEVEL_4;
     phoneTF.font = TEXT_FONT_LEVEL_2;
@@ -198,32 +200,43 @@ static CGFloat const ButtonHeight = 38;
 - (void)booking:(UIButton *)btn{
     
     NSLog(@"预约生活馆");
+    //验证输入内容
+    if ([self checkConfirm]) {
+        //移除当前视图
+        [bgView removeFromSuperview];
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        //跳转下一页面
+        LMSubmitSuccessController * ssVC = [[LMSubmitSuccessController alloc] init];
+        ssVC.title = @"预约成功";
+        [self.navigationController pushViewController:ssVC animated:YES];
+    }
     
-    
-    [self remove:nil];
-    LMSubmitSuccessController * ssVC = [[LMSubmitSuccessController alloc] init];
-    ssVC.title = @"预约成功";
-    [self.navigationController pushViewController:ssVC animated:YES];
     
 }
 #pragma 验证输入内容
 - (BOOL)checkConfirm{
     if ([nameTF.text isEqualToString:@""] ) {
+        [nameTF resignFirstResponder];
+        [phoneTF resignFirstResponder];
         [self textStateHUD:@"请输入姓名"];
         return NO;
     }
     else if ([phoneTF.text isEqualToString:@""]) {
+        [nameTF resignFirstResponder];
+        [phoneTF resignFirstResponder];
         [self textStateHUD:@"请输入电话"];
         return NO;
     }
-//    else{
-//        //  手机号正则
-//        NSString *mobileRegex = @"[1][34578][0-9]{9}";
-//        NSPredicate *mobilePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileRegex];
-//    
-//        if (![mobilePredicate evaluateWithObject:phoneTF.text]) {
-//        
-//        
+    else{
+        // 手机号正则
+        NSString *mobileRegex = @"[1][34578][0-9]{9}";
+        NSPredicate *mobilePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileRegex];
+    
+        if (![mobilePredicate evaluateWithObject:phoneTF.text]) {
+        
+            [nameTF resignFirstResponder];
+            [phoneTF resignFirstResponder];
+            [self textStateHUD:@"手机格式不正确"];
 //            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入正确的手机号码"
 //                                                                       message:nil
 //                                                                preferredStyle:UIAlertControllerStyleAlert];
@@ -232,11 +245,11 @@ static CGFloat const ButtonHeight = 38;
 //                                                handler:nil]];
 //        
 //            [self presentViewController:alert animated:YES completion:nil];
-//        
-//        
-//            return;
-//        }
-//    }
+        
+        
+            return NO;
+        }
+    }
     return YES;
 }
 
