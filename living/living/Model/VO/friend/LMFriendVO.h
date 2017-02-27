@@ -24,10 +24,12 @@
 
 @property (nonatomic, retain) NSString *avatar;
 @property (nonatomic, retain) NSString *nickname;
+@property (nonatomic, retain) NSString *myNickname;
 @property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, retain) NSString *address;
 @property (nonatomic, retain) NSString *UserID;
 @property (nonatomic, assign) int  userId;
 @property (nonatomic, retain) NSString *content;
+@property (nonatomic, retain) NSString *myContent;
 
 @end

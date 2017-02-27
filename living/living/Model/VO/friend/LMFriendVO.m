@@ -64,6 +64,10 @@
             && [[dictionary objectForKey:@"nickname"] isKindOfClass:[NSString class]]) {
             self.nickname = [dictionary objectForKey:@"nickname"];
         }
+        if (nil != [dictionary objectForKey:@"myNickname"] && ![[dictionary objectForKey:@"myNickname"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"myNickname"] isKindOfClass:[NSString class]]) {
+            self.myNickname = [dictionary objectForKey:@"myNickname"];
+        }
         
         if (nil != [dictionary objectForKey:@"address"] && ![[dictionary objectForKey:@"address"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"address"] isKindOfClass:[NSString class]]) {
@@ -87,6 +91,11 @@
         if (nil != [dictionary objectForKey:@"content"] && ![[dictionary objectForKey:@"content"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"content"] isKindOfClass:[NSString class]]) {
             self.content = [dictionary objectForKey:@"content"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"myContent"] && ![[dictionary objectForKey:@"myContent"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"myContent"] isKindOfClass:[NSString class]]) {
+            self.myContent = [dictionary objectForKey:@"myContent"];
         }
         
     }

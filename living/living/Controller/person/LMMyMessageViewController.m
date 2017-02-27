@@ -9,6 +9,7 @@
 #import "LMMyMessageViewController.h"
 #import "LMMyMessageRequest.h"
 #import "LMFriendVO.h"
+#import "LMMessageBoardViewController.h"
 
 
 #define PAGER_SIZE      20
@@ -100,7 +101,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 165;
+    return 65;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -130,11 +131,35 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         LMFriendVO *list =[self.listData objectAtIndex:indexPath.row];
-        cell.textLabel.text = list.content;
+
+    
+    
+    if (list.content) {
+        NSString *string =[NSString stringWithFormat:@"%@：%@",list.nickname,list.content];
+        
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[list.nickname length]+1)];
+
+        cell.textLabel.attributedText = str;
+    }else{
+        cell.textLabel.text = [NSString stringWithFormat:@"%@回复%@：%@",list.myNickname,list.nickname,list.content];
+    }
+    
         cell.tag = indexPath.row;
 
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.listData.count>indexPath.row) {
+        LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
+        LMMessageBoardViewController *messageBoardVC = [[LMMessageBoardViewController alloc] init];
+        messageBoardVC.friendUUid = list.userUuid;
+        messageBoardVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:messageBoardVC animated:YES];
+    }
 }
 
 

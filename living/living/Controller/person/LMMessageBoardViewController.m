@@ -156,7 +156,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 165;
+    return 65;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -186,7 +186,26 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     LMFriendVO *list =[self.listData objectAtIndex:indexPath.row];
-    cell.textLabel.text = list.content;
+    
+    if (list.content) {
+        NSString *string =[NSString stringWithFormat:@"%@：%@",list.nickname,list.content];
+        
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[list.nickname length]+1)];
+        
+        cell.textLabel.attributedText = str;
+    }else{
+        NSString *string =[NSString stringWithFormat:@"%@回复%@：%@",list.myNickname,list.nickname,list.myContent];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[list.myNickname length])];
+        
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([list.myNickname length]+2,[list.nickname length]+1)];
+        
+        cell.textLabel.attributedText = str;
+        cell.textLabel.numberOfLines = 0;
+    }
+    
+    
 
     return cell;
 }
@@ -227,7 +246,8 @@
     {
         
         [self textStateHUD:@"留言成功~"];
-        
+        textcView.text = @"";
+        tipLabel.hidden=NO;
         [self loadNoState];
         
     } else {
@@ -254,13 +274,15 @@
 
 - (void)keyboardChangeFrame:(NSNotification *)notifi
 {
+    
+    
     CGRect keyboardFrame = [notifi.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     float duration = [notifi.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
 
     [UIView animateWithDuration:duration animations:^{
         toolBar.transform = CGAffineTransformMakeTranslation(0, keyboardFrame.origin.y - kScreenHeight);
         bgViewY = toolBar.frame.origin.y;
-            
+
     }];
 }
 
@@ -275,7 +297,7 @@
     if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
         [UIView animateWithDuration:0.1f animations:^{
             [toolBar setFrame:CGRectMake(0, kScreenHeight-(curkeyBoardHeight+toolBar.height+contentSize), kScreenWidth, toolBar.height+contentSize)];
-                
+            self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - curkeyBoardHeight - toolBar.frame.size.height);
         }];
     }
 }
@@ -290,6 +312,7 @@
     [UIView animateWithDuration:0.1f animations:^{
         [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
         NSLog(@"***keyboardWasHidden*%@",toolBar);
+        self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBar.frame.size.height);
     }];
     
     

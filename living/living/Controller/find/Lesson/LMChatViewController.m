@@ -473,7 +473,6 @@ LMExceptionalViewDelegate
         NSMutableArray *new = [NSMutableArray new];
         for (MssageVO *vo in self.listData) {
             
-            NSLog(@"####################*****************%@",vo.currentIndex);
             NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
             [new addObject:string];
         }
@@ -2863,7 +2862,7 @@ LMExceptionalViewDelegate
     }];
     
     if (result.count>1) {
-        [self getmessageRequest:[result[result.count-1] intValue]];
+        [self getmessageRequest:[result[result.count] intValue]];
     }
     
     

@@ -206,7 +206,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublishViewController.m"
-                  timestampString = "509855130.190991"
+                  timestampString = "509878120.760141"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "857"
@@ -221,7 +221,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMPublishViewController.m"
-                  timestampString = "509855130.193211"
+                  timestampString = "509878120.762344"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "857"
@@ -381,13 +381,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/person/LMMyMessageViewController.m"
-            timestampString = "509709494.560805"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "509878033.1439"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-parseResponse:"
+            startingLineNumber = "2892"
+            endingLineNumber = "2892"
+            landmarkName = "-getmessageRespond:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "509878140.948987"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2874"
+            endingLineNumber = "2874"
+            landmarkName = "-getmessageRequest:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
