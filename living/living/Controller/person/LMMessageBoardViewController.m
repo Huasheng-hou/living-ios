@@ -123,7 +123,7 @@
 
 - (FitBaseRequest *)request
 {
-    LMFriendMessageRequest    *request    = [[LMFriendMessageRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
+    LMFriendMessageRequest    *request    = [[LMFriendMessageRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE user_uuid:_friendUUid];
     
     return request;
 }

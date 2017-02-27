@@ -234,12 +234,28 @@ LMExceptionalViewDelegate
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:req completed:^(NSString *resp, NSStringEncoding encoding) {
         
         NSArray * items = [self parseResponse:resp];
-        
         if (items && [items count]){
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
+
                 [_listData addObjectsFromArray:items];
+                NSMutableArray *new = [NSMutableArray new];
+                for (int i = 0; i<_listData.count; i++) {
+                    MssageVO *vo = _listData[i];
+                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                    [new addObject:string];
+                }
+                NSMutableArray *currentArrays = [NSMutableArray new];
+                if (new.count>0) {
+                    for (int j = 0; j<new.count; j++) {
+                        if ([currentArrays containsObject:new[j]]) {
+                            [_listData removeObjectAtIndex:j];
+                        }else{
+                            [currentArrays addObject:new[j]];
+                        }
+                    }
+                }
+                
                 [self reLoadTableViewCell];
             });
             
@@ -452,17 +468,28 @@ LMExceptionalViewDelegate
             });
         }
         
-//        [self messageConnect];
+        [self messageConnect];
         
         NSMutableArray *new = [NSMutableArray new];
         for (MssageVO *vo in self.listData) {
-            [new addObject:vo.currentIndex];
+            
+            NSLog(@"####################*****************%@",vo.currentIndex);
+            NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+            [new addObject:string];
+        }
+        NSMutableArray *tempArray = [NSMutableArray new];
+        [tempArray addObjectsFromArray:tempArr];
+        for (int i = 0; i<tempArr.count; i++) {
+            MssageVO *vo = tempArr[i];
+            for (int j = 0; j<new.count; j++) {
+                NSString *current =[NSString stringWithFormat:@"%@",vo.currentIndex];
+                if ([new[j] isEqualToString:current]) {
+                    [tempArray removeObjectAtIndex:i];
+                }
+            }
         }
         
-        NSLog(@"####################*****************%@",new);
-        
-        
-        return tempArr;
+        return tempArray;
     }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [activity stopAnimating];
@@ -1468,15 +1495,17 @@ LMExceptionalViewDelegate
 
 - (void)subscribeTopic
 {
-    NSMutableArray *newNumArray = [NSMutableArray new];
-    for (MssageVO *vo in self.listData) {
-        if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
-            [newNumArray addObject:vo.currentIndex];
-        }
-    }
+
     NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
     
     [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
+        NSMutableArray *newNumArray = [NSMutableArray new];
+        for (MssageVO *vo in self.listData) {
+            if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
+                NSLog(@"#####$%%%%%%###############%@",vo.currentIndex);
+                [newNumArray addObject:vo.currentIndex];
+            }
+        }
         
         NSString *resp = [NSString stringWithFormat:@"%@",message.body];
         
@@ -1487,7 +1516,7 @@ LMExceptionalViewDelegate
                                   error:nil];
         
         MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
-        NSNumber *number = vo.currentIndex ;
+        NSString *number = [NSString stringWithFormat:@"%@",vo.currentIndex];
         
         for (int i = 0; i<newNumArray.count; i++) {
             if ([newNumArray[i] isEqual:number]) {
@@ -1868,8 +1897,25 @@ LMExceptionalViewDelegate
             });
         }
         
-        [self performSelector:@selector(reLoadTableViewCell) withObject:nil afterDelay:0.1];
+        if (self.tableView.contentSize.height-self.tableView.contentOffset.y>kScreenHeight*3/2) {
+            [self performSelector:@selector(reloadTableView) withObject:nil afterDelay:0];
+        }else{
+            [self performSelector:@selector(reLoadTableViewCell) withObject:nil afterDelay:0];
+        }
+        
+        
     }];
+}
+
+-(void)reloadTableView
+{
+    NSLog(@"%f",self.tableView.contentOffset.y);
+    NSLog(@"%f",self.tableView.height);
+    NSLog(@"%f",self.tableView.contentSize.height);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 - (void)websocketConnect
@@ -2015,7 +2061,6 @@ LMExceptionalViewDelegate
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         
-        
         NSString *urlStr = vo.voiceurl;
         playVoiceURL = urlStr;
         playIndex = [vo.currentIndex integerValue];
@@ -2025,6 +2070,9 @@ LMExceptionalViewDelegate
         
         NSError *audioError = nil;
         BOOL successs = [audioSessions overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
+        if (!successs) {
+            NSLog(@"%@",audioError);
+        }
         //播放本地音乐
         [self lianxuPlay:urlStr];
         
@@ -2802,7 +2850,9 @@ LMExceptionalViewDelegate
     currentArray = [NSMutableArray new];
     for (MssageVO *vo in self.listData) {
         if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
-            [currentArray addObject:vo.currentIndex];
+            
+            NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+            [currentArray addObject:string];
         }
     }
     
@@ -2855,16 +2905,19 @@ LMExceptionalViewDelegate
         if (tempArr&&![tempArr isEqual:@""]&&[tempArr isKindOfClass:[NSArray class]]) {
             
             for (MssageVO *vo in tempArr) {
-                NSNumber *string =vo.currentIndex;
+                NSString *strings =[NSString stringWithFormat:@"%@",vo.currentIndex];
+                
                 NSMutableArray *newArray = [NSMutableArray new];
                 for (MssageVO *vo in self.listData) {
                     if (vo.currentIndex &&[vo.currentIndex isKindOfClass:[NSNumber class]]) {
-                        [newArray addObject:vo.currentIndex];
+                        
+                        NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                        [newArray addObject:string];
                     }
                 }
                 
                 for (int i = 0; i<newArray.count; i++) {
-                    if ([newArray[i] isEqual:string]) {
+                    if ([newArray[i] isEqual:strings]) {
                         return;
                     }
                 }
@@ -2959,7 +3012,6 @@ LMExceptionalViewDelegate
     }else{
         [self textStateHUD:@"未获取视频文件~"];
     }
-    
 
 }
 

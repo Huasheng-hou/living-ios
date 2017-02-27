@@ -42,7 +42,7 @@
 
 - (NSString *)methodPath
 {
-    return @"friends/partner";
+    return @"message/leaving";
 }
 
 @end

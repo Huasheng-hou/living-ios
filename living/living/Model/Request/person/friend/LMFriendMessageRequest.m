@@ -10,7 +10,7 @@
 
 @implementation LMFriendMessageRequest
 
--(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize
+-(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize user_uuid:(NSString *)user_uuid
 {
     self = [super init];
     if (self) {
@@ -20,6 +20,9 @@
         }
         if (pageSize != -1) {
             [body setObject:[NSString stringWithFormat:@"%ld", (long)pageSize] forKey:@"pageSize"];
+        }
+        if (user_uuid) {
+            [body setObject:user_uuid forKey:@"user_uuid"];
         }
         
         NSMutableDictionary *parmDic = [self params];
