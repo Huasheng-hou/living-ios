@@ -67,7 +67,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1450"
             endingLineNumber = "1450"
-            landmarkName = "-clickViewTag:andSubViewTag:"
+            landmarkName = "-tapimageAction:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,7 +99,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1503"
             endingLineNumber = "1503"
-            landmarkName = "-cellWillComment:"
+            landmarkName = "-clickViewVideoTag:andSubViewTag:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,7 +115,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1512"
             endingLineNumber = "1512"
-            landmarkName = "-cellWillComment:"
+            landmarkName = "-clickViewVideoTag:andSubViewTag:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -340,6 +340,22 @@
             startingLineNumber = "979"
             endingLineNumber = "979"
             landmarkName = "-APChooseViewSelectItem:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/person/LMMyMessageViewController.m"
+            timestampString = "509709494.560805"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "-parseResponse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
