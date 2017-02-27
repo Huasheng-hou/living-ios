@@ -137,6 +137,7 @@ LMExceptionalViewDelegate
     NSData *videoData;
     
     NSString *playVoiceURL;
+    NSInteger loadIndex;
     
 }
 @property (nonatomic, weak) NSTimer *timerOf60Second;
@@ -221,6 +222,7 @@ LMExceptionalViewDelegate
     toolBarChangeH  = 0;
     
     timerIndex = 1;
+    loadIndex = 1;
     
     self.groupArrays = [NSMutableArray array];
     
@@ -468,27 +470,29 @@ LMExceptionalViewDelegate
             });
         }
         
-        [self messageConnect];
-        
-        NSMutableArray *new = [NSMutableArray new];
-        for (MssageVO *vo in self.listData) {
+        if (loadIndex == 1) {
+            [self messageConnect];
             
-            NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-            [new addObject:string];
-        }
-        NSMutableArray *tempArray = [NSMutableArray new];
-        [tempArray addObjectsFromArray:tempArr];
-        for (int i = 0; i<tempArr.count; i++) {
-            MssageVO *vo = tempArr[i];
-            for (int j = 0; j<new.count; j++) {
-                NSString *current =[NSString stringWithFormat:@"%@",vo.currentIndex];
-                if ([new[j] isEqualToString:current]) {
-                    [tempArray removeObjectAtIndex:i];
+            NSMutableArray *new = [NSMutableArray new];
+            for (MssageVO *vo in self.listData) {
+                NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                [new addObject:string];
+            }
+            NSMutableArray *tempArray = [NSMutableArray new];
+            [tempArray addObjectsFromArray:tempArr];
+            for (int i = 0; i<tempArr.count; i++) {
+                MssageVO *vo = tempArr[i];
+                for (int j = 0; j<new.count; j++) {
+                    NSString *current =[NSString stringWithFormat:@"%@",vo.currentIndex];
+                    if ([new[j] isEqualToString:current]) {
+                        [tempArray removeObjectAtIndex:i];
+                    }
                 }
             }
+            return tempArray;
+        }else{
+            return tempArr;
         }
-        
-        return tempArray;
     }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [activity stopAnimating];
@@ -1961,6 +1965,7 @@ LMExceptionalViewDelegate
 
 - (void)loadNextPage
 {
+    loadIndex = 2;
     [self loadActivity];
     
     if (ifloadMoreData == NO) {
