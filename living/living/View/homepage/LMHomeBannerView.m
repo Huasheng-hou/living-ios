@@ -28,6 +28,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = BG_GRAY_COLOR;
         [self createUI];
     }
     return self;
@@ -36,7 +37,9 @@
 
 - (void)createUI{
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+    
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, self.frame.size.height-10)];
     CGFloat cellW = kScreenWidth/4;
     CGFloat cellH = 122;
     CGFloat imageX = 25;

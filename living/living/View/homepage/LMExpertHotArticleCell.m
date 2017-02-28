@@ -50,7 +50,7 @@
     UIView * topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backView.frame.size.width, 170)];
     [backView addSubview:topView];
     
-    _backImage = [[UIImageView alloc] initWithFrame:topView.bounds];
+    _backImage = [[UIImageView alloc] initWithFrame:topView.frame];
     _backImage.backgroundColor = BG_GRAY_COLOR;
     _backImage.image = [UIImage imageNamed:@"demo"];
     [topView addSubview:_backImage];

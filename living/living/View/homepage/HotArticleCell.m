@@ -34,15 +34,15 @@
 }
 - (void)addSubViews{
     
-    UIView * backView = [[UIView alloc] initWithFrame:self.bounds];
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 215)];
     [self.contentView addSubview:backView];
     
-    backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.bounds.size.width-20, 205)];
+    backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 205)];
     backImage.image = [UIImage imageNamed:@"demo"];
     backImage.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:backImage];
     
-    title = [[UILabel alloc] initWithFrame:CGRectMake(20, 110, self.bounds.size.width-40, 60)];
+    title = [[UILabel alloc] initWithFrame:CGRectMake(20, 110, kScreenWidth-40, 60)];
     title.text = @"腰·美丽 丨 用一束光的时间与你相遇青春不负的冬日";
     title.textColor = [UIColor whiteColor];
     title.font = TEXT_FONT_BOLDOBLIQUE_16;

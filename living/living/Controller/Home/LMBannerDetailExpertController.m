@@ -71,7 +71,7 @@
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
     headerView.backgroundColor = [UIColor whiteColor];
     
-    UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 14)];
+    UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 10)];
     titleLabel.textColor = TEXT_COLOR_LEVEL_3;
     titleLabel.font = TEXT_FONT_LEVEL_4;
     NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:nameList[section]];

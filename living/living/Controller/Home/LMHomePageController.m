@@ -131,7 +131,7 @@ LMHomeBannerDelegate
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     sectionList = @[@"腰果推荐", @"热门文章"];
     
-    LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 122)];
+    LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 132)];
     banner.delegate = self;
     self.tableView.tableHeaderView = banner;
 
@@ -430,7 +430,7 @@ LMHomeBannerDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 50;
+    return 40;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -443,17 +443,17 @@ LMHomeBannerDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
-    headerView.backgroundColor = BG_GRAY_COLOR;
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    headerView.backgroundColor = [UIColor whiteColor];
     
     if (section == 0) {
-        UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 40)];
+        UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 20)];
         headerTitle.backgroundColor = [UIColor whiteColor];
         headerTitle.textColor = TEXT_COLOR_LEVEL_3;
         headerTitle.font = TEXT_FONT_LEVEL_3;
         headerTitle.numberOfLines = 2;
         
-        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"\n   丨  腰果推荐"];
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"   丨  腰果推荐"];
         [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
         headerTitle.attributedText = [[NSAttributedString alloc] initWithAttributedString:attr];
         [headerView addSubview:headerTitle];

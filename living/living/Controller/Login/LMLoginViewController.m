@@ -108,6 +108,7 @@ WXApiDelegate
     
     self.tableView.keyboardDismissMode  = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.separatorInset       = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
+    self.tableView.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 
     
@@ -166,9 +167,9 @@ WXApiDelegate
     
     if (indexPath.row == 0) {
         
-        
         UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 40, 15, 20)];
-        phoneView.image = [UIImage imageNamed:@"activity"];
+        phoneView.image = [UIImage imageNamed:@""];
+        phoneView.backgroundColor = BG_GRAY_COLOR;
         [cell.contentView addSubview:phoneView];
         
         _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(40, 40, kScreenWidth - 50, 20)];
@@ -189,7 +190,8 @@ WXApiDelegate
     if (indexPath.row == 1) {
         
         UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 15, 20)];
-        codeView.image = [UIImage imageNamed:@"activity"];
+        codeView.image = [UIImage imageNamed:@""];
+        codeView.backgroundColor = BG_GRAY_COLOR;
         [cell.contentView addSubview:codeView];
         
         _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(40, 10, kScreenWidth - 95, 20)];
@@ -225,7 +227,7 @@ WXApiDelegate
         [codeBtn addGestureRecognizer:codeButTap];
         [cell.contentView addSubview:codeBtn];
         
-        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(20, 40, kScreenWidth - 20, 0.5)];
+        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(10, 40, kScreenWidth - 20, 0.5)];
         
         botLine.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:botLine];

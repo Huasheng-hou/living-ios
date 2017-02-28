@@ -19,9 +19,23 @@
 #import "SXButton.h"
 #import "SearchViewController.h"
 
+#import "LMBannerrequest.h"
+#import "BannerVO.h"
+#import "WJLoopView.h"
+
+#import "LMActivityLifeHouseCell.h"
+#import "LMActivityApplyCell.h"
+#import "LMActivityExperienceCell.h"
+
+#import "LMEvaluateViewController.h"
+
 #define PAGER_SIZE      20
 
 @interface LMActivityViewController ()
+<
+WJLoopViewDelegate,
+doSomethingForActivityDelegate
+>
 {
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
@@ -34,6 +48,10 @@
     BOOL                reload;
     SXButton     *letfButton;
     NSString         *city;
+    
+    UIView *headView; //头部视图
+    NSArray         *_bannerArray;
+    NSMutableArray  *stateArray;
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -45,6 +63,7 @@
 - (id)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
+//    self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         
 //        self.ifRemoveLoadNoState        = NO;
@@ -65,6 +84,8 @@
     [super viewDidLoad];
     [self creatUI];
     [self creatImage];
+    
+    [self getBannerDataRequest];
 
     [self loadNewer];
     __weak typeof(self) weakSelf = self;
@@ -118,6 +139,10 @@
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     
+    headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
+    headView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableHeaderView = headView;
+    
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
     NSString *cityStr;
     for (NSString *string in searchArr) {
@@ -125,6 +150,7 @@
     }
     
     // 设置导航栏左侧按钮
+    /*
     letfButton = [SXButton buttonWithType:UIButtonTypeCustom];
     letfButton.frame = CGRectMake(-10, 0, 55, 20);
     [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -154,9 +180,20 @@
     [letfButton setImage:[UIImage imageNamed:@"zhankai"] forState:UIControlStateNormal];
     UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
     self.navigationItem.leftBarButtonItem = LeftBarButton;
+     */
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightBarButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
     
     
 }
+
+// rightBarButton selected
+- (void)rightBarButtonPressed:(UIBarButtonItem *)barButtonItem
+{
+    printf("aaa");
+}
+
 
 - (void)screenAction:(UIButton *)sender
 {
@@ -202,6 +239,86 @@
     
 }
 
+#pragma mark - 网络连接
+
+- (void)getBannerDataRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMBannerrequest *request = [[LMBannerrequest alloc] init];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   
+                                                   NSDictionary *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString     *result     = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
+                                                       
+                                                       _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
+                                                       
+                                                       if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
+                                                           
+                                                           headView.backgroundColor = BG_GRAY_COLOR;
+                                                       } else {
+                                                           
+                                                           for (UIView *subView in headView.subviews) {
+                                                               
+                                                               [subView removeFromSuperview];
+                                                           }
+                                                           
+                                                           NSMutableArray   *imgUrls    = [NSMutableArray new];
+                                                           stateArray  = [NSMutableArray new];
+                                                           
+                                                           for (BannerVO *vo in _bannerArray) {
+                                                               
+                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
+                                                                   
+                                                                   [imgUrls addObject:vo.LinkUrl];
+                                                               }
+                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
+                                                                   
+                                                                   [stateArray addObject:vo.KeyUUID];
+                                                               }
+                                                           }
+                                                           
+                                                           WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
+                                                                                                           delegate:self
+                                                                                                          imageURLs:imgUrls
+                                                                                                   placeholderImage:nil
+                                                                                                       timeInterval:8
+                                                                                     currentPageIndicatorITintColor:nil
+                                                                                             pageIndicatorTintColor:nil];
+                                                           
+                                                           loopView.location = WJPageControlAlignmentRight;
+                                                           
+                                                           [headView addSubview:loopView];
+                                                       }
+                                                   }
+                                               });
+                                               
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+#pragma mark - WJLoopViewDelegate
+-(void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
+{
+    NSLog(@"---------------%ld",(long)index);
+}
+
 
 
 #pragma mark 发布活动
@@ -219,6 +336,7 @@
     
 
 }
+ 
 
 - (FitBaseRequest *)request
 {
@@ -320,9 +438,29 @@
 }
 
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSInteger count;
+    if (section == 1) {
+        count = 2;
+    }else{
+        count = 1;
+    }
+    return count;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    
+    if (indexPath.section == 0) {
+        h = 144;
+    }
     
     if (h) {
         
@@ -334,7 +472,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.01;
+    return 40;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -342,8 +480,41 @@
     return 0.01;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *sectionTitleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    sectionTitleView.backgroundColor = [UIColor whiteColor];
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 22, 2, 12)];
+    imageView.backgroundColor = ORANGE_COLOR;
+    [sectionTitleView addSubview:imageView];
+    
+    UILabel *sectionTitleLbl = [[UILabel alloc]initWithFrame:CGRectMake(17, 20, kScreenWidth - 17, 15)];
+    switch (section) {
+        case 0:
+            sectionTitleLbl.text = @"遇见生活馆";
+            break;
+        case 1:
+            sectionTitleLbl.text = @"活动报名";
+            break;
+        case 2:
+            sectionTitleLbl.text = @"项目体验";
+            break;
+            
+        default:
+            break;
+    }
+    sectionTitleLbl.font = TEXT_FONT_LEVEL_2;
+    sectionTitleLbl.textColor = TEXT_COLOR_LEVEL_3;
+    [sectionTitleView addSubview:sectionTitleLbl];
+    
+    
+    return sectionTitleView;
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     static NSString *cellId = @"cellId";
     
     UITableViewCell     *cell;
@@ -378,7 +549,48 @@
     [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
+     */
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell == nil){
+        switch (indexPath.section) {
+            case 0:{
+                static NSString * LifeHouseCellId = @"LifeHouseCell";
+                LMActivityLifeHouseCell *lifeHousecell = [[LMActivityLifeHouseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LifeHouseCellId];
+                __weak __block LMActivityViewController *copy_self = self;
+                lifeHousecell.btnPressedBlock = ^(NSInteger btnTag){
+//                    [copy_self ]
+                    // 选择生活馆活动
+//                    [copy_self pushEvaluateSuccessView];
+                    printf("%ld",btnTag);
+                };
+                cell = lifeHousecell;
+                break;
+            }
+            case 1:{
+                static NSString *ApplyCellId = @"ApplyCell";
+                LMActivityApplyCell *applycell = [[LMActivityApplyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ApplyCellId];
+                cell = applycell;
+                break;
+            }
+            case 2:{
+                static NSString *ExperienceCellId = @"ExperienceCell";
+                LMActivityExperienceCell *experiencecell = [[LMActivityExperienceCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ExperienceCellId];
+                experiencecell.delegate = self;
+                cell = experiencecell;
+                
+                break;
+            }
+                
+            default:
+                break;
+        }
+        
+    }
+    return  cell;
+    
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -436,6 +648,29 @@
     return _showView;
 }
 
+
+#pragma mark - doSomethingForActivityDelegate
+
+- (void)like
+{
+    printf("aaa");
+}
+
+- (void)share
+{
+    printf("aa");
+}
+
+- (void)comment
+{
+    printf("a");
+}
+
+- (void)grade
+{
+    LMEvaluateViewController *vc =[[LMEvaluateViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 
 @end
