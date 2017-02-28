@@ -681,7 +681,20 @@ FitPickerViewDelegate
     
     [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        [self wxRechargeRequest];
+        
+        NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
+        if (searchArr==nil) {
+            [self getagreementCharge:@"wx"];
+        }else{
+            for (NSString *string in searchArr) {
+                if ([string isEqualToString:@"agree"]) {
+                    [self wxRechargeRequest];
+                }else{
+                    [self getagreementCharge:@"wx"];
+                }
+                
+            }
+        }
         
     }]];
     
@@ -689,7 +702,22 @@ FitPickerViewDelegate
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
                                                 
-                                                [self aliRechargeRequest];
+                                                
+                                                NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
+                                                if (searchArr==nil) {
+                                                    [self getagreementCharge:@"ali"];
+                                                }else{
+                                                    for (NSString *string in searchArr) {
+                                                        if ([string isEqualToString:@"agree"]) {
+                                                            [self aliRechargeRequest];
+                                                        }else{
+                                                            [self getagreementCharge:@"ali"];
+                                                        }
+                                                        
+                                                    }
+                                                }
+
+                                                
                                             }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
@@ -747,11 +775,9 @@ FitPickerViewDelegate
                 [self senderWeiXinPay:bodyDict[@"map"][@"wxOrder"]];
             }
         } else {
-            if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
-                [self getagreementCharge:@"wx"];
-            }else{
-                [self textStateHUD:[bodyDict objectForKey:@"description"]];
-            }
+
+            [self textStateHUD:[bodyDict objectForKey:@"description"]];
+            
             
             
         }
@@ -894,12 +920,8 @@ FitPickerViewDelegate
             
         } else {
             
-            if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
-                [self getagreementCharge:@"alipay"];
-            }else{
                 [self textStateHUD:[bodyDict objectForKey:@"description"]];
-            }
-            
+
             
         }
     }
@@ -1215,58 +1237,24 @@ FitPickerViewDelegate
                                             handler:^(UIAlertAction*action) {
                                                 
                                                 if ([string isEqual:@"wx"]) {
-                                                    type = @"wx";
+                                                    [self wxRechargeRequest];
                                                 }else{
-                                                    type = @"ali";
+                                                    [self aliRechargeRequest];
                                                 }
+                                                NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"agree", nil];
                                                 
-                                                [self getagreementRequest:@"agree"];
+                                                //存入数组并同步
+                                                
+                                                [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"payArr"];
+                                                
+                                                [[NSUserDefaults standardUserDefaults] synchronize];
+                                                
+                                                
                                             }]];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)getagreementRequest:(NSString *)string
-{
-    LMAgreementRequest *request = [[LMAgreementRequest alloc] initWithAgreement:string];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getagreementResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self textStateHUD:@"网络错误"];
-                                           }];
-    [proxy start];
-}
-
-- (void)getagreementResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if (!bodyDic) {
-        
-        [self textStateHUD:@"暂无法同意支付协议"];
-    } else {
-        
-        NSString    *result     = [bodyDic objectForKey:@"result"];
-        
-        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
-            if ([type isEqual:@"wx"]) {
-                [self wxRechargeRequest];
-            }else{
-                [self aliRechargeRequest];
-            }
-            
-            
-        } else {
-            
-            [self textStateHUD:[bodyDic objectForKey:@"description"]];
-        }
-    }
-}
 
 
 @end

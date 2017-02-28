@@ -1,4 +1,4 @@
-//
+ //
 //  LMPublishViewController.m
 //  living
 //
@@ -42,7 +42,8 @@ FitPickerViewDelegate,
 selectAddressDelegate,
 addressTypeDelegate,
 ZYQAssetPickerControllerDelegate,
-KZVideoViewControllerDelegate
+KZVideoViewControllerDelegate,
+LMProjectCellDelegate
 >
 {
     LMPublicMsgCell *msgCell;
@@ -314,6 +315,7 @@ static NSMutableArray *cellDataArray;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell.title setTag:indexPath.row];
+        cell.delegate = self;
         [cell.includeTF setTag:indexPath.row];
         cell.cellndex = indexPath.row;
         cell.tag = indexPath.row;
@@ -325,6 +327,7 @@ static NSMutableArray *cellDataArray;
         if ([projectImageArray[indexPath.row] isKindOfClass:[UIImage class]]) {
             UIImage *image=(UIImage *)projectImageArray[indexPath.row];
             [cell.imgView setImage:image];
+            
         }else
             if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
                 [cell.imgView setImage:[UIImage imageNamed:@""]];
@@ -351,7 +354,9 @@ static NSMutableArray *cellDataArray;
         }
         if (indexPath.row==cellTag-100) {
             [cell.VideoImgView setImage:videoImage];
+            cell.button.hidden = NO;
         }else{
+            cell.button.hidden = YES;
         }
  
         if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
@@ -973,7 +978,7 @@ static NSMutableArray *cellDataArray;
             pickerV.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
                 if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
                     NSTimeInterval duration = [[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyDuration] doubleValue];
-                    return duration < 10;
+                    return duration < 10.5;
                 } else {
                     return YES;
                 }
@@ -981,11 +986,7 @@ static NSMutableArray *cellDataArray;
             
             [self presentViewController:pickerV animated:YES completion:NULL];
         }
-
     }
-    
-    
-
 }
 
 #pragma mark --判断项目标题是否为空
@@ -1430,12 +1431,14 @@ static NSMutableArray *cellDataArray;
         
     }
     
-    
-    
-    
 }
 
-
+-(void)cellWilldelete:(LMProjectCell *)projectcell
+{
+    [projectcell.VideoImgView setImage:[UIImage imageNamed:@""]];
+    videoUrl = nil;
+    projectcell.button.hidden = YES;
+}
 
 
 @end

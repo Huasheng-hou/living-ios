@@ -104,8 +104,8 @@ liveNameProtocol
     table.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     //尾部
-    footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 135)];
-    UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 45, kScreenWidth-30, 45)];
+    footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 185)];
+    UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 95, kScreenWidth-30, 45)];
     [loginOut setTitle:@"确认并支付" forState:UIControlStateNormal];
     loginOut.titleLabel.textAlignment = NSTextAlignmentCenter;
     loginOut.titleLabel.font = [UIFont systemFontOfSize:17];
@@ -113,8 +113,79 @@ liveNameProtocol
     [loginOut addTarget:self action:@selector(rechargeAction) forControlEvents:UIControlEventTouchUpInside];
     loginOut.backgroundColor = LIVING_COLOR;
     [footView addSubview:loginOut];
+    
+    UIButton *agreeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    agreeButton.frame = CGRectMake(15, 238, 45, 30);
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
+    if (searchArr==nil) {
+        [agreeButton setImage:[UIImage imageNamed:@"disagree"] forState:UIControlStateNormal];
+        
+    }else{
+        for (NSString *string in searchArr) {
+            if ([string isEqual:@"agree"]) {
+                [agreeButton setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
+            }else{
+                [agreeButton setImage:[UIImage imageNamed:@"disagree"] forState:UIControlStateNormal];
+            }
+        }
+    }
+    
+    [agreeButton addTarget:self action:@selector(agreeAction:) forControlEvents:UIControlEventTouchUpInside];
+    [footView addSubview:agreeButton];
+    
+    UILabel *agreeLabel = [UILabel new];
+    NSString *string = @"同意并接受《腰果生活支付协议》";
+    agreeLabel.font = TEXT_FONT_LEVEL_2;
+    agreeLabel.textColor = LIVING_COLOR;
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
+    [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,6)];
+    [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(6,6)];
+    agreeLabel.attributedText = str;
+    [agreeLabel sizeToFit];
+    agreeLabel.frame = CGRectMake(60, 45, agreeLabel.bounds.size.width, 30);
+    [footView addSubview:agreeLabel];
+    
+    
+    
     [table setTableFooterView:footView];
 }
+
+-(void)agreeAction:(UIButton *)button{
+    
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
+    if (searchArr==nil) {
+        NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"agree", nil];
+        
+        //存入数组并同步
+        
+        [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"payArr"];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [button setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
+        
+    }else{
+        for (NSString *string in searchArr) {
+            if ([string isEqual:@"agree"]) {
+                NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"disagree", nil];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"payArr"];
+                
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [button setImage:[UIImage imageNamed:@"disagree"] forState:UIControlStateNormal];
+            }else{
+                NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"agree", nil];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"payArr"];
+                
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [button setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
+            }
+        }
+    }
+}
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -325,11 +396,43 @@ liveNameProtocol
     [self.view endEditing:YES];
     
     if (selectedIndex==0) {//支付宝
-        [self aliRechargeRequest];
+        
+        NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
+        if (searchArr==nil) {
+            [self textStateHUD:@"请同意支付协议"];
+            return;
+        }else{
+            for (NSString *string in searchArr) {
+                if ([string isEqualToString:@"agree"]) {
+                    [self aliRechargeRequest];
+                }else{
+                    [self textStateHUD:@"请同意支付协议"];
+                    return;
+                }
+                
+            }
+        }
+        
     }
     if (selectedIndex==1) {//微信
-        [self wxRechargeRequest];
+        
+        NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
+        if (searchArr==nil) {
+            [self textStateHUD:@"请同意支付协议"];
+            return;
+        }else{
+            for (NSString *string in searchArr) {
+                if ([string isEqualToString:@"agree"]) {
+                    [self wxRechargeRequest];
+                }else{
+                    [self textStateHUD:@"请同意支付协议"];
+                    return;
+                }
+                
+            }
+        }
     }
+
 }
 
 #pragma mark 微信充值下单请求
@@ -381,11 +484,8 @@ liveNameProtocol
             [self senderWeiXinPay:bodyDict[@"wxOrder"]];
             
         }else{
-            if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
-                [self getagreementCharge:@"wx"];
-            }else{
                 [self textStateHUD:[bodyDict objectForKey:@"description"]];
-            }
+            
             
         }
     }
@@ -535,11 +635,9 @@ liveNameProtocol
             }
             
         }else{
-            if ([[bodyDict objectForKey:@"description"] isEqual:@"用户不同意支付协议"]) {
-                [self getagreementCharge:@"alipay"];
-            }else{
-                [self textStateHUD:[bodyDict objectForKey:@"description"]];
-            }
+
+            [self textStateHUD:[bodyDict objectForKey:@"description"]];
+
         }
     }
 }
@@ -619,73 +717,6 @@ liveNameProtocol
     [self presentViewController:tab animated:YES completion:nil];
 }
 
-//支付协议
--(void)getagreementCharge:(NSString *)string
-{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                   message:@"是否同意支付协议"
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"不同意"
-                                              style:UIAlertActionStyleCancel
-                                            handler:^(UIAlertAction*action) {
-                                                return ;
-                                            }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"同意"
-                                              style:UIAlertActionStyleDestructive
-                                            handler:^(UIAlertAction*action) {
-                                                
-                                                if ([string isEqual:@"wx"]) {
-                                                    type = @"wx";
-                                                }else{
-                                                    type = @"ali";
-                                                }
-                                                
-                                                [self getagreementRequest:@"agree"];
-                                            }]];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
--(void)getagreementRequest:(NSString *)string
-{
-    LMAgreementRequest *request = [[LMAgreementRequest alloc] initWithAgreement:string];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getagreementResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self textStateHUD:@"网络错误"];
-                                           }];
-    [proxy start];
-}
-
-- (void)getagreementResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if (!bodyDic) {
-        
-        [self textStateHUD:@"暂无法同意支付协议"];
-    } else {
-        
-        NSString    *result     = [bodyDic objectForKey:@"result"];
-        
-        if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
-            if ([type isEqual:@"wx"]) {
-                [self wxRechargeRequest];
-            }else{
-                [self aliRechargeRequest];
-            }
-            
-        } else {
-            
-            [self textStateHUD:[bodyDic objectForKey:@"description"]];
-        }
-    }
-}
 
 
 
