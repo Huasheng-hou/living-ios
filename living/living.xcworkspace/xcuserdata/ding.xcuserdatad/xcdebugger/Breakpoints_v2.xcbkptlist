@@ -195,7 +195,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "857"
             endingLineNumber = "857"
-            landmarkName = "-getImageURL:"
+            landmarkName = "-actionSheet:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -211,7 +211,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "879"
             endingLineNumber = "879"
-            landmarkName = "-getImageURL:"
+            landmarkName = "-actionSheet:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -226,9 +226,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1356"
-            endingLineNumber = "1356"
-            landmarkName = "-sendVideo:"
-            landmarkType = "7">
+            endingLineNumber = "1356">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -242,9 +240,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1371"
-            endingLineNumber = "1371"
-            landmarkName = "-sendVideo:"
-            landmarkType = "7">
+            endingLineNumber = "1371">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -258,9 +254,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1375"
-            endingLineNumber = "1375"
-            landmarkName = "-sendVideo:"
-            landmarkType = "7">
+            endingLineNumber = "1375">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -275,7 +269,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "864"
             endingLineNumber = "864"
-            landmarkName = "-getImageURL:"
+            landmarkName = "-actionSheet:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -349,13 +343,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/person/LMMyMessageViewController.m"
-            timestampString = "509709494.560805"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "509878504.067989"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-parseResponse:"
+            startingLineNumber = "2897"
+            endingLineNumber = "2897"
+            landmarkName = "-getmessageRespond:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
+            timestampString = "509878504.067989"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2879"
+            endingLineNumber = "2879"
+            landmarkName = "-getmessageRequest:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
