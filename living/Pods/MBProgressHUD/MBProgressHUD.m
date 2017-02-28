@@ -373,9 +373,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.completionBlock = NULL;
 	}
 #endif
-	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
-		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
-	}
+//	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
+//		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
+//	}
 }
 
 #pragma mark - Threading

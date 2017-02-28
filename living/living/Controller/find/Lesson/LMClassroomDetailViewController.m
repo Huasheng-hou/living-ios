@@ -1892,13 +1892,15 @@ LMChooseViewDelegate
         [UIView animateWithDuration:0.1f animations:^{
             [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
         }];
-    }
+    }                      
     
 }
 
 - (void)cellwillClickImageView:(LMVoiceHeaderCell *)cell
 {
     LMVoiceMemeberListViewController *member = [[LMVoiceMemeberListViewController alloc] init];
+    self.navigationController.navigationBar.hidden  = NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     member.hidesBottomBarWhenPushed = YES;
     member.VoiceUUid = eventDic.voiceUuid;
     [self.navigationController pushViewController:member animated:YES];
