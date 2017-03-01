@@ -116,19 +116,15 @@
         
         [_expressionView addSubview:_faceView];
     }
-    
-//    _expressionView.contentSize = CGSizeMake(kScreenWidth * (numberOfPage + 1), 200);
+
     _expressionView.contentSize = CGSizeMake(kScreenWidth * 2, 200);
     [self addSubview:_expressionView];
     
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, frame.size.height - 20, frame.size.width, 20)];
-//    _pageControl.backgroundColor    = MASK_COLOR;
-//    _pageControl.numberOfPages      = numberOfPage + 1;
     _pageControl.numberOfPages      = 2;
     _pageControl.currentPage        = 0;
     _pageControl.pageIndicatorTintColor         = MASK_COLOR;
     _pageControl.currentPageIndicatorTintColor  = MASK_DARK_COLOR;
-//    [_pageControl addTarget:self action:@selector(doPage:) forControlEvents:UIControlEventValueChanged];
     
     [self addSubview:_pageControl];
 }

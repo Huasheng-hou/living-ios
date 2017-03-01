@@ -70,6 +70,8 @@
 		35761C821E5EB77D000834D0 /* KZVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35761C7B1E5EB77D000834D0 /* KZVideoPlayer.m */; };
 		35761C831E5EB77D000834D0 /* KZVideoSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 35761C7D1E5EB77D000834D0 /* KZVideoSupport.m */; };
 		35761C841E5EB77D000834D0 /* KZVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35761C7F1E5EB77D000834D0 /* KZVideoViewController.m */; };
+		357750CD1E667225003C0607 /* LMChangeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 357750CC1E667225003C0607 /* LMChangeTextView.m */; };
+		357750D01E66C818003C0607 /* LMFranchiseeChargePayRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 357750CF1E66C818003C0607 /* LMFranchiseeChargePayRequest.m */; };
 		35816FEB1DF7E3CC00D062CB /* LMArtcleTypeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */; };
 		35816FEE1DF7E45C00D062CB /* LMArtcleTypeListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FED1DF7E45C00D062CB /* LMArtcleTypeListRequest.m */; };
 		35816FF11DF7E51700D062CB /* LMArtcleTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35816FF01DF7E51700D062CB /* LMArtcleTypeViewController.m */; };
@@ -462,8 +464,6 @@
 		8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28AD1DF8101600B735BE /* LMSegmentView.m */; };
 		8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */; };
 		8E0E28BC1DF8234100B735BE /* FitChatFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B61DF8234100B735BE /* FitChatFaceView.m */; };
-		8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */; };
-		8E0E28BE1DF8234100B735BE /* FitChatWarningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28BA1DF8234100B735BE /* FitChatWarningView.m */; };
 		8E4C98F91DD1D6C400B17046 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */; };
 		8E4C98FB1DD1D6CB00B17046 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */; };
 		8E4C98FD1DD1D7D300B17046 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */; };
@@ -600,6 +600,10 @@
 		35761C7D1E5EB77D000834D0 /* KZVideoSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoSupport.m; sourceTree = "<group>"; };
 		35761C7E1E5EB77D000834D0 /* KZVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KZVideoViewController.h; sourceTree = "<group>"; };
 		35761C7F1E5EB77D000834D0 /* KZVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZVideoViewController.m; sourceTree = "<group>"; };
+		357750CB1E667225003C0607 /* LMChangeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMChangeTextView.h; sourceTree = "<group>"; };
+		357750CC1E667225003C0607 /* LMChangeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChangeTextView.m; sourceTree = "<group>"; };
+		357750CE1E66C818003C0607 /* LMFranchiseeChargePayRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFranchiseeChargePayRequest.h; sourceTree = "<group>"; };
+		357750CF1E66C818003C0607 /* LMFranchiseeChargePayRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFranchiseeChargePayRequest.m; sourceTree = "<group>"; };
 		35816FE91DF7E3CC00D062CB /* LMArtcleTypeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeRequest.h; sourceTree = "<group>"; };
 		35816FEA1DF7E3CC00D062CB /* LMArtcleTypeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMArtcleTypeRequest.m; sourceTree = "<group>"; };
 		35816FEC1DF7E45C00D062CB /* LMArtcleTypeListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMArtcleTypeListRequest.h; sourceTree = "<group>"; };
@@ -1423,10 +1427,6 @@
 		8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatExpressionView.m; sourceTree = "<group>"; };
 		8E0E28B51DF8234100B735BE /* FitChatFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatFaceView.h; sourceTree = "<group>"; };
 		8E0E28B61DF8234100B735BE /* FitChatFaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatFaceView.m; sourceTree = "<group>"; };
-		8E0E28B71DF8234100B735BE /* FitChatFunctionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatFunctionView.h; sourceTree = "<group>"; };
-		8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatFunctionView.m; sourceTree = "<group>"; };
-		8E0E28B91DF8234100B735BE /* FitChatWarningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatWarningView.h; sourceTree = "<group>"; };
-		8E0E28BA1DF8234100B735BE /* FitChatWarningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatWarningView.m; sourceTree = "<group>"; };
 		8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
 		8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMapNavi.bundle; path = AMapNaviKit.framework/AMapNavi.bundle; sourceTree = "<group>"; };
 		8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
@@ -2997,6 +2997,8 @@
 				35B746201DDE97F3000AFA26 /* LMFranchiseeResultWchatRequest.m */,
 				35B746211DDE97F3000AFA26 /* LMFranchiseeWchatPayRequest.h */,
 				35B746221DDE97F3000AFA26 /* LMFranchiseeWchatPayRequest.m */,
+				357750CE1E66C818003C0607 /* LMFranchiseeChargePayRequest.h */,
+				357750CF1E66C818003C0607 /* LMFranchiseeChargePayRequest.m */,
 			);
 			path = Franchisee;
 			sourceTree = "<group>";
@@ -3698,10 +3700,8 @@
 				8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */,
 				8E0E28B51DF8234100B735BE /* FitChatFaceView.h */,
 				8E0E28B61DF8234100B735BE /* FitChatFaceView.m */,
-				8E0E28B71DF8234100B735BE /* FitChatFunctionView.h */,
-				8E0E28B81DF8234100B735BE /* FitChatFunctionView.m */,
-				8E0E28B91DF8234100B735BE /* FitChatWarningView.h */,
-				8E0E28BA1DF8234100B735BE /* FitChatWarningView.m */,
+				357750CB1E667225003C0607 /* LMChangeTextView.h */,
+				357750CC1E667225003C0607 /* LMChangeTextView.m */,
 			);
 			path = ChatFace;
 			sourceTree = "<group>";
@@ -4098,6 +4098,7 @@
 				35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */,
 				35B747691DDE97F3000AFA26 /* LMAddviceViewController.m in Sources */,
 				35B747221DDE97F3000AFA26 /* UIView+MJExtension.m in Sources */,
+				357750D01E66C818003C0607 /* LMFranchiseeChargePayRequest.m in Sources */,
 				35B747C71DDE97F3000AFA26 /* LMCouponMsgRequest.m in Sources */,
 				35B747541DDE97F3000AFA26 /* FitTabbarController.m in Sources */,
 				35B748181DDE97F4000AFA26 /* POIAnnotation.m in Sources */,
@@ -4111,7 +4112,6 @@
 				35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */,
 				35B7478B1DDE97F3000AFA26 /* UITabBar+Badge.m in Sources */,
 				8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */,
-				8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */,
 				35B748341DDE97F4000AFA26 /* LMAgeChooseButton.m in Sources */,
 				359F81841E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m in Sources */,
 				35B747CF1DDE97F4000AFA26 /* LMAliRechargeRequest.m in Sources */,
@@ -4229,7 +4229,6 @@
 				35B747891DDE97F3000AFA26 /* UIBarButtonItem+Badge.m in Sources */,
 				35B747EB1DDE97F4000AFA26 /* LMCouponVO.m in Sources */,
 				355E7B791DFFE8C50089BAB1 /* LMPulicVoicViewController.m in Sources */,
-				8E0E28BE1DF8234100B735BE /* FitChatWarningView.m in Sources */,
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				35E92E5B1E3457F900EE6DE6 /* LMChoseCounponButton.m in Sources */,
 				3512137E1DF963C10053B83F /* LMBlacklistViewController.m in Sources */,
@@ -4257,6 +4256,7 @@
 				35B747901DDE97F3000AFA26 /* LMBalanceList.m in Sources */,
 				355E7B6A1DFFCD5F0089BAB1 /* LMVoiceHeaderCell.m in Sources */,
 				3535CFF71E20E98100280C34 /* LMWobsocket.m in Sources */,
+				357750CD1E667225003C0607 /* LMChangeTextView.m in Sources */,
 				3524CF751E5010FD00651E64 /* LMEventUpstoreRequest.m in Sources */,
 				35B747981DDE97F3000AFA26 /* LMMonthDetailBody.m in Sources */,
 				35B747D21DDE97F4000AFA26 /* LMWXRechargrRequest.m in Sources */,

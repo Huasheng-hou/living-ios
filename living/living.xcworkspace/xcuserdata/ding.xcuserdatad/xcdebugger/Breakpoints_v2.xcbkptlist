@@ -29,38 +29,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "509878504.067989"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2897"
-            endingLineNumber = "2897"
-            landmarkName = "-getmessageRespond:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "living/Controller/find/Lesson/LMChatViewController.m"
-            timestampString = "509878504.067989"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2879"
-            endingLineNumber = "2879"
-            landmarkName = "-getmessageRequest:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "living/Controller/activity/LMBesureOrderViewController.m"
             timestampString = "509957767.604346"
             startingColumnNumber = "9223372036854775807"
@@ -94,7 +62,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "509966066.838207"
+                  timestampString = "510053932.080322"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -109,7 +77,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "509966066.840535"
+                  timestampString = "510053932.083896"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -124,7 +92,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "509966066.842867"
+                  timestampString = "510053932.087976"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -157,7 +125,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "509966066.847831"
+                  timestampString = "510053932.09659"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -172,7 +140,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "509966066.850042"
+                  timestampString = "510053932.101473"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -187,7 +155,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "509966066.852208"
+                  timestampString = "510053932.105121"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"

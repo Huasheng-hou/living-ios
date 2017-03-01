@@ -268,6 +268,7 @@
     //    NSLog(@"**********");
     LMFranchiseeViewController *joinVC = [[LMFranchiseeViewController alloc] init];
     joinVC.hidesBottomBarWhenPushed = YES;
+    joinVC.franchisee = _franchisee;
     joinVC.xufei = xufei;
     [self.navigationController pushViewController:joinVC animated:YES];
 }

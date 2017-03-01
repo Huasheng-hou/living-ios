@@ -69,6 +69,19 @@ LMhomePageCellDelegate
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(publicAction)];
+        
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -109,16 +122,6 @@ LMhomePageCellDelegate
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = BG_GRAY_COLOR;
     self.tableView.tableHeaderView = headView;
-    
-    if ([[FitUserManager sharedUserManager] isLogin]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(publicAction)];
-        
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
-    
 
 }
 
