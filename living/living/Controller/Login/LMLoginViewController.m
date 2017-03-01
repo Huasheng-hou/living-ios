@@ -114,16 +114,18 @@ WXApiDelegate
     
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"浏览看看" style:UIBarButtonItemStylePlain target:self action:@selector(justLook:)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"浏览看看" style:UIBarButtonItemStylePlain target:self action:@selector(justLook)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     UIImageView * leftImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"turnright"]];
     leftImage.transform = CGAffineTransformMakeRotation(M_PI);
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(justLook)];
+    [leftImage addGestureRecognizer:tap];
     UIBarButtonItem *leftItem     = [[UIBarButtonItem alloc] initWithCustomView:leftImage];
     self.navigationItem.leftBarButtonItem = leftItem;
 }
 
-- (void)justLook:(UIBarButtonItem *)item{
+- (void)justLook{
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -151,7 +153,7 @@ WXApiDelegate
         return 40;
     }
     if (indexPath.row == 4) {
-        return 200;
+        return (kScreenHeight-70-90-60-40-64);
     }
     return 0;
 }
@@ -206,7 +208,7 @@ WXApiDelegate
         
         [cell.contentView addSubview:_codeTF];
         
-        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 85, 10, 10, 20)];
+        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 90, 10, 5, 20)];
         
         lbl.text            = @"/";
         lbl.font            = [UIFont boldSystemFontOfSize:16];
@@ -216,9 +218,9 @@ WXApiDelegate
         
         codeBtn                    = [[UILabel alloc]init];
         codeBtn.layer.cornerRadius = 5;
-        codeBtn.frame              = CGRectMake(kScreenWidth - 75, 10, 65, 20);
+        codeBtn.frame              = CGRectMake(kScreenWidth - 85, 10, 75, 20);
         codeBtn.text               = @"获取验证码";
-        codeBtn.textColor          = ORANGE_COLOR;
+        codeBtn.textColor          = LIVING_COLOR;
         codeBtn.userInteractionEnabled = YES;
         codeBtn.clipsToBounds      = YES;
         codeBtn.textAlignment      = NSTextAlignmentCenter;
@@ -238,12 +240,12 @@ WXApiDelegate
         _loginBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
         
         _loginBtn.titleLabel.textColor  = [UIColor whiteColor];
-        [_loginBtn setBackgroundColor:BTN_ORANGE_COLOR];
+        [_loginBtn setBackgroundColor:[UIColor orangeColor]];
         _loginBtn.frame  = CGRectMake(15, 15, kScreenWidth - 30, 45);
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;
         
-        [_loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+        [_loginBtn setTitle:@"登 录" forState:UIControlStateNormal];
         [_loginBtn addTarget:self action:@selector(submitBtnPressed) forControlEvents:UIControlEventTouchUpInside];
         
         [cell.contentView addSubview:_loginBtn];
@@ -257,7 +259,7 @@ WXApiDelegate
         
         
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"点击登录即理解并且同意《腰果生活服务协议》"];
-        [str addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(11,str.length-11)];
+        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(11,str.length-11)];
         [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_4 range:NSMakeRange(0,11)];
         
         hintLbl.attributedText = str;
@@ -274,10 +276,16 @@ WXApiDelegate
         
         CGFloat lineW = 40;
         CGFloat lineGap = 10;
-        
-        
+        CGFloat w = 40;
+        CGFloat gap = 20;
+        if ([UIScreen mainScreen].bounds.size.width == 375) {
+            w = 45;
+            gap = 25;
+            lineW = 55;
+        }
+
         UILabel * other = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 65, 15)];
-        other.center = CGPointMake(cell.contentView.center.x, 110);
+        other.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-30-w-20-7.5);
         other.text = @"其它方式登录";
         other.textColor = TEXT_COLOR_LEVEL_4;
         other.font = TEXT_FONT_LEVEL_4;
@@ -292,12 +300,10 @@ WXApiDelegate
         [cell.contentView addSubview:rightLine];
         
         
-        NSArray *imageNames = @[@"share-1", @"share-1", @"share-1"];
-        CGFloat w = 40;
-        CGFloat gap = 20;
+        NSArray *imageNames = @[@"sina-3", @"wechat", @"支付宝"];
         CGFloat mainW = w*3 + gap*2;
-        UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 150, mainW, w)];
-        backView.center = CGPointMake(cell.contentView.center.x, 150);
+        UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainW, w)];
+        backView.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-30-w/2.0);
         for (int i=0; i<3; i++) {
             UIButton * thirdLogin = [[UIButton alloc] initWithFrame:CGRectMake(i*(w+gap), 0, w, w)];
             [thirdLogin setBackgroundImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
@@ -306,7 +312,6 @@ WXApiDelegate
             [backView addSubview:thirdLogin];
         }
         [cell.contentView addSubview:backView];
-
     }
     return cell;
 }
@@ -318,12 +323,13 @@ WXApiDelegate
         case 300:
         {
             //新浪登录
-            
+            NSLog(@"新浪登录");
         }
             break;
         case 301:
         {
             //微信登录
+            NSLog(@"微信登录");
             [self wxinLoginAction];
             
         }
@@ -331,7 +337,7 @@ WXApiDelegate
         case 302:
         {
             //支付宝登录
-            
+            NSLog(@"支付宝登录");
         }
             break;
         default:
@@ -344,7 +350,7 @@ WXApiDelegate
 
 - (void)timeFireMethod
 {
-    codeBtn.font                  = [UIFont systemFontOfSize:13];
+    codeBtn.font                  = [UIFont systemFontOfSize:10];
     codeBtn.text                  = [NSString stringWithFormat:@"%ds后重新发送",_number--];
     
     if (_number == 0)
@@ -352,7 +358,7 @@ WXApiDelegate
         [_timer invalidate];
         codeBtn.userInteractionEnabled = YES;
         codeBtn.text        = @"发送验证码";
-        codeBtn.font        = TEXT_FONT_LEVEL_1;
+        codeBtn.font        = TEXT_FONT_LEVEL_3;
         _number             = 60;
     }
 }

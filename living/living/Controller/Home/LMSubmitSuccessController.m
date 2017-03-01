@@ -56,13 +56,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 40;
+    return 30;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView * head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    UIView * head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
     head.backgroundColor = [UIColor whiteColor];
     
-    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, kScreenWidth-20, 10)];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 10)];
     title.textColor = TEXT_COLOR_LEVEL_3;
     title.font = TEXT_FONT_LEVEL_4;
     NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"丨 就近生活馆查询"];
