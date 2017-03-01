@@ -769,7 +769,7 @@ liveNameProtocol
         
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
-            if ([_xufei isEqualToString:@"xufei"]) {
+            if (_franchisee &&[_franchisee isEqualToString:@"yes"]) {
                 [self textStateHUD:@"续费成功！"];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"xufei_dot"];
