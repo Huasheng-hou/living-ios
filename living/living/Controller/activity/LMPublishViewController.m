@@ -106,6 +106,7 @@ static NSMutableArray *cellDataArray;
     
     [self initSearch];
     useCounpon = @"1";
+    videoUrl = nil;
 }
 
 - (void)initSearch
@@ -549,8 +550,13 @@ static NSMutableArray *cellDataArray;
 
 - (void)VideoButtonAction:(UIButton *)button
 {
-    NSLog(@"%ld",(long)button.tag);
-    cellTag = button.tag;
+    if (videoUrl&&![videoUrl isEqual:@""]) {
+        [self textStateHUD:@"只能添加一个视频"];
+        return;
+    }else{
+        cellTag = button.tag;
+    }
+    
     videoIndex = 2;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
@@ -825,8 +831,12 @@ static NSMutableArray *cellDataArray;
     if (addImageIndex == 0) {
         
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:image];
-        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        if (typeIndex ==2){
+            request.imageData   = UIImageJPEGRepresentation(image, 1);
+        }else{
+            UIImage *headImage = [ImageHelpTool scaleImage:image];
+            request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        }
         
         [self initStateHud];
         
@@ -864,10 +874,13 @@ static NSMutableArray *cellDataArray;
     }else{
         [self initStateHud];
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:image];
-        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
-        
-        
+        if (typeIndex ==2){
+            request.imageData   = UIImageJPEGRepresentation(image, 1);
+        }else{
+            UIImage *headImage = [ImageHelpTool scaleImage:image];
+            request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        }
+
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    
@@ -957,20 +970,14 @@ static NSMutableArray *cellDataArray;
         if (buttonIndex==0)
         {//
             NSLog(@"小视频~~~~~");
-            if (videoUrl&&![videoUrl isEqual:@""]) {
-                [self textStateHUD:@"只能添加一个视频"];
-                return;
-            }
+
             
             KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
             videoVC.delegate = self;
             [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
         }
         if (buttonIndex==1){
-            if (videoUrl&&![videoUrl isEqual:@""]) {
-                [self textStateHUD:@"只能添加一个视频"];
-                return;
-            }
+
             ZYQAssetPickerController *pickerV = [[ZYQAssetPickerController alloc] init];
             pickerV.maximumNumberOfSelection = 1;
             pickerV.assetsFilter = [ALAssetsFilter allVideos];
@@ -1131,10 +1138,10 @@ static NSMutableArray *cellDataArray;
 
 - (void)publicProject
 {
-        NSDictionary *dic=cellDataArray[index];
+    NSDictionary *dic=cellDataArray[index];
     NSString *url = @"";
     NSString *cover = @"";
-    if (publicTag == index) {
+    if (publicTag-100 == index) {
         url = videoUrl;
         cover = coverUrl;
     }else{
@@ -1354,6 +1361,7 @@ static NSMutableArray *cellDataArray;
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    typeIndex = 1;
     
     publicTag = cellTag;
     FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
@@ -1375,7 +1383,7 @@ static NSMutableArray *cellDataArray;
                                                        
                                                        videoUrl = voiceUrl;
                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                          [self textStateHUD:@"上传视频成功"];
+                                                           [self hideStateHud];
                                                        });                                                       
                                                    }
                                                }
@@ -1418,8 +1426,8 @@ static NSMutableArray *cellDataArray;
                 NSString *configFile = [documentD stringByAppendingString:@"123.mp4"];
                 [videoData writeToFile:configFile atomically:YES];
                 
-                UIImage *VideoImage = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
-                videoImage = [ImageHelpTool imageWithImage:VideoImage scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth*3/4)];
+                UIImage *newImage = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
+                videoImage = [ImageHelpTool clipImageWithImage:newImage inRect:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
                 typeIndex = 2;
                 [self getImageURL:videoImage];
             }

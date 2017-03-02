@@ -263,5 +263,24 @@ static CGRect oldframe;
     return newImage;
 }
 
++ (UIImage*)clipImageWithImage:(UIImage*)image inRect:(CGRect)rect {
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+    
+    UIGraphicsBeginImageContext(image.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextDrawImage(context, rect, imageRef);
+    
+    UIImage* clipImage = [UIImage imageWithCGImage:imageRef];
+    
+    UIGraphicsEndImageContext();
+    
+    
+    return clipImage;
+    
+}
+
 
 @end

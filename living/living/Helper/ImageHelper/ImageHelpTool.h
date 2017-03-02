@@ -17,6 +17,7 @@
 + (UIImage *)scaleImagexy:(UIImage *)image toScalexy:(CGSize )scaleSize;
 + (UIImage *)imageCompressForSize:(UIImage *)sourceImage targetSize:(CGSize)size;
 + (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
++ (UIImage*)clipImageWithImage:(UIImage*)image inRect:(CGRect)rect ;
 
 + (void)showImage:(UIImageView*)avatarImageView;
 
