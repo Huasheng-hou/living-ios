@@ -190,25 +190,32 @@ LMExceptionalViewDelegate
         if (items && [items count]){
             
             dispatch_async(dispatch_get_main_queue(), ^{
-
-                [_listData addObjectsFromArray:items];
-                NSMutableArray *new = [NSMutableArray new];
-                for (int i = 0; i<_listData.count; i++) {
-                    MssageVO *vo = _listData[i];
-                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-                    [new addObject:string];
-                }
-                NSMutableArray *currentArrays = [NSMutableArray new];
-                if (new.count>0) {
-                    for (int j = 0; j<new.count; j++) {
-                        if ([currentArrays containsObject:new[j]]) {
-                            [_listData removeObjectAtIndex:j];
+                if (_listData.count>0) {
+                    NSMutableArray *addArray = [NSMutableArray new];
+                    [addArray addObjectsFromArray:_listData];
+                    [_listData removeAllObjects];
+                    [_listData addObjectsFromArray:items];
+                    NSMutableArray *new = [NSMutableArray new];
+                    for (int i = 0; i<items.count; i++) {
+                        MssageVO *vo = items[i];
+                        NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                        [new addObject:string];
+                    }
+                    
+                    for (int j = 0; j<addArray.count; j++) {
+                        MssageVO *vo = addArray[j];
+                        NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                        if ([new containsObject:string]) {
+                            NSLog(@"currentIndex*******%@",string);
                         }else{
-                            [currentArrays addObject:new[j]];
+                            [_listData addObject:addArray[j]];
                         }
                     }
+
+                }else{
+                   [_listData addObjectsFromArray:items];
                 }
-                
+
                 [self reLoadTableViewCell];
             });
             
@@ -414,24 +421,32 @@ LMExceptionalViewDelegate
         
         if (loadIndex == 1) {
             [self messageConnect];
-            
-            NSMutableArray *new = [NSMutableArray new];
-            for (MssageVO *vo in self.listData) {
-                NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-                [new addObject:string];
-            }
             NSMutableArray *tempArray = [NSMutableArray new];
-            [tempArray addObjectsFromArray:tempArr];
-            for (int i = 0; i<tempArr.count; i++) {
-                MssageVO *vo = tempArr[i];
-                for (int j = 0; j<new.count; j++) {
-                    NSString *current =[NSString stringWithFormat:@"%@",vo.currentIndex];
-                    if ([new[j] isEqualToString:current]) {
-                        [tempArray removeObjectAtIndex:i];
+            if (_listData.count>0) {
+                NSMutableArray *addArray = [NSMutableArray new];
+                [addArray addObjectsFromArray:_listData];
+                [_listData removeAllObjects];
+                [_listData addObjectsFromArray:tempArr];
+                NSMutableArray *new = [NSMutableArray new];
+                for (int i = 0; i<tempArr.count; i++) {
+                    MssageVO *vo = tempArr[i];
+                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                    [new addObject:string];
+                }
+                
+                for (int j = 0; j<addArray.count; j++) {
+                    MssageVO *vo = addArray[j];
+                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                    if ([new containsObject:string]) {
+                        NSLog(@"currentIndex*******%@",string);
+                    }else{
+                        [tempArray addObject:addArray[j]];
                     }
                 }
             }
             return tempArray;
+            
+            
         }else{
             return tempArr;
         }
@@ -1370,10 +1385,8 @@ LMExceptionalViewDelegate
         MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
         NSString *number = [NSString stringWithFormat:@"%@",vo.currentIndex];
         
-        for (int i = 0; i<newNumArray.count; i++) {
-            if ([newNumArray[i] isEqual:number]) {
-                return ;
-            }
+        if ([newNumArray containsObject:number]) {
+            return ;
         }
         
         if (vo.type && ([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
@@ -2531,13 +2544,9 @@ LMExceptionalViewDelegate
                     }
                 }
                 
-                for (int i = 0; i<newArray.count; i++) {
-                    if ([newArray[i] isEqual:strings]) {
-                        break;
-                    }
+                if (![newArray containsObject:strings]) {
+                    [self.listData addObjectsFromArray:tempArr];
                 }
-                
-                [self.listData addObjectsFromArray:tempArr];
             }
         }
         [self.tableView reloadData];
