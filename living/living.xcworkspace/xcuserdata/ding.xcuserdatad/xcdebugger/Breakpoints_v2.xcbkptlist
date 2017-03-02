@@ -62,7 +62,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "510056212.415675"
+                  timestampString = "510111027.131683"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -77,7 +77,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "510056212.417781"
+                  timestampString = "510111027.133898"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -92,7 +92,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "510056212.419981"
+                  timestampString = "510111027.136832"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -125,7 +125,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "510056212.42477"
+                  timestampString = "510111027.141776"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -140,7 +140,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "510056212.426945"
+                  timestampString = "510111027.144"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -155,7 +155,7 @@
                   moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMBesureOrderViewController.m"
-                  timestampString = "510056212.429023"
+                  timestampString = "510111027.146626"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "699"
@@ -258,6 +258,86 @@
             startingLineNumber = "723"
             endingLineNumber = "723"
             landmarkName = "-blanceCharge"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/Home/LMPublicArticleController.m"
+            timestampString = "510111196.894052"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
+            landmarkName = "-assetPickerController:didFinishPickingAssets:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[LMPublicArticleController assetPickerController:didFinishPickingAssets:]"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Home/LMPublicArticleController.m"
+                  timestampString = "510111197.12731"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "440"
+                  endingLineNumber = "440"
+                  offsetFromSymbolStart = "1588">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[LMPublicArticleController assetPickerController:didFinishPickingAssets:]"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/Home/LMPublicArticleController.m"
+                  timestampString = "510111197.129948"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "440"
+                  endingLineNumber = "440"
+                  offsetFromSymbolStart = "1720">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/Home/LMPublicArticleController.m"
+            timestampString = "510111225.445579"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "-assetPickerController:didFinishPickingAssets:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/Home/LMPublicArticleController.m"
+            timestampString = "510111227.060903"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "-assetPickerController:didFinishPickingAssets:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

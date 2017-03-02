@@ -8,6 +8,7 @@
 
 #import "PlayerViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "FitConsts.h"
 
 #define KPlayerItemStatus @"status"
 
@@ -100,8 +101,9 @@
 
 - (void)createFuctionView
 {
-    UIButton *backButtton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
+    UIButton *backButtton=[[UIButton alloc]initWithFrame:CGRectMake(0, 10, 60, 40)];
     [backButtton setImage:[UIImage imageNamed:@"back-1"] forState:UIControlStateNormal];
+    backButtton.backgroundColor = LIVING_COLOR;
     [backButtton addTarget:self action:@selector(backSuperViewController) forControlEvents:UIControlEventTouchUpInside];
     [maskView addSubview:backButtton];
     
