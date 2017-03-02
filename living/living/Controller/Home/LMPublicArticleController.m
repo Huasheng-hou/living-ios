@@ -47,7 +47,7 @@ KZVideoViewControllerDelegate
 >
 {
     UIImagePickerController *pickImage;
-    ZYQAssetPickerController *picker;
+    ZYQAssetPickerController *LMpicker;
     NSMutableArray *imageArray;
     NSUInteger imageNum;
     NSInteger deleImageIndex;
@@ -657,14 +657,14 @@ static NSMutableArray *cellDataArray;
             
             imgNumber   = [projectImageArray[actionSheet.tag] count];
         }
-        picker = [[ZYQAssetPickerController alloc] init];
-        picker.maximumNumberOfSelection     = 10 - imgNumber;
-        picker.assetsFilter     = [ALAssetsFilter allPhotos];
-        picker.showEmptyGroups  = NO;
-        picker.delegate         = self;
-        picker.transitioningDelegate    = self;//覆盖原代理  另外需要遵循一个协议
-        picker.modalPresentationStyle   = UIModalPresentationCustom;
-        picker.selectionFilter          = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        LMpicker = [[ZYQAssetPickerController alloc] init];
+        LMpicker.maximumNumberOfSelection     = 10 - imgNumber;
+        LMpicker.assetsFilter     = [ALAssetsFilter allPhotos];
+        LMpicker.showEmptyGroups  = NO;
+        LMpicker.delegate         = self;
+        LMpicker.transitioningDelegate    = self;//覆盖原代理  另外需要遵循一个协议
+        LMpicker.modalPresentationStyle   = UIModalPresentationCustom;
+        LMpicker.selectionFilter          = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
             
             if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
                 
@@ -676,7 +676,7 @@ static NSMutableArray *cellDataArray;
             }
         }];
         
-        [self presentViewController:picker animated:YES completion:NULL];
+        [self presentViewController:LMpicker animated:YES completion:NULL];
     }
     if (buttonIndex == 1){//摄像头
         //判断后边的摄像头是否可用
@@ -727,6 +727,24 @@ static NSMutableArray *cellDataArray;
         
         [self presentViewController:pickerV animated:YES completion:NULL];
     }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    
+    [picker dismissViewControllerAnimated:YES completion:^{
+        updateImageArray = [NSMutableArray new];
+        UIImage *tempImg = [[UIImage alloc] init];
+        tempImg = info[UIImagePickerControllerOriginalImage];
+        [imageArray addObject:tempImg];
+        [imageViewArray addObject:tempImg];
+        [updateImageArray addObject:tempImg];
+        
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+        [self refreshData];
+        [self getImageURL:updateImageArray];
+    }];
+
 }
 
 #pragma mark 发布成功后等待跳转的页面

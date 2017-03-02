@@ -356,6 +356,7 @@ static NSMutableArray *cellDataArray;
             [cell.VideoImgView setImage:videoImage];
             cell.button.hidden = NO;
         }else{
+            [cell.VideoImgView setImage:[UIImage imageNamed:@""]];
             cell.button.hidden = YES;
         }
  
@@ -777,6 +778,7 @@ static NSMutableArray *cellDataArray;
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark --选取拍摄图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
 {
     if (addImageIndex==0) {
@@ -1372,12 +1374,9 @@ static NSMutableArray *cellDataArray;
                                                    if (voiceUrl && [voiceUrl isKindOfClass:[NSString class]]) {
                                                        
                                                        videoUrl = voiceUrl;
-                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                              withObject:@"上传视频成功"
-                                                                           waitUntilDone:YES];
-                                                       
-                                                       
-                                                       
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                          [self textStateHUD:@"上传视频成功"];
+                                                       });                                                       
                                                    }
                                                }
                                                

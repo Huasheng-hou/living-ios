@@ -2533,7 +2533,7 @@ LMExceptionalViewDelegate
                 
                 for (int i = 0; i<newArray.count; i++) {
                     if ([newArray[i] isEqual:strings]) {
-                        return;
+                        break;
                     }
                 }
                 
