@@ -443,10 +443,11 @@ LMExceptionalViewDelegate
                         [tempArray addObject:addArray[j]];
                     }
                 }
+                return tempArray;
+            }else{
+                return tempArr;
             }
-            return tempArray;
-            
-            
+   
         }else{
             return tempArr;
         }
