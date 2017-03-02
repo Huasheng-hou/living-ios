@@ -2358,6 +2358,7 @@ LMExceptionalViewDelegate
     [[[UIApplication sharedApplication].windows lastObject] addSubview:ExceptionalView];
     ExceptionalView.tag = cell.tag;
     MssageVO *vo = self.listData[cell.tag];
+    ExceptionalView.nameLabel.text = [NSString stringWithFormat:@"打赏%@",vo.name];
     [ExceptionalView.headerView sd_setImageWithURL:[NSURL URLWithString:vo.headimgurl]];
     [ExceptionalView.cancelButton addTarget:self action:@selector(closeViewAction) forControlEvents:UIControlEventTouchUpInside];
     
@@ -2371,6 +2372,7 @@ LMExceptionalViewDelegate
 #pragma mark -- 打赏
 -(void)ViewForMoney:(LMExceptionalView *)LMview Viewtag:(NSInteger)Viewtag
 {
+    
     NSArray *moneyArray = @[@"2",@"5",@"10",@"50",@"100",@"200"];
     MssageVO *vo = self.listData[LMview.tag];
     LMRewardBlanceRequest *request = [[LMRewardBlanceRequest alloc] initWithVoice_uuid:_voiceUuid user_uuid:vo.user_uuid money_reward:moneyArray[Viewtag]];
