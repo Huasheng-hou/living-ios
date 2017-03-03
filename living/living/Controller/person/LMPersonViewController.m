@@ -46,8 +46,10 @@ static CGRect oldframe;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
-
+    self.navigationController.navigationBar.barTintColor  = [UIColor whiteColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
+    
     if (![[FitUserManager sharedUserManager] isLogin]) {
         NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
         

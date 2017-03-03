@@ -141,7 +141,7 @@ WXApiDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 70;
+        return 80;
     }
     if (indexPath.row == 1) {
         return 90;
@@ -153,7 +153,7 @@ WXApiDelegate
         return 40;
     }
     if (indexPath.row == 4) {
-        return (kScreenHeight-70-90-60-40-64);
+        return (kScreenHeight-80-90-60-40-64);
     }
     return 0;
 }
@@ -169,12 +169,12 @@ WXApiDelegate
     
     if (indexPath.row == 0) {
         
-        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 40, 15, 20)];
-        phoneView.image = [UIImage imageNamed:@""];
-        phoneView.backgroundColor = BG_GRAY_COLOR;
+        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 45, 15, 20)];
+        phoneView.image = [UIImage imageNamed:@"phone-2"];
+        //phoneView.backgroundColor = BG_GRAY_COLOR;
         [cell.contentView addSubview:phoneView];
         
-        _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(40, 40, kScreenWidth - 50, 20)];
+        _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(40, 45, kScreenWidth - 50, 20)];
         _phoneTF.keyboardType   = UIKeyboardTypePhonePad;
         _phoneTF.placeholder    = @"请输入手机号码";
         _phoneTF.delegate       = self;
@@ -184,19 +184,19 @@ WXApiDelegate
         
         [cell.contentView addSubview:_phoneTF];
         
-        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(10, 70, kScreenWidth - 20, 0.5)];
+        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(10, 80, kScreenWidth - 20, 0.5)];
         
         botLine.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:botLine];
     }
     if (indexPath.row == 1) {
         
-        UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 15, 20)];
-        codeView.image = [UIImage imageNamed:@""];
-        codeView.backgroundColor = BG_GRAY_COLOR;
+        UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 15, 12, 17)];
+        codeView.image = [UIImage imageNamed:@"password-6"];
+        //codeView.backgroundColor = BG_GRAY_COLOR;
         [cell.contentView addSubview:codeView];
         
-        _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(40, 10, kScreenWidth - 95, 20)];
+        _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(40, 15, kScreenWidth - 95, 20)];
         _codeTF.placeholder     = @"请输入验证号码";
         _codeTF.font = [UIFont systemFontOfSize:17];
         _codeTF.keyboardType    = UIKeyboardTypePhonePad;
@@ -208,7 +208,7 @@ WXApiDelegate
         
         [cell.contentView addSubview:_codeTF];
         
-        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 90, 10, 5, 20)];
+        UILabel     *lbl    = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 90, 15, 5, 20)];
         
         lbl.text            = @"/";
         lbl.font            = [UIFont boldSystemFontOfSize:16];
@@ -218,7 +218,7 @@ WXApiDelegate
         
         codeBtn                    = [[UILabel alloc]init];
         codeBtn.layer.cornerRadius = 5;
-        codeBtn.frame              = CGRectMake(kScreenWidth - 85, 10, 75, 20);
+        codeBtn.frame              = CGRectMake(kScreenWidth - 85, 15, 75, 20);
         codeBtn.text               = @"获取验证码";
         codeBtn.textColor          = LIVING_COLOR;
         codeBtn.userInteractionEnabled = YES;
@@ -229,7 +229,7 @@ WXApiDelegate
         [codeBtn addGestureRecognizer:codeButTap];
         [cell.contentView addSubview:codeBtn];
         
-        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(10, 40, kScreenWidth - 20, 0.5)];
+        UIView *botLine = [[UIView alloc] initWithFrame:CGRectMake(10, 50, kScreenWidth - 20, 0.5)];
         
         botLine.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:botLine];
@@ -278,6 +278,7 @@ WXApiDelegate
         CGFloat lineGap = 10;
         CGFloat w = 40;
         CGFloat gap = 20;
+        CGFloat botH = 45;
         if ([UIScreen mainScreen].bounds.size.width == 375) {
             w = 45;
             gap = 25;
@@ -285,7 +286,7 @@ WXApiDelegate
         }
 
         UILabel * other = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 65, 15)];
-        other.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-30-w-20-7.5);
+        other.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-botH-w-20-7.5);
         other.text = @"其它方式登录";
         other.textColor = TEXT_COLOR_LEVEL_4;
         other.font = TEXT_FONT_LEVEL_4;
@@ -303,7 +304,7 @@ WXApiDelegate
         NSArray *imageNames = @[@"sina-3", @"wechat", @"支付宝"];
         CGFloat mainW = w*3 + gap*2;
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainW, w)];
-        backView.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-30-w/2.0);
+        backView.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-botH-w/2.0);
         for (int i=0; i<3; i++) {
             UIButton * thirdLogin = [[UIButton alloc] initWithFrame:CGRectMake(i*(w+gap), 0, w, w)];
             [thirdLogin setBackgroundImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
