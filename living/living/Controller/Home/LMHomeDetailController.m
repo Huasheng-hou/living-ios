@@ -1031,7 +1031,7 @@ LMContentTableViewCellDelegate
                         
                         if ([dic[@"type"] isEqual:@"video"]) {
 //                           [imageArray addObject:[dic objectForKey:@"coverUrl"]];
-                            UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21, imageViewH/2-21, 42, 42)];
+                            UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21-15, imageViewH/2-21, 42, 42)];
                             playView.image = [UIImage imageNamed:@"playIcon"];
                             playView.userInteractionEnabled = YES;
                             [headImage addSubview:playView];
