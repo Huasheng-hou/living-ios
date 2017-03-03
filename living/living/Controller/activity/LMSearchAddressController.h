@@ -10,7 +10,7 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <MAMapKit/MAMapKit.h>
-
+#import <AMapLocationKit/AMapLocationKit.h>
 //代理
 @protocol selectAddressDelegate <NSObject>
 

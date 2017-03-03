@@ -102,9 +102,18 @@
             self.orderUuid = [dictionary objectForKey:@"order_uuid"];
         }
         
-
-        
-        
+        if (nil != [dictionary objectForKey:@"validated_price"] && ![[dictionary objectForKey:@"validated_price"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"validated_price"] isKindOfClass:[NSString class]]) {
+            self.validatedPrice = [dictionary objectForKey:@"validated_price"];
+        }
+        if (nil != [dictionary objectForKey:@"voice_uuid"] && ![[dictionary objectForKey:@"voice_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voice_uuid"] isKindOfClass:[NSString class]]) {
+            self.voiceUuid = [dictionary objectForKey:@"voice_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"voice_title"] && ![[dictionary objectForKey:@"voice_title"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voice_title"] isKindOfClass:[NSString class]]) {
+            self.voiceTitle = [dictionary objectForKey:@"voice_title"];
+        }
     }
     return self;
 }

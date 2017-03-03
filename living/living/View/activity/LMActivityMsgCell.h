@@ -11,18 +11,9 @@
 #import <MapKit/MapKit.h>
 //#import <MAMapKit/MAMapKit.h>
 
+@protocol  LMActivityMsgCellDelegate;
+
 @interface LMActivityMsgCell : UITableViewCell
-
-
-@property (nonatomic, strong)NSString *phone;
-
-@property (nonatomic, strong)NSString *price;
-
-@property (nonatomic, strong)NSString *time;
-
-
-@property (nonatomic, strong)NSString *address;
-
 
 @property (nonatomic, strong) UILabel *numberLabel;
 
@@ -30,11 +21,26 @@
 
 @property(nonatomic,strong)MKMapView *mapView;
 
+@property(nonatomic,strong) UIButton *mapButton;
+
+@property(nonatomic)CGFloat  cellHight;
+
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
+@property (nonatomic, weak) id <LMActivityMsgCellDelegate> delegate;
 
 -(void)setValue:(LMEventBodyVO *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
+
+@end
+
+
+@protocol LMActivityMsgCellDelegate <NSObject>
+
+@optional
+- (void)cellWillreport:(LMActivityMsgCell *)cell;
+
+
 
 @end

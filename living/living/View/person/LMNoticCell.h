@@ -13,13 +13,13 @@
 
 @property (nonatomic)NSInteger INDEX;
 
-
-
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
--(void)setData:(LMNoticVO *)list;
+-(void)setData:(LMNoticVO *)list name:(NSString *)name;
+
++ (CGFloat)cellHigth:(NSString *)MyName friendName:(NSString *)friendName type:(NSString *)type sign:(NSString *)sign  title:(NSString *)title content:(NSString *)content;
 
 @end

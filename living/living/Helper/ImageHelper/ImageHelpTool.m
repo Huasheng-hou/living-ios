@@ -30,6 +30,33 @@ static CGRect oldframe;
     return image;
 }
 
++ (UIImage *)imageWithColor:(UIColor *)color andImage:(UIImage *)image
+{
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextTranslateCTM(context, 0, image.size.height);
+    
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    
+    CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+    
+    CGContextClipToMask(context, rect, image.CGImage);
+    
+    [color setFill];
+    
+    CGContextFillRect(context, rect);
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 + (UIImage *)scaleImage:(UIImage *)image
 {
     CGSize  size = image.size;
@@ -169,10 +196,7 @@ static CGRect oldframe;
     return newImage;
 }
 
-
-
-
-+(void)showImage:(UIImageView *)avatarImageView{
++ (void)showImage:(UIImageView *)avatarImageView{
     UIImage *image=avatarImageView.image;
     UIWindow *window=[UIApplication sharedApplication].keyWindow;
     UIView *backgroundView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
@@ -188,6 +212,11 @@ static CGRect oldframe;
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
     [backgroundView addGestureRecognizer: tap];
     
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenImageView:)];
+    swipe.numberOfTouchesRequired =1;
+    swipe.direction =UISwipeGestureRecognizerDirectionUp|UISwipeGestureRecognizerDirectionDown;
+    [backgroundView addGestureRecognizer:swipe];
+    
     [UIView animateWithDuration:0.3 animations:^{
         imageView.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
         
@@ -198,6 +227,7 @@ static CGRect oldframe;
 }
 
 +(void)hideImage:(UITapGestureRecognizer*)tap{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{
@@ -205,7 +235,51 @@ static CGRect oldframe;
         backgroundView.alpha=0;
     } completion:^(BOOL finished) {
         [backgroundView removeFromSuperview];
+        
     }];
+}
+
++(void)hiddenImageView:(UISwipeGestureRecognizer*)tap{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    UIView *backgroundView=tap.view;
+    UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame=oldframe;
+        backgroundView.alpha=0;
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+        
+    }];
+}
+
+#pragma mark 对图片尺寸进行压缩
++ (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
++ (UIImage*)clipImageWithImage:(UIImage*)image inRect:(CGRect)rect {
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+    
+    UIGraphicsBeginImageContext(image.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextDrawImage(context, rect, imageRef);
+    
+    UIImage* clipImage = [UIImage imageWithCGImage:imageRef];
+    
+    UIGraphicsEndImageContext();
+    
+    
+    return clipImage;
+    
 }
 
 

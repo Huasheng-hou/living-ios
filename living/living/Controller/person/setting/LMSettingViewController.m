@@ -10,6 +10,7 @@
 #import "LMAddviceViewController.h"
 #import "LMWebViewController.h"
 #import "LMVersionViewController.h"
+#import "LMBlacklistViewController.h"
 
 @interface LMSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView *tableView;
@@ -46,8 +47,6 @@
     [self.tableView setTableFooterView:footView];
 }
 
-
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
@@ -73,9 +72,9 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 2;
+        return 3;
     }
-    return 1;
+    return 2;
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -104,14 +103,26 @@
             cell.imageView.image = [UIImage imageNamed:@"opinion"];
             [cell.textLabel setText:@"意见反馈"];
         }
+        
+        if (indexPath.row==2) {
+            cell.imageView.image = [UIImage imageNamed:@"sheied"];
+            [cell.textLabel setText:@"黑名单"];
+        }
+
+        
     }
     if (indexPath.section==1) {
         
-        cell.imageView.image = [UIImage imageNamed:@"versionmsg"];
-        [cell.textLabel setText:@"版本信息"];
- 
+        if (indexPath.row==0) {
+            cell.imageView.image = [UIImage imageNamed:@"versionmsg"];
+            [cell.textLabel setText:@"关于腰果"];
+        }
+        if (indexPath.row==1) {
+            cell.imageView.image = [UIImage imageNamed:@"tips"];
+            [cell.textLabel setText:@"腰果使用小贴士"];
+        }
     }
-    
+
     return cell;
 }
 
@@ -129,6 +140,12 @@
             LMAddviceViewController *addvice = [[LMAddviceViewController alloc] init];
             [self.navigationController pushViewController:addvice animated:YES];
         }
+        
+        if (indexPath.row==2) {
+            LMBlacklistViewController *setVC = [[LMBlacklistViewController alloc] init];
+            [setVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:setVC animated:YES];
+        }
     }
     if (indexPath.section==1) {
         if (indexPath.row==0) {
@@ -136,42 +153,51 @@
             verVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:verVC animated:YES];
         }
-        
+        if (indexPath.row==1) {
+            LMWebViewController *webVC = [[LMWebViewController alloc] init];
+            webVC.hidesBottomBarWhenPushed = YES;
+            webVC.urlString = @"http://yaoguo1818.com/living-web/user-instruction.html";
+            webVC.titleString = @"腰果使用小贴士";
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
     }
-    
 
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
-
-
-//退出登录
--(void)logOutAction
+// * 退出登录
+//
+- (void)logOutAction
 {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否退出登录"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                                [self besureLoginOUt];
+                                                
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+
+}
+
+- (void)besureLoginOUt
+{
+    
     [[FitUserManager sharedUserManager] logout];
     NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
     
     [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
     
     [self.navigationController popViewControllerAnimated:NO];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"xufei_dot"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
-    
-    
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

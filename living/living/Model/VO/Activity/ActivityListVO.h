@@ -29,11 +29,16 @@
 @property(nonatomic, retain) NSString       *UserUuid;
 @property(nonatomic, retain) NSNumber       *TotalNumber;
 @property(nonatomic, retain) NSString       *PerCost;
+@property(nonatomic, retain) NSString       *discount;
 @property(nonatomic, retain) NSString       *Address;
 @property(nonatomic, retain) NSDate         *StartTime;
 @property(nonatomic, retain) NSString       *EventImg;
 @property(nonatomic, retain) NSString       *Avatar;
 @property(nonatomic, retain) NSString       *EventName;
-@property(nonatomic, retain) NSString       *Status;
+@property(nonatomic, retain) NSNumber       *Status;
+@property(nonatomic, retain) NSNumber       *joinNum;
+@property(nonatomic, retain) NSString       *eventDetail;
+@property(nonatomic, retain) NSString       *createTime;
+
 
 @end

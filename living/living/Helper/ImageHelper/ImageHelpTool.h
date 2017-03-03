@@ -16,9 +16,17 @@
 + (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize;
 + (UIImage *)scaleImagexy:(UIImage *)image toScalexy:(CGSize )scaleSize;
 + (UIImage *)imageCompressForSize:(UIImage *)sourceImage targetSize:(CGSize)size;
++ (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
++ (UIImage*)clipImageWithImage:(UIImage*)image inRect:(CGRect)rect ;
 
-+(void)showImage:(UIImageView*)avatarImageView;
++ (void)showImage:(UIImageView*)avatarImageView;
+
+// * 传入颜色，生成纯色的图片
+//
 + (UIImage *)imageWithColor:(UIColor *)color;
 
+// * 改变图片的颜色
+//
++ (UIImage *)imageWithColor:(UIColor *)color andImage:(UIImage *)image;
 
 @end

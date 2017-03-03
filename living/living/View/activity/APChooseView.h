@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomButton.h"
+#import "LMEventBodyVO.h"
+
+@protocol APChooseViewDelegate;
+
+
+@protocol APChooseViewDelegate <NSObject>
+
+-(void)APChooseViewSelectItem:(NSInteger)num;
+
+@end
 
 @interface APChooseView : UIView
 {
@@ -31,15 +41,17 @@
 
 @property (nonatomic , strong)UIControl *control;
 
+@property(nonatomic , strong)NSString *phoneString;
+
+@property(nonatomic,strong)id<APChooseViewDelegate>delegate;
 
 @property(nonatomic,strong)UILabel *titleLabel;//价格
 @property(nonatomic,strong)UILabel *title2;//价格
 @property(nonatomic,strong)UILabel *inventory;//库存
 @property(nonatomic,strong)UILabel *dspLabel;
 
-
 @property(nonatomic,strong)NSMutableDictionary *orderInfo;
-
+@property (nonatomic, retain) LMEventBodyVO     *event;
 
 - (id)initWithFrame:(CGRect)frame;
 

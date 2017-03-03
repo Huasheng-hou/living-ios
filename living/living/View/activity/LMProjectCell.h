@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol  LMProjectCellDelegate;
+
 @interface LMProjectCell : UITableViewCell
 
 //@property(nonatomic,strong)UITextField *titleTF;
@@ -26,5 +28,21 @@
 @property(nonatomic)NSInteger cellndex;
 
 @property(nonatomic,strong)UIButton *deleteBt;
+
+@property(nonatomic,strong)UIButton *videoButton;
+
+@property(nonatomic,strong)UIImageView *VideoImgView;
+
+@property(nonatomic,strong)UIButton *button;
+
+@property (nonatomic, weak) id <LMProjectCellDelegate> delegate;
+
+@end
+
+@protocol LMProjectCellDelegate <NSObject>
+
+@optional
+- (void)cellWilldelete:(LMProjectCell *)projectcell;
+
 
 @end

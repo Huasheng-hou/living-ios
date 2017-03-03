@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong)UILabel *nameLabel;
 
+@property (nonatomic, strong)UILabel *idLabel;
+
 -(void)setData:(LMFriendVO *)list;
 
 

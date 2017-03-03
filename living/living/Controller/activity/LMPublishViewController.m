@@ -1,4 +1,4 @@
-//
+ //
 //  LMPublishViewController.m
 //  living
 //
@@ -22,6 +22,10 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "UIImageView+WebCache.h"
+#import "LMAddressChooseView.h"
+#import "KZVideoViewController.h"
+#import "ZYQAssetPickerController.h"
+#import "FirUploadVideoRequest.h"
 
 @interface LMPublishViewController ()
 <
@@ -35,7 +39,11 @@ UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
 FitPickerViewDelegate,
-selectAddressDelegate
+selectAddressDelegate,
+addressTypeDelegate,
+ZYQAssetPickerControllerDelegate,
+KZVideoViewControllerDelegate,
+LMProjectCellDelegate
 >
 {
     LMPublicMsgCell *msgCell;
@@ -44,16 +52,11 @@ selectAddressDelegate
     NSString *_imgProURL;
     NSInteger dateIndex;
     NSInteger timeIndex;
-    NSInteger cellIndex;
-    NSString                    *districtStr;//设置中间变量，获取县（区）的编码
-//    NSInteger imageIndex;
+    NSString  *districtStr;//设置中间变量，获取县（区）的编码
+    //    NSInteger imageIndex;
     NSString *eventUUid;
     
     NSInteger projectIndex;
-    
-    NSMutableArray *projectTitle;
-    NSMutableArray *projectDsp;
-    NSMutableArray *imageURL;
     
     CGFloat _latitude;
     CGFloat _longitude;
@@ -61,6 +64,20 @@ selectAddressDelegate
     NSInteger addImageIndex;
     
     NSMutableArray *projectImageArray;
+    LMAddressChooseView *addView;
+    LMAddressChooseView *addView2;
+    UIButton *publicButton;
+    NSMutableArray *updateArray;
+    NSInteger index;
+    NSString *useCounpon;
+    NSString *videoUrl;
+    NSString *coverUrl;
+    NSInteger videoIndex;
+    UIImage *videoImage;
+    NSInteger typeIndex;
+    NSInteger cellTag;
+    NSData *videoData;
+    NSInteger publicTag;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -74,27 +91,22 @@ static NSMutableArray *cellDataArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"发布活动";
-    // Do any additional setup after loading the view.
     cellDataArray=[NSMutableArray arrayWithCapacity:10];
     projectImageArray=[NSMutableArray arrayWithCapacity:10];
     
     for (int i=0; i<10; i++) {
         [projectImageArray addObject:@""];
     }
-    
+    index = 0;
     [self projectDataStorageWithArrayIndex:0];
+    updateArray = [NSMutableArray new];
     
     [self creatUI];
     
     [self initSearch];
-    
-    [self initMapView];
-    
-    projectTitle = [NSMutableArray new];
-    projectDsp = [NSMutableArray new];
-    imageURL = [NSMutableArray new];
+    useCounpon = @"1";
+    videoUrl = nil;
 }
 
 - (void)initSearch
@@ -104,18 +116,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
--(void)initMapView
-{
-    if (self.mapView==nil) {
-        self.mapView    = [[MAMapView alloc] initWithFrame:self.view.bounds];
-    }
-    self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
-    
-    self.mapView.showsUserLocation = YES;
-}
-
-
--(void)creatUI
+- (void)creatUI
 {
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
@@ -125,13 +126,6 @@ static NSMutableArray *cellDataArray;
     
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    pickImage=[[UIImagePickerController alloc]init];
-    
-    [pickImage setDelegate:self];
-    pickImage.transitioningDelegate  = self;
-    pickImage.modalPresentationStyle = UIModalPresentationCustom;
-//    [pickImage setAllowsEditing:YES];
-    cellIndex = 1;
     
     [self creatFootView];
 }
@@ -141,7 +135,7 @@ static NSMutableArray *cellDataArray;
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     footView.backgroundColor = [UIColor clearColor];
     
-    UIButton *publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [publicButton setTitle:@"确认并发布" forState:UIControlStateNormal];
     publicButton.layer.cornerRadius = 5;
     publicButton.titleLabel.font = TEXT_FONT_LEVEL_2;
@@ -186,7 +180,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +165+90;
+        return 490 +kScreenWidth*3/5+90+90;
     }
     if (indexPath.section==1) {
         return 340;
@@ -194,9 +188,7 @@ static NSMutableArray *cellDataArray;
     return 0;
 }
 
-
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 35)];
@@ -284,6 +276,7 @@ static NSMutableArray *cellDataArray;
         msgCell.dspTF.delegate = self;
         msgCell.VipFreeTF.delegate = self;
         msgCell.joincountTF.delegate = self;
+        msgCell.couponTF.delegate = self;
         
         msgCell.titleTF.tag = 100;
         msgCell.phoneTF.tag = 100;
@@ -293,6 +286,7 @@ static NSMutableArray *cellDataArray;
         msgCell.VipFreeTF.tag = 100;
         msgCell.joincountTF.tag = 100;
         msgCell.applyTextView.delegate = self;
+        msgCell.couponTF.tag = 100;
         
         
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -305,6 +299,9 @@ static NSMutableArray *cellDataArray;
         
         [msgCell.mapButton addTarget:self action:@selector(selectLocation) forControlEvents:UIControlEventTouchUpInside];
         
+        [msgCell.UseButton addTarget:self action:@selector(useCounpon) forControlEvents:UIControlEventTouchUpInside];
+        [msgCell.unUseButton addTarget:self action:@selector(UNuseCounpon) forControlEvents:UIControlEventTouchUpInside];
+        
         return msgCell;
     }
     if (indexPath.section==1) {
@@ -313,12 +310,13 @@ static NSMutableArray *cellDataArray;
         cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (cell==nil) {
             cell = [[LMProjectCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-             cell.title.delegate = self;
-             cell.includeTF.delegate = self;
+            cell.title.delegate = self;
+            cell.includeTF.delegate = self;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell.title setTag:indexPath.row];
+        cell.delegate = self;
         [cell.includeTF setTag:indexPath.row];
         cell.cellndex = indexPath.row;
         cell.tag = indexPath.row;
@@ -330,10 +328,11 @@ static NSMutableArray *cellDataArray;
         if ([projectImageArray[indexPath.row] isKindOfClass:[UIImage class]]) {
             UIImage *image=(UIImage *)projectImageArray[indexPath.row];
             [cell.imgView setImage:image];
+            
         }else
-        if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
-            [cell.imgView setImage:[UIImage imageNamed:@""]];
-        }
+            if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+                [cell.imgView setImage:[UIImage imageNamed:@""]];
+            }
         
         
         [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
@@ -342,7 +341,10 @@ static NSMutableArray *cellDataArray;
         [cell.eventButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell.eventButton setTag:indexPath.row+10];
         
-         [cell.deleteBt setHidden:NO];
+        [cell.videoButton addTarget:self action:@selector(VideoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.videoButton setTag:indexPath.row+100];
+        
+        [cell.deleteBt setHidden:NO];
         
         if (cellDataArray.count==1) {
             if (indexPath.row==0) {
@@ -351,11 +353,18 @@ static NSMutableArray *cellDataArray;
                 [cell.deleteBt setHidden:NO];
             }
         }
-        
-        if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
-             [cell.textLab setHidden:NO];
+        if (indexPath.row==cellTag-100) {
+            [cell.VideoImgView setImage:videoImage];
+            cell.button.hidden = NO;
         }else{
-             [cell.textLab setHidden:YES];
+            [cell.VideoImgView setImage:[UIImage imageNamed:@""]];
+            cell.button.hidden = YES;
+        }
+ 
+        if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
+            [cell.textLab setHidden:NO];
+        }else{
+            [cell.textLab setHidden:YES];
         }
         
         return cell;
@@ -363,24 +372,34 @@ static NSMutableArray *cellDataArray;
     return nil;
 }
 
-
--(void)closeCell:(UIButton *)button
+- (void)closeCell:(UIButton *)button
 {
     NSInteger row=button.tag;
     
     [cellDataArray removeObjectAtIndex:row];
     
-     [projectImageArray removeObjectAtIndex:row];
+    [projectImageArray removeObjectAtIndex:row];
     
     [self refreshData];
 }
 
-
-
 #pragma mark 地图选择地址详情
 
--(void)selectLocation
+- (void)selectLocation
 {
+    addView = [[LMAddressChooseView alloc] initWithIndex:2];
+    [addView setDelegate:self];
+    addView.addressTF.delegate = self;
+    
+    [addView.addressButton addTarget:self action:@selector(addViewAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:addView];
+
+}
+
+-(void)addViewAction
+{
+    [addView removeFromSuperview];
     LMSearchAddressController *map=[[LMSearchAddressController alloc]init];
     map.delegate=self;
     map.mapView=self.mapView;
@@ -388,24 +407,58 @@ static NSMutableArray *cellDataArray;
     [self.navigationController pushViewController:map animated:YES];
 }
 
+
+#pragma mark LMAddressChooseView代理方法
+
+-(void)buttonType:(NSInteger)type
+{
+    if (addView) {
+        if (type==1) {//确定
+            
+            [addView removeFromSuperview];
+            _latitude   = 0;
+            _longitude  = 0;
+            
+            if (addView.addressTF.text.length>0) {
+                msgCell.dspTF.text = addView.addressTF.text;
+            }
+        }else{
+            [addView removeFromSuperview];
+        }
+    }
+    
+    if (addView2) {
+        if (type==1) {//确定
+            
+            [addView2 removeFromSuperview];
+            if (addView2.addressTF.text.length>0) {
+                msgCell.addressButton.textLabel.text = addView2.addressTF.text;
+            }
+            
+        }else{
+            [addView2 removeFromSuperview];
+        }
+    }
+
+}
+
 //代理方法
-- (void)selectAddress:(NSString *)addressName andLatitude:(CGFloat)latitude
+- (void)selectAddress:(NSString *)addressName
+          andLatitude:(CGFloat)latitude
          andLongitude:(CGFloat)longitude
           anddistance:(CGFloat)distance
 {
+    msgCell.dspTF.text  = addressName;
     
-    NSLog(@"=======selectAddress============%@    %f    %f",addressName,latitude,longitude);
-    
-    msgCell.dspTF.text=addressName;
-    _latitude=latitude;
-    _longitude=longitude;
+    _latitude   = latitude;
+    _longitude  = longitude;
 }
 
--(void)beginDateAction:(id)sender
+- (void)beginDateAction:(id)sender
 {
     [self.view endEditing:YES];
     dateIndex = 0;
-    NSLog(@"************beginDateAction");
+    
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *currentDate;
@@ -417,14 +470,12 @@ static NSMutableArray *cellDataArray;
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
-    
 }
 
--(void)endDateAction:(id)sender
+- (void)endDateAction:(id)sender
 {
     [self.view endEditing:YES];
     dateIndex = 1;
-    NSLog(@"************endDateAction");
     
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -439,109 +490,150 @@ static NSMutableArray *cellDataArray;
         
     }
     
-    
-    
-    
-    
-    
     [FitDatePickerView showWithMinimumDate:currentDate
                                MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
-    
 }
-
 
 #pragma mark 选择省市区视图
 
--(void)createPickerView
+- (void)createPickerView
 {
+    addView2 = [[LMAddressChooseView alloc] initWithIndex:1];
+    [addView2 setDelegate:self];
+    addView2.addressTF.delegate = self;
+    [addView2.addressButton addTarget:self action:@selector(addPickerView) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.view addSubview:addView2];
+
+}
+
+-(void)addPickerView
+{
+    [addView2 removeFromSuperview];
     FitPickerThreeLevelView *pickView=[[FitPickerThreeLevelView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 260)];
+    
     pickView.delegate=self;
     [[[[UIApplication sharedApplication] delegate] window] addSubview:pickView];
 }
 
--(void)addressAction:(id)sender
+- (void)addressAction:(id)sender
 {
     [self.view endEditing:YES];
-    NSLog(@"************addressAction");
-    
     [self createPickerView];
-    
 }
+
 - (void)didSelectedItems:(NSArray *)items andDistrict:(NSString *)district
 {
-    
     msgCell.addressButton.textLabel.text = [NSString stringWithFormat:@"%@", items[0]];
     districtStr=district;
-    
 }
 
 #pragma mark ======================活动==项目活动增加图片
 
--(void)imageButtonAction:(UIButton *)button
+- (void)imageButtonAction:(UIButton *)button
 {
-    NSLog(@"==========*******项目图片========================");
-    
     addImageIndex=button.tag;
+    videoIndex  = 1;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"相册", @"拍照",nil];
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"相册", @"拍照",nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
     actionSheet = nil;
-    
 }
 
+- (void)VideoButtonAction:(UIButton *)button
+{
+    if (videoUrl&&![videoUrl isEqual:@""]) {
+        [self textStateHUD:@"只能添加一个视频"];
+        return;
+    }else{
+        cellTag = button.tag;
+    }
+    
+    videoIndex = 2;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"拍摄小视频", @"本地选取小视频",nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
+    actionSheet = nil;
+}
 
-#pragma mark  -日期选择
+#pragma mark - 日期选择
+
 - (void)didSelectedDate:(NSDate *)date
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     
-    if (dateIndex==0) {
+    if (dateIndex == 0) {
+        
         msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
     }
-    if (dateIndex==1) {
+    if (dateIndex == 1) {
+        
         msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
     }
-    
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([textView isEqual:addView.addressTF]) {
+        if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+            //在这里做你响应return键的代码
+            [self.view endEditing:YES];
+            return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+        }
+    }
+    if ([textView isEqual:addView2.addressTF]) {
+        if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
+            //在这里做你响应return键的代码
+            [self.view endEditing:YES];
+            return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
+        }
+    }
+    return YES;
 }
 
 #pragma mark  textView代理方法
 
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-//{
-//    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-//        //在这里做你响应return键的代码
-////        [self.view endEditing:YES];
-//        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-//    }
-//    
-//    return YES;
-//}
-
 - (void)textViewDidChange:(UITextView *)textView1
 {
-
     if ([textView1 isEqual:msgCell.applyTextView]) {
+        
         if (msgCell.applyTextView.text.length>0) {
             msgCell.msgLabel.hidden = YES;
-        }else{
+        } else {
             msgCell.msgLabel.hidden  = NO;
         }
         
-        
-        
-    }else{
-        NSLog(@"========textViewDidChange=========");
+    }
+    if ([textView1 isEqual:addView.addressTF]) {
+        if (addView.addressTF.text.length>0) {
+            addView.msgLabel.hidden = YES;
+        } else {
+            addView.msgLabel.hidden  = NO;
+        }
+    }
+    if ([textView1 isEqual:addView2.addressTF]) {
+        if (addView2.addressTF.text.length>0) {
+            addView2.msgLabel.hidden = YES;
+        } else {
+            addView2.msgLabel.hidden  = NO;
+        }
+    }
+    
+    else{
         
         NSArray *array = self.tableView.visibleCells;
         
@@ -558,35 +650,63 @@ static NSMutableArray *cellDataArray;
             
         }
     }
-
-    
-
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView
+- (void)textViewDidBeginEditing:(UITextView *)textView
 {
+
+    if (kScreenWidth<375) {
+        if ([textView isEqual:addView.addressTF]) {
+            [UIView animateWithDuration:0.25f animations:^{
+               addView.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
+            } completion:^(BOOL finished) {
+
+            }];
+            
+        
+        }
+        if ([textView isEqual:addView2.addressTF]) {
+        
+            [UIView animateWithDuration:0.25f animations:^{
+                addView2.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
+            } completion:^(BOOL finished) {
+                
+            }];
+        }
+        
+    }
+
+    
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
 #pragma mark 项目介绍编辑结束
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    
+    if ([textView isEqual:addView.addressTF]) {
+        addView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    }else
+    
+    if ([textView isEqual:addView2.addressTF]) {
+        addView2.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    }else
     if ([textView isEqual:msgCell.applyTextView]) {
-        NSLog(@"******");
-    }else{
+        
+    } else {
+        
         NSInteger row=textView.tag;
         
         [self modifyCellDataContent:row andText:textView.text];
     }
-
     
     return YES;
 }
 
 #pragma mark 编辑单元格项目介绍
 
--(void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
+- (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
     
     NSMutableDictionary *dic=cellDataArray[row];
     
@@ -597,9 +717,8 @@ static NSMutableArray *cellDataArray;
         [dic setObject:text forKey:@"content"];
     }
     
-   [self refreshData];
+    [self refreshData];
 }
-
 
 #pragma mark  UITextField代理方法
 
@@ -611,27 +730,27 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark 标题编辑结束
 
--(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     
     if (textField.tag==100) {
         return YES;
     }
-     NSInteger row=textField.tag;
+    NSInteger row=textField.tag;
     
     [self modifyCellDataTitle:row andText:textField.text];
-
+    
     return YES;
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
 }
 
 #pragma mark 编辑单元格标题
 
--(void)modifyCellDataTitle:(NSInteger)row andText:(NSString *)text{
+- (void)modifyCellDataTitle:(NSInteger)row andText:(NSString *)text{
     
     NSMutableDictionary *dic=cellDataArray[row];
     
@@ -639,27 +758,24 @@ static NSMutableArray *cellDataArray;
         
         [dic setObject:@"" forKey:@"title"];
     }else{
-         [dic setObject:text forKey:@"title"];
+        [dic setObject:text forKey:@"title"];
     }
     
-   
     [self refreshData];
     
 }
 
-
 #pragma mark 单元格刚创建后的数据
 
--(void)projectDataStorageWithArrayIndex:(NSInteger)index
+- (void)projectDataStorageWithArrayIndex:(NSInteger)indexs
 {
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
     [dic setObject:@"" forKey:@"title"];
     [dic setObject:@"" forKey:@"content"];
     [dic setObject:@"" forKey:@"image"];
     
-    [cellDataArray insertObject:dic atIndex:index];
+    [cellDataArray insertObject:dic atIndex:indexs];
 }
-
 
 #pragma mark UIImagePickerController代理函数
 
@@ -668,8 +784,8 @@ static NSMutableArray *cellDataArray;
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker
-        didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+#pragma mark --选取拍摄图片
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
 {
     if (addImageIndex==0) {
         //设置头像图片
@@ -677,13 +793,13 @@ static NSMutableArray *cellDataArray;
         msgCell.imgView.clipsToBounds = YES;
         [msgCell.imgView setImage:image];
     }else{
-    
+        
         [projectImageArray replaceObjectAtIndex:addImageIndex-10 withObject:image];
     }
     
     [self refreshData];
-    
-     [self getImageURL:image];
+    typeIndex = 1;
+    [self getImageURL:image];
     
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
@@ -701,6 +817,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
+
 #pragma mark 获取头像的url
 
 - (void)getImageURL:(UIImage*)image
@@ -711,33 +828,42 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    NSLog(@"=============addImageIndex=========%ld",addImageIndex);
-    
-    
-    if (addImageIndex==0) {
+    if (addImageIndex == 0) {
+        
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:image];
-        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        if (typeIndex ==2){
+            request.imageData   = UIImageJPEGRepresentation(image, 1);
+        }else{
+            UIImage *headImage = [ImageHelpTool scaleImage:image];
+            request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        }
         
         [self initStateHud];
+        
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    
-                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                          withObject:nil
-                                                                       waitUntilDone:YES];
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
                                                    
                                                    if (result && [result isKindOfClass:[NSString class]]
                                                        && [result isEqualToString:@"0"]) {
                                                        NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
-                                                           _imgURL=imgUrl;
+                                                           if (typeIndex==1) {
+                                                               [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                                      withObject:nil
+                                                                                   waitUntilDone:YES];
+                                                               _imgURL=imgUrl;
+                                                             
+                                                           }
+                                                           if (typeIndex ==2) {
+                                                               coverUrl = imgUrl;
+                                                               [self sendVideo:videoData];
+                                                           }
+                                                           
                                                            
                                                        }
                                                    }
@@ -748,37 +874,49 @@ static NSMutableArray *cellDataArray;
     }else{
         [self initStateHud];
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-        UIImage *headImage = [ImageHelpTool scaleImage:image];
-        request.imageData   = UIImageJPEGRepresentation(headImage, 1);
-        
-        
+        if (typeIndex ==2){
+            request.imageData   = UIImageJPEGRepresentation(image, 1);
+        }else{
+            UIImage *headImage = [ImageHelpTool scaleImage:image];
+            request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+        }
+
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    
-                                                   [self performSelectorOnMainThread:@selector(hideStateHud)
-                                                                          withObject:nil
-                                                                       waitUntilDone:YES];
+       
+                                                   
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
                                                    NSString    *result = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   NSLog(@"--------bodyDict--------%@",bodyDict);
                                                    
                                                    if (result && [result isKindOfClass:[NSString class]]
                                                        && [result isEqualToString:@"0"]) {
                                                        NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
-                                                           [self modifyCellDataImage:addImageIndex-10 andImageUrl:imgUrl];
+                                                           if (typeIndex==1) {
+                                                               [self performSelectorOnMainThread:@selector(hideStateHud)
+                                                                                      withObject:nil
+                                                                                   waitUntilDone:YES];
+                                                               [self modifyCellDataImage:addImageIndex-10 andImageUrl:imgUrl];
+                                                           }
+                                                           if (typeIndex ==2) {
+                                                               coverUrl = imgUrl;
+                                                               [self sendVideo:videoData];
+                                                           }
+                                                           
+                                                           
                                                        }
                                                    }
                                                } failed:^(NSError *error) {
                                                    [self hideStateHud];
                                                }];
         [proxy start];
- 
+        
     }
 }
+
 
 
 
@@ -788,43 +926,81 @@ static NSMutableArray *cellDataArray;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-    if (buttonIndex==0)
-    {//图库
-        [pickImage setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-        [self presentViewController:pickImage animated:YES completion:nil];
-    }
-    if (buttonIndex==1)
-    {//摄像头
-        //判断后边的摄像头是否可用
-        if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
-        {
-            [pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
+    if (videoIndex == 1) {
+        pickImage=[[UIImagePickerController alloc]init];
+        
+        [pickImage setDelegate:self];
+        pickImage.transitioningDelegate  = self;
+        pickImage.modalPresentationStyle = UIModalPresentationCustom;
+        
+        if (buttonIndex==0)
+        {//图库
+            [pickImage setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
             [self presentViewController:pickImage animated:YES completion:nil];
         }
-        //判断前边的摄像头是否可用
-        else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
-        {
-            [pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
-            [self presentViewController:pickImage animated:YES completion:nil];
-        }else{
+        if (buttonIndex==1)
+        {//摄像头
+            //判断后边的摄像头是否可用
+            if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
+            {
+                [pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
+                [self presentViewController:pickImage animated:YES completion:nil];
+            }
+            //判断前边的摄像头是否可用
+            else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
+            {
+                [pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
+                [self presentViewController:pickImage animated:YES completion:nil];
+            }else{
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
+                                                                               message:@"相机不可用"
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
+                                                                       style:UIAlertActionStyleCancel
+                                                                     handler:nil];
+                
+                [alert addAction:cancelAction];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        }
+    }
+    
+    if (videoIndex == 2){
+        if (buttonIndex==0)
+        {//
+            NSLog(@"小视频~~~~~");
+
             
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
-                                                                           message:@"相机不可用"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定"
-                                                                   style:UIAlertActionStyleCancel
-                                                                 handler:nil];
+            KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
+            videoVC.delegate = self;
+            [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
+        }
+        if (buttonIndex==1){
+
+            ZYQAssetPickerController *pickerV = [[ZYQAssetPickerController alloc] init];
+            pickerV.maximumNumberOfSelection = 1;
+            pickerV.assetsFilter = [ALAssetsFilter allVideos];
+            pickerV.showEmptyGroups=NO;
+            pickerV.delegate=self;
             
-            [alert addAction:cancelAction];
-            [self presentViewController:alert animated:YES completion:nil];
+            pickerV.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+                    NSTimeInterval duration = [[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyDuration] doubleValue];
+                    return duration < 10.5;
+                } else {
+                    return YES;
+                }
+            }];
+            
+            [self presentViewController:pickerV animated:YES completion:NULL];
         }
     }
 }
 
-#pragma mark 判断项目标题是否为空
+#pragma mark --判断项目标题是否为空
 
--(BOOL)judgeProjectTitle
+- (BOOL)judgeProjectTitle
 {
     for (NSDictionary *dic in cellDataArray) {
         if ([dic[@"title"] isEqualToString:@""]) {
@@ -834,12 +1010,13 @@ static NSMutableArray *cellDataArray;
     return YES;
 }
 
-#pragma mark  --====================================确认并发布按钮
+#pragma mark  --确认并发布按钮
 
 -(void)publishButtonAction:(id)sender
 {
     [self.view endEditing:YES];
-
+    
+    
     NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
     NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
     
@@ -864,6 +1041,11 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
+    if (!(msgCell.couponTF.text.length>0)) {
+        [ self textStateHUD:@"请输入加盟商费用"];
+        return;
+    }
+    
     if (!(msgCell.joincountTF.text.length>0)) {
         [ self textStateHUD:@"请输入活动人数"];
         return;
@@ -878,7 +1060,6 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    
     if ([msgCell.addressButton.textLabel.text isEqual:@"请选择活动所在省市，县区"]) {
         [ self textStateHUD:@"请选择活动地址"];
         return;
@@ -888,13 +1069,10 @@ static NSMutableArray *cellDataArray;
         return;
     }
     
-    
-    
     if (!msgCell.imgView.image) {
         [ self textStateHUD:@"请选择封面图片"];
         return;
     }
-    
     
     if (![self judgeProjectTitle]) {
         [self textStateHUD:@"活动项目标题不能为空"];
@@ -902,8 +1080,20 @@ static NSMutableArray *cellDataArray;
     }
     
     [self initStateHud];
+    publicButton.userInteractionEnabled = NO;
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:[NSString stringWithFormat:@"%f",_latitude] andLongitude:[NSString stringWithFormat:@"%f",_longitude] limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text];
+    NSString *latitudeString;
+    NSString *longitudeString;
+    if (_latitude ==0 &&_longitude==0) {
+        latitudeString = @"";
+        longitudeString = @"";
+    }else{
+        latitudeString = [NSString stringWithFormat:@"%f",_latitude];
+        longitudeString =[NSString stringWithFormat:@"%f",_longitude] ;
+    }
+    
+    
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -913,46 +1103,53 @@ static NSMutableArray *cellDataArray;
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"发布失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
+                                               publicButton.userInteractionEnabled = YES;
                                            }];
     [proxy start];
     
 }
 
--(void)getEventDataResponse:(NSString *)resp
+- (void)getEventDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    NSLog(@"***************%@",bodyDic);
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
-            NSLog(@"******==========活动介绍*eventUUid==========*%@",string);
             eventUUid = string;
-           
+            
             [self publicProject];
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
 }
 
+#pragma mark --发布活动项目执行请求
 
-#pragma mark ====================================发布活动项目执行请求
-
--(void)publicProject
+- (void)publicProject
 {
-    
-    for (int i =0; i<cellDataArray.count; i++) {
+    NSDictionary *dic=cellDataArray[index];
+    NSString *url = @"";
+    NSString *cover = @"";
+    if (publicTag-100 == index) {
+        url = videoUrl;
+        cover = coverUrl;
+    }else{
+        url = @"";
+        cover = @"";
+    }
         
-        NSDictionary *dic=cellDataArray[i];
-        
-        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"]];
+        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"] videoUrl:url coverUrl:cover];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -963,24 +1160,29 @@ static NSMutableArray *cellDataArray;
                                                } failed:^(NSError *error) {
                                                    
                                                    [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"发布失败"
+                                                                          withObject:@"网络错误"
                                                                        waitUntilDone:YES];
+                                                    publicButton.userInteractionEnabled = YES;
                                                }];
         [proxy start];
-    }
+    
 }
 
-
-
-
--(void)getEventPublicProjectDataResponse:(NSString *)resp
+- (void)getEventPublicProjectDataResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    NSLog(@"**********%@",bodyDic);
+    
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
+         publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+            
+            index++;
+            if (index<cellDataArray.count) {
+                [self publicProject];
+            }else{
+            
             [self textStateHUD:@"发布成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -990,19 +1192,19 @@ static NSMutableArray *cellDataArray;
                  
                                                                     object:nil];
             });
-            
+            }
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
+             publicButton.userInteractionEnabled = YES;
         }
     }
-    
-    
 }
 
 #pragma mark  --添加项目
--(void)addButtonAction:(id)sender
+
+- (void)addButtonAction:(id)sender
 {
     NSInteger length=cellDataArray.count;
     
@@ -1012,16 +1214,10 @@ static NSMutableArray *cellDataArray;
     }
     
     [self projectDataStorageWithArrayIndex:length];
-    
-
     [self refreshData];
 }
 
-- (void)resignCurrentFirstResponder
-{
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    [keyWindow endEditing:YES];
-}
+
 - (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
 {
     CGFloat     keyboardHeight  = 280;
@@ -1044,5 +1240,212 @@ static NSMutableArray *cellDataArray;
         [self.tableView reloadData];
     });
 }
+
+//是否允许使用优惠券
+- (void)useCounpon
+{
+    NSLog(@"使用优惠券");
+    useCounpon = @"1";
+    msgCell.UseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.unUseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+    
+}
+
+- (void)UNuseCounpon
+{
+    NSLog(@"不使用优惠券");
+    useCounpon = @"2";
+    msgCell.unUseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    msgCell.unUseButton.chooseImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    msgCell.UseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    msgCell.UseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+}
+
+#pragma mark  视频录制或选择后回调
+- (void)videoViewController:(KZVideoViewController *)videoController didRecordVideo:(KZVideoModel *)videoModel{
+
+    
+    NSURL* videoUrls = [NSURL URLWithString:videoModel.videoAbsolutePath];
+    
+    [self movFileTransformToMP4WithSourceUrl:videoUrls completion:^(NSString *Mp4FilePath) {
+        
+        videoModel.videoAbsolutePath = Mp4FilePath;
+    }];
+    
+    videoData = [NSData dataWithContentsOfFile:videoModel.videoAbsolutePath];
+    
+    
+    UIImage  *image = [UIImage imageWithContentsOfFile:videoModel.thumAbsolutePath];
+    
+    videoImage = [ImageHelpTool imageWithImage:image scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth*3/4)];
+    typeIndex = 2;
+
+    [self refreshData];
+    [self getImageURL:videoImage];
+    
+    
+}
+- (UIImage*) getVideoPreViewImage:(NSURL *)path
+{
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:path options:nil];
+    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    
+    assetGen.appliesPreferredTrackTransform = YES;
+    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+    NSError *error = nil;
+    CMTime actualTime;
+    CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
+    UIImage *videoImages = [[UIImage alloc] initWithCGImage:image];
+    CGImageRelease(image);
+    return videoImages;
+}
+
+#pragma mark  mov格式转MP4
+- (void)movFileTransformToMP4WithSourceUrl:(NSURL *)sourceUrl completion:(void(^)(NSString *Mp4FilePath))comepleteBlock
+{
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceUrl options:nil];
+    
+    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    
+    if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality])
+        
+    {
+        
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetLowQuality];
+        
+        exportSession.outputURL = sourceUrl;
+        
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        
+        CMTime start = CMTimeMakeWithSeconds(1.0, 600);
+        
+        CMTime duration = CMTimeMakeWithSeconds(3.0, 600);
+        
+        CMTimeRange range = CMTimeRangeMake(start, duration);
+        
+        exportSession.timeRange = range;
+        
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            
+            switch ([exportSession status]) {
+                    
+                case AVAssetExportSessionStatusFailed:
+                    NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusCancelled:
+                    
+                    NSLog(@"Export canceled");
+                    
+                    break;
+                    
+                default:
+                    
+                    break;
+            }
+            
+        }];
+        
+    }
+}
+
+#pragma mark  --上传视频
+
+- (void)sendVideo:(NSData *)data
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    typeIndex = 1;
+    
+    publicTag = cellTag;
+    FirUploadVideoRequest *request = [[FirUploadVideoRequest alloc] initWithFileName:@"file"];
+    
+    request.videoData = data;
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding){
+                                               
+                                               [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:0];
+                                               NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+                                               //
+                                               NSString    *result = [bodyDict objectForKey:@"result"];
+                                               
+                                               if (result && [result isKindOfClass:[NSString class]]
+                                                   && [result isEqualToString:@"0"]) {
+                                                   NSString    *voiceUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   if (voiceUrl && [voiceUrl isKindOfClass:[NSString class]]) {
+                                                       
+                                                       videoUrl = voiceUrl;
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           [self hideStateHud];
+                                                       });                                                       
+                                                   }
+                                               }
+                                               
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+
+
+#pragma mark - ZYQAssetPickerController Delegate
+
+- (void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
+    
+    if (assets.count > 0) {
+        
+        for (int i = 0; i < assets.count; i++) {
+            
+            
+            ALAsset *asset=assets[i];
+            NSLog(@"%@",[asset valueForProperty:ALAssetPropertyType]);
+            if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+                
+                ALAssetRepresentation * representation = asset.defaultRepresentation;
+                NSLog(@"%@",representation.url);
+                ALAssetRepresentation *rep = [asset defaultRepresentation];
+                
+                Byte *buffer = (Byte*)malloc(rep.size);
+                
+                NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+                // 这个data便是 转换成功的视频data 有了data边可以进行上传了
+                videoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentD = [paths objectAtIndex:0];
+                NSString *configFile = [documentD stringByAppendingString:@"123.mp4"];
+                [videoData writeToFile:configFile atomically:YES];
+                
+                UIImage *newImage = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
+                videoImage = [ImageHelpTool clipImageWithImage:newImage inRect:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
+                typeIndex = 2;
+                [self getImageURL:videoImage];
+            }
+            
+            
+            [self refreshData];
+        }
+        
+    }
+    
+}
+
+-(void)cellWilldelete:(LMProjectCell *)projectcell
+{
+    [projectcell.VideoImgView setImage:[UIImage imageNamed:@""]];
+    videoUrl = nil;
+    projectcell.button.hidden = YES;
+}
+
 
 @end

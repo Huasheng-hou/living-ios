@@ -16,6 +16,8 @@
 
 @interface HBShareView : UIView
 
+@property(nonatomic,strong)UILabel *titleLabel;
+
 @property(nonatomic,assign)id<shareTypeDelegate>delegate;
 
 @end

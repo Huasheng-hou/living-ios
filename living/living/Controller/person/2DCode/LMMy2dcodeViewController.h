@@ -18,4 +18,10 @@
 
 @property(nonatomic,strong)NSString *address;
 
+@property(nonatomic,strong)NSString *endTime;
+
+@property(nonatomic,strong)NSString *franchisee;
+
+@property(nonatomic,assign)NSInteger index;
+
 @end

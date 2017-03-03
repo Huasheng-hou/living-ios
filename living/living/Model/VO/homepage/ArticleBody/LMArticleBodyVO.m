@@ -80,7 +80,7 @@
         }
         
         if (nil != [dictionary objectForKey:@"has_praised"] && ![[dictionary objectForKey:@"has_praised"] isEqual:[NSNull null]]) {
-            self.hasPraised = [(NSNumber *)[dictionary objectForKey:@"is_joined"] boolValue];
+            self.hasPraised = [(NSNumber *)[dictionary objectForKey:@"has_praised"] boolValue];
         }
         
         if (nil != [dictionary objectForKey:@"publish_time"] && ![[dictionary objectForKey:@"publish_time"] isEqual:[NSNull null]]
@@ -120,6 +120,11 @@
         
         if (dictionary[@"article_imgs"] && [dictionary[@"article_imgs"] isKindOfClass:[NSArray class]]) {
             self.articleImgs = dictionary[@"article_imgs"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"type"] && ![[dictionary objectForKey:@"type"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+            self.type = [dictionary objectForKey:@"type"];
         }
     }
     return self;

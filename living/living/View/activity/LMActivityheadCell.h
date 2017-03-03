@@ -15,6 +15,7 @@
 @interface LMActivityheadCell : UITableViewCell
 
 @property (nonatomic, strong) UIImageView *imageV;
+@property (nonatomic, strong)UIButton *joinButton;
 
 @property (nonatomic, weak) id <LMActivityheadCellDelegate> delegate;
 
@@ -33,5 +34,7 @@
 - (void)cellWillApply:(LMActivityheadCell *)cell;
 
 - (void)cellClickImage:(LMActivityheadCell *)cell;
+
+- (void)cellShareImage:(LMActivityheadCell *)cell;
 
 @end

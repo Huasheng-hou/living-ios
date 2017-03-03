@@ -23,6 +23,7 @@
 #import "LMLiveRoomLivingInfo.h"
 #import "LMLiveRoomMap.h"
 #import "ActivityListVO.h"
+#import "LMEventChooseButton.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -39,15 +40,14 @@ WJLoopViewDelegate
     UITableView *_tableView;
     LMLivingInfoVO *livingInfo;
     LMLivingMapVO *numInfo;
-    
     LMLiveRoomBody *bodyData;
-    
     NSString *selectType;
     NSMutableArray *cellDataArray;
-    
     LMLiveRoomCell *cellInfo;
-    
     UIView *homeImage;
+    LMEventChooseButton *publicLb;
+    LMEventChooseButton *joinLb ;
+    NSInteger  seleIndex;
 }
 
 @end
@@ -69,7 +69,7 @@ WJLoopViewDelegate
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
+    seleIndex =1;
     if (_livImgUUid==nil ) {
         homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-100, kScreenHeight/2-150, 200, 100)];
         
@@ -83,14 +83,12 @@ WJLoopViewDelegate
                 imageLb.font = TEXT_FONT_LEVEL_2;
                 imageLb.textAlignment = NSTextAlignmentCenter;
                 [homeImage addSubview:imageLb];
-                
                 [self.view addSubview:homeImage];
 
     }else{
         [self getLivingHomeListData];
         [self createUI];
     }
-    
     
     listArray = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLivingHomeListData) name:@"reloadEvent" object:nil];
@@ -108,7 +106,6 @@ WJLoopViewDelegate
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
-
 #pragma mark  --生活馆数据列表请求
 -(void)getLivingHomeListData
 {
@@ -117,7 +114,6 @@ WJLoopViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    NSLog(@"================_livImgUUid=============%@",_livImgUUid);
     
     LMLivingHomeListRequest *request = [[LMLivingHomeListRequest alloc] initWithLivingUuid:_livImgUUid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -129,7 +125,7 @@ WJLoopViewDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取数据失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
@@ -146,19 +142,12 @@ WJLoopViewDelegate
         NSLog(@"我的生活馆信息bodyDic：%@",bodyDic);
         
         bodyData=[[LMLiveRoomBody alloc]initWithDictionary:bodyDic];
-        
-         NSLog(@"==============bodyData.list=============：%@",bodyData.list);
-        
         cellDataArray=(NSMutableArray *)bodyData.list;
         
         
         livingInfo = [[LMLivingInfoVO alloc] initWithDictionary:bodyDic[@"livingInfo"]];
         numInfo = [[LMLivingMapVO alloc] initWithDictionary:bodyDic[@"map"]];
-        
-        
-        
-        
-        
+
         NSMutableArray *array=bodyDic[@"list"];
         for (int i=0; i<array.count; i++) {
             ActivityListVO *list=[[ActivityListVO alloc]initWithDictionary:array[i]];
@@ -183,10 +172,8 @@ WJLoopViewDelegate
     CLGeocoder * geocoder = [[CLGeocoder alloc]init];
     
     [geocoder geocodeAddressString:name completionHandler:^(NSArray *placemarks, NSError *error) {
-//        NSLog(@"%@",placemarks);
         CLPlacemark *placemark=[placemarks firstObject];
         CLLocation *location=placemark.location;//位置
-        
         
         CLLocationCoordinate2D curLocation;
         curLocation.latitude = location.coordinate.latitude;
@@ -219,8 +206,6 @@ WJLoopViewDelegate
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
         WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5) delegate:self imageURLs:livingInfo.livingImage placeholderImage:nil timeInterval:2 currentPageIndicatorITintColor:nil pageIndicatorTintColor:nil];
         loopView.location = WJPageControlAlignmentRight;
-        
-        
         [headView addSubview:loopView];
         
         return headView;
@@ -228,81 +213,60 @@ WJLoopViewDelegate
     if (section==1) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         headView.backgroundColor = [UIColor whiteColor];
-        
-        
         LMLiveRoomMap *map=bodyData.map;
-        
-        UIImageView *publicV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/4-10, 10, 22, 22)];
-        [publicV setImage:[UIImage imageNamed:@"personTotalAct"]];
-//        publicV.backgroundColor = [UIColor lightGrayColor];
-        [headView addSubview:publicV];
-        
-        UILabel *publicLb = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, kScreenWidth/2, 20)];
-//        if (numInfo.publishNums) {
-        publicLb.text = [NSString stringWithFormat:@"共发布%.0f次活动",map.publishNums];
-//        }
-        publicLb.textAlignment = NSTextAlignmentCenter;
-        publicLb.textColor = TEXT_COLOR_LEVEL_3;
-        publicLb.font = TEXT_FONT_LEVEL_3;
+        publicLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 60)];
+        publicLb.rightView.image =[UIImage imageNamed:@"personTotalAct"];
+        publicLb.rightView.frame = CGRectMake(kScreenWidth/4-10, 10, 22, 22);
+        publicLb.leftLabel.text = [NSString stringWithFormat:@"共发布%.0f次活动",map.publishNums];
+        [publicLb addTarget:self action:@selector(selectCellType) forControlEvents:UIControlEventTouchUpInside];
         [headView addSubview:publicLb];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/2-0.25, 15, 0.5, 30)];
         line.backgroundColor = LINE_COLOR;
         [headView addSubview:line];
         
-        UIImageView *joinV = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth*3/4-10, 10, 20, 23)];
-         [joinV setImage:[UIImage imageNamed:@"personJoinAct"]];
-        
-        [headView addSubview:joinV];
-        
-        UILabel *joinLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2, 35, kScreenWidth/2, 20)];
-//        if (numInfo.joinNums) {
-            joinLb.text = [NSString stringWithFormat:@"共参与%.0f次活动",map.joinNums];
-        joinLb.textAlignment = NSTextAlignmentCenter;
-
-        joinLb.textColor = TEXT_COLOR_LEVEL_3;
-        joinLb.font = TEXT_FONT_LEVEL_3;
+        joinLb = [[LMEventChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2,0 , kScreenWidth/2, 60)];
+        joinLb.rightView.image =[UIImage imageNamed:@"personJoinAct"];
+        joinLb.rightView.frame = CGRectMake(kScreenWidth/4-10, 10, 20, 23);
+        joinLb.leftLabel.text = [NSString stringWithFormat:@"共参与%.0f次活动",map.joinNums];
+        [joinLb setTitleColor:TEXT_COLOR_LEVEL_2 forState:UIControlStateNormal];
+        [joinLb setTitleColor:LIVING_COLOR forState:UIControlStateSelected];
+        [joinLb addTarget:self action:@selector(selectCellType2) forControlEvents:UIControlEventTouchUpInside];
         [headView addSubview:joinLb];
         
-        for (int i=0; i<2; i++) {
-            UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2*i, 0, kScreenWidth/2, 60)];
-            [button setTag:10+i];
-            [button addTarget:self action:@selector(selectCellType:) forControlEvents:UIControlEventTouchUpInside];
-            [headView addSubview:button];
+        if (seleIndex==1) {
+            publicLb.backgroundColor = TEXT_COLOR_LEVEL_5;
+            joinLb.backgroundColor = [UIColor whiteColor];
+        }else{
+            joinLb.backgroundColor = TEXT_COLOR_LEVEL_5;
+            publicLb.backgroundColor = [UIColor whiteColor];
         }
+
         return headView;
     }
     
     return nil;
 }
 
--(void)selectCellType:(UIButton *)sender
+- (void)selectCellType
 {
-    if (sender.tag==10) {
-        selectType=@"left";
-    }
-    
-    if (sender.tag==11) {
-        selectType=@"right";
-    }
-    
+    seleIndex=1;
     cellDataArray=[NSMutableArray arrayWithCapacity:0];
-    
-    if ([selectType isEqualToString:@"left"])
-    {
-        cellDataArray=(NSMutableArray *)bodyData.list;
-        
-    }
-    if ([selectType isEqualToString:@"right"])
-    {
-       cellDataArray=(NSMutableArray *)bodyData.listofUser;
-    }
-    
+    cellDataArray=(NSMutableArray *)bodyData.list;
     [_tableView reloadData];
+
 }
 
+- (void)selectCellType2
+{
+    seleIndex=2;
+    cellDataArray=[NSMutableArray arrayWithCapacity:0];
+    cellDataArray=(NSMutableArray *)bodyData.listofUser;
+    [_tableView reloadData];
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
         return kScreenWidth*3/5;
@@ -311,27 +275,26 @@ WJLoopViewDelegate
 }
 
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
         return [LMLiveRoomCell cellHigth:livingInfo.livingTitle];
     }
     
     if (indexPath.section==1) {
-        return 210;
+        return 220;
     }
     
     return 340;
     
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5;
 }
@@ -377,11 +340,9 @@ WJLoopViewDelegate
         if (!cell) {
             cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         }
-        
+        cell.backgroundColor = [UIColor clearColor];
         
         if (listArray.count > indexPath.row) {
-            
-            NSLog(@"********%@",cellDataArray);
             
             ActivityListVO  *vo = [listArray objectAtIndex:indexPath.row];
             
@@ -394,9 +355,6 @@ WJLoopViewDelegate
         [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        
-        
         return cell;
     }
     return nil;
@@ -409,7 +367,6 @@ WJLoopViewDelegate
 
 -(void)cellbuttonPay
 {
-    NSLog(@"***********立即支付");
     LMRechargeViewController *chargeVC = [[LMRechargeViewController alloc] init];
     
     chargeVC.liveRoomName =livingInfo.livingName;

@@ -89,7 +89,7 @@ static const int kLoadingCellTag = 2571;
 // 隐藏状态提示文字
 - (void)hideHUDView
 {
-    [stateHud hideAnimated:YES afterDelay:0.3];
+    [stateHud hide:YES afterDelay:0.3];
 }
 
 // 滚动表格到底部
@@ -128,9 +128,16 @@ static const int kLoadingCellTag = 2571;
         [activityIndicatorView startAnimating];
         
         [_loadingView addSubview:activityIndicatorView];
+        
+        [self adjustIndicator:_loadingView];
     }
     
     return _loadingView;
+}
+
+- (void)adjustIndicator:(UIView *)loadingView
+{
+    
 }
 
 - (UIView *)emptyView
@@ -196,7 +203,7 @@ static const int kLoadingCellTag = 2571;
 - (void)loadNewer
 {
     if (_reloadMask) {
-//        [_reloadMask removeFromSuperview];
+        [_reloadMask removeFromSuperview];
         _reloadMask = nil;
     }
     
@@ -419,7 +426,7 @@ static const int kLoadingCellTag = 2571;
                 } else {
                     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
                 }
-//                [self.tableView setScrollEnabled:YES];
+                //                [self.tableView setScrollEnabled:YES];
                 [self.tableView.tableFooterView setHidden:YES];
                 [self.tableView reloadData];
                 if (stateHud) {
@@ -429,14 +436,14 @@ static const int kLoadingCellTag = 2571;
             case FitStatefulTableViewControllerStateInitialLoading:
                 [self.tableView setBackgroundView:self.loadingView];
                 [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-//                [self.tableView setScrollEnabled:NO];
+                //                [self.tableView setScrollEnabled:NO];
                 [self.tableView.tableFooterView setHidden:YES];
                 [self.tableView reloadData];
                 break;
             case FitStatefulTableViewControllerStateEmpty:
                 [self.tableView setBackgroundView:self.emptyView];
                 [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-//                [self.tableView setScrollEnabled:NO];
+                //                [self.tableView setScrollEnabled:NO];
                 [self.tableView.tableFooterView setHidden:YES];
                 [self.tableView reloadData];
                 if (stateHud) {
@@ -446,7 +453,7 @@ static const int kLoadingCellTag = 2571;
             case FitStatefulTableViewControllerError:
                 [self.tableView setBackgroundView:self.errorView];
                 [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-//                [self.tableView setScrollEnabled:NO];
+                //                [self.tableView setScrollEnabled:NO];
                 [self.tableView.tableFooterView setHidden:YES];
                 [self.tableView reloadData];
                 if (stateHud) {
@@ -640,8 +647,39 @@ static const int kLoadingCellTag = 2571;
         
         [self presentViewController:alert animated:YES completion:nil];
     }
-    
 }
 
+-(void)IsLoginIn
+{
+
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:@"请登录"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction*action) {
+                                            
+                                                NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+                                                
+                                                [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+                                                
+                                                [self.navigationController popViewControllerAnimated:NO];
+                                                
+                                                [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
+                                                
+                                                
+                                                
+                                            }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction*action) {
+                                                
+                                            }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+}
 
 @end

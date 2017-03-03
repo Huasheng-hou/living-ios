@@ -35,12 +35,9 @@ UIViewControllerTransitioningDelegate
     LMAgeChooseButton *cityTF;
     LMChooseButton *manButton;
     LMChooseButton *womanButton;
-    
     UIImagePickerController *pickImage;
-    
     NSString *_imgURL;
     UIImageView *headerView;
-//    NSString *genderStr;
     NSString *passWordStr;
     
     NSString *_uuid;
@@ -63,8 +60,6 @@ UIViewControllerTransitioningDelegate
     self.title = @"修改资料";
     _imgURL = _avartStr;
     
-    NSLog(@"%@",_genderStr);
-    
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, kScreenWidth, 130)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -74,10 +69,13 @@ UIViewControllerTransitioningDelegate
      imageView.image = [UIImage imageNamed:@"headerIcon"];
     [backView addSubview:imageView];
     headerView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 20, 60, 60)];
+//    headerView.clipsToBounds = YES;
+    
     headerView.image = [UIImage imageNamed:@"headerIcon"];
     [headerView sd_setImageWithURL:[NSURL URLWithString:_imgURL] placeholderImage:[UIImage imageNamed:@"headerIcon"]];
     
     headerView.layer.cornerRadius = 30;
+    headView.contentMode = UIViewContentModeScaleAspectFill;
     headerView.clipsToBounds=YES;
     
     [backView addSubview:headerView];
@@ -85,18 +83,12 @@ UIViewControllerTransitioningDelegate
     sendImage.image = [UIImage imageNamed:@"sendHead"];
     [backView addSubview:sendImage];
     
-    
-    
     headerView.userInteractionEnabled=YES;
     //headerView tap事件
     
     UITapGestureRecognizer   *tap     = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(selectHeadImage)];
-    
-    
     [headerView addGestureRecognizer:tap];
-    
-    
-    
+
     UILabel *introduce =[[UILabel alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 20)];
     introduce.text = @"点击头像修改，上传头像";
     introduce.font = TEXT_FONT_LEVEL_3;
@@ -120,77 +112,56 @@ UIViewControllerTransitioningDelegate
     
     self.tableView.tableFooterView = footView;
     
-    
     pickImage=[[UIImagePickerController alloc]init];
     pickImage.transitioningDelegate  = self;
     pickImage.modalPresentationStyle = UIModalPresentationCustom;
     [pickImage setDelegate:self];
-//    [pickImage setAllowsEditing:YES];
-    
-    
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    
     return 10;
-    
 }
 
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section == 0) {
+        
         return 130;
     }
     if (indexPath.section==1) {
+        
         return 160;
     }
     
     return 0;
 }
 
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     
     if (indexPath.section==0) {
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if ([_genderStr intValue]== 1) {
-            manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
-            manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
-            manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
-            [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:manButton];
-            
-            
-            womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
-            womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
-            womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
-            womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
-            womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
-            [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:womanButton];
-        }
         if ([_genderStr intValue]== 2) {
             manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
             manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
             manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
             [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:manButton];
-            
             
             womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
             womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
@@ -200,9 +171,24 @@ UIViewControllerTransitioningDelegate
             [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:womanButton];
             
+        } else {
+            
+            manButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth/2, 130)];
+            manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
+            manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
+            [manButton addTarget:self action:@selector(manAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:manButton];
+            
+            womanButton = [[LMChooseButton alloc] initWithFrame:CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 130)];
+            womanButton.headImage.frame = CGRectMake(26-1.5, 20, 56, 60);
+            womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
+            womanButton.roolImage.frame = CGRectMake(44.5, 90, 15, 15);
+            womanButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
+            [womanButton addTarget:self action:@selector(womanAction) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:womanButton];
+            
+            _genderStr  = @"1";
         }
-        
-        
     }
     if (indexPath.section==1) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -213,7 +199,6 @@ UIViewControllerTransitioningDelegate
         [cell.contentView addSubview:nameLabel];
         
         nickTF = [[UITextField alloc] initWithFrame:CGRectMake(90, 10, kScreenWidth-100, 30)];
-//        nickTF.placeholder = @"请输入昵称";
         nickTF.text = _nickStr;
         nickTF.returnKeyType = UIReturnKeyDone;
         [nickTF setValue:TEXT_COLOR_LEVEL_3 forKeyPath:@"_placeholderLabel.textColor"];
@@ -226,7 +211,6 @@ UIViewControllerTransitioningDelegate
         lineLabel.backgroundColor = LINE_COLOR;
         [cell.contentView addSubview:lineLabel];
         
-        
         UILabel *ageLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 60, 75, 30)];
         ageLabel.text = @"真实年龄";
         ageLabel.font = TEXT_FONT_LEVEL_2;
@@ -237,10 +221,8 @@ UIViewControllerTransitioningDelegate
         ageTF.layer.borderWidth=0.5;
         ageTF.layer.borderColor = LINE_COLOR.CGColor;
         [ageTF addTarget:self action:@selector(timeChooseAction) forControlEvents:UIControlEventTouchUpInside];
-//        ageTF.textLabel.text = @"请选择出生日期";
         ageTF.textLabel.text = _ageStr;
         [cell.contentView addSubview:ageTF];
-        
         
         UILabel *cityLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 110, 75, 30)];
         cityLabel.text = @"所在城市";
@@ -252,25 +234,23 @@ UIViewControllerTransitioningDelegate
         cityTF.layer.borderWidth=0.5;
         cityTF.layer.borderColor = LINE_COLOR.CGColor;
         [cityTF addTarget:self action:@selector(addressChooseAction) forControlEvents:UIControlEventTouchUpInside];
-//        cityTF.textLabel.text = @"请选择所在城市";
-        if (_provinceStr == nil&&_cityStr==nil) {
+
+        if (_provinceStr == nil && _cityStr == nil) {
+            
             cityTF.textLabel.text = @"";
-        }else{
-           cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@",_provinceStr,_cityStr];
+        } else {
+            
+            cityTF.textLabel.text = [NSString stringWithFormat:@"%@ %@", _provinceStr, _cityStr];
         }
         
-        
         [cell.contentView addSubview:cityTF];
-        
     }
-    
-    
     
     return cell;
 }
 
 #pragma mark 登陆
--(void)loginAction
+- (void)loginAction
 {
     
     if ([nickTF.text isEqualToString:@""]) {
@@ -282,7 +262,6 @@ UIViewControllerTransitioningDelegate
         [self textStateHUD:@"昵称过长，请重新输入"];
         return;
     }
-    
     
     if ([_imgURL isEqualToString:@""]) {
         [self textStateHUD:@"请选择头像"];
@@ -299,10 +278,13 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
+    LMRegisterRequest *request  = [[LMRegisterRequest alloc] initWithNickname:nickTF.text
+                                                                    andGender:_genderStr
+                                                                    andAvatar:_imgURL
+                                                                  andBirtyday:ageTF.textLabel.text
+                                                                  andProvince:_provinceStr
+                                                                      andCity:_cityStr];
     
-    
-    
-    LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:_genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:_provinceStr andCity:_cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -312,12 +294,10 @@ UIViewControllerTransitioningDelegate
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"上传失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
-    
-    
 }
 
 - (void)parseCodeResponse:(NSString *)resp
@@ -344,25 +324,20 @@ UIViewControllerTransitioningDelegate
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
         });
         
-
-        
     } else {
         [self textStateHUD:bodyDict[@"description"]];
     }
 }
 
-
 #pragma mark pickerView选择日期
 
--(void)timeChooseAction
+- (void)timeChooseAction
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *currentDate;
     
-    currentDate = [NSDate date];
-    
-    
+    currentDate = [formatter dateFromString:@"1990-01-01"];
     
     [FitDatePickerView showWithMinimumDate:[formatter dateFromString:@"1950-01-01"]
                                MaximumDate:[NSDate date]
@@ -381,7 +356,7 @@ UIViewControllerTransitioningDelegate
 
 #pragma mark pickerView选择城市
 
--(void)addressChooseAction
+- (void)addressChooseAction
 {
     [self.view endEditing:YES];
     
@@ -396,7 +371,6 @@ UIViewControllerTransitioningDelegate
     [FitPickerView showWithData:@[provinceArr, @[@"北京"]] Delegate:self OffSets:@[@"0", @"0"]];
 }
 
-
 - (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
 {
     
@@ -406,12 +380,10 @@ UIViewControllerTransitioningDelegate
     
 }
 
-
 #pragma mark  性别选择
 
--(void)manAction
+- (void)manAction
 {
-    NSLog(@"************man****");
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-choose"];
     manButton.roolImage.image = [UIImage imageNamed:@"roolIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-gray"];
@@ -419,8 +391,8 @@ UIViewControllerTransitioningDelegate
     _genderStr = @"1";
 }
 
--(void)womanAction{
-    NSLog(@"***********woman*****");
+- (void)womanAction
+{
     manButton.headImage.image = [UIImage imageNamed:@"manIcon-gray"];
     manButton.roolImage.image = [UIImage imageNamed:@"setIcon"];
     womanButton.headImage.image = [UIImage imageNamed:@"womanIcon-choose"];
@@ -435,8 +407,7 @@ UIViewControllerTransitioningDelegate
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker
-        didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
 {
     //设置头像图片
     [headerView setImage:image];
@@ -459,24 +430,27 @@ UIViewControllerTransitioningDelegate
     [self initStateHud];
     
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
+    
     UIImage *headImage = [ImageHelpTool scaleImage:image];
+    
     request.imageData   = UIImageJPEGRepresentation(headImage, 1);
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
                                                
                                                [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                       withObject:nil
                                                                    waitUntilDone:YES];
+                                               
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-                                               [self logoutAction:resp];
                                                
                                                NSString    *result = [bodyDict objectForKey:@"result"];
                                                
-                                               NSLog(@"--------bodyDict--------%@",bodyDict);
-                                               
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
+                                               
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
+                                                   
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                        _imgURL=imgUrl;
                                                    }
@@ -505,8 +479,6 @@ UIViewControllerTransitioningDelegate
     {
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             [self textStateHUD:@"保存成功"];
-            NSLog(@"保存成功");
-            //            [self setUserInfo];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
@@ -529,6 +501,7 @@ UIViewControllerTransitioningDelegate
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
     actionSheet = nil;
+    
 }
 
 

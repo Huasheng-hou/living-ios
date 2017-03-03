@@ -14,7 +14,7 @@
 #import "LMScanRequest.h"
 #import "LMMyFriendViewController.h"
 #import "LMFriendDataRequest.h"
-
+#import "LM2DresultViewController.h"
 #import "LMToolTipView.h"
 
 
@@ -25,7 +25,12 @@
 
 
 @interface LMScanViewController ()
-<QRCodeReaderViewDelegate,AVCaptureMetadataOutputObjectsDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,buttonTypeDelegate>
+<QRCodeReaderViewDelegate,
+AVCaptureMetadataOutputObjectsDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate,
+UIAlertViewDelegate,
+buttonTypeDelegate>
 {
     QRCodeReaderView * readview;//二维码扫描对象
     
@@ -127,46 +132,46 @@
     
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
     
-    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!image){
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    }
-    
-    readview.is_Anmotion = YES;
-    
-    NSArray *features = [self.detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
-    if (features.count >=1) {    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self scanQRCodeFromPhotosInTheAlbum:image];
         
-        [picker dismissViewControllerAnimated:YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-            
-            CIQRCodeFeature *feature = [features objectAtIndex:0];
+    }];
+    
+    return;
+}
+
+/** 从相册中识别二维码, 并进行界面跳转 */
+- (void)scanQRCodeFromPhotosInTheAlbum:(UIImage *)image {
+    //    // CIDetector(CIDetector可用于人脸识别)进行图片解析，从而使我们可以便捷的从相册中获取到二维码
+    //    // 声明一个CIDetector，并设定识别类型 CIDetectorTypeQRCode
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
+    //
+    //    // 取得识别结果
+    NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+
+    if (features.count >=1) {
+        for (int index = 0; index < [features count]; index ++) {
+            CIQRCodeFeature *feature = [features objectAtIndex:index];
             NSString *scannedResult = feature.messageString;
-            //播放扫描二维码的声音
-//            SystemSoundID soundID;
-//            NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-//            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-//            AudioServicesPlaySystemSound(soundID);
-            
+            NSLog(@"result:%@",scannedResult);
             [self accordingQcode:scannedResult];
-        }];
-        
+        }
     }
     else{
         UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"该图片没有包含一个二维码！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
-        
-        [picker dismissViewControllerAnimated:YES completion:^{
+
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-            
             readview.is_Anmotion = NO;
             [readview start];
-        }];
     }
 }
+
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -182,12 +187,12 @@
     readview.is_Anmotion = YES;
     [readview stop];
     
-//    //播放扫描二维码的声音
-//    SystemSoundID soundID;
-//    NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-//    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-//    AudioServicesPlaySystemSound(soundID);
-//    
+    //    //播放扫描二维码的声音
+    //    SystemSoundID soundID;
+    //    NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
+    //    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
+    //    AudioServicesPlaySystemSound(soundID);
+    //
     [self accordingQcode:result];
     
     [self performSelector:@selector(reStartScan) withObject:nil afterDelay:1.5];
@@ -201,11 +206,29 @@
     
     if (str.length >9) {
         scanResult = [str substringFromIndex:9];
+        
+        if ([str containsString:@"partner//"]) {
+            [self get2Dcoderesult:scanResult];
+        }else{
+            LM2DresultViewController *resultVC = [[LM2DresultViewController alloc] init];
+            resultVC.result = str;
+            [self.navigationController pushViewController:resultVC animated:YES];
+        }
+        
     }else{
-        scanResult=@"123456789";
+        LM2DresultViewController *resultVC = [[LM2DresultViewController alloc] init];
+        resultVC.result = str;
+        [self.navigationController pushViewController:resultVC animated:YES];
+        
     }
     
-    LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:scanResult];
+
+    
+}
+
+-(void)get2Dcoderesult:(NSString *)string
+{
+    LMFriendDataRequest *request = [[LMFriendDataRequest alloc] initWithscanningResult:string];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -215,14 +238,12 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取好友信息失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
- 
     
 }
-
 
 
 
@@ -236,30 +257,31 @@
     if (!bodyDic) {
         [self textStateHUD:@"获取好友信息失败"];
     }else{
-        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            NSLog(@"=======扫码之后展示加盟商信息==bodyDic======%@",bodyDic);
+        if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
             NSDictionary *dic=bodyDic[@"map"];
             
             NSString *avatar;
             
-            if (dic[@"avatar"]) {
+            if (dic[@"avatar"]&&![dic[@"avatar"] isEqual:@""]&&[dic[@"avatar"] isKindOfClass:[NSString class]]) {
                 avatar=dic[@"avatar"];
             }else{
                 avatar=@"http://";
             }
             
-             NSString *nickname;
-            if (dic[@"nickname"]) {
+            NSString *nickname;
+            if (dic[@"nickname"]&&![dic[@"nickname"] isEqual:@""]&&[dic[@"nickname"] isKindOfClass:[NSString class]]) {
                 nickname=dic[@"nickname"];
             }else{
                 nickname=@" ";
             }
             
-             [readview stop];
-            LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
-            [tipView setDelegate:self];
-            [self.view addSubview:tipView];
+            [readview stop];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                LMToolTipView *tipView=[[LMToolTipView alloc]initWithHeadImage:avatar andNickName:nickname];
+                [tipView setDelegate:self];
+                [self.view addSubview:tipView];
+            });
             
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -272,13 +294,12 @@
 -(void)buttonType:(NSInteger)type
 {
     if (type==1) {//确定
-    
+        
         [self getMakeFriend];
     }else{
         [readview start];
     }
 }
-
 
 #pragma mark 扫码加好友
 
@@ -294,9 +315,9 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"添加好友失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
-                                                [readview start];
+                                               [readview start];
                                            }];
     [proxy start];
 }
@@ -312,7 +333,7 @@
     
     if (!bodyDic) {
         [self textStateHUD:@"添加好友失败!"];
-         [readview start];
+        [readview start];
     }else{
         
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
@@ -327,14 +348,13 @@
             });
             
         }else{
-             [readview start];
+            [readview start];
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
         
     }
     
 }
-
 
 - (void)reStartScan
 {

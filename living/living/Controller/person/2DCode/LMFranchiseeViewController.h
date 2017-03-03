@@ -12,6 +12,8 @@
 
 @property(nonatomic,strong)    NSString *liveRoomName;
 @property(nonatomic,strong)    NSString *liveUUID;
+@property(nonatomic,strong)    NSString *xufei;
+@property(nonatomic,strong)    NSString *franchisee;
 @property(nonatomic)NSInteger index;
 
 @end

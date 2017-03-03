@@ -22,6 +22,8 @@
 @synthesize params          =       _params;
 @synthesize imageData       =       _imageData;
 @synthesize imageName       =       _imageName;
+@synthesize fileData        =       _fileData;
+@synthesize videoData       =       _videoData;
 
 - (id)initWithNone
 {
@@ -34,9 +36,9 @@
 
 - (NSString *)serverHost
 {
-    //测试
 //    return @"http://yaoguo1818.com/living/";
-    return @"http://120.26.64.40:8080/living/";
+//    return @"http://120.26.64.40:8080/living/";
+    return @"http://api.yaoguo1818.com/living/";
 }
 
 - (NSString *)methodPath
@@ -97,16 +99,26 @@
     return NO;
 }
 
+- (BOOL)isVoiceInclude
+{
+    return NO;
+}
+
+- (BOOL)iSFileDataInclude;
+{
+    return NO;
+}
+
+
 - (BOOL)isPost
 {
     return NO;
 }
 
--(BOOL)isLogin
+- (BOOL)isLogin
 {
     return YES;
 }
-
 
 - (NSMutableDictionary *)params
 {
@@ -119,6 +131,7 @@
 - (NSURLRequest *)req
 {
     NSURL *url = [NSURL URLWithString:[self serverHost]];
+    
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
     httpClient.parameterEncoding    = AFFormURLParameterEncoding;
     
@@ -126,7 +139,7 @@
     
     if ([self isPost]) {
         
-        if (![self isImageInclude]) {
+        if (![self isImageInclude]&&![self isVoiceInclude]&&![self iSFileDataInclude]) {
             
             afRequest   = [httpClient requestWithMethod:@"POST"
                                                    path:[self methodPath]
@@ -134,7 +147,7 @@
                                                                                                                  encoding:NSUTF8StringEncoding]
                                                                                     forKey:@"json_package"]];
             
-        }else{
+        }else if([self isImageInclude]){
             
             afRequest = [httpClient multipartFormRequestWithMethod:@"POST"
                                                               path:[self methodPath]
@@ -153,7 +166,47 @@
                                              
                                          }];
             
+        }else if([self isVoiceInclude]){
+            
+            afRequest = [httpClient multipartFormRequestWithMethod:@"POST"
+                                                              path:[self methodPath]
+                                                        parameters:nil
+                                         constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                             
+                                             [formData appendPartWithFormData:[self toJSONData:[self query]]
+                                                                         name:@"json_package"];
+                                             
+                                             if ([self isVoiceInclude] && _fileData) {
+                                                 [formData appendPartWithFileData:_fileData
+                                                                             name:_imageName
+                                                                         fileName:[NSString stringWithFormat:@"%@.wav", @"filename"]
+                                                                         mimeType:@"application/octet-stream"];
+                                             }
+                                             
+                                         }];
+        }else if ([self iSFileDataInclude]){
+            
+                afRequest = [httpClient multipartFormRequestWithMethod:@"POST"
+                                                                  path:[self methodPath]
+                                                            parameters:nil
+                                             constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                                 
+                                                 [formData appendPartWithFormData:[self toJSONData:[self query]]
+                                                                             name:@"json_package"];
+                                                 
+                                                 if ([self iSFileDataInclude] && _videoData) {
+                                                     [formData appendPartWithFileData:_videoData
+                                                                                 name:_imageName
+                                                                             fileName:[NSString stringWithFormat:@"%@.mp4", @"filename"]
+                                                                             mimeType:@"video/quicktime"];
+                                                 }
+                                                 
+                                             }];
+            
+
         }
+        
+        
         
     } else {
         

@@ -14,6 +14,8 @@
           Project_title:(NSString *)project_title
             Project_dsp:(NSString *)project_dsp
            Project_imgs:(NSString *)project_imgs
+               videoUrl:(NSString *)videoUrl
+               coverUrl:(NSString *)coverUrl
 {
     self = [super init];
     
@@ -32,6 +34,12 @@
         }
         if (project_imgs){
             [bodyDict setObject:project_imgs forKey:@"project_imgs"];
+        }
+        if (videoUrl){
+            [bodyDict setObject:videoUrl forKey:@"videoUrl"];
+        }
+        if (coverUrl){
+            [bodyDict setObject:coverUrl forKey:@"coverUrl"];
         }
         
         NSMutableDictionary *paramsDict = [self params];

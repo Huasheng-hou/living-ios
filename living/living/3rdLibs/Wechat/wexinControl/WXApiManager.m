@@ -46,8 +46,7 @@
             [_delegate managerDidRecvAddCardResponse:addCardResp];
         }
     }else if([resp isKindOfClass:[PayResp class]]){
-        //支付返回结果
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"weixinPayEnsure" object:nil];
+        
     }
 
 }

@@ -28,12 +28,18 @@
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *eventNum;
-@property (nonatomic, assign) int balance;
+@property (nonatomic, assign) float balance;
 @property (nonatomic, strong) NSString *birthday;
 @property (nonatomic, assign) int orderNumber;
 @property (nonatomic, strong) NSString *totalEventNum;
+@property (nonatomic, strong) NSString *franchisee;
+@property (nonatomic, strong) NSString *sign;
+@property (nonatomic, strong) NSString *prove;
 @property (nonatomic, strong) NSString *province;
+@property (nonatomic, strong) NSString *privileges;
 @property (nonatomic, strong) NSString *livingUuid;
 @property (nonatomic, assign) int livingNumber;
+@property (nonatomic, assign) int userId;
+@property (nonatomic, strong) NSString *endTime;
 
 @end

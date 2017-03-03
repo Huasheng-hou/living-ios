@@ -16,6 +16,7 @@
 #define gtAppSecret             @"ptwM5X0tfF6vySlYyZDCQ1"
 #define gtMasterSecret          @"TOGmGhdrCk8PDty5TGkg62"
 
+
 //------------------高德配置--------------------
 
 #define amapKey                 @"883b5da0b7fdb9f70dde28fd930a8037"
@@ -27,13 +28,13 @@
 #define umShareAppKey           @"560274c367e58ec5cb004a8d"
 
 
-//暂时的，换车吧
-#define wxAppID                 @"wxe6c31febbd05d58d"
-#define wxAppSecret             @"efbbec4b7b7440e339f1192d0733082b"
+////暂时的，换车吧
+//#define wxAppID                 @"wxe6c31febbd05d58d"
+//#define wxAppSecret             @"efbbec4b7b7440e339f1192d0733082b"
 
 
-//#define wxAppID                 @"wx443c64230b24fe24"
-//#define wxAppSecret             @"434afce230f6a7fb72c2279e3c8dec57"
+#define wxAppID                 @"wx443c64230b24fe24"
+#define wxAppSecret             @"434afce230f6a7fb72c2279e3c8dec57"
 
 
 //------------------界面常量--------------------
@@ -113,6 +114,7 @@
 
 #define LIVING_COLOR                [UIColor colorWithRed:250/255.0 green:108/255.0 blue:35/255.0 alpha:1.0]
 #define LIVING_REDCOLOR             [UIColor colorWithRed:250.0/255.0 green:81/255.0 blue:81.0/255.0 alpha:1.0]
+#define LIVING_BLUECOLOR            [UIColor colorWithRed:68.0/255.0 green:133.0/255.0 blue:212.0/255.0 alpha:1.0]
 
 
 

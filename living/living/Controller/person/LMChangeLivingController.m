@@ -9,9 +9,7 @@
 #import "LMChangeLivingController.h"
 #import "LMLiveRoomNameCell.h"
 #import "LMLivingListRequest.h"
-
 #import "LMAllDataModels.h"
-
 #import "UIImageView+WebCache.h"
 
 @interface LMChangeLivingController ()
@@ -36,19 +34,18 @@
     
     [self createUI];
 }
--(void)createUI
+
+- (void)createUI
 {
     [super createUI];
     self.title = @"选择生活馆";
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    selectedRow=-1;
+    selectedRow = -1;
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle: @"确定" style:UIBarButtonItemStylePlain target:self action:@selector(besureAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
-    
-    
 }
 
 -(void)getLivingListData
@@ -71,13 +68,11 @@
     [proxy start];
 }
 
--(void)getLivingListResponse:(NSString *)resp
+- (void)getLivingListResponse:(NSString *)resp
 {
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    NSDictionary *bodyDic   = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
-//    NSLog(@"***********选择生活馆**%@",bodyDic);
-    NSString *result    = [bodyDic objectForKey:@"result"];
+    NSString    *result     = [bodyDic objectForKey:@"result"];
     
     if (result && [result intValue] == 0)
     {
@@ -90,13 +85,13 @@
         [self.tableView reloadData];
         
     } else {
+  
         [self textStateHUD:bodyDic[@"description"]];
     }
 }
 
--(void)besureAction
+- (void)besureAction
 {
-    NSLog(@"确定");
     if (selectedRow<0) {
         [self textStateHUD:@"请选择生活馆"];
         return;
@@ -108,18 +103,17 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return cellDataArray.count;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50.0f;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"cellID";
     

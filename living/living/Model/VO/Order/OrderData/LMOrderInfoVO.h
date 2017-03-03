@@ -34,6 +34,8 @@
 @property (nonatomic, retain) NSString *orderNumber;
 @property (nonatomic, retain) NSString *eventUuid;
 @property (nonatomic, retain) NSString *orderUuid;
-
+@property (nonatomic, retain) NSString *validatedPrice;
+@property (nonatomic, retain) NSString *voiceTitle;
+@property (nonatomic, retain) NSString *voiceUuid;
 
 @end

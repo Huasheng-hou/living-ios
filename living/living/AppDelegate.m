@@ -13,6 +13,7 @@
 #import "FitUserManager.h"
 #import "FitPayloadManager.h"
 #import "FitClientIDManager.h"
+#import <AVFoundation/AVFoundation.h>
 
 //支付宝
 #import <AlipaySDK/AlipaySDK.h>
@@ -22,11 +23,9 @@
 //qqSDK
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterface.h>
-
 #import <AMapFoundationKit/AMapFoundationKit.h>
-
 #import <UserNotifications/UserNotifications.h>
-
+#import "UMMobClick/MobClick.h"
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
 
@@ -45,7 +44,6 @@ UNUserNotificationCenterDelegate
 
 @implementation AppDelegate
 {
-    QLPreviewController *_preController;
     NSURL               *_dataPath;
     NSString            *_fileName;
     
@@ -57,7 +55,7 @@ UNUserNotificationCenterDelegate
     
     // * 启动个推
     //
-//    [self GexinProcess:launchOptions];
+    [self GexinProcess:launchOptions];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -67,31 +65,36 @@ UNUserNotificationCenterDelegate
     [self.window setRootViewController:rootVC];
     [self.window makeKeyAndVisible];
     
-    //向微信注册
-    [WXApi registerApp:@"wxe6c31febbd05d58d"];
+    UMConfigInstance.appKey = @"582bb33fcae7e72e10001e57";
     
-//    1104875913
-   _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
-
+    [MobClick startWithConfigure:UMConfigInstance];
+    
+    //向微信注册
+    [WXApi registerApp:wxAppID];
+    
+    //    1104875913
+    _tencentOAuth=  [[TencentOAuth alloc]initWithAppId:@"1105720353" andDelegate:self];; //注册
+    
     //高德地图
-     [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
-
-    // 使用 UNUserNotificationCenter 来管理通知
-//    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-//    //监听回调事件
-//    center.delegate = self;
-//    
-//    //iOS 10 使用以下方法注册，才能得到授权
-//    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
-//                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//                              // Enable or disable features based on authorization.
-//                          }];
-//    
-//    //获取当前的通知设置，UNNotificationSettings 是只读对象，不能直接修改，只能通过以下方法获取
-//    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-//        
-//    }];
-
+    [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
+    
+    //     使用 UNUserNotificationCenter 来管理通知
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    //监听回调事件
+    center.delegate = self;
+    
+    //iOS 10 使用以下方法注册，才能得到授权
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                              // Enable or disable features based on authorization.
+                          }];
+    
+    //获取当前的通知设置，UNNotificationSettings 是只读对象，不能直接修改，只能通过以下方法获取
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        
+    }];
+    
+    
     
     return YES;
 }
@@ -130,12 +133,12 @@ UNUserNotificationCenterDelegate
     
     [standDefaults synchronize];
     
-//    [GeTuiSdk registerDeviceToken:_deviceToken];
+    [GeTuiSdk registerDeviceToken:_deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-//    [GeTuiSdk registerDeviceToken:@""];
+    [GeTuiSdk registerDeviceToken:@""];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userinfo
@@ -161,62 +164,62 @@ UNUserNotificationCenterDelegate
 
 #pragma mark - Getui Process
 
-//- (void)GexinProcess:(NSDictionary *)launchOptions
-//{
-//    // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
-//    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self error:nil];
-//    
-//    // [2]:注册APNS
-//    [self registerRemoteNotification];
-//    
-//    // [2-EXT]: 获取启动时收到的APN
-//    NSDictionary* message = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-//    if (message) {
-//        //        NSString *payloadMsg = [message objectForKey:@"payload"];
-//        //        NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
-//        //        if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
-//        //            [[hcb_PayloadManager sharedPayloadManager] processPayload:payloadMsg];
-//        //        }
-//    }
-//    
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-//    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-//}
-//
-//#pragma mark - GexinSdkDelegate
-//
-////SDK启动成功返回cid
-//- (void) GeTuiSdkDidRegisterClient:(NSString *)clientId
-//{
-//    [[FitClientIDManager sharedClientIDManager] saveClientID:clientId];
-//    NSLog(@"--------clientId:%@",clientId);
-//}
-//
-////SDK收到透传消息回调
-//- (void) GeTuiSdkDidReceivePayload:(NSString *)payloadId
-//                         andTaskId:(NSString*) taskId
-//                      andMessageId:(NSString*)aMsgId
-//                   fromApplication:(NSString *)appId
-//{
-//    // [4]: 收到个推消息
-//    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
-//    NSString *payloadMsg = nil;
-//    if (payload) {
-//        
-//        
-//        
-//        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
-//                                              length:payload.length
-//                                            encoding:NSUTF8StringEncoding];
-//    }
-//    
-//    if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
-//        
-//        NSLog(@"---------payloadMsg------------%@",payloadMsg);
-//        
-//        [FitPayloadManager processTransPayload:payloadMsg];
-//    }
-//}
+- (void)GexinProcess:(NSDictionary *)launchOptions
+{
+    // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
+    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self error:nil];
+    
+    // [2]:注册APNS
+    [self registerRemoteNotification];
+    
+    // [2-EXT]: 获取启动时收到的APN
+    NSDictionary* message = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (message) {
+        //        NSString *payloadMsg = [message objectForKey:@"payload"];
+        //        NSString *record = [NSString stringWithFormat:@"[APN]%@, %@", [NSDate date], payloadMsg];
+        //        if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+        //            [[hcb_PayloadManager sharedPayloadManager] processPayload:payloadMsg];
+        //        }
+    }
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+#pragma mark - GexinSdkDelegate
+
+//SDK启动成功返回cid
+- (void) GeTuiSdkDidRegisterClient:(NSString *)clientId
+{
+    [[FitClientIDManager sharedClientIDManager] saveClientID:clientId];
+    NSLog(@"--------clientId:%@",clientId);
+}
+
+//SDK收到透传消息回调
+- (void) GeTuiSdkDidReceivePayload:(NSString *)payloadId
+                         andTaskId:(NSString*) taskId
+                      andMessageId:(NSString*)aMsgId
+                   fromApplication:(NSString *)appId
+{
+    // [4]: 收到个推消息
+    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
+    NSString *payloadMsg = nil;
+    if (payload) {
+        
+        
+        
+        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
+                                              length:payload.length
+                                            encoding:NSUTF8StringEncoding];
+    }
+    
+    if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
+        
+        NSLog(@"---------payloadMsg------------%@",payloadMsg);
+        
+        [FitPayloadManager processTransPayload:payloadMsg];
+    }
+}
 
 
 #pragma mark - UNUserNotificationCenterDelegate
@@ -230,7 +233,7 @@ UNUserNotificationCenterDelegate
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
-//    [GeTuiSdk enterBackground];
+    //    [GeTuiSdk enterBackground];
 }
 
 //登录完成后，会调用TencentSessionDelegate中关于登录的协议方法。
@@ -240,28 +243,27 @@ UNUserNotificationCenterDelegate
     if (_tencentOAuth.accessToken && 0 != [_tencentOAuth.accessToken length]){
         // 记录登录用户的OpenID、Token以及过期时间
         NSLog(@"tencent-accessToken:%@",_tencentOAuth.accessToken);
-    }
-    else{
+    } else {
+        
         NSLog(@"登录不成功 没有获取tencent-accesstoken");
     }
 }
 
 //非网络错误导致登录失败
--(void)tencentDidNotLogin:(BOOL)cancelled
+- (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    if (cancelled){
-        NSLog(@"用户取消登录");
-    }
-    else{
-        NSLog(@"登录失败");
+    if (cancelled) {
+        
+    } else {
+        
     }
 }
 
 //腾讯代理函数
--(void)tencentDidNotNetWork{
-     NSLog(@"没有网络了， 怎么登录成功呢");
+- (void)tencentDidNotNetWork
+{
+    
 }
-
 
 //禁止横屏
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
@@ -269,8 +271,12 @@ UNUserNotificationCenterDelegate
     return UIInterfaceOrientationMaskPortrait;
 }
 
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
+    }];
     
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
         [QQApiInterface handleOpenURL:url delegate:self];
@@ -296,7 +302,6 @@ UNUserNotificationCenterDelegate
     }
     
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"===AppDelegate 支付宝支付9.0以后处理支付结果====result = %@",resultDic);
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
     }];
@@ -307,14 +312,14 @@ UNUserNotificationCenterDelegate
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
- 
+        
         [QQApiInterface handleOpenURL:url delegate:self];
         return [TencentOAuth HandleOpenURL:url];
     }
     
     // 支付跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"AppDelegate 支付宝支付，处理支付结果result = %@",resultDic);
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];
     }];
     
@@ -331,38 +336,23 @@ UNUserNotificationCenterDelegate
 
 - (void)onResp:(BaseResp *)resp
 {
-    
-    
+    //    WXSuccess           = 0,    /**< 成功    */
+    //    WXErrCodeCommon     = -1,   /**< 普通错误类型    */
+    //    WXErrCodeUserCancel = -2,   /**< 用户点击取消并返回    */
+    //    WXErrCodeSentFail   = -3,   /**< 发送失败    */
+    //    WXErrCodeAuthDeny   = -4,   /**< 授权失败    */
+    //    WXErrCodeUnsupport  = -5,   /**< 微信不支持    */
     
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         
         SendAuthResp    *authResp   = (SendAuthResp *)resp;
         
-        NSLog(@"=================%d===============%@",authResp.errCode,authResp.state);
-        
-        
-        if (authResp.errCode==-2) {//用户返回，由于返回的state为空，在这写
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"userCancel"
-                                                                object:nil
-                                                              userInfo:nil];
-        }
-        
-        
-        if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
-            
-//            WXSuccess           = 0,    /**< 成功    */
-//            WXErrCodeCommon     = -1,   /**< 普通错误类型    */
-//            WXErrCodeUserCancel = -2,   /**< 用户点击取消并返回    */
-//            WXErrCodeSentFail   = -3,   /**< 发送失败    */
-//            WXErrCodeAuthDeny   = -4,   /**< 授权失败    */
-//            WXErrCodeUnsupport  = -5,   /**< 微信不支持    */
-            
-           
-            
-            switch (authResp.errCode) {
+        switch (authResp.errCode) {
                 
-                case WXSuccess:                 /**< 成功    */
-                {
+            case WXSuccess:                 /**< 成功    */
+            {
+                if (authResp.state && [authResp.state isKindOfClass:[NSString class]] && [authResp.state isEqualToString:@"wx"]) {
+                    
                     if (authResp.code && [authResp.code isKindOfClass:[NSString class]]) {
                         
                         NSDictionary    *userInfo   = [NSDictionary dictionaryWithObject:authResp.code forKey:@"code"];
@@ -372,41 +362,109 @@ UNUserNotificationCenterDelegate
                                                                           userInfo:userInfo];
                     }
                 }
-                    break;
-                 
-                case WXErrCodeCommon:           /**< 普通错误类型    */
-                {
-                    
-                }
-                    break;
-                    
-                case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
-                {
-                    
-                }
-                    break;
-                    
-                case WXErrCodeSentFail:         /**< 发送失败    */
-                {
-                    
-                }
-                    break;
-                    
-                case WXErrCodeAuthDeny:         /**< 授权失败    */
-                {
-                    
-                }
-                    break;
-                    
-                case WXErrCodeUnsupport:        /**< 微信不支持    */
-                {
-                    
-                }
-                    break;
-                    
-                default:
-                    break;
             }
+                break;
+                
+            case WXErrCodeCommon:           /**< 普通错误类型    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_CANCEL_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeSentFail:         /**< 发送失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeAuthDeny:         /**< 授权失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUnsupport:        /**< 微信不支持    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    } else if ([resp isKindOfClass:[PayResp class]]) {
+        
+        switch (resp.errCode) {
+                
+            case WXSuccess:                 /**< 成功    */
+            {
+                NSDictionary    *userInfo   = [NSDictionary dictionaryWithObject:resp forKey:@"payResp"];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_CALLBACK_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:userInfo];
+            }
+                break;
+                
+            case WXErrCodeCommon:           /**< 普通错误类型    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUserCancel:       /**< 用户点击取消并返回    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_CANCEL_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeSentFail:         /**< 发送失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeAuthDeny:         /**< 授权失败    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            case WXErrCodeUnsupport:        /**< 微信不支持    */
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LM_WECHAT_PAY_FAILED_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:nil];
+            }
+                break;
+                
+            default:
+                break;
         }
     }
 }
@@ -419,24 +477,12 @@ UNUserNotificationCenterDelegate
     
 }
 
-- (void)textStateHUD:(NSString *)text
-{
-    MBProgressHUD *stateHud = [[MBProgressHUD alloc] initWithView:_preController.view];
-    stateHud.delegate = self;
-    [_preController.view addSubview:stateHud];
-    stateHud.mode = MBProgressHUDModeText;
-    stateHud.opacity = 0.4;
-    stateHud.labelText = text;
-    stateHud.labelFont = [UIFont systemFontOfSize:12.0f];
-    [stateHud show:YES];
-    [stateHud hide:YES afterDelay:0.8];
-}
-
 //当程序正在运行时 收到提醒事件时触发
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[notification.userInfo objectForKey:@"id"] message:notification.alertBody delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:notification.alertAction, nil];
     [alert show];
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -446,17 +492,17 @@ UNUserNotificationCenterDelegate
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-
+    
 }
 
 @end

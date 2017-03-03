@@ -36,9 +36,6 @@
 @property(nonatomic, strong)UIImageView *deductionImage;
 @property(nonatomic, strong)UILabel *couponLabel;
 
-
-
-
 @end
 
 @implementation LMOrderCell
@@ -52,6 +49,7 @@
     }
     return self;
 }
+
 -(void)addSubviews
 {
     UIView *cellbackView = [[UIView alloc] initWithFrame:CGRectMake(14.5, 14.5, kScreenWidth-29, 151)];
@@ -107,28 +105,18 @@
     _numLabel.textColor = TEXT_COLOR_LEVEL_3;
     [cellView addSubview:_numLabel];
     
-    
     _deductionImage = [UIImageView new];
     [cellView addSubview:_deductionImage];
     
-    
     _couponLabel = [UILabel new];
-    _couponLabel.text = @"￥188";
     _couponLabel.font = TEXT_FONT_LEVEL_2;
     _couponLabel.textColor = LIVING_REDCOLOR;
     [cellView addSubview:_couponLabel];
     
-    
-    
     _priceLabel = [UILabel new];
-    _priceLabel.text = @"订单金额 ￥300";
     _priceLabel.font = TEXT_FONT_LEVEL_3;
     _priceLabel.textColor = LIVING_COLOR;
     [cellView addSubview:_priceLabel];
-    
-    
-    
-    
     
     UIView *line3 = [[UIView alloc] initWithFrame:CGRectMake(0, 114.5, kScreenWidth-30, 0.5)];
     line3.backgroundColor = LINE_COLOR;
@@ -162,74 +150,94 @@
     _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
     
     [cellView addSubview:_payButton];
-    
-    
-    
-    
-    
-    
 }
 
--(void)setValue:(LMOrderVO *)list
+- (void)setValue:(LMOrderVO *)list
 {
-    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
+    if (list .type&&[list.type isEqualToString:@"voice"]) {
+        _titleLabel.text = list.voiceTitle;
+        [_headImage sd_setImageWithURL:[NSURL URLWithString:list.voiceImages]];
+    }
+    
+    if (list .type&&[list.type isEqualToString:@"event"]) {
+        _titleLabel.text = list.eventName;
+        [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
+    }
+    
     _timeLabel.text = [NSString stringWithFormat:@"订购时间：%@",list.orderingTime];
     
-
     
-    _titleLabel.text = list.eventName;
     _orderNumLabel.text = list.orderNumber;
     
     _numLabel.text =[NSString stringWithFormat:@"x %d份",list.number];
+    
     NSString *textstr;
+    
     if (list.hasCoupon==YES) {
-        _deductionImage.image = [UIImage imageNamed:@"deduction"];
-        _couponLabel.text = [NSString stringWithFormat:@"￥%@",list.couponMoney];
+        
+        _deductionImage.image   = [UIImage imageNamed:@"deduction"];
+        _couponLabel.text       = [NSString stringWithFormat:@"￥%@",list.couponMoney];
         textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.discountMoney];
     }else{
+        
+        _couponLabel.text   = @"";
         textstr = [NSString stringWithFormat:@"订单金额 ￥%@",list.orderAmount];
     }
+    
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:textstr];
+    
     [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,4)];
     [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(4,str.length-4)];
+    
     _priceLabel.attributedText = str;
     
-
-    
-    
-    
     int payNum = [list.payStatus intValue];
-        switch (payNum) {
-            case 0:
-                _paytypeLabel.text = @"待支付";
-                [_payButton setTitle:@"付款" forState:UIControlStateNormal];
-                [_payButton addTarget:self action:@selector(payCell:) forControlEvents:UIControlEventTouchUpInside];
-                break;
-            case 1:
-                _paytypeLabel.text = @"待确认";
-                break;
-            case 2:
-                _paytypeLabel.text = @"已付款";
-                [_payButton setTitle:@"退款" forState:UIControlStateNormal];
-                [_payButton addTarget:self action:@selector(RefundCell:) forControlEvents:UIControlEventTouchUpInside];
-                break;
-            case 3:
-                _paytypeLabel.text = @"退款中";
-                break;
-            case 4:
-                _paytypeLabel.text = @"已退款";
-                [_payButton setTitle:@"再订" forState:UIControlStateNormal];
-                [_payButton addTarget:self action:@selector(rebookCell:) forControlEvents:UIControlEventTouchUpInside];
-                break;
-                
-            default:
-                break;
-        }
     
-    
-    
+    switch (payNum) {
+        case 0:
+            _paytypeLabel.text = @"待支付";
+            [_payButton setTitle:@"付款" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(payCell:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        case 1:
+            _paytypeLabel.text = @"待确认";
+            _deleteButton.hidden = YES;
+            break;
+        case 2:
+            _paytypeLabel.text = @"已付款";
+            [_payButton setTitle:@"退款" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(RefundCell:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        case 3:
+            _paytypeLabel.text = @"退款中";
+            _deleteButton.hidden = YES;
+            break;
+        case 4:
+            _paytypeLabel.text = @"已退款";
+            [_payButton setTitle:@"再订" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(rebookCell:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        case 5:
+            _paytypeLabel.text = @"失效";
+            [_payButton setTitle:@"删除" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+            _deleteButton.hidden = YES;
+            break;
+        case 6:
+            _paytypeLabel.text = @"进行中";
+            _deleteButton.hidden = YES;
+            break;
+        case 7:
+            _paytypeLabel.text = @"已完结";
+            [_payButton setTitle:@"删除" forState:UIControlStateNormal];
+            [_payButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+            _deleteButton.hidden = YES;
+            break;
+            
+        default:
+            break;
+    }
 }
-
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
 {
@@ -237,12 +245,12 @@
     _yScale = yScale;
 }
 
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     [_orderNumLabel sizeToFit];
     [_paytypeLabel sizeToFit];
-    [_titleLabel sizeToFit];
+    
     [_priceLabel sizeToFit];
     [_timeLabel sizeToFit];
     [_deleteButton sizeToFit];
@@ -251,11 +259,20 @@
     [_deductionImage sizeToFit];
     [_couponLabel sizeToFit];
     
+    CGFloat     titleHeight = ceil([_titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth - 120, 50)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:[NSDictionary dictionaryWithObject:_titleLabel.font forKey:NSFontAttributeName]
+                                                                  context:[[NSStringDrawingContext alloc] init]].size.height);
     
+    if (titleHeight > 35) {
+        
+        titleHeight     = 35;
+    }
     
     _orderNumLabel.frame = CGRectMake(10, 0, _orderNumLabel.bounds.size.width, 35);
     _paytypeLabel.frame = CGRectMake(kScreenWidth-40-_paytypeLabel.bounds.size.width, 0, _paytypeLabel.bounds.size.width, 35);
-    _titleLabel.frame = CGRectMake(80, 45, kScreenWidth-120, _titleLabel.bounds.size.height*2);
+    
+    _titleLabel.frame = CGRectMake(80, 45, kScreenWidth-120, titleHeight);
     _priceLabel.frame = CGRectMake(kScreenWidth-40-_priceLabel.bounds.size.width, 90, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
     _timeLabel.frame = CGRectMake(10, 115, _timeLabel.bounds.size.width, 35);
     
@@ -300,19 +317,6 @@
         [_delegate cellWillrebook:self];
     }
     
-}
-
-
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

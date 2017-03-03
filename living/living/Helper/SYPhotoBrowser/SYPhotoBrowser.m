@@ -81,6 +81,8 @@
     self.pageControl.numberOfPages = self.imageSourceArray.count;
     self.pageControl.currentPage = self.initialPageIndex;
     [self setViewControllers:@[self.photoViewControllerArray[self.initialPageIndex]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
 }
 
 - (void)dealloc {
@@ -130,6 +132,7 @@
 
 - (void)handleDissmissNotification:(NSNotification *)notification {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 - (void)handleLongPressNotification:(NSNotification *)notification {
@@ -145,7 +148,7 @@
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    return UIStatusBarAnimationFade;
+    return UIStatusBarAnimationNone;
 }
 
 - (NSMutableArray *)photoViewControllerArray {

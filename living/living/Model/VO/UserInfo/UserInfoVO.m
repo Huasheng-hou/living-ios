@@ -79,6 +79,21 @@
             self.province = [dictionary objectForKey:@"province"];
         }
         
+        if (nil != [dictionary objectForKey:@"prove"] && ![[dictionary objectForKey:@"prove"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"prove"] isKindOfClass:[NSString class]]) {
+            self.prove = [dictionary objectForKey:@"prove"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"franchisee"] && ![[dictionary objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"franchisee"] isKindOfClass:[NSString class]]) {
+            self.franchisee = [dictionary objectForKey:@"franchisee"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
+        
         if (nil != [dictionary objectForKey:@"birthday"] && ![[dictionary objectForKey:@"birthday"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"birthday"] isKindOfClass:[NSString class]]) {
             self.birthday = [dictionary objectForKey:@"birthday"];
@@ -87,7 +102,7 @@
         
         if (nil != [dictionary objectForKey:@"balance"] && ![[dictionary objectForKey:@"balance"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"balance"] isKindOfClass:[NSNumber class]]) {
-            self.balance =[(NSNumber *) [dictionary objectForKey:@"balance"] intValue];
+            self.balance =[(NSNumber *) [dictionary objectForKey:@"balance"] floatValue];
         }
         
         if (nil != [dictionary objectForKey:@"total_event_num"] && ![[dictionary objectForKey:@"total_event_num"] isEqual:[NSNull null]]
@@ -104,6 +119,11 @@
             && [[dictionary objectForKey:@"gender"] isKindOfClass:[NSString class]]) {
             self.gender = [dictionary objectForKey:@"gender"];
         }
+        
+        if (nil != [dictionary objectForKey:@"privileges"] && ![[dictionary objectForKey:@"privileges"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"privileges"] isKindOfClass:[NSString class]]) {
+            self.privileges = [dictionary objectForKey:@"privileges"];
+        }
 
         if (nil != [dictionary objectForKey:@"order_number"] && ![[dictionary objectForKey:@"order_number"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"order_number"] isKindOfClass:[NSNumber class]]) {
@@ -113,6 +133,16 @@
         if (nil != [dictionary objectForKey:@"living_nums"] && ![[dictionary objectForKey:@"living_nums"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"living_nums"] isKindOfClass:[NSNumber class]]) {
             self.livingNumber =[(NSNumber *) [dictionary objectForKey:@"living_nums"] intValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"userId"] && ![[dictionary objectForKey:@"userId"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"userId"] isKindOfClass:[NSNumber class]]) {
+            self.userId =[(NSNumber *) [dictionary objectForKey:@"userId"] intValue];
+        }
+        
+        if (nil != [dictionary objectForKey:@"endTime"] && ![[dictionary objectForKey:@"endTime"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"endTime"] isKindOfClass:[NSString class]]) {
+            self.endTime = [dictionary objectForKey:@"endTime"];
         }
     }
     

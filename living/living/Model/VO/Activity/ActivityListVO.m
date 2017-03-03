@@ -79,6 +79,10 @@
             && [[dictionary objectForKey:@"total_num"] isKindOfClass:[NSNumber class]]) {
             self.TotalNumber = [dictionary objectForKey:@"total_num"];
         }
+        if (nil != [dictionary objectForKey:@"total_number"] && ![[dictionary objectForKey:@"total_number"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"total_number"] isKindOfClass:[NSNumber class]]) {
+            self.joinNum = [dictionary objectForKey:@"total_number"];
+        }
         
         if (nil != [dictionary objectForKey:@"per_cost"] && ![[dictionary objectForKey:@"per_cost"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"per_cost"] isKindOfClass:[NSString class]]) {
@@ -116,8 +120,21 @@
         }
         
         if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSNumber class]]) {
             self.Status = [dictionary objectForKey:@"status"];
+        }
+        if (nil != [dictionary objectForKey:@"eventDetail"] && ![[dictionary objectForKey:@"eventDetail"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"eventDetail"] isKindOfClass:[NSString class]]) {
+            self.eventDetail = [dictionary objectForKey:@"eventDetail"];
+        }
+        
+        if (nil != [dictionary objectForKey:@"create_time"] && ![[dictionary objectForKey:@"create_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"create_time"] isKindOfClass:[NSString class]]) {
+            self.createTime = [dictionary objectForKey:@"create_time"];
+        }
+        if (nil != [dictionary objectForKey:@"discount"] && ![[dictionary objectForKey:@"discount"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"discount"] isKindOfClass:[NSString class]]) {
+            self.discount = [dictionary objectForKey:@"discount"];
         }
     }
     

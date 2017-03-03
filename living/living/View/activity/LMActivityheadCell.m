@@ -24,7 +24,8 @@
 
 @property (nonatomic, strong) UILabel *nameLabel;
 
-@property (nonatomic, strong)UIButton *joinButton;
+@property (nonatomic, strong) UIButton *shareButton;
+
 
 @end
 
@@ -82,7 +83,6 @@
     
     _nameLabel.font = [UIFont systemFontOfSize:13.f];
     _nameLabel.textColor = TEXT_COLOR_LEVEL_1;
-    _nameLabel.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_nameLabel];
     
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -97,8 +97,17 @@
     UIView *line = [UIView new];
     line.backgroundColor = LINE_COLOR;
     [line sizeToFit];
-    line.frame = CGRectMake(kScreenWidth-71, 185, 1, 30);
+    line.frame = CGRectMake(kScreenWidth-71, kScreenWidth*3/5+15, 1, 30);
     [self.contentView addSubview:line];
+    
+    
+    _shareButton=[UIButton new];
+    [_shareButton addTarget:self action:@selector(shareButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_shareButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+    _shareButton.layer.cornerRadius = 3;
+//    _shareButton.layer.borderColor =LIVING_COLOR.CGColor;
+//    _shareButton.layer.borderWidth = 0.5;
+    [self.contentView addSubview:_shareButton];
     
     
     
@@ -161,19 +170,21 @@
     [_titleLabel sizeToFit];
     [_countLabel sizeToFit];
     [_headV sizeToFit];
+    [_shareButton sizeToFit];
     
     
-    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 170);
+    _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
     
     _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height-_titleLabel.bounds.size.height*2, kScreenWidth-30, _titleLabel.bounds.size.height*2);
     
     _headV.frame = CGRectMake(15, 10+_imageV.bounds.size.height, 40, 40);
     
-    _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
+    _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, kScreenWidth-65-80-61, _nameLabel.bounds.size.height);
     _countLabel.frame = CGRectMake(61, 17+_imageV.bounds.size.height+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _joinButton.frame = CGRectMake(kScreenWidth-70, 170+5, 60, self.contentView.bounds.size.height-180);
+    _joinButton.frame = CGRectMake(kScreenWidth-70, kScreenWidth*3/5+5, 60, self.contentView.bounds.size.height-10-kScreenWidth*3/5);
     
+    _shareButton.frame = CGRectMake(kScreenWidth-71-80, kScreenWidth*3/5+15, 80, 30);
 
 }
 
@@ -192,18 +203,13 @@
     }
 }
 
-
-
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+-(void)shareButton:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellShareImage:)]) {
+        [_delegate cellShareImage:self];
+    }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
 
 @end

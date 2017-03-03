@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-
 #if ! __has_feature(objc_arc)
 #define JSONAutoRelease(param) ([param autorelease]);
 #else
@@ -33,5 +31,10 @@
 @property (nonatomic, retain) NSString *type;
 @property (nonatomic, retain) NSString *eventUuid;
 @property (nonatomic, retain) NSString *noticeUuid;
+@property (nonatomic, retain) NSString *articleTitle;
+@property (nonatomic, retain) NSString *eventName;
+@property (nonatomic, retain) NSString *sign;
+@property (nonatomic, retain) NSString *voiceUuid;
+@property (nonatomic, retain) NSString *voiceTitle;
 
 @end

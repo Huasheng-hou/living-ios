@@ -13,6 +13,9 @@
 -(id)initWithArticlecontent:(NSString *)article_content
           Article_title:(NSString *)article_title
             Descrition:(NSString *)descrition
-            andImageURL:(NSArray *)article_imgs;
+            andImageURL:(NSArray *)article_imgs
+                    andType:(NSString *)type
+                      blend:(NSArray *)blend
+                       sign:(NSString *)sign;
 
 @end

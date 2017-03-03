@@ -32,6 +32,12 @@
 
 @property (nonatomic, strong) UILabel *addressLabel;
 
+@property (nonatomic, strong) UIView *backView;
+
+@property (nonatomic, strong) UILabel *couponLabel;
+
+@property (nonatomic, strong) UIView *upStore;
+
 @end
 
 @implementation LMActivityCell
@@ -55,11 +61,11 @@
     
     [self.contentView addSubview:_imageV];
     
-    UIView *backView = [UIView new];
-    backView.backgroundColor = [UIColor blackColor];
-    backView.alpha = 0.5;
-    backView.frame = CGRectMake(0, 0, kScreenWidth, 170);
-    [_imageV addSubview:backView];
+    _backView = [UIView new];
+    _backView.backgroundColor = [UIColor blackColor];
+    _backView.alpha = 0.5;
+    _backView.frame = CGRectMake(0, 0, kScreenWidth, 180);
+    [_imageV addSubview:_backView];
     
     
     //标题
@@ -84,7 +90,12 @@
     _priceLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_priceLabel];
 
-    
+    //优惠价
+    _couponLabel = [UILabel new];
+    _couponLabel.font = [UIFont systemFontOfSize:13.f];
+    _couponLabel.textAlignment = NSTextAlignmentCenter;
+    _couponLabel.textColor = [UIColor whiteColor];
+    [self.contentView addSubview:_couponLabel];
     
     //活动时间
     _timeLabel = [UILabel new];
@@ -93,7 +104,7 @@
     _timeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_timeLabel];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 30)];
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 180, kScreenWidth, 30)];
     footView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:footView];
     
@@ -118,6 +129,28 @@
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     [footView addSubview:_addressLabel];
     
+    //上架
+    _upStore = [UIView new];
+    _upStore.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    _upStore.frame = CGRectMake(kScreenWidth-110, 130, 100, 40);
+    _upStore.layer.cornerRadius = 5.f;
+    
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12.5, 17, 15)];
+    icon.image = [UIImage imageNamed:@"upStore"];
+    [_upStore addSubview:icon];
+    
+    UILabel *upLabel = [UILabel new];
+    upLabel.text = @"上架";
+    upLabel.font = [UIFont systemFontOfSize:15.f];
+    upLabel.textColor = [UIColor whiteColor];
+    upLabel.textAlignment = NSTextAlignmentCenter;
+    upLabel.frame = CGRectMake(35, 0, 75, 40);
+    [_upStore addSubview:upLabel];
+    
+    [self.contentView addSubview:_upStore];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(upstoreAction)];
+    [_upStore addGestureRecognizer:tap];
 
     
     
@@ -128,9 +161,6 @@
     if (!ActivityList || ![ActivityList isKindOfClass:[ActivityListVO class]]) {
         return;
     }
-    
-
-    
     
     _ActivityList   = ActivityList;
     if (index==2) {
@@ -144,8 +174,43 @@
         [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
         [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
         _addressLabel.text  = _ActivityList.Address;
+        _backView.hidden = YES;
+        _upStore.hidden = YES;
+        
+    }else if (index== 3) {
+        if (!_ActivityList.NickName) {
+            
+            _nameLabel.text = @"匿名商户";
+        } else {
+            
+            _nameLabel.text = _ActivityList.NickName;
+        }
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        _addressLabel.text  = _ActivityList.Address;
+        _titleLabel.text = _ActivityList.EventName;
+        
+        NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        
+        if (_ActivityList.StartTime && [_ActivityList.StartTime isKindOfClass:[NSDate class]]) {
+            
+            _timeLabel.text = [formatter stringFromDate:_ActivityList.StartTime];
+        }
+        
+        
+        _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+        
+        if (_ActivityList.discount&&![_ActivityList.discount isEqualToString:@""]) {
+            _couponLabel.text = [NSString stringWithFormat:@"会员:￥%@/人",_ActivityList.discount];
+        }
+        _upStore.hidden = NO;
+        
+
         
     }else{
+        _upStore.hidden = YES;
         if (!_ActivityList.NickName) {
             
             _nameLabel.text = @"匿名商户";
@@ -170,6 +235,10 @@
         
         _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
         _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+        
+        if (_ActivityList.discount&&![_ActivityList.discount isEqualToString:@""]) {
+            _couponLabel.text = [NSString stringWithFormat:@"会员:￥%@/人",_ActivityList.discount];
+        }   
 
     }
     
@@ -181,6 +250,14 @@
     _yScale = yScale;
 }
 
+-(void)upstoreAction
+{
+    if ([_delegate respondsToSelector:@selector(cellWillClick:)]) {
+        [_delegate cellWillClick:self];
+    }
+}
+
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
@@ -191,16 +268,22 @@
     [_countLabel sizeToFit];
     [_priceLabel sizeToFit];
     [_addressLabel sizeToFit];
+    [_couponLabel sizeToFit];
     [_headV sizeToFit];
     
-    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 170);
+    _imageV.frame = CGRectMake(0, 0, kScreenWidth, 180);
     
-    _titleLabel.frame = CGRectMake(15, 18, kScreenWidth-30, _titleLabel.bounds.size.height*2);
     
-    _countLabel.frame = CGRectMake(15, 90, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     
-    _priceLabel.frame = CGRectMake(15, 115, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
-    _timeLabel.frame = CGRectMake(15, 140, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
+    _titleLabel.frame = CGRectMake(15, 28, kScreenWidth-30, _titleLabel.bounds.size.height*2);
+    
+    _countLabel.frame = CGRectMake(15, 100, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
+    
+    _priceLabel.frame = CGRectMake(15, 125, _priceLabel.bounds.size.width, _priceLabel.bounds.size.height);
+    
+    _couponLabel.frame = CGRectMake(25+_priceLabel.bounds.size.width, 125, _couponLabel.bounds.size.width, _couponLabel.bounds.size.height);
+    
+    _timeLabel.frame = CGRectMake(15, 150, _timeLabel.bounds.size.width, _timeLabel.bounds.size.height);
     
     _headV.frame = CGRectMake(15, 5, 20, 20);
     

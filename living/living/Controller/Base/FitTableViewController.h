@@ -19,6 +19,7 @@
 #import "UIView+frame.h"
 #import "FitTabbarController.h"
 //#import <UMengAnalytics/UMMobClick/MobClick.h>
+#import "LMAgreementRequest.h"
 
 @interface FitTableViewController : UIViewController
 <

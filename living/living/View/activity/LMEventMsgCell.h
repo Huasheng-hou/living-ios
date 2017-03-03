@@ -16,6 +16,14 @@
 @property (nonatomic)CGFloat conHigh;
 @property (nonatomic)CGFloat dspHigh;
 
+@property (nonatomic)CGFloat imageWidth;
+
+@property (nonatomic)CGFloat imageHeight;
+
+@property (nonatomic)CGFloat videoWidth;
+
+@property (nonatomic)CGFloat videoHeight;
+
 @property (nonatomic)NSInteger index;
 
 @property (nonatomic, weak) id <LMEventMsgCellDelegate> delegate;
@@ -27,7 +35,7 @@
 
 -(void)setValue:(LMProjectBodyVO *)data;
 
-//+ (CGFloat)cellHigth:(NSString *)titleString;
++ (CGFloat)cellHigth:(NSString *)titleString;
 
 @end
 
@@ -37,5 +45,6 @@
 @optional
 
 - (void)cellProjectImage:(LMEventMsgCell *)cell;
+- (void)cellProjectVideo:(LMEventMsgCell *)cell;
 
 @end

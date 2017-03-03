@@ -36,22 +36,12 @@
     [_imageV addSubview:_nameLabel];
     
     //内容
-    _contentLabel=[[UITextView alloc]initWithFrame:CGRectMake(10, 35, _imageV.bounds.size.width*2/3-20, 40)];
-    [_contentLabel setText:@"这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动这是活动"];
+    _contentLabel=[[UITextView alloc]initWithFrame:CGRectMake(10, 40, _imageV.bounds.size.width*2/3-20, 35)];
     [_contentLabel setBackgroundColor:[UIColor clearColor]];
     [_contentLabel setFont:TEXT_FONT_LEVEL_2];
+    [_contentLabel setTextColor:[UIColor colorWithWhite:1 alpha:0.9]];
     [_contentLabel setUserInteractionEnabled:NO];
     [_imageV addSubview:_contentLabel];
-    
-    //段落间隔
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:_contentLabel.text];;
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    [paragraphStyle setLineSpacing:5];
-    
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, _contentLabel.text.length)];
-    _contentLabel.attributedText = attributedString;
-    
-     [_contentLabel setTextColor:[UIColor whiteColor]];
 
     //价格
     _priceLabel=[[UILabel alloc]initWithFrame:CGRectMake(_imageV.bounds.size.width*2/3, 5, _imageV.bounds.size.width/3, 80)];
@@ -64,6 +54,14 @@
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
     [str addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_2 range:NSMakeRange(0, 1)];
     _priceLabel.attributedText = str;
+    
+    //使用条件
+    _typeLabel=[[UILabel alloc]initWithFrame:CGRectMake(_imageV.bounds.size.width*2/3, 60, _imageV.bounds.size.width/3, 20)];
+    [_typeLabel setText:@"无限制"];
+    [_typeLabel setTextColor:[UIColor redColor]];
+    [_typeLabel setTextAlignment:NSTextAlignmentCenter];
+    [_typeLabel setFont:[UIFont systemFontOfSize:12]];
+    [_imageV addSubview:_typeLabel];
 }
 
 
@@ -71,8 +69,14 @@
 {
     _nameLabel.text = list.livingName;
     
-    _contentLabel.text = list.eventName;
+    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    if (list.endTime && [list.endTime isKindOfClass:[NSDate class]]) {
+        
+        NSString *string = [formatter stringFromDate:list.endTime];
+        _contentLabel.text = [NSString stringWithFormat:@"到期时间：%@",string];
+    };
     
     if ([list.amount isEqual:@"188"]) {
         [_imageV setImage:[UIImage imageNamed:@"CouponOR"]];
@@ -87,9 +91,7 @@
     if ([list.amount isEqual:@"30"]) {
         [_imageV setImage:[UIImage imageNamed:@"CouponBule"]];
     }
-    
-    
-    
+
     _priceLabel.text =[NSString stringWithFormat:@"抵%@",list.amount];
     
 }

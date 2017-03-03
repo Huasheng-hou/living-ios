@@ -158,7 +158,10 @@
             && [[dictionary objectForKey:@"notices"] isKindOfClass:[NSString class]]) {
             self.notices = [dictionary objectForKey:@"notices"];
         }
-        
+        if (nil != [dictionary objectForKey:@"eventid"] && ![[dictionary objectForKey:@"eventid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"eventid"] isKindOfClass:[NSNumber class]]) {
+            self.eventid= [(NSNumber *)[dictionary objectForKey:@"eventid"] intValue];
+        }
         
 
         

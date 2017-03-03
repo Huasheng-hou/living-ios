@@ -76,6 +76,8 @@
     [headImageV sd_setImageWithURL:[NSURL URLWithString:_headImage]];
     [headImageV.layer setCornerRadius:30.0f];
     [headImageV.layer setMasksToBounds:YES];
+    headImageV.clipsToBounds = YES;
+    headImageV.contentMode = UIViewContentModeScaleAspectFill;
     [whiteView addSubview:headImageV];
     
     //昵称

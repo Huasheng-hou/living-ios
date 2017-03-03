@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) UILabel *priceLabel;
 
+@property (nonatomic, strong) UIButton *reportButton;
+
 @end
 
 @implementation LMActivityMsgCell
@@ -46,6 +48,14 @@
     _phoneV.image = [UIImage imageNamed:@"phoneV"];
     [self.contentView addSubview:_phoneV];
     
+    _reportButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_reportButton setTitle:@"举报" forState:UIControlStateNormal];
+    [_reportButton setTintColor:LIVING_COLOR];
+    _reportButton.showsTouchWhenHighlighted = YES;
+    _reportButton.frame = CGRectMake(kScreenWidth-70, 12, 60.f, 30.f);
+    [_reportButton addTarget:self action:@selector(reportAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_reportButton];
+
     
     _numberLabel = [UILabel new];
     _numberLabel.font = [UIFont systemFontOfSize:14.f];
@@ -90,8 +100,8 @@
     
     
     _addressLabel = [UILabel new];
-//    _addressLabel.text = @"浙江省杭州市西湖区万塘路";
-    _addressLabel.textAlignment = NSTextAlignmentRight;
+    _addressLabel.numberOfLines = 0;
+    _addressLabel.textAlignment = NSTextAlignmentLeft;
     _addressLabel.font = [UIFont systemFontOfSize:13.f];
     [_addressLabel setUserInteractionEnabled:YES];
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
@@ -106,18 +116,17 @@
     _mapView.mapType = MKMapTypeStandard;
     [self.contentView addSubview:_mapView];
     
-
-    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(15, 350, kScreenWidth-30, 30)];
-
-    [label setText:@"这是地图显示地址"];
-    [label setTextColor:TEXT_COLOR_LEVEL_3];
-    [label setFont:TEXT_FONT_LEVEL_2];
-    [self.contentView addSubview:label];
+    _mapButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreenHeight-30, 160)];
+    [_mapView addSubview:_mapButton];
+    
 }
 
 -(void)setValue:(LMEventBodyVO *)event andLatitude:(NSString *)latitude andLongtitude:(NSString *)longtitude
 {
     _addressLabel.text = event.address;
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
+    _cellHight = [_addressLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
+    
     
     if (event.startTime == nil) {
         _timeLabel.text = @"";
@@ -126,7 +135,7 @@
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         
         NSString *start = [formatter stringFromDate:event.startTime];
-        NSString *end = [formatter stringFromDate:event.startTime];
+        NSString *end = [formatter stringFromDate:event.endTime];
  
       _timeLabel.text = [NSString stringWithFormat:@"%@ —— %@",start,end];
     }
@@ -141,6 +150,11 @@
         _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
     }
 
+    if (!event.latitude||[event.latitude isEqual:@""] ||[event.latitude intValue] ==0) {
+
+        [self.mapView setHidden:YES];
+    }else{
+    
     //设置中心坐标点
     CLLocationCoordinate2D curLocation;
     curLocation.latitude = [latitude floatValue];
@@ -162,6 +176,7 @@
     [_mapView addAnnotation:annotation0];
     
      [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(curLocation.latitude, curLocation.longitude)];
+    }
 }
 
 - (void)setXScale:(float)xScale yScale:(float)yScale
@@ -189,12 +204,22 @@
     _freeV.frame = CGRectMake(15, 93, 24, 24);
 
     
-    _numberLabel.frame = CGRectMake(44, 12, kScreenWidth-30, 30);
-    _addressLabel.frame = CGRectMake(44, 129.5, _addressLabel.bounds.size.width, 30);
+    _numberLabel.frame = CGRectMake(44, 12, _numberLabel.bounds.size.width, 30);
+    _addressLabel.frame = CGRectMake(44, 136, kScreenWidth-59, _cellHight);
     _timeLabel.frame = CGRectMake(44, 49+0.5, _timeLabel.bounds.size.width, 30);
     
     _priceLabel.frame = CGRectMake(44, 90, _priceLabel.bounds.size.width, 30);
 }
+
+
+- (void)reportAction:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellWillreport:)]) {
+        [_delegate cellWillreport:self];
+    }
+    
+}
+
 
 
 @end

@@ -28,5 +28,11 @@
 @property (nonatomic, retain) NSString *projectImgs;
 @property (nonatomic, retain) NSString *eventProjectUuid;
 @property (nonatomic, retain) NSString *projectDsp;
+@property (nonatomic, assign) float   width;
+@property (nonatomic, assign) float   height;
+@property (nonatomic, assign) float   coverHeight;
+@property (nonatomic, assign) float   coverWidth;
+@property (nonatomic, retain) NSString *coverUrl;
+@property (nonatomic, retain) NSString *videoUrl;
 
 @end

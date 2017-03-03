@@ -10,12 +10,17 @@
 #import "LM2DcodeRequest.h"
 #import "UIImageView+WebCache.h"
 #import "LMFranchiseeViewController.h"
-
+#import "UIView+frame.h"
 
 @interface LMMy2dcodeViewController ()
 {
     UIImageView *imageView;
     NSString *codeSting;
+    UIView *KeepImage;
+    UIButton *downButton;
+    UILabel *endTimeLabel;
+    NSInteger index;
+    NSString *xufei;
 }
 
 @end
@@ -30,7 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor blackColor];
     self.title = @"二维码";
@@ -49,10 +53,11 @@
         [self creatImageView];
     }
     
-    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
--(void)get2DcodeRequest
+- (void)get2DcodeRequest
 {
     if (![CheckUtils isLink]) {
         
@@ -69,18 +74,17 @@
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取数据失败"
+                                                                      withObject:@"网络错误"
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
     
 }
 
--(void)get2DcodeResponse:(NSString *)resp
+- (void)get2DcodeResponse:(NSString *)resp
 {
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
-    [self logoutAction:resp];
     if (!bodyDic) {
         [self textStateHUD:@"获取数据失败"];
         return;
@@ -96,7 +100,7 @@
         //将数据缓存到本地
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
         NSString *path = [paths objectAtIndex:0];
-        NSString *filename = [path stringByAppendingPathComponent:@"contact.plist"];
+        NSString *filename = [path stringByAppendingPathComponent:@"img.plist"];
         NSMutableDictionary *userInfo;
         userInfo=[[NSMutableDictionary alloc]initWithDictionary:bodyDic];
         [userInfo writeToFile:filename atomically:YES];
@@ -105,7 +109,6 @@
     } else {
         
         UILabel *msgLabel = [UILabel new];
-        
         msgLabel.textColor = [UIColor whiteColor];
         msgLabel.text = @"你不是轻创客，没有二维码";
         msgLabel.textAlignment = NSTextAlignmentCenter;
@@ -113,16 +116,14 @@
         msgLabel.frame = CGRectMake(kScreenWidth/2-msgLabel.bounds.size.width/2-10, kScreenHeight/2-40, msgLabel.bounds.size.width+20, 45);
         [self.view addSubview:msgLabel];
         
-        
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
+
         
     }
 }
 
 -(void)creatImageView
 {
-    UIView *KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
+    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
     KeepImage.clipsToBounds = YES;
     KeepImage.layer.cornerRadius = 5;
     KeepImage.backgroundColor = [UIColor whiteColor];
@@ -133,8 +134,8 @@
     [headImage sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage.layer.cornerRadius = 5;
     headImage.clipsToBounds = YES;
+    headImage.contentMode = UIViewContentModeScaleAspectFill;
     [KeepImage addSubview:headImage];
-    
     
     //nick
     UILabel *nicklabel = [[UILabel alloc] initWithFrame:CGRectMake(90,10,30,30)];
@@ -147,9 +148,7 @@
     nicklabel.text = str;
     [KeepImage addSubview:nicklabel];
     
-    
-    
-    UIButton *downButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    downButton = [UIButton buttonWithType:UIButtonTypeCustom];
     downButton.frame = CGRectMake(kScreenWidth-85, 10, 40, 40);
     [downButton setImage:[UIImage imageNamed:@"down"] forState:UIControlStateNormal];
     [downButton addTarget:self action:@selector(saveImageToAlbum) forControlEvents:UIControlEventTouchUpInside];
@@ -167,7 +166,6 @@
     }
     [KeepImage addSubview:genderImage];
     
-    
     UILabel *addressLabel = [UILabel new];
     addressLabel.text = _address;
     addressLabel.textColor = TEXT_COLOR_LEVEL_3;
@@ -175,8 +173,6 @@
     [addressLabel sizeToFit];
     addressLabel.frame = CGRectMake(91, 52, addressLabel.bounds.size.width, 20);
     [KeepImage addSubview: addressLabel];
-    
-    
     
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:codeSting]];
@@ -188,11 +184,82 @@
     [headImage2 sd_setImageWithURL:[NSURL URLWithString:_headURL]];
     headImage2.layer.cornerRadius = 5;
     headImage2.clipsToBounds = YES;
+    headImage.contentMode = UIViewContentModeScaleAspectFill;
     [imageView addSubview:headImage2];
+    
+    if (_endTime && ![_endTime isEqual:[NSNull null]] && [_endTime isKindOfClass:[NSString class]] && ![_endTime isEqualToString:@""]) {
+        
+        NSDate * date = [NSDate date];
+        
+        NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        //设置时间间隔（秒）
+        NSTimeInterval time = 30 * 24 * 60 * 60;//一年的秒数
+        //得到一年之前的当前时间（-：表示向前的时间间隔（即去年），如果没有，则表示向后的时间间隔（即明年））
+        
+        NSDate * lastYear = [date dateByAddingTimeInterval:time];
+        
+        //转化为字符串
+        NSString * startDate = [dateFormatter stringFromDate:lastYear];
+        NSLog(@"%@",startDate);
+        NSDate *endDate = [dateFormatter dateFromString:_endTime];
+        
+        if (endDate && [endDate isKindOfClass:[NSDate class]]) {
+            
+            [self compareOneDay:lastYear withAnotherDay:endDate];
+            NSDateFormatter * dateFormatters = [[NSDateFormatter alloc] init];
+            [dateFormatters setDateFormat:@"yyyy年MM月dd日"];
+            
+            NSString *string = [dateFormatters stringFromDate:endDate];
+            
+            endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 115 + kScreenWidth - 50, kScreenWidth - 45, 30)];
+            
+            endTimeLabel.textAlignment  = NSTextAlignmentCenter;
+            endTimeLabel.text           = [NSString stringWithFormat:@"到期时间：%@",string];
+            endTimeLabel.textColor      = LIVING_COLOR;
+            endTimeLabel.font           = TEXT_FONT_LEVEL_3;
+            
+            [KeepImage addSubview:endTimeLabel];
+            
+            NSMutableAttributedString *strs = [[NSMutableAttributedString alloc] initWithString:endTimeLabel.text];
+            [strs addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(5,11)];
+            
+            endTimeLabel.attributedText = strs;
+            
+            if (![_franchisee isEqualToString:@"yes"]) {
+                endTimeLabel.hidden = YES;
+            }else{
+                endTimeLabel.hidden = NO;
+                
+            }
+            
+        }
+    }
 }
 
+- (void)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *oneDayStr = [dateFormatter stringFromDate:oneDay];
+    NSString *anotherDayStr = [dateFormatter stringFromDate:anotherDay];
+    NSDate *dateA = [dateFormatter dateFromString:oneDayStr];
+    NSDate *dateB = [dateFormatter dateFromString:anotherDayStr];
+    NSComparisonResult result = [dateA compare:dateB];
+    if (result == NSOrderedDescending) {
+        //NSLog(@"oneDay  is in the future");
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"business"] style:UIBarButtonItemStylePlain target:self action:@selector(joinAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+        xufei = @"xufei";
+        
+    }
+    else if (result == NSOrderedAscending){
 
-
+    }
+    //NSLog(@"Both dates are the same");
+}
 
 #pragma mark  --成为加盟商
 
@@ -201,37 +268,89 @@
     //    NSLog(@"**********");
     LMFranchiseeViewController *joinVC = [[LMFranchiseeViewController alloc] init];
     joinVC.hidesBottomBarWhenPushed = YES;
+    joinVC.franchisee = _franchisee;
+    joinVC.xufei = xufei;
     [self.navigationController pushViewController:joinVC animated:YES];
 }
 
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 - (void)saveImageToAlbum {
-    UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:), nil);
+    [downButton setHidden:YES];
+    [endTimeLabel setHidden:YES];
+    [self.navigationController.navigationBar setHidden:YES];
+    
+    [self saveScreenshotToPhotosAlbum:KeepImage];
 }
 
 
-- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    NSString *message;
-    if (!error) {
+- (UIImage *) captureScreen:(UIView *)view  targetSize:(CGSize)size{
+    UIImage *newImage = nil;
+    CGSize imageSize = view.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = size.width;
+    CGFloat targetHeight = size.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0, 0.0);
+    
+    if(CGSizeEqualToSize(imageSize, size) == NO){
         
-        [self textStateHUD:@"成功保存到相册"];
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
         
-    }else
-    {
-        [self textStateHUD :[error description]];
+        if(widthFactor > heightFactor){
+            scaleFactor = widthFactor;
+            
+        }
+        else{
+            
+            scaleFactor = heightFactor;
+        }
+        scaledWidth = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
         
+        if(widthFactor > heightFactor){
+            
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }else if(widthFactor < heightFactor){
+            
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
     }
-    NSLog(@"message is %@",message);
+    
+    UIGraphicsBeginImageContext(size);
+    
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    
+    [view drawViewHierarchyInRect:thumbnailRect afterScreenUpdates:YES];
+    
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    if(newImage == nil){
+        NSLog(@"scale image fail");
+    }
+    
+    UIGraphicsEndImageContext();
+    return newImage;
+    
 }
+
+- (void)saveScreenshotToPhotosAlbum:(UIView *)view
+{
+    CGSize size = CGRectMake(0, 0, view.size.width*3/2, view.size.height*3/2).size;
+    
+    UIImageWriteToSavedPhotosAlbum([self captureScreen:view targetSize:size], nil, nil, nil);
+    
+    [self textStateHUD:@"保存到相册成功"];
+    [downButton setHidden:NO];
+    [endTimeLabel setHidden:NO];
+    [self.navigationController.navigationBar setHidden:NO];
+}
+
+
 
 
 @end

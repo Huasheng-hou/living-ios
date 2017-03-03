@@ -11,8 +11,7 @@
 
 @implementation LMBusinessCell
 
-
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -20,8 +19,9 @@
     }
     return self;
 }
-- (void)addSubviews{
-    
+
+- (void)addSubviews
+{
     UILabel *_label=[[UILabel alloc]initWithFrame:CGRectMake(15, 0, 40, 54.5)];
     [_label setText:@"联系姓名："];
     [_label sizeToFit];
@@ -34,6 +34,8 @@
     [_NameTF setReturnKeyType:UIReturnKeyDone];
     [_NameTF setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
     [_NameTF setFont:TEXT_FONT_LEVEL_2];
+    _NameTF.delegate    = self;
+    
     [self addSubview:_NameTF];
     
     
@@ -54,21 +56,16 @@
     [_NumTF setReturnKeyType:UIReturnKeyDone];
     [_NumTF setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
     [_NumTF setFont:TEXT_FONT_LEVEL_2];
+    _NumTF.delegate     = self;
+    
     [self addSubview:_NumTF];
-    
-    
 }
 
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
     
-    // Configure the view for the selected state
+    return YES;
 }
 
 @end

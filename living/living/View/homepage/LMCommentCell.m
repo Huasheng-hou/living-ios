@@ -28,6 +28,8 @@
 
 @property (nonatomic,strong) UIImageView *addIcon;
 
+@property (nonatomic,strong)UIView *backView;
+
 
 @end
 
@@ -43,7 +45,7 @@
     return self;
 }
 
--(void)addSubviews
+- (void)addSubviews
 {
     _imageV = [UIImageView new];
     _imageV.backgroundColor = BG_GRAY_COLOR;
@@ -94,8 +96,15 @@
     _zanButton = [[LMCommentButton alloc] init];
     _zanButton.headImage.image = [UIImage imageNamed:@"zanIcon"];
     _zanButton.textLabel.textColor = TEXT_COLOR_LEVEL_3;
-    [_zanButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [_zanButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_zanButton];
+    
+    _backView = [UIView new];
+    _backView.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:_backView];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentAction:)];
+    [_backView addGestureRecognizer:tap];
+    
     
     
     _replyButton = [[LMCommentButton alloc] init];
@@ -195,9 +204,10 @@
     
     _lineLabel.frame = CGRectMake(15, 75+_conHigh+18, kScreenWidth-30, 0.5);
     
-    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-35, 70+_conHigh-5, _replyButton.textLabel.bounds.size.width+20, 30);
+    _replyButton.frame = CGRectMake(kScreenWidth-_replyButton.textLabel.bounds.size.width-45, 65+_conHigh, _replyButton.textLabel.bounds.size.width+30, 30);
     
     _zanButton.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-80-_replyButton.bounds.size.width, 70+_conHigh-5, _zanButton.textLabel.bounds.size.width+20, 30);
+    _backView.frame = CGRectMake(kScreenWidth-_zanButton.textLabel.bounds.size.width-100-_replyButton.bounds.size.width, 55+_conHigh, _zanButton.textLabel.bounds.size.width+50, 35);
 }
 
 + (CGFloat)cellHigth:(NSString *)titleString

@@ -87,17 +87,40 @@
     lineView9.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView9];
     
+    //加盟商费用
+    UILabel *couponLable = [UILabel new];
+    couponLable.text = @"加盟商价格";
+    couponLable.font = TEXT_FONT_LEVEL_1;
+    couponLable.textColor = TEXT_COLOR_LEVEL_2;
+    [couponLable sizeToFit];
+    couponLable.frame = CGRectMake(10, 230, couponLable.bounds.size.width, 30);
+    [self.contentView addSubview:couponLable];
+    
+    UIView *lineView10 = [[UIView alloc] initWithFrame:CGRectMake(20+couponLable.bounds.size.width, 265, kScreenWidth-30-couponLable.bounds.size.width, 0.5)];
+    lineView10.backgroundColor = LINE_COLOR;
+    [self.contentView addSubview:lineView10];
+    
+    //是否抵用
+    UILabel *UseLable = [UILabel new];
+    UseLable.text = @"是否抵用";
+    UseLable.font = TEXT_FONT_LEVEL_1;
+    UseLable.textColor = TEXT_COLOR_LEVEL_2;
+    [UseLable sizeToFit];
+    UseLable.frame = CGRectMake(10, 275, UseLable.bounds.size.width, 30);
+    [self.contentView addSubview:UseLable];
+    
+    
     //参加人数
     UILabel *joinLable = [UILabel new];
     joinLable.text = @"活动人数";
     joinLable.font = TEXT_FONT_LEVEL_1;
     joinLable.textColor = TEXT_COLOR_LEVEL_2;
     [joinLable sizeToFit];
-    joinLable.frame = CGRectMake(10, 230, titleW, 30);
+    joinLable.frame = CGRectMake(10, 320, titleW, 30);
     [self.contentView addSubview:joinLable];
     
     
-    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 265, kScreenWidth-30-titleW, 0.5)];
+    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 355, kScreenWidth-30-titleW, 0.5)];
     lineView3.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView3];
     //开始时间
@@ -106,7 +129,7 @@
     startLable.font = TEXT_FONT_LEVEL_1;
     startLable.textColor = TEXT_COLOR_LEVEL_2;
     [startLable sizeToFit];
-    startLable.frame = CGRectMake(10, 275, startLable.bounds.size.width, 30);
+    startLable.frame = CGRectMake(10, 365, startLable.bounds.size.width, 30);
     [self.contentView addSubview:startLable];
     
     
@@ -117,7 +140,7 @@
     stopLable.font = TEXT_FONT_LEVEL_1;
     stopLable.textColor = TEXT_COLOR_LEVEL_2;
     [stopLable sizeToFit];
-    stopLable.frame = CGRectMake(10, 320, stopLable.bounds.size.width, 30);
+    stopLable.frame = CGRectMake(10, 410, stopLable.bounds.size.width, 30);
     [self.contentView addSubview:stopLable];
     //活动地址
     UILabel *addressLable = [UILabel new];
@@ -125,7 +148,7 @@
     addressLable.font = TEXT_FONT_LEVEL_1;
     addressLable.textColor = TEXT_COLOR_LEVEL_2;
     [addressLable sizeToFit];
-    addressLable.frame = CGRectMake(10, 365, addressLable.bounds.size.width, 30);
+    addressLable.frame = CGRectMake(10, 455, addressLable.bounds.size.width, 30);
     [self.contentView addSubview:addressLable];
     //地址详情
     UILabel *dspLable = [UILabel new];
@@ -133,10 +156,12 @@
     dspLable.font = TEXT_FONT_LEVEL_1;
     dspLable.textColor = TEXT_COLOR_LEVEL_2;
     [dspLable sizeToFit];
-    dspLable.frame = CGRectMake(10, 410, dspLable.bounds.size.width, 30);
+    dspLable.frame = CGRectMake(10, 500, dspLable.bounds.size.width, 30);
     [self.contentView addSubview:dspLable];
     
-    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 445, kScreenWidth-30-titleW, 0.5)];
+    
+    
+    UIView *lineView4 = [[UIView alloc] initWithFrame:CGRectMake(20+titleW, 535, kScreenWidth-30-titleW, 0.5)];
     lineView4.backgroundColor = LINE_COLOR;
     [self.contentView addSubview:lineView4];
     
@@ -147,7 +172,7 @@
     msgLabel.font = TEXT_FONT_LEVEL_1;
     msgLabel.textColor = TEXT_COLOR_LEVEL_2;
     [msgLabel sizeToFit];
-    msgLabel.frame = CGRectMake(10, 455, msgLabel.bounds.size.width, 30);
+    msgLabel.frame = CGRectMake(10, 545, msgLabel.bounds.size.width, 30);
     [self.contentView addSubview:msgLabel];
     
     
@@ -158,7 +183,7 @@
     imageLable.font = TEXT_FONT_LEVEL_1;
     imageLable.textColor = TEXT_COLOR_LEVEL_2;
     [imageLable sizeToFit];
-    imageLable.frame = CGRectMake(10, 545, imageLable.bounds.size.width, 30);
+    imageLable.frame = CGRectMake(10, 635, imageLable.bounds.size.width, 30);
     [self.contentView addSubview:imageLable];
     
     UILabel *imagemsgLable = [UILabel new];
@@ -166,7 +191,7 @@
     imagemsgLable.font = TEXT_FONT_LEVEL_3;
     imagemsgLable.textColor = TEXT_COLOR_LEVEL_3;
     [imagemsgLable sizeToFit];
-    imagemsgLable.frame = CGRectMake(15+imageLable.bounds.size.width, 545, imagemsgLable.bounds.size.width, 30);
+    imagemsgLable.frame = CGRectMake(15+imageLable.bounds.size.width, 635, imagemsgLable.bounds.size.width, 30);
     [self.contentView addSubview:imagemsgLable];
     
     
@@ -204,8 +229,35 @@
     _VipFreeTF.keyboardType = UIKeyboardTypeNumberPad;
     [self.contentView addSubview:_VipFreeTF];
     
+    //加盟商费用
+    _couponTF = [[UITextField alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+20, 230, kScreenWidth- titleW-30, 30)];
+    _couponTF.font = TEXT_FONT_LEVEL_2;
+    _couponTF.returnKeyType = UIReturnKeyDone;
+    _couponTF.placeholder = @"请输入加盟商费用";
+    _couponTF.keyboardType = UIKeyboardTypeNumberPad;
+    [self.contentView addSubview:_couponTF];
+    
+    //是否抵用
+    _UseButton = [LMChoseCounponButton buttonWithType:UIButtonTypeSystem];
+    _UseButton.textLabel.text =  @"是";
+    _UseButton.chooseImage.backgroundColor = LIVING_COLOR;
+    [_UseButton sizeToFit];
+    _UseButton.frame = CGRectMake(titleW+20+20, 275, 60, 30);
+    
+    [self.contentView addSubview:_UseButton];
+    
+    _unUseButton = [LMChoseCounponButton buttonWithType:UIButtonTypeSystem];
+    _unUseButton.textLabel.text =  @"否";
+    _unUseButton.chooseImage.backgroundColor = [UIColor clearColor];
+    _unUseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
+    [_unUseButton sizeToFit];
+    _unUseButton.frame = CGRectMake(titleW+20+20+80, 275, 60, 30);
+    [self.contentView addSubview:_unUseButton];
+    
+    
+    
     //参加人数
-    _joincountTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 230, kScreenWidth- titleW-30, 30)];
+    _joincountTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 320, kScreenWidth- titleW-30, 30)];
     _joincountTF.font = TEXT_FONT_LEVEL_2;
     _joincountTF.returnKeyType = UIReturnKeyDone;
     _joincountTF.placeholder = @"请输入参加人数";
@@ -223,7 +275,7 @@
     [_dateButton.textLabel sizeToFit];
     _dateButton.textLabel.frame = CGRectMake(5, 0, _dateButton.textLabel.bounds.size.width+30, 30);
     [_dateButton sizeToFit];
-    _dateButton.frame = CGRectMake(titleW+20, 275, kScreenWidth-titleW-30, 30);
+    _dateButton.frame = CGRectMake(titleW+20, 365, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_dateButton];
     
     
@@ -236,7 +288,7 @@
     [_endDateButton.textLabel sizeToFit];
     _endDateButton.textLabel.frame = CGRectMake(5, 0, _endDateButton.textLabel.bounds.size.width+30, 30);
     [_endDateButton sizeToFit];
-    _endDateButton.frame = CGRectMake(titleW+20, 320, kScreenWidth-titleW-30, 30);
+    _endDateButton.frame = CGRectMake(titleW+20, 410, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_endDateButton];
     
     
@@ -250,13 +302,13 @@
     [_addressButton.textLabel sizeToFit];
     _addressButton.textLabel.frame = CGRectMake(5, 0, kScreenWidth-titleW-30, 30);
     [_addressButton sizeToFit];
-    _addressButton.frame = CGRectMake(titleW+20, 365, kScreenWidth-titleW-30, 30);
+    _addressButton.frame = CGRectMake(titleW+20, 455, kScreenWidth-titleW-30, 30);
     [self.contentView addSubview:_addressButton];
     
     
     
     
-    _dspTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 410, kScreenWidth- titleW-30, 30)];
+    _dspTF = [[UITextField alloc] initWithFrame:CGRectMake(titleW+20, 500, kScreenWidth- titleW-30, 30)];
     _dspTF.font = TEXT_FONT_LEVEL_2;
     [_dspTF setUserInteractionEnabled:NO];
     _dspTF.returnKeyType = UIReturnKeyDone;
@@ -264,12 +316,12 @@
     [self.contentView addSubview:_dspTF];
 
     //地图选点按钮
-    _mapButton=[[UIButton alloc]initWithFrame:CGRectMake(titleW+20, 410, kScreenWidth-(titleW+20), 30)];
+    _mapButton=[[UIButton alloc]initWithFrame:CGRectMake(titleW+20, 500, kScreenWidth-(titleW+20), 30)];
     [_mapButton setBackgroundColor:[UIColor clearColor]];
     [self.contentView addSubview:_mapButton];
     
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 455, kScreenWidth-(titleW+30), 80)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(titleW+20, 545, kScreenWidth-(titleW+30), 80)];
     backView.layer.borderColor = LINE_COLOR.CGColor;
     backView.layer.borderWidth = 0.5;
     backView.layer.cornerRadius = 5;
@@ -292,47 +344,44 @@
     
     
     
-    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 580, kScreenWidth, 165)];
+    UIView *imgBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 670, kScreenWidth, kScreenWidth*3/5)];
     imgBackView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
     [self.contentView addSubview:imgBackView];
     
-    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-28, 50, 56, 65)];
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-28, (kScreenWidth*3/5-65)/2, 56, 65)];
     image.image = [UIImage imageNamed:@"publicEvent"];
     [imgBackView addSubview:image];
     
     
     _imageButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _imageButton.backgroundColor = [UIColor clearColor];
-    _imageButton.frame = CGRectMake(0, 580, kScreenWidth, 165);
+    _imageButton.frame = CGRectMake(0, 670, kScreenWidth, kScreenWidth*3/5);
     [self.contentView addSubview:_imageButton];
     
     _imgView = [[UIImageView alloc] init];
-    _imgView.frame = CGRectMake(0, 580, kScreenWidth, 165);
+    _imgView.frame = CGRectMake(0, 670, kScreenWidth, kScreenWidth*3/5);
     [self.contentView addSubview:_imgView];
     
     
-    for (int i = 0; i<10; i++) {
-        UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 10+45*i, 6, 5)];
-        keyImage.image = [UIImage imageNamed:@"key"];
-        [self.contentView addSubview:keyImage];
+    for (int i = 0; i<12; i++) {
+
+        
+        if (i ==5) {
+            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+10, 10+45*i, 6, 5)];
+            keyImage.image = [UIImage imageNamed:@"key"];
+            [self.contentView addSubview:keyImage];
+        }else{
+            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 10+45*i, 6, 5)];
+            keyImage.image = [UIImage imageNamed:@"key"];
+            [self.contentView addSubview:keyImage];
+        }
+        
     }
     
-    UIImageView *keyImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 5+545, 6, 5)];
+    UIImageView *keyImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 5+590+45, 6, 5)];
     keyImage2.image = [UIImage imageNamed:@"key"];
     [self.contentView addSubview:keyImage2];
 
-}
-
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

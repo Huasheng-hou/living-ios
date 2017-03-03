@@ -14,6 +14,8 @@
 -(id)initWithEvent_uuid:(NSString *)event_uuid
           Project_title:(NSString *)project_title
            Project_dsp:(NSString *)project_dsp
-              Project_imgs:(NSString *)project_imgs;
+              Project_imgs:(NSString *)project_imgs
+               videoUrl:(NSString *)videoUrl
+               coverUrl:(NSString *)coverUrl;
 
 @end

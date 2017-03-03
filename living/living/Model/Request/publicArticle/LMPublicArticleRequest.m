@@ -14,6 +14,9 @@
               Article_title:(NSString *)article_title
                  Descrition:(NSString *)descrition
                 andImageURL:(NSArray *)article_imgs
+                    andType:(NSString *)type
+                      blend:(NSArray *)blend
+                       sign:(NSString *)sign
 {
     self = [super init];
     
@@ -37,6 +40,21 @@
             [bodyDict setObject:article_imgs forKey:@"article_imgs"];
         }
         
+        if (type) {
+            [bodyDict setObject:article_imgs forKey:@"article_imgs"];
+        }
+        
+        if (blend) {
+            [bodyDict setObject:blend forKey:@"blend"];
+        }
+        
+        if (type) {
+            [bodyDict setObject:type forKey:@"type"];
+        }
+        if (sign) {
+            [bodyDict setObject:sign forKey:@"sign"];
+        }
+   
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
     }
@@ -50,7 +68,7 @@
 
 - (NSString *)methodPath
 {
-    return @"article/add";
+    return @"article/publish/blend";
 }
 
 @end

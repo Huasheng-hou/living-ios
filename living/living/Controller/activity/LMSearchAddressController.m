@@ -8,50 +8,99 @@
 
 #import "LMSearchAddressController.h"
 #import "POIAnnotation.h"
+#import "GeocodeAnnotation.h"
+#import "NSString+StringHelper.h"
+#define DefaultLocationTimeout 10
+#define DefaultReGeocodeTimeout 5
 
 @interface LMSearchAddressController ()
 <
 UISearchBarDelegate,
 AMapSearchDelegate,
 UISearchDisplayDelegate,
-MAMapViewDelegate
+AMapLocationManagerDelegate
 >
+{
+    NSMutableDictionary *cellDic;
+    UISearchBar *_searchBar;
+    CLGeocoder *_geocoder;
+    double locationY;
+    double locationX;
+    UIActivityIndicatorView *activity;
+}
+@property (nonatomic, strong) AMapLocationManager *locationManager;
 
+@property (nonatomic, copy) AMapLocatingCompletionBlock completionBlock;
 @end
 
 @implementation LMSearchAddressController
 
-{
-    NSMutableArray *_listData;
-    UISearchBar *_searchBar;
-    
-    NSMutableArray *cellArray;
-    NSString *userPhone;
-    NSString *userHomePhone;
-    
-    BOOL ifGetLocation;
-     AMapPOIAroundSearchRequest *request;
-    
-    CLGeocoder *_geocoder;
-    
-    double locationY;
-    double locationX;
-    
-    UIActivityIndicatorView *activity;
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!_listData) {
-        _listData = [[NSMutableArray alloc] initWithCapacity:0];
-    }
+    cellDic=[NSMutableDictionary dictionaryWithCapacity:0];
+    
     [self createUI];
  
     [self initSearch];
     
     [self loadImage];
+    
+    [self initCompleteBlock];
+    
+    [self configLocationManager];
+}
+
+#pragma mark ============定位===============
+- (void)configLocationManager
+{
+    self.locationManager = [[AMapLocationManager alloc] init];
+    
+    [self.locationManager setDelegate:self];
+    //设置期望定位精度
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+
+    //设置定位超时时间
+    [self.locationManager setLocationTimeout:DefaultLocationTimeout];
+    //设置逆地理超时时间
+    [self.locationManager setReGeocodeTimeout:DefaultReGeocodeTimeout];
+    //进行单次定位请求
+    [self.locationManager requestLocationWithReGeocode:NO completionBlock:self.completionBlock];
+}
+
+#pragma mark - Initialization
+
+- (void)initCompleteBlock
+{
+    __weak LMSearchAddressController *weakSelf = self;
+    
+    self.completionBlock = ^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error)
+    {
+        if (error)
+        {
+            NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
+            
+            //如果为定位失败的error，则不进行后续操作
+            if (error.code == AMapLocationErrorLocateFailed)
+            {
+                return;
+            }
+        }
+        //得到定位信息
+        if (location)
+        {
+            if (regeocode)
+            {
+                NSLog(@"===========%@ \n %@-%@-%.2fm",regeocode.formattedAddress,regeocode.citycode, regeocode.adcode, location.horizontalAccuracy);
+            }
+            else
+            {
+                 NSLog(@"============lat:%f;lon:%f \n accuracy:%.2fm", location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy);
+                
+                [weakSelf searchAroundWithLocation:location.coordinate.latitude andLongtitude:location.coordinate.longitude];
+            }
+        }
+    };
 }
 
 //原生菊花
@@ -62,57 +111,33 @@ MAMapViewDelegate
     
     [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];//设置进度轮显示类型
     [self.view addSubview:activity];
-    [activity startAnimating];
+//    [activity startAnimating];
 }
 
 - (void)initSearch
 {
     self.search.delegate = self;
-    request = [[AMapPOIAroundSearchRequest alloc] init];
+    
     _geocoder=[[CLGeocoder alloc]init];
-}
-
-#pragma mark - MAMapViewDelegate
-
-- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
-updatingLocation:(BOOL)updatingLocation
-{
-   CLLocation *currLocation=userLocation.location;
-    
-   
-    
-    if (!ifGetLocation) {
-        ifGetLocation=YES;
-        
-         NSLog(@"didUpdateUserLocation");
-        
-        [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(currLocation.coordinate.latitude, currLocation.coordinate.longitude)];
-        
-        //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
-        request.location = [AMapGeoPoint locationWithLatitude:currLocation.coordinate.latitude longitude: currLocation.coordinate.longitude];
-        request.sortrule = 0;
-        request.requireExtension = YES;
-        //发起周边搜索
-        [_search AMapPOIAroundSearch: request];
-    }
 }
 
 #pragma mark - AMapSearchDelegate
 
-
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
 {
-    NSLog(@"===========================搜索响应结果=========================");
-    
      [activity stopAnimating];
-    
-    _listData=[NSMutableArray arrayWithCapacity:0];
     
     if (response.pois.count == 0)
     {
         return;
     }
     NSMutableArray *poiAnnotations = [NSMutableArray arrayWithCapacity:response.pois.count];
+    
+    NSMutableArray *textArray=[NSMutableArray arrayWithCapacity:0];
+    
+    NSMutableArray *detailTextArray=[NSMutableArray arrayWithCapacity:0];
+    
+    NSMutableArray *locationArray=[NSMutableArray arrayWithCapacity:0];
     
     [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
         
@@ -121,13 +146,66 @@ updatingLocation:(BOOL)updatingLocation
     
     for (int i=0; i<poiAnnotations.count; i++) {
         
-        if ( [poiAnnotations[i] title]) {
-             [_listData addObject:poiAnnotations[i]];
+        if ( ![poiAnnotations[i] title]) {
+            return;
+        }
+        [textArray addObject:[poiAnnotations[i] title]];
+         [detailTextArray addObject:[poiAnnotations[i] subtitle]];
+        
+        POIAnnotation *poi=poiAnnotations[i];
+         [locationArray addObject:poi];
+    }
+    
+    [self setupCellDataWithTitleArray:textArray andDetailTextArray:detailTextArray andLocationArray:locationArray];
+}
+
+#pragma mark 设置单元格数据
+-(void)setupCellDataWithTitleArray:(NSArray *)titleArray andDetailTextArray:(NSArray *)DetailArray andLocationArray:(NSArray *)locationArray
+{
+     [cellDic removeAllObjects];
+    
+    [cellDic setObject:titleArray forKey:@"title"];
+    [cellDic setObject:DetailArray forKey:@"detail"];
+    [cellDic setObject:locationArray forKey:@"location"];
+    
+     [self.tableView reloadData];
+}
+
+
+/* 输入提示回调. */
+- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response
+{
+     [activity stopAnimating];
+    
+    NSMutableArray *textArray=[NSMutableArray arrayWithCapacity:0];
+    
+    NSMutableArray *detailTextArray=[NSMutableArray arrayWithCapacity:0];
+    
+    NSMutableArray *locationArray=[NSMutableArray arrayWithCapacity:0];
+
+    
+    for (int i=0; i<response.tips.count; i++) {
+        
+            AMapTip *tip=response.tips[i];
+            if (!tip.name) {
+                return;
+            }
+            [textArray addObject:tip.name];
+            
+            [detailTextArray addObject:tip.address];
+            
+            AMapGeoPoint *point=tip.location;
+            NSLog(@"tip.name:%@\n tip.address: %@\n   tip.location:%@",tip.name,tip.address,tip.location);
+        if (point) {
+            [locationArray addObject:point];
+        }else{
+             [locationArray addObject:@"0"];
         }
     }
     
-    [self.tableView reloadData];
+   [self setupCellDataWithTitleArray:textArray andDetailTextArray:detailTextArray andLocationArray:locationArray];
 }
+
 
 
 - (void)createUI
@@ -138,17 +216,14 @@ updatingLocation:(BOOL)updatingLocation
     
     self.tableView.contentInset     = UIEdgeInsetsMake(114, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(114, 0, 0, 0);
-    
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
     _searchBar.delegate = self;
     _searchBar.placeholder = @"输入地名";
-//    [_searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];
-//    [_searchBar setBackgroundColor:[UIColor greenColor]];
+
     [self.view addSubview:_searchBar];
     
     _searchBar.backgroundImage = [self imageWithColor:BG_GRAY_COLOR size:_searchBar.bounds.size];
-    
-    _mapView.delegate = self;
 }
 
 //取消searchbar背景色
@@ -167,10 +242,11 @@ updatingLocation:(BOOL)updatingLocation
     return image;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _listData.count;
+    NSArray *titleArray=cellDic[@"title"];
+    
+    return titleArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,13 +259,17 @@ updatingLocation:(BOOL)updatingLocation
          cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    if (_listData.count>0) {
-        
-        cell.textLabel.text=[_listData[indexPath.row] title];
-        cell.detailTextLabel.text=[_listData[indexPath.row] subtitle];
-        [cell.detailTextLabel setTextColor:TEXT_COLOR_LEVEL_3];
+    NSArray *titleArray=cellDic[@"title"];
+    if (titleArray[indexPath.row]) {
+         cell.textLabel.text=titleArray[indexPath.row];
     }
     
+     NSArray *detailTitleArray=cellDic[@"detail"];
+    if (detailTitleArray[indexPath.row]) {
+        cell.detailTextLabel.text=detailTitleArray[indexPath.row];
+    }
+    
+    [cell.detailTextLabel setTextColor:TEXT_COLOR_LEVEL_3];
     
     return cell;
 }
@@ -203,116 +283,84 @@ updatingLocation:(BOOL)updatingLocation
 {
     [self.view endEditing:YES];
     
-    if (_listData.count==0) {
-        return;
-    }
+    NSArray *titleArray=cellDic[@"title"];
     
-    POIAnnotation *poi=_listData[indexPath.row];
-    [self.delegate selectAddress:[_listData[indexPath.row] title] andLatitude:poi.coordinate.latitude andLongitude:poi.coordinate.longitude anddistance:0];
+    NSArray *locationArray=cellDic[@"location"];
+    
+    if ([locationArray[indexPath.row] isKindOfClass:[POIAnnotation class]]) {
+        POIAnnotation *poi=locationArray[indexPath.row];
+        
+        if (poi) {
+             [self.delegate selectAddress:titleArray[indexPath.row] andLatitude:poi.coordinate.latitude andLongitude:poi.coordinate.longitude anddistance:0];
+        }
+    }else if ([locationArray[indexPath.row] isKindOfClass:[AMapGeoPoint class]]) {
+        AMapGeoPoint *point=locationArray[indexPath.row];
+        if (point) {
+             [self.delegate selectAddress:titleArray[indexPath.row] andLatitude:point.latitude andLongitude:point.longitude anddistance:0];
+        }
+    }else{
+            [self textStateHUD:@"请选择详细地址"];
+            return;
+    }
+  
     dispatch_async(dispatch_get_main_queue(), ^{
         
          [self.navigationController popViewControllerAnimated:YES];
     });
-   
 }
+
+#pragma mark UISearchBarDelegate
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if ([searchText isEqualToString:@""] && [_searchBar.text isEqualToString:@""]) {
         return;
     }else{
-        [_geocoder geocodeAddressString:_searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
-            //取得第一个地标，地标中存储了详细的地址信息，注意：一个地名可能搜索出多个地址
-            CLPlacemark *placemark=[placemarks firstObject];
-            CLLocation *location=placemark.location;//位置
-            locationX=location.coordinate.latitude;
-            locationY=location.coordinate.longitude;
-            
-            //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
-            request.location = [AMapGeoPoint locationWithLatitude:locationX longitude: locationY];
-            request.sortrule = 0;
-            request.requireExtension = YES;
-            //发起周边搜索
-            [_search AMapPOIAroundSearch: request];
-            
-            [activity startAnimating];
-        }];
+        if (searchText.isChinese) {
+            [self searchWithKeyWord:searchText];
+        }
     }
 }
 
-
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if ([text isEqualToString:@"\n"]){ //判断输入的字是否是回车，即按下return
-        [self getsearch];
-        return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
-    }
-    
-    return YES;
-}
-
-
--(void)getsearch
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-
-        [_geocoder geocodeAddressString:_searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
-            //取得第一个地标，地标中存储了详细的地址信息，注意：一个地名可能搜索出多个地址
-            CLPlacemark *placemark=[placemarks firstObject];
-            CLLocation *location=placemark.location;//位置
-            locationX=location.coordinate.latitude;
-            locationY=location.coordinate.longitude;
-            
-            //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
-            request.location = [AMapGeoPoint locationWithLatitude:locationX longitude: locationY];
-            request.sortrule = 0;
-            request.requireExtension = YES;
-            //发起周边搜索
-            [_search AMapPOIAroundSearch: request];
-            
-            [activity startAnimating];
-        }];
-    
-
-}
-
-
-
-
--(void)searchBarSearchButtonClicked
-{
-    
     [self.view endEditing:YES];
-    NSLog(@"=============搜索按钮========点击===============");
     
     if ([_searchBar.text isEqualToString:@""]) {
         return;
-    }else{
-         NSLog(@"=============搜索按钮========点击=开始搜索==============");
-        [_geocoder geocodeAddressString:_searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
-            //取得第一个地标，地标中存储了详细的地址信息，注意：一个地名可能搜索出多个地址
-            CLPlacemark *placemark=[placemarks firstObject];
-            CLLocation *location=placemark.location;//位置
-            locationX=location.coordinate.latitude;
-            locationY=location.coordinate.longitude;
-            
-            NSLog(@"=========searchBarSearchButtonClicked=========获取到经纬度=============");
-            
-            //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
-            request.location = [AMapGeoPoint locationWithLatitude:locationX longitude: locationY];
-            request.sortrule = 0;
-            request.requireExtension = YES;
-            //发起周边搜索
-            [_search AMapPOIAroundSearch: request];
-            
-            [activity startAnimating];
-        }];
+    } else {
+        if (_searchBar.text.isChinese) {
+            [self searchWithKeyWord:_searchBar.text];
+        }
     }
-    
 }
 
+#pragma mark 周边搜索
 
+-(void)searchAroundWithLocation:(CGFloat)latitude andLongtitude:(CGFloat)longitude
+{
+     [activity startAnimating];
+    AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
+    //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
+    request.location = [AMapGeoPoint locationWithLatitude:latitude longitude: longitude];
+    request.sortrule = 0;
+    request.keywords            = @"住宅|购物服务|生活服务|住宿服务|风景名胜|政府机构|地名地址信息|公共设施";
+    request.requireExtension = YES;
+    //发起周边搜索
+    [_search AMapPOIAroundSearch: request];
+}
 
+#pragma mark 关键字搜索
 
+-(void)searchWithKeyWord:(NSString *)address
+{
+    [activity startAnimating];
+   AMapInputTipsSearchRequest *request = [[AMapInputTipsSearchRequest alloc] init];
+    request.keywords            = address;
+//    request.city     = @"杭州";
+    //发起周边搜索
+    [_search AMapInputTipsSearch:request];
+}
 
 
 

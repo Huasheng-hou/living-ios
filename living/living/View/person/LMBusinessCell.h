@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface LMBusinessCell : UITableViewCell
+<
+UITextFieldDelegate
+>
 
 @property(nonatomic,strong)UITextField *NumTF;
-
 @property(nonatomic,strong)UITextField *NameTF;
 
-
-
 @end
-
-

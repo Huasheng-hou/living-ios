@@ -18,16 +18,22 @@
 
 #import "UITabBar+Badge.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "LMISLoginRequest.h"
+
+@interface FitTabbarController ()
+{
+    FitNavigationController     *fourthNav;
+}
+
+@end
 
 @implementation FitTabbarController
 
 - (id)init
 {
     self = [super init];
-    if (self)
-    {
-    
-
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addDot) name:@"LM_ADD_NOTIFICATION" object:nil];
     }
     return self;
 }
@@ -35,27 +41,34 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     [self createUI];
-
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [self createUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
- 
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchAction) name:FIT_LOGOUT_NOTIFICATION object:nil];
+    
+
+    
     if (![[FitUserManager sharedUserManager] isLogin]) {
         
-        [LMLoginViewController presentInViewController:self Animated:NO];
+        [self IsLoginIn];
+    }else{
+        return;
     }
+    
+
 }
 
--(void)switchAction
+- (void)switchAction
 {
-    NSLog(@"****************");
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     self.selectedIndex = 0;
-    [LMLoginViewController presentInViewController:self Animated:NO];
+    [LMLoginViewController presentInViewController:self Animated:YES];
 }
 
 - (void)createUI
@@ -63,7 +76,7 @@
     [self.tabBar setTintColor:LIVING_COLOR];
     [[UITabBarItem appearance]setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10]}
                                             forState:UIControlStateNormal];
-   
+    
     
     //设置工具栏中文字的偏移量
     [[UITabBarItem appearance]setTitlePositionAdjustment:UIOffsetMake(0, -3)];
@@ -110,45 +123,61 @@
     fourthVC.title    = @"我";
     
     UITabBarItem * itemMe=[[UITabBarItem alloc]initWithTitle:@"我"
-                                                      image:[UIImage imageNamed:@"person-gray"]
-                                              selectedImage:[UIImage imageNamed:@"person"]];
+                                                       image:[UIImage imageNamed:@"person-gray"]
+                                               selectedImage:[UIImage imageNamed:@"person"]];
     
-    FitNavigationController     *fourthNav    = [[FitNavigationController alloc] initWithRootViewController:fourthVC];
+    fourthNav    = [[FitNavigationController alloc] initWithRootViewController:fourthVC];
     
     [fourthNav setTabBarItem:itemMe];
     
     self.viewControllers    = [NSArray arrayWithObjects:homeNav,secondNav,thirdNav, fourthNav, nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tongzhi:)
+                                                 name:@"getui_message"
+                                               object:nil];
     
+    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"person_dot"] isEqualToString:@"1"]) {
+        
+        [self.tabBar showBadgeOnItemIndex:3];
+    }
+    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"xufei_dot"] isEqualToString:@"3"]) {
+        
+//        [[[[[self tabBarController] tabBar] items] objectAtIndex:3] setBadgeValue:@"1"];
+        fourthNav.tabBarItem.badgeValue = @"1";
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-     
-                                             selector:@selector(addDot)
-     
-                                                 name:@"getui_notice"
-     
+                                             selector:@selector(tongzhi2)
+                                                 name:@"getui_notic"
                                                object:nil];
     
     
-    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"person_dot"] isEqualToString:@"1"]) {
-        [self.tabBar showBadgeOnItemIndex:3];
-        }
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(tongzhi:)
-                                                 name:@"getui" object:nil];
-   
+}
+
+-(void)tongzhi2
+{
+    [self.tabBar hideBadgeOnItemIndex:3];
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"person_dot"];
 }
 
 - (void)addDot
 {
-    [self.tabBar showBadgeOnItemIndex:3];
-    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"person_dot"];
+    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"xufei_dot"] isEqualToString:@"3"]) {
+     
+        fourthNav.tabBarItem.badgeValue = @"1";
+    } else {
+        
+        fourthNav.tabBarItem.badgeValue = nil;
+    }
 }
 
 - (void)tongzhi:(NSNotification *)text
 {
+    
+    [self.tabBar showBadgeOnItemIndex:3];
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"person_dot"];
+    
     NSString *title=text.userInfo[@"push_title"];
     
     NSString *content=text.userInfo[@"push_dsp"];
@@ -173,7 +202,129 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
+}
+
+
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if ([item.title isEqual:@"发现"]) {
+        [self findVC];
+    }
+    
+    if ([item.title isEqual:@"我"]) {
+        [self myVC];
+    }
+}
+
+
+- (void)findVC
+{
+    
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:@"发现页需要对新功能进行投票，请登录"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    
+                                                    [[FitUserManager sharedUserManager] logout];
+                                                    NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+                                                    
+                                                    [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+                                                    
+                                                    [self.navigationController popViewControllerAnimated:NO];
+                                                    
+                                                    [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
+                                                    
+                                                    
+                                                    
+                                                }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:^(UIAlertAction*action) {
+                                                    self.selectedIndex = 0;
+                                                }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }
+}
+
+- (void)myVC
+{
+    
+    
+    if (![[FitUserManager sharedUserManager] isLogin]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:@"请登录"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleDestructive
+                                                handler:^(UIAlertAction*action) {
+                                                    
+                                                    [[FitUserManager sharedUserManager] logout];
+                                                    NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+                                                    
+                                                    [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+                                                    
+                                                    [self.navigationController popViewControllerAnimated:NO];
+                                                    
+                                                    [[NSNotificationCenter defaultCenter] postNotificationName:FIT_LOGOUT_NOTIFICATION object:nil];
+                                                    
+                                                    
+                                                    
+                                                }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:^(UIAlertAction*action) {
+                                                    self.selectedIndex = 0;
+                                                }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)IsLoginIn
+{
+    LMISLoginRequest    *request    = [[LMISLoginRequest alloc] init];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(IsLoginInRespond:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+        
+                                           } failed:^(NSError *error) {
+
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   
+                                                   if (![[FitUserManager sharedUserManager] isLogin]) {
+                                                       
+                                                       [LMLoginViewController presentInViewController:self Animated:NO];
+                                                   }
+                                               });
+                                           }];
+    [proxy start];
+}
+
+- (void)IsLoginInRespond:(NSString *)resp
+{
+    if ([resp isEqualToString:@"2"]) {
+        
+        return;
+        
+    } else {
+     
+        if (![[FitUserManager sharedUserManager] isLogin]) {
+            
+            [LMLoginViewController presentInViewController:self Animated:NO];
+        }
+    }
 }
 
 @end

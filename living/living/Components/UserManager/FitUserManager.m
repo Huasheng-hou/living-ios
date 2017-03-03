@@ -443,4 +443,14 @@ static NSString *const __kPasswordInfoFileName = @"C2BC1692D60AAC29";
     return [[self userInfo] objectForKey:@"userId"];
 }
 
+- (void)setCurrentCity:(NSString *)currentCity
+{
+    [self saveUserInnfo:currentCity ForKey:@"currentCity"];
+}
+
+- (NSString *)currentCity
+{
+    return [[self userInfo] objectForKey:@"currentCity"];
+}
+
 @end

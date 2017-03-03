@@ -38,7 +38,7 @@
 @property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, retain) NSString *articleUuid;
 @property (nonatomic, retain) NSArray *articleImgs;
-
+@property (nonatomic, retain) NSString *type;
 
 
 @end

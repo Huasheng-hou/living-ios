@@ -115,15 +115,50 @@
     
     
     _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 240, 70, 70)];
+    _imgView.userInteractionEnabled = YES;
     [self addSubview:_imgView];
+    
+
 
     _eventButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 240, 70, 70)];
     [self addSubview:_eventButton];
-   
+    
+    
+    UIView *VideoBackView = [[UIView alloc] initWithFrame:CGRectMake(90, 240, 70, 70)];
+    VideoBackView.layer.borderColor = LINE_COLOR.CGColor;
+    VideoBackView.layer.borderWidth=0.5;
+    [self addSubview:VideoBackView];
+    
+    UIImageView *VideoImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 23, 26, 22)];
+    VideoImage.image = [UIImage imageNamed:@"publicVideo"];
+    VideoImage.userInteractionEnabled = YES;
+    [VideoBackView addSubview:VideoImage];
+    
+    _VideoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(90, 240, 70, 70)];
+    _VideoImgView.userInteractionEnabled = YES;
+    [self addSubview:_VideoImgView];
+    
+    _videoButton = [[UIButton alloc]initWithFrame:CGRectMake(90, 240, 70, 70)];
+    [self addSubview:_videoButton];
+    //删除按钮
+    _button=[[UIButton alloc]initWithFrame:CGRectMake(_imgView.bounds.size.width-25, 0, 25, 25)];
+    [_button setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+    
+    [_button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_videoButton addSubview:_button];
+    _button.hidden = YES;
 
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 330, kScreenWidth, 10)];
     footView.backgroundColor = BG_GRAY_COLOR;
     [self.contentView addSubview:footView];
+}
+
+- (void)buttonAction:(UIButton *)sender
+{
+
+    if ([_delegate respondsToSelector:@selector(cellWilldelete:)]) {
+        [_delegate cellWilldelete:self];
+    }
 }
 
 

@@ -25,6 +25,8 @@
            andLongitude:(NSString *)longitude
            limit_number:(int)limit_number
                 notices:(NSString *)notices
+franchiseePrice:(NSString *)franchiseePrice
+              available:(NSString *)available
 
 {
     self = [super init];
@@ -79,6 +81,13 @@
         
         if (notices){
             [bodyDict setObject:notices forKey:@"notices"];
+        }
+        
+        if (franchiseePrice){
+            [bodyDict setObject:franchiseePrice forKey:@"franchiseePrice"];
+        }
+        if (available){
+            [bodyDict setObject:available forKey:@"available"];
         }
 
         

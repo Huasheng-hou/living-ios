@@ -23,6 +23,7 @@
 
 #import "LMWXLoginRequest.h"
 #import "WechatInfoVO.h"
+#import "CncpStartTime.h"
 
 @interface LMLoginViewController ()
 <
@@ -82,7 +83,12 @@ WXApiDelegate
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(userLoginCancel)
-                                                     name:@"userCancel"
+                                                     name:LM_WECHAT_LOGIN_CANCEL_NOTIFICATION
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(wxLoginFailed)
+                                                     name:LM_WECHAT_LOGIN_FAILED_NOTIFICATION
                                                    object:nil];
     }
     return self;
@@ -137,7 +143,10 @@ WXApiDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    if ( [WXApi isWXAppInstalled ]) {
+        return 4;
+    }
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -269,7 +278,7 @@ WXApiDelegate
         _loginBtn.layer.cornerRadius    = 5.0f;
         _loginBtn.clipsToBounds         = YES;
         
-        [_loginBtn setTitle:@"微信授权登陆" forState:UIControlStateNormal];
+        [_loginBtn setTitle:@"微信登录" forState:UIControlStateNormal];
         [_loginBtn addTarget:self action:@selector(wxinLoginAction) forControlEvents:UIControlEventTouchUpInside];
         
         [cell.contentView addSubview:_loginBtn];
@@ -305,12 +314,17 @@ WXApiDelegate
     
     if (!_phoneTF.text || ![mobilePredicate evaluateWithObject:_phoneTF.text]) {
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入正确的手机号码"
-                                                        message:@""
-                                                       delegate:self
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
+
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入正确的手机号码"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:nil]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
         return;
     }
     
@@ -412,9 +426,11 @@ WXApiDelegate
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
-                                               [self performSelectorOnMainThread:@selector(parseCodeResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                               
+                                                   [self parseCodeResponse:resp];
+                                               });
+                                               
                                            } failed:^(NSError *error) {
                                                
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
@@ -429,19 +445,15 @@ WXApiDelegate
 - (void)parseCodeResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
-    [self logoutAction:resp];
     
     if (!bodyDict) {
         [self textStateHUD:@"登录失败"];
         return;
     }
     
-    NSLog(@"========直接登录====bodyDict============%@",bodyDict);
-    
     NSString *result    = [bodyDict objectForKey:@"result"];
     
-    if (result && [result intValue] == 0)
-    {
+    if (result && [result intValue] == 0) {
         
         _uuid       = [bodyDict objectForKey:@"user_uuid"];
         _password   = [bodyDict objectForKey:@"password"];
@@ -455,31 +467,31 @@ WXApiDelegate
         vipString =[bodyDict objectForKey:@"sign"];
 
         [self setUserInfo];
-        
         [self textStateHUD:@"登录成功"];
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-           
-                if (is_exist && [is_exist intValue] == 0) {
-            
-                    LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
-            
-                    registerVC.userId = _uuid;
-                    registerVC.passWord = _password;
-                    registerVC.numberString = _phoneTF.text;
-           
-                    [self.navigationController pushViewController:registerVC animated:YES];
-             }else{
-                    
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"login" object:nil];
-                 [self dismissViewControllerAnimated:YES completion:nil];
-             }
-        });
+        [self performSelector:@selector(loginSuccessed:) withObject:is_exist afterDelay:0.8];
         
     } else {
         
         NSString *string = [bodyDict objectForKey:@"description"];
         [self textStateHUD:string];
+    }
+}
+
+- (void)loginSuccessed:(NSString *)is_exist
+{
+    if (is_exist && [is_exist intValue] == 0) {
+        
+        LMRegisterViewController *registerVC = [[LMRegisterViewController alloc] init];
+        
+        registerVC.userId = _uuid;
+        registerVC.passWord = _password;
+        registerVC.numberString = _phoneTF.text;
+        
+        [self.navigationController pushViewController:registerVC animated:YES];
+    } else {
+        
+        [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -489,13 +501,15 @@ WXApiDelegate
 {
     NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-DD hh:ii:ss"];
+    
     NSString    *password   = [NSString stringWithFormat:@"%@%@%@", [formatter stringFromDate:[NSDate date]], phone, TOKEN];
     return password.md5;
 }
 
 #pragma mark 登记用户信息
 
-- (void)setUserInfo{
+- (void)setUserInfo
+{
     NSMutableDictionary *userInfo   = [NSMutableDictionary new];
     
     if (_uuid) {
@@ -542,42 +556,52 @@ WXApiDelegate
 
 #pragma mark --微信授权登陆
 
--(void)wxinLoginAction
+- (void)wxinLoginAction
 {
-   
-    NSLog(@"**登陆**");
-     [self initStateHud];
+    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    [self initStateHud];
+    [self performSelector:@selector(hideStateHud) withObject:nil afterDelay:7];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-         //构造SendAuthReq结构体
+    
+        //构造SendAuthReq结构体
         SendAuthReq* req =[[SendAuthReq alloc ] init ];
         req.scope = @"snsapi_userinfo" ;//获取用户个人信息字段
         req.state = @"wx" ;
+        
         [WXApi sendReq:req];
     });
 }
 
-
--(void)userLoginCancel
+- (void)userLoginCancel
 {
-    [self textStateHUD:@"已取消授权，请重新登录"];
-    return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self textStateHUD:@"已取消授权，请重新登录"];
+    });
 }
 
+- (void)wxLoginFailed
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self textStateHUD:@"微信登录失败"];
+    });
+}
 
 // * 微信登录通知响应
 //
 - (void)didFinishedWechatLogin:(NSNotification *)notification
-{
-    NSLog(@"===========didFinishedWechatLogin===============%@",notification);
-    
+{   
     NSString    *code   = [[notification userInfo] objectForKey:@"code"];
     
     if (code && [code isKindOfClass:[NSString class]]) {
-        
-            [self textStateHUD:@"微信授权失败"];
-            return;
-
         
         NSURL   *tokenUrl   = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", wxAppID, wxAppSecret, code]];
         
@@ -602,6 +626,10 @@ WXApiDelegate
                                        [self wechatLogin:accessToken OpenId:openId UnionId:unionId];
                                    }
                                }];
+    } else {
+        
+        [self textStateHUD:@"微信授权失败"];
+        return;
     }
 }
 
@@ -623,7 +651,6 @@ WXApiDelegate
 
                                WechatInfoVO     *vo = [WechatInfoVO WechatInfoVOWithDictionary:responseObj];
                                
-//                               NSLog(@"wechatInfo:%@", [vo description]);
                                if (vo.OpenId) {
                                    
                                    NSString *password   = [self generatePassword:vo.OpenId];

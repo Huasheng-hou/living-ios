@@ -31,27 +31,28 @@
     
     whiteView=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 240)];
     [whiteView setBackgroundColor:BG_GRAY_COLOR];
-//    [whiteView.layer setCornerRadius:5.0f];
-//    [whiteView.layer setMasksToBounds:YES];
     [self addSubview:whiteView];
     
     [UIView animateWithDuration:0.3f animations:^{
         [whiteView setFrame:CGRectMake(0, kScreenHeight-240, kScreenWidth, 240)];
     }];
     
-    UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, whiteView.frame.size.width, 44)];
-    [titleLabel setText:@"分享文章"];
-    [titleLabel setFont:TEXT_FONT_LEVEL_1];
-    [titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [whiteView addSubview:titleLabel];
+    _titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, whiteView.frame.size.width, 44)];
+
+    [_titleLabel setText:@"分享文章"];
+    
+    
+    [_titleLabel setFont:TEXT_FONT_LEVEL_1];
+    [_titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [whiteView addSubview:_titleLabel];
     
     UILabel *line=[[UILabel alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 0.5)];
     [line setBackgroundColor:BG_GRAY_COLOR];
     [whiteView addSubview:line];
     
     CGFloat startX=15;
-    CGFloat sapce=20;
-    CGFloat buttonW=(kScreenWidth-startX*2-sapce*3)/4;
+    CGFloat sapce=15;
+    NSInteger buttonW=(NSInteger)(kScreenWidth-startX*2-sapce*3)/4;
     
 //
     for (int i=0; i<4; i++) {
@@ -80,6 +81,7 @@
 {
     [UIView animateWithDuration:0.3f animations:^{
         [whiteView setFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 220)];
+        self.alpha = 0;
     } completion:^(BOOL finished) {
         
         for (UIView *view in whiteView.subviews) {
