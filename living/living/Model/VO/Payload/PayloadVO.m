@@ -35,9 +35,9 @@
     self = [super init];
     if (self) {
         
-        if (nil != [dictionary objectForKey:@"type"] && ![[dictionary objectForKey:@"type"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
-            self.Type = [dictionary objectForKey:@"type"];
+        if (nil != [dictionary objectForKey:@"push_type"] && ![[dictionary objectForKey:@"push_type"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"push_type"] isKindOfClass:[NSString class]]) {
+            self.Type = [dictionary objectForKey:@"push_type"];
         }
         
         if (nil != [dictionary objectForKey:@"detail"] && ![[dictionary objectForKey:@"detail"] isEqual:[NSNull null]]

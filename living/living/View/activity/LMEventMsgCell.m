@@ -116,7 +116,7 @@
     if (list.coverWidth&&list.coverHeight) {
         _videoWidth = list.coverWidth;
         _videoHeight = list.coverHeight;
-        UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21, (_videoHeight*(kScreenWidth-30)/_videoWidth)/2-21, 42, 42)];
+        UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21-15, (_videoHeight*(kScreenWidth-30)/_videoWidth)/2-21, 42, 42)];
         playView.image = [UIImage imageNamed:@"playIcon"];
         playView.userInteractionEnabled = YES;
         [_videoImage addSubview:playView];

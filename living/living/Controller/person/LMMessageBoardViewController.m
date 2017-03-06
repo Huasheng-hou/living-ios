@@ -14,6 +14,8 @@
 
 #import "LMLevavingMessageRequest.h"
 
+#import "LMFriendMessageCell.h"
+
 
 #define PAGER_SIZE      20
 
@@ -40,6 +42,8 @@
         self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addMessage:) name:@"message_notice" object:nil];
+ 
     }
     
     return self;
@@ -63,6 +67,7 @@
     [self creatUI];
     [self loadNewer];
     [self registerForKeyboardNotifications];
+    
 
 }
 
@@ -71,12 +76,13 @@
     
     [super createUI];
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
-    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
-    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 50, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 50, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 50, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
     [self creatFootView];
+    
 }
 
 
@@ -156,7 +162,27 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 65;
+    CGFloat conHigh = 0;
+    LMFriendVO *vo = self.listData[indexPath.row];
+        NSString *string;
+        
+        if (vo.content) {
+            string =[NSString stringWithFormat:@"%@：%@",vo.nickname,vo.content];
+
+        }else{
+            string =[NSString stringWithFormat:@"%@回复%@：%@",vo.myNickname,vo.nickname,vo.myContent];
+
+
+        }
+    NSDictionary *attributes    = @{NSFontAttributeName:TEXT_FONT_LEVEL_1};
+    conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                   options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                attributes:attributes
+                                   context:nil].size.height;
+
+    
+    
+    return conHigh +20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -178,40 +204,24 @@
 {
     static NSString *cellId = @"cellId";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    LMFriendMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [[LMFriendMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
+   
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     LMFriendVO *list =[self.listData objectAtIndex:indexPath.row];
     
-    if (list.content) {
-        NSString *string =[NSString stringWithFormat:@"%@：%@",list.nickname,list.content];
-        
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[list.nickname length]+1)];
-        
-        cell.textLabel.attributedText = str;
-    }else{
-        NSString *string =[NSString stringWithFormat:@"%@回复%@：%@",list.myNickname,list.nickname,list.myContent];
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[list.myNickname length])];
-        
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([list.myNickname length]+2,[list.nickname length]+1)];
-        
-        cell.textLabel.attributedText = str;
-        cell.textLabel.numberOfLines = 0;
-    }
+    cell.friendVO = list;
     
-    
-
     return cell;
 }
 
 -(void)sendMessageDataRequest
 {
+    [self initStateHud];
     LMLevavingMessageRequest *request = [[LMLevavingMessageRequest alloc] initWithuser_uuid:_friendUUid andContent:textcView.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -244,10 +254,12 @@
     
     if (result && [result intValue] == 0)
     {
-        
-        [self textStateHUD:@"留言成功~"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideStateHud];
+        });
         textcView.text = @"";
         tipLabel.hidden=NO;
+        [self scrollTableToFoot:YES];
         [self loadNoState];
         
     } else {
@@ -380,6 +392,42 @@
     
     return YES;
 }
+
+- (void)addMessage:(NSNotification *)notice
+{
+    
+    NSDictionary *dic = notice.userInfo;
+    NSLog(@"%@",dic);
+    NSDictionary *message = dic[@"message"];
+    NSMutableDictionary *new = [NSMutableDictionary new];
+    NSMutableArray *array = [NSMutableArray new];
+    [new setObject:message[@"push_dsp"] forKey:@"content"];
+    [new setObject:message[@"push_title"] forKey:@"nickname"];
+    [array addObject:new];
+    NSArray *array2 = [LMFriendVO LMFriendVOListWithArray:array];
+    [self.listData addObjectsFromArray:array2];
+    [self.tableView reloadData];
+    [self scrollTableToFoot:YES];
+    
+    
+    
+    
+}
+
+#pragma mark   滚动表格到底部
+- (void)scrollTableToFoot:(BOOL)animated
+{
+    NSInteger s = [self.tableView numberOfSections];
+    if (s < 1) return;
+    NSInteger r = [self.tableView numberOfRowsInSection:s-1];
+    
+    if (r < 1) return;
+    
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+    
+    [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+}
+
 
 
 

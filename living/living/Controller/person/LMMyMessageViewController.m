@@ -10,6 +10,7 @@
 #import "LMMyMessageRequest.h"
 #import "LMFriendVO.h"
 #import "LMMessageBoardViewController.h"
+#import "LMFriendMessageCell.h"
 
 
 #define PAGER_SIZE      20
@@ -28,6 +29,8 @@
         self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addMessage:) name:@"message_notice" object:nil];
     }
     
     return self;
@@ -101,7 +104,27 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 65;
+    CGFloat conHigh = 0;
+    LMFriendVO *vo = self.listData[indexPath.row];
+    NSString *string;
+    
+    if (vo.content) {
+        string =[NSString stringWithFormat:@"%@：%@",vo.nickname,vo.content];
+        
+    }else{
+        string =[NSString stringWithFormat:@"%@回复%@：%@",vo.myNickname,vo.nickname,vo.myContent];
+        
+        
+    }
+    NSDictionary *attributes    = @{NSFontAttributeName:TEXT_FONT_LEVEL_1};
+    conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
+                                   options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                attributes:attributes
+                                   context:nil].size.height;
+    
+    
+    
+    return conHigh +20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -123,30 +146,17 @@
 {
     static NSString *cellId = @"cellId";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
+    LMFriendMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
-        LMFriendVO *list =[self.listData objectAtIndex:indexPath.row];
-
-    
-    
-    if (list.content) {
-        NSString *string =[NSString stringWithFormat:@"%@：%@",list.nickname,list.content];
-        
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[list.nickname length]+1)];
-
-        cell.textLabel.attributedText = str;
-    }else{
-        cell.textLabel.text = [NSString stringWithFormat:@"%@回复%@：%@",list.myNickname,list.nickname,list.content];
+        cell = [[LMFriendMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
-        cell.tag = indexPath.row;
-
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    LMFriendVO *list =[self.listData objectAtIndex:indexPath.row];
+    
+    cell.friendVO = list;
     
     return cell;
 }
@@ -160,6 +170,28 @@
         messageBoardVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:messageBoardVC animated:YES];
     }
+}
+
+- (void)addMessage:(NSNotification *)notice
+{
+    
+    NSDictionary *dic = notice.userInfo;
+    NSLog(@"%@",dic);
+    NSDictionary *message = dic[@"message"];
+    NSMutableDictionary *new = [NSMutableDictionary new];
+    NSMutableArray *array = [NSMutableArray new];
+    [new setObject:message[@"push_dsp"] forKey:@"content"];
+    [new setObject:message[@"push_title"] forKey:@"nickname"];
+    [array addObject:new];
+    NSArray *array2 = [LMFriendVO LMFriendVOListWithArray:array];
+    NSMutableArray *newArray = [NSMutableArray new];
+    [newArray addObjectsFromArray:self.listData];
+    [self.listData removeAllObjects];
+    [self.listData addObjectsFromArray:array2];
+    [self.listData addObjectsFromArray:newArray];
+    [self.tableView reloadData];
+ 
+    
 }
 
 

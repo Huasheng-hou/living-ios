@@ -16,6 +16,7 @@
 		3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505CDF71E14E0BC007D896C /* libopencore-amrnb.a */; };
 		3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */; };
 		350C1BF81E556CEE00251DD9 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350C1BF71E556CEE00251DD9 /* PlayerViewController.m */; };
+		350F2F731E6D6DB000772E5C /* LMFriendMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 350F2F721E6D6DB000772E5C /* LMFriendMessageCell.m */; };
 		351213751DF90A9E0053B83F /* BlendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213741DF90A9E0053B83F /* BlendVO.m */; };
 		351213781DF90F000053B83F /* LMContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 351213771DF90F000053B83F /* LMContentTableViewCell.m */; };
 		3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3512137A1DF942ED0053B83F /* LMTypeListViewController.m */; };
@@ -499,6 +500,8 @@
 		3505CDF81E14E0BC007D896C /* libopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrwb.a"; sourceTree = "<group>"; };
 		350C1BF71E556CEE00251DD9 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		350C1BF91E556CFC00251DD9 /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
+		350F2F711E6D6DB000772E5C /* LMFriendMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMFriendMessageCell.h; sourceTree = "<group>"; };
+		350F2F721E6D6DB000772E5C /* LMFriendMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFriendMessageCell.m; sourceTree = "<group>"; };
 		351213731DF90A9E0053B83F /* BlendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendVO.h; sourceTree = "<group>"; };
 		351213741DF90A9E0053B83F /* BlendVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlendVO.m; sourceTree = "<group>"; };
 		351213761DF90F000053B83F /* LMContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMContentTableViewCell.h; sourceTree = "<group>"; };
@@ -3493,6 +3496,8 @@
 				35B746E61DDE97F3000AFA26 /* LMRePayCell.m */,
 				3524CF701E4FFD6A00651E64 /* LMHostoryView.h */,
 				3524CF711E4FFD6A00651E64 /* LMHostoryView.m */,
+				350F2F711E6D6DB000772E5C /* LMFriendMessageCell.h */,
+				350F2F721E6D6DB000772E5C /* LMFriendMessageCell.m */,
 				35B746E71DDE97F3000AFA26 /* myfriend */,
 				35B746EA1DDE97F3000AFA26 /* personCoupon */,
 				35B746ED1DDE97F3000AFA26 /* personMyliveRoom */,
@@ -4151,6 +4156,7 @@
 				35B747AE1DDE97F3000AFA26 /* LMArticleCommentDeleteRequest.m in Sources */,
 				35B7473D1DDE97F3000AFA26 /* AppDelegate.m in Sources */,
 				351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */,
+				350F2F731E6D6DB000772E5C /* LMFriendMessageCell.m in Sources */,
 				35C377881DEE7135007FC70A /* SXButton.m in Sources */,
 				35B748261DDE97F4000AFA26 /* LMNoticCell.m in Sources */,
 				35B747241DDE97F3000AFA26 /* Readme.markdown in Sources */,
