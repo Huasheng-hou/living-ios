@@ -254,10 +254,9 @@
     
     if (result && [result intValue] == 0)
     {
-        
-        [self performSelectorOnMainThread:@selector(textStateHUD:)
-                               withObject:@"留言成功"
-                            waitUntilDone:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideStateHud];
+        });
         textcView.text = @"";
         tipLabel.hidden=NO;
         [self scrollTableToFoot:YES];

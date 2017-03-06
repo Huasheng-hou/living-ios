@@ -44,47 +44,20 @@
         if (payloadVO) {
          NSLog(@"收到----payloadDict----%@",payloadDict);
             if (payloadDict[@"push_title"]&&payloadDict[@"push_title"]!=[NSNull null]&&[payloadDict[@"push_title"] isKindOfClass:[NSString class]]) {
-                
-
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_message"
-                                      object:nil];
-                }
-
-
-                
-           }
-
-            if ([payloadVO.Type isEqualToString:@"7"]) {
-            
-                
-                NSDictionary    *userInfo   = [NSDictionary dictionaryWithObjectsAndKeys:payloadDict, @"message", nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"message_notice" object:nil userInfo:userInfo];
-                
-                
-            }else{
-                if (payloadDict[@"push_title"]&&payloadDict[@"push_title"]!=[NSNull null]&&[payloadDict[@"push_title"] isKindOfClass:[NSString class]]) {
+                if ([payloadVO.Type isEqualToString:@"7"]) {
+                    
+                    NSDictionary    *userInfo   = [NSDictionary dictionaryWithObjectsAndKeys:payloadDict, @"message", nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"message_notice" object:nil userInfo:userInfo];
                     
                     
+                }else{
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_message"
                                                                         object:nil];
                 }
+
+                }
                 
-                
-                
-            }
-        
-        
-        
-        
-        
-//
-//            if ([payloadVO.Type isEqualToString:kPayloadTypeBoard]) {
-//                
-//                [[NSNotificationCenter defaultCenter] postNotificationName:FIT_TRANS_RECEIVE_BOARD_NOTIFICATION object:nil];
-//            }
-//            if ([payloadVO.Type isEqualToString:kPayloadTypeCoachInform]) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:FIT_CoachInform_NOTIFICATION object:nil];
-//            }
+           }
         
     }
 }
