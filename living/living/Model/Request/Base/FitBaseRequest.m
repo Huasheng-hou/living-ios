@@ -38,7 +38,7 @@
 {
 //    return @"http://yaoguo1818.com/living/";
 //    return @"http://120.26.64.40:8080/living/";
-    return @"http://api.yaoguo1818.com/living/";
+    return @"http://120.26.64.40/living";
 }
 
 - (NSString *)methodPath

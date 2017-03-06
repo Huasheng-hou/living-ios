@@ -1464,6 +1464,9 @@ LMContentTableViewCellDelegate
             if (dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
                 NSString *string = dic[@"url"];
                 [new addObject:string];
+            }else{
+                NSString *string = dic[@"url"];
+                [new addObject:string];
             }
 
         }
