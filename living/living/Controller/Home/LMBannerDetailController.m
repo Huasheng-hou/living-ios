@@ -37,11 +37,11 @@ static CGFloat const ButtonHeight = 38;
     
 }
 
-- (instancetype)init{
+- (instancetype)initWithIndex:(NSInteger)index{
     
     if (self = [super init]) {
-        
-        [self createUIWithIndex:10000];
+        self.index = index;
+        [self createUIWithIndex:self.index];
     }
     
     return self;
@@ -73,9 +73,10 @@ static CGFloat const ButtonHeight = 38;
 {
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Yao·美丽";
-    
+    NSArray *titleArrays = @[@[@"美·发现", @"美·活动", @"美·达人"], @[@"康·发现", @"康·活动", @"康·达人"], @[@"食·发现", @"食·活动", @"食·达人"], @[@"福·发现", @"福·活动", @"福·达人"]];
     LMSegmentController *vc = [[LMSegmentController alloc]init];
-    NSArray *titleArray = @[@"全部", @"美·发现", @"美·活动", @"美·达人", @"美·创客"];
+    NSLog(@"%d",index);
+    NSArray *titleArray = titleArrays[index-10];
     
     vc.titleArray = titleArray;
     NSMutableArray *controlArray = [[NSMutableArray alloc]init];
@@ -86,21 +87,14 @@ static CGFloat const ButtonHeight = 38;
     LMBannerDetailCommonController *vc2 = [[LMBannerDetailCommonController alloc]init];
     [controlArray addObject:vc2];
     
-    LMBannerDetailCommonController *vc3 = [[LMBannerDetailCommonController alloc]init];
+    LMBannerDetailExpertController *vc3 = [[LMBannerDetailExpertController alloc]init];
     [controlArray addObject:vc3];
-    
-    LMBannerDetailExpertController *vc4 = [[LMBannerDetailExpertController alloc]init];
-    [controlArray addObject:vc4];
-    
-    
-    LMBannerDetailMakerController *vc5 = [[LMBannerDetailMakerController alloc] init];
-    [controlArray addObject:vc5];
     
     vc.delegate = self;
     vc.titleColor = TEXT_COLOR_LEVEL_2;
     vc.titleSelectedColor = LIVING_COLOR;
     vc.subViewControllers = controlArray;
-    vc.buttonWidth = kScreenWidth/4.5;
+    vc.buttonWidth = kScreenWidth/3.0;
     vc.buttonHeight = ButtonHeight;
     [vc initSegment];
     [vc addParentController:self];

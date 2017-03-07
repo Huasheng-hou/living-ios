@@ -114,20 +114,8 @@ WXApiDelegate
     
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"浏览看看" style:UIBarButtonItemStylePlain target:self action:@selector(justLook)];
-    self.navigationItem.rightBarButtonItem = rightItem;
     
-    UIImageView * leftImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"turnright"]];
-    leftImage.transform = CGAffineTransformMakeRotation(M_PI);
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(justLook)];
-    [leftImage addGestureRecognizer:tap];
-    UIBarButtonItem *leftItem     = [[UIBarButtonItem alloc] initWithCustomView:leftImage];
-    self.navigationItem.leftBarButtonItem = leftItem;
-}
-
-- (void)justLook{
     
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -305,13 +293,13 @@ WXApiDelegate
         CGFloat mainW = w*3 + gap*2;
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainW, w)];
         backView.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-botH-w/2.0);
-        for (int i=0; i<3; i++) {
-            UIButton * thirdLogin = [[UIButton alloc] initWithFrame:CGRectMake(i*(w+gap), 0, w, w)];
-            [thirdLogin setBackgroundImage:[UIImage imageNamed:imageNames[i]] forState:UIControlStateNormal];
-            thirdLogin.tag = 300+i;
-            [thirdLogin addTarget:self action:@selector(loginByOtherType:) forControlEvents:UIControlEventTouchUpInside];
-            [backView addSubview:thirdLogin];
-        }
+
+        UIButton * wechat = [[UIButton alloc] initWithFrame:CGRectMake(1*(w+gap), 0, w, w)];
+        [wechat setBackgroundImage:[UIImage imageNamed:imageNames[1]] forState:UIControlStateNormal];
+        wechat.tag = 300;
+        [wechat addTarget:self action:@selector(loginByOtherType:) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:wechat];
+        
         [cell.contentView addSubview:backView];
     }
     return cell;

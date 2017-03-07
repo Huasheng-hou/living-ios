@@ -46,8 +46,8 @@
     CGFloat imageY = 25;
     CGFloat imageWd = 30;
     CGFloat imageHt = 32;
-    CGFloat imageCount = 7;
-    NSArray * listName = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福", @"Yao·运动", @"Yao·学习", @"Yao·干哈"];
+    CGFloat imageCount = 6;
+    NSArray * listName = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福", @"Yao·创客", @"Yao·果币"];
     for (int i=0; i<imageCount; i++) {
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(i*cellW, 0, cellW, cellH)];
@@ -121,6 +121,7 @@
 
 - (void)detailPage:(UITapGestureRecognizer *)tap{
     
+    NSLog(@"%d", tap.view.tag);
     [self.delegate gotoNextPage:tap.view.tag];
 }
 

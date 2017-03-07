@@ -32,6 +32,7 @@
 #import "LMHomeBannerView.h"
 #import "LMBannerDetailController.h"
 
+#import "LMBannerDetailMakerController.h"
 #define PAGER_SIZE      20
 
 @interface LMHomePageController ()
@@ -279,56 +280,80 @@ LMHomeBannerDelegate
 #pragma mark banner代理函数
 - (void)gotoNextPage:(NSInteger)index{
     
-    switch (index) {
+    
+    
+
+        switch (index) {
         case 10:
         {
-            NSLog(@"Yao·美丽");
-            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] init];
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
             self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
                                                                                     action:nil];
+            NSLog(@"Yao·美丽");
             bdVC.title = @"Yao·美丽";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
         case 11:
         {
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+
             NSLog(@"Yao·健康");
-            
+            bdVC.title = @"Yao·健康";
+            [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
         case 12:
         {
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+
             NSLog(@"Yao·美食");
-            
+            bdVC.title = @"Yao·美食";
+            [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
         case 13:
         {
+                
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
             NSLog(@"Yao·幸福");
-            
+            bdVC.title = @"Yao·幸福";
+            [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
         case 14:
         {
-            NSLog(@"Yao·运动");
-            
+            NSLog(@"Yao·创客");
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+            LMBannerDetailMakerController * maker = [[LMBannerDetailMakerController alloc] init];
+            maker.title = @"Yao·创客";
+            [self.navigationController pushViewController:maker animated:YES];
             break;
         }
         case 15:
         {
-            NSLog(@"Yao·学习");
+            NSLog(@"Yao·果币");
             
             break;
         }
-        case 16:
-        {
-            NSLog(@"Yao·干哈");
             
-            break;
-        }
-        
         default:
             break;
     }

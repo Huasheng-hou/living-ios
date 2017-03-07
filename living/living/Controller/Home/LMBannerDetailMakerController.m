@@ -29,7 +29,7 @@
 
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-102) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -116,9 +116,6 @@
     UICollectionReusableView * backView = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         
-//        if (indexPath.section == 0) {
-//            return nil;
-//        }
         backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead" forIndexPath:indexPath];
         backView.backgroundColor = [UIColor whiteColor];
         for (UIView * subView in backView.subviews) {

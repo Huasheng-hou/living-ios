@@ -9,4 +9,8 @@
 #import "FitBaseViewController.h"
 @interface LMBannerDetailController : FitBaseViewController
 
+@property (nonatomic, assign) NSInteger index;
+
+- initWithIndex:(NSInteger)index;
+
 @end
