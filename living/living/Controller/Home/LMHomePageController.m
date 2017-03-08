@@ -32,6 +32,9 @@
 #import "LMBannerDetailController.h"
 
 #import "LMBannerDetailMakerController.h"
+#import "LMYaoGuoBiController.h"
+
+
 #define PAGER_SIZE      20
 
 @interface LMHomePageController ()
@@ -350,7 +353,13 @@ WJLoopViewDelegate
         case 15:
         {
             NSLog(@"Yao·果币");
-            
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+            LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+            ygbVC.title = @"Yao·果币";
+            [self.navigationController pushViewController:ygbVC animated:YES];
             break;
         }
             

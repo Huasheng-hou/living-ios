@@ -513,6 +513,9 @@
 		8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */; };
 		8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */; };
 		8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */; };
+		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
+		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
+		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1545,6 +1548,12 @@
 		8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
+		D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYaoGuoBiController.h; sourceTree = "<group>"; };
+		D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYaoGuoBiController.m; sourceTree = "<group>"; };
+		D542F3C01E6FEE8000CDB2EB /* LMYGBConvertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBConvertCell.h; sourceTree = "<group>"; };
+		D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBConvertCell.m; sourceTree = "<group>"; };
+		D542F3C31E6FEEA900CDB2EB /* LMYGBActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBActivityCell.h; sourceTree = "<group>"; };
+		D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBActivityCell.m; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2570,6 +2579,8 @@
 				8746421F1E5FFF4200D2CCDE /* LMExpertDetailController.m */,
 				877290D21E614EF200519550 /* LMSubmitSuccessController.h */,
 				877290D31E614EF200519550 /* LMSubmitSuccessController.m */,
+				D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */,
+				D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3627,6 +3638,7 @@
 		35B746C51DDE97F3000AFA26 /* homepage */ = {
 			isa = PBXGroup;
 			children = (
+				D542F3BF1E6FEDEE00CDB2EB /* YaoGuoBi */,
 				35B746C61DDE97F3000AFA26 /* LMCommentButton.h */,
 				35B746C71DDE97F3000AFA26 /* LMCommentButton.m */,
 				35B746C81DDE97F3000AFA26 /* LMCommentCell.h */,
@@ -3933,6 +3945,17 @@
 			path = ChatFace;
 			sourceTree = "<group>";
 		};
+		D542F3BF1E6FEDEE00CDB2EB /* YaoGuoBi */ = {
+			isa = PBXGroup;
+			children = (
+				D542F3C01E6FEE8000CDB2EB /* LMYGBConvertCell.h */,
+				D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */,
+				D542F3C31E6FEEA900CDB2EB /* LMYGBActivityCell.h */,
+				D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */,
+			);
+			name = YaoGuoBi;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -4192,8 +4215,10 @@
 				3533A78E1E4D9E440088734A /* LMKeepImageView.m in Sources */,
 				35B7481D1DDE97F4000AFA26 /* LMhomePageCell.m in Sources */,
 				35B747AD1DDE97F3000AFA26 /* LMArticeDeleteRequest.m in Sources */,
+				D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */,
 				35B748251DDE97F4000AFA26 /* LMMyLivingHomeCell.m in Sources */,
 				3524CF7B1E503D8E00651E64 /* FirUploadVideoRequest.m in Sources */,
+				D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */,
 				3533A7841E4D84D00088734A /* AliPlayerControlView.m in Sources */,
 				35B747581DDE97F3000AFA26 /* LMHomePageController.m in Sources */,
 				35B747251DDE97F3000AFA26 /* SSPullToRefreshDefaultContentView.m in Sources */,
@@ -4345,6 +4370,7 @@
 				35B747C51DDE97F3000AFA26 /* LMBalanceMonthRequest.m in Sources */,
 				35B747751DDE97F3000AFA26 /* DALabeledCircularProgressView.m in Sources */,
 				35B747A91DDE97F3000AFA26 /* LMFindBannerRequest.m in Sources */,
+				D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */,
 				35B747F11DDE97F4000AFA26 /* LMActicleCommentVO.m in Sources */,
 				35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */,
 				35B747691DDE97F3000AFA26 /* LMAddviceViewController.m in Sources */,
