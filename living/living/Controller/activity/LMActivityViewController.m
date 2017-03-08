@@ -440,33 +440,28 @@ doSomethingForActivityDelegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger count;
-    if (section == 1) {
-        count = 2;
-    }else{
-        count = 1;
-    }
-    return count;
+    
+    return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
-    
-    if (indexPath.section == 0) {
-        h = 144;
-    }
-    
-    if (h) {
-        
-        return h;
-    }
-    
+//    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+//    
+//    if (indexPath.section == 0) {
+//        h = 144;
+//    }
+//    
+//    if (h) {
+//        
+//        return h;
+//    }
+//    
     return 220;
 }
 
@@ -485,17 +480,17 @@ doSomethingForActivityDelegate
     UIView *sectionTitleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     sectionTitleView.backgroundColor = [UIColor whiteColor];
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 22, 2, 12)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 14, 2, 12)];
     imageView.backgroundColor = ORANGE_COLOR;
     [sectionTitleView addSubview:imageView];
     
-    UILabel *sectionTitleLbl = [[UILabel alloc]initWithFrame:CGRectMake(17, 20, kScreenWidth - 17, 15)];
+    UILabel *sectionTitleLbl = [[UILabel alloc]initWithFrame:CGRectMake(17, 12, kScreenWidth - 17, 15)];
     switch (section) {
         case 0:
-            sectionTitleLbl.text = @"遇见生活馆";
+            sectionTitleLbl.text = @"活动";
             break;
         case 1:
-            sectionTitleLbl.text = @"活动报名";
+            sectionTitleLbl.text = @"项目";
             break;
         case 2:
             sectionTitleLbl.text = @"项目体验";
@@ -554,7 +549,7 @@ doSomethingForActivityDelegate
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell == nil){
         switch (indexPath.section) {
-            case 0:{
+            case 2:{
                 static NSString * LifeHouseCellId = @"LifeHouseCell";
                 LMActivityLifeHouseCell *lifeHousecell = [[LMActivityLifeHouseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LifeHouseCellId];
                 __weak __block LMActivityViewController *copy_self = self;
@@ -562,18 +557,18 @@ doSomethingForActivityDelegate
 //                    [copy_self ]
                     // 选择生活馆活动
 //                    [copy_self pushEvaluateSuccessView];
-                    printf("%ld",btnTag);
+                    printf("%d",btnTag);
                 };
                 cell = lifeHousecell;
                 break;
             }
-            case 1:{
+            case 0:{
                 static NSString *ApplyCellId = @"ApplyCell";
                 LMActivityApplyCell *applycell = [[LMActivityApplyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ApplyCellId];
                 cell = applycell;
                 break;
             }
-            case 2:{
+            case 1:{
                 static NSString *ExperienceCellId = @"ExperienceCell";
                 LMActivityExperienceCell *experiencecell = [[LMActivityExperienceCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ExperienceCellId];
                 experiencecell.delegate = self;
@@ -587,6 +582,7 @@ doSomethingForActivityDelegate
         }
         
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
     
 }
@@ -653,17 +649,17 @@ doSomethingForActivityDelegate
 
 - (void)like
 {
-    printf("aaa");
+    NSLog(@"点赞");
 }
 
 - (void)share
 {
-    printf("aa");
+    NSLog(@"分享");
 }
 
 - (void)comment
 {
-    printf("a");
+    NSLog(@"评论");
 }
 
 - (void)grade

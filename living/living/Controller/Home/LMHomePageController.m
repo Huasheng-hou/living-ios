@@ -26,7 +26,6 @@
 
 #import "BannerVO.h"
 
-
 #import "LMRecommendCell.h"
 #import "HotArticleCell.h"
 #import "LMHomeBannerView.h"
@@ -39,9 +38,9 @@
 <
 UITableViewDelegate,
 UITableViewDataSource,
-LMHomeBannerDelegate
+LMHomeBannerDelegate,
+WJLoopViewDelegate
 >
-//WJLoopViewDelegate,
 //LMhomePageCellDelegate
 
 {
@@ -82,9 +81,9 @@ LMHomeBannerDelegate
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     self.tabBarController.tabBar.hidden = NO;
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -108,8 +107,8 @@ LMHomeBannerDelegate
     
     [self creatUI];
     
-    //[self getBannerDataRequest];
-    //[self loadNewer];
+    [self getBannerDataRequest];
+    [self loadNewer];
 }
 
 - (void)creatUI
@@ -151,6 +150,7 @@ LMHomeBannerDelegate
         }
     }
 }
+
 
 #pragma mark 发布文章
 - (void)publicAction
@@ -292,7 +292,7 @@ LMHomeBannerDelegate
                                                                                     target:self
                                                                                     action:nil];
             NSLog(@"Yao·美丽");
-            bdVC.title = @"Yao·美丽";
+            bdVC.navigationItem.title = @"Yao·美丽";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
@@ -305,7 +305,7 @@ LMHomeBannerDelegate
                                                                                     action:nil];
 
             NSLog(@"Yao·健康");
-            bdVC.title = @"Yao·健康";
+            bdVC.navigationItem.title = @"Yao·健康";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
@@ -318,7 +318,7 @@ LMHomeBannerDelegate
                                                                                     action:nil];
 
             NSLog(@"Yao·美食");
-            bdVC.title = @"Yao·美食";
+            bdVC.navigationItem.title = @"Yao·美食";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
@@ -331,7 +331,7 @@ LMHomeBannerDelegate
                                                                                     target:self
                                                                                     action:nil];
             NSLog(@"Yao·幸福");
-            bdVC.title = @"Yao·幸福";
+            bdVC.navigationItem.title = @"Yao·幸福";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }

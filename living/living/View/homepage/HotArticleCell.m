@@ -8,6 +8,7 @@
 
 #import "HotArticleCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 @implementation HotArticleCell
 {
     UIImageView * backImage;
@@ -26,6 +27,22 @@
     }
     return self;
 }
+
+- (void)setValue:(LMActicleVO *)list{
+    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货"];
+    NSInteger index = [typeList indexOfObject:_type];
+    
+    NSArray * preTitle = @[@"腰·美丽 丨 ", @"腰·健康 丨 ", @"腰·美食 丨 ", @"腰·幸福 丨 "];
+    NSArray * newType = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福"];
+    [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+    title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
+    
+    tag.text = newType[index];
+    
+    NSLog(@"%@", list);
+    
+}
+
 
 - (void)setCellType:(NSInteger)cellType{
     if (cellType == 1) {

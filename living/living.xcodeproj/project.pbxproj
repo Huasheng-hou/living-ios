@@ -4750,7 +4750,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livinghall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4843,7 +4843,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingHome.living;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livinghall.living;
 				PRODUCT_NAME = "腰果生活";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

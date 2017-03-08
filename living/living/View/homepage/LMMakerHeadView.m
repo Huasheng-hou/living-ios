@@ -67,6 +67,8 @@
 - (void)inquire:(UIButton *)btn{
     
     NSLog(@"了解轻创客");
+    [self.delegate gotoNextPage];
+    
 }
 
 @end

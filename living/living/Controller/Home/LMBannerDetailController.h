@@ -6,8 +6,8 @@
 //  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
-@interface LMBannerDetailController : FitBaseViewController
+#import "FitStatefulTableViewController.h"
+@interface LMBannerDetailController : FitStatefulTableViewController
 
 @property (nonatomic, assign) NSInteger index;
 

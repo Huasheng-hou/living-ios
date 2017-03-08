@@ -157,18 +157,19 @@ WXApiDelegate
     
     if (indexPath.row == 0) {
         
-        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 45, 15, 20)];
-        phoneView.image = [UIImage imageNamed:@"phone-2"];
-        //phoneView.backgroundColor = BG_GRAY_COLOR;
+        UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 45, 12, 17)];
+        phoneView.image = [UIImage imageNamed:@"phone"];
         [cell.contentView addSubview:phoneView];
         
         _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(40, 45, kScreenWidth - 50, 20)];
         _phoneTF.keyboardType   = UIKeyboardTypePhonePad;
         _phoneTF.placeholder    = @"请输入手机号码";
         _phoneTF.delegate       = self;
-        _phoneTF.font           = TEXT_FONT_LEVEL_3;
-        _phoneTF.textColor      = TEXT_COLOR_LEVEL_4;
+        _phoneTF.font           = TEXT_FONT_LEVEL_1;
+        _phoneTF.textColor      = TEXT_COLOR_LEVEL_2;
         [_phoneTF setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
+        [_phoneTF setValue:TEXT_FONT_LEVEL_2 forKeyPath:@"_placeholderLabel.font"];
+
         
         [cell.contentView addSubview:_phoneTF];
         
@@ -180,8 +181,7 @@ WXApiDelegate
     if (indexPath.row == 1) {
         
         UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 15, 12, 17)];
-        codeView.image = [UIImage imageNamed:@"password-6"];
-        //codeView.backgroundColor = BG_GRAY_COLOR;
+        codeView.image = [UIImage imageNamed:@"lock"];
         [cell.contentView addSubview:codeView];
         
         _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(40, 15, kScreenWidth - 95, 20)];
@@ -190,9 +190,10 @@ WXApiDelegate
         _codeTF.keyboardType    = UIKeyboardTypePhonePad;
         _codeTF.delegate = self;
         _codeTF.tag = 0412;
-        _codeTF.font = TEXT_FONT_LEVEL_3;
-        _codeTF.textColor = TEXT_COLOR_LEVEL_4;
+        _codeTF.font = TEXT_FONT_LEVEL_1;
+        _codeTF.textColor = TEXT_COLOR_LEVEL_2;
         [_codeTF setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
+        [_codeTF setValue:TEXT_FONT_LEVEL_2 forKeyPath:@"_placeholderLabel.font"];
         
         [cell.contentView addSubview:_codeTF];
         
@@ -309,13 +310,13 @@ WXApiDelegate
 - (void)loginByOtherType:(UIButton *)btn{
     
     switch (btn.tag) {
-        case 300:
+        case 3000:
         {
             //新浪登录
             NSLog(@"新浪登录");
         }
             break;
-        case 301:
+        case 300:
         {
             //微信登录
             NSLog(@"微信登录");

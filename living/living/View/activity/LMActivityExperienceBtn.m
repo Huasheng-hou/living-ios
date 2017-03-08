@@ -34,7 +34,7 @@
     self.backgroundColor = [UIColor clearColor];
     
     _iconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 23, 23)];
-    _iconImageView.backgroundColor = BG_GRAY_COLOR;
+    //_iconImageView.backgroundColor = BG_GRAY_COLOR;
     [self addSubview:_iconImageView];
     
     _titleLbl = [[UILabel alloc]initWithFrame:CGRectMake(23, 0, 32, 23)];

@@ -64,15 +64,15 @@
     [_gradeBtn addTarget:self action:@selector(grandeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_gradeBtn];
     
-    _shareBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 138, 195, 55, 23) actionTitle:@"分享" IconImage:nil];
+    _shareBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 138, 195, 55, 23) actionTitle:@"分享" IconImage:[UIImage imageNamed:@"shareIcon-1"]];
     [_shareBtn addTarget:self action:@selector(shareBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_shareBtn];
     
-    _commentBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 203, 195, 55, 23) actionTitle:@"评论" IconImage:nil];
+    _commentBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 203, 195, 55, 23) actionTitle:@"评论" IconImage:[UIImage imageNamed:@"comment"]];
     [_commentBtn addTarget:self action:@selector(commentBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_commentBtn];
     
-    _likeBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 268, 195, 55, 23) actionTitle:@"点赞" IconImage:nil];
+    _likeBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 268, 195, 55, 23) actionTitle:@"点赞" IconImage:[UIImage imageNamed:@"zanIcon"]];
     [_likeBtn addTarget:self action:@selector(likeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_likeBtn];
     

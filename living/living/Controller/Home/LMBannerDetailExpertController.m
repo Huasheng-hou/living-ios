@@ -67,7 +67,7 @@
     return 30;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    NSArray * nameList = @[@"| 腰美达人", @"| 热门文章"];
+    NSArray * nameList = @[@"| 腰美达人", @"| 热门课程"];
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
     headerView.backgroundColor = [UIColor whiteColor];
     

@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMActicleVO.h"
 @interface HotArticleCell : UITableViewCell
 
 @property (nonatomic, assign)NSInteger cellType;
+
+@property (nonatomic, strong) NSString * type;
+
+-(void)setValue:(LMActicleVO *)list;
 
 @end

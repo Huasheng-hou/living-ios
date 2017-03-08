@@ -8,34 +8,91 @@
 
 #import "LMBannerDetailCommonController.h"
 #import "HotArticleCell.h"
+
+#import "LMArtcleTypeListRequest.h"
+#import "LMActicleVO.h"
+
+#define PAGER_SIZE 20
 @interface LMBannerDetailCommonController ()<UITableViewDelegate, UITableViewDataSource>
 @end
 
-@implementation LMBannerDetailCommonController
+@implementation LMBannerDetailCommonController{
+    
+    NSString * _type;
+}
+- (id)initWithType:(NSString *)type
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        
+        //        self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
+        self.hidesBottomBarWhenPushed   = NO;
+        _type = type;
+    }
+    
+    return self;
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
-    
+    [self loadNewer];
     
 }
-
 
 - (void)createUI{
     [super createUI];
     
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    self.tableView.contentInset                 = UIEdgeInsetsMake(0, 0, 100, 0);
-    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
-    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(0, 0, 100, 0);
+    self.tableView.contentInset                 = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(0, 0, 102, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
 }
 
+
+#pragma mark - 数据请求
+- (FitBaseRequest *)request
+{
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:_type];
+    
+    return request;
+}
+
+- (NSArray *)parseResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    NSString    *result         = [bodyDic objectForKey:@"result"];
+    
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
+        
+        self.max    = [[bodyDic objectForKey:@"total"] intValue];
+        NSArray *resultArr  = [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];
+        if (resultArr && resultArr.count > 0) {
+            
+            return resultArr;
+        }
+    }
+    return nil;
+}
+
+#pragma mark - tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return self.listData.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -44,6 +101,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    NSLog(@"%@", self.listData);
     HotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (!cell) {
@@ -51,6 +109,16 @@
     }
     cell.cellType = 1;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.type = _type;
+    if (self.listData.count > indexPath.row) {
+        
+        LMActicleVO     *vo = self.listData[indexPath.row];
+        NSLog(@"%@", self.listData[0]);
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            [(HotArticleCell *)cell setValue:vo];
+        }
+    }
     return cell;
 }
 

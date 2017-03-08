@@ -10,4 +10,6 @@
 
 @interface LMBannerDetailCommonController : FitStatefulTableViewController
 
+- (id)initWithType:(NSString *)type;
+
 @end

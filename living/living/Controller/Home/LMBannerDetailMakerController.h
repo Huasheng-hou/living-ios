@@ -8,6 +8,9 @@
 
 #import "FitStatefulTableViewController.h"
 
+
 @interface LMBannerDetailMakerController : FitStatefulTableViewController
+
+
 
 @end

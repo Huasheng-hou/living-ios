@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol LMMakerDelegate <NSObject>
+
+- (void)gotoNextPage;
+
+@end
 
 @interface LMMakerHeadView : UIView
-
+@property (nonatomic, weak) id <LMMakerDelegate> delegate;
 @end
