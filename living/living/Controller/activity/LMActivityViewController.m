@@ -29,6 +29,11 @@
 
 #import "LMEvaluateViewController.h"
 
+
+#import "LMHomeDetailController.h"
+#import "LMHomeVoiceDetailController.h"
+#import "LMWebViewController.h"
+#import "LMClassroomDetailViewController.h"
 #define PAGER_SIZE      20
 
 @interface LMActivityViewController ()
@@ -317,6 +322,64 @@ doSomethingForActivityDelegate
 -(void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
     NSLog(@"---------------%ld",(long)index);
+    if (_bannerArray.count>index) {
+        
+        BannerVO *vo = _bannerArray[index];
+        //活动
+        if ([vo.Type isEqualToString:@"event"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]){
+                
+                LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.eventUuid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        //文章
+        if ([vo.Type isEqualToString:@"article"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+                
+                LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.artcleuuid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        //web
+        if ([vo.Type isEqualToString:@"web"]) {
+            
+            if (vo.webUrl && [vo.webUrl isKindOfClass:[NSString class]] && ![vo.webUrl isEqualToString:@""]) {
+                
+                LMWebViewController *webVC = [[LMWebViewController alloc] init];
+                
+                webVC.hidesBottomBarWhenPushed  = YES;
+                webVC.titleString               = vo.webTitle ;
+                webVC.urlString                 = vo.webUrl;
+                
+                [self.navigationController pushViewController:webVC animated:YES];
+            }
+        }
+        //语音课堂
+        if ([vo.Type isEqualToString:@"voice"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+                
+                LMClassroomDetailViewController *eventVC = [[LMClassroomDetailViewController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.voiceUUid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+    }
+
 }
 
 

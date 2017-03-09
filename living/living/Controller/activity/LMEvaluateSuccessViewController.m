@@ -34,7 +34,8 @@
 {
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth * 0.4, kScreenWidth * 0.07 + 64, kScreenWidth * 0.2, kScreenWidth * 0.2)];
-    imageView.backgroundColor = BG_GRAY_COLOR;
+    //imageView.backgroundColor = BG_GRAY_COLOR;
+    imageView.image = [UIImage imageNamed:@"choose"];
     [self.view addSubview:imageView];
     
     UILabel *commitLbl = [[UILabel alloc]initWithFrame:CGRectMake(0, kScreenWidth * 0.33 + 64, kScreenWidth, kScreenWidth * 0.05)];

@@ -98,7 +98,7 @@ WJLoopViewDelegate
     
     if (!_bannerArray || _bannerArray.count == 0) {
         
-        [self getBannerDataRequest];
+        //[self getBannerDataRequest];
     }
 }
 
@@ -110,7 +110,7 @@ WJLoopViewDelegate
     
     [self creatUI];
     
-    [self getBannerDataRequest];
+    //[self getBannerDataRequest];
     [self loadNewer];
 }
 

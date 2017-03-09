@@ -20,6 +20,9 @@
 #import "LMLessonViewController.h"
 #import "LMSegmentViewController.h"
 
+
+#import "LMYaoGuoBiController.h"
+
 #define PAGER_SIZE      20
 
 @interface LMFindViewController ()
@@ -150,7 +153,7 @@ LMFindCellDelegate
             headViewHight =  90+146;
         }
 
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight)];
+    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight+90)];
     headView.backgroundColor = BG_GRAY_COLOR;
     WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
                                                     delegate:self
@@ -206,9 +209,38 @@ LMFindCellDelegate
     
     [classView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(voiceClassenter)]];
     
+    //腰果币
+    UIView *ygbView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5+headViewHight, kScreenWidth, 90)];
+    ygbView.backgroundColor = [UIColor clearColor];
+    [headView addSubview:ygbView];
+    
+    UIView *backView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
+    backView2.backgroundColor = [UIColor whiteColor];
+    backView2.layer.cornerRadius = 5;
+    [ygbView addSubview:backView2];
+    
+    UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 40, 40)];
+    imageView2.image = [UIImage imageNamed:@"shareIcon"];
+    imageView2.layer.masksToBounds = YES;
+    imageView2.layer.cornerRadius = 5;
+    [backView2 addSubview:imageView2];
+    
+    UILabel *titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(60, 15, kScreenWidth-80, 40)];
+    titleLabel2.text = @"腰果币";
+    titleLabel2.font = TEXT_FONT_LEVEL_1;
+    [backView2 addSubview:titleLabel2];
+    
+    UIImageView *right2 = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 15+13.5, 7, 13)];
+    right2.image = [UIImage imageNamed:@"rightIcon"];
+    [backView2 addSubview:right2];
+    
+    [ygbView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myYGB)]];
+    
+    
+    
     self.tableView.tableHeaderView = headView;
 }
-
+#pragma mark - 请求数据
 - (FitBaseRequest *)request
 {
     LMFindListRequest    *request    = [[LMFindListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
@@ -284,12 +316,13 @@ LMFindCellDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.listData.count;
+//    return self.listData.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -329,7 +362,7 @@ LMFindCellDelegate
     
     return cell;
 }
-
+#pragma mark - 手势点击
 - (void)voiceClassenter
 {
     LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
@@ -337,7 +370,11 @@ LMFindCellDelegate
     [self.navigationController pushViewController:lessonVC animated:YES];
 }
 
-
+- (void)myYGB{
+    LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+    [self.navigationController pushViewController:ygbVC animated:YES];
+    
+}
 
 
 

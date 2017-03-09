@@ -516,6 +516,10 @@
 		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
 		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
+		D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */; };
+		D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */; };
+		D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */; };
+		D5D325161E712B150057F636 /* LMYGBOrderChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325151E712B150057F636 /* LMYGBOrderChooseCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1554,6 +1558,14 @@
 		D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBConvertCell.m; sourceTree = "<group>"; };
 		D542F3C31E6FEEA900CDB2EB /* LMYGBActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBActivityCell.h; sourceTree = "<group>"; };
 		D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBActivityCell.m; sourceTree = "<group>"; };
+		D5D3250B1E70F80D0057F636 /* LMYaoGuoBiConvertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYaoGuoBiConvertController.h; sourceTree = "<group>"; };
+		D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYaoGuoBiConvertController.m; sourceTree = "<group>"; };
+		D5D3250E1E711FFE0057F636 /* LMSubmitOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSubmitOrderController.h; sourceTree = "<group>"; };
+		D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSubmitOrderController.m; sourceTree = "<group>"; };
+		D5D325111E712A7A0057F636 /* LMYGBOrderHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBOrderHeadCell.h; sourceTree = "<group>"; };
+		D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBOrderHeadCell.m; sourceTree = "<group>"; };
+		D5D325141E712B150057F636 /* LMYGBOrderChooseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBOrderChooseCell.h; sourceTree = "<group>"; };
+		D5D325151E712B150057F636 /* LMYGBOrderChooseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBOrderChooseCell.m; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2581,6 +2593,10 @@
 				877290D31E614EF200519550 /* LMSubmitSuccessController.m */,
 				D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */,
 				D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */,
+				D5D3250B1E70F80D0057F636 /* LMYaoGuoBiConvertController.h */,
+				D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */,
+				D5D3250E1E711FFE0057F636 /* LMSubmitOrderController.h */,
+				D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3952,6 +3968,10 @@
 				D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */,
 				D542F3C31E6FEEA900CDB2EB /* LMYGBActivityCell.h */,
 				D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */,
+				D5D325111E712A7A0057F636 /* LMYGBOrderHeadCell.h */,
+				D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */,
+				D5D325141E712B150057F636 /* LMYGBOrderChooseCell.h */,
+				D5D325151E712B150057F636 /* LMYGBOrderChooseCell.m */,
 			);
 			name = YaoGuoBi;
 			sourceTree = "<group>";
@@ -4217,6 +4237,7 @@
 				35B747AD1DDE97F3000AFA26 /* LMArticeDeleteRequest.m in Sources */,
 				D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */,
 				35B748251DDE97F4000AFA26 /* LMMyLivingHomeCell.m in Sources */,
+				D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */,
 				3524CF7B1E503D8E00651E64 /* FirUploadVideoRequest.m in Sources */,
 				D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */,
 				3533A7841E4D84D00088734A /* AliPlayerControlView.m in Sources */,
@@ -4313,6 +4334,7 @@
 				35B747E41DDE97F4000AFA26 /* LMEventCommentVO.m in Sources */,
 				35B747B31DDE97F3000AFA26 /* LMCommentPraiseRequest.m in Sources */,
 				35B747A61DDE97F3000AFA26 /* LMEventMemberRequest.m in Sources */,
+				D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */,
 				8728E7DA1E6543C3003303F2 /* LMActivityApplyCell.m in Sources */,
 				35B747521DDE97F3000AFA26 /* FitNavigationController.m in Sources */,
 				35B7475C1DDE97F3000AFA26 /* LMLoginViewController.m in Sources */,
@@ -4417,6 +4439,7 @@
 				8728E7DD1E6543C3003303F2 /* LMActivityLifeHouseBtn.m in Sources */,
 				35B747741DDE97F3000AFA26 /* DACircularProgressView.m in Sources */,
 				3540504F1E07BF4F00B11027 /* LMQuestionTableViewCell.m in Sources */,
+				D5D325161E712B150057F636 /* LMYGBOrderChooseCell.m in Sources */,
 				35B747F61DDE97F4000AFA26 /* LMOrderBodyVO.m in Sources */,
 				66A52E931DFBE008000BDFE2 /* LMActivityHeaderView.m in Sources */,
 				35B747681DDE97F3000AFA26 /* LMPersonViewController.m in Sources */,
@@ -4480,6 +4503,7 @@
 				35C218411E03DF83009371F4 /* CustomToolbar.m in Sources */,
 				35B7474C1DDE97F3000AFA26 /* LMPublishViewController.m in Sources */,
 				35B747A41DDE97F3000AFA26 /* LMEventLivingMsgRequest.m in Sources */,
+				D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */,
 				35B747A81DDE97F3000AFA26 /* FitBaseRequest.m in Sources */,
 				35B747C31DDE97F3000AFA26 /* LMBalanceChargeRequest.m in Sources */,
 				35B7480E1DDE97F4000AFA26 /* LMEventMsgCell.m in Sources */,

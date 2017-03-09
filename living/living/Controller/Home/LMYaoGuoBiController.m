@@ -12,8 +12,14 @@
 #import "LMYGBConvertCell.h"
 #import "LMYGBActivityCell.h"
 
-
-@interface LMYaoGuoBiController ()<UITableViewDelegate,UITableViewDataSource>
+#import "BannerVO.h"
+#import "LMBannerrequest.h"
+#import "LMHomeDetailController.h"
+#import "LMActivityDetailController.h"
+#import "LMWebViewController.h"
+#import "LMClassroomDetailViewController.h"
+#import "LMYaoGuoBiConvertController.h"
+@interface LMYaoGuoBiController ()<UITableViewDelegate,UITableViewDataSource,WJLoopViewDelegate>
 
 @end
 
@@ -21,13 +27,45 @@
 {
     UIView * headView;
     
-
+    NSArray * _bannerArray;
+    NSMutableArray  *stateArray;
 }
 
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        
+        self.ifRemoveLoadNoState        = NO;
+        self.ifShowTableSeparator       = NO;
+        
+    }
+    
+    return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.listData.count == 0) {
+        
+        [self loadNoState];
+    }
+
+    if (!_bannerArray || _bannerArray.count == 0) {
+        
+        [self getBannerDataRequest];
+    }
+    
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [self createUI];
+
+    [self getBannerDataRequest];
+    [self loadNewer];
 
 }
 
@@ -35,40 +73,123 @@
     [super createUI];
     
     self.navigationItem.title = @"Yao·果币";
-    
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*8/15+42+10)];
+    self.view.backgroundColor = [UIColor whiteColor];
+    CGFloat h = kScreenWidth*3/5+42+10;
+    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, h)];
     headView.backgroundColor = BG_GRAY_COLOR;
+    
     self.tableView.tableHeaderView = headView;
+}
+
+- (void)addHeadSubViews{
     
-    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headView.frame)-52, kScreenWidth, 42)];
-    label.backgroundColor = [UIColor whiteColor];
-    label.text = @"";
-    [headView addSubview:label];
+    CGFloat h = kScreenWidth*3/5+42+10;
+    //您的腰果币
+    UIView * back = [[UIView alloc] initWithFrame:CGRectMake(0, h-52, kScreenWidth, 42)];
+    back.backgroundColor = [UIColor whiteColor];
+    [headView addSubview:back];
     
-    UIImageView * ygIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 42)];
+    UIImageView * ygIcon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 24, 42)];
     ygIcon.backgroundColor = [UIColor whiteColor];
-    ygIcon.image = [UIImage imageNamed:@""];
-    [label addSubview:ygIcon];
+    ygIcon.image = [UIImage imageNamed:@"yaoguobi"];
+    [back addSubview:ygIcon];
     
     UILabel * ygb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(ygIcon.frame)+10, 11, 100, 20)];
     ygb.text = @"您的腰果币";
     ygb.textColor = TEXT_COLOR_LEVEL_3;
     ygb.font = TEXT_FONT_LEVEL_1;
     ygb.textAlignment = NSTextAlignmentLeft;
-    [label addSubview:ygb];
+    [back addSubview:ygb];
     
     UILabel * number = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-90, 11, 80, 20)];
     number.text = @"1934颗";
     number.textColor = TEXT_COLOR_LEVEL_3;
     number.font = TEXT_FONT_LEVEL_1;
     number.textAlignment = NSTextAlignmentRight;
-    [label addSubview:number];
+    [back addSubview:number];
     
-    UILabel * gapLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), kScreenWidth, 10)];
+    UILabel * gapLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(back.frame), kScreenWidth, 10)];
     gapLabel.backgroundColor = BG_GRAY_COLOR;
     [headView addSubview:gapLabel];
+
     
+}
+#pragma mark - 请求数据
+- (void)getBannerDataRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
     
+    LMBannerrequest *request = [[LMBannerrequest alloc] init];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   
+                                                   NSDictionary *bodyDict   = [VOUtil parseBody:resp];
+                                                   
+                                                   NSString     *result     = [bodyDict objectForKey:@"result"];
+                                                   
+                                                   if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
+                                                       
+                                                       _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
+                                                       
+                                                       if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
+                                                           
+                                                           headView.backgroundColor = BG_GRAY_COLOR;
+                                                       } else {
+                                                           
+                                                           for (UIView *subView in headView.subviews) {
+                                                               
+                                                               [subView removeFromSuperview];
+                                                           }
+                                                           
+                                                           NSMutableArray   *imgUrls    = [NSMutableArray new];
+                                                           stateArray  = [NSMutableArray new];
+                                                           
+                                                           for (BannerVO *vo in _bannerArray) {
+                                                               
+                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
+                                                                   
+                                                                   [imgUrls addObject:vo.LinkUrl];
+                                                               }
+                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
+                                                                   
+                                                                   [stateArray addObject:vo.KeyUUID];
+                                                               }
+                                                           }
+                                                           
+                                                           WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
+                                                                                                           delegate:self
+                                                                                                          imageURLs:imgUrls
+                                                                                                   placeholderImage:nil
+                                                                                                       timeInterval:8
+                                                                                     currentPageIndicatorITintColor:nil
+                                                                                             pageIndicatorTintColor:nil];
+                                                           
+                                                           loopView.location = WJPageControlAlignmentRight;
+                                                           
+                                                           [headView addSubview:loopView];
+                                                           [self addHeadSubViews];
+                                                       }
+                                                   }
+                                               });
+                                               
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+- (FitBaseRequest *)request{
+    FitBaseRequest * req = [[FitBaseRequest alloc] initWithNone];
+    return  req;
 }
 
 
@@ -78,6 +199,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 1) {
+        return 5;
+    }
     return 1;
 }
 
@@ -140,7 +264,7 @@
         if (!cell) {
             cell = [[LMYGBConvertCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     if (indexPath.section == 1) {
@@ -148,9 +272,86 @@
         if (!cell) {
             cell = [[LMYGBActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"aCell"];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:nil];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    LMYaoGuoBiConvertController * ygbConvert = [[LMYaoGuoBiConvertController alloc] init];
+    [self.navigationController pushViewController:ygbConvert animated:YES];
+    
+    
+    
+}
+
+#pragma mark scrollview代理函数
+
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
+{
+    if (_bannerArray.count>index) {
+        
+        BannerVO *vo = _bannerArray[index];
+        //活动
+        if ([vo.Type isEqualToString:@"event"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]){
+                
+                LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.eventUuid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        //文章
+        if ([vo.Type isEqualToString:@"article"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+                
+                LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.artcleuuid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        //web
+        if ([vo.Type isEqualToString:@"web"]) {
+            
+            if (vo.webUrl && [vo.webUrl isKindOfClass:[NSString class]] && ![vo.webUrl isEqualToString:@""]) {
+                
+                LMWebViewController *webVC = [[LMWebViewController alloc] init];
+                
+                webVC.hidesBottomBarWhenPushed  = YES;
+                webVC.titleString               = vo.webTitle ;
+                webVC.urlString                 = vo.webUrl;
+                
+                [self.navigationController pushViewController:webVC animated:YES];
+            }
+        }
+        //语音课堂
+        if ([vo.Type isEqualToString:@"voice"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+                
+                LMClassroomDetailViewController *eventVC = [[LMClassroomDetailViewController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.voiceUUid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+    }
 }
 
 @end

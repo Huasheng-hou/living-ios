@@ -12,13 +12,21 @@
 #import "LMArtcleTypeListRequest.h"
 #import "LMActicleVO.h"
 
+#import "LMHomeDetailController.h"
+#import "LMHomeVoiceDetailController.h"
+#import "LMBannerrequest.h"
+#import "BannerVO.h"
+
 #define PAGER_SIZE 20
 @interface LMBannerDetailCommonController ()<UITableViewDelegate, UITableViewDataSource>
 @end
 
 @implementation LMBannerDetailCommonController{
-    
+
     NSString * _type;
+
+    
+    
 }
 - (id)initWithType:(NSString *)type
 {
@@ -41,6 +49,8 @@
         
         [self loadNoState];
     }
+    
+    
 }
 
 - (void)viewDidLoad {
@@ -64,6 +74,7 @@
 
 
 #pragma mark - 数据请求
+
 - (FitBaseRequest *)request
 {
     LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:_type];
@@ -122,4 +133,38 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (self.listData.count > indexPath.row) {
+        
+        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
+        
+        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+            
+            if (vo.group&&[vo.group isEqualToString:@"article"]) {
+                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            
+            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            
+            
+        }
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 @end
