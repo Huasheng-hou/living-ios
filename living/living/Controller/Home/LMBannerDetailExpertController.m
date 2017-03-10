@@ -15,10 +15,15 @@
 @end
 
 @implementation LMBannerDetailExpertController
+- (instancetype)init{
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor greenColor];
     
     
     [self createUI];
@@ -27,7 +32,7 @@
 - (void)createUI{
     
     [super createUI];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.separatorStyle = UITableViewCellEditingStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 102, 0);

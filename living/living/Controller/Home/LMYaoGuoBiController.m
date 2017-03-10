@@ -19,6 +19,8 @@
 #import "LMWebViewController.h"
 #import "LMClassroomDetailViewController.h"
 #import "LMYaoGuoBiConvertController.h"
+
+#import "LMArtcleTypeListRequest.h"
 @interface LMYaoGuoBiController ()<UITableViewDelegate,UITableViewDataSource,WJLoopViewDelegate>
 
 @end
@@ -188,8 +190,8 @@
     [proxy start];
 }
 - (FitBaseRequest *)request{
-    FitBaseRequest * req = [[FitBaseRequest alloc] initWithNone];
-    return  req;
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:@"幸福情商"];
+    return  request;
 }
 
 

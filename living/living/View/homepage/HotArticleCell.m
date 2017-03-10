@@ -29,19 +29,22 @@
 }
 
 - (void)setValue:(LMActicleVO *)list{
-    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货"];
-    NSInteger index = [typeList indexOfObject:_type];
+    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"];
+    NSInteger index = [typeList indexOfObject:list.type];
     
-    NSArray * preTitle = @[@"腰·美丽 丨 ", @"腰·健康 丨 ", @"腰·美食 丨 ", @"腰·幸福 丨 "];
-    NSArray * newType = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福"];
+    if (index >= 4) {
+        index = 3;
+    }
+    NSArray * preTitle = @[@"腰·幸福 丨 ", @"腰·美丽 丨 ", @"腰·健康 丨 ", @"腰·美食 丨 ", @"腰·幸福 丨 "];
+    NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
     [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     backImage.contentMode = UIViewContentModeScaleAspectFill;
     backImage.clipsToBounds = YES;
     title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
     
+    [icon sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    name.text = list.articleName;
     tag.text = newType[index];
-    
-    NSLog(@"%@", list);
     
 }
 

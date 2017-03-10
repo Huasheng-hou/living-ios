@@ -95,11 +95,6 @@ WJLoopViewDelegate
         
         [self loadNoState];
     }
-    
-    if (!_bannerArray || _bannerArray.count == 0) {
-        
-        //[self getBannerDataRequest];
-    }
 }
 
 - (void)viewDidLoad
@@ -110,7 +105,6 @@ WJLoopViewDelegate
     
     [self creatUI];
     
-    //[self getBannerDataRequest];
     [self loadNewer];
 }
 
@@ -161,79 +155,21 @@ WJLoopViewDelegate
     LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
     [self.navigationController pushViewController:publicVC animated:YES];
 }
-
-- (void)getBannerDataRequest
-{
+#pragma mark - 数据请求
+//推荐
+- (void)getRecommendArticleRequest{
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
     
-    LMBannerrequest *request = [[LMBannerrequest alloc] init];
     
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   
-                                                   NSDictionary *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   NSString     *result     = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
-                                                       
-                                                       _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
-                                                       
-                                                       if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
-                                                           
-                                                           headView.backgroundColor = BG_GRAY_COLOR;
-                                                       } else {
-                                                           
-                                                           for (UIView *subView in headView.subviews) {
-                                                               
-                                                               [subView removeFromSuperview];
-                                                           }
-                                                           
-                                                           NSMutableArray   *imgUrls    = [NSMutableArray new];
-                                                           stateArray  = [NSMutableArray new];
-                                                           
-                                                           for (BannerVO *vo in _bannerArray) {
-                                                               
-                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
-                                                                   
-                                                                   [imgUrls addObject:vo.LinkUrl];
-                                                               }
-                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
-                                                                   
-                                                                   [stateArray addObject:vo.KeyUUID];
-                                                               }
-                                                           }
-                                                           
-                                                           WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
-                                                                                                           delegate:self
-                                                                                                          imageURLs:imgUrls
-                                                                                                   placeholderImage:nil
-                                                                                                       timeInterval:8
-                                                                                     currentPageIndicatorITintColor:nil
-                                                                                             pageIndicatorTintColor:nil];
-                                                           
-                                                           loopView.location = WJPageControlAlignmentRight;
-                                                           
-                                                           [headView addSubview:loopView];
-                                                       }
-                                                   }
-                                               });
-                                               
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    
 }
 
+//热门文章  --  原首页文章列表
 - (FitBaseRequest *)request
 {
     LMHomelistequest    *request    = [[LMHomelistequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
@@ -243,6 +179,7 @@ WJLoopViewDelegate
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
+    
     NSString        *franchisee;
     NSDictionary    *bodyDic        = [VOUtil parseBody:resp];
     
@@ -283,9 +220,6 @@ WJLoopViewDelegate
 #pragma mark banner代理函数
 - (void)gotoNextPage:(NSInteger)index{
     
-    
-    
-
         switch (index) {
         case 10:
         {
@@ -445,7 +379,7 @@ WJLoopViewDelegate
         return 2;
     }
     if (section == 1) {
-        return 4;
+        return self.listData.count;
     }
     return 0;
 }
@@ -506,13 +440,6 @@ WJLoopViewDelegate
     return headerView;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    
-//    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.size.width, 10)];
-//    view.backgroundColor = [UIColor whiteColor];
-//    
-//    return view;
-//}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
@@ -531,6 +458,15 @@ WJLoopViewDelegate
             cell = [[HotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.listData.count > indexPath.row) {
+            
+            LMActicleVO     *vo = self.listData[indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+                
+                [(HotArticleCell *)cell setValue:vo];
+            }
+        }
         return cell;
     }
     
@@ -568,36 +504,40 @@ WJLoopViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (self.listData.count > indexPath.row) {
-//        
-//        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
-//        
-//        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-//            
-//            if (vo.group&&[vo.group isEqualToString:@"article"]) {
-//                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-//                
-//                detailVC.hidesBottomBarWhenPushed = YES;
-//                detailVC.artcleuuid = vo.articleUuid;
-//                detailVC.franchisee = vo.franchisee;
-//                detailVC.sign = vo.sign;
-//                [self.navigationController pushViewController:detailVC animated:YES];
-//            }
-//            
-//            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
-//                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
-//                
-//                detailVC.hidesBottomBarWhenPushed = YES;
-//                detailVC.artcleuuid = vo.articleUuid;
-//                detailVC.franchisee = vo.franchisee;
-//                detailVC.sign = vo.sign;
-//                [self.navigationController pushViewController:detailVC animated:YES];
-//            }
-//            
-//
-//        }
-//    }
-//    
+    if (indexPath.section == 1) {
+        
+        if (self.listData.count > indexPath.row) {
+            
+            LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+                
+                if (vo.group&&[vo.group isEqualToString:@"article"]) {
+                    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    detailVC.artcleuuid = vo.articleUuid;
+                    detailVC.franchisee = vo.franchisee;
+                    detailVC.sign = vo.sign;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                    LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    detailVC.artcleuuid = vo.articleUuid;
+                    detailVC.franchisee = vo.franchisee;
+                    detailVC.sign = vo.sign;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                
+            }
+        }
+
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }

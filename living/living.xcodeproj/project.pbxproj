@@ -513,6 +513,7 @@
 		8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */; };
 		8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */; };
 		8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */; };
+		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
 		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
 		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
@@ -1552,6 +1553,8 @@
 		8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
+		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
+		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
 		D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYaoGuoBiController.h; sourceTree = "<group>"; };
 		D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYaoGuoBiController.m; sourceTree = "<group>"; };
 		D542F3C01E6FEE8000CDB2EB /* LMYGBConvertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBConvertCell.h; sourceTree = "<group>"; };
@@ -3081,6 +3084,8 @@
 				35B745DC1DDE97F3000AFA26 /* LMLivingListRequest.m */,
 				35B745DD1DDE97F3000AFA26 /* LMWriterDataRequest.h */,
 				35B745DE1DDE97F3000AFA26 /* LMWriterDataRequest.m */,
+				D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */,
+				D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -4298,6 +4303,7 @@
 				35B7470E1DDE97F3000AFA26 /* base64.m in Sources */,
 				35B747B81DDE97F3000AFA26 /* LMWriterDataRequest.m in Sources */,
 				8728E7E01E6544B7003303F2 /* LMActivityViewController.m in Sources */,
+				D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */,
 				359F81961E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m in Sources */,
 				35B748281DDE97F4000AFA26 /* LMRechargeButton.m in Sources */,
 				35B747AC1DDE97F3000AFA26 /* LMArticeDeleteReplyRequst.m in Sources */,

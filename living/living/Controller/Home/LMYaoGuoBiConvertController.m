@@ -10,6 +10,7 @@
 
 #import "FitConsts.h"
 #import "LMSubmitOrderController.h"
+#import "LMArtcleTypeListRequest.h"
 
 @interface LMYaoGuoBiConvertController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -67,8 +68,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 - (FitBaseRequest *)request{
-    FitBaseRequest * req = [[FitBaseRequest alloc] initWithNone];
-    return req;
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:@"幸福情商"];
+    return  request;
 }
 #pragma mark - tableview代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
