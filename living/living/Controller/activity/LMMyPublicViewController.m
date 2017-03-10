@@ -160,7 +160,7 @@ LMMypublicEventCellDelegate
             LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
             
             detailVC.hidesBottomBarWhenPushed = YES;
-            int payNum = [vo.Status intValue];
+            int payNum = [vo.status intValue];
             switch (payNum) {
                 case 1:
                     detailVC.type = @"正报名";
@@ -186,8 +186,8 @@ LMMypublicEventCellDelegate
                 default:
                     break;
             }
-            detailVC.eventUuid  = vo.EventUuid;
-            detailVC.titleStr   = vo.EventName;
+            detailVC.eventUuid  = vo.eventUuid;
+            detailVC.titleStr   = vo.eventName;
             
             [self.navigationController pushViewController:detailVC animated:YES];
         }
@@ -209,7 +209,7 @@ LMMypublicEventCellDelegate
 {
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
     LMMemberListViewController *memberVC = [[LMMemberListViewController alloc] init];
-    memberVC.eventUuid = vo.EventUuid;
+    memberVC.eventUuid = vo.eventUuid;
     
     [self.navigationController pushViewController:memberVC animated:YES];
     
@@ -224,7 +224,7 @@ LMMypublicEventCellDelegate
         return;
     }
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
-    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:vo.EventUuid];
+    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:vo.eventUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -269,7 +269,7 @@ LMMypublicEventCellDelegate
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
 
     
-    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:vo.EventUuid];
+    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:vo.eventUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -308,7 +308,7 @@ LMMypublicEventCellDelegate
 - (void)cellWilldelete:(LMMypublicEventCell *)cell
 {
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
-    NSString *uuid = vo.EventUuid;
+    NSString *uuid = vo.eventUuid;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:@"是否删除"

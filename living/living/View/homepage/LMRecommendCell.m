@@ -8,6 +8,8 @@
 
 #import "LMRecommendCell.h"
 #import "FitConsts.h"
+#import "LMRecommendVO.h"
+#import "UIImageView+WebCache.h"
 @implementation LMRecommendCell
 {
     UIImageView *imageView;
@@ -77,12 +79,23 @@
     tag.layer.cornerRadius = 2;
     tag.font = TEXT_FONT_LEVEL_4 ;
     [backView addSubview:tag];
+}
+
+
+- (void)setValue:(LMRecommendVO *)vo{
     
+    //[imageView sd_setImageWithURL:[NSURL URLWithString:vo.] placeholderImage:nil];
     
+    title.text = vo.articleTitle;
+    summary.text = vo.articleContent;
+    [icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:nil];
     
+    name.text = vo.articleName;
     
-    
+    NSLog(@"%@", vo.type);
+    //tag.text = vo.type;
     
 }
+
 
 @end

@@ -39,9 +39,28 @@
     return self;
 }
 
+- (void)setType:(NSInteger)type{
+    _type = type;
+    
+    if (type == 1) {
+        NSLog(@"活动");
+        _teacher.text = @"费用 ¥68/人";
+        _assistant.text = @"截止至02-14";
+        [_appointment setTitle:@"火热预定中" forState:UIControlStateNormal];
+        
+        
+    }
+    else if (type == 2)
+    {
+        NSLog(@"课程");
+    }
+    
+    
+}
+
 - (void)addSubViews{
     
-    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 210)];
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 210-35)];
     backView.backgroundColor = [UIColor whiteColor];
     backView.userInteractionEnabled = YES;
     [self.contentView addSubview:backView];
@@ -65,7 +84,7 @@
     _microPhone = [[UIImageView alloc] initWithFrame:CGRectMake(topView.bounds.size.width/2-90, CGRectGetMaxY(_title.frame)+10, 8, 15)];
     //_microPhone.backgroundColor = BG_GRAY_COLOR;
     _microPhone.image = [UIImage imageNamed:@"zan-black"];
-    [topView addSubview:_microPhone];
+    //[topView addSubview:_microPhone];
     
     _teacher = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_microPhone.frame)+2, CGRectGetMinY(_microPhone.frame), 80, 15)];
     _teacher.text = @"讲师：李莺莺";
@@ -77,7 +96,7 @@
     _helper = [[UIImageView alloc] initWithFrame:CGRectMake(topView.bounds.size.width/2, CGRectGetMinY(_microPhone.frame), 8, 15)];
     //_helper.backgroundColor = BG_GRAY_COLOR;
     _helper.image = [UIImage imageNamed:@"zan-black"];
-    [topView addSubview:_helper];
+    //[topView addSubview:_helper];
     
     _assistant = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_helper.frame)+2, CGRectGetMinY(_helper.frame), 100, 15)];
     _assistant.text = @"助理讲师：圆圆";
@@ -101,37 +120,37 @@
     
     
     //bottom
-    UIView * botView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), backView.frame.size.width, 35)];
-    botView.backgroundColor = [UIColor whiteColor];
-    botView.userInteractionEnabled = YES;
-    [backView addSubview:botView];
-    
-    UIView * contentView = [[UIView alloc] initWithFrame:CGRectMake(botView.bounds.size.width-170, 10, 170, 15)];
-    contentView.backgroundColor = [UIColor whiteColor];
-    contentView.userInteractionEnabled = YES;
-    [botView addSubview:contentView];
-    
-    NSArray * imageNames = @[@"zan-black", @"comment", @"shareIcon-1"];
-    NSArray * tagNames = @[@"点赞", @"评论", @"分享"];
-    for (int i=0; i<imageNames.count; i++) {
-        
-        UIImageView * tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(i*65, 0, 15, 15)];
-        tagImage.tag = 120+i;
-        tagImage.backgroundColor = [UIColor whiteColor];
-        tagImage.image = [UIImage imageNamed:imageNames[i]];
-        tagImage.userInteractionEnabled = YES;
-        [contentView addSubview:tagImage];
-        
-        UILabel * tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(18+i*65, 0, 22, 15)];
-        tagLabel.text = tagNames[i];
-        tagLabel.textColor = TEXT_COLOR_LEVEL_4;
-        tagLabel.font = TEXT_FONT_LEVEL_4;
-        [contentView addSubview:tagLabel];
-        
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-        [tagImage addGestureRecognizer:tap];
-        
-    }
+//    UIView * botView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), backView.frame.size.width, 35)];
+//    botView.backgroundColor = [UIColor whiteColor];
+//    botView.userInteractionEnabled = YES;
+//    [backView addSubview:botView];
+//    
+//    UIView * contentView = [[UIView alloc] initWithFrame:CGRectMake(botView.bounds.size.width-170, 10, 170, 15)];
+//    contentView.backgroundColor = [UIColor whiteColor];
+//    contentView.userInteractionEnabled = YES;
+//    [botView addSubview:contentView];
+//    
+//    NSArray * imageNames = @[@"zan-black", @"comment", @"shareIcon-1"];
+//    NSArray * tagNames = @[@"点赞", @"评论", @"分享"];
+//    for (int i=0; i<imageNames.count; i++) {
+//        
+//        UIImageView * tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(i*65, 0, 15, 15)];
+//        tagImage.tag = 120+i;
+//        tagImage.backgroundColor = [UIColor whiteColor];
+//        tagImage.image = [UIImage imageNamed:imageNames[i]];
+//        tagImage.userInteractionEnabled = YES;
+//        [contentView addSubview:tagImage];
+//        
+//        UILabel * tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(18+i*65, 0, 22, 15)];
+//        tagLabel.text = tagNames[i];
+//        tagLabel.textColor = TEXT_COLOR_LEVEL_4;
+//        tagLabel.font = TEXT_FONT_LEVEL_4;
+//        [contentView addSubview:tagLabel];
+//        
+//        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+//        [tagImage addGestureRecognizer:tap];
+//        
+//    }
     
     
 }

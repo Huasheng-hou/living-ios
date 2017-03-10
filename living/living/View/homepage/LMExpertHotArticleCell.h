@@ -11,5 +11,6 @@
 
 @interface LMExpertHotArticleCell : UITableViewCell
 
+@property (nonatomic, assign) NSInteger type;
 
 @end

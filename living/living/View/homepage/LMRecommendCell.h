@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class LMRecommendVO;
 @interface LMRecommendCell : UITableViewCell
+
+- (void)setValue:(LMRecommendVO *)vo;
 
 @end

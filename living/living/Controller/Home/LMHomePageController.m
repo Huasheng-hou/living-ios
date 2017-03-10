@@ -34,6 +34,8 @@
 #import "LMBannerDetailMakerController.h"
 #import "LMYaoGuoBiController.h"
 
+#import "LMRecommendArticleRequest.h"
+#import "LMRecommendVO.h"
 
 #define PAGER_SIZE      20
 
@@ -61,6 +63,7 @@ WJLoopViewDelegate
     
     NSArray * sectionList;
     
+    NSArray * _recommendArray;
 }
 
 @end
@@ -105,6 +108,7 @@ WJLoopViewDelegate
     
     [self creatUI];
     
+    [self getRecommendArticleRequest];
     [self loadNewer];
 }
 
@@ -164,8 +168,58 @@ WJLoopViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    LMRecommendArticleRequest * request = [[LMRecommendArticleRequest alloc] init];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+
+                                             [self performSelectorOnMainThread:@selector(parseData:)
+                                                                    withObject:resp
+                                                                 waitUntilDone:YES];
+                                         }
+                                            failed:^(NSError *error) {
+                                                NSLog(@"error:%@", error.localizedDescription);
+                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                       withObject:@"网络错误"
+                                                                    waitUntilDone:YES];
+                                            }];
     
     
+    [proxy start];
+}
+- (void)parseData:(NSString *)resp{
+    
+    NSString * franchisee;
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    NSLog(@"%@", bodyDic);
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary * respDict = [NSJSONSerialization JSONObjectWithData:respData
+                                                              options:NSJSONReadingMutableLeaves
+                                                                error:nil];
+    NSDictionary * headDict = [respDict objectForKey:@"head"];
+    NSString * returnCode = [headDict objectForKey:@"returnCode"];
+    NSLog(@"%@", headDict);
+    if ([returnCode isEqualToString:@"000"])
+    {
+        if ([headDict objectForKey:@"franchisee"] && ![[headDict objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[headDict objectForKey:@"franchisee"] isKindOfClass:[NSString class]] && [headDict[@"franchisee"] isEqual:@"yes"]) {
+            
+            franchisee = @"yes";
+        }
+    }
+    NSString    *result         = [bodyDic objectForKey:@"result"];
+    NSString    *description    = [bodyDic objectForKey:@"description"];
+    
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
+        
+        self.max    = [[bodyDic objectForKey:@"total"] intValue];
+        
+        _recommendArray = [LMRecommendVO LMRecommendVOListWithArray:[bodyDic objectForKey:@"list"]];
+        
+    } else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
+    }
+
     
 }
 
@@ -449,6 +503,10 @@ WJLoopViewDelegate
             cell = [[LMRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        LMRecommendVO * vo = _recommendArray[indexPath.row];
+        if (vo) {
+            [(LMRecommendCell *)cell setValue:vo];
+        }
         return cell;
     }
     if (indexPath.section == 1) {

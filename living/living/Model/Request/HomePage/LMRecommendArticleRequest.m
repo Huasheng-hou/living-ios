@@ -10,7 +10,7 @@
 
 @implementation LMRecommendArticleRequest
 
--(id)initWithArticle_uuid:(NSString *)article_uuid Commentcontent:(NSString *)comment_content
+-(id)init
 
 {
     self = [super init];
@@ -19,29 +19,15 @@
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-        if (article_uuid){
-            [bodyDict setObject:article_uuid forKey:@"article_uuid"];
-        }
-        if (comment_content){
-            [bodyDict setObject:comment_content forKey:@"comment_content"];
-        }
-        
-        
-        
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
     }
     return self;
 }
 
-- (BOOL)isPost
-{
-    return YES;
-}
-
 - (NSString *)methodPath
 {
-    return @"article/comment";
+    return @"article/recommend";
 }
 
 

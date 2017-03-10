@@ -164,43 +164,43 @@
     
     _ActivityList   = ActivityList;
     if (index==2) {
-        if (!_ActivityList.NickName) {
+        if (!_ActivityList.nickName) {
             
             _nameLabel.text = @"匿名商户";
         } else {
             
-            _nameLabel.text = _ActivityList.NickName;
+            _nameLabel.text = _ActivityList.nickName;
         }
-        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
-        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-        _addressLabel.text  = _ActivityList.Address;
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.eventImg]];
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        _addressLabel.text  = _ActivityList.address;
         _backView.hidden = YES;
         _upStore.hidden = YES;
         
     }else if (index== 3) {
-        if (!_ActivityList.NickName) {
+        if (!_ActivityList.nickName) {
             
             _nameLabel.text = @"匿名商户";
         } else {
             
-            _nameLabel.text = _ActivityList.NickName;
+            _nameLabel.text = _ActivityList.nickName;
         }
-        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
-        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-        _addressLabel.text  = _ActivityList.Address;
-        _titleLabel.text = _ActivityList.EventName;
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.eventImg]];
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        _addressLabel.text  = _ActivityList.address;
+        _titleLabel.text = _ActivityList.eventName;
         
         NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
         
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         
-        if (_ActivityList.StartTime && [_ActivityList.StartTime isKindOfClass:[NSDate class]]) {
+        if (_ActivityList.startTime && [_ActivityList.startTime isKindOfClass:[NSDate class]]) {
             
-            _timeLabel.text = [formatter stringFromDate:_ActivityList.StartTime];
+//            _timeLabel.text = [formatter stringFromDate:_ActivityList.startTime];
         }
+        _timeLabel.text = ActivityList.startTime;
         
-        
-        _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+        _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.perCost];
         
         if (_ActivityList.discount&&![_ActivityList.discount isEqualToString:@""]) {
             _couponLabel.text = [NSString stringWithFormat:@"会员:￥%@/人",_ActivityList.discount];
@@ -211,30 +211,31 @@
         
     }else{
         _upStore.hidden = YES;
-        if (!_ActivityList.NickName) {
+        if (!_ActivityList.nickName) {
             
             _nameLabel.text = @"匿名商户";
         } else {
             
-            _nameLabel.text = _ActivityList.NickName;
+            _nameLabel.text = _ActivityList.nickName;
         }
         
-        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.EventImg]];
-        _addressLabel.text  = _ActivityList.Address;
-        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.Avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-        _titleLabel.text = _ActivityList.EventName;
+        [_imageV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.eventImg]];
+        _addressLabel.text  = _ActivityList.address;
+        [_headV sd_setImageWithURL:[NSURL URLWithString:_ActivityList.avatar] placeholderImage:[UIImage imageNamed:@"headIcon"]];
+        _titleLabel.text = _ActivityList.eventName;
         
         NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
         
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         
-        if (_ActivityList.StartTime && [_ActivityList.StartTime isKindOfClass:[NSDate class]]) {
+        if (_ActivityList.startTime && [_ActivityList.startTime isKindOfClass:[NSDate class]]) {
             
-            _timeLabel.text = [formatter stringFromDate:_ActivityList.StartTime];
+            //_timeLabel.text = [formatter stringFromDate:_ActivityList.startTime];
         }
+        _timeLabel.text = ActivityList.startTime;
         
-        _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.CurrentNumber stringValue], [_ActivityList.TotalNumber stringValue]];
-        _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.PerCost];
+        _countLabel.text = [NSString stringWithFormat:@"%@/%@人已报名参加", [_ActivityList.currentNumber stringValue], [_ActivityList.totalNumber stringValue]];
+        _priceLabel.text =[NSString stringWithFormat:@"￥%@/人", _ActivityList.perCost];
         
         if (_ActivityList.discount&&![_ActivityList.discount isEqualToString:@""]) {
             _couponLabel.text = [NSString stringWithFormat:@"会员:￥%@/人",_ActivityList.discount];

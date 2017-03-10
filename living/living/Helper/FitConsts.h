@@ -54,7 +54,8 @@
 #define DATE_TIME_FORMAT        @"yyyy-MM-dd HH:mm:ss"
 
 //----------------字号分级------------------
-
+#define TEXT_FONT_LEVEL_S2           [UIFont systemFontOfSize:20]
+#define TEXT_FONT_LEVEL_S1           [UIFont systemFontOfSize:18]
 #define TEXT_FONT_LEVEL_1           [UIFont systemFontOfSize:16]
 #define TEXT_FONT_LEVEL_2           [UIFont systemFontOfSize:14]
 #define TEXT_FONT_LEVEL_3           [UIFont systemFontOfSize:12]

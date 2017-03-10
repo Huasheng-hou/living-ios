@@ -130,22 +130,22 @@
 
 - (void)setActivityList:(ActivityListVO *)list
 {
-    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.EventImg]];
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
     
-    if (list.createTime&&![list.createTime isEqual:@""]) {
-        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.createTime];
-    }else{
-        _timeLabel.text =@"创建时间：";
-    }
+//    if (list.createTime&&![list.createTime isEqual:@""]) {
+//        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.createTime];
+//    }else{
+//        _timeLabel.text =@"创建时间：";
+//    }
     
     
-    _titleLabel.text = list.eventDetail;
-    _orderNumLabel.text = list.EventName;
+    //_titleLabel.text = list.eventDetail;
+    _orderNumLabel.text = list.eventName;
     
-    if ([list.TotalNumber isEqual:@""]||list.TotalNumber==nil) {
+    if ([list.totalNumber isEqual:@""]||list.totalNumber==nil) {
      _numLabel.text = @"报名人数";
     }else{
-       NSString  *text =[NSString stringWithFormat:@"报名人数:%@/%@人",[list.joinNum stringValue],[list.TotalNumber stringValue]];
+       NSString  *text =[NSString stringWithFormat:@"报名人数:%@/%@人",[list.currentNumber stringValue],[list.totalNumber stringValue]];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:text];
         
         [str addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0,5)];
@@ -161,7 +161,7 @@
     
     [cellView addSubview:_payButton];
     
-    int payNum = [list.Status intValue];
+    int payNum = [list.status intValue];
     
     switch (payNum) {
         case 1:

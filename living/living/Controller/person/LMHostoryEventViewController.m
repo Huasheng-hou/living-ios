@@ -249,8 +249,8 @@ FitDatePickerDelegate
             
             detailVC.hidesBottomBarWhenPushed = YES;
             
-            detailVC.eventUuid  = vo.EventUuid;
-            detailVC.titleStr   = vo.EventName;
+            detailVC.eventUuid  = vo.eventUuid;
+            detailVC.titleStr   = vo.eventName;
             
             [self.navigationController pushViewController:detailVC animated:YES];
         }
@@ -354,7 +354,7 @@ FitDatePickerDelegate
     
     
     
-    LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.EventUuid andstart_time:hostoryView.startButton.textLabel.text andend_time:hostoryView.finishButton.textLabel.text];
+    LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.eventUuid andstart_time:hostoryView.startButton.textLabel.text andend_time:hostoryView.finishButton.textLabel.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

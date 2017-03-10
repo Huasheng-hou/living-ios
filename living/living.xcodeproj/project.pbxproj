@@ -514,6 +514,12 @@
 		8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */; };
 		8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */; };
 		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
+		D52149B21E725319006890CE /* LMRecommendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B11E725319006890CE /* LMRecommendVO.m */; };
+		D52149B51E7284EE006890CE /* LMCategoryArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */; };
+		D52149BF1E728B13006890CE /* LMNewHotArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149BE1E728B13006890CE /* LMNewHotArticleCell.m */; };
+		D52149C21E729591006890CE /* LMExpertListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149C11E729591006890CE /* LMExpertListController.m */; };
+		D52149C51E7296C3006890CE /* LMAllExpertListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149C41E7296C3006890CE /* LMAllExpertListCell.m */; };
+		D52149C81E72AFBD006890CE /* LMQingMakerController.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149C71E72AFBD006890CE /* LMQingMakerController.m */; };
 		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
 		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
@@ -1555,6 +1561,18 @@
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
 		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
+		D52149B01E725319006890CE /* LMRecommendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendVO.h; sourceTree = "<group>"; };
+		D52149B11E725319006890CE /* LMRecommendVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendVO.m; sourceTree = "<group>"; };
+		D52149B31E7284EE006890CE /* LMCategoryArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCategoryArticleRequest.h; sourceTree = "<group>"; };
+		D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCategoryArticleRequest.m; sourceTree = "<group>"; };
+		D52149BD1E728B13006890CE /* LMNewHotArticleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMNewHotArticleCell.h; sourceTree = "<group>"; };
+		D52149BE1E728B13006890CE /* LMNewHotArticleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNewHotArticleCell.m; sourceTree = "<group>"; };
+		D52149C01E729591006890CE /* LMExpertListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMExpertListController.h; path = ../../View/homepage/LMExpertListController.h; sourceTree = "<group>"; };
+		D52149C11E729591006890CE /* LMExpertListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMExpertListController.m; path = ../../View/homepage/LMExpertListController.m; sourceTree = "<group>"; };
+		D52149C31E7296C3006890CE /* LMAllExpertListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAllExpertListCell.h; sourceTree = "<group>"; };
+		D52149C41E7296C3006890CE /* LMAllExpertListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAllExpertListCell.m; sourceTree = "<group>"; };
+		D52149C61E72AFBD006890CE /* LMQingMakerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMQingMakerController.h; sourceTree = "<group>"; };
+		D52149C71E72AFBD006890CE /* LMQingMakerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMQingMakerController.m; sourceTree = "<group>"; };
 		D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYaoGuoBiController.h; sourceTree = "<group>"; };
 		D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYaoGuoBiController.m; sourceTree = "<group>"; };
 		D542F3C01E6FEE8000CDB2EB /* LMYGBConvertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBConvertCell.h; sourceTree = "<group>"; };
@@ -2586,12 +2604,16 @@
 				87B74DFE1E5EB138001E3E57 /* LMBannerDetailCommonController.m */,
 				87B74E001E5EB157001E3E57 /* LMBannerDetailExpertController.h */,
 				87B74E011E5EB157001E3E57 /* LMBannerDetailExpertController.m */,
-				87B74E031E5EB16E001E3E57 /* LMBannerDetailMakerController.h */,
-				87B74E041E5EB16E001E3E57 /* LMBannerDetailMakerController.m */,
-				87B74E091E5EBEDA001E3E57 /* LMSegmentController.h */,
-				87B74E0A1E5EBEDA001E3E57 /* LMSegmentController.m */,
+				D52149C01E729591006890CE /* LMExpertListController.h */,
+				D52149C11E729591006890CE /* LMExpertListController.m */,
 				8746421E1E5FFF4200D2CCDE /* LMExpertDetailController.h */,
 				8746421F1E5FFF4200D2CCDE /* LMExpertDetailController.m */,
+				87B74E031E5EB16E001E3E57 /* LMBannerDetailMakerController.h */,
+				87B74E041E5EB16E001E3E57 /* LMBannerDetailMakerController.m */,
+				D52149C61E72AFBD006890CE /* LMQingMakerController.h */,
+				D52149C71E72AFBD006890CE /* LMQingMakerController.m */,
+				87B74E091E5EBEDA001E3E57 /* LMSegmentController.h */,
+				87B74E0A1E5EBEDA001E3E57 /* LMSegmentController.m */,
 				877290D21E614EF200519550 /* LMSubmitSuccessController.h */,
 				877290D31E614EF200519550 /* LMSubmitSuccessController.m */,
 				D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */,
@@ -3086,6 +3108,8 @@
 				35B745DE1DDE97F3000AFA26 /* LMWriterDataRequest.m */,
 				D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */,
 				D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */,
+				D52149B31E7284EE006890CE /* LMCategoryArticleRequest.h */,
+				D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -3395,6 +3419,7 @@
 		35B746611DDE97F3000AFA26 /* homepage */ = {
 			isa = PBXGroup;
 			children = (
+				D52149AF1E7252EF006890CE /* LMRecommendVO */,
 				351213721DF90A630053B83F /* blendVO */,
 				35B746621DDE97F3000AFA26 /* ArticleBody */,
 				35B746651DDE97F3000AFA26 /* Author */,
@@ -3659,6 +3684,7 @@
 		35B746C51DDE97F3000AFA26 /* homepage */ = {
 			isa = PBXGroup;
 			children = (
+				D52149B61E728A64006890CE /* LMExpert */,
 				D542F3BF1E6FEDEE00CDB2EB /* YaoGuoBi */,
 				35B746C61DDE97F3000AFA26 /* LMCommentButton.h */,
 				35B746C71DDE97F3000AFA26 /* LMCommentButton.m */,
@@ -3676,12 +3702,6 @@
 				8744FEA71E5DA59500F119C9 /* HotArticleCell.m */,
 				87B74DDF1E5E82E3001E3E57 /* LMHomeBannerView.h */,
 				87B74DE01E5E82E3001E3E57 /* LMHomeBannerView.m */,
-				87B74E2F1E5EE4AD001E3E57 /* LMExpertListCell.h */,
-				87B74E301E5EE4AD001E3E57 /* LMExpertListCell.m */,
-				8746421B1E5FCFD000D2CCDE /* LMExpertHotArticleCell.h */,
-				8746421C1E5FCFD000D2CCDE /* LMExpertHotArticleCell.m */,
-				874642211E60031D00D2CCDE /* LMExpertDetailView.h */,
-				874642221E60031D00D2CCDE /* LMExpertDetailView.m */,
 				874642241E60243D00D2CCDE /* LMMakerHeadView.h */,
 				874642251E60243D00D2CCDE /* LMMakerHeadView.m */,
 				877290D51E6153D700519550 /* LMSubmitSuccessView.h */,
@@ -3966,6 +3986,32 @@
 			path = ChatFace;
 			sourceTree = "<group>";
 		};
+		D52149AF1E7252EF006890CE /* LMRecommendVO */ = {
+			isa = PBXGroup;
+			children = (
+				D52149B01E725319006890CE /* LMRecommendVO.h */,
+				D52149B11E725319006890CE /* LMRecommendVO.m */,
+			);
+			path = LMRecommendVO;
+			sourceTree = "<group>";
+		};
+		D52149B61E728A64006890CE /* LMExpert */ = {
+			isa = PBXGroup;
+			children = (
+				87B74E2F1E5EE4AD001E3E57 /* LMExpertListCell.h */,
+				87B74E301E5EE4AD001E3E57 /* LMExpertListCell.m */,
+				8746421B1E5FCFD000D2CCDE /* LMExpertHotArticleCell.h */,
+				8746421C1E5FCFD000D2CCDE /* LMExpertHotArticleCell.m */,
+				D52149BD1E728B13006890CE /* LMNewHotArticleCell.h */,
+				D52149BE1E728B13006890CE /* LMNewHotArticleCell.m */,
+				874642211E60031D00D2CCDE /* LMExpertDetailView.h */,
+				874642221E60031D00D2CCDE /* LMExpertDetailView.m */,
+				D52149C31E7296C3006890CE /* LMAllExpertListCell.h */,
+				D52149C41E7296C3006890CE /* LMAllExpertListCell.m */,
+			);
+			name = LMExpert;
+			sourceTree = "<group>";
+		};
 		D542F3BF1E6FEDEE00CDB2EB /* YaoGuoBi */ = {
 			isa = PBXGroup;
 			children = (
@@ -4222,6 +4268,7 @@
 				35B747AA1DDE97F3000AFA26 /* LMFindListRequest.m in Sources */,
 				35B747F21DDE97F4000AFA26 /* LMActicleVO.m in Sources */,
 				35B747DE1DDE97F4000AFA26 /* LMPushSendRequest.m in Sources */,
+				D52149C51E7296C3006890CE /* LMAllExpertListCell.m in Sources */,
 				35B747E91DDE97F4000AFA26 /* LMBanlanceVO.m in Sources */,
 				35B7473A1DDE97F3000AFA26 /* GetMessageFromWXResp+responseWithTextOrMediaMessage.m in Sources */,
 				35980BDB1E014C340054EB05 /* LMVoiceDeleteRequest.m in Sources */,
@@ -4340,6 +4387,7 @@
 				35B747E41DDE97F4000AFA26 /* LMEventCommentVO.m in Sources */,
 				35B747B31DDE97F3000AFA26 /* LMCommentPraiseRequest.m in Sources */,
 				35B747A61DDE97F3000AFA26 /* LMEventMemberRequest.m in Sources */,
+				D52149C81E72AFBD006890CE /* LMQingMakerController.m in Sources */,
 				D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */,
 				8728E7DA1E6543C3003303F2 /* LMActivityApplyCell.m in Sources */,
 				35B747521DDE97F3000AFA26 /* FitNavigationController.m in Sources */,
@@ -4363,6 +4411,7 @@
 				35B748221DDE97F4000AFA26 /* LMBusinessCell.m in Sources */,
 				35B748131DDE97F4000AFA26 /* LMProjectCell.m in Sources */,
 				87B74DFF1E5EB138001E3E57 /* LMBannerDetailCommonController.m in Sources */,
+				D52149C21E729591006890CE /* LMExpertListController.m in Sources */,
 				35B747491DDE97F3000AFA26 /* LMMemberListViewController.m in Sources */,
 				35B747941DDE97F3000AFA26 /* LMLiveRoomBody.m in Sources */,
 				35816FF41DF7F20E00D062CB /* EditImageView.m in Sources */,
@@ -4422,6 +4471,7 @@
 				8E0E28BD1DF8234100B735BE /* FitChatFunctionView.m in Sources */,
 				35B748341DDE97F4000AFA26 /* LMAgeChooseButton.m in Sources */,
 				359F81841E025F1F0070F6C7 /* LMVoiceMemeberListViewController.m in Sources */,
+				D52149B21E725319006890CE /* LMRecommendVO.m in Sources */,
 				35B747CF1DDE97F4000AFA26 /* LMAliRechargeRequest.m in Sources */,
 				35B747151DDE97F3000AFA26 /* RSADataVerifier.m in Sources */,
 				35B747C41DDE97F3000AFA26 /* LMBalanceListRequest.m in Sources */,
@@ -4522,6 +4572,7 @@
 				35B747101DDE97F3000AFA26 /* DataVerifier.m in Sources */,
 				352905D71DF54E470062196C /* LMLessonViewController.m in Sources */,
 				35B747D71DDE97F4000AFA26 /* LMFranchiseeWchatPayRequest.m in Sources */,
+				D52149BF1E728B13006890CE /* LMNewHotArticleCell.m in Sources */,
 				35C218421E03DF83009371F4 /* KeyBoardAssistView.m in Sources */,
 				35B747C91DDE97F3000AFA26 /* LMOrderListRequest.m in Sources */,
 				35B747431DDE97F3000AFA26 /* FitUserInfoManager.m in Sources */,
@@ -4567,6 +4618,7 @@
 				35B747881DDE97F3000AFA26 /* main.m in Sources */,
 				35B747991DDE97F3000AFA26 /* LMMonthDetailList.m in Sources */,
 				35B747B11DDE97F3000AFA26 /* LMBannerrequest.m in Sources */,
+				D52149B51E7284EE006890CE /* LMCategoryArticleRequest.m in Sources */,
 				35B747BC1DDE97F3000AFA26 /* LMNoticListRequest.m in Sources */,
 				35DCDD451DFE8C8A00813172 /* LMClassroomCell.m in Sources */,
 				35B747B61DDE97F3000AFA26 /* LMLivingHomeListRequest.m in Sources */,

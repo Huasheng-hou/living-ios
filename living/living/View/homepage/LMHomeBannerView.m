@@ -48,6 +48,7 @@
     CGFloat imageHt = 32;
     CGFloat imageCount = 6;
     NSArray * listName = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福", @"Yao·创客", @"Yao·果币"];
+    NSArray * imageNames = @[@"beautiful", @"healthy", @"delicious", @"happiness", @"maker", @"maker"];
     for (int i=0; i<imageCount; i++) {
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(i*cellW, 0, cellW, cellH)];
@@ -58,8 +59,8 @@
         
         
         UIImageView * headImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageX, imageY, imageWd, imageHt)];
-        headImage.image = [UIImage imageNamed:@"banners"];
-        headImage.backgroundColor = BG_GRAY_COLOR;
+        headImage.image = [UIImage imageNamed:imageNames[i]];
+        //headImage.backgroundColor = BG_GRAY_COLOR;
         [backView addSubview:headImage];
         
         UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(0, imageHt+imageY+10, cellW, 15)];

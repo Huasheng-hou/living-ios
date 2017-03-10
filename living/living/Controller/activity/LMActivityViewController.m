@@ -68,7 +68,6 @@ doSomethingForActivityDelegate
 - (id)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
-//    self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         
 //        self.ifRemoveLoadNoState        = NO;
@@ -555,10 +554,6 @@ doSomethingForActivityDelegate
         case 1:
             sectionTitleLbl.text = @"项目";
             break;
-        case 2:
-            sectionTitleLbl.text = @"项目体验";
-            break;
-            
         default:
             break;
     }
@@ -566,10 +561,42 @@ doSomethingForActivityDelegate
     sectionTitleLbl.textColor = TEXT_COLOR_LEVEL_3;
     [sectionTitleView addSubview:sectionTitleLbl];
     
+    UILabel * more = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-100, 12, 90, 15)];
+    more.text = @"更多 >";
+    more.tag = section+100;
+    more.textColor = TEXT_COLOR_LEVEL_3;
+    more.font = TEXT_FONT_LEVEL_2;
+    more.textAlignment = NSTextAlignmentRight;
+    [more addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allList:)]];
+    [sectionTitleView addSubview:more];
     
     return sectionTitleView;
 }
 
+//进入全量列表
+- (void)allList:(UITapGestureRecognizer *)tap{
+    switch (tap.view.tag) {
+        case 100:
+        {
+            NSLog(@"更多活动");
+            
+            
+            
+        }
+            break;
+        case 101:
+        {
+            NSLog(@"更多项目");
+            
+            
+        }
+            break;
+        default:
+            break;
+    }
+    
+    
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     /*
@@ -663,8 +690,8 @@ doSomethingForActivityDelegate
             
             detailVC.hidesBottomBarWhenPushed = YES;
             
-            detailVC.eventUuid  = vo.EventUuid;
-            detailVC.titleStr   = vo.EventName;
+            detailVC.eventUuid  = vo.eventUuid;
+            detailVC.titleStr   = vo.eventName;
             
             [self.navigationController pushViewController:detailVC animated:YES];
         }

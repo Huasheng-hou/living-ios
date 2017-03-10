@@ -59,14 +59,6 @@ static CGFloat const ButtonHeight = 38;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
-//- (void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:animated];
-//
-//    if (self.listData.count == 0) {
-//        
-//        [self loadNoState];
-//    }
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

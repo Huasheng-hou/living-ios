@@ -41,6 +41,7 @@
 - (NSString *)methodPath
 {
     return @"article/typeOfAll";//分类下所有文章
+//    return @"category/articles"; //3.0
 }
 
 @end

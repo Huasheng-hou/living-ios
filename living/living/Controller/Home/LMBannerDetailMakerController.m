@@ -10,6 +10,9 @@
 #import "LMMakerHeadView.h"
 
 #import "LMSubmitSuccessController.h"
+
+
+#import "LMQingMakerController.h"
 @interface LMBannerDetailMakerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,LMMakerDelegate>
 
 @end
@@ -36,8 +39,6 @@
     
     [self createUI];
     
-    
-    
 }
 
 - (void)createUI{
@@ -51,35 +52,40 @@
     [self.view addSubview:_collectionView];
     
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"headCell"];
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"imageCell"];
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"mainCell"];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead"];
+    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot"];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     
-    return 5;
+    return 3;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    if (section == 0) {
-        return 1;
+    if (section == 2) {
+        return 2;
     }
     
-    return 2;
+    return 1;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        return CGSizeMake(kScreenWidth, 235);
+        return CGSizeMake(kScreenWidth, 225);
+    }
+    if (indexPath.section == 1) {
+        return CGSizeMake(kScreenWidth, kScreenWidth*3/5);
     }
     return CGSizeMake((kScreenWidth-30)/2, 115);
     
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     
-    if (section == 0) {
+    if (section != 2) {
         return UIEdgeInsetsZero;
     }
     return UIEdgeInsetsMake(0, 10, 0, 10);
@@ -88,10 +94,19 @@
     
     if (indexPath.section == 0) {
         UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"headCell" forIndexPath:indexPath];
-        LMMakerHeadView * headerView = [[LMMakerHeadView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 235)];
+        LMMakerHeadView * headerView = [[LMMakerHeadView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 225)];
         headerView.delegate = self;
         [cell.contentView addSubview:headerView];
         cell.backgroundColor = BG_GRAY_COLOR;
+        return cell;
+    }
+    if (indexPath.section == 1) {
+        UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor whiteColor];
+        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, kScreenWidth*3/5-20)];
+        imageView.backgroundColor = BG_GRAY_COLOR;
+        imageView.image = [UIImage imageNamed:@""];
+        [cell.contentView addSubview:imageView];
         return cell;
     }
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"mainCell" forIndexPath:indexPath];
@@ -101,19 +116,8 @@
     imageView.image = [UIImage imageNamed:@""];
     [cell.contentView addSubview:imageView];
     
-    UILabel * slogan = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, (kScreenWidth-30)/2-60, 0)];
-    slogan.text = @"一个企业人的自我修养";
-    slogan.textColor = [UIColor whiteColor];
-    slogan.font = TEXT_FONT_BOLD_14;
-    slogan.textAlignment = NSTextAlignmentCenter;
-    slogan.numberOfLines = -1;
-    [slogan sizeToFit];
-    slogan.center = CGPointMake(30+((kScreenWidth-30)/2-60)/2, 100/2);
-    [cell.contentView addSubview:slogan];
-    
     return cell;
 }
-
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     
@@ -123,52 +127,76 @@
     return 5;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+    if (section != 2) {
         return CGSizeZero;
     }
     return CGSizeMake(kScreenWidth, 40);
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
+    
+    return CGSizeMake(kScreenWidth, 10);
+}
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
-    NSArray * typeNames = @[@"丨 腰美路演", @"丨 腰美轻创客", @"丨 腰美运动", @"丨 腰美医疗"];
-    UICollectionReusableView * backView = nil;
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        
-        backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead" forIndexPath:indexPath];
-        backView.backgroundColor = [UIColor whiteColor];
+    //NSArray * typeNames = @[@"丨 腰美路演", @"丨 腰美轻创客"];
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        UICollectionReusableView * backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot" forIndexPath:indexPath];;
         for (UIView * subView in backView.subviews) {
             [subView removeFromSuperview];
         }
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+        label.backgroundColor = BG_GRAY_COLOR;
+        [backView addSubview:label];
         
-        
-        UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 80, 10)];
-        typeName.textColor = TEXT_COLOR_LEVEL_4;
-        typeName.font = TEXT_FONT_LEVEL_4;
-        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:typeNames[indexPath.section-1]];
-        [attr addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(0, 2)];
-        typeName.attributedText = attr;
-        [backView addSubview:typeName];
-        
-        UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 15, 60, 10)];
-        lookMore.text = @"查看更多 >";
-        lookMore.textAlignment = NSTextAlignmentRight;
-        lookMore.textColor = TEXT_COLOR_LEVEL_5;
-        lookMore.font = TEXT_FONT_LEVEL_4;
-        lookMore.userInteractionEnabled = YES;
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
-        [lookMore addGestureRecognizer:tap];
-        [backView addSubview:lookMore];
-        
-
-        return  backView;
+        return backView;
     }
+    if (indexPath.section == 2) {
+        UICollectionReusableView * backView = nil;
+        if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+            
+            backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead" forIndexPath:indexPath];
+            backView.backgroundColor = [UIColor whiteColor];
+            for (UIView * subView in backView.subviews) {
+                [subView removeFromSuperview];
+            }
+            
+            UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 80, 10)];
+            typeName.textColor = TEXT_COLOR_LEVEL_4;
+            typeName.font = TEXT_FONT_LEVEL_4;
+            NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"丨 腰美轻创客"];
+            [attr addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(0, 2)];
+            typeName.attributedText = attr;
+            [backView addSubview:typeName];
+            
+            UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 15, 60, 10)];
+            lookMore.text = @"查看更多 >";
+            lookMore.textAlignment = NSTextAlignmentRight;
+            lookMore.textColor = TEXT_COLOR_LEVEL_5;
+            lookMore.font = TEXT_FONT_LEVEL_4;
+            lookMore.userInteractionEnabled = YES;
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
+            [lookMore addGestureRecognizer:tap];
+            [backView addSubview:lookMore];
+            
+            return  backView;
+        }
     
+    }
     return nil;
 }
 
 - (void)lookMore:(UITapGestureRecognizer *)tap{
     
     NSLog(@"查看更多。。。");
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+    LMQingMakerController * qmVC = [[LMQingMakerController alloc] init];
+    qmVC.title =  @"轻创客";
+    [self.navigationController pushViewController:qmVC animated:YES];
+    
+    
 }
 
 #pragma mark - 点击了解轻创客
@@ -182,9 +210,6 @@
 - (void)contactUs{
     
     NSLog(@"联系我们");
-    
-    
-    
     
     bgView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     bgView.backgroundColor = [UIColor clearColor];
@@ -263,8 +288,6 @@
         ssVC.title = @"预约成功";
         [self.navigationController pushViewController:ssVC animated:YES];
     }
-    
-    
 }
 #pragma 验证输入内容
 - (BOOL)checkConfirm{
@@ -299,7 +322,6 @@
             //
             //            [self presentViewController:alert animated:YES completion:nil];
             
-            
             return NO;
         }
     }
@@ -321,17 +343,12 @@
     [UIView animateWithDuration:0.5 animations:^{
         bgView.frame = rect;
     }];
-    
-    
 }
-
 - (void)keyboardHide:(NSNotification *)noti{
     
     [self hideAnimation];
     
 }
-
-
 - (void)remove:(UITapGestureRecognizer *)tap{
     if (isShow) {
         
@@ -343,7 +360,6 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
-
 - (void)hideAnimation{
     isShow = NO;
     
@@ -355,5 +371,4 @@
     
     
 }
-
 @end
