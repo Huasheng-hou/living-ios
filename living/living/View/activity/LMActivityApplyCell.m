@@ -38,7 +38,8 @@
     self.backgroundColor = [UIColor whiteColor];
     
     _bKGImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth - 20, 185)];
-    _bKGImageView.backgroundColor = [UIColor purpleColor];
+    _bKGImageView.backgroundColor = [UIColor grayColor];
+    //_bKGImageView.image = [UIImage imageNamed:@"BackImage"];
     [self.contentView addSubview:_bKGImageView];
     
     _titleLbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, kScreenWidth, 23)];
@@ -71,7 +72,7 @@
     _costNum.layer.cornerRadius = 5;
     _costNum.layer.borderWidth = 0.5;
     _costNum.layer.borderColor = TEXT_COLOR_LEVEL_4.CGColor;
-    [self.contentView addSubview:_costNum];
+    //[self.contentView addSubview:_costNum];
     
     _remainderNum = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth - 170, 195, 80, 20)];
     _remainderNum.text = @"剩余名额 73";
@@ -81,7 +82,7 @@
     _remainderNum.layer.cornerRadius = 5;
     _remainderNum.layer.borderWidth = 0.5;
     _remainderNum.layer.borderColor = TEXT_COLOR_LEVEL_4.CGColor;
-    [self.contentView addSubview:_remainderNum];
+    //[self.contentView addSubview:_remainderNum];
     
     _joinedLbl = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth - 280, 195, 100, 20)];
     _joinedLbl.text = @"7/80已报名参加";
@@ -91,7 +92,7 @@
     _joinedLbl.layer.cornerRadius = 5;
     _joinedLbl.layer.borderWidth = 0.5;
     _joinedLbl.layer.borderColor = TEXT_COLOR_LEVEL_4.CGColor;
-    [self.contentView addSubview:_joinedLbl];
+    //[self.contentView addSubview:_joinedLbl];
 }
 
 @end

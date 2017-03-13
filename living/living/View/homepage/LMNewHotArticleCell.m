@@ -38,7 +38,7 @@
     
     backImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, backView.frame.size.width, backView.frame.size.height-5)];
     backImage.backgroundColor = BG_GRAY_COLOR;
-    //backImage.image = [UIImage imageNamed:@"demo"];
+    backImage.image = [UIImage imageNamed:@"BackImage"];
     backImage.clipsToBounds = YES;
     [backView addSubview:backImage];
     

@@ -31,7 +31,7 @@
     
     avatar = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 90, 80)];
     avatar.backgroundColor = BG_GRAY_COLOR;
-    avatar.image = [UIImage imageNamed:@""];
+    avatar.image = [UIImage imageNamed:@"BackImage"];
     avatar.contentMode = UIViewContentModeScaleAspectFill;
     [backView addSubview:avatar];
     

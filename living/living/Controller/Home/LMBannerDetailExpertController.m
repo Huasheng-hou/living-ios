@@ -13,6 +13,7 @@
 
 #import "LMNewHotArticleCell.h"
 #import "LMExpertListController.h"
+#import "LMArtcleTypeListRequest.h"
 @interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource,LMExpertListDelegate>
 
 @end
@@ -40,7 +41,16 @@
     self.tableView.separatorStyle = UITableViewCellEditingStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 102, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 102, 0);
+    self.pullToRefreshView.defaultContentInset = UIEdgeInsetsMake(0, 0, 102, 0);
     
+}
+#pragma mark - 数据请求
+- (FitBaseRequest *)request{
+    
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:@"幸福情商"];
+    
+    
+    return request;
     
 }
 

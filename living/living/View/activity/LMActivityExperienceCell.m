@@ -39,7 +39,8 @@
     self.backgroundColor = [UIColor whiteColor];
     
     _bKGImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth - 20, 185)];
-    _bKGImageView.backgroundColor = [UIColor blueColor];
+    _bKGImageView.backgroundColor = [UIColor grayColor];
+    //_bKGImageView.image = [UIImage imageNamed:@"BackImage"];
     [self.contentView addSubview:_bKGImageView];
     
     _titleLbl = [[UILabel alloc]initWithFrame:CGRectMake(30, 114, kScreenWidth - 60, 19)];
@@ -62,19 +63,19 @@
     _gradeBtn.layer.borderWidth = 0.5;
     _gradeBtn.layer.borderColor = ORANGE_COLOR.CGColor;
     [_gradeBtn addTarget:self action:@selector(grandeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:_gradeBtn];
+    //[self.contentView addSubview:_gradeBtn];
     
     _shareBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 138, 195, 55, 23) actionTitle:@"分享" IconImage:[UIImage imageNamed:@"shareIcon-1"]];
     [_shareBtn addTarget:self action:@selector(shareBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:_shareBtn];
+    //[self.contentView addSubview:_shareBtn];
     
     _commentBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 203, 195, 55, 23) actionTitle:@"评论" IconImage:[UIImage imageNamed:@"comment"]];
     [_commentBtn addTarget:self action:@selector(commentBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:_commentBtn];
+    //[self.contentView addSubview:_commentBtn];
     
     _likeBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 268, 195, 55, 23) actionTitle:@"点赞" IconImage:[UIImage imageNamed:@"zanIcon"]];
     [_likeBtn addTarget:self action:@selector(likeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:_likeBtn];
+    //[self.contentView addSubview:_likeBtn];
     
 }
 

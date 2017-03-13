@@ -71,7 +71,7 @@
     
     _backImage = [[UIImageView alloc] initWithFrame:topView.frame];
     _backImage.backgroundColor = BG_GRAY_COLOR;
-    _backImage.image = [UIImage imageNamed:@"demo"];
+    _backImage.image = [UIImage imageNamed:@"BackImage"];
     [topView addSubview:_backImage];
     
     _title = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, CGRectGetWidth(topView.frame), 20)];

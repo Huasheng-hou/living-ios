@@ -93,11 +93,8 @@ WJLoopViewDelegate
     
     self.tabBarController.tabBar.hidden = NO;
     if ([[FitUserManager sharedUserManager] isLogin]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(publicAction)];
-        
+
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
 }
@@ -136,11 +133,11 @@ WJLoopViewDelegate
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
 
     self.tableView.backgroundColor = [UIColor whiteColor];
-    if ([[FitUserManager sharedUserManager] isLogin]) {
-        
-        UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
+//    if ([[FitUserManager sharedUserManager] isLogin]) {
+//        
+//        UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
+//        self.navigationItem.rightBarButtonItem = rightItem;
+//    }
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     sectionList = @[@"腰果推荐", @"热门文章"];

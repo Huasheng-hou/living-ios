@@ -34,6 +34,11 @@
 #import "LMHomeVoiceDetailController.h"
 #import "LMWebViewController.h"
 #import "LMClassroomDetailViewController.h"
+
+#import "LMAllActivityController.h"
+#import "LMAllEventController.h"
+#import "LMPublicArticleController.h"
+
 #define PAGER_SIZE      20
 
 @interface LMActivityViewController ()
@@ -132,10 +137,9 @@ doSomethingForActivityDelegate
     
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
     
-        UIBarButtonItem     *rightItem  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:self
-                                                                          action:@selector(publicAction)];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                   target:self
+                                                                                   action:@selector(publicAction)];
         
         self.navigationItem.rightBarButtonItem = rightItem;
     }
@@ -158,6 +162,7 @@ doSomethingForActivityDelegate
     /*
     letfButton = [SXButton buttonWithType:UIButtonTypeCustom];
     letfButton.frame = CGRectMake(-10, 0, 55, 20);
+    [letfButton setTitleColor:COLOR_BLACK_LIGHT forState:UIControlStateNormal];
     [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
     
     if (cityStr&&![cityStr isEqual:@""]) {
@@ -185,21 +190,21 @@ doSomethingForActivityDelegate
     [letfButton setImage:[UIImage imageNamed:@"zhankai"] forState:UIControlStateNormal];
     UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
     self.navigationItem.leftBarButtonItem = LeftBarButton;
-     */
+    */
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                               target:self
+                                                                               action:@selector(publicAction)];
     
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightBarButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
-    
+    self.navigationItem.rightBarButtonItem = rightItem;
+
     
 }
-
-// rightBarButton selected
-- (void)rightBarButtonPressed:(UIBarButtonItem *)barButtonItem
-{
-    printf("aaa");
-}
-
-
+//#pragma mark 发布文章
+//- (void)publicAction
+//{
+//    LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
+//    [self.navigationController pushViewController:publicVC animated:YES];
+//}
 - (void)screenAction:(UIButton *)sender
 {
     SearchViewController *searchV = [[SearchViewController alloc]init];
@@ -382,8 +387,6 @@ doSomethingForActivityDelegate
 
 }
 
-
-
 #pragma mark 发布活动
 
 - (void)publicAction
@@ -397,9 +400,7 @@ doSomethingForActivityDelegate
         [self.showView dismissView];
     }
     
-
 }
- 
 
 - (FitBaseRequest *)request
 {
@@ -487,7 +488,7 @@ doSomethingForActivityDelegate
     homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
     
     UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-41, 5, 82, 91)];
-    homeImg.image = [UIImage imageNamed:@"eventload"];
+    //homeImg.image = [UIImage imageNamed:@"eventload"];
     [homeImage addSubview:homeImg];
     UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 95, 300, 60)];
     imageLb.numberOfLines = 0;
@@ -500,7 +501,7 @@ doSomethingForActivityDelegate
     [self.tableView addSubview:homeImage];
 }
 
-
+#pragma mark - tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
@@ -514,18 +515,7 @@ doSomethingForActivityDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
-//    
-//    if (indexPath.section == 0) {
-//        h = 144;
-//    }
-//    
-//    if (h) {
-//        
-//        return h;
-//    }
-//    
-    return 220;
+    return 195;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -568,6 +558,7 @@ doSomethingForActivityDelegate
     more.textColor = TEXT_COLOR_LEVEL_3;
     more.font = TEXT_FONT_LEVEL_2;
     more.textAlignment = NSTextAlignmentRight;
+    more.userInteractionEnabled = YES;
     [more addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allList:)]];
     [sectionTitleView addSubview:more];
     
@@ -576,11 +567,17 @@ doSomethingForActivityDelegate
 
 //进入全量列表
 - (void)allList:(UITapGestureRecognizer *)tap{
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
     switch (tap.view.tag) {
         case 100:
         {
             NSLog(@"更多活动");
-            
+            LMAllActivityController * allAC = [[LMAllActivityController alloc] init];
+            allAC.title = @"活动";
+            [self.navigationController pushViewController:allAC animated:YES];
             
             
         }
@@ -588,8 +585,9 @@ doSomethingForActivityDelegate
         case 101:
         {
             NSLog(@"更多项目");
-            
-            
+            LMAllEventController * allEvent = [[LMAllEventController alloc] init];
+            allEvent.title = @"项目";
+            [self.navigationController pushViewController:allEvent animated:YES];
         }
             break;
         default:

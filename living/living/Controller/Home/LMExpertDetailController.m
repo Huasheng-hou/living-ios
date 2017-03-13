@@ -12,6 +12,8 @@
 #import "LMExpertHotArticleCell.h"
 #import "LMExpertListCell.h"
 #import "LMNewHotArticleCell.h"
+
+#import "LMArtcleTypeListRequest.h"
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -23,24 +25,23 @@
     
     [self createUI];
     
-    
 }
 
 - (void)createUI{
     [super createUI];
     
+   
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = BG_GRAY_COLOR;
-    
     UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     LMExpertDetailView * headerView = [[LMExpertDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth+10)];
     self.tableView.tableHeaderView = headerView;
     
-    
-    
 }
+
+
 #pragma mark 发布文章
 - (void)publicAction
 {
