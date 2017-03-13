@@ -85,14 +85,13 @@ WJLoopViewDelegate
     
     return self;
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.tabBarController.tabBar.hidden = NO;
-}
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = NO;
     if ([[FitUserManager sharedUserManager] isLogin]) {
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
                                                                       style:UIBarButtonItemStylePlain

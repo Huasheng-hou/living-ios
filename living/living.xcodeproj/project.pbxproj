@@ -4216,7 +4216,6 @@
 				D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */,
 				3524CF7B1E503D8E00651E64 /* FirUploadVideoRequest.m in Sources */,
 				D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */,
-				3533A7841E4D84D00088734A /* AliPlayerControlView.m in Sources */,
 				35B747581DDE97F3000AFA26 /* LMHomePageController.m in Sources */,
 				35B747251DDE97F3000AFA26 /* SSPullToRefreshDefaultContentView.m in Sources */,
 				35761C811E5EB77D000834D0 /* KZVideoListViewController.m in Sources */,
@@ -4346,10 +4345,7 @@
 				355E7B731DFFD5900089BAB1 /* LMChooseView.m in Sources */,
 				355E7B7E1DFFEA6A0089BAB1 /* LMPulicVoicemsgViewCell.m in Sources */,
 				3512137B1DF942ED0053B83F /* LMTypeListViewController.m in Sources */,
-
 				874642261E60243D00D2CCDE /* LMMakerHeadView.m in Sources */,
-				3533A7771E4D84BC0088734A /* ALiPlayViewController.m in Sources */,
-
 				35B7481E1DDE97F4000AFA26 /* QRCodeReaderView.m in Sources */,
 				35B7476C1DDE97F3000AFA26 /* SQMenuShowCell.m in Sources */,
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
@@ -4357,10 +4353,7 @@
 				35B747B51DDE97F3000AFA26 /* LMHomelistequest.m in Sources */,
 				35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */,
 				355E7B841E000BDB0089BAB1 /* LMHostChoiceRequest.m in Sources */,
-
-				359DBD751E56DC2F00555565 /* README.md in Sources */,
 				8746421D1E5FCFD000D2CCDE /* LMExpertHotArticleCell.m in Sources */,
-
 				35B747721DDE97F3000AFA26 /* FitColorConvertFactory.m in Sources */,
 				35B747971DDE97F3000AFA26 /* LMMonthDetailBill.m in Sources */,
 				35B7474B1DDE97F3000AFA26 /* LMNavMapViewController.m in Sources */,
@@ -4380,10 +4373,8 @@
 				35F1AB6F1E08F3C1003304EE /* MssageVO.m in Sources */,
 				35B747691DDE97F3000AFA26 /* LMAddviceViewController.m in Sources */,
 				35B747221DDE97F3000AFA26 /* UIView+MJExtension.m in Sources */,
-
 				877290D41E614EF200519550 /* LMSubmitSuccessController.m in Sources */,
 				357750D01E66C818003C0607 /* LMFranchiseeChargePayRequest.m in Sources */,
-
 				35B747C71DDE97F3000AFA26 /* LMCouponMsgRequest.m in Sources */,
 				35B747541DDE97F3000AFA26 /* FitTabbarController.m in Sources */,
 				35B748181DDE97F4000AFA26 /* POIAnnotation.m in Sources */,
