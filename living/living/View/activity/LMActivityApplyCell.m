@@ -33,6 +33,14 @@
     return self;
 }
 
+- (void)setVO:(ActivityListVO *)list{
+
+    [_bKGImageView sd_setImageWithURL:[NSURL URLWithString:list.eventImg] placeholderImage:nil];
+    _bKGImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _bKGImageView.clipsToBounds = YES;
+    _titleLbl.text = list.eventName;
+    _detailLbl.text = list.address;
+}
 -(void)initLayout
 {
     self.backgroundColor = [UIColor whiteColor];

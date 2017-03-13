@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMEventListVO.h"
 @protocol doSomethingForActivityDelegate <NSObject>
 /**
  点赞
@@ -34,5 +34,7 @@
 @interface LMActivityExperienceCell : UITableViewCell
 
 @property (nonatomic, weak) id<doSomethingForActivityDelegate> delegate;
+
+- (void)setVO:(LMEventListVO *)list;
 
 @end

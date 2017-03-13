@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ActivityListVO.h"
 @interface LMActivityApplyCell : UITableViewCell
 
 @property (nonatomic, strong) UIButton *joinBtn;  // 参加按钮
 
+- (void)setVO:(ActivityListVO *)list;
 @end

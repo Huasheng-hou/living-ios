@@ -9,7 +9,7 @@
 #import "LMActivityExperienceCell.h"
 #import "FitConsts.h"
 #import "LMActivityExperienceBtn.h"
-
+#import "UIImageView+WebCache.h"
 @interface LMActivityExperienceCell ()
 
 @property (nonatomic, strong) UIImageView *bKGImageView; // 背景图片
@@ -33,14 +33,22 @@
     }
     return self;
 }
+- (void)setVO:(LMEventListVO *)list{
+    
+    [_bKGImageView sd_setImageWithURL:[NSURL URLWithString:list.eventImg] placeholderImage:nil];
+    _bKGImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _bKGImageView.clipsToBounds = YES;
 
+    _titleLbl.text = list.eventName;
+    _detailLbl.text = list.address;
+    
+}
 - (void)initLayout
 {
     self.backgroundColor = [UIColor whiteColor];
     
     _bKGImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth - 20, 185)];
     _bKGImageView.backgroundColor = [UIColor grayColor];
-    //_bKGImageView.image = [UIImage imageNamed:@"BackImage"];
     [self.contentView addSubview:_bKGImageView];
     
     _titleLbl = [[UILabel alloc]initWithFrame:CGRectMake(30, 114, kScreenWidth - 60, 19)];

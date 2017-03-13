@@ -1,17 +1,15 @@
-
 //
-//  ActivityListVO.m
+//  LMEventListVO.m
 //  living
 //
-//  Created by JamHonyZ on 2016/11/6.
-//  Copyright © 2016年 chenle. All rights reserved.
+//  Created by hxm on 2017/3/13.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "ActivityListVO.h"
+#import "LMEventListVO.h"
 
-@implementation ActivityListVO
-
-+ (ActivityListVO *)ActivityListVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error
+@implementation LMEventListVO
++ (LMEventListVO *)EventListVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error
 {
     NSData *jsonData = [jsonString dataUsingEncoding:stringEncoding];
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -19,19 +17,19 @@
                                                                      error:error];
     
     if (nil != error && nil != jsonDictionary) {
-        return [ActivityListVO ActivityListVOWithDictionary:jsonDictionary];
+        return [LMEventListVO EventListVOWithDictionary:jsonDictionary];
     }
     
     return nil;
 }
 
-+ (ActivityListVO *)ActivityListVOWithDictionary:(NSDictionary *)dictionary
++ (LMEventListVO *)EventListVOWithDictionary:(NSDictionary *)dictionary
 {
-    ActivityListVO *instance = [[ActivityListVO alloc] initWithDictionary:dictionary];
+    LMEventListVO *instance = [[LMEventListVO alloc] initWithDictionary:dictionary];
     return JSONAutoRelease(instance);
 }
 
-+ (NSArray *)ActivityListVOListWithArray:(NSArray *)array
++ (NSArray *)EventListVOListWithArray:(NSArray *)array
 {
     if (!array || ![array isKindOfClass:[NSArray class]]) {
         return nil;
@@ -44,7 +42,7 @@
             continue;
         }
         
-        [resultsArray addObject:[ActivityListVO ActivityListVOWithDictionary:entry]];
+        [resultsArray addObject:[LMEventListVO EventListVOWithDictionary:entry]];
     }
     
     return JSONAutoRelease(resultsArray);
@@ -91,23 +89,9 @@
         
         if (nil != [dictionary objectForKey:@"current_num"] && ![[dictionary objectForKey:@"current_num"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"current_num"] isKindOfClass:[NSNumber class]]) {
-            self.currentNumber = [dictionary objectForKey:@"current_num"];
+            self.currentNum =[dictionary objectForKey:@"current_num"] ;
         }
         
-//        if (nil != [dictionary objectForKey:@"start_time"] && ![[dictionary objectForKey:@"start_time"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"start_time"] isKindOfClass:[NSString class]]) {
-//            
-//            NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
-//            
-//            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//            
-//            self.StartTime = [formatter dateFromString:[dictionary objectForKey:@"start_time"]];
-//        }
-        
-        if (nil != [dictionary objectForKey:@"start_time"] && ![[dictionary objectForKey:@"start_time"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"start_time"] isKindOfClass:[NSString class]]) {
-            self.startTime = [dictionary objectForKey:@"start_time"];
-        }
         
         if (nil != [dictionary objectForKey:@"per_cost"] && ![[dictionary objectForKey:@"per_cost"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"per_cost"] isKindOfClass:[NSString class]]) {
@@ -121,10 +105,10 @@
         
         if (nil != [dictionary objectForKey:@"total_num"] && ![[dictionary objectForKey:@"total_num"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"total_num"] isKindOfClass:[NSNumber class]]) {
-            self.totalNumber = [dictionary objectForKey:@"total_num"];
+            self.totalNum = [dictionary objectForKey:@"total_num"];
         }
         if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSNumber class]]) {
             self.status = [dictionary objectForKey:@"status"];
         }
         if (nil != [dictionary objectForKey:@"category"] && ![[dictionary objectForKey:@"category"] isEqual:[NSNull null]]
@@ -135,14 +119,7 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.type = [dictionary objectForKey:@"type"];
         }
-//        if (nil != [dictionary objectForKey:@"create_time"] && ![[dictionary objectForKey:@"create_time"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"create_time"] isKindOfClass:[NSString class]]) {
-//            self.createTime = [dictionary objectForKey:@"create_time"];
-//        }
-//        if (nil != [dictionary objectForKey:@"discount"] && ![[dictionary objectForKey:@"discount"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"discount"] isKindOfClass:[NSString class]]) {
-//            self.discount = [dictionary objectForKey:@"discount"];
-//        }
+       
     }
     
     return self;

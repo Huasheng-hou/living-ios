@@ -23,20 +23,21 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-@property(nonatomic, copy) NSString       *userUuid;
-@property(nonatomic, copy) NSString       *eventUuid;
-@property(nonatomic, copy) NSString       *avatar;
-@property(nonatomic, copy) NSString       *nickName;
-@property(nonatomic, copy) NSString       *address;
-@property(nonatomic, copy) NSString       *eventImg;
-@property(nonatomic, copy) NSString       *eventName;
-@property(nonatomic, strong) NSNumber     *currentNumber;
-@property(nonatomic, copy) NSString       *startTime;
-@property(nonatomic, copy) NSString       *perCost;
-@property(nonatomic, copy) NSString       *discount;
-@property(nonatomic, strong) NSNumber     *totalNumber;
-@property(nonatomic, strong) NSNumber     *status;
-
+@property(nonatomic, copy) NSString         *userUuid;
+@property(nonatomic, copy) NSString         *eventUuid;
+@property(nonatomic, copy) NSString         *avatar;
+@property(nonatomic, copy) NSString         *nickName;
+@property(nonatomic, copy) NSString         *address;
+@property(nonatomic, copy) NSString         *eventImg;
+@property(nonatomic, copy) NSString         *eventName;
+@property(nonatomic, strong) NSNumber       *currentNumber;
+@property(nonatomic, copy) NSString         *startTime;
+@property(nonatomic, copy) NSString         *perCost;
+@property(nonatomic, copy) NSString         *discount;
+@property(nonatomic, strong) NSNumber       *totalNumber;
+@property(nonatomic, strong) NSNumber       *status;
+@property (nonatomic, copy) NSString        * category;
+@property (nonatomic, copy) NSString        * type;
 
 
 @end

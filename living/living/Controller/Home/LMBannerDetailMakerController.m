@@ -105,7 +105,7 @@
         cell.backgroundColor = [UIColor whiteColor];
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, kScreenWidth*3/5-20)];
         imageView.backgroundColor = BG_GRAY_COLOR;
-        imageView.image = [UIImage imageNamed:@""];
+        imageView.image = [UIImage imageNamed:@"BackImage"];
         [cell.contentView addSubview:imageView];
         return cell;
     }
@@ -113,7 +113,7 @@
     cell.backgroundColor = [UIColor whiteColor];
     UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-30)/2, 100)];
     imageView.backgroundColor = BG_GRAY_COLOR;
-    imageView.image = [UIImage imageNamed:@""];
+    imageView.image = [UIImage imageNamed:@"BackImage"];
     [cell.contentView addSubview:imageView];
     
     return cell;

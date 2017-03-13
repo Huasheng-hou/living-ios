@@ -38,6 +38,7 @@
 - (void)createUI{
     [super createUI];
     
+    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
 
@@ -72,9 +73,9 @@
     }
     UIImageView * image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, kScreenWidth*3/5-10)];
     image.backgroundColor = BG_GRAY_COLOR;
-    image.image = [UIImage imageNamed:@""];
+    image.image = [UIImage imageNamed:@"BackImage"];
     image.clipsToBounds = YES;
-    image.contentMode = UIViewContentModeScaleAspectFit;
+    image.contentMode = UIViewContentModeScaleAspectFill;
     [cell.contentView addSubview:image];
     return cell;
 }

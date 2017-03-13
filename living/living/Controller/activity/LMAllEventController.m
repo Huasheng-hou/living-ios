@@ -14,9 +14,18 @@
 #import "ActivityListVO.h"
 #import "SXButton.h"
 #import "SearchViewController.h"
-#define PAGER_SIZE 20
+#import "LMEventListRequest.h"
+#import "LMEventListVO.h"
+#import "SQMenuShowView.h"
+
+
+
+
+#define PAGE_SIZE 20
 @interface LMAllEventController ()<UITableViewDelegate,UITableViewDataSource>
 
+@property (strong, nonatomic)  SQMenuShowView *showView;
+@property (assign, nonatomic)  BOOL  isShow;
 @end
 
 @implementation LMAllEventController
@@ -29,7 +38,10 @@
 }
 - (instancetype)init{
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loadNewer)
+                                                     name:@"reloadEvent"
+                                                   object:nil];
     }
     return self;
 }
@@ -156,7 +168,7 @@
 #pragma mark - 数据请求
 - (FitBaseRequest *)request{
     
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:@"全国"];
+    LMEventListRequest   *request    = [[LMEventListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCity:city];
     
     return request;
 }
@@ -196,19 +208,19 @@
         
         self.max    = [[bodyDict objectForKey:@"total"] intValue];
         
-        NSArray *resultArr  = [ActivityListVO ActivityListVOListWithArray:[bodyDict objectForKey:@"list"]];
+        NSArray *resultArr  = [LMEventListVO EventListVOListWithArray:[bodyDict objectForKey:@"list"]];
         
         
         if (resultArr.count==0) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                //homeImage.hidden = NO;
+                homeImage.hidden = NO;
             });
         }
         
         if (resultArr && resultArr.count > 0) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                //homeImage.hidden = YES;
+                homeImage.hidden = YES;
             });
             
             return resultArr;
@@ -222,22 +234,36 @@
 
 - (void)publicAction
 {
-//    _isShow = !_isShow;
-//    
-//    if (_isShow) {
-//        [self.showView showView];
-//        
-//    }else{
-//        [self.showView dismissView];
-//    }
+    _isShow = !_isShow;
+    
+    if (_isShow) {
+        [self.showView showView];
+        
+    }else{
+        [self.showView dismissView];
+    }
     
 }
+- (SQMenuShowView *)showView{
+    
+    if (_showView) {
+        return _showView;
+    }
+    NSArray *array = @[@"发布活动",@"我的活动"];
+    _showView = [[SQMenuShowView alloc]initWithFrame:(CGRect){CGRectGetWidth(self.view.frame)-100-10,64,100,0}
+                                               items:array
+                                           showPoint:(CGPoint){CGRectGetWidth(self.view.frame)-25,10}];
+    _showView.sq_backGroundColor = [UIColor whiteColor];
+    [self.view addSubview:_showView];
+    return _showView;
+}
+
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.listData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 195;
@@ -248,15 +274,24 @@
         cell = [[LMActivityExperienceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    if (self.listData.count > indexPath.row) {
+        
+        LMEventListVO  *vo = [self.listData objectAtIndex:indexPath.row];
+        
+        if (vo && [vo isKindOfClass:[LMEventListVO class]]) {
+            
+            [cell setVO:vo ] ;
+        }
+    }
+
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.listData.count > indexPath.row) {
         
-        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
+        LMEventListVO  *vo = [self.listData objectAtIndex:indexPath.row];
         
-        if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+        if (vo && [vo isKindOfClass:[LMEventListVO class]]) {
             
             LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
             

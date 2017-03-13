@@ -1,15 +1,14 @@
 //
-//  LMActivityListRequest.m
+//  LMEventListRequest.m
 //  living
 //
-//  Created by Ding on 16/10/13.
-//  Copyright © 2016年 chenle. All rights reserved.
+//  Created by hxm on 2017/3/13.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "LMActivityListRequest.h"
+#import "LMEventListRequest.h"
 
-@implementation LMActivityListRequest
-
+@implementation LMEventListRequest
 -(id)initWithPageIndex:(int)pageIndex andPageSize:(int)pageSize andCity:(NSString *)city
 {
     self = [super init];
@@ -41,7 +40,7 @@
 - (NSString *)methodPath
 {
     return @"event/list";
-//    return @"active/list"; //3.0
+    //    return @"item/list"; 3.0
 }
 
 @end

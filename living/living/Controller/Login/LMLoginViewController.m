@@ -158,7 +158,7 @@ WXApiDelegate
     if (indexPath.row == 0) {
         
         UIImageView * phoneView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 45, 12, 17)];
-        phoneView.image = [UIImage imageNamed:@"phone"];
+        phoneView.image = [UIImage imageNamed:@"手机"];
         [cell.contentView addSubview:phoneView];
         
         _phoneTF                = [[UITextField alloc] initWithFrame:CGRectMake(40, 45, kScreenWidth - 50, 20)];
@@ -181,7 +181,7 @@ WXApiDelegate
     if (indexPath.row == 1) {
         
         UIImageView * codeView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 15, 12, 17)];
-        codeView.image = [UIImage imageNamed:@"lock"];
+        codeView.image = [UIImage imageNamed:@"密码"];
         [cell.contentView addSubview:codeView];
         
         _codeTF = [[UITextField alloc] initWithFrame:CGRectMake(40, 15, kScreenWidth - 95, 20)];
@@ -290,7 +290,7 @@ WXApiDelegate
         [cell.contentView addSubview:rightLine];
         
         
-        NSArray *imageNames = @[@"sina-3", @"wechat", @"支付宝"];
+        NSArray *imageNames = @[@"sina-3", @"微信", @"支付宝"];
         CGFloat mainW = w*3 + gap*2;
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainW, w)];
         backView.center = CGPointMake(kScreenWidth/2, kScreenHeight-324-botH-w/2.0);

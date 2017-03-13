@@ -92,7 +92,7 @@ doSomethingForActivityDelegate
 {
     [super viewDidLoad];
     [self creatUI];
-    [self creatImage];
+    //[self creatImage];
     
     [self getBannerDataRequest];
 
@@ -151,46 +151,7 @@ doSomethingForActivityDelegate
     headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = headView;
-    
-    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
-    NSString *cityStr;
-    for (NSString *string in searchArr) {
-        cityStr = string;
-    }
-    
-    // 设置导航栏左侧按钮
-    /*
-    letfButton = [SXButton buttonWithType:UIButtonTypeCustom];
-    letfButton.frame = CGRectMake(-10, 0, 55, 20);
-    [letfButton setTitleColor:COLOR_BLACK_LIGHT forState:UIControlStateNormal];
-    [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (cityStr&&![cityStr isEqual:@""]) {
-        if (cityStr.length > 3) {
-            
-            letfButton.width = 80+24*(cityStr.length-3);
-        }else{
-            
-            if (cityStr.length == 3) {
-                
-                letfButton.width = 80;
-            }else{
-                
-                letfButton.width = 55;
 
-            }
-        }
-        
-       [letfButton setTitle:cityStr forState:UIControlStateNormal];
-    }else{
-        [letfButton setTitle:@"全部" forState:UIControlStateNormal];
-    }
-    
-    
-    [letfButton setImage:[UIImage imageNamed:@"zhankai"] forState:UIControlStateNormal];
-    UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
-    self.navigationItem.leftBarButtonItem = LeftBarButton;
-    */
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                target:self
                                                                                action:@selector(publicAction)];
@@ -199,55 +160,50 @@ doSomethingForActivityDelegate
 
     
 }
-//#pragma mark 发布文章
-//- (void)publicAction
+
+//- (void)screenAction:(UIButton *)sender
 //{
-//    LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
-//    [self.navigationController pushViewController:publicVC animated:YES];
+//    SearchViewController *searchV = [[SearchViewController alloc]init];
+//    UINavigationController *naV = [[UINavigationController alloc]initWithRootViewController:searchV];
+//    [searchV setSucceed:^(NSString *str) {
+//        
+//        if (str.length > 3) {
+//            
+//            letfButton.width = 80+24*(str.length-3);
+//            letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
+//            letfButton.imageView.originX = letfButton.width*0.5+15;
+//        }else{
+//            
+//            if (str.length == 3) {
+//                
+//                letfButton.width = 80;
+//                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
+//                letfButton.imageView.originX = letfButton.width*0.5+15;
+//                
+//            }else{
+//                
+//                letfButton.width = 55;
+//                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
+//                letfButton.imageView.originX = letfButton.width*0.5+15;
+//            }
+//        }
+//        
+//        [letfButton setTitle:str forState:UIControlStateNormal];
+//        
+//        NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:str, nil];
+//        
+//        //存入数组并同步
+//        
+//        [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"cityArr"];
+//        
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        
+//    }];
+//    [self presentViewController:naV animated:YES completion:^{
+//        
+//    }];
+//    
 //}
-- (void)screenAction:(UIButton *)sender
-{
-    SearchViewController *searchV = [[SearchViewController alloc]init];
-    UINavigationController *naV = [[UINavigationController alloc]initWithRootViewController:searchV];
-    [searchV setSucceed:^(NSString *str) {
-        
-        if (str.length > 3) {
-            
-            letfButton.width = 80+24*(str.length-3);
-            letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-            letfButton.imageView.originX = letfButton.width*0.5+15;
-        }else{
-            
-            if (str.length == 3) {
-                
-                letfButton.width = 80;
-                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-                letfButton.imageView.originX = letfButton.width*0.5+15;
-                
-            }else{
-                
-                letfButton.width = 55;
-                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-                letfButton.imageView.originX = letfButton.width*0.5+15;
-            }
-        }
-        
-        [letfButton setTitle:str forState:UIControlStateNormal];
-        
-        NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:str, nil];
-        
-        //存入数组并同步
-        
-        [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"cityArr"];
-        
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }];
-    [self presentViewController:naV animated:YES completion:^{
-        
-    }];
-    
-}
 
 #pragma mark - 网络连接
 
@@ -263,7 +219,7 @@ doSomethingForActivityDelegate
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
+                                               NSLog(@"%@", resp);
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    
                                                    NSDictionary *bodyDict   = [VOUtil parseBody:resp];
@@ -326,7 +282,6 @@ doSomethingForActivityDelegate
 #pragma mark - WJLoopViewDelegate
 -(void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
-    NSLog(@"---------------%ld",(long)index);
     if (_bannerArray.count>index) {
         
         BannerVO *vo = _bannerArray[index];
@@ -401,7 +356,7 @@ doSomethingForActivityDelegate
     }
     
 }
-
+#pragma  mark - 请求活动文章
 - (FitBaseRequest *)request
 {
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
@@ -483,23 +438,23 @@ doSomethingForActivityDelegate
     return nil;
 }
 
--(void)creatImage
-{
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
-    
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-41, 5, 82, 91)];
-    //homeImg.image = [UIImage imageNamed:@"eventload"];
-    [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 95, 300, 60)];
-    imageLb.numberOfLines = 0;
-    imageLb.text = @"您选择的城市还没有活动哦\n选择其它城市看看吧";
-    imageLb.textColor = TEXT_COLOR_LEVEL_3;
-    imageLb.font = TEXT_FONT_LEVEL_2;
-    imageLb.textAlignment = NSTextAlignmentCenter;
-    [homeImage addSubview:imageLb];
-    homeImage.hidden = YES;
-    [self.tableView addSubview:homeImage];
-}
+//-(void)creatImage
+//{
+//    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
+//    
+//    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-41, 5, 82, 91)];
+//    //homeImg.image = [UIImage imageNamed:@"eventload"];
+//    [homeImage addSubview:homeImg];
+//    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 95, 300, 60)];
+//    imageLb.numberOfLines = 0;
+//    imageLb.text = @"您选择的城市还没有活动哦\n选择其它城市看看吧";
+//    imageLb.textColor = TEXT_COLOR_LEVEL_3;
+//    imageLb.font = TEXT_FONT_LEVEL_2;
+//    imageLb.textAlignment = NSTextAlignmentCenter;
+//    [homeImage addSubview:imageLb];
+//    homeImage.hidden = YES;
+//    [self.tableView addSubview:homeImage];
+//}
 
 #pragma mark - tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -638,19 +593,6 @@ doSomethingForActivityDelegate
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell == nil){
         switch (indexPath.section) {
-            case 2:{
-                static NSString * LifeHouseCellId = @"LifeHouseCell";
-                LMActivityLifeHouseCell *lifeHousecell = [[LMActivityLifeHouseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LifeHouseCellId];
-                __weak __block LMActivityViewController *copy_self = self;
-                lifeHousecell.btnPressedBlock = ^(NSInteger btnTag){
-//                    [copy_self ]
-                    // 选择生活馆活动
-//                    [copy_self pushEvaluateSuccessView];
-                    printf("%d",btnTag);
-                };
-                cell = lifeHousecell;
-                break;
-            }
             case 0:{
                 static NSString *ApplyCellId = @"ApplyCell";
                 LMActivityApplyCell *applycell = [[LMActivityApplyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ApplyCellId];

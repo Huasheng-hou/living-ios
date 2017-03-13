@@ -14,12 +14,13 @@
 #import "ActivityListVO.h"
 #import "SXButton.h"
 #import "SearchViewController.h"
-
+#import "SQMenuShowView.h"
 
 #define PAGER_SIZE 20
 
 @interface LMAllActivityController ()
-
+@property (strong, nonatomic)  SQMenuShowView *showView;
+@property (assign, nonatomic)  BOOL  isShow;
 @end
 
 @implementation LMAllActivityController
@@ -33,7 +34,10 @@
 
 - (instancetype)init{
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loadNewer)
+                                                     name:@"reloadEvent"
+                                                   object:nil];
     }
     return self;
 }
@@ -45,7 +49,6 @@
     [self creatImage];
     [self loadNewer];
 }
-
 
 - (void)createUI{
     [super createUI];
@@ -160,8 +163,21 @@
 #pragma mark - 数据请求
 
 - (FitBaseRequest *)request{
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
+    NSString *cityStr;
+    for (NSString *string in searchArr) {
+        cityStr = string;
+        city = cityStr;
+    }
     
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:@"全国"];
+    if ([city isEqual:@"其它"]) {
+        city = @"其它";
+    }
+    if ([city isEqual:@"全部"]) {
+        city = nil;
+    }
+
+    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:city];
     
     return request;
 }
@@ -206,14 +222,14 @@
         
         if (resultArr.count==0) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                //homeImage.hidden = NO;
+                homeImage.hidden = NO;
             });
         }
         
         if (resultArr && resultArr.count > 0) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                //homeImage.hidden = YES;
+                homeImage.hidden = YES;
             });
             
             return resultArr;
@@ -227,22 +243,36 @@
 
 - (void)publicAction
 {
-//    _isShow = !_isShow;
-//    
-//    if (_isShow) {
-//        [self.showView showView];
-//        
-//    }else{
-//        [self.showView dismissView];
-//    }
+    _isShow = !_isShow;
+    
+    if (_isShow) {
+        [self.showView showView];
+        
+    }else{
+        [self.showView dismissView];
+    }
     
 }
+- (SQMenuShowView *)showView{
+    
+    if (_showView) {
+        return _showView;
+    }
+    NSArray *array = @[@"发布活动",@"我的活动"];
+    _showView = [[SQMenuShowView alloc]initWithFrame:(CGRect){CGRectGetWidth(self.view.frame)-100-10,64,100,0}
+                                               items:array
+                                           showPoint:(CGPoint){CGRectGetWidth(self.view.frame)-25,10}];
+    _showView.sq_backGroundColor = [UIColor whiteColor];
+    [self.view addSubview:_showView];
+    return _showView;
+}
+
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.listData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 195;
@@ -252,9 +282,53 @@
     if (!cell) {
         cell = [[LMActivityApplyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.listData.count > indexPath.row) {
+    
+            ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
+    
+            if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+                
+                [cell setVO:vo ] ;
+            }
+        }
     return cell;
+    
+//    static NSString *cellId = @"cellId";
+//    
+//    UITableViewCell     *cell;
+//    
+//    cell    = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+//    
+//    if (cell) {
+//        
+//        return cell;
+//    }
+//    
+//    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
+//    
+//    if (!cell) {
+//        
+//        cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+//        
+//        cell.backgroundColor = [UIColor clearColor];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
+//    
+//    if (self.listData.count > indexPath.row) {
+//        
+//        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
+//        
+//        if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+//            
+//            [(LMActivityCell *)cell setActivityList:vo index:0] ;
+//        }
+//    }
+//    
+//    [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
+//    
+//    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.listData.count > indexPath.row) {
@@ -276,7 +350,6 @@
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
 
 
 - (void)didReceiveMemoryWarning {
