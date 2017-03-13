@@ -137,6 +137,12 @@
                                                  name:@"getui_message"
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tongzhi3:)
+                                                 name:@"message_notice"
+                                               object:nil];
+    
+    
     if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"person_dot"] isEqualToString:@"1"]) {
         
         [self.tabBar showBadgeOnItemIndex:3];
@@ -146,10 +152,21 @@
 //        [[[[[self tabBarController] tabBar] items] objectAtIndex:3] setBadgeValue:@"1"];
         fourthNav.tabBarItem.badgeValue = @"1";
     }
+    if ( [[[NSUserDefaults standardUserDefaults]objectForKey:@"messageDot"] isEqualToString:@"1"]) {
+        
+        [self.tabBar showBadgeOnItemIndex:3];
+    }else{
+        [self.tabBar hideBadgeOnItemIndex:3];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(tongzhi2)
                                                  name:@"getui_notic"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tongzhi4)
+                                                 name:@"message_notic"
                                                object:nil];
     
     
@@ -159,6 +176,12 @@
 {
     [self.tabBar hideBadgeOnItemIndex:3];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"person_dot"];
+}
+
+-(void)tongzhi4
+{
+    [self.tabBar hideBadgeOnItemIndex:3];
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"messageDot"];
 }
 
 - (void)addDot
@@ -177,6 +200,34 @@
     
     [self.tabBar showBadgeOnItemIndex:3];
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"person_dot"];
+    
+    NSString *title=text.userInfo[@"push_title"];
+    
+    NSString *content=text.userInfo[@"push_dsp"];
+    
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    
+    if (localNotif == nil)
+        return;
+    
+    localNotif.timeZone = [NSTimeZone defaultTimeZone];
+    
+    localNotif.alertTitle=title;
+    
+    localNotif.alertBody = content;
+    
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+    
+    AudioServicesPlaySystemSound (1300);
+}
+
+- (void)tongzhi3:(NSNotification *)text
+{
+    
+    [self.tabBar showBadgeOnItemIndex:3];
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"messageDot"];
     
     NSString *title=text.userInfo[@"push_title"];
     

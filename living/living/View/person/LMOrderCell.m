@@ -105,17 +105,13 @@
     _numLabel.textColor = TEXT_COLOR_LEVEL_3;
     [cellView addSubview:_numLabel];
     
-    
     _deductionImage = [UIImageView new];
     [cellView addSubview:_deductionImage];
-    
     
     _couponLabel = [UILabel new];
     _couponLabel.font = TEXT_FONT_LEVEL_2;
     _couponLabel.textColor = LIVING_REDCOLOR;
     [cellView addSubview:_couponLabel];
-    
-    
     
     _priceLabel = [UILabel new];
     _priceLabel.font = TEXT_FONT_LEVEL_3;

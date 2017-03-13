@@ -7,7 +7,18 @@
 //
 
 #import "FitStatefulTableViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+#import <Photos/Photos.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import <MediaPlayer/MediaPlayer.h>
 #import "LMWobsocket.h"
+#import "UIImageView+WebCache.h"
+#import "ZYQAssetPickerController.h"
+#import "WebsocketStompKit.h"
+#import "LGAudioKit.h"
+#import "Masonry.h"
 
 
 typedef enum {
@@ -24,7 +35,12 @@ typedef enum {
 
 @property (assign, nonatomic)   NSInteger               total;
 @property (nonatomic)           int                     max;
+@property (nonatomic)           int                     timeNum;
+@property (nonatomic)           int                     durationTime;
+
 @property (assign, nonatomic)   FitMessageTableState    state;
+
+@property (nonatomic, weak) NSTimer *timerOf60Second;
 
 
 

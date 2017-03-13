@@ -8,6 +8,7 @@
 
 #import "PlayerViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "FitConsts.h"
 
 #define KPlayerItemStatus @"status"
 
@@ -100,8 +101,9 @@
 
 - (void)createFuctionView
 {
-    UIButton *backButtton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
+    UIButton *backButtton=[[UIButton alloc]initWithFrame:CGRectMake(0, 10, 60, 40)];
     [backButtton setImage:[UIImage imageNamed:@"back-1"] forState:UIControlStateNormal];
+    backButtton.backgroundColor = LIVING_COLOR;
     [backButtton addTarget:self action:@selector(backSuperViewController) forControlEvents:UIControlEventTouchUpInside];
     [maskView addSubview:backButtton];
     
@@ -129,7 +131,8 @@
     [sliderView setContinuous:NO];
     sliderView.minimumTrackTintColor=[UIColor clearColor];
     sliderView.maximumTrackTintColor=[UIColor clearColor];
-    sliderView.thumbTintColor=[UIColor lightGrayColor];
+    UIImage *imagea=[self OriginImage:[UIImage imageNamed:@"sliderIcon"] scaleToSize:CGSizeMake(12, 12)];
+    [sliderView  setThumbImage:imagea forState:UIControlStateNormal];
     [maskView addSubview:sliderView];
     
      //显示当前播放时长
@@ -277,7 +280,7 @@
      CMTimeMake(time, timeScale)
      time指的就是時間(不是秒),而時間要換算成秒就要看第二個參數timeScale了。timeScale指的是1秒需要由幾個frame構成(可以視為fps),因此真正要表達的時間就會是 time / timeScale 才會是秒.”
      */
-        playbackTimeObserver = [playerView addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
+        playbackTimeObserver = [playerView addPeriodicTimeObserverForInterval:CMTimeMake(1, 10000) queue:NULL usingBlock:^(CMTime time) {
         double currentSecond = (double)playerItem.currentTime.value/playerItem.currentTime.timescale;
         __strong typeof(UISlider)* strongSlider = weakSlider;
         if (strongSlider) {
@@ -321,6 +324,15 @@
         _dateFormatter = [[NSDateFormatter alloc] init];
     }
     return _dateFormatter;
+}
+
+-(UIImage *)OriginImage:(UIImage *)image scaleToSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0, size.width, size.height)];
+    UIImage *scaleImage=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaleImage;
 }
 
 @end

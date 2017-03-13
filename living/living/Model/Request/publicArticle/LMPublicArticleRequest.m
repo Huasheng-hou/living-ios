@@ -16,6 +16,7 @@
                 andImageURL:(NSArray *)article_imgs
                     andType:(NSString *)type
                       blend:(NSArray *)blend
+                       sign:(NSString *)sign
 {
     self = [super init];
     
@@ -49,6 +50,9 @@
         
         if (type) {
             [bodyDict setObject:type forKey:@"type"];
+        }
+        if (sign) {
+            [bodyDict setObject:sign forKey:@"sign"];
         }
    
         NSMutableDictionary *paramsDict = [self params];

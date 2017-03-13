@@ -42,13 +42,7 @@ LMMypublicEventCellDelegate
 {
     [super viewDidLoad];
     [self creatUI];
-    
     [self loadNewer];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -144,7 +138,6 @@ LMMypublicEventCellDelegate
     }
     [(LMMypublicEventCell *)cell setDelegate:self];
     [(LMMypublicEventCell *)cell setTag:indexPath.row];
-    [(LMMypublicEventCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
 }

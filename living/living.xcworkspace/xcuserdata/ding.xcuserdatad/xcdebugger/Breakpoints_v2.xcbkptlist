@@ -14,28 +14,18 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/Home/LMPublicArticleController.m"
-            timestampString = "509251830.939451"
+            filePath = "living/Controller/Home/LMHomeDetailController.m"
+            timestampString = "510472800.651688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "947"
-            endingLineNumber = "947"
-            landmarkName = "-videoViewController:didRecordVideo:"
+            startingLineNumber = "1489"
+            endingLineNumber = "1489"
+            landmarkName = "-clickViewTag:andSubViewTag:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -45,13 +35,108 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "living/Controller/Home/LMPublicArticleController.m"
-            timestampString = "509251830.939451"
+            filePath = "living/Controller/activity/LMActivityDetailController.m"
+            timestampString = "510472953.286334"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "949"
-            endingLineNumber = "949"
-            landmarkName = "-videoViewController:didRecordVideo:"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "-getEventListDataResponse:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/activity/LMActivityDetailController.m"
+            timestampString = "510472960.630624"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "-getEventListDataRequest"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/activity/LMActivityDetailController.m"
+            timestampString = "510472969.999274"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "-getEventListDataRequest"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__53-[LMActivityDetailController getEventListDataRequest]_block_invoke.85"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMActivityDetailController.m"
+                  timestampString = "510501607.577547"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "180"
+                  endingLineNumber = "180"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.88"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMActivityDetailController.m"
+                  timestampString = "510501607.579671"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "180"
+                  endingLineNumber = "180"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.89"
+                  moduleName = "&#x8170;&#x679c;&#x751f;&#x6d3b;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ding/Desktop/living-ios/living/living/Controller/activity/LMActivityDetailController.m"
+                  timestampString = "510501607.581771"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "180"
+                  endingLineNumber = "180"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "living/Controller/person/LMMyMessageViewController.m"
+            timestampString = "510489047.742411"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "-addMessage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

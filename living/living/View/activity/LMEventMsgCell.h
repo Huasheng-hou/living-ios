@@ -20,6 +20,10 @@
 
 @property (nonatomic)CGFloat imageHeight;
 
+@property (nonatomic)CGFloat videoWidth;
+
+@property (nonatomic)CGFloat videoHeight;
+
 @property (nonatomic)NSInteger index;
 
 @property (nonatomic, weak) id <LMEventMsgCellDelegate> delegate;
@@ -41,5 +45,6 @@
 @optional
 
 - (void)cellProjectImage:(LMEventMsgCell *)cell;
+- (void)cellProjectVideo:(LMEventMsgCell *)cell;
 
 @end

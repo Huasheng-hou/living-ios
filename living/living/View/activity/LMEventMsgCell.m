@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) UIImageView *headImage;
 
+@property (nonatomic, strong) UIImageView *videoImage;
 
 @property (nonatomic, strong) UILabel *dspLabel;
 
@@ -51,6 +52,16 @@
     UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
     [_headImage addGestureRecognizer:tapImage];
     
+    _videoImage = [UIImageView new];
+    _videoImage.backgroundColor = BG_GRAY_COLOR;
+    _videoImage.contentMode = UIViewContentModeScaleAspectFill;
+    [_videoImage setClipsToBounds:YES];
+    _videoImage.userInteractionEnabled = YES;
+    
+    [self.contentView addSubview:_videoImage];
+    UITapGestureRecognizer *tapVideo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickVideo:)];
+    [_videoImage addGestureRecognizer:tapVideo];
+    
     
     
     //标题
@@ -78,6 +89,7 @@
     _contentLabel.text = list.projectDsp;
 
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.projectImgs]];
+    [_videoImage sd_setImageWithURL:[NSURL URLWithString:list.coverUrl]];
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     if (_contentLabel.text!=nil) {
@@ -99,6 +111,20 @@
     
     _imageWidth = list.width;
     _imageHeight = list.height;
+
+    
+    if (list.coverWidth&&list.coverHeight) {
+        _videoWidth = list.coverWidth;
+        _videoHeight = list.coverHeight;
+        UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21-15, (_videoHeight*(kScreenWidth-30)/_videoWidth)/2-21, 42, 42)];
+        playView.image = [UIImage imageNamed:@"playIcon"];
+        playView.userInteractionEnabled = YES;
+        [_videoImage addSubview:playView];
+    }else{
+        _videoWidth = 0;
+        _videoHeight = 0;
+    }
+
     
 }
 
@@ -141,11 +167,15 @@
     _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 0);
     if (_index==1) {
         _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, 0);
+        
     }else{
        _headImage.frame = CGRectMake(15, 20+_conHigh, kScreenWidth-30, _imageHeight*(kScreenWidth-30)/_imageWidth);
     }
+    if (_videoWidth!=0) {
+        _videoImage.frame = CGRectMake(15, 30+_conHigh+_headImage.bounds.size.height, kScreenWidth-30, _videoHeight*(kScreenWidth-30)/_videoWidth);
+    }
 
-    _contentLabel.frame = CGRectMake(15, 30+_headImage.bounds.size.height +_conHigh, kScreenWidth-30, _dspHigh);
+    _contentLabel.frame = CGRectMake(15, 40+_headImage.bounds.size.height +_conHigh+_videoImage.bounds.size.height, kScreenWidth-30, _dspHigh);
 
 }
 
@@ -153,6 +183,13 @@
 {
     if ([_delegate respondsToSelector:@selector(cellProjectImage:)]) {
         [_delegate cellProjectImage:self];
+    }
+}
+
+-(void)clickVideo:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(cellProjectVideo:)]) {
+        [_delegate cellProjectVideo:self];
     }
 }
 

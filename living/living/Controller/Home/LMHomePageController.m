@@ -90,6 +90,19 @@ WJLoopViewDelegate
     self.tabBarController.tabBar.hidden = NO;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(publicAction)];
+        
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -122,6 +135,7 @@ WJLoopViewDelegate
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
+
     self.tableView.backgroundColor = [UIColor whiteColor];
     if ([[FitUserManager sharedUserManager] isLogin]) {
         
@@ -135,7 +149,6 @@ WJLoopViewDelegate
     LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 132)];
     banner.delegate = self;
     self.tableView.tableHeaderView = banner;
-
 }
 
 - (void)adjustIndicator:(UIView *)loadingView

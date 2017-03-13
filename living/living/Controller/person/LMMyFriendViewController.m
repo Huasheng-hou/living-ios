@@ -12,6 +12,8 @@
 #import "LMScanViewController.h"
 #import "MJRefresh.h"
 #import "LMFriendVO.h"
+#import "LMMyMessageViewController.h"
+#import "LMMessageBoardViewController.h"
 #define PAGER_SIZE      20
 @interface LMMyFriendViewController ()
 {
@@ -71,8 +73,20 @@
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
 //    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"留言" style:UIBarButtonItemStylePlain target:self action:@selector(MessageBoardAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 
 }
+
+-(void)MessageBoardAction
+{
+    LMMyMessageViewController *messageVC = [[LMMyMessageViewController alloc] init];
+    messageVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:messageVC animated:YES];
+    
+}
+
 
 #pragma mark 重新请求单元格数据（通知  投票）
 
@@ -157,6 +171,21 @@
     
     return cell;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.listData.count > indexPath.row) {
+        NSLog(@"留言板");
+        LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
+        LMMessageBoardViewController *messageBoardVC = [[LMMessageBoardViewController alloc] init];
+        messageBoardVC.friendUUid = list.userUuid;
+        messageBoardVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:messageBoardVC animated:YES];
+    }
+}
+
+
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {

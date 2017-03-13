@@ -18,7 +18,6 @@
 @interface FitChatExpressionView : UIScrollView
 
 @property (nonatomic, assign) id<FitChatExpressionViewDelegate> ExpresionViewDelegate;
-
 @property (nonatomic, retain) UIPageControl     *pageControl;
 @property (nonatomic, retain) UIScrollView      *expressionView;
 @property (nonatomic, retain) FitChatFaceView   *faceView;

@@ -94,6 +94,14 @@ static CGRect oldframe;
                                                  name:@"getui_message"
      
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(addDot2)
+     
+                                                 name:@"message_notice"
+     
+                                               object:nil];
 }
 
 - (void)creatUI
@@ -125,6 +133,13 @@ static CGRect oldframe;
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"homeDot"];
     self.navigationItem.rightBarButtonItem.badgeValue = @"1";
     self.navigationItem.rightBarButtonItem.badgeBGColor = [UIColor redColor];
+}
+
+- (void)addDot2
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"messageDot"];
+    [_tableView reloadData];
+
 }
 
 
@@ -413,7 +428,7 @@ static CGRect oldframe;
             case 3:
                 cell.textLabel.text = @"我的好友";
                 cell.imageView.image = [UIImage imageNamed:@"friend"];
-                
+            
                 break;
             case 4:
                 cell.textLabel.text = @"我的优惠券";
@@ -434,7 +449,21 @@ static CGRect oldframe;
             default:
                 break;
         }
-        
+
+        if (indexPath.row==3) {
+            UIView *redView = [UIView new];
+            if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"messageDot"] isEqualToString:@"1"]) {
+                redView.backgroundColor = [UIColor redColor];
+                redView.layer.cornerRadius = 4;
+                [redView sizeToFit];
+                redView.frame = CGRectMake(kScreenWidth-10, 10, 8, 8);
+                [cell addSubview:redView];
+            }else{
+                [redView removeFromSuperview];
+            }
+            
+
+        }
     }
     
     if (indexPath.section==2) {
@@ -537,6 +566,9 @@ static CGRect oldframe;
             LMMyFriendViewController *myfVC = [[LMMyFriendViewController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
+    
+            [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"messageDot"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"message_notic" object:nil];
         }
         
         //我的优惠券
