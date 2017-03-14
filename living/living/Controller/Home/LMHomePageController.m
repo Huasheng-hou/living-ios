@@ -186,7 +186,7 @@ WJLoopViewDelegate
                                                                  waitUntilDone:YES];
                                          }
                                             failed:^(NSError *error) {
-                                                NSLog(@"error:%@", error.localizedDescription);
+                                                
                                                 [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                        withObject:@"网络错误"
                                                                     waitUntilDone:YES];
@@ -235,6 +235,7 @@ WJLoopViewDelegate
 //热门文章  --  原首页文章列表
 - (FitBaseRequest *)request
 {
+    [self getRecommendArticleRequest];
     LMHomelistequest    *request    = [[LMHomelistequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
     
     return request;

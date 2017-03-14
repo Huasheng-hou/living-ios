@@ -18,6 +18,7 @@
     UIImageView *icon;
     UILabel *name;
     UILabel *tag;
+    UIImageView * sign;
     
 }
 
@@ -37,7 +38,7 @@
     [self.contentView addSubview:backView];
     
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 100, 90)];
-    imageView.image = [UIImage imageNamed:@"cellHeadImageIcon"];
+    imageView.image = [UIImage imageNamed:@"BackImage"];
     imageView.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:imageView];
     
@@ -63,6 +64,11 @@
     icon.layer.masksToBounds = YES;
     icon.layer.cornerRadius = 10;
     [backView addSubview:icon];
+    
+    sign = [[UIImageView alloc] initWithFrame:CGRectMake(icon.center.x, icon.center.y, CGRectGetWidth(icon.frame)/2, CGRectGetHeight(icon.frame)/2)];
+    sign.layer.masksToBounds = YES;
+    sign.layer.cornerRadius = 5;
+    [backView addSubview:sign];
     
     name = [[UILabel alloc] initWithFrame:CGRectMake(150, 75, 60, 10)];
     name.text = @"欧阳夏丹";
@@ -104,6 +110,14 @@
     NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
     
     tag.text = newType[index];
+    
+    if ([vo.sign isEqualToString:@"menber"]) {
+        sign.image = [UIImage imageNamed:@"BigVRed"];
+    }else if([vo.sign isEqualToString:@"user"]){
+        sign.image = [UIImage imageNamed:@""];
+    }
+    
+    
     
 }
 

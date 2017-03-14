@@ -524,6 +524,7 @@
 		D53494C91E77B50700A4442C /* LMMoreArticlesVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D53494C81E77B50700A4442C /* LMMoreArticlesVO.m */; };
 		D53494CC1E77B51300A4442C /* LMMoreEventsVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D53494CB1E77B51300A4442C /* LMMoreEventsVO.m */; };
 		D53494CF1E77B51F00A4442C /* LMMoreVoicesVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D53494CE1E77B51F00A4442C /* LMMoreVoicesVO.m */; };
+		D53494D21E77D39A00A4442C /* LMAllRecommendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D53494D11E77D39A00A4442C /* LMAllRecommendRequest.m */; };
 		D537C5981E764A41002125E7 /* LMAllActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = D537C5971E764A41002125E7 /* LMAllActivityController.m */; };
 		D537C59B1E764A5C002125E7 /* LMAllEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D537C59A1E764A5C002125E7 /* LMAllEventController.m */; };
 		D537C59F1E7677BC002125E7 /* 下1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D537C59E1E7677BC002125E7 /* 下1@2x.png */; };
@@ -1498,7 +1499,7 @@
 		8728E7D71E6543C3003303F2 /* LMActivityLifeHouseBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityLifeHouseBtn.m; sourceTree = "<group>"; };
 		8728E7D81E6543C3003303F2 /* LMActivityLifeHouseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityLifeHouseCell.h; sourceTree = "<group>"; };
 		8728E7D91E6543C3003303F2 /* LMActivityLifeHouseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityLifeHouseCell.m; sourceTree = "<group>"; };
-		8728E7DF1E6544B7003303F2 /* LMActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMActivityViewController.m; path = ../../../../Controller/activity/LMActivityViewController.m; sourceTree = "<group>"; };
+		8728E7DF1E6544B7003303F2 /* LMActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityViewController.m; sourceTree = "<group>"; };
 		8744FEA31E5D8DAC00F119C9 /* LMRecommendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendCell.h; sourceTree = "<group>"; };
 		8744FEA41E5D8DAC00F119C9 /* LMRecommendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendCell.m; sourceTree = "<group>"; };
 		8744FEA61E5DA59500F119C9 /* HotArticleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotArticleCell.h; sourceTree = "<group>"; };
@@ -1592,6 +1593,8 @@
 		D53494CB1E77B51300A4442C /* LMMoreEventsVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMoreEventsVO.m; sourceTree = "<group>"; };
 		D53494CD1E77B51F00A4442C /* LMMoreVoicesVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMoreVoicesVO.h; sourceTree = "<group>"; };
 		D53494CE1E77B51F00A4442C /* LMMoreVoicesVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMoreVoicesVO.m; sourceTree = "<group>"; };
+		D53494D01E77D39A00A4442C /* LMAllRecommendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAllRecommendRequest.h; sourceTree = "<group>"; };
+		D53494D11E77D39A00A4442C /* LMAllRecommendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAllRecommendRequest.m; sourceTree = "<group>"; };
 		D537C5961E764A41002125E7 /* LMAllActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAllActivityController.h; sourceTree = "<group>"; };
 		D537C5971E764A41002125E7 /* LMAllActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAllActivityController.m; sourceTree = "<group>"; };
 		D537C5991E764A5C002125E7 /* LMAllEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAllEventController.h; sourceTree = "<group>"; };
@@ -2477,6 +2480,7 @@
 				35B744D01DDE97F2000AFA26 /* LMActivityDetailController.h */,
 				35B744D11DDE97F2000AFA26 /* LMActivityDetailController.m */,
 				35B744D21DDE97F2000AFA26 /* LMActivityViewController.h */,
+				8728E7DF1E6544B7003303F2 /* LMActivityViewController.m */,
 				35B744D41DDE97F2000AFA26 /* LMBesureOrderViewController.h */,
 				35B744D51DDE97F2000AFA26 /* LMBesureOrderViewController.m */,
 				35B744D61DDE97F2000AFA26 /* LMEventDetailViewController.h */,
@@ -2985,7 +2989,6 @@
 		35B745A21DDE97F2000AFA26 /* eventStatus */ = {
 			isa = PBXGroup;
 			children = (
-				8728E7DF1E6544B7003303F2 /* LMActivityViewController.m */,
 				35B745A31DDE97F2000AFA26 /* LMEventEndRequest.h */,
 				35B745A41DDE97F2000AFA26 /* LMEventEndRequest.m */,
 				35B745A51DDE97F2000AFA26 /* LMEventStartRequest.h */,
@@ -4044,6 +4047,8 @@
 				D53494B81E779D0700A4442C /* LMExpertVoicesRequest.m */,
 				D53494BA1E779F0300A4442C /* LMExpertRecommendRequest.h */,
 				D53494BB1E779F0300A4442C /* LMExpertRecommendRequest.m */,
+				D53494D01E77D39A00A4442C /* LMAllRecommendRequest.h */,
+				D53494D11E77D39A00A4442C /* LMAllRecommendRequest.m */,
 			);
 			path = expert;
 			sourceTree = "<group>";
@@ -4609,6 +4614,7 @@
 				351751251E529B99005B5E69 /* LMExceptionalView.m in Sources */,
 				35B7474F1DDE97F3000AFA26 /* LMBlanceDetailController.m in Sources */,
 				35B747671DDE97F3000AFA26 /* LMNoticViewController.m in Sources */,
+				D53494D21E77D39A00A4442C /* LMAllRecommendRequest.m in Sources */,
 				351751281E52D7CE005B5E69 /* LMRewardBlanceRequest.m in Sources */,
 				35B748141DDE97F4000AFA26 /* LMPublicEventListCell.m in Sources */,
 				35B747381DDE97F3000AFA26 /* WXApiRequestHandler.m in Sources */,

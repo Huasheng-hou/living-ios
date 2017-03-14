@@ -161,50 +161,6 @@ doSomethingForActivityDelegate
     
 }
 
-//- (void)screenAction:(UIButton *)sender
-//{
-//    SearchViewController *searchV = [[SearchViewController alloc]init];
-//    UINavigationController *naV = [[UINavigationController alloc]initWithRootViewController:searchV];
-//    [searchV setSucceed:^(NSString *str) {
-//        
-//        if (str.length > 3) {
-//            
-//            letfButton.width = 80+24*(str.length-3);
-//            letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-//            letfButton.imageView.originX = letfButton.width*0.5+15;
-//        }else{
-//            
-//            if (str.length == 3) {
-//                
-//                letfButton.width = 80;
-//                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-//                letfButton.imageView.originX = letfButton.width*0.5+15;
-//                
-//            }else{
-//                
-//                letfButton.width = 55;
-//                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-//                letfButton.imageView.originX = letfButton.width*0.5+15;
-//            }
-//        }
-//        
-//        [letfButton setTitle:str forState:UIControlStateNormal];
-//        
-//        NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:str, nil];
-//        
-//        //存入数组并同步
-//        
-//        [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"cityArr"];
-//        
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//        
-//    }];
-//    [self presentViewController:naV animated:YES completion:^{
-//        
-//    }];
-//    
-//}
-
 #pragma mark - 网络连接
 
 - (void)getBannerDataRequest
@@ -219,7 +175,7 @@ doSomethingForActivityDelegate
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               NSLog(@"%@", resp);
+                                               
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    [self parseBannerResp:resp];
                                                });
@@ -443,23 +399,6 @@ doSomethingForActivityDelegate
     return nil;
 }
 
-//-(void)creatImage
-//{
-//    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
-//    
-//    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-41, 5, 82, 91)];
-//    //homeImg.image = [UIImage imageNamed:@"eventload"];
-//    [homeImage addSubview:homeImg];
-//    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 95, 300, 60)];
-//    imageLb.numberOfLines = 0;
-//    imageLb.text = @"您选择的城市还没有活动哦\n选择其它城市看看吧";
-//    imageLb.textColor = TEXT_COLOR_LEVEL_3;
-//    imageLb.font = TEXT_FONT_LEVEL_2;
-//    imageLb.textAlignment = NSTextAlignmentCenter;
-//    [homeImage addSubview:imageLb];
-//    homeImage.hidden = YES;
-//    [self.tableView addSubview:homeImage];
-//}
 
 #pragma mark - tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -558,42 +497,6 @@ doSomethingForActivityDelegate
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    static NSString *cellId = @"cellId";
-    
-    UITableViewCell     *cell;
-    
-    cell    = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    if (cell) {
-        
-        return cell;
-    }
-    
-    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
-    if (!cell) {
-        
-        cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    if (self.listData.count > indexPath.row) {
-        
-        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
-            
-            [(LMActivityCell *)cell setActivityList:vo index:0] ;
-        }
-    }
-    
-    [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    
-    return cell;
-     */
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell == nil){

@@ -98,7 +98,7 @@
 
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     NSString    *result         = [bodyDic objectForKey:@"result"];
-    NSLog(@"%@", bodyDic);
+    //NSLog(@"%@", bodyDic);
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];

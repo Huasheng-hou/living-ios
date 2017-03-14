@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMRecommendExpertVO.h"
 @protocol LMExpertListDelegate <NSObject>
 
 - (void)gotoNextPage:(NSInteger)index;
@@ -17,4 +17,7 @@
 
 @property (nonatomic, assign)NSInteger count;
 @property (nonatomic, weak)id <LMExpertListDelegate> delegate;
+
+- (void)setArray:(NSArray *)array;
+
 @end

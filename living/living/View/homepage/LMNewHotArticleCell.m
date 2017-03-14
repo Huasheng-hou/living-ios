@@ -8,6 +8,7 @@
 
 #import "LMNewHotArticleCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 @implementation LMNewHotArticleCell
 {
     
@@ -72,15 +73,37 @@
     
     category = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(name.frame)+10, CGRectGetMinY(name.frame), 0, 15)];
     category.backgroundColor = COLOR_RED_LIGHT;
-    category.text = @"Yao/美丽";
+    category.text = @"Yao|美丽";
     category.font = TEXT_FONT_LEVEL_3;
     [category sizeToFit];
     [backView addSubview:category];
-    
-    
-    
-    
 }
-
+- (void)setVO:(LMMoreArticlesVO *)vo{
+    
+    [backImage sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+    backImage.contentMode = UIViewContentModeScaleAspectFill;
+    backImage.clipsToBounds = YES;
+    
+    title.text = vo.articleTitle;
+    [avatar sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:[UIImage imageNamed:@""]];
+    
+    if (![vo.sign isEqualToString:@"menber"]) {
+        [flag removeFromSuperview];
+    }
+    
+    name.text = vo.articleName;
+    if ([vo.category isEqualToString:@"beautiful"]) {
+        category.text = @"Yao|美丽";
+    }
+    if ([vo.category isEqualToString:@"healthy"]) {
+        category.text = @"Yao|健康";
+    }
+    if ([vo.category isEqualToString:@"delicious"]) {
+        category.text = @"Yao|美食";
+    }
+    if ([vo.category isEqualToString:@"happiness"]) {
+        category.text = @"Yao|幸福";
+    }
+}
 
 @end

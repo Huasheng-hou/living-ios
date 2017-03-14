@@ -46,14 +46,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = BG_GRAY_COLOR;
     self.title = @"选择城市";
-    self.navigationController.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+//    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+//    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
+    self.navigationController.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:TEXT_COLOR_LEVEL_2,
                                                        NSForegroundColorAttributeName, nil];
-    self.navigationController.navigationBar.barTintColor = LIVING_COLOR;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     // 设置导航栏左侧按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     leftBtn.frame = CGRectMake(0, 0, 40, 30);
     [leftBtn addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [leftBtn setTitleColor:TEXT_COLOR_LEVEL_2 forState:UIControlStateNormal];
+    [leftBtn setTitleColor:TEXT_COLOR_LEVEL_2 forState:UIControlStateHighlighted];
     UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = LeftBarButton;
     

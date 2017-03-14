@@ -32,7 +32,7 @@
 @property (nonatomic, copy) NSString * perCost;
 @property (nonatomic, copy) NSString * discount;
 @property (nonatomic, assign) NSInteger  totalNum;
-@property (nonatomic, assign) NSInteger  status;
+@property (nonatomic, copy) NSString * status;
 @property (nonatomic, copy) NSString * category;
 
 

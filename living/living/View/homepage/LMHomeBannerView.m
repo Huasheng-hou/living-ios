@@ -59,8 +59,8 @@
         
         
         UIImageView * headImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageX, imageY, imageWd, imageHt)];
+        headImage.center = CGPointMake(cellW/2.0, imageY+imageHt/2.0);
         headImage.image = [UIImage imageNamed:imageNames[i]];
-        //headImage.backgroundColor = BG_GRAY_COLOR;
         [backView addSubview:headImage];
         
         UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(0, imageHt+imageY+10, cellW, 15)];
@@ -75,7 +75,7 @@
     _scrollView.contentSize = CGSizeMake(imageCount*cellW, cellH);
     _scrollView.delegate = self;
     _scrollView.bounces = NO;
-    _scrollView.pagingEnabled = YES;
+    _scrollView.pagingEnabled = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
     [self addSubview:_scrollView];

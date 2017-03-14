@@ -14,6 +14,20 @@
 #import "LMNewHotArticleCell.h"
 #import "LMExpertListController.h"
 #import "LMArtcleTypeListRequest.h"
+
+#import "LMExpertListRequest.h"
+#import "LMExpertRecommendRequest.h"
+#import "LMExpertArticlesRequest.h"
+#import "LMExpertEventsRequest.h"
+#import "LMExpertVoicesRequest.h"
+#import "LMRecommendExpertVO.h"
+#import "LMExpertListVO.h"
+#import "LMMoreArticlesVO.h"
+#import "LMMoreEventsVO.h"
+#import "LMMoreVoicesVO.h"
+#import "LMAllRecommendRequest.h"
+
+#define PAGE_SIZE 20
 @interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource,LMExpertListDelegate>
 
 @end
@@ -22,6 +36,13 @@
 {
     
     NSString * _category;
+    
+    NSArray * _expertList;
+    NSArray * _recommendExpert;
+    NSArray * _articles;
+    NSArray * _events;
+    NSArray * _voices;
+    
     
 }
 - (instancetype)initWithType:(NSString *)type{
@@ -37,6 +58,8 @@
     
     
     [self createUI];
+    [self getRecommendExpertRequest];
+    [self getArticlesRequest];
 }
 
 - (void)createUI{
@@ -54,26 +77,108 @@
 - (FitBaseRequest *)request{
     
     LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:_category];
+    [self getRecommendExpertRequest];
+    [self getArticlesRequest];
     return request;
 }
-//达人列表
-- (void)getExpertListRequest{
+//官方推荐达人
+- (void)getRecommendExpertRequest{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMExpertRecommendRequest * request = [[LMExpertRecommendRequest alloc] initWithCategory:_category];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+        
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                
+                                                 [self parseExpertsResp:resp];
+                                                 
+                                             });
+                                             
+                                        }
+                                            failed:^(NSError *error) {
+                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                       withObject:@"网络错误"
+                                                                    waitUntilDone:YES];
+                                            }];
     
-    
+     [proxy start];
 }
-//文章
+- (void)parseExpertsResp:(NSString *)resp{
+    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData
+                                                             options:NSJSONReadingMutableLeaves
+                                                               error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
+        return ;
+    }
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    NSString * desp = [bodyDic objectForKey:@"description"];
+    if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
+        
+        _recommendExpert = [LMRecommendExpertVO LMRecommendExpertVOListWithArray:[bodyDic objectForKey:@"list"]];
+        [self.tableView reloadData];
+    }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:)
+                               withObject:desp
+                            waitUntilDone:NO];
+    }
+
+}
+//官方推荐文章、活动、课程
 - (void)getArticlesRequest{
-    
-    
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMAllRecommendRequest * request = [[LMAllRecommendRequest alloc] initWithCategory:_category];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             
+                                             [self performSelectorOnMainThread:@selector(parseData:)
+                                                                    withObject:resp
+                                                                 waitUntilDone:YES];
+                                             
+                                         }
+                                            failed:^(NSError *error) {
+                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                       withObject:@"网络错误"
+                                                                    waitUntilDone:YES];
+                                            }];
+
+     [proxy start];
 }
-//活动
-- (void)getEventsRequest{
+- (void)parseData:(NSString *)resp{
     
-    
-}
-//课程
-- (void)getVoicesRequest{
-    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData
+                                                             options:NSJSONReadingMutableLeaves
+                                                               error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
+        return ;
+    }
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    NSString * desp = [bodyDic objectForKey:@"description"];
+    if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
+        _events = [LMMoreEventsVO LMMoreEventsVOListWithArray:[bodyDic objectForKey:@"events_body"]];
+        _articles = [LMMoreArticlesVO LMMoreArticlesVOListWithArray:[bodyDic objectForKey:@"articles_body"]];
+        _voices = [LMMoreVoicesVO LMMoreVoicesVOListWithArray:[bodyDic objectForKey:@"voices_body"]];
+        
+        [self.tableView reloadData];
+        
+    }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:desp waitUntilDone:NO];
+    }
+
     
 }
 #pragma mark tableview代理方法
@@ -147,6 +252,12 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.count = 8;
         cell.delegate = self;
+        if (_recommendExpert.count > 0) {
+            cell.count = _recommendExpert.count;
+        
+            [cell setArray:_recommendExpert];
+            
+        }
         return cell;
     }
     if (indexPath.section == 1) {
@@ -154,8 +265,11 @@
         if (!cell) {
             cell = [[LMNewHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotArticleCell"];
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_articles.count > 0) {
+            LMMoreArticlesVO * vo = _articles[indexPath.row];
+            [cell setVO:vo];
+        }
         return cell;
 
     }
@@ -166,6 +280,10 @@
         }
         cell.type = 1;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_events.count > 0) {
+            LMMoreEventsVO * vo = _events[indexPath.row];
+            [cell setVO:vo];
+        }
         return cell;
     }
     if (indexPath.section == 3) {
@@ -174,6 +292,10 @@
             cell = [[LMExpertHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotClassCell"];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_voices.count > 0) {
+            LMMoreVoicesVO * vo = _voices[indexPath.row];
+            [cell setVO:vo];
+        }
         return cell;
     }
     return nil;

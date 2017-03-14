@@ -8,6 +8,11 @@
 
 #import "LMExpertHotArticleCell.h"
 #import "FitConsts.h"
+#import "LMMoreEventsVO.h"
+#import "LMMoreVoicesVO.h"
+#import "UIImageView+WebCache.h"
+
+
 @implementation LMExpertHotArticleCell
 {
     
@@ -19,14 +24,12 @@
     UILabel * _assistant;
     UIButton * _appointment;
     
-    
     UIImageView * _good;
     UILabel * _goodLabel;
     UIImageView * _comment;
     UILabel * _commentLabel;
     UIImageView * _share;
     UILabel * _shareLabel;
-    
     
 }
 
@@ -47,16 +50,49 @@
         _teacher.text = @"费用 ¥68/人";
         _assistant.text = @"截止至02-14";
         [_appointment setTitle:@"火热预定中" forState:UIControlStateNormal];
-        
-        
     }
     else if (type == 2)
     {
         NSLog(@"课程");
     }
-    
-    
 }
+
+- (void)setVO:(id)vo{
+    
+    if ([vo isKindOfClass:[LMMoreEventsVO class]]) {
+        LMMoreEventsVO * voo = vo;
+        [_backImage sd_setImageWithURL:[NSURL URLWithString:voo.eventImg] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+        _backImage.contentMode = UIViewContentModeScaleAspectFill;
+        _backImage.clipsToBounds = YES;
+        
+        _title.text = voo.eventName;
+        _teacher.text = [NSString stringWithFormat:@"费用 ¥%@/人", voo.perCost];
+        
+    }
+    if ([vo isKindOfClass:[LMMoreVoicesVO class]]) {
+        LMMoreVoicesVO * voo = vo;
+        [_backImage sd_setImageWithURL:[NSURL URLWithString:voo.image] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+        _backImage.contentMode = UIViewContentModeScaleAspectFill;
+        _backImage.clipsToBounds = YES;
+        
+        _title.text = voo.voiceTitle;
+        _teacher.text = [NSString stringWithFormat:@"费用 ¥%@/人", voo.perCost];
+    
+        if ([voo.status isEqualToString:@"ready"]) {
+            [_appointment setTitle:@"准备开课" forState:UIControlStateNormal];
+        }
+        if ([voo.status isEqualToString:@"open"]) {
+            [_appointment setTitle:@"已开课" forState:UIControlStateNormal];
+            _appointment.userInteractionEnabled = NO;
+        }
+        if ([voo.status isEqualToString:@"closed"]) {
+            [_appointment setTitle:@"已结束" forState:UIControlStateNormal];
+            _appointment.userInteractionEnabled = NO;
+            _appointment.backgroundColor = BG_GRAY_COLOR;
+        }
+    }
+}
+
 
 - (void)addSubViews{
     

@@ -22,13 +22,13 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-
-@property(nonatomic, copy) NSString *articleName;
-@property(nonatomic, copy) NSString *articleContent;
 @property(nonatomic, copy) NSString *articleUuid;
-@property(nonatomic, copy) NSString *articleTitle;
-@property(nonatomic, copy) NSString *publishTime;
 @property(nonatomic, copy) NSString *userUuid;
+@property(nonatomic, copy) NSString *articleTitle;
+
+@property(nonatomic, copy) NSString *articleContent;
+@property(nonatomic, copy) NSString *publishTime;
+@property(nonatomic, copy) NSString *articleName;
 @property(nonatomic, copy) NSString *avatar;
 @property(nonatomic, copy) NSString *type;
 @property(nonatomic, copy) NSString *franchisee;

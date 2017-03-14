@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMMoreArticlesVO.h"
 @interface LMNewHotArticleCell : UITableViewCell
-
+- (void)setVO:(LMMoreArticlesVO *)vo;
 @end

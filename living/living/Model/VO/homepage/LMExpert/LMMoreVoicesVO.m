@@ -98,8 +98,8 @@
             self.totalNum = [[dictionary objectForKey:@"total_num"] integerValue];
         }
         if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSNumber class]]) {
-            self.status = [[dictionary objectForKey:@"status"] integerValue];
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            self.status = [dictionary objectForKey:@"status"];
         }
         if (nil != [dictionary objectForKey:@"category"] && ![[dictionary objectForKey:@"category"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"category"] isKindOfClass:[NSString class]]) {

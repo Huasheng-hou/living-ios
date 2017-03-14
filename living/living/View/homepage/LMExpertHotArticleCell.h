@@ -13,4 +13,6 @@
 
 @property (nonatomic, assign) NSInteger type;
 
+- (void)setVO:(id)vo;
+
 @end

@@ -9,6 +9,7 @@
 #import "LMExpertListController.h"
 #import "LMAllExpertListCell.h"
 #import "LMExpertDetailController.h"
+#import "LMHomelistequest.h"
 @interface LMExpertListController ()
 
 @end
@@ -29,7 +30,7 @@
     [super viewDidLoad];
 
     [self createUI];
-
+    [self loadNewer];
 
 }
 
@@ -41,7 +42,14 @@
     self.tableView.separatorStyle = UITableViewCellEditingStyleNone;
     
 }
+- (FitBaseRequest *)request{
+    
+    LMHomelistequest    *request    = [[LMHomelistequest alloc] initWithPageIndex:self.current andPageSize:20];
+    
+    return request;
 
+}
+#pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     return 1;
