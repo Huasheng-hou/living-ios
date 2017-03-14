@@ -87,7 +87,7 @@
 
 - (FitBaseRequest *)request
 {
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:_type];
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:_type];
     
     return request;
 }

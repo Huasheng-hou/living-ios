@@ -17,13 +17,13 @@
 #import "LMBannerrequest.h"
 #import "BannerVO.h"
 
-#define PAGER_SIZE 20
+#define PAGE_SIZE 20
 @interface LMBannerDetailCommonController ()<UITableViewDelegate, UITableViewDataSource>
 @end
 
 @implementation LMBannerDetailCommonController{
 
-    NSString * _type;
+    NSString * _category;
 
     
     
@@ -36,7 +36,7 @@
         //        self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
-        _type = type;
+        _category = type;
     }
     
     return self;
@@ -77,20 +77,32 @@
 
 - (FitBaseRequest *)request
 {
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:_type];
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
     
     return request;
 }
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
+    NSData          *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary    *respDict = [NSJSONSerialization JSONObjectWithData:respData
+                                                                options:NSJSONReadingMutableLeaves
+                                                                  error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    NSString    *coderesult         = [headDic objectForKey:@"returnCode"];
+    
+    if (![coderesult isEqualToString:@"000"]) {
+        return nil;
+    }
+
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
     NSString    *result         = [bodyDic objectForKey:@"result"];
-    
+    NSLog(@"%@", bodyDic);
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
+        
         NSArray *resultArr  = [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];
         if (resultArr && resultArr.count > 0) {
             
@@ -112,7 +124,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"%@", self.listData);
     HotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (!cell) {
@@ -120,11 +131,11 @@
     }
     cell.cellType = 1;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.type = _type;
+    cell.type = _category;
     if (self.listData.count > indexPath.row) {
         
         LMActicleVO     *vo = self.listData[indexPath.row];
-        NSLog(@"%@", self.listData[0]);
+        
         if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
             
             [(HotArticleCell *)cell setValue:vo];

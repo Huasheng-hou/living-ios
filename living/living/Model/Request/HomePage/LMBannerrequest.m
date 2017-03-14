@@ -28,8 +28,8 @@
 
 - (NSString *)methodPath
 {
-    return @"home/banner";
-    //return @"event/banner";3.0
+    //return @"home/banner";
+    return @"event/banner"; //3.0
 }
 
 

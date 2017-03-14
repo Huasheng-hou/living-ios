@@ -19,9 +19,15 @@
 @end
 
 @implementation LMBannerDetailExpertController
-- (instancetype)init{
+{
+    
+    NSString * _category;
+    
+}
+- (instancetype)initWithType:(NSString *)type{
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         
+        _category = type;
     }
     return self;
 }
@@ -47,13 +53,29 @@
 #pragma mark - 数据请求
 - (FitBaseRequest *)request{
     
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:@"幸福情商"];
-    
-    
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:_category];
     return request;
+}
+//达人列表
+- (void)getExpertListRequest{
+    
     
 }
-
+//文章
+- (void)getArticlesRequest{
+    
+    
+}
+//活动
+- (void)getEventsRequest{
+    
+    
+}
+//课程
+- (void)getVoicesRequest{
+    
+    
+}
 #pragma mark tableview代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -65,9 +87,7 @@
     if (section == 0) {
         return 1;
     }
-    
     return 2;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -75,7 +95,6 @@
     if (indexPath.section == 0) {
         return 100;
     }
-    
     return 210-35;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -103,14 +122,11 @@
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
         [lookMore addGestureRecognizer:tap];
         [headerView addSubview:lookMore];
-
     }
-    
     return headerView;
 }
 - (void)lookMore:(UITapGestureRecognizer *)tap{
     
-    NSLog(@"查看更多");
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
@@ -118,8 +134,6 @@
     LMExpertListController * listVC = [[LMExpertListController alloc] init];
     listVC.title = @"达人";
     [self.navigationController pushViewController:listVC animated:YES];
-    
-    
 }
 
 
@@ -175,7 +189,6 @@
                                                                             target:self
                                                                             action:nil];
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
 

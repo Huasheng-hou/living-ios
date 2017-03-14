@@ -10,6 +10,6 @@
 
 @interface LMArtcleTypeListRequest : FitBaseRequest
 
--(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize andType:(NSString *)type;
+-(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize andCategory:(NSString *)category;
 
 @end

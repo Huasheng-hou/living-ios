@@ -221,53 +221,7 @@ doSomethingForActivityDelegate
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                NSLog(@"%@", resp);
                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                   
-                                                   NSDictionary *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   NSString     *result     = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
-                                                       
-                                                       _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
-                                                       
-                                                       if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
-                                                           
-                                                           headView.backgroundColor = BG_GRAY_COLOR;
-                                                       } else {
-                                                           
-                                                           for (UIView *subView in headView.subviews) {
-                                                               
-                                                               [subView removeFromSuperview];
-                                                           }
-                                                           
-                                                           NSMutableArray   *imgUrls    = [NSMutableArray new];
-                                                           stateArray  = [NSMutableArray new];
-                                                           
-                                                           for (BannerVO *vo in _bannerArray) {
-                                                               
-                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
-                                                                   
-                                                                   [imgUrls addObject:vo.LinkUrl];
-                                                               }
-                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
-                                                                   
-                                                                   [stateArray addObject:vo.KeyUUID];
-                                                               }
-                                                           }
-                                                           
-                                                           WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
-                                                                                                           delegate:self
-                                                                                                          imageURLs:imgUrls
-                                                                                                   placeholderImage:nil
-                                                                                                       timeInterval:8
-                                                                                     currentPageIndicatorITintColor:nil
-                                                                                             pageIndicatorTintColor:nil];
-                                                           
-                                                           loopView.location = WJPageControlAlignmentRight;
-                                                           
-                                                           [headView addSubview:loopView];
-                                                       }
-                                                   }
+                                                   [self parseBannerResp:resp];
                                                });
                                                
                                            } failed:^(NSError *error) {
@@ -277,6 +231,57 @@ doSomethingForActivityDelegate
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
+}
+
+- (void)parseBannerResp:(NSString *)resp{
+    
+    NSDictionary *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSString     *result     = [bodyDict objectForKey:@"result"];
+    
+    if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
+        
+        _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
+        
+        if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
+            
+            headView.backgroundColor = BG_GRAY_COLOR;
+        } else {
+            
+            for (UIView *subView in headView.subviews) {
+                
+                [subView removeFromSuperview];
+            }
+            
+            NSMutableArray   *imgUrls    = [NSMutableArray new];
+            stateArray  = [NSMutableArray new];
+            
+            for (BannerVO *vo in _bannerArray) {
+                
+                if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
+                    
+                    [imgUrls addObject:vo.LinkUrl];
+                }
+                if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
+                    
+                    [stateArray addObject:vo.KeyUUID];
+                }
+            }
+            
+            WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
+                                                            delegate:self
+                                                           imageURLs:imgUrls
+                                                    placeholderImage:nil
+                                                        timeInterval:8
+                                      currentPageIndicatorITintColor:nil
+                                              pageIndicatorTintColor:nil];
+            
+            loopView.location = WJPageControlAlignmentRight;
+            
+            [headView addSubview:loopView];
+        }
+    }
+
 }
 
 #pragma mark - WJLoopViewDelegate

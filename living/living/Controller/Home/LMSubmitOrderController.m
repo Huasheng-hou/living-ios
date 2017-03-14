@@ -52,7 +52,7 @@
 }
 
 - (FitBaseRequest *)request{
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andType:@"幸福情商"];
+    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:@"幸福情商"];
     return  request;
 }
 #pragma mark - tableView代理方法

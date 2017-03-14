@@ -10,4 +10,5 @@
 
 @interface LMBannerDetailExpertController : FitStatefulTableViewController
 
+- (id)initWithType:(NSString *)type;
 @end

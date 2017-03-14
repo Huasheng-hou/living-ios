@@ -133,11 +133,11 @@ WJLoopViewDelegate
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
 
     self.tableView.backgroundColor = [UIColor whiteColor];
-//    if ([[FitUserManager sharedUserManager] isLogin]) {
-//        
-//        UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
-//        self.navigationItem.rightBarButtonItem = rightItem;
-//    }
+    if ([[FitUserManager sharedUserManager] isLogin]) {
+        
+        UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     sectionList = @[@"腰果推荐", @"热门文章"];
@@ -199,14 +199,14 @@ WJLoopViewDelegate
     
     NSString * franchisee;
     NSDictionary * bodyDic = [VOUtil parseBody:resp];
-    NSLog(@"%@", bodyDic);
+    
     NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary * respDict = [NSJSONSerialization JSONObjectWithData:respData
                                                               options:NSJSONReadingMutableLeaves
                                                                 error:nil];
     NSDictionary * headDict = [respDict objectForKey:@"head"];
     NSString * returnCode = [headDict objectForKey:@"returnCode"];
-    NSLog(@"%@", headDict);
+    
     if ([returnCode isEqualToString:@"000"])
     {
         if ([headDict objectForKey:@"franchisee"] && ![[headDict objectForKey:@"franchisee"] isEqual:[NSNull null]]
@@ -291,7 +291,7 @@ WJLoopViewDelegate
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
                                                                                     action:nil];
-            NSLog(@"Yao·美丽");
+            //NSLog(@"Yao·美丽");
             bdVC.navigationItem.title = @"Yao·美丽";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
@@ -304,7 +304,7 @@ WJLoopViewDelegate
                                                                                     target:self
                                                                                     action:nil];
 
-            NSLog(@"Yao·健康");
+            //NSLog(@"Yao·健康");
             bdVC.navigationItem.title = @"Yao·健康";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
@@ -317,7 +317,7 @@ WJLoopViewDelegate
                                                                                     target:self
                                                                                     action:nil];
 
-            NSLog(@"Yao·美食");
+            //NSLog(@"Yao·美食");
             bdVC.navigationItem.title = @"Yao·美食";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
@@ -330,14 +330,14 @@ WJLoopViewDelegate
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
                                                                                     action:nil];
-            NSLog(@"Yao·幸福");
+            //NSLog(@"Yao·幸福");
             bdVC.navigationItem.title = @"Yao·幸福";
             [self.navigationController pushViewController:bdVC animated:YES];
             break;
         }
         case 14:
         {
-            NSLog(@"Yao·创客");
+            //NSLog(@"Yao·创客");
             self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
@@ -349,7 +349,7 @@ WJLoopViewDelegate
         }
         case 15:
         {
-            NSLog(@"Yao·果币");
+            //NSLog(@"Yao·果币");
             self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
@@ -536,41 +536,35 @@ WJLoopViewDelegate
         }
         return cell;
     }
-    
-    
-//    UITableViewCell *cell   = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-//    
-//    if (cell) {
-//        
-//        return cell;
-//    }
-//    
-//    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
-//    
-//    if (!cell) {
-//        
-//        cell    = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
-//    
-//    if (self.listData.count > indexPath.row) {
-//        
-//        LMActicleVO     *vo = self.listData[indexPath.row];
-//        
-//        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-//            
-//        [(LMhomePageCell *)cell setValue:vo];
-//        }
-//    }
-//    
-//    cell.tag = indexPath.row;
-//    [(LMhomePageCell *)cell setDelegate:self];
-    
     return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        LMRecommendVO * vo = _recommendArray[indexPath.row];
+        if (vo) {
+            if (vo.group && [vo.group isEqualToString:@"article"]) {
+                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.franchisee = vo.franchisee;
+                detailVC.sign = vo.sign;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+        }
+        
+    }
     if (indexPath.section == 1) {
         
         if (self.listData.count > indexPath.row) {

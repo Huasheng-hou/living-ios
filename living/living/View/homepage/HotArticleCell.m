@@ -29,8 +29,9 @@
 }
 
 - (void)setValue:(LMActicleVO *)list{
-    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"];
-    NSInteger index = [typeList indexOfObject:list.type];
+    //NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3
+    NSArray * typeList = @[@"happiness", @"beautiful", @"healthy", @"delicious", @"其他"];  //3.0
+    NSInteger index = [typeList indexOfObject:list.category];
     
     if (index >= 4) {
         index = 3;

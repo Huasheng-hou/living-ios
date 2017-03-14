@@ -74,7 +74,7 @@
     tag.text = @"Yao·美丽";
     tag.textAlignment = NSTextAlignmentCenter;
     tag.textColor = [UIColor whiteColor];
-    tag.backgroundColor = [UIColor yellowColor];
+    tag.backgroundColor = [UIColor redColor];
     tag.layer.masksToBounds = YES;
     tag.layer.cornerRadius = 2;
     tag.font = TEXT_FONT_LEVEL_4 ;
@@ -84,16 +84,26 @@
 
 - (void)setValue:(LMRecommendVO *)vo{
     
-    //[imageView sd_setImageWithURL:[NSURL URLWithString:vo.] placeholderImage:nil];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:nil];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
     
     title.text = vo.articleTitle;
     summary.text = vo.articleContent;
     [icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:nil];
-    
+    icon.contentMode = UIViewContentModeScaleAspectFill;
+    icon.clipsToBounds = YES;
     name.text = vo.articleName;
     
-    NSLog(@"%@", vo.type);
-    //tag.text = vo.type;
+    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3
+    NSInteger index = [typeList indexOfObject:vo.type];
+    
+    if (index >= 4) {
+        index = 3;
+    }
+    NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
+    
+    tag.text = newType[index];
     
 }
 

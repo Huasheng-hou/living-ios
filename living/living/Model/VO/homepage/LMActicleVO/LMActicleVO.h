@@ -23,17 +23,18 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 
-@property(nonatomic, retain) NSString *articleName;
-@property(nonatomic, retain) NSString *articleContent;
-@property(nonatomic, retain) NSString *articleUuid;
-@property(nonatomic, retain) NSString *articleTitle;
-@property(nonatomic, retain) NSString *publishTime;
-@property(nonatomic, retain) NSString *userUuid;
-@property(nonatomic, retain) NSString *avatar;
-@property(nonatomic, retain) NSString *type;
-@property(nonatomic, retain) NSString *franchisee;
-@property(nonatomic, retain) NSString *sign;
-@property(nonatomic, retain) NSString *group;
+@property(nonatomic, copy) NSString *articleName;
+@property(nonatomic, copy) NSString *articleContent;
+@property(nonatomic, copy) NSString *articleUuid;
+@property(nonatomic, copy) NSString *articleTitle;
+@property(nonatomic, copy) NSString *publishTime;
+@property(nonatomic, copy) NSString *userUuid;
+@property(nonatomic, copy) NSString *avatar;
+@property(nonatomic, copy) NSString *type;
+@property(nonatomic, copy) NSString *franchisee;
+@property(nonatomic, copy) NSString *sign;
+@property(nonatomic, copy) NSString *group;
+@property(nonatomic, copy) NSString *category;
 
 
 

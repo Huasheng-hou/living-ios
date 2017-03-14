@@ -1,19 +1,19 @@
 //
-//  LMArtcleTypeListRequest.m
+//  LMExpertListRequest.m
 //  living
 //
-//  Created by Ding on 2016/12/7.
-//  Copyright © 2016年 chenle. All rights reserved.
+//  Created by hxm on 2017/3/14.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "LMArtcleTypeListRequest.h"
+#import "LMExpertListRequest.h"
 
-@implementation LMArtcleTypeListRequest
+@implementation LMExpertListRequest
 
--(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize andCategory:(NSString *)category
-{
-    self = [super init];
-    if (self) {
+- (instancetype)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize andCategory:(NSString *)category{
+    
+    if (self = [super init]) {
+        
         NSMutableDictionary *body = [NSMutableDictionary new];
         if (pageIndex != -1) {
             [body setObject:[NSString stringWithFormat:@"%ld", (long)pageIndex] forKey:@"pageIndex"];
@@ -21,27 +21,23 @@
         if (pageSize != -1) {
             [body setObject:[NSString stringWithFormat:@"%ld", (long)pageSize] forKey:@"pageSize"];
         }
-        
         if (category) {
             [body setObject:category forKey:@"category"];
         }
-        
         NSMutableDictionary *parmDic = [self params];
         [parmDic setValue:body forKey:@"body"];
+        
+        
     }
     return self;
-    
 }
-- (BOOL)isPost
-{
+
+- (BOOL)isPost{
     return YES;
 }
 
-
-- (NSString *)methodPath
-{
-    //return @"article/typeOfAll";//分类下所有文章
-    return @"category/articles"; //3.0
+- (NSString *)methodPath{
+    
+    return @"master/list";
 }
-
 @end
