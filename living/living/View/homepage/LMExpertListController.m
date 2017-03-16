@@ -10,6 +10,11 @@
 #import "LMAllExpertListCell.h"
 #import "LMExpertDetailController.h"
 #import "LMHomelistequest.h"
+#import "LMExpertListRequest.h"
+#import "LMExpertListVO.h"
+
+
+#define PAGE_SIZE 20
 @interface LMExpertListController ()
 
 @end
@@ -42,13 +47,31 @@
     self.tableView.separatorStyle = UITableViewCellEditingStyleNone;
     
 }
+#pragma mark - 网络请求
 - (FitBaseRequest *)request{
     
-    LMHomelistequest    *request    = [[LMHomelistequest alloc] initWithPageIndex:self.current andPageSize:20];
-    
+    LMExpertListRequest * request = [[LMExpertListRequest alloc] initWithPageIndex:1 andPageSize:PAGE_SIZE andCategory:_category];
     return request;
 
 }
+- (NSArray *)parseResponse:(NSString *)resp{
+    
+    NSData * data = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [dic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        return nil;
+    }
+    NSDictionary * body = [VOUtil parseBody:resp];
+    if (![body[@"result"] isEqualToString:@"0"]) {
+        return nil;
+    }
+    NSArray * listArr = [body objectForKey:@"list"];
+    NSArray * resultArr = [LMExpertListVO LMExpertListVOListWithArray:listArr];
+    
+    return resultArr;
+}
+
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -56,7 +79,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return self.listData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -68,6 +91,10 @@
         cell = [[LMAllExpertListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    LMExpertListVO * vo = self.listData[indexPath.row];
+    if (vo) {
+        [cell setCellWithVO:vo];
+    }
     
     return cell;
 }

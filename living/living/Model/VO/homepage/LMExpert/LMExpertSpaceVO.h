@@ -1,8 +1,8 @@
 //
-//  LMExpertSapceVO.h
+//  LMExpertSpaceVO.h
 //  living
 //
-//  Created by hxm on 2017/3/14.
+//  Created by hxm on 2017/3/16.
 //  Copyright © 2017年 chenle. All rights reserved.
 //
 
@@ -12,10 +12,10 @@
 #else
 #define JSONAutoRelease(param) (param)
 #endif
+@interface LMExpertSpaceVO : NSObject
 
-@interface LMExpertSapceVO : NSObject
-+ (LMExpertSapceVO *)LMExpertSapceVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
-+ (LMExpertSapceVO *)LMExpertSapceVOWithDictionary:(NSDictionary *)dictionary;
++ (LMExpertSpaceVO *)LMExpertSapceVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
++ (LMExpertSpaceVO *)LMExpertSapceVOWithDictionary:(NSDictionary *)dictionary;
 + (NSArray *)LMExpertSapceVOListWithArray:(NSArray *)array;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
@@ -29,6 +29,14 @@
 @property (nonatomic, copy) NSString * address;
 @property (nonatomic, copy) NSString * franchisee;
 @property (nonatomic, copy) NSString * sign;
+
+
+
+
+
+
+
+
 
 
 @end

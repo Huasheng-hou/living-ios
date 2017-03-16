@@ -238,6 +238,7 @@
                                                                             action:nil];
     LMExpertListController * listVC = [[LMExpertListController alloc] init];
     listVC.title = @"达人";
+    listVC.category = _category;
     [self.navigationController pushViewController:listVC animated:YES];
 }
 

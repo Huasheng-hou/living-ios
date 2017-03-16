@@ -1,15 +1,15 @@
 //
-//  LMExpertSapceVO.m
+//  LMExpertSpaceVO.m
 //  living
 //
-//  Created by hxm on 2017/3/14.
+//  Created by hxm on 2017/3/16.
 //  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "LMExpertSapceVO.h"
+#import "LMExpertSpaceVO.h"
 
-@implementation LMExpertSapceVO
-+ (LMExpertSapceVO *)LMExpertSapceVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error
+@implementation LMExpertSpaceVO
++ (LMExpertSpaceVO *)LMExpertSapceVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error
 {
     NSData *jsonData = [jsonString dataUsingEncoding:stringEncoding];
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -17,15 +17,15 @@
                                                                      error:error];
     
     if (nil != error && nil != jsonDictionary) {
-        return [LMExpertSapceVO LMExpertSapceVOWithDictionary:jsonDictionary];
+        return [LMExpertSpaceVO LMExpertSapceVOWithDictionary:jsonDictionary];
     }
     
     return nil;
 }
 
-+ (LMExpertSapceVO *)LMExpertSapceVOWithDictionary:(NSDictionary *)dictionary
++ (LMExpertSpaceVO *)LMExpertSapceVOWithDictionary:(NSDictionary *)dictionary
 {
-    LMExpertSapceVO *instance = [[LMExpertSapceVO alloc] initWithDictionary:dictionary];
+    LMExpertSpaceVO *instance = [[LMExpertSpaceVO alloc] initWithDictionary:dictionary];
     return JSONAutoRelease(instance);
 }
 
@@ -42,7 +42,7 @@
             continue;
         }
         
-        [resultsArray addObject:[LMExpertSapceVO LMExpertSapceVOWithDictionary:entry]];
+        [resultsArray addObject:[LMExpertSpaceVO LMExpertSapceVOWithDictionary:entry]];
     }
     
     return JSONAutoRelease(resultsArray);

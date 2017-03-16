@@ -8,6 +8,7 @@
 
 #import "LMAllExpertListCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 @implementation LMAllExpertListCell
 {
     UIImageView * avatar;
@@ -57,9 +58,18 @@
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, backView.frame.size.height-1, kScreenWidth, 1)];
     line.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:line];
-    
-    
-    
 }
+
+- (void)setCellWithVO:(LMExpertListVO *)vo{
+    [avatar sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
+    
+    name.text = vo.nickName;
+    
+    //life.text = vo
+    
+    desp.text = vo.address;
+}
+
+
 
 @end

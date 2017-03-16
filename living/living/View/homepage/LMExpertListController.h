@@ -10,4 +10,6 @@
 
 @interface LMExpertListController : FitStatefulTableViewController
 
+@property (nonatomic, copy) NSString * category;
+
 @end

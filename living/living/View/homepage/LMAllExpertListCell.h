@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMExpertListVO.h"
 @interface LMAllExpertListCell : UITableViewCell
+
+- (void)setCellWithVO:(LMExpertListVO *)vo;
 
 @end
