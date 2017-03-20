@@ -19,7 +19,8 @@
 #import <AlipaySDK/AlipaySDK.h>
 //微信支付
 #import "WXApi.h"
-
+//个推
+#import "GeTuiSdk.h"
 //qqSDK
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterface.h>
@@ -167,7 +168,7 @@ UNUserNotificationCenterDelegate
 - (void)GexinProcess:(NSDictionary *)launchOptions
 {
     // [1]:使用APPID/APPKEY/APPSECRENT创建个推实例
-    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self error:nil];
+    [GeTuiSdk startSdkWithAppId:gtAppID appKey:gtAppKey appSecret:gtAppSecret delegate:self];
     
     // [2]:注册APNS
     [self registerRemoteNotification];
@@ -196,31 +197,27 @@ UNUserNotificationCenterDelegate
 }
 
 //SDK收到透传消息回调
-- (void) GeTuiSdkDidReceivePayload:(NSString *)payloadId
-                         andTaskId:(NSString*) taskId
-                      andMessageId:(NSString*)aMsgId
-                   fromApplication:(NSString *)appId
-{
-    // [4]: 收到个推消息
-    NSData *payload = [GeTuiSdk retrivePayloadById:payloadId];
+- (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData
+                            andTaskId:(NSString *)taskId
+                             andMsgId:(NSString *)msgId
+                           andOffLine:(BOOL)offLine
+                          fromGtAppId:(NSString *)appId{
+    
     NSString *payloadMsg = nil;
-    if (payload) {
+    if (payloadData) {
         
-        
-        
-        payloadMsg = [[NSString alloc] initWithBytes:payload.bytes
-                                              length:payload.length
+        payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
+                                              length:payloadData.length
                                             encoding:NSUTF8StringEncoding];
     }
-    
     if (payloadMsg && [payloadMsg isKindOfClass:[NSString class]]) {
         
         NSLog(@"---------payloadMsg------------%@",payloadMsg);
         
         [FitPayloadManager processTransPayload:payloadMsg];
     }
-}
 
+}
 
 #pragma mark - UNUserNotificationCenterDelegate
 //在展示通知前进行处理，即有机会在展示通知前再修改通知内容。
