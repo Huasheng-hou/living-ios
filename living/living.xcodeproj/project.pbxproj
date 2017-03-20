@@ -123,7 +123,6 @@
 		35B747131DDE97F3000AFA26 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744551DDE97F2000AFA26 /* openssl_wrapper.m */; };
 		35B747141DDE97F3000AFA26 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744571DDE97F2000AFA26 /* RSADataSigner.m */; };
 		35B747151DDE97F3000AFA26 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744591DDE97F2000AFA26 /* RSADataVerifier.m */; };
-		35B747161DDE97F3000AFA26 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B7445E1DDE97F2000AFA26 /* libGeTuiSdk-1.2.1.a */; };
 		35B747171DDE97F3000AFA26 /* MJPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744611DDE97F2000AFA26 /* MJPhoto.m */; };
 		35B747181DDE97F3000AFA26 /* MJPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744631DDE97F2000AFA26 /* MJPhotoBrowser.m */; };
 		35B747191DDE97F3000AFA26 /* MJPhotoToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744651DDE97F2000AFA26 /* MJPhotoToolbar.m */; };
@@ -479,6 +478,9 @@
 		D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */; };
 		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
 		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
+		D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */; };
+		D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */; };
+		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -782,9 +784,6 @@
 		35B744571DDE97F2000AFA26 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		35B744581DDE97F2000AFA26 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		35B744591DDE97F2000AFA26 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
-		35B7445C1DDE97F2000AFA26 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
-		35B7445D1DDE97F2000AFA26 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
-		35B7445E1DDE97F2000AFA26 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
 		35B744601DDE97F2000AFA26 /* MJPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhoto.h; sourceTree = "<group>"; };
 		35B744611DDE97F2000AFA26 /* MJPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhoto.m; sourceTree = "<group>"; };
 		35B744621DDE97F2000AFA26 /* MJPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoBrowser.h; sourceTree = "<group>"; };
@@ -1445,6 +1444,11 @@
 		D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
 		D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMapNavi.bundle; sourceTree = "<group>"; };
+		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
+		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.2.0.a"; sourceTree = "<group>"; };
+		D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.1.0.a"; sourceTree = "<group>"; };
+		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1453,6 +1457,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */,
 				3533A7901E4DB3730088734A /* AssetsLibrary.framework in Frameworks */,
 				3533A7891E4D872F0088734A /* libPods-ALiVideoRecorder.a in Frameworks */,
 				D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */,
@@ -1468,7 +1473,6 @@
 				35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */,
 				8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */,
 				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
-				35B747161DDE97F3000AFA26 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */,
 				8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */,
 				35B747351DDE97F3000AFA26 /* libWeChatSDK.a in Frameworks */,
@@ -1485,10 +1489,12 @@
 				35FA8E8D1DB5BC4500510A75 /* CFNetwork.framework in Frameworks */,
 				35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */,
 				3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */,
+				D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */,
 				D50E9FE11E7FCFAD000F2599 /* AMapFoundationKit.framework in Frameworks */,
 				3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */,
 				3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */,
 				35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */,
+				D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */,
 				3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */,
 				3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */,
 				35FA8E891DB5BBF000510A75 /* libssl.a in Frameworks */,
@@ -1506,6 +1512,7 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */,
 				D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */,
 				D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */,
 				D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */,
@@ -1909,8 +1916,8 @@
 		35B743F81DDE97F2000AFA26 /* 3rdLibs */ = {
 			isa = PBXGroup;
 			children = (
+				D50E9FE81E7FD134000F2599 /* GtSdkLib */,
 				35B743F91DDE97F2000AFA26 /* AliPay */,
-				35B7445A1DDE97F2000AFA26 /* Gtui */,
 				35B7445F1DDE97F2000AFA26 /* MJPhotoBrowser */,
 				35B744681DDE97F2000AFA26 /* MJRefresh */,
 				35B744791DDE97F2000AFA26 /* SSPullToRefresh */,
@@ -2036,24 +2043,6 @@
 				35B744591DDE97F2000AFA26 /* RSADataVerifier.m */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		35B7445A1DDE97F2000AFA26 /* Gtui */ = {
-			isa = PBXGroup;
-			children = (
-				35B7445B1DDE97F2000AFA26 /* include */,
-				35B7445E1DDE97F2000AFA26 /* libGeTuiSdk-1.2.1.a */,
-			);
-			path = Gtui;
-			sourceTree = "<group>";
-		};
-		35B7445B1DDE97F2000AFA26 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				35B7445C1DDE97F2000AFA26 /* GeTuiSdk.h */,
-				35B7445D1DDE97F2000AFA26 /* GeTuiSdkError.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		35B7445F1DDE97F2000AFA26 /* MJPhotoBrowser */ = {
@@ -3711,6 +3700,17 @@
 			path = ChatFace;
 			sourceTree = "<group>";
 		};
+		D50E9FE81E7FD134000F2599 /* GtSdkLib */ = {
+			isa = PBXGroup;
+			children = (
+				D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */,
+				D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */,
+				D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */,
+				D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */,
+			);
+			path = GtSdkLib;
+			sourceTree = "<group>";
+		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -4437,6 +4437,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/Wechat",
 					"$(PROJECT_DIR)/living/Controller/find/Lesson/Class/Vendor/AMR/lib",
+					"$(PROJECT_DIR)/living/3rdLibs/GtSdkLib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -4530,6 +4531,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/Wechat",
 					"$(PROJECT_DIR)/living/Controller/find/Lesson/Class/Vendor/AMR/lib",
+					"$(PROJECT_DIR)/living/3rdLibs/GtSdkLib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
