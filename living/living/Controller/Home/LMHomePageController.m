@@ -133,11 +133,7 @@ WJLoopViewDelegate
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
 
     self.tableView.backgroundColor = [UIColor whiteColor];
-    if ([[FitUserManager sharedUserManager] isLogin]) {
-        
-        UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
+
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     sectionList = @[@"腰果推荐", @"热门文章"];

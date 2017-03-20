@@ -63,21 +63,13 @@ static CGFloat const ButtonHeight = 38;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if ([[FitUserManager sharedUserManager] isLogin]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
-    
+        
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                         action:nil];
     [self createUIWithIndex:self.index];
-    
-
 }
-
 
 - (void)createUIWithIndex:(NSInteger)index
 {
@@ -112,12 +104,12 @@ static CGFloat const ButtonHeight = 38;
 }
 #pragma mark LMSegmentDelegate
 - (void)changeNavigationItem:(NSInteger)index{
-    if ([[FitUserManager sharedUserManager] isLogin]) {
-        
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
-        self.navigationItem.rightBarButtonItem = rightItem;
-        
-    }
+//    if ([[FitUserManager sharedUserManager] isLogin]) {
+//        
+//        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
+//        self.navigationItem.rightBarButtonItem = rightItem;
+//        
+//    }
 }
 #pragma mark 发布文章
 - (void)publicAction

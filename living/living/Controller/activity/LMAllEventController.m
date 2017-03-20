@@ -97,7 +97,7 @@
     UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
     
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"goback"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
-    self.navigationItem.leftBarButtonItems = @[backItem,LeftBarButton];
+    self.navigationItem.rightBarButtonItem = LeftBarButton;
 
 }
 - (void)goBack:(UIBarButtonItem *)item{

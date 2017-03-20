@@ -135,6 +135,8 @@ doSomethingForActivityDelegate
 {
     [super createUI];
     
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
     
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
