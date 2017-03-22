@@ -190,7 +190,7 @@
     
     
 }
-#pragma mark - 请求腰果币兑换券数据
+#pragma mark - 请求腰果币兑换券列表数据
 
 - (FitBaseRequest *)request{
     LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:@"幸福情商"];

@@ -27,14 +27,11 @@
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     
+    [super viewDidLoad];
     [self createUI];
     
-    
-    
 }
-
 - (void)createUI{
     [super createUI];
     

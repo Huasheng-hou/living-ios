@@ -15,7 +15,11 @@
 @end
 
 @implementation LMTypeListViewController
-
+{
+    
+    NSArray * typeList;
+    
+}
 + (void)presentInViewController:(UIViewController *)viewController Animated:(BOOL)animated
 {
     if (!viewController) {
@@ -34,7 +38,7 @@
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        
+        typeList = @[@"美丽", @"健康", @"美食", @"幸福"];
         self.hidesBottomBarWhenPushed   = NO;
     }
     
@@ -115,7 +119,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.listData.count;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -138,23 +142,26 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    if (self.listData.count > indexPath.row) {
-        
-        NSDictionary *dic = self.listData[indexPath.row];
-        
-        if ([dic objectForKey:@"type"] && ![[dic objectForKey:@"type"] isEqual:[NSNull null]]
-            && [[dic objectForKey:@"type"] isKindOfClass:[NSString class]]) {
-            
-            cell.textLabel.text = dic[@"type"];
-            
-        } else {
-            
-            cell.textLabel.text = @"";
-        }
-        
-        cell.textLabel.font         = TEXT_FONT_LEVEL_2;
-        cell.textLabel.textColor    = TEXT_COLOR_LEVEL_2;
-    }
+    cell.textLabel.text = typeList[indexPath.row];
+    cell.textLabel.font         = TEXT_FONT_LEVEL_2;
+    cell.textLabel.textColor    = TEXT_COLOR_LEVEL_2;
+//    if (self.listData.count > indexPath.row) {
+//        
+//        NSDictionary *dic = self.listData[indexPath.row];
+//        
+//        if ([dic objectForKey:@"type"] && ![[dic objectForKey:@"type"] isEqual:[NSNull null]]
+//            && [[dic objectForKey:@"type"] isKindOfClass:[NSString class]]) {
+//            
+//            cell.textLabel.text = dic[@"type"];
+//            
+//        } else {
+//            
+//            cell.textLabel.text = @"";
+//        }
+//        
+//        cell.textLabel.font         = TEXT_FONT_LEVEL_2;
+//        cell.textLabel.textColor    = TEXT_COLOR_LEVEL_2;
+//    }
     
     return cell;
 }
@@ -168,7 +175,7 @@
         if ([dic objectForKey:@"type"] && ![[dic objectForKey:@"type"] isEqual:[NSNull null]]
             && [[dic objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             
-            [self.delegate backLiveName:dic[@"type"]];
+            [self.delegate backLiveName:typeList[indexPath.row]];
         }
     
         [self.navigationController popViewControllerAnimated:YES];

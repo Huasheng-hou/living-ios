@@ -102,6 +102,8 @@
     
     LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
     vc.title = @"李莺莺的空间";
+    LMExpertListVO * vo = self.listData[indexPath.row];
+    vc.userUuid = vo.userUuid;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self

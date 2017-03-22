@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMLivingVenueVO.h"
 @interface LMNearbyLifeMuseumCell : UITableViewCell
 
+- (void)setVO:(LMLivingVenueVO *)vo;
 @end

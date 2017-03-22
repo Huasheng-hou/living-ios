@@ -92,7 +92,7 @@
      [letfButton setImage:[UIImage imageNamed:@"下1"] forState:UIControlStateNormal];
      UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
     
-    UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"goback"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
+    //UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"goback"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
      self.navigationItem.rightBarButtonItem = LeftBarButton;
     
 }

@@ -16,7 +16,7 @@
 #import "LMHomeVoiceDetailController.h"
 #import "LMBannerrequest.h"
 #import "BannerVO.h"
-
+#import "LMCategoryEventsRequest.h"
 #define PAGE_SIZE 20
 @interface LMBannerDetailCommonController ()<UITableViewDelegate, UITableViewDataSource>
 @end
@@ -24,11 +24,11 @@
 @implementation LMBannerDetailCommonController{
 
     NSString * _category;
-
-    
+    NSInteger _index;
+    NSArray * _reviewArr;
     
 }
-- (id)initWithType:(NSString *)type
+- (id)initWithType:(NSString *)type andIndex:(NSInteger)index
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
@@ -37,6 +37,8 @@
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
         _category = type;
+        _index = index;
+        self.current = 1;
     }
     
     return self;
@@ -56,6 +58,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
+    if (_index == 2) {
+        [self getCategoryArticlesRequest];
+    }
     [self loadNewer];
     
 }
@@ -77,9 +82,16 @@
 
 - (FitBaseRequest *)request
 {
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
-    
-    return request;
+    if (_index == 1) {
+        LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
+        
+        return request;
+    }
+    if (_index == 2) {
+        LMCategoryEventsRequest * request = [[LMCategoryEventsRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
+        return request;
+    }
+    return nil;
 }
 
 - (NSArray *)parseResponse:(NSString *)resp
@@ -98,24 +110,45 @@
 
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     NSString    *result         = [bodyDic objectForKey:@"result"];
-    //NSLog(@"%@", bodyDic);
+
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
         NSArray *resultArr  = [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];
         if (resultArr && resultArr.count > 0) {
-            
-            return resultArr;
+            if (_index == 2) {
+                _reviewArr = resultArr;
+            }else{
+                return resultArr;
+            }
         }
     }
     return nil;
 }
-
+- (void)getCategoryArticlesRequest{
+    LMCategoryEventsRequest * request = [[LMCategoryEventsRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self parseResponse:resp];
+        });
+    } failed:^(NSError *error) {
+        [self textStateHUD:@"网络错误"];
+    }];
+    [proxy start];
+}
 #pragma mark - tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return self.listData.count;
+    if (_index == 1) {
+        return self.listData.count;
+    }
+    if (_index == 2) {
+        if (_reviewArr.count > 0) {
+            return _reviewArr.count;
+        }
+    }
+    return 5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -132,15 +165,29 @@
     cell.cellType = 1;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.type = _category;
-    if (self.listData.count > indexPath.row) {
-        
-        LMActicleVO     *vo = self.listData[indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+    if (_index == 1) {
+        if (self.listData.count > indexPath.row) {
             
-            [(HotArticleCell *)cell setValue:vo];
+            LMActicleVO     *vo = self.listData[indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+                
+                [(HotArticleCell *)cell setValue:vo];
+            }
         }
     }
+    if (_index == 2) {
+        if (_reviewArr.count > indexPath.row) {
+            
+            LMActicleVO     *vo = _reviewArr[indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+                
+                [(HotArticleCell *)cell setValue:vo];
+            }
+        }
+    }
+    
     return cell;
 }
 

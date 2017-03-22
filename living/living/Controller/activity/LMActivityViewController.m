@@ -39,6 +39,12 @@
 #import "LMAllEventController.h"
 #import "LMPublicArticleController.h"
 
+
+#import "LMEventListRequest.h"
+#import "LMEventListVO.h"
+#import "LMEventDetailViewController.h"
+
+
 #define PAGER_SIZE      20
 
 @interface LMActivityViewController ()
@@ -62,6 +68,7 @@ doSomethingForActivityDelegate
     UIView *headView; //头部视图
     NSArray         *_bannerArray;
     NSMutableArray  *stateArray;
+    NSArray * _eventsArray;
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -95,7 +102,7 @@ doSomethingForActivityDelegate
     //[self creatImage];
     
     [self getBannerDataRequest];
-
+    [self getEventsRequest];
     [self loadNewer];
     __weak typeof(self) weakSelf = self;
     [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
@@ -159,12 +166,9 @@ doSomethingForActivityDelegate
                                                                                action:@selector(publicAction)];
     
     self.navigationItem.rightBarButtonItem = rightItem;
-
-    
 }
 
-#pragma mark - 网络连接
-
+#pragma mark - 请求轮播图数据
 - (void)getBannerDataRequest
 {
     if (![CheckUtils isLink]) {
@@ -190,7 +194,6 @@ doSomethingForActivityDelegate
                                            }];
     [proxy start];
 }
-
 - (void)parseBannerResp:(NSString *)resp{
     
     NSDictionary *bodyDict   = [VOUtil parseBody:resp];
@@ -241,7 +244,6 @@ doSomethingForActivityDelegate
     }
 
 }
-
 #pragma mark - WJLoopViewDelegate
 -(void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
@@ -304,22 +306,7 @@ doSomethingForActivityDelegate
     }
 
 }
-
-#pragma mark 发布活动
-
-- (void)publicAction
-{
-    _isShow = !_isShow;
-    
-    if (_isShow) {
-        [self.showView showView];
-        
-    }else{
-        [self.showView dismissView];
-    }
-    
-}
-#pragma  mark - 请求活动文章
+#pragma  mark - 请求活动数据
 - (FitBaseRequest *)request
 {
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
@@ -328,20 +315,16 @@ doSomethingForActivityDelegate
         cityStr = string;
         city = cityStr;
     }
-    
     if ([city isEqual:@"其它"]) {
         city = @"其它";
     }
     if ([city isEqual:@"全部"]) {
         city = nil;
     }
-    
-    
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:city];
+    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:nil];
     
     return request;
 }
-
 - (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
@@ -400,25 +383,74 @@ doSomethingForActivityDelegate
     
     return nil;
 }
-
+#pragma mark - 请求项目数据
+- (void)getEventsRequest{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMEventListRequest * request = [[LMEventListRequest alloc] initWithPageIndex:1 andPageSize:PAGER_SIZE andCity:nil];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 
+                                                 [self parseEventsResponse:resp];
+                                             });
+                                         }
+                                            failed:^(NSError *error) {
+                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                       withObject:@"网络错误"
+                                                                    waitUntilDone:YES];
+                                            }];
+    
+    
+    [proxy start];
+}
+- (void)parseEventsResponse:(NSString *)resp{
+    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        return;
+    }
+    
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    if (![bodyDic[@"result"] isEqualToString:@"0"]) {
+        return;
+    }
+    NSArray * list = [bodyDic objectForKey:@"list"];
+    _eventsArray = [LMEventListVO EventListVOListWithArray:list];
+    
+}
+#pragma mark 发布活动
+- (void)publicAction
+{
+    _isShow = !_isShow;
+    
+    if (_isShow) {
+        [self.showView showView];
+        
+    }else{
+        [self.showView dismissView];
+    }
+    
+}
 
 #pragma mark - tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return 2;
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 195;
 }
-
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 40;
@@ -500,54 +532,73 @@ doSomethingForActivityDelegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell == nil){
         switch (indexPath.section) {
             case 0:{
-                static NSString *ApplyCellId = @"ApplyCell";
-                LMActivityApplyCell *applycell = [[LMActivityApplyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ApplyCellId];
-                cell = applycell;
+                static NSString *ApplyCellId = @"activityCell";
+                LMActivityApplyCell * cell = [tableView dequeueReusableCellWithIdentifier:ApplyCellId];
+                if (!cell) {
+                    cell = [[LMActivityApplyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ApplyCellId];
+                }
+                if (self.listData.count > indexPath.row) {
+                    ActivityListVO * vo = self.listData[indexPath.row];
+                    [cell setVO:vo];
+                }
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
                 break;
             }
             case 1:{
-                static NSString *ExperienceCellId = @"ExperienceCell";
-                LMActivityExperienceCell *experiencecell = [[LMActivityExperienceCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ExperienceCellId];
-                experiencecell.delegate = self;
-                cell = experiencecell;
-                
+                static NSString *EventCellId = @"EventCell";
+                LMActivityExperienceCell * cell = [tableView dequeueReusableCellWithIdentifier:EventCellId];
+                if (!cell) {
+                    cell = [[LMActivityExperienceCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:EventCellId];
+                }
+                cell.delegate = self;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                if (_eventsArray.count > indexPath.row) {
+                    LMEventListVO * vo = _eventsArray[indexPath.row];
+                    [cell setVO:vo];
+                }
+                return cell;
                 break;
             }
-                
             default:
                 break;
         }
-        
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return  cell;
     
+    return  nil;
 }
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count > indexPath.row) {
-        
-        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+    if (indexPath.section == 0) {
+        if (self.listData.count > indexPath.row) {
             
-            LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+            ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
             
+            if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+                
+                LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                
+                detailVC.eventUuid  = vo.eventUuid;
+                detailVC.titleStr   = vo.eventName;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+        }
+    }
+    if (indexPath.section == 1) {
+        if (_eventsArray.count > indexPath.row) {
+            LMEventListVO * vo = _eventsArray[indexPath.row];
+            LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
             detailVC.hidesBottomBarWhenPushed = YES;
-            
-            detailVC.eventUuid  = vo.eventUuid;
-            detailVC.titleStr   = vo.eventName;
-            
+            detailVC.eventUuid = vo.eventUuid;
+            detailVC.titleStr = vo.eventName;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -10,4 +10,6 @@
 
 @interface LMSubmitSuccessController : FitStatefulTableViewController
 
+@property (nonatomic, copy) NSString * city;
+
 @end

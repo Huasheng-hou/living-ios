@@ -8,6 +8,7 @@
 
 #import "LMNearbyLifeMuseumCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 @implementation LMNearbyLifeMuseumCell
 {
     UIImageView * _icon;
@@ -49,4 +50,13 @@
     [self.contentView addSubview:_botLine];
     
 }
+
+- (void)setVO:(LMLivingVenueVO *)vo{
+    
+    [_icon sd_setImageWithURL:[NSURL URLWithString:vo.livingImage] placeholderImage:[UIImage imageNamed:@"cellHeadImageIcon"]];
+    
+    _name.text = vo.livingName;
+    
+}
+
 @end

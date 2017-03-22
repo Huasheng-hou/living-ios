@@ -34,7 +34,6 @@
 
 @implementation LMBannerDetailExpertController
 {
-    
     NSString * _category;
     
     NSArray * _expertList;
@@ -42,7 +41,6 @@
     NSArray * _articles;
     NSArray * _events;
     NSArray * _voices;
-    
     
 }
 - (instancetype)initWithType:(NSString *)type{
@@ -60,6 +58,7 @@
     [self createUI];
     [self getRecommendExpertRequest];
     [self getArticlesRequest];
+    [self loadNewer];
 }
 
 - (void)createUI{
@@ -81,7 +80,7 @@
     [self getArticlesRequest];
     return request;
 }
-//官方推荐达人
+#pragma mark - 官方推荐达人
 - (void)getRecommendExpertRequest{
     if (![CheckUtils isLink]) {
         
@@ -131,7 +130,7 @@
     }
 
 }
-//官方推荐文章、活动、课程
+#pragma mark - 官方推荐文章、活动、课程
 - (void)getArticlesRequest{
     if (![CheckUtils isLink]) {
         

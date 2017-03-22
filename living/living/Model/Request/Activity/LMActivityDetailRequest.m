@@ -38,7 +38,8 @@
 
 - (NSString *)methodPath
 {
-    return @"event/detail";
+    //return @"event/detail";
+    return @"item/detail";
 }
 
 @end

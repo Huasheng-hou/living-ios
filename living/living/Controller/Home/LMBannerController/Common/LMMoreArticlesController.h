@@ -1,15 +1,14 @@
 //
-//  LMExpertDetailController.h
+//  LMMoreArticlesController.h
 //  living
 //
-//  Created by Huasheng on 2017/2/24.
+//  Created by hxm on 2017/3/22.
 //  Copyright © 2017年 chenle. All rights reserved.
 //
 
 #import "FitStatefulTableViewController.h"
 
-@interface LMExpertDetailController : FitStatefulTableViewController
+@interface LMMoreArticlesController : FitStatefulTableViewController
 
 @property (nonatomic, copy) NSString * userUuid;
-
 @end

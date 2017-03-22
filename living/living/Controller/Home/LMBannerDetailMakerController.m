@@ -10,10 +10,11 @@
 #import "LMMakerHeadView.h"
 
 #import "LMSubmitSuccessController.h"
-
-
 #import "LMQingMakerController.h"
-@interface LMBannerDetailMakerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,LMMakerDelegate>
+
+#import "LMBookLivingRequest.h"
+#import <CoreLocation/CoreLocation.h>
+@interface LMBannerDetailMakerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,LMMakerDelegate,CLLocationManagerDelegate>
 
 @end
 
@@ -32,17 +33,28 @@
     UITextField * phoneTF;
     UIButton * bookBtn;
     
+    CLLocationManager * locationManager;
+    NSString * _currentCity;
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
+    [self location];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self initStateHud];
     [self createUI];
     
 }
 
 - (void)createUI{
 
+    self.navigationItem.backBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@""
+                                                                            style:UIBarButtonItemStylePlain
+                                                                           target:nil
+                                                                           action:nil];
+    
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) collectionViewLayout:layout];
@@ -62,16 +74,13 @@
     
     return 3;
 }
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
     if (section == 2) {
         return 2;
     }
-    
     return 1;
 }
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
@@ -187,7 +196,6 @@
 
 - (void)lookMore:(UITapGestureRecognizer *)tap{
     
-    NSLog(@"查看更多。。。");
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
@@ -195,21 +203,15 @@
     LMQingMakerController * qmVC = [[LMQingMakerController alloc] init];
     qmVC.title =  @"轻创客";
     [self.navigationController pushViewController:qmVC animated:YES];
-    
-    
-}
 
+}
 #pragma mark - 点击了解轻创客
 - (void)gotoNextPage{
     
     [self contactUs];
-    
 }
-
 #pragma mark 联系我们
 - (void)contactUs{
-    
-    NSLog(@"联系我们");
     
     bgView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     bgView.backgroundColor = [UIColor clearColor];
@@ -274,20 +276,108 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
     
 }
+#pragma mark - 定位
+- (void)location{
+    
+    //判断定位功能是否打开
+    if ([CLLocationManager locationServicesEnabled]) {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        [locationManager requestWhenInUseAuthorization];
+        [locationManager startUpdatingLocation];
+    }
+}
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    //此处locations存储了持续更新的位置坐标值，取最后一个值为最新位置，如果不想让其持续更新位置，则在此方法中获取到一个值之后让locationManager stopUpdatingLocation
+    CLLocation *currentLocation = [locations lastObject];
+    // 获取当前所在的城市名
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    //根据经纬度反向地理编译出地址信息
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *array, NSError *error)
+     {
+         if (array.count > 0)
+         {
+             CLPlacemark *placemark = [array objectAtIndex:0];
+             //获取城市
+             NSString *city = placemark.locality;
+             if (!city) {
+                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
+                 city = placemark.administrativeArea;
+             }
+             _currentCity = city;
+             //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
+             [manager stopUpdatingLocation];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [self hideStateHud];
+             });
+         }else if (error == nil && [array count] == 0)
+         {
+             NSLog(@"No results were returned.");
+         }else if (error != nil)
+         {
+             NSLog(@"An error occurred = %@", error.localizedDescription);
+         }
+     }];
+}
 
 - (void)booking:(UIButton *)btn{
     
-    NSLog(@"预约生活馆");
+    [self location];
     //验证输入内容
     if ([self checkConfirm]) {
-        //移除当前视图
-        [bgView removeFromSuperview];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        //跳转下一页面
-        LMSubmitSuccessController * ssVC = [[LMSubmitSuccessController alloc] init];
-        ssVC.title = @"预约成功";
-        [self.navigationController pushViewController:ssVC animated:YES];
+        
+        [self bookLivingRequest];
     }
+}
+#pragma mark - 发起预约生活馆请求
+- (void)bookLivingRequest{
+    if (![CheckUtils isLink]) {
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMBookLivingRequest * request = [[LMBookLivingRequest alloc] initWithName:nameTF.text andPhone:phoneTF.text andLivingUuid:@""];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                            [self performSelectorOnMainThread:@selector(parseResp:)
+                                                                   withObject:resp
+                                                                waitUntilDone:YES];
+                                         }
+                                            failed:^(NSError *error) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [self textStateHUD:@"网络错误"];
+                                           });
+                                        }];
+    [proxy start];
+}
+- (void)parseResp:(NSString *)resp{
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData
+                                                             options:NSJSONReadingMutableLeaves
+                                                               error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
+        [nameTF resignFirstResponder];
+        [phoneTF resignFirstResponder];
+        [self textStateHUD:@"预约失败"];
+        return ;
+    }
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    if (![[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
+        [nameTF resignFirstResponder];
+        [phoneTF resignFirstResponder];
+        [self textStateHUD:@"预约失败"];
+        return;
+    }
+    //移除当前视图
+    [bgView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //跳转下一页面
+    LMSubmitSuccessController * ssVC = [[LMSubmitSuccessController alloc] init];
+    ssVC.title = @"预约成功";
+    ssVC.city = _currentCity;
+    [self.navigationController pushViewController:ssVC animated:YES];
+    
 }
 #pragma 验证输入内容
 - (BOOL)checkConfirm{
@@ -333,8 +423,7 @@
         return;
     }
     isShow = YES;
-    NSLog(@"%@", [noti userInfo]);
-    
+
     CGRect frame = bgView.frame;
     NSDictionary * info = [noti userInfo];
     CGSize kSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;

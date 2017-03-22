@@ -47,7 +47,7 @@ static CGFloat const ButtonHeight = 38;
         self.index = index;
         self.ifRemoveLoadNoState        = NO;
         //typeName = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货"]; //2.3
-        typeName = @[@"happiness", @"beautiful", @"healthy", @"delicious"]; //3.0
+        typeName = @[@"beautiful",  @"healthy", @"delicious", @"happiness"]; //3.0
     }
     
     return self;
@@ -83,10 +83,10 @@ static CGFloat const ButtonHeight = 38;
     vc.titleArray = titleArray;
     NSMutableArray *controlArray = [[NSMutableArray alloc]init];
     
-    LMBannerDetailCommonController *vc1 = [[LMBannerDetailCommonController alloc]initWithType:typeName[index-10]];
+    LMBannerDetailCommonController *vc1 = [[LMBannerDetailCommonController alloc]initWithType:typeName[index-10] andIndex:1];
     [controlArray addObject:vc1];
     
-    LMBannerDetailCommonController *vc2 = [[LMBannerDetailCommonController alloc]initWithType:typeName[index-10]];
+    LMBannerDetailCommonController *vc2 = [[LMBannerDetailCommonController alloc]initWithType:typeName[index-10] andIndex:2];
     [controlArray addObject:vc2];
     
     LMBannerDetailExpertController *vc3 = [[LMBannerDetailExpertController alloc]initWithType:typeName[index-10]];

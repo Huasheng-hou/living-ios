@@ -14,6 +14,12 @@
 #import "LMNewHotArticleCell.h"
 
 #import "LMArtcleTypeListRequest.h"
+
+#import "LMMoreArticlesController.h"
+#import "LMMoreEventsController.h"
+#import "LMMoreClassController.h"
+
+
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -30,7 +36,6 @@
 - (void)createUI{
     [super createUI];
     
-   
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = BG_GRAY_COLOR;
     
@@ -38,15 +43,6 @@
     self.tableView.tableHeaderView = headerView;
     
 }
-
-
-#pragma mark 发布文章
-- (void)publicAction
-{
-    LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
-    [self.navigationController pushViewController:publicVC animated:YES];
-}
-
 #pragma mark UITableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
@@ -83,6 +79,7 @@
     
     UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 15, 60, 10)];
     lookMore.text = @"更多 >";
+    lookMore.tag = section;
     lookMore.textAlignment = NSTextAlignmentRight;
     lookMore.textColor = TEXT_COLOR_LEVEL_4;
     lookMore.font = TEXT_FONT_LEVEL_3;
@@ -97,11 +94,46 @@
 }
 - (void)lookMore:(UITapGestureRecognizer *)tap{
     NSLog(@"查看更多");
-    //文章
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+    switch (tap.view.tag) {
+        case 0:
+        {
+            //文章
+            NSLog(@"文章");
+            LMMoreArticlesController * maVC = [[LMMoreArticlesController alloc] init];
+            maVC.userUuid = self.userUuid;
+            [self.navigationController pushViewController:maVC animated:YES];
+        }
+            break;
+        case 1:
+        {
+            //活动
+            NSLog(@"活动");
+            LMMoreEventsController * eventVC = [[LMMoreEventsController alloc] init];
+            eventVC.userUuid = self.userUuid;
+            [self.navigationController pushViewController:eventVC animated:YES];
+        }
+            break;
+        case 2:
+        {
+            //课程
+            NSLog(@"课程");
+            LMMoreClassController * classVC = [[LMMoreClassController alloc] init];
+            classVC.userUuid = self.userUuid;
+            [self.navigationController pushViewController:classVC animated:YES];
+        }
+            break;
+        default:
+            break;
+    }
     
-    //活动
     
-    //课程
+
+    
+    
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -130,6 +162,7 @@
         if (!cell) {
             cell = [[LMExpertHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotClassCell"];
         }
+        cell.type = 2;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }

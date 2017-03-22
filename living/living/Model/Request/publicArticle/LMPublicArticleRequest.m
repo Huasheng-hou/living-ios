@@ -49,7 +49,7 @@
         }
         
         if (type) {
-            [bodyDict setObject:type forKey:@"type"];
+            [bodyDict setObject:type forKey:@"category"];
         }
         if (sign) {
             [bodyDict setObject:sign forKey:@"sign"];

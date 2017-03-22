@@ -106,7 +106,7 @@ shareTypeDelegate
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"活动详情";
+    self.title = @"项目详情";
     hiddenIndex =2;
     [self creatUI];
     [self getEventListDataRequest];

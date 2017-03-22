@@ -70,7 +70,7 @@
         
         if (nil != [dictionary objectForKey:@"nick_name"] && ![[dictionary objectForKey:@"nick_name"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"nick_name"] isKindOfClass:[NSString class]]) {
-            self.nickName = [dictionary objectForKey:@"nick_name"];
+            self.nick_name = [dictionary objectForKey:@"nick_name"];
         }
         
         if (nil != [dictionary objectForKey:@"address"] && ![[dictionary objectForKey:@"address"] isEqual:[NSNull null]]
@@ -119,7 +119,24 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.type = [dictionary objectForKey:@"type"];
         }
-       
+        if (nil != [dictionary objectForKey:@"franchisee"] && ![[dictionary objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"franchisee"] isKindOfClass:[NSString class]]) {
+            self.franchisee = [dictionary objectForKey:@"franchisee"];
+        }
+        if (nil != [dictionary objectForKey:@"sign"] && ![[dictionary objectForKey:@"sign"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"sign"] isKindOfClass:[NSString class]]) {
+            self.sign = [dictionary objectForKey:@"sign"];
+        }
+        if (nil != [dictionary objectForKey:@"headimgurl"] && ![[dictionary objectForKey:@"headimgurl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"headimgurl"] isKindOfClass:[NSString class]]) {
+            self.headImageUrl = [dictionary objectForKey:@"headimgurl"];
+        }
+        if (nil != [dictionary objectForKey:@"nickname"] && ![[dictionary objectForKey:@"nickname"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"nickname"] isKindOfClass:[NSString class]]) {
+            self.nickName = [dictionary objectForKey:@"nickname"];
+        }
+
+        
     }
     
     return self;

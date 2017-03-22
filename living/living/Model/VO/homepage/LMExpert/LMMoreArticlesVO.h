@@ -14,11 +14,7 @@
 #endif
 
 @interface LMMoreArticlesVO : NSObject
-+ (LMMoreArticlesVO *)LMMoreArticlesVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
-+ (LMMoreArticlesVO *)LMMoreArticlesVOWithDictionary:(NSDictionary *)dictionary;
-+ (NSArray *)LMMoreArticlesVOListWithArray:(NSArray *)array;
 
-- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @property (nonatomic, copy) NSString * articleUuid;
 @property (nonatomic, copy) NSString * userUuid;
@@ -33,5 +29,10 @@
 @property (nonatomic, copy) NSString * group;
 @property (nonatomic, copy) NSString * category;
 
++ (LMMoreArticlesVO *)LMMoreArticlesVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
++ (LMMoreArticlesVO *)LMMoreArticlesVOWithDictionary:(NSDictionary *)dictionary;
++ (NSArray *)LMMoreArticlesVOListWithArray:(NSArray *)array;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
