@@ -141,7 +141,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (_index == 1) {
-        return self.listData.count;
+        if (self.listData.count > 0) {
+            return self.listData.count;
+        }
     }
     if (_index == 2) {
         if (_reviewArr.count > 0) {
@@ -162,10 +164,11 @@
     if (!cell) {
         cell = [[HotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.cellType = 1;
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.type = _category;
     if (_index == 1) {
+        cell.cellType = 1;
         if (self.listData.count > indexPath.row) {
             
             LMActicleVO     *vo = self.listData[indexPath.row];
@@ -177,6 +180,7 @@
         }
     }
     if (_index == 2) {
+        cell.cellType = 2;
         if (_reviewArr.count > indexPath.row) {
             
             LMActicleVO     *vo = _reviewArr[indexPath.row];

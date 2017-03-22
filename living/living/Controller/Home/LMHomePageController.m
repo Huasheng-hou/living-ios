@@ -164,7 +164,7 @@ WJLoopViewDelegate
     LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
     [self.navigationController pushViewController:publicVC animated:YES];
 }
-#pragma mark - 数据请求
+#pragma mark - 推荐数据请求
 //推荐
 - (void)getRecommendArticleRequest{
     
@@ -228,7 +228,7 @@ WJLoopViewDelegate
     
 }
 
-//热门文章  --  原首页文章列表
+#pragma mark - 热门文章  --  原首页文章列表
 - (FitBaseRequest *)request
 {
     [self getRecommendArticleRequest];
@@ -439,9 +439,11 @@ WJLoopViewDelegate
         return 2;
     }
     if (section == 1) {
-        return self.listData.count;
+        if (self.listData.count > 0) {
+            return self.listData.count;
+        }
     }
-    return 0;
+    return 5;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
