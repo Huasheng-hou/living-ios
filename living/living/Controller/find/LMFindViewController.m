@@ -170,10 +170,10 @@ LMFindCellDelegate
     
     [headView addSubview:loopView];
     
-    UIView *classView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5, kScreenWidth, headViewHight)];
+    //语音课堂
+    UIView *classView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5, kScreenWidth, 90)];
     classView.backgroundColor = [UIColor clearColor];
     [headView addSubview:classView];
-    
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -193,27 +193,10 @@ LMFindCellDelegate
     right.image = [UIImage imageNamed:@"rightIcon"];
     [backView addSubview:right];
     
-    if (kScreenWidth<750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
-        footView.image = [UIImage imageNamed:@"VoiceImage"];
-        [classView addSubview:footView];
-    }
-    
-    if (kScreenWidth == 750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
-        footView.image = [UIImage imageNamed:@"VoiceImage"];
-        [classView addSubview:footView];
-    }
-    if (kScreenWidth>750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
-        footView.image = [UIImage imageNamed:@"VoiceImage"];
-        [classView addSubview:footView];
-    }
-    
     [classView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(voiceClassenter)]];
     
     //腰果币
-    UIView *ygbView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5+headViewHight, kScreenWidth, 90)];
+    UIView *ygbView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5+90, kScreenWidth, headViewHight)];
     ygbView.backgroundColor = [UIColor clearColor];
     [headView addSubview:ygbView];
     
@@ -237,9 +220,31 @@ LMFindCellDelegate
     right2.image = [UIImage imageNamed:@"rightIcon"];
     [backView2 addSubview:right2];
     
-    [ygbView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myYGB)]];
+    [backView2 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myYGB)]];
+    
+    //共创社区
+    if (kScreenWidth<750) {
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
+        footView.image = [UIImage imageNamed:@"VoiceImage"];
+        footView.userInteractionEnabled = NO;
+        [ygbView addSubview:footView];
+    }
+    
+    if (kScreenWidth == 750) {
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
+        footView.image = [UIImage imageNamed:@"VoiceImage"];
+        footView.userInteractionEnabled = NO;
+        [ygbView addSubview:footView];
+    }
+    if (kScreenWidth>750) {
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
+        footView.image = [UIImage imageNamed:@"VoiceImage"];
+        footView.userInteractionEnabled = NO;
+        [ygbView addSubview:footView];
+    }
     
     
+
     
     self.tableView.tableHeaderView = headView;
 }

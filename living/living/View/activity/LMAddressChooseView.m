@@ -35,7 +35,7 @@
     
     [self setBackgroundColor:[UIColor colorWithRed:38/255.0f green:38/255.0f blue:38/255.0f alpha:0.7f]];
     
-    UITapGestureRecognizer  *tapGR  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+    UITapGestureRecognizer  *tapGR  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyBoard:)];
     [self addGestureRecognizer:tapGR];
     
     whiteView=[[UIView alloc]initWithFrame:CGRectMake(30, kScreenHeight/2-WhiteviewHeight/2, kScreenWidth-60, WhiteviewHeight)];
@@ -122,6 +122,11 @@
         [button addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
         [whiteView addSubview:button];
     }
+}
+
+- (void)hideKeyBoard:(UITapGestureRecognizer *)tap{
+    
+    [_addressTF resignFirstResponder];
 }
 
 -(void)dismissSelf

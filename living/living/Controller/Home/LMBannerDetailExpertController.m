@@ -54,10 +54,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     [self createUI];
-    [self getRecommendExpertRequest];
-    [self getArticlesRequest];
+    //[self getArticlesRequest];
     [self loadNewer];
 }
 
@@ -75,38 +73,12 @@
 #pragma mark - 数据请求
 - (FitBaseRequest *)request{
     
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:_category];
-    [self getRecommendExpertRequest];
     [self getArticlesRequest];
+    
+    LMExpertRecommendRequest * request = [[LMExpertRecommendRequest alloc] initWithCategory:_category];
     return request;
 }
-#pragma mark - 官方推荐达人
-- (void)getRecommendExpertRequest{
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
-    LMExpertRecommendRequest * request = [[LMExpertRecommendRequest alloc] initWithCategory:_category];
-    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
-                                         completed:^(NSString *resp, NSStringEncoding encoding) {
-        
-                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                
-                                                 [self parseExpertsResp:resp];
-                                                 
-                                             });
-                                             
-                                        }
-                                            failed:^(NSError *error) {
-                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                       withObject:@"网络错误"
-                                                                    waitUntilDone:YES];
-                                            }];
-    
-     [proxy start];
-}
-- (void)parseExpertsResp:(NSString *)resp{
+- (NSArray *)parseResponse:(NSString *)resp{
     
     NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData
@@ -114,22 +86,73 @@
                                                                error:nil];
     NSDictionary * headDic = [respDic objectForKey:@"head"];
     if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
-        return ;
+        return nil;
     }
     NSDictionary * bodyDic = [VOUtil parseBody:resp];
     NSString * desp = [bodyDic objectForKey:@"description"];
     if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
         
         _recommendExpert = [LMRecommendExpertVO LMRecommendExpertVOListWithArray:[bodyDic objectForKey:@"list"]];
-        [self.tableView reloadData];
+        return _recommendExpert;
     }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
         
         [self performSelectorOnMainThread:@selector(textStateHUD:)
                                withObject:desp
                             waitUntilDone:NO];
     }
+    return nil;
 
 }
+#pragma mark - 官方推荐达人
+//- (void)getRecommendExpertRequest{
+//    if (![CheckUtils isLink]) {
+//        
+//        [self textStateHUD:@"无网络连接"];
+//        return;
+//    }
+//    LMExpertRecommendRequest * request = [[LMExpertRecommendRequest alloc] initWithCategory:_category];
+//    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+//                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+//        
+//                                             dispatch_async(dispatch_get_main_queue(), ^{
+//                                                
+//                                                 [self parseExpertsResp:resp];
+//                                                 
+//                                             });
+//                                             
+//                                        }
+//                                            failed:^(NSError *error) {
+//                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+//                                                                       withObject:@"网络错误"
+//                                                                    waitUntilDone:YES];
+//                                            }];
+//    
+//     [proxy start];
+//}
+//- (void)parseExpertsResp:(NSString *)resp{
+//    
+//    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+//    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData
+//                                                             options:NSJSONReadingMutableLeaves
+//                                                               error:nil];
+//    NSDictionary * headDic = [respDic objectForKey:@"head"];
+//    if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
+//        return ;
+//    }
+//    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+//    NSString * desp = [bodyDic objectForKey:@"description"];
+//    if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
+//        
+//        _recommendExpert = [LMRecommendExpertVO LMRecommendExpertVOListWithArray:[bodyDic objectForKey:@"list"]];
+//        [self.tableView reloadData];
+//    }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
+//        
+//        [self performSelectorOnMainThread:@selector(textStateHUD:)
+//                               withObject:desp
+//                            waitUntilDone:NO];
+//    }
+//
+//}
 #pragma mark - 官方推荐文章、活动、课程
 - (void)getArticlesRequest{
     if (![CheckUtils isLink]) {
@@ -169,7 +192,7 @@
     if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
         _events = [LMMoreEventsVO LMMoreEventsVOListWithArray:[bodyDic objectForKey:@"events_body"]];
         _articles = [LMMoreArticlesVO LMMoreArticlesVOListWithArray:[bodyDic objectForKey:@"articles_body"]];
-        _voices = [LMMoreVoicesVO LMMoreVoicesVOListWithArray:[bodyDic objectForKey:@"voices_body"]];
+        _voices = [LMMoreVoicesVO LMMoreVoicesVOWithArray:[bodyDic objectForKey:@"voices_body"]];
         
         [self.tableView reloadData];
         
@@ -206,22 +229,22 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     NSArray * nameList = @[@"| 腰果达人", @"| 热门文章", @"| 热门活动", @"| 热门课程"];
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     headerView.backgroundColor = [UIColor whiteColor];
     
-    UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 10)];
+    UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
     titleLabel.textColor = TEXT_COLOR_LEVEL_3;
-    titleLabel.font = TEXT_FONT_LEVEL_4;
+    titleLabel.font = TEXT_FONT_LEVEL_3;
     NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:nameList[section]];
     [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 2)];
     titleLabel.attributedText = attr;
     [headerView addSubview:titleLabel];
     if (section == 0) {
-        UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 15, 60, 10)];
+        UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 60, 20)];
         lookMore.text = @"更多 >";
         lookMore.textAlignment = NSTextAlignmentRight;
         lookMore.textColor = TEXT_COLOR_LEVEL_3;
-        lookMore.font = TEXT_FONT_LEVEL_4;
+        lookMore.font = TEXT_FONT_LEVEL_3;
         lookMore.userInteractionEnabled = YES;
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
         [lookMore addGestureRecognizer:tap];

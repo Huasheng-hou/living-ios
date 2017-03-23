@@ -23,6 +23,7 @@
 @property (nonatomic, copy) NSString * publishTime;
 @property (nonatomic, copy) NSString * articleName;
 @property (nonatomic, copy) NSString * avatar;
+@property (nonatomic, copy) NSString * headImgUrl;
 @property (nonatomic, copy) NSString * type;
 @property (nonatomic, copy) NSString * franchisee;
 @property (nonatomic, copy) NSString * sign;

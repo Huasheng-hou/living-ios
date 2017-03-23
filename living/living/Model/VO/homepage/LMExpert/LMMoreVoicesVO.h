@@ -16,7 +16,7 @@
 @interface LMMoreVoicesVO : NSObject
 + (LMMoreVoicesVO *)LMMoreVoicesVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
 + (LMMoreVoicesVO *)LMMoreVoicesVOWithDictionary:(NSDictionary *)dictionary;
-+ (NSArray *)LMMoreVoicesVOListWithArray:(NSArray *)array;
++ (NSArray *)LMMoreVoicesVOWithArray:(NSArray *)array;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 

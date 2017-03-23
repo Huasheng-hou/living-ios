@@ -78,9 +78,15 @@
         backImage.frame = CGRectMake(0, 0, kScreenWidth, 205);
         shadow.frame = backImage.frame;
         title.numberOfLines = 2;
+        
+        [tag removeFromSuperview];
     }
     if (cellType == 2) {
         //活动总结
+        
+        backImage.frame = CGRectMake(0, 0, kScreenWidth, 205);
+        shadow.frame = backImage.frame;
+        
         title.frame = CGRectMake(20, 90, kScreenWidth-40, 20);
         title.text = @"每个女生都有变美的潜质！";
         title.numberOfLines = 1;

@@ -28,15 +28,11 @@
     return self;
 }
 
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [self createUI];
     [self loadNewer];
-
 }
 
 - (void)createUI{
@@ -68,7 +64,12 @@
     }
     NSArray * listArr = [body objectForKey:@"list"];
     NSArray * resultArr = [LMExpertListVO LMExpertListVOListWithArray:listArr];
-    
+    if (resultArr.count == 0) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"后台没数据"];
+        });
+    }
     return resultArr;
 }
 
@@ -78,8 +79,10 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return self.listData.count;
+    if (self.listData.count > 0) {
+        return self.listData.count;
+    }
+    return 5;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -91,9 +94,11 @@
         cell = [[LMAllExpertListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LMExpertListVO * vo = self.listData[indexPath.row];
-    if (vo) {
-        [cell setCellWithVO:vo];
+    if (self.listData.count > indexPath.row) {
+        LMExpertListVO * vo = self.listData[indexPath.row];
+        if (vo) {
+            [cell setCellWithVO:vo];
+        }
     }
     
     return cell;
@@ -102,8 +107,12 @@
     
     LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
     vc.title = @"李莺莺的空间";
-    LMExpertListVO * vo = self.listData[indexPath.row];
-    vc.userUuid = vo.userUuid;
+    if (self.listData.count > indexPath.row) {
+        LMExpertListVO * vo = self.listData[indexPath.row];
+        vc.userUuid = vo.userUuid;
+        vc.title = [NSString stringWithFormat:@"%@的空间", vo.nickName];
+    }
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self

@@ -15,10 +15,6 @@
 @property (nonatomic, strong) UIImageView *bKGImageView; // 背景图片
 @property (nonatomic, strong) UILabel *titleLbl; // 主题
 @property (nonatomic, strong) UILabel *detailLbl; // 详情
-@property (nonatomic, strong) LMActivityExperienceBtn *likeBtn; // 点赞按钮
-@property (nonatomic, strong) LMActivityExperienceBtn *commentBtn; // 评论按钮
-@property (nonatomic, strong) LMActivityExperienceBtn *shareBtn;  // 分享按钮
-@property (nonatomic, strong) UIButton *gradeBtn; // 评分按钮
 @property (nonatomic, strong) UIView *shadow;
 @end
 
@@ -68,48 +64,8 @@
     _detailLbl.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_detailLbl];
     
-//    _gradeBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 73, 195, 63, 23)];
-//    [_gradeBtn setTitle:@"评一下" forState:UIControlStateNormal];
-//    _gradeBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-//    [_gradeBtn setTitleColor:ORANGE_COLOR forState:UIControlStateNormal];
-//    _gradeBtn.layer.borderWidth = 0.5;
-//    _gradeBtn.layer.borderColor = ORANGE_COLOR.CGColor;
-//    [_gradeBtn addTarget:self action:@selector(grandeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    //[self.contentView addSubview:_gradeBtn];
-//    
-//    _shareBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 138, 195, 55, 23) actionTitle:@"分享" IconImage:[UIImage imageNamed:@"shareIcon-1"]];
-//    [_shareBtn addTarget:self action:@selector(shareBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    //[self.contentView addSubview:_shareBtn];
-//    
-//    _commentBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 203, 195, 55, 23) actionTitle:@"评论" IconImage:[UIImage imageNamed:@"comment"]];
-//    [_commentBtn addTarget:self action:@selector(commentBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    //[self.contentView addSubview:_commentBtn];
-//    
-//    _likeBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 268, 195, 55, 23) actionTitle:@"点赞" IconImage:[UIImage imageNamed:@"zanIcon"]];
-//    [_likeBtn addTarget:self action:@selector(likeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    //[self.contentView addSubview:_likeBtn];
-    
 }
 
-- (void)grandeBtnPressed:(UIButton *)button
-{
-    [self.delegate grade];
-}
-
-- (void)shareBtnPressed:(LMActivityExperienceBtn *)button
-{
-    [self.delegate share];
-}
-
-- (void)commentBtnPressed:(LMActivityExperienceBtn *)button
-{
-    [self.delegate comment];
-}
-
-- (void)likeBtnPressed:(LMActivityExperienceBtn *)button
-{
-    [self.delegate like];
-}
 
 
 @end

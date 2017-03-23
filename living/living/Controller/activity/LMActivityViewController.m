@@ -49,8 +49,7 @@
 
 @interface LMActivityViewController ()
 <
-WJLoopViewDelegate,
-doSomethingForActivityDelegate
+WJLoopViewDelegate
 >
 {
     UIBarButtonItem *backItem;
@@ -110,11 +109,18 @@ doSomethingForActivityDelegate
         if (index==0) {
             LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
             [publicVC setHidesBottomBarWhenPushed:YES];
-            
+            publicVC.title = @"发布活动";
             [self.navigationController pushViewController:publicVC animated:YES];
         }
         
         if (index==1) {
+            LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
+            publicVC.title = @"发布项目";
+            [publicVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:publicVC animated:YES];
+        }
+        
+        if (index==2) {
             LMMyPublicViewController *myfVC = [[LMMyPublicViewController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
@@ -125,6 +131,7 @@ doSomethingForActivityDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.showView dismissView];
     [UIApplication sharedApplication].statusBarHidden = NO;
 }
 
@@ -553,7 +560,6 @@ doSomethingForActivityDelegate
                 if (!cell) {
                     cell = [[LMActivityExperienceCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:EventCellId];
                 }
-                cell.delegate = self;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 if (_eventsArray.count > indexPath.row) {
                     LMEventListVO * vo = _eventsArray[indexPath.row];
@@ -598,7 +604,6 @@ doSomethingForActivityDelegate
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -627,37 +632,13 @@ doSomethingForActivityDelegate
     if (_showView) {
         return _showView;
     }
-    NSArray *array = @[@"发布活动",@"我的活动"];
+    NSArray *array = @[@"发布活动",@"发布项目", @"我的活动"];
     _showView = [[SQMenuShowView alloc]initWithFrame:(CGRect){CGRectGetWidth(self.view.frame)-100-10,64,100,0}
                                                items:array
                                            showPoint:(CGPoint){CGRectGetWidth(self.view.frame)-25,10}];
     _showView.sq_backGroundColor = [UIColor whiteColor];
     [self.view addSubview:_showView];
     return _showView;
-}
-
-
-#pragma mark - doSomethingForActivityDelegate
-
-- (void)like
-{
-    NSLog(@"点赞");
-}
-
-- (void)share
-{
-    NSLog(@"分享");
-}
-
-- (void)comment
-{
-    NSLog(@"评论");
-}
-
-- (void)grade
-{
-    LMEvaluateViewController *vc =[[LMEvaluateViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

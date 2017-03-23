@@ -57,7 +57,7 @@
     if (![bodyDic[@"result"] isEqualToString:@"0"]) {
         return nil;
     }
-    NSArray * listArr = [LMMoreVoicesVO LMMoreVoicesVOListWithArray:bodyDic[@"list"]];
+    NSArray * listArr = [LMMoreVoicesVO LMMoreVoicesVOWithArray:bodyDic[@"list"]];
     if (listArr.count > 0) {
         return listArr;
     }

@@ -43,13 +43,13 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initStateHud];
     [self createUI];
     
 }
 
 - (void)createUI{
 
+    self.view.backgroundColor = BG_GRAY_COLOR;
     self.navigationItem.backBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@""
                                                                             style:UIBarButtonItemStylePlain
                                                                            target:nil
@@ -70,6 +70,7 @@
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot"];
 }
 
+#pragma mark - collectionView代理方法
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     
     return 3;
@@ -112,20 +113,24 @@
     if (indexPath.section == 1) {
         UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
         cell.backgroundColor = [UIColor whiteColor];
-        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, kScreenWidth*3/5-20)];
+        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, kScreenWidth*3/5-20)];
         imageView.backgroundColor = BG_GRAY_COLOR;
         imageView.image = [UIImage imageNamed:@"BackImage"];
         [cell.contentView addSubview:imageView];
         return cell;
     }
-    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"mainCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
-    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-30)/2, 100)];
-    imageView.backgroundColor = BG_GRAY_COLOR;
-    imageView.image = [UIImage imageNamed:@"BackImage"];
-    [cell.contentView addSubview:imageView];
-    
-    return cell;
+    if (indexPath.section == 2) {
+        UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"mainCell" forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor whiteColor];
+        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-30)/2, 100)];
+        imageView.backgroundColor = BG_GRAY_COLOR;
+        imageView.image = [UIImage imageNamed:@"BackImage"];
+        [cell.contentView addSubview:imageView];
+        
+        return cell;
+
+    }
+    return nil;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
@@ -136,18 +141,20 @@
     return 5;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    if (section != 2) {
+    if (section == 0) {
         return CGSizeZero;
     }
     return CGSizeMake(kScreenWidth, 40);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    
+    if (section == 3) {
+        return CGSizeZero;
+    }
     return CGSizeMake(kScreenWidth, 10);
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
-    //NSArray * typeNames = @[@"丨 腰美路演", @"丨 腰美轻创客"];
+    NSArray * typeNames = @[@"丨 腰果路演", @"丨 腰果轻创客"];
     if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
         UICollectionReusableView * backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot" forIndexPath:indexPath];;
         for (UIView * subView in backView.subviews) {
@@ -159,7 +166,7 @@
         
         return backView;
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section != 0) {
         UICollectionReusableView * backView = nil;
         if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
             
@@ -169,19 +176,19 @@
                 [subView removeFromSuperview];
             }
             
-            UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 80, 10)];
+            UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 20)];
             typeName.textColor = TEXT_COLOR_LEVEL_4;
-            typeName.font = TEXT_FONT_LEVEL_4;
-            NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"丨 腰美轻创客"];
+            typeName.font = TEXT_FONT_LEVEL_3;
+            NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:typeNames[indexPath.section-1]];
             [attr addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(0, 2)];
             typeName.attributedText = attr;
             [backView addSubview:typeName];
             
-            UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 15, 60, 10)];
+            UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 60, 20)];
             lookMore.text = @"查看更多 >";
             lookMore.textAlignment = NSTextAlignmentRight;
             lookMore.textColor = TEXT_COLOR_LEVEL_5;
-            lookMore.font = TEXT_FONT_LEVEL_4;
+            lookMore.font = TEXT_FONT_LEVEL_3;
             lookMore.userInteractionEnabled = YES;
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
             [lookMore addGestureRecognizer:tap];
@@ -217,29 +224,31 @@
     bgView.backgroundColor = [UIColor clearColor];
     [self.view.window addSubview:bgView];
     
-    
-    topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-170)];
+    //半透明部分
+    topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-210)];
     topView.backgroundColor = MASK_COLOR;
     [bgView addSubview:topView];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remove:)];
     [topView addGestureRecognizer:tap];
     
-    
-    botView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-170, kScreenWidth, 170)];
+    //信息部分
+    botView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-210, kScreenWidth, 210)];
     botView.backgroundColor = [UIColor whiteColor];
     [bgView addSubview:botView];
     
-    tips = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 15)];
-    tips.text = @"留下姓名电话，预约就进生活馆了解“创客”详情";
+    //提示语
+    tips = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 25)];
+    tips.text = @"留下姓名电话，预约就近生活馆了解“创客”详情";
     tips.textColor = TEXT_COLOR_LEVEL_4;
-    tips.font = TEXT_FONT_LEVEL_4;
+    tips.font = TEXT_FONT_LEVEL_2;
     [botView addSubview:tips];
     
-    nameTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 35, kScreenWidth-20, 25)];
+    //姓名
+    nameTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 45, kScreenWidth-20, 35)];
     nameTF.keyboardType = UIKeyboardTypeDefault;
     nameTF.placeholder = @" 姓名";
     nameTF.textColor = TEXT_COLOR_LEVEL_2;
-    nameTF.font = TEXT_FONT_LEVEL_2;
+    nameTF.font = TEXT_FONT_LEVEL_1;
     [nameTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
     nameTF.borderStyle = UITextBorderStyleLine;
     nameTF.layer.borderColor = TEXT_COLOR_LEVEL_4.CGColor;
@@ -248,11 +257,12 @@
     nameTF.layer.cornerRadius = 3;
     [botView addSubview:nameTF];
     
-    phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 75, kScreenWidth-20, 25)];
+    //电话
+    phoneTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 90, kScreenWidth-20, 35)];
     phoneTF.keyboardType = UIKeyboardTypeNumberPad;
     phoneTF.placeholder = @" 电话";
     phoneTF.textColor = TEXT_COLOR_LEVEL_2;
-    phoneTF.font = TEXT_FONT_LEVEL_2;
+    phoneTF.font = TEXT_FONT_LEVEL_1;
     [phoneTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
     phoneTF.borderStyle = UITextBorderStyleLine;
     phoneTF.layer.borderColor = TEXT_COLOR_LEVEL_4.CGColor;
@@ -261,8 +271,8 @@
     phoneTF.layer.cornerRadius = 3;
     [botView addSubview:phoneTF];
     
-    
-    bookBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 115, kScreenWidth-40, 35)];
+    //预约按钮
+    bookBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 135, kScreenWidth-40, 45)];
     [bookBtn setTitle:@"预约生活馆" forState:UIControlStateNormal];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     bookBtn.titleLabel.font = TEXT_FONT_BOLD_14;
@@ -308,9 +318,9 @@
              _currentCity = city;
              //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
              [manager stopUpdatingLocation];
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self hideStateHud];
-             });
+//             dispatch_async(dispatch_get_main_queue(), ^{
+//                 [self hideStateHud];
+//             });
          }else if (error == nil && [array count] == 0)
          {
              NSLog(@"No results were returned.");
@@ -359,14 +369,19 @@
     if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
         [nameTF resignFirstResponder];
         [phoneTF resignFirstResponder];
+        
         [self textStateHUD:@"预约失败"];
+        
+        
         return ;
     }
     NSDictionary * bodyDic = [VOUtil parseBody:resp];
     if (![[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
         [nameTF resignFirstResponder];
         [phoneTF resignFirstResponder];
+        
         [self textStateHUD:@"预约失败"];
+       
         return;
     }
     //移除当前视图
@@ -384,13 +399,20 @@
     if ([nameTF.text isEqualToString:@""] ) {
         [nameTF resignFirstResponder];
         [phoneTF resignFirstResponder];
+        
         [self textStateHUD:@"请输入姓名"];
+        
+
+        
         return NO;
     }
     else if ([phoneTF.text isEqualToString:@""]) {
         [nameTF resignFirstResponder];
         [phoneTF resignFirstResponder];
+        
         [self textStateHUD:@"请输入电话"];
+        
+       
         return NO;
     }
     else{
@@ -402,7 +424,10 @@
             
             [nameTF resignFirstResponder];
             [phoneTF resignFirstResponder];
+            
             [self textStateHUD:@"手机格式不正确"];
+            
+            
             //            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入正确的手机号码"
             //                                                                       message:nil
             //                                                                preferredStyle:UIAlertControllerStyleAlert];

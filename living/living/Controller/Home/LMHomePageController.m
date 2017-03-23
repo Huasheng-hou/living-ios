@@ -102,9 +102,10 @@ WJLoopViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     if (self.listData.count == 0) {
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self initStateHud];
+        });
         [self loadNoState];
     }
 }
@@ -264,6 +265,10 @@ WJLoopViewDelegate
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideStateHud];
+        });
+
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
         return [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];

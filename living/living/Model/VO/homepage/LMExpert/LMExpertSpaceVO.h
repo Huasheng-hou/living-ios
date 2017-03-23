@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LMMoreEventsVO.h"
+#import "LMMoreArticlesVO.h"
+#import "LMMoreVoicesVO.h"
+
+
 #if ! __has_feature(objc_arc)
 #define JSONAutoRelease(param) ([param autorelease]);
 #else
@@ -22,17 +27,19 @@
 
 @property (nonatomic, copy) NSString * nickName;
 @property (nonatomic, copy) NSString * avatar;
-
+@property (nonatomic, strong) NSArray * images;
 @property (nonatomic, copy) NSString * introduce;
 @property (nonatomic, copy) NSString * gender;
 @property (nonatomic, copy) NSString * userId;
-@property (nonatomic, copy) NSString * address;
+@property (nonatomic, copy) NSString * province;
+@property (nonatomic, copy) NSString * city;
 @property (nonatomic, copy) NSString * franchisee;
 @property (nonatomic, copy) NSString * sign;
+@property (nonatomic, copy) NSString * userUuid;
 
-
-
-
+@property (nonatomic, strong) NSArray<LMMoreEventsVO *> * eventsBody;
+@property (nonatomic, strong) NSArray<LMMoreArticlesVO *> * articlesBody;
+@property (nonatomic, strong) NSArray<LMMoreVoicesVO *> * voicesBody;
 
 
 

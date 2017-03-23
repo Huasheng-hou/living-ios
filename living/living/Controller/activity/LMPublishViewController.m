@@ -91,7 +91,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发布活动";
     cellDataArray=[NSMutableArray arrayWithCapacity:10];
     projectImageArray=[NSMutableArray arrayWithCapacity:10];
     

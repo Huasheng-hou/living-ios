@@ -19,18 +19,33 @@
 #import "LMMoreEventsController.h"
 #import "LMMoreClassController.h"
 
+#import "LMExpertSpaceRequest.h"
+#import "LMExpertSpaceVO.h"
 
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
 
 @implementation LMExpertDetailController
+{
+    NSArray * _articles;
+    NSArray * _events;
+    NSArray * _voices;
+    
+    
+}
+- (instancetype)init{
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self createUI];
-    
+    [self loadNewer];
 }
 
 - (void)createUI{
@@ -43,6 +58,39 @@
     self.tableView.tableHeaderView = headerView;
     
 }
+
+#pragma mark - 请求达人空间数据
+- (FitBaseRequest *)request{
+    
+    LMExpertSpaceRequest * request = [[LMExpertSpaceRequest alloc] initWithUserUuid:@"62e75369cf6c01cfabf464e4072e9868"];
+    return request;
+}
+- (NSArray *)parseResponse:(NSString *)resp{
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        return nil;
+    }
+    
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    if (![bodyDic[@"result"] isEqualToString:@"0"]) {
+        return nil;
+    }
+    //处理返回数据
+    //达人信息 model存到self.listData
+    
+    //文章 model存到_articles
+    
+    //活动 model存到_events
+    
+    //项目 model存到_voices
+    
+    
+    return nil;
+
+}
+
 #pragma mark UITableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
@@ -69,15 +117,15 @@
     UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     backView.backgroundColor = [UIColor whiteColor];
     
-    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(10, 13, 70, 14)];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 70, 20)];
     title.textColor = TEXT_COLOR_LEVEL_4;
-    title.font = TEXT_FONT_BOLD_12;
+    title.font = TEXT_FONT_LEVEL_3;
     NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:titles[section]];
     [attr addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(0, 2)];
     title.attributedText = attr;
     [backView addSubview:title];
     
-    UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 15, 60, 10)];
+    UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 60, 20)];
     lookMore.text = @"更多 >";
     lookMore.tag = section;
     lookMore.textAlignment = NSTextAlignmentRight;
@@ -143,8 +191,12 @@
         if (!cell) {
             cell = [[LMNewHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotArticleCell"];
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_articles.count > indexPath.row) {
+            LMMoreArticlesVO * vo = _articles[indexPath.row];
+            [cell setVO:vo];
+        }
+        
         return cell;
         
     }
@@ -155,6 +207,10 @@
         }
         cell.type = 1;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_articles.count > indexPath.row) {
+            LMMoreEventsVO * vo = _articles[indexPath.row];
+            [cell setVO:vo];
+        }
         return cell;
     }
     if (indexPath.section == 2) {
@@ -164,6 +220,10 @@
         }
         cell.type = 2;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_articles.count > indexPath.row) {
+            LMMoreVoicesVO * vo = _articles[indexPath.row];
+            [cell setVO:vo];
+        }
         return cell;
     }
     return nil;

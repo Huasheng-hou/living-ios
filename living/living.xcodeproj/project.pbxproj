@@ -540,6 +540,7 @@
 		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
 		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
+		D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */; };
 		D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */; };
 		D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */; };
 		D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */; };
@@ -1640,6 +1641,8 @@
 		D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBConvertCell.m; sourceTree = "<group>"; };
 		D542F3C31E6FEEA900CDB2EB /* LMYGBActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBActivityCell.h; sourceTree = "<group>"; };
 		D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBActivityCell.m; sourceTree = "<group>"; };
+		D5944D1C1E8377CA002DBA7D /* LMExpertSpaceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceRequest.h; sourceTree = "<group>"; };
+		D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceRequest.m; sourceTree = "<group>"; };
 		D5D3250B1E70F80D0057F636 /* LMYaoGuoBiConvertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMYaoGuoBiConvertController.h; path = ../../LMYaoGuoBiConvertController.h; sourceTree = "<group>"; };
 		D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMYaoGuoBiConvertController.m; path = ../../LMYaoGuoBiConvertController.m; sourceTree = "<group>"; };
 		D5D3250E1E711FFE0057F636 /* LMSubmitOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMSubmitOrderController.h; path = ../../LMSubmitOrderController.h; sourceTree = "<group>"; };
@@ -4149,6 +4152,8 @@
 			children = (
 				D53494AE1E779C9F00A4442C /* LMExpertListRequest.h */,
 				D53494AF1E779C9F00A4442C /* LMExpertListRequest.m */,
+				D5944D1C1E8377CA002DBA7D /* LMExpertSpaceRequest.h */,
+				D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */,
 				D53494B11E779CD900A4442C /* LMExpertArticlesRequest.h */,
 				D53494B21E779CD900A4442C /* LMExpertArticlesRequest.m */,
 				D53494B41E779CF200A4442C /* LMExpertEventsRequest.h */,
@@ -4414,6 +4419,7 @@
 				35B748301DDE97F4000AFA26 /* BabFilterAgePickerView.m in Sources */,
 				359F819C1E0282030070F6C7 /* LMVoiceJoinRequest.m in Sources */,
 				35B7475A1DDE97F3000AFA26 /* LMWebViewController.m in Sources */,
+				D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */,
 				354050491E07BC6D00B11027 /* LMVoiceQuesrtionRequest.m in Sources */,
 				35B747C61DDE97F3000AFA26 /* LMBalanceRequest.m in Sources */,
 				35980BB01E00EA2D0054EB05 /* LMPublicVoicProjectRequest.m in Sources */,
