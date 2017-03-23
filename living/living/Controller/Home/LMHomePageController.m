@@ -91,6 +91,13 @@ WJLoopViewDelegate
 {
     [super viewWillAppear:animated];
     
+    if (self.listData.count == 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self initStateHud];
+        });
+    }
+
+    
     self.tabBarController.tabBar.hidden = NO;
     if ([[FitUserManager sharedUserManager] isLogin]) {
 

@@ -90,6 +90,10 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.type = [dictionary objectForKey:@"type"];
         }
+        if (nil != [dictionary objectForKey:@"headimgurl"] && ![[dictionary objectForKey:@"headimgurl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"headimgurl"] isKindOfClass:[NSString class]]) {
+            self.headImgUrl = [dictionary objectForKey:@"headimgurl"];
+        }
         if (nil != [dictionary objectForKey:@"franchisee"] && ![[dictionary objectForKey:@"franchisee"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"franchisee"] isKindOfClass:[NSString class]]) {
             self.franchisee = [dictionary objectForKey:@"franchisee"];

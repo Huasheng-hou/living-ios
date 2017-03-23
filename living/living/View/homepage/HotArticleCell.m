@@ -54,9 +54,9 @@
     
     title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
     
-    [icon sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
+    [icon sd_setImageWithURL:[NSURL URLWithString:list.headImgUrl]];
     
-    //name.text = list.articleName;
+    name.text = list.articleName;
     
     tag.text = newType[index];
     tag.backgroundColor = colorList[index];

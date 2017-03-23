@@ -29,6 +29,7 @@
 #import "LMYGBDetailRequest.h"
 #import "LMCoinlistVO.h"
 #import "LMYGBDetailVO.h"
+#import "LMYGBExchangeRequest.h"
 @interface LMYaoGuoBiController ()<UITableViewDelegate,UITableViewDataSource,WJLoopViewDelegate>
 
 @end
@@ -256,6 +257,46 @@
     }
     return resultArr;
 }
+
+#pragma mark - 发起兑换优惠券请求
+- (void)coinExchangeRequest:(NSInteger)index{
+    if (self.listData.count <= 0) {
+        return;
+    }
+    LMCoinlistVO * vo = self.listData[index];
+    LMYGBExchangeRequest * request = [[LMYGBExchangeRequest alloc] initWithAmount:vo.amount andNumbers:vo.numbers];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+        
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    [self parseCoinExchangeResponse:resp];
+                                                });
+                                            }
+                                            failed:^(NSError *error) {
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    [self textStateHUD:@"网络错误"];
+                                                    NSLog(@"%@", error.localizedDescription);
+                                                });
+                                            }];
+    
+    [proxy start];
+}
+
+- (void)parseCoinExchangeResponse:(NSString *)resp{
+    
+    NSData * data = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [dic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        return ;
+    }
+    NSDictionary * body = [VOUtil parseBody:resp];
+    if (![body[@"result"] isEqualToString:@"0"]) {
+        return;
+    }
+    [self textStateHUD:@"兑换成功"];
+    [self loadNewer];
+}
+
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -328,11 +369,22 @@
     }
     return cell;
 }
-
+//点击列表进行兑换
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定要进行兑换吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"兑换请求");
+        [self coinExchangeRequest:indexPath.row];
+    }];
+    
+    [alert addAction:cancleAction];
+    [alert addAction:sureAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
     
 }
 

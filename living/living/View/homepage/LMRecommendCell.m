@@ -96,7 +96,7 @@
     
     title.text = vo.articleTitle;
     summary.text = vo.articleContent;
-    [icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:nil];
+    [icon sd_setImageWithURL:[NSURL URLWithString:vo.headImgUrl] placeholderImage:nil];
     icon.contentMode = UIViewContentModeScaleAspectFill;
     icon.clipsToBounds = YES;
     name.text = vo.articleName;
