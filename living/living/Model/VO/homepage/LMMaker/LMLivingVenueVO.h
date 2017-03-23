@@ -22,7 +22,7 @@
 
 + (LMLivingVenueVO *)LMLivingVenueVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
 + (LMLivingVenueVO *)LMLivingVenueVOWithDictionary:(NSDictionary *)dictionary;
-+ (NSArray *)LMLivingVenueVOListWithArray:(NSArray *)array;
++ (NSArray *)LMLivingVenueVOWithArray:(NSArray *)array;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 

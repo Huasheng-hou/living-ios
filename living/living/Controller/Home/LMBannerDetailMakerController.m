@@ -14,7 +14,12 @@
 
 #import "LMBookLivingRequest.h"
 #import <CoreLocation/CoreLocation.h>
-@interface LMBannerDetailMakerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,LMMakerDelegate,CLLocationManagerDelegate>
+
+#import "LMMakerBannerVO.h"
+#import "LMMakerBannerRequest.h"
+#import "WJLoopView.h"
+#import "LMWebViewController.h"
+@interface LMBannerDetailMakerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,LMMakerDelegate,CLLocationManagerDelegate,WJLoopViewDelegate>
 
 @end
 
@@ -35,6 +40,10 @@
     
     CLLocationManager * locationManager;
     NSString * _currentCity;
+    
+    NSArray * _bannerArray;
+    UIView * headView;
+    
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -69,6 +78,93 @@
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead"];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot"];
 }
+#pragma mark - 请求轮播图数据
+- (void)getBannerDataRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    
+    LMMakerBannerRequest *request = [[LMMakerBannerRequest alloc] init];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [self parseBannerResp:resp];
+                                               });
+                                               
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+- (void)parseBannerResp:(NSString *)resp{
+    
+    NSDictionary *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSString     *result     = [bodyDict objectForKey:@"result"];
+    
+    if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
+        
+        _bannerArray = [LMMakerBannerVO LMMakerBannerVOWithArray:[bodyDict objectForKey:@"banners"]];
+        
+        if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
+            
+            headView.backgroundColor = BG_GRAY_COLOR;
+        } else {
+            
+            for (UIView *subView in headView.subviews) {
+                
+                [subView removeFromSuperview];
+            }
+            
+            NSMutableArray   *imgUrls    = [NSMutableArray new];
+            
+            
+            for (int i=0; i<_bannerArray.count; i++) {
+                LMMakerBannerVO * vo = _bannerArray[i];
+                if (vo && [vo isKindOfClass:[LMMakerBannerVO class]] && vo.webUrl) {
+                    
+                    [imgUrls addObject:vo.webUrl];
+                }
+            }
+            
+            WJLoopView * loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
+                                                            delegate:self
+                                                           imageURLs:imgUrls
+                                                    placeholderImage:nil
+                                                        timeInterval:8
+                                      currentPageIndicatorITintColor:nil
+                                              pageIndicatorTintColor:nil];
+            
+            loopView.location = WJPageControlAlignmentRight;
+            
+            [headView addSubview:loopView];
+        }
+    }
+    
+}
+
+#pragma mark - WJLoopViewDelegate
+- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index{
+    if (_bannerArray.count > index) {
+        
+        LMWebViewController * webVC = [[LMWebViewController alloc] init];
+        LMMakerBannerVO * vo = _bannerArray[index];
+        webVC.title = vo.title;
+        webVC.urlString = vo.webUrl;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+    
+    
+}
+
 
 #pragma mark - collectionView代理方法
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -426,17 +522,7 @@
             [phoneTF resignFirstResponder];
             
             [self textStateHUD:@"手机格式不正确"];
-            
-            
-            //            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入正确的手机号码"
-            //                                                                       message:nil
-            //                                                                preferredStyle:UIAlertControllerStyleAlert];
-            //            [alert addAction:[UIAlertAction actionWithTitle:@"确定"
-            //                                                  style:UIAlertActionStyleCancel
-            //                                                handler:nil]];
-            //
-            //            [self presentViewController:alert animated:YES completion:nil];
-            
+    
             return NO;
         }
     }

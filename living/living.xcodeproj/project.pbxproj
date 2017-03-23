@@ -545,6 +545,8 @@
 		D5944D281E83C679002DBA7D /* LMAllEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D271E83C679002DBA7D /* LMAllEventController.m */; };
 		D5944D2B1E83C94E002DBA7D /* LMNewPublicEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D2A1E83C94E002DBA7D /* LMNewPublicEventRequest.m */; };
 		D5944D2E1E83F263002DBA7D /* LMYGBExchangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D2D1E83F263002DBA7D /* LMYGBExchangeRequest.m */; };
+		D5944D311E83F83A002DBA7D /* LMMakerBannerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D301E83F83A002DBA7D /* LMMakerBannerRequest.m */; };
+		D5944D341E83F88C002DBA7D /* LMMakerBannerVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D331E83F88C002DBA7D /* LMMakerBannerVO.m */; };
 		D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */; };
 		D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */; };
 		D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */; };
@@ -1655,6 +1657,10 @@
 		D5944D2A1E83C94E002DBA7D /* LMNewPublicEventRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNewPublicEventRequest.m; sourceTree = "<group>"; };
 		D5944D2C1E83F263002DBA7D /* LMYGBExchangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBExchangeRequest.h; sourceTree = "<group>"; };
 		D5944D2D1E83F263002DBA7D /* LMYGBExchangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBExchangeRequest.m; sourceTree = "<group>"; };
+		D5944D2F1E83F83A002DBA7D /* LMMakerBannerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMakerBannerRequest.h; sourceTree = "<group>"; };
+		D5944D301E83F83A002DBA7D /* LMMakerBannerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMakerBannerRequest.m; sourceTree = "<group>"; };
+		D5944D321E83F88C002DBA7D /* LMMakerBannerVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMakerBannerVO.h; sourceTree = "<group>"; };
+		D5944D331E83F88C002DBA7D /* LMMakerBannerVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMakerBannerVO.m; sourceTree = "<group>"; };
 		D5D3250B1E70F80D0057F636 /* LMYaoGuoBiConvertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMYaoGuoBiConvertController.h; path = ../../LMYaoGuoBiConvertController.h; sourceTree = "<group>"; };
 		D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMYaoGuoBiConvertController.m; path = ../../LMYaoGuoBiConvertController.m; sourceTree = "<group>"; };
 		D5D3250E1E711FFE0057F636 /* LMSubmitOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMSubmitOrderController.h; path = ../../LMSubmitOrderController.h; sourceTree = "<group>"; };
@@ -4083,6 +4089,8 @@
 				D52C14E21E825F13008CFE3F /* LMBookLivingRequest.m */,
 				D52C14E41E82638C008CFE3F /* LMNearbyLivingRequest.h */,
 				D52C14E51E82638C008CFE3F /* LMNearbyLivingRequest.m */,
+				D5944D2F1E83F83A002DBA7D /* LMMakerBannerRequest.h */,
+				D5944D301E83F83A002DBA7D /* LMMakerBannerRequest.m */,
 			);
 			path = maker;
 			sourceTree = "<group>";
@@ -4090,6 +4098,8 @@
 		D52C14E71E826502008CFE3F /* LMMaker */ = {
 			isa = PBXGroup;
 			children = (
+				D5944D321E83F88C002DBA7D /* LMMakerBannerVO.h */,
+				D5944D331E83F88C002DBA7D /* LMMakerBannerVO.m */,
 				D52C14E81E82653D008CFE3F /* LMLivingVenueVO.h */,
 				D52C14E91E82653D008CFE3F /* LMLivingVenueVO.m */,
 			);
@@ -4531,6 +4541,7 @@
 				35B747AD1DDE97F3000AFA26 /* LMArticeDeleteRequest.m in Sources */,
 				D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */,
 				35B748251DDE97F4000AFA26 /* LMMyLivingHomeCell.m in Sources */,
+				D5944D341E83F88C002DBA7D /* LMMakerBannerVO.m in Sources */,
 				D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */,
 				3524CF7B1E503D8E00651E64 /* FirUploadVideoRequest.m in Sources */,
 				D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */,
@@ -4679,6 +4690,7 @@
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
 				35B7480D1DDE97F4000AFA26 /* LMCouponChoseCell.m in Sources */,
 				D53494C61E77B4EF00A4442C /* LMRecommendExpertVO.m in Sources */,
+				D5944D311E83F83A002DBA7D /* LMMakerBannerRequest.m in Sources */,
 				35B747B51DDE97F3000AFA26 /* LMHomelistequest.m in Sources */,
 				35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */,
 				D5DFBCD81E80EED70065C313 /* LMYGBDetailVO.m in Sources */,

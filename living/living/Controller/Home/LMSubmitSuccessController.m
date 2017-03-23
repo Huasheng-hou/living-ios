@@ -78,7 +78,7 @@
         [self textStateHUD:@"预约失败"];
         return nil;
     }
-    NSArray * resultArr = [LMLivingVenueVO LMLivingVenueVOListWithArray:bodyDic[@"list"]];
+    NSArray * resultArr = [LMLivingVenueVO LMLivingVenueVOWithArray:bodyDic[@"list"]];
     _dataArr = resultArr;
     if (resultArr.count > 0) {
         return resultArr;

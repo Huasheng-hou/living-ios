@@ -9,7 +9,7 @@
 #import "LMLivingVenueVO.h"
 
 @implementation LMLivingVenueVO
-+ (LMLivingVenueVO *)LMYGBDetailVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error
++ (LMLivingVenueVO *)LMLivingVenueVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error
 {
     NSData *jsonData = [jsonString dataUsingEncoding:stringEncoding];
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -29,7 +29,7 @@
     return JSONAutoRelease(instance);
 }
 
-+ (NSArray *)LMLivingVenueVOListWithArray:(NSArray *)array
++ (NSArray *)LMLivingVenueVOWithArray:(NSArray *)array
 {
     if (!array || ![array isKindOfClass:[NSArray class]]) {
         return nil;
