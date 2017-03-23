@@ -33,7 +33,6 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         
-        //        self.ifRemoveLoadNoState        = NO;
         self.ifShowTableSeparator       = NO;
         self.hidesBottomBarWhenPushed   = NO;
         _category = type;
@@ -47,10 +46,10 @@
 {
     [super viewDidAppear:animated];
     
-    if (self.listData.count == 0) {
-        
-        [self loadNoState];
-    }
+//    if (self.listData.count == 0) {
+//        
+//        [self loadNoState];
+//    }
     
     
 }

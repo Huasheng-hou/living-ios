@@ -14,6 +14,7 @@
     UIView * backView;
     
     UIImageView * backImage;
+    UIView * shadow;
     UILabel * title;
     UILabel * desp;
     UIImageView * icon;
@@ -73,8 +74,9 @@
 
 - (void)setCellType:(NSInteger)cellType{
     if (cellType == 1) {
-        //发现 首页
+        //发现
         backImage.frame = CGRectMake(0, 0, kScreenWidth, 205);
+        shadow.frame = backImage.frame;
         title.numberOfLines = 2;
     }
     if (cellType == 2) {
@@ -108,7 +110,7 @@
     backImage.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:backImage];
     
-    UIView * shadow = [[UIView alloc] initWithFrame:backImage.frame];
+    shadow = [[UIView alloc] initWithFrame:backImage.frame];
     shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     [backView addSubview:shadow];
     

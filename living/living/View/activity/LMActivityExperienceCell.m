@@ -19,7 +19,7 @@
 @property (nonatomic, strong) LMActivityExperienceBtn *commentBtn; // 评论按钮
 @property (nonatomic, strong) LMActivityExperienceBtn *shareBtn;  // 分享按钮
 @property (nonatomic, strong) UIButton *gradeBtn; // 评分按钮
-
+@property (nonatomic, strong) UIView *shadow;
 @end
 
 
@@ -51,6 +51,10 @@
     _bKGImageView.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:_bKGImageView];
     
+    _shadow = [[UIView alloc] initWithFrame:_bKGImageView.frame];
+    _shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    [self.contentView addSubview:_shadow];
+    
     _titleLbl = [[UILabel alloc]initWithFrame:CGRectMake(30, 114, kScreenWidth - 60, 19)];
     _titleLbl.text = @"动手吧！好吃到飞起来的料理";
     _titleLbl.font = TEXT_FONT_LEVEL_1;
@@ -64,26 +68,26 @@
     _detailLbl.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_detailLbl];
     
-    _gradeBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 73, 195, 63, 23)];
-    [_gradeBtn setTitle:@"评一下" forState:UIControlStateNormal];
-    _gradeBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-    [_gradeBtn setTitleColor:ORANGE_COLOR forState:UIControlStateNormal];
-    _gradeBtn.layer.borderWidth = 0.5;
-    _gradeBtn.layer.borderColor = ORANGE_COLOR.CGColor;
-    [_gradeBtn addTarget:self action:@selector(grandeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    //[self.contentView addSubview:_gradeBtn];
-    
-    _shareBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 138, 195, 55, 23) actionTitle:@"分享" IconImage:[UIImage imageNamed:@"shareIcon-1"]];
-    [_shareBtn addTarget:self action:@selector(shareBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    //[self.contentView addSubview:_shareBtn];
-    
-    _commentBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 203, 195, 55, 23) actionTitle:@"评论" IconImage:[UIImage imageNamed:@"comment"]];
-    [_commentBtn addTarget:self action:@selector(commentBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    //[self.contentView addSubview:_commentBtn];
-    
-    _likeBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 268, 195, 55, 23) actionTitle:@"点赞" IconImage:[UIImage imageNamed:@"zanIcon"]];
-    [_likeBtn addTarget:self action:@selector(likeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    //[self.contentView addSubview:_likeBtn];
+//    _gradeBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 73, 195, 63, 23)];
+//    [_gradeBtn setTitle:@"评一下" forState:UIControlStateNormal];
+//    _gradeBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+//    [_gradeBtn setTitleColor:ORANGE_COLOR forState:UIControlStateNormal];
+//    _gradeBtn.layer.borderWidth = 0.5;
+//    _gradeBtn.layer.borderColor = ORANGE_COLOR.CGColor;
+//    [_gradeBtn addTarget:self action:@selector(grandeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    //[self.contentView addSubview:_gradeBtn];
+//    
+//    _shareBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 138, 195, 55, 23) actionTitle:@"分享" IconImage:[UIImage imageNamed:@"shareIcon-1"]];
+//    [_shareBtn addTarget:self action:@selector(shareBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    //[self.contentView addSubview:_shareBtn];
+//    
+//    _commentBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 203, 195, 55, 23) actionTitle:@"评论" IconImage:[UIImage imageNamed:@"comment"]];
+//    [_commentBtn addTarget:self action:@selector(commentBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    //[self.contentView addSubview:_commentBtn];
+//    
+//    _likeBtn = [[LMActivityExperienceBtn alloc]initWithFrame:CGRectMake(kScreenWidth - 268, 195, 55, 23) actionTitle:@"点赞" IconImage:[UIImage imageNamed:@"zanIcon"]];
+//    [_likeBtn addTarget:self action:@selector(likeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    //[self.contentView addSubview:_likeBtn];
     
 }
 
