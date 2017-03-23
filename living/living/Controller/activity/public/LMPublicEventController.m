@@ -1,12 +1,12 @@
- //
-//  LMPublishViewController.m
+//
+//  LMPublicEventController.m
 //  living
 //
-//  Created by JamHonyZ on 2016/11/5.
-//  Copyright © 2016年 chenle. All rights reserved.
+//  Created by hxm on 2017/3/23.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "LMPublishViewController.h"
+#import "LMPublicEventController.h"
 #import "LMProjectCell.h"
 #import "LMPublicMsgCell.h"
 #import "LMTimeButton.h"
@@ -27,7 +27,10 @@
 #import "ZYQAssetPickerController.h"
 #import "FirUploadVideoRequest.h"
 
-@interface LMPublishViewController ()
+#import "LMPublicEventCell.h"
+#import "LMNewPublicEventRequest.h"
+#import "LMTypeListViewController.h"
+@interface LMPublicEventController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
@@ -43,10 +46,11 @@ selectAddressDelegate,
 addressTypeDelegate,
 ZYQAssetPickerControllerDelegate,
 KZVideoViewControllerDelegate,
-LMProjectCellDelegate
+LMProjectCellDelegate,
+LMTypeListProtocol
 >
 {
-    LMPublicMsgCell *msgCell;
+    LMPublicEventCell *msgCell;
     UIImagePickerController *pickImage;
     NSString *_imgURL;
     NSString *_imgProURL;
@@ -79,13 +83,16 @@ LMProjectCellDelegate
     NSData *videoData;
     NSInteger publicTag;
     
+    
+    NSString * typeStr;
 }
 @property(nonatomic,strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic,retain)UITableView *tableView;
 @end
 
-@implementation LMPublishViewController
+@implementation LMPublicEventController
+
 
 static NSMutableArray *cellDataArray;
 
@@ -159,7 +166,7 @@ static NSMutableArray *cellDataArray;
     self.tableView.tableFooterView = footView;
 }
 
-
+#pragma mark - tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
@@ -179,7 +186,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +kScreenWidth*3/5+90+90;
+        return 490 +kScreenWidth*3/5+90+90-90;
     }
     if (indexPath.section==1) {
         return 340;
@@ -260,14 +267,12 @@ static NSMutableArray *cellDataArray;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     if (indexPath.section==0) {
         
         static NSString *cellID = @"cellID";
         msgCell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (!msgCell) {
-            msgCell = [[LMPublicMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+            msgCell = [[LMPublicEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
         msgCell.selectionStyle = UITableViewCellSelectionStyleNone;
         msgCell.titleTF.delegate = self;
@@ -276,7 +281,6 @@ static NSMutableArray *cellDataArray;
         msgCell.freeTF.delegate =self;
         msgCell.dspTF.delegate = self;
         msgCell.VipFreeTF.delegate = self;
-        msgCell.joincountTF.delegate = self;
         msgCell.couponTF.delegate = self;
         
         msgCell.titleTF.tag = 100;
@@ -285,15 +289,11 @@ static NSMutableArray *cellDataArray;
         msgCell.freeTF.tag =100;
         msgCell.dspTF.tag = 100;
         msgCell.VipFreeTF.tag = 100;
-        msgCell.joincountTF.tag = 100;
         msgCell.applyTextView.delegate = self;
         msgCell.couponTF.tag = 100;
         
-        
-        [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
-        
+        msgCell.category.titleLabel.text = typeStr;
+        [msgCell.category addTarget:self action:@selector(chooseType:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.addressButton addTarget:self action:@selector(addressAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton setTag:0];
@@ -361,7 +361,7 @@ static NSMutableArray *cellDataArray;
             [cell.VideoImgView setImage:[UIImage imageNamed:@""]];
             cell.button.hidden = YES;
         }
- 
+        
         if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""]&&cellDataArray[indexPath.row][@"content"]) {
             [cell.textLab setHidden:NO];
         }else{
@@ -383,8 +383,34 @@ static NSMutableArray *cellDataArray;
     
     [self refreshData];
 }
+#pragma mark - 选择分类代理
+- (void)backLiveName:(NSString *)liveRoom
+{
+    
+    if ([liveRoom isEqualToString:@"美丽"]) {
+        typeStr = @"beautiful";
+    }
+    if ([liveRoom isEqualToString:@"幸福"]) {
+        typeStr = @"happiness";
+    }
+    if ([liveRoom isEqualToString:@"健康"]) {
+        typeStr = @"healthy";
+    }
+    if ([liveRoom isEqualToString:@"美食"]) {
+        typeStr = @"delicious";
+    }
 
-#pragma mark 地图选择地址详情
+    [self.tableView reloadData];
+}
+
+- (void)chooseType:(id)sender{
+    LMTypeListViewController * typeVC = [[LMTypeListViewController alloc] init];
+
+    typeVC.delegate     = self;
+    
+    [self.navigationController pushViewController:typeVC animated:YES];
+}
+#pragma mark - 地图选择地址详情
 
 - (void)selectLocation
 {
@@ -395,7 +421,7 @@ static NSMutableArray *cellDataArray;
     [addView.addressButton addTarget:self action:@selector(addViewAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:addView];
-
+    
 }
 
 -(void)addViewAction
@@ -409,7 +435,7 @@ static NSMutableArray *cellDataArray;
 }
 
 
-#pragma mark LMAddressChooseView代理方法
+#pragma mark - LMAddressChooseView代理方法
 
 -(void)buttonType:(NSInteger)type
 {
@@ -440,7 +466,7 @@ static NSMutableArray *cellDataArray;
             [addView2 removeFromSuperview];
         }
     }
-
+    
 }
 
 //代理方法
@@ -455,50 +481,50 @@ static NSMutableArray *cellDataArray;
     _longitude  = longitude;
 }
 
-- (void)beginDateAction:(id)sender
-{
-    [self.view endEditing:YES];
-    dateIndex = 0;
-    
-    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate *currentDate;
-    
-    currentDate = [NSDate date];
-    
-    [FitDatePickerView showWithMinimumDate:currentDate
-                               MaximumDate:[formatter dateFromString:@"2950-01-01"]
-                               CurrentDate:currentDate
-                                      Mode:UIDatePickerModeDateAndTime
-                                  Delegate:self];
-}
+//- (void)beginDateAction:(id)sender
+//{
+//    [self.view endEditing:YES];
+//    dateIndex = 0;
+//    
+//    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy-MM-dd"];
+//    NSDate *currentDate;
+//    
+//    currentDate = [NSDate date];
+//    
+//    [FitDatePickerView showWithMinimumDate:currentDate
+//                               MaximumDate:[formatter dateFromString:@"2950-01-01"]
+//                               CurrentDate:currentDate
+//                                      Mode:UIDatePickerModeDateAndTime
+//                                  Delegate:self];
+//}
 
-- (void)endDateAction:(id)sender
-{
-    [self.view endEditing:YES];
-    dateIndex = 1;
-    
-    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *currentDate;
-    if ([msgCell.dateButton.textLabel.text isEqual:@"请选择活动开始时间"]) {
-        currentDate = [NSDate date];
-    }else{
-        
-        NSString *dateString=msgCell.dateButton.textLabel.text;
-        
-        currentDate=[formatter dateFromString:dateString];
-        
-    }
-    
-    [FitDatePickerView showWithMinimumDate:currentDate
-                               MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
-                               CurrentDate:currentDate
-                                      Mode:UIDatePickerModeDateAndTime
-                                  Delegate:self];
-}
+//- (void)endDateAction:(id)sender
+//{
+//    [self.view endEditing:YES];
+//    dateIndex = 1;
+//    
+//    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    NSDate *currentDate;
+//    if ([msgCell.dateButton.textLabel.text isEqual:@"请选择活动开始时间"]) {
+//        currentDate = [NSDate date];
+//    }else{
+//        
+//        NSString *dateString=msgCell.dateButton.textLabel.text;
+//        
+//        currentDate=[formatter dateFromString:dateString];
+//        
+//    }
+//    
+//    [FitDatePickerView showWithMinimumDate:currentDate
+//                               MaximumDate:[formatter dateFromString:@"2950-01-01 00:00:00"]
+//                               CurrentDate:currentDate
+//                                      Mode:UIDatePickerModeDateAndTime
+//                                  Delegate:self];
+//}
 
-#pragma mark 选择省市区视图
+#pragma mark - 选择省市区视图
 
 - (void)createPickerView
 {
@@ -508,7 +534,7 @@ static NSMutableArray *cellDataArray;
     [addView2.addressButton addTarget:self action:@selector(addPickerView) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:addView2];
-
+    
 }
 
 -(void)addPickerView
@@ -532,7 +558,7 @@ static NSMutableArray *cellDataArray;
     districtStr=district;
 }
 
-#pragma mark ======================活动==项目活动增加图片
+#pragma mark - =====活动==项目活动增加图片
 
 - (void)imageButtonAction:(UIButton *)button
 {
@@ -572,20 +598,20 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark - 日期选择
 
-- (void)didSelectedDate:(NSDate *)date
-{
-    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-    
-    if (dateIndex == 0) {
-        
-        msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
-    }
-    if (dateIndex == 1) {
-        
-        msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
-    }
-}
+//- (void)didSelectedDate:(NSDate *)date
+//{
+//    NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+//    
+//    if (dateIndex == 0) {
+//        
+//        msgCell.dateButton.textLabel.text   = [formatter stringFromDate:date];
+//    }
+//    if (dateIndex == 1) {
+//        
+//        msgCell.endDateButton.textLabel.text   = [formatter stringFromDate:date];
+//    }
+//}
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -606,7 +632,7 @@ static NSMutableArray *cellDataArray;
     return YES;
 }
 
-#pragma mark  textView代理方法
+#pragma mark - textView代理方法
 
 - (void)textViewDidChange:(UITextView *)textView1
 {
@@ -655,19 +681,19 @@ static NSMutableArray *cellDataArray;
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-
+    
     if (kScreenWidth<375) {
         if ([textView isEqual:addView.addressTF]) {
             [UIView animateWithDuration:0.25f animations:^{
-               addView.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
+                addView.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
             } completion:^(BOOL finished) {
-
+                
             }];
             
-        
+            
         }
         if ([textView isEqual:addView2.addressTF]) {
-        
+            
             [UIView animateWithDuration:0.25f animations:^{
                 addView2.frame = CGRectMake(0, -40, kScreenWidth, kScreenHeight+40);
             } completion:^(BOOL finished) {
@@ -676,12 +702,12 @@ static NSMutableArray *cellDataArray;
         }
         
     }
-
+    
     
     [self scrollEditingRectToVisible:textView.frame EditingView:textView];
 }
 
-#pragma mark 项目介绍编辑结束
+#pragma mark - 项目介绍编辑结束
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
@@ -689,23 +715,23 @@ static NSMutableArray *cellDataArray;
     if ([textView isEqual:addView.addressTF]) {
         addView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     }else
-    
-    if ([textView isEqual:addView2.addressTF]) {
-        addView2.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
-    }else
-    if ([textView isEqual:msgCell.applyTextView]) {
         
-    } else {
-        
-        NSInteger row=textView.tag;
-        
-        [self modifyCellDataContent:row andText:textView.text];
-    }
+        if ([textView isEqual:addView2.addressTF]) {
+            addView2.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+        }else
+            if ([textView isEqual:msgCell.applyTextView]) {
+                
+            } else {
+                
+                NSInteger row=textView.tag;
+                
+                [self modifyCellDataContent:row andText:textView.text];
+            }
     
     return YES;
 }
 
-#pragma mark 编辑单元格项目介绍
+#pragma mark - 编辑单元格项目介绍
 
 - (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
     
@@ -721,7 +747,7 @@ static NSMutableArray *cellDataArray;
     [self refreshData];
 }
 
-#pragma mark  UITextField代理方法
+#pragma mark - UITextField代理方法
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -729,7 +755,7 @@ static NSMutableArray *cellDataArray;
     return NO;
 }
 
-#pragma mark 标题编辑结束
+#pragma mark - 标题编辑结束
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
@@ -749,7 +775,7 @@ static NSMutableArray *cellDataArray;
     [self scrollEditingRectToVisible:textField.frame EditingView:textField];
 }
 
-#pragma mark 编辑单元格标题
+#pragma mark - 编辑单元格标题
 
 - (void)modifyCellDataTitle:(NSInteger)row andText:(NSString *)text{
     
@@ -766,7 +792,7 @@ static NSMutableArray *cellDataArray;
     
 }
 
-#pragma mark 单元格刚创建后的数据
+#pragma mark - 单元格刚创建后的数据
 
 - (void)projectDataStorageWithArrayIndex:(NSInteger)indexs
 {
@@ -778,14 +804,14 @@ static NSMutableArray *cellDataArray;
     [cellDataArray insertObject:dic atIndex:indexs];
 }
 
-#pragma mark UIImagePickerController代理函数
+#pragma mark - UIImagePickerController代理函数
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark --选取拍摄图片
+#pragma mark - -选取拍摄图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary<NSString *,id> *)editingInfo
 {
     if (addImageIndex==0) {
@@ -805,7 +831,7 @@ static NSMutableArray *cellDataArray;
     [pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark 编辑单元格项目活动图片
+#pragma mark - 编辑单元格项目活动图片
 
 -(void)modifyCellDataImage:(NSInteger)row andImageUrl:(NSString *)imageUrl{
     
@@ -819,7 +845,7 @@ static NSMutableArray *cellDataArray;
 }
 
 
-#pragma mark 获取头像的url
+#pragma mark - 获取头像的url
 
 - (void)getImageURL:(UIImage*)image
 {
@@ -858,7 +884,7 @@ static NSMutableArray *cellDataArray;
                                                                                       withObject:nil
                                                                                    waitUntilDone:YES];
                                                                _imgURL=imgUrl;
-                                                             
+                                                               
                                                            }
                                                            if (typeIndex ==2) {
                                                                coverUrl = imgUrl;
@@ -881,11 +907,11 @@ static NSMutableArray *cellDataArray;
             UIImage *headImage = [ImageHelpTool scaleImage:image];
             request.imageData   = UIImageJPEGRepresentation(headImage, 1);
         }
-
+        
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding){
                                                    
-       
+                                                   
                                                    
                                                    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                    
@@ -923,7 +949,7 @@ static NSMutableArray *cellDataArray;
 
 
 
-#pragma mark UIActionSheet ======================代理函数
+#pragma mark - UIActionSheet ======================代理函数
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -971,14 +997,14 @@ static NSMutableArray *cellDataArray;
         if (buttonIndex==0)
         {//
             NSLog(@"小视频~~~~~");
-
+            
             
             KZVideoViewController *videoVC = [[KZVideoViewController alloc] init];
             videoVC.delegate = self;
             [videoVC startAnimationWithType:KZVideoViewShowTypeSingle];
         }
         if (buttonIndex==1){
-
+            
             ZYQAssetPickerController *pickerV = [[ZYQAssetPickerController alloc] init];
             pickerV.maximumNumberOfSelection = 1;
             pickerV.assetsFilter = [ALAssetsFilter allVideos];
@@ -999,7 +1025,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-#pragma mark --判断项目标题是否为空
+#pragma mark - -判断项目标题是否为空
 
 - (BOOL)judgeProjectTitle
 {
@@ -1011,15 +1037,11 @@ static NSMutableArray *cellDataArray;
     return YES;
 }
 
-#pragma mark  --确认并发布按钮
+#pragma mark  - -确认并发布按钮
 
 -(void)publishButtonAction:(id)sender
 {
     [self.view endEditing:YES];
-    
-    
-    NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
-    NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
     
     if (!(msgCell.titleTF.text.length>0)) {
         [ self textStateHUD:@"请输入活动标题"];
@@ -1044,20 +1066,6 @@ static NSMutableArray *cellDataArray;
     
     if (!(msgCell.couponTF.text.length>0)) {
         [ self textStateHUD:@"请输入加盟商费用"];
-        return;
-    }
-    
-    if (!(msgCell.joincountTF.text.length>0)) {
-        [ self textStateHUD:@"请输入活动人数"];
-        return;
-    }
-    
-    if ([startstring isEqual:@"请选择活动开始时间"]) {
-        [ self textStateHUD:@"请选择开始时间"];
-        return;
-    }
-    if ([endString isEqual:@"请选择活动结束时间"]) {
-        [ self textStateHUD:@"请选择结束时间"];
         return;
     }
     
@@ -1094,7 +1102,8 @@ static NSMutableArray *cellDataArray;
     }
     
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
+    LMNewPublicEventRequest * request = [[LMNewPublicEventRequest alloc] initWithEvent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text FranchiseePrice:msgCell.couponTF.text Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Latitude:latitudeString Longitude:longitudeString notices:msgCell.applyTextView.text available:useCounpon Category:typeStr Type:@"item" blend:@[@{@"project_title":@"123456"}]];
+    
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1118,24 +1127,24 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
-         publicButton.userInteractionEnabled = YES;
+        publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
             eventUUid = string;
             
-            [self publicProject];
+            //[self publicProject];
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
-             publicButton.userInteractionEnabled = YES;
+            publicButton.userInteractionEnabled = YES;
         }
     }
 }
 
-#pragma mark --发布活动项目执行请求
+#pragma mark - -发布活动项目执行请求
 
 - (void)publicProject
 {
@@ -1149,23 +1158,23 @@ static NSMutableArray *cellDataArray;
         url = @"";
         cover = @"";
     }
-        
-        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"] videoUrl:url coverUrl:cover];
-        
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
-                                                                          withObject:resp
-                                                                       waitUntilDone:YES];
-                                               } failed:^(NSError *error) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"网络错误"
-                                                                       waitUntilDone:YES];
-                                                    publicButton.userInteractionEnabled = YES;
-                                               }];
-        [proxy start];
+    
+    LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"] videoUrl:url coverUrl:cover];
+    
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                               publicButton.userInteractionEnabled = YES;
+                                           }];
+    [proxy start];
     
 }
 
@@ -1175,7 +1184,7 @@ static NSMutableArray *cellDataArray;
     
     if (!bodyDic) {
         [self textStateHUD:@"发布失败"];
-         publicButton.userInteractionEnabled = YES;
+        publicButton.userInteractionEnabled = YES;
     }else{
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
@@ -1183,27 +1192,27 @@ static NSMutableArray *cellDataArray;
             if (index<cellDataArray.count) {
                 [self publicProject];
             }else{
-            
-            [self textStateHUD:@"发布成功"];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popViewControllerAnimated:YES];
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
-                 
-                                                                    object:nil];
-            });
+                [self textStateHUD:@"发布成功"];
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+                     
+                                                                        object:nil];
+                });
             }
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
             [self textStateHUD:string];
-             publicButton.userInteractionEnabled = YES;
+            publicButton.userInteractionEnabled = YES;
         }
     }
 }
 
-#pragma mark  --添加项目
+#pragma mark  - -添加项目
 
 - (void)addButtonAction:(id)sender
 {
@@ -1264,9 +1273,9 @@ static NSMutableArray *cellDataArray;
     msgCell.UseButton.chooseImage.layer.borderColor = [UIColor blackColor].CGColor;
 }
 
-#pragma mark  视频录制或选择后回调
+#pragma mark  - 视频录制或选择后回调
 - (void)videoViewController:(KZVideoViewController *)videoController didRecordVideo:(KZVideoModel *)videoModel{
-
+    
     
     NSURL* videoUrls = [NSURL URLWithString:videoModel.videoAbsolutePath];
     
@@ -1282,7 +1291,7 @@ static NSMutableArray *cellDataArray;
     
     videoImage = [ImageHelpTool imageWithImage:image scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth*3/4)];
     typeIndex = 2;
-
+    
     [self refreshData];
     [self getImageURL:videoImage];
     
@@ -1303,7 +1312,7 @@ static NSMutableArray *cellDataArray;
     return videoImages;
 }
 
-#pragma mark  mov格式转MP4
+#pragma mark - mov格式转MP4
 - (void)movFileTransformToMP4WithSourceUrl:(NSURL *)sourceUrl completion:(void(^)(NSString *Mp4FilePath))comepleteBlock
 {
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceUrl options:nil];
@@ -1353,7 +1362,7 @@ static NSMutableArray *cellDataArray;
     }
 }
 
-#pragma mark  --上传视频
+#pragma mark  - -上传视频
 
 - (void)sendVideo:(NSData *)data
 {
@@ -1385,7 +1394,7 @@ static NSMutableArray *cellDataArray;
                                                        videoUrl = voiceUrl;
                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                            [self hideStateHud];
-                                                       });                                                       
+                                                       });
                                                    }
                                                }
                                                

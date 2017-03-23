@@ -44,6 +44,7 @@
 #import "LMEventListVO.h"
 #import "LMEventDetailViewController.h"
 
+#import "LMPublicEventController.h"
 
 #define PAGER_SIZE      20
 
@@ -114,7 +115,7 @@ WJLoopViewDelegate
         }
         
         if (index==1) {
-            LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
+            LMPublicEventController *publicVC = [[LMPublicEventController alloc] init];
             publicVC.title = @"发布项目";
             [publicVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:publicVC animated:YES];
