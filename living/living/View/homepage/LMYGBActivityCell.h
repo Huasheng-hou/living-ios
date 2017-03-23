@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMCoinlistVO.h"
 @interface LMYGBActivityCell : UITableViewCell
+
+- (void)setVO:(LMCoinlistVO *)vo;
 
 @end

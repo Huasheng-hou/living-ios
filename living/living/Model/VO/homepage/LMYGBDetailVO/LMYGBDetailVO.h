@@ -24,7 +24,7 @@
 
 + (LMYGBDetailVO *)LMYGBDetailVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
 + (LMYGBDetailVO *)LMYGBDetailVOWithDictionary:(NSDictionary *)dictionary;
-+ (NSArray *)LMYGBDetailVOListWithArray:(NSArray *)array;
++ (NSArray *)LMYGBDetailVOWithArray:(NSArray *)array;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 

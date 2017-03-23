@@ -61,7 +61,7 @@
     if ([bodyDict[@"result"] isEqualToString:@"0"]) {
         
         
-        NSArray * resultArr = [LMYGBDetailVO LMYGBDetailVOListWithArray:bodyDict[@"list"]];
+        NSArray * resultArr = [LMYGBDetailVO LMYGBDetailVOWithArray:bodyDict[@"list"]];
         if (resultArr && resultArr.count > 0) {
             return resultArr;
         }

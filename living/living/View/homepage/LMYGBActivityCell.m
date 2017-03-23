@@ -8,6 +8,8 @@
 
 #import "LMYGBActivityCell.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
+
 @implementation LMYGBActivityCell
 {
     UIImageView * leftImage;
@@ -32,7 +34,6 @@
     
     leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 110, 75)];
     leftImage.backgroundColor = BG_GRAY_COLOR;
-    //leftImage.image = [UIImage imageNamed:@"demo"];
     [backView addSubview:leftImage];
     
     
@@ -59,6 +60,18 @@
     ygb.font = TEXT_FONT_BOLD_12;
     ygb.textAlignment = NSTextAlignmentCenter;
     [backView addSubview:ygb];
+    
+}
+
+- (void)setVO:(LMCoinlistVO *)vo{
+    
+    [leftImage sd_setImageWithURL:[NSURL URLWithString:vo.image]];
+    
+    title.text = vo.title;
+    
+    content.text = vo.describe;
+    
+    
     
 }
 

@@ -29,7 +29,7 @@
     return JSONAutoRelease(instance);
 }
 
-+ (NSArray *)LMYGBDetailVOListWithArray:(NSArray *)array
++ (NSArray *)LMYGBDetailVOWithArray:(NSArray *)array
 {
     if (!array || ![array isKindOfClass:[NSArray class]]) {
         return nil;

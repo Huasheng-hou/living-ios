@@ -24,6 +24,11 @@
 
 #import "LMYGBBannerRequest.h"
 #import "LMYGBDetailController.h"
+
+#import "LMYGBCoinListRequest.h"
+#import "LMYGBDetailRequest.h"
+#import "LMCoinlistVO.h"
+#import "LMYGBDetailVO.h"
 @interface LMYaoGuoBiController ()<UITableViewDelegate,UITableViewDataSource,WJLoopViewDelegate>
 
 @end
@@ -34,6 +39,7 @@
     
     NSArray * _bannerArray;
     NSMutableArray  *stateArray;
+    NSArray * _coinDetailArray;
 }
 
 - (id)init
@@ -190,16 +196,65 @@
     
     
 }
-#pragma mark - 请求腰果币兑换券列表数据
+#pragma mark - 请求果币明细数据
+- (void)getCoinDetailRequest{
+    LMYGBDetailRequest * request = [[LMYGBDetailRequest alloc] initWithPageIndex:self.current andPageSize:20];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self parseCoinDetailResponse:resp];
+        });
+        
+    } failed:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
+    }];
+    [proxy start];
+}
+- (void)parseCoinDetailResponse:(NSString *)resp{
+    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * respDict = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDict = [respDict objectForKey:@"head"];
+    if (![[headDict objectForKey:@"returnCode"] isEqualToString:@"000"]) {
+        [self textStateHUD:@"请求失败"];
+        return;
+    }
+    NSDictionary * bodyDict = [VOUtil parseBody:resp];
+    if ([bodyDict[@"result"] isEqualToString:@"0"]) {
+        
+        _coinDetailArray = [LMYGBDetailVO LMYGBDetailVOWithArray:bodyDict[@"list"]];
+    }
+}
+
+
+#pragma mark - 请求兑换列表数据
 
 - (FitBaseRequest *)request{
-    LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:20 andCategory:@"幸福情商"];
+    LMYGBCoinListRequest *request = [[LMYGBCoinListRequest alloc] initWithPageIndex:self.current andPageSize:20];
     return  request;
 }
 
 - (NSArray *)parseResponse:(NSString *)resp{
-    
-    return nil;
+    NSData * data = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [dic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        return nil;
+    }
+    NSDictionary * body = [VOUtil parseBody:resp];
+    if (![body[@"result"] isEqualToString:@"0"]) {
+        return nil;
+    }
+    NSArray * listArr = [body objectForKey:@"list"];
+    NSArray * resultArr = [LMCoinlistVO LMCoinlistVOWithArray:listArr];
+    if (resultArr.count == 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"数据列表为空"];
+        });
+    }
+    return resultArr;
 }
 #pragma mark - tableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -207,20 +262,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 1) {
-        return 5;
+    if (self.listData.count > 0) {
+        return self.listData.count;
     }
     return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        return 85;
-    }
-    if (indexPath.section == 1) {
-        return 97;
-    }
-    return 125;
+    
+    return 85;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -267,34 +317,21 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.section == 1) {
-        LMYGBConvertCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-        if (!cell) {
-            cell = [[LMYGBConvertCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
+    LMYGBActivityCell * cell = [tableView dequeueReusableCellWithIdentifier:@"aCell"];
+    if (!cell) {
+        cell = [[LMYGBActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"aCell"];
     }
-    if (indexPath.section == 0) {
-        LMYGBActivityCell * cell = [tableView dequeueReusableCellWithIdentifier:@"aCell"];
-        if (!cell) {
-            cell = [[LMYGBActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"aCell"];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (self.listData.count > indexPath.row) {
+        LMCoinlistVO * vo = self.listData[indexPath.row];
+        [cell setVO:vo];
     }
-    return nil;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:nil];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    LMYaoGuoBiConvertController * ygbConvert = [[LMYaoGuoBiConvertController alloc] init];
-    [self.navigationController pushViewController:ygbConvert animated:YES];
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
 }
