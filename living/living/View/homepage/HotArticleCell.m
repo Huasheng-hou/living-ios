@@ -33,6 +33,11 @@
 
 - (void)setValue:(LMActicleVO *)list{
     NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3
+    NSArray * colorList = @[[UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1],
+                            [UIColor colorWithRed:242/255.0 green:85/255.0 blue:120/255.0 alpha:1],
+                            [UIColor colorWithRed:243/255.0 green:111/255.0 blue:102/255.0 alpha:1],
+                            [UIColor colorWithRed:248/255.0 green:198/255.0 blue:41/255.0 alpha:1],
+                            [UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1]];
     //NSArray * typeList = @[@"happiness", @"beautiful", @"healthy", @"delicious", @"其他"];  //3.0
     NSInteger index = [typeList indexOfObject:list.type];
 
@@ -41,28 +46,34 @@
     }
     NSArray * preTitle = @[@"腰·幸福 丨 ", @"腰·美丽 丨 ", @"腰·健康 丨 ", @"腰·美食 丨 ", @"腰·幸福 丨 "];
     NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
+    
     [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     backImage.contentMode = UIViewContentModeScaleAspectFill;
     backImage.clipsToBounds = YES;
+    
     title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
     
     [icon sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
-    name.text = list.articleName;
+    
+    //name.text = list.articleName;
+    
     tag.text = newType[index];
+    tag.backgroundColor = colorList[index];
     
     if ([list.sign isEqualToString:@"menber"]) {
+        
         sign.image = [UIImage imageNamed:@"BigVRed"];
+        
     }else if([list.sign isEqualToString:@"user"]){
+        
         sign.image = [UIImage imageNamed:@""];
+        
     }
-    
-    
 }
-
 
 - (void)setCellType:(NSInteger)cellType{
     if (cellType == 1) {
-        //发现
+        //发现 首页
         backImage.frame = CGRectMake(0, 0, kScreenWidth, 205);
         title.numberOfLines = 2;
     }
@@ -97,6 +108,10 @@
     backImage.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:backImage];
     
+    UIView * shadow = [[UIView alloc] initWithFrame:backImage.frame];
+    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [backView addSubview:shadow];
+    
     title = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, kScreenWidth-40, 45)];
     title.text = @"腰·美丽 丨 用一束光的时间与你相遇青春不负的冬日";
     title.textColor = [UIColor whiteColor];
@@ -118,13 +133,13 @@
     sign.layer.cornerRadius = 7;
     [backView addSubview:sign];
     
-    name = [[UILabel alloc] initWithFrame:CGRectMake(60, 165, 60, 10)];
-    name.text = @"欧阳夏丹";
+    name = [[UILabel alloc] initWithFrame:CGRectMake(60, 162.5, 60, 15)];
+    name.text = @"James";
     name.textColor = TEXT_COLOR_LEVEL_4;
     name.font = TEXT_FONT_LEVEL_3;
     [backView addSubview:name];
     
-    tag = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(name.frame)+10, 165, 45, 10)];
+    tag = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(name.frame)+10, 162.5, 55, 15)];
     tag.text = @"Yao·美丽";
     tag.textAlignment = NSTextAlignmentCenter;
     tag.textColor = [UIColor whiteColor];

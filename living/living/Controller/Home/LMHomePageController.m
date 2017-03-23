@@ -131,7 +131,6 @@ WJLoopViewDelegate
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
-
     self.tableView.backgroundColor = [UIColor whiteColor];
 
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
@@ -277,7 +276,7 @@ WJLoopViewDelegate
     return nil;
 }
 
-#pragma mark banner代理函数
+#pragma mark  - banner代理函数
 - (void)gotoNextPage:(NSInteger)index{
     
         switch (index) {
@@ -365,7 +364,7 @@ WJLoopViewDelegate
     
 }
 
-#pragma mark scrollview代理函数
+#pragma mark - scrollview代理函数
 
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
@@ -427,7 +426,7 @@ WJLoopViewDelegate
         }
     }
 }
-#pragma mark tableView代理函数
+#pragma mark - tableView代理函数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     return 2;

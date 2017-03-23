@@ -70,13 +70,13 @@
     sign.layer.cornerRadius = 5;
     [backView addSubview:sign];
     
-    name = [[UILabel alloc] initWithFrame:CGRectMake(150, 75, 60, 10)];
+    name = [[UILabel alloc] initWithFrame:CGRectMake(150, 72.5, 60, 15)];
     name.text = @"欧阳夏丹";
     name.textColor = TEXT_COLOR_LEVEL_4;
     name.font = TEXT_FONT_LEVEL_3;
     [backView addSubview:name];
     
-    tag = [[UILabel alloc] initWithFrame:CGRectMake(210, 75, 45, 10)];
+    tag = [[UILabel alloc] initWithFrame:CGRectMake(210, 72.5, 55, 15)];
     tag.text = @"Yao·美丽";
     tag.textAlignment = NSTextAlignmentCenter;
     tag.textColor = [UIColor whiteColor];
@@ -102,6 +102,11 @@
     name.text = vo.articleName;
     
     NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3
+    NSArray * colorList = @[[UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1],
+                            [UIColor colorWithRed:242/255.0 green:85/255.0 blue:120/255.0 alpha:1],
+                            [UIColor colorWithRed:243/255.0 green:111/255.0 blue:102/255.0 alpha:1],
+                            [UIColor colorWithRed:248/255.0 green:198/255.0 blue:41/255.0 alpha:1],
+                            [UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1]];
     NSInteger index = [typeList indexOfObject:vo.type];
     
     if (index >= 4) {
@@ -110,6 +115,7 @@
     NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
     
     tag.text = newType[index];
+    tag.backgroundColor = colorList[index];
     
     if ([vo.sign isEqualToString:@"menber"]) {
         sign.image = [UIImage imageNamed:@"BigVRed"];
