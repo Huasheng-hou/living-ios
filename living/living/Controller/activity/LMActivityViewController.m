@@ -154,11 +154,11 @@ WJLoopViewDelegate
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
     
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                   target:self
-                                                                                   action:@selector(publicAction)];
-        
-        self.navigationItem.rightBarButtonItem = rightItem;
+//        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+//                                                                                   target:self
+//                                                                                   action:@selector(publicAction)];
+//        
+//        self.navigationItem.rightBarButtonItem = rightItem;
     }
     
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
@@ -168,12 +168,6 @@ WJLoopViewDelegate
     headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     headView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = headView;
-
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                               target:self
-                                                                               action:@selector(publicAction)];
-    
-    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 #pragma mark - 请求轮播图数据

@@ -322,15 +322,15 @@
     [self.contentView addSubview:_imgView];
     
     
-    for (int i = 0; i<12; i++) {
+    for (int i = 0; i<10; i++) {
         
         
         if (i ==5) {
-            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+10, 10+45*i-90, 6, 5)];
+            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(couponLable.bounds.size.width+10, 10+45*i, 6, 5)];
             keyImage.image = [UIImage imageNamed:@"key"];
             [self.contentView addSubview:keyImage];
         }else{
-            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 10+45*i-90, 6, 5)];
+            UIImageView *keyImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageLable.bounds.size.width+10, 10+45*i, 6, 5)];
             keyImage.image = [UIImage imageNamed:@"key"];
             [self.contentView addSubview:keyImage];
         }

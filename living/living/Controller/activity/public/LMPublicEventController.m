@@ -13,7 +13,6 @@
 #import "FitPickerView.h"
 #import "FitDatePickerView.h"
 #import "LMPublicEventRequest.h"
-#import "LMPublicProjectRequest.h"
 #import "FirUploadImageRequest.h"
 #import "ImageHelpTool.h"
 #import "BabFilterAgePickerView.h"
@@ -83,7 +82,7 @@ LMTypeListProtocol
     NSData *videoData;
     NSInteger publicTag;
     
-    
+    NSString * typeName;
     NSString * typeStr;
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -292,7 +291,7 @@ static NSMutableArray *cellDataArray;
         msgCell.applyTextView.delegate = self;
         msgCell.couponTF.tag = 100;
         
-        msgCell.category.titleLabel.text = typeStr;
+        msgCell.category.titleLabel.text = typeName;
         [msgCell.category addTarget:self action:@selector(chooseType:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.addressButton addTarget:self action:@selector(addressAction:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -386,7 +385,7 @@ static NSMutableArray *cellDataArray;
 #pragma mark - 选择分类代理
 - (void)backLiveName:(NSString *)liveRoom
 {
-    
+    typeName = liveRoom;
     if ([liveRoom isEqualToString:@"美丽"]) {
         typeStr = @"beautiful";
     }
@@ -1162,74 +1161,6 @@ static NSMutableArray *cellDataArray;
                                                                     object:nil];
             });
             
-            
-        }else{
-            NSString *string = [bodyDic objectForKey:@"description"];
-            [self textStateHUD:string];
-            publicButton.userInteractionEnabled = YES;
-        }
-    }
-}
-
-#pragma mark - -发布活动项目执行请求
-
-- (void)publicProject
-{
-    NSDictionary *dic=cellDataArray[index];
-    NSString *url = @"";
-    NSString *cover = @"";
-    if (publicTag-100 == index) {
-        url = videoUrl;
-        cover = coverUrl;
-    }else{
-        url = @"";
-        cover = @"";
-    }
-    
-    LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"] videoUrl:url coverUrl:cover];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventPublicProjectDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                               publicButton.userInteractionEnabled = YES;
-                                           }];
-    [proxy start];
-    
-}
-
-- (void)getEventPublicProjectDataResponse:(NSString *)resp
-{
-    NSDictionary *bodyDic = [VOUtil parseBody:resp];
-    
-    if (!bodyDic) {
-        [self textStateHUD:@"发布失败"];
-        publicButton.userInteractionEnabled = YES;
-    }else{
-        if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-            
-            index++;
-            if (index<cellDataArray.count) {
-                [self publicProject];
-            }else{
-                
-                [self textStateHUD:@"发布成功"];
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self.navigationController popViewControllerAnimated:YES];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
-                     
-                                                                        object:nil];
-                });
-            }
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];
