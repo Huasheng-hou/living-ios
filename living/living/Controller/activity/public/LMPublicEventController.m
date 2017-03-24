@@ -1101,8 +1101,26 @@ static NSMutableArray *cellDataArray;
         longitudeString =[NSString stringWithFormat:@"%f",_longitude] ;
     }
     
+    NSMutableArray * dataArr = [NSMutableArray new];
+    for (; index<cellDataArray.count; index++) {
+        NSDictionary *dic=cellDataArray[index];
+        NSString *url = @"";
+        NSString *cover = @"";
+        if (publicTag-100 == index) {
+            url = videoUrl;
+            cover = coverUrl;
+        }else{
+            url = @"";
+            cover = @"";
+        }
+        
+        NSDictionary * dict = @{@"project_title":dic[@"title"], @"project_dsp":dic[@"content"], @"project_imgs":dic[@"image"], @"videoUrl":url, @"coverUrl":cover};
+        [dataArr addObject:dict];
+        
+    }
     
-    LMNewPublicEventRequest * request = [[LMNewPublicEventRequest alloc] initWithEvent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text FranchiseePrice:msgCell.couponTF.text Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Latitude:latitudeString Longitude:longitudeString notices:msgCell.applyTextView.text available:useCounpon Category:typeStr Type:@"item" blend:@[@{@"project_title":@"123456"}]];
+    
+    LMNewPublicEventRequest * request = [[LMNewPublicEventRequest alloc] initWithEvent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text FranchiseePrice:msgCell.couponTF.text Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Latitude:latitudeString Longitude:longitudeString notices:msgCell.applyTextView.text available:useCounpon Category:typeStr Type:@"item" blend:dataArr];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1134,7 +1152,16 @@ static NSMutableArray *cellDataArray;
             NSString *string = [bodyDic objectForKey:@"event_uuid"];
             eventUUid = string;
             
-            //[self publicProject];
+            [self textStateHUD:@"发布成功"];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadEvent"
+                 
+                                                                    object:nil];
+            });
+            
             
         }else{
             NSString *string = [bodyDic objectForKey:@"description"];

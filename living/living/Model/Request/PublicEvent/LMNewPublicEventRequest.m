@@ -42,7 +42,7 @@
             [bodyDict setObject:event_img forKey:@"event_img"];
         }
         if (type){
-            [bodyDict setObject:type forKey:@"event_type"];
+            [bodyDict setObject:type forKey:@"type"];
         }
         if (latitude){
             [bodyDict setObject:latitude forKey:@"latitude"];
@@ -63,7 +63,9 @@
         if (available){
             [bodyDict setObject:available forKey:@"available"];
         }
-        
+        if (blend) {
+            [bodyDict setObject:blend forKey:@"blend"];
+        }
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];

@@ -101,8 +101,8 @@ WJLoopViewDelegate
     [self creatUI];
     //[self creatImage];
     
-    [self getBannerDataRequest];
-    [self getEventsRequest];
+//    [self getBannerDataRequest];
+//    [self getEventsRequest];
     [self loadNewer];
     __weak typeof(self) weakSelf = self;
     [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
@@ -140,10 +140,10 @@ WJLoopViewDelegate
 {
     [super viewDidAppear:animated];
     
-    if (self.listData.count == 0) {
-        
-        [self loadNoState];
-    }
+//    if (self.listData.count == 0) {
+//        
+//        [self loadNoState];
+//    }
 }
 
 - (void)creatUI
@@ -317,6 +317,9 @@ WJLoopViewDelegate
 #pragma  mark - 请求活动数据
 - (FitBaseRequest *)request
 {
+    [self getBannerDataRequest];
+    [self getEventsRequest];
+    
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
     NSString *cityStr;
     for (NSString *string in searchArr) {
@@ -329,7 +332,7 @@ WJLoopViewDelegate
     if ([city isEqual:@"全部"]) {
         city = nil;
     }
-    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:nil];
+    LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:city];
     
     return request;
 }
@@ -617,11 +620,11 @@ WJLoopViewDelegate
     }
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    _isShow = NO;
-    [self.showView dismissView];
-}
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+//{
+//    _isShow = NO;
+//    [self.showView dismissView];
+//}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
