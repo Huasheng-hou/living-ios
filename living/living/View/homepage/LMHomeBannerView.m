@@ -48,7 +48,7 @@
     CGFloat imageHt = 32;
     CGFloat imageCount = 6;
     NSArray * listName = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福", @"Yao·创客", @"Yao·果币"];
-    NSArray * imageNames = @[@"beautiful", @"healthy", @"delicious", @"happiness", @"maker", @"maker"];
+    NSArray * imageNames = @[@"beautiful", @"healthy", @"delicious", @"happiness", @"maker", @"yaoguobi-1"];
     for (int i=0; i<imageCount; i++) {
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(i*cellW, 0, cellW, cellH)];

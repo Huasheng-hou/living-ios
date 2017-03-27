@@ -216,7 +216,7 @@ UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 3;
+        return 2;
     }
     NSMutableArray *list = [NSMutableArray new];
     for (int i = 0; i<listArray.count; i++) {
@@ -247,12 +247,12 @@ UITableViewDataSource
                 cell.detailTextLabel.textColor = LIVING_REDCOLOR;
                 cell.imageView.image = [UIImage imageNamed:@"balance"];
                 break;
+//            case 1:
+//                cell.textLabel.text = @"我的腰果";
+//                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                cell.imageView.image = [UIImage imageNamed:@"recharge"];
+//                break;
             case 1:
-                cell.textLabel.text = @"我的腰果";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.imageView.image = [UIImage imageNamed:@"recharge"];
-                break;
-            case 2:
                 cell.textLabel.text = @"余额充值";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.imageView.image = [UIImage imageNamed:@"recharge"];
@@ -291,12 +291,12 @@ UITableViewDataSource
 {
     
     if (indexPath.section==0) {
-        if (indexPath.row == 1) {
-            LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
-            [ygbVC setHidesBottomBarWhenPushed:YES];
-            [self.navigationController pushViewController:ygbVC animated:YES];
-        }
-        if (indexPath.row==2) {
+//        if (indexPath.row == 1) {
+//            LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+//            [ygbVC setHidesBottomBarWhenPushed:YES];
+//            [self.navigationController pushViewController:ygbVC animated:YES];
+//        }
+        if (indexPath.row==1) {
             LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
             
             [reVC setHidesBottomBarWhenPushed:YES];

@@ -133,7 +133,7 @@
         NSMutableArray * imageUrls = [NSMutableArray new];
         for (int i = 0; i<_bannerArray.count; i++) {
             NSDictionary * dic = _bannerArray[i];
-            NSString * imageUrl = [dic objectForKey:@"imageUrl"];
+            NSString * imageUrl = [dic objectForKey:@"linkUrl"];
             [imageUrls addObject:imageUrl];
         }
         if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
