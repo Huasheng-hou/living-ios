@@ -37,10 +37,6 @@
 @property (nonatomic, copy) NSString * sign;
 @property (nonatomic, copy) NSString * userUuid;
 
-@property (nonatomic, strong) NSArray<LMMoreEventsVO *> * eventsBody;
-@property (nonatomic, strong) NSArray<LMMoreArticlesVO *> * articlesBody;
-@property (nonatomic, strong) NSArray<LMMoreVoicesVO *> * voicesBody;
-
 
 
 

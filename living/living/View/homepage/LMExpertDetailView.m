@@ -8,6 +8,7 @@
 
 #import "LMExpertDetailView.h"
 #import "FitConsts.h"
+#import "UIImageView+WebCache.h"
 @implementation LMExpertDetailView
 {
     UIImageView * _icon;
@@ -36,8 +37,9 @@
     [self addSubview:backView];
     
     _icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, w, kScreenWidth-20)];
-    _icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
+    _icon.image = [UIImage imageNamed:@"BackImage"];
     _icon.contentMode = UIViewContentModeScaleToFill;
+    _icon.clipsToBounds = YES;
     _icon.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:_icon];
     
@@ -50,7 +52,7 @@
     
     
     _name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+10, 10, w, 25)];
-    _name.text = @"介绍标题";
+    //_name.text = @"介绍标题";
     _name.textColor = TEXT_COLOR_LEVEL_2;
     _name.font = TEXT_FONT_BOLD_18;
     _name.textAlignment = NSTextAlignmentCenter;
@@ -58,7 +60,7 @@
     
     
     _introduce = [[UILabel alloc] initWithFrame:CGRectMake(w+20, CGRectGetMaxY(_name.frame)+10, w, kScreenWidth-20-_name.frame.size.height-10)];
-    _introduce.text = @"达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍";
+    //_introduce.text = @"达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍达人介绍";
     _introduce.textColor = TEXT_COLOR_LEVEL_3;
     _introduce.font = TEXT_FONT_BOLD_14;
     _introduce.numberOfLines = -1;
@@ -66,7 +68,17 @@
     
 }
 
-
+- (void)setValue:(LMExpertSpaceVO *)vo{
+    
+    _name.text = vo.nickName;
+    
+    [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
+    
+    
+    _introduce.text = vo.introduce;
+    
+    
+}
 
 
 

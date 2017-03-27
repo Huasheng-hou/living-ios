@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMExpertSpaceVO.h"
 @interface LMExpertDetailView : UIView
+
+- (void)setValue:(LMExpertSpaceVO *)vo;
 
 @end

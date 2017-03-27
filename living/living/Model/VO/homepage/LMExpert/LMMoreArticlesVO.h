@@ -32,7 +32,7 @@
 
 + (LMMoreArticlesVO *)LMMoreArticlesVOWithJSONString:(NSString *)jsonString usingEncoding:(NSStringEncoding)stringEncoding error:(NSError **)error;
 + (LMMoreArticlesVO *)LMMoreArticlesVOWithDictionary:(NSDictionary *)dictionary;
-+ (NSArray *)LMMoreArticlesVOListWithArray:(NSArray *)array;
++ (NSArray *)LMMoreArticlesVOWithArray:(NSArray *)array;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 

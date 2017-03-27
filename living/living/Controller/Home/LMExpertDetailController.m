@@ -22,6 +22,10 @@
 #import "LMExpertSpaceRequest.h"
 #import "LMExpertSpaceVO.h"
 
+#import "LMHomeDetailController.h"
+#import "LMEventDetailViewController.h"
+#import "LMHomeVoiceDetailController.h"
+
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -32,7 +36,7 @@
     NSArray * _events;
     NSArray * _voices;
     
-    
+    LMExpertDetailView * headerView;
 }
 - (instancetype)init{
     if (self = [super initWithStyle:UITableViewStylePlain]) {
@@ -54,7 +58,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = BG_GRAY_COLOR;
     
-    LMExpertDetailView * headerView = [[LMExpertDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth+10)];
+    headerView = [[LMExpertDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth+10)];
     self.tableView.tableHeaderView = headerView;
     
 }
@@ -62,7 +66,9 @@
 #pragma mark - 请求达人空间数据
 - (FitBaseRequest *)request{
     
-    LMExpertSpaceRequest * request = [[LMExpertSpaceRequest alloc] initWithUserUuid:@"62e75369cf6c01cfabf464e4072e9868"];
+    [self initStateHud];
+    
+    LMExpertSpaceRequest * request = [[LMExpertSpaceRequest alloc] initWithUserUuid:self.userUuid];
     return request;
 }
 - (NSArray *)parseResponse:(NSString *)resp{
@@ -70,23 +76,40 @@
     NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
     NSDictionary * headDic = [respDic objectForKey:@"head"];
     if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
         return nil;
     }
     
     NSDictionary * bodyDic = [VOUtil parseBody:resp];
     if (![bodyDic[@"result"] isEqualToString:@"0"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
         return nil;
     }
     //处理返回数据
-    //达人信息 model存到self.listData
+    //达人信息 model存到headerView
+    LMExpertSpaceVO * expertVO = [[LMExpertSpaceVO alloc] initWithDictionary:bodyDic[@"userInfo"]];
+    [headerView setValue:expertVO];
     
     //文章 model存到_articles
+    _articles = [LMMoreArticlesVO LMMoreArticlesVOWithArray:[bodyDic objectForKey:@"articles_body"]];
+    
     
     //活动 model存到_events
+    _events = [LMMoreEventsVO LMMoreEventsVOListWithArray:[bodyDic objectForKey:@"events_body"]];
+    
     
     //项目 model存到_voices
+    _voices = [LMMoreVoicesVO LMMoreVoicesVOWithArray:[bodyDic objectForKey:@"voices_body"]];
     
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self hideStateHud];
+        [self refreshData];
+    });
     return nil;
 
 }
@@ -178,11 +201,6 @@
             break;
     }
     
-    
-
-    
-    
-    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
@@ -229,6 +247,37 @@
     return nil;
 }
 
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0) {
+        if (_articles.count > indexPath.row) {
+            LMMoreArticlesVO * vo = _articles[indexPath.row];
+            LMHomeDetailController * detailVC = [[LMHomeDetailController alloc] init];
+            detailVC.artcleuuid = vo.articleUuid;
+            detailVC.title = vo.articleTitle;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+        
+    }
+    if (indexPath.section == 1) {
+        if (_events.count > indexPath.row) {
+            LMMoreEventsVO * vo = _events[indexPath.row];
+            LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
+            detailVC.eventUuid = vo.eventUuid;
+            detailVC.titleStr = vo.eventName;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+    }
+    if (indexPath.section == 2) {
+        if (_voices.count > indexPath.row) {
+            LMMoreVoicesVO * vo = _voices[indexPath.row];
+            LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
+            detailVC.artcleuuid = vo.voiceUuid;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+    }
+    
+}
 
 @end

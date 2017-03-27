@@ -55,7 +55,7 @@
     if (![bodyDic[@"result"] isEqualToString:@"0"]) {
         return nil;
     }
-    NSArray * listArr = [LMMoreArticlesVO LMMoreArticlesVOListWithArray:bodyDic[@"list"]];
+    NSArray * listArr = [LMMoreArticlesVO LMMoreArticlesVOWithArray:bodyDic[@"list"]];
     if (listArr.count > 0) {
         return listArr;
     }

@@ -92,6 +92,13 @@
     NSString * desp = [bodyDic objectForKey:@"description"];
     if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
         
+        NSArray * list = [bodyDic objectForKey:@"list"];
+        if (list.count == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self textStateHUD:@"达人数据请求失败"];
+            });
+            
+        }
         _recommendExpert = [LMRecommendExpertVO LMRecommendExpertVOListWithArray:[bodyDic objectForKey:@"list"]];
         return _recommendExpert;
     }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
@@ -191,8 +198,27 @@
     NSString * desp = [bodyDic objectForKey:@"description"];
     if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
         _events = [LMMoreEventsVO LMMoreEventsVOListWithArray:[bodyDic objectForKey:@"events_body"]];
-        _articles = [LMMoreArticlesVO LMMoreArticlesVOListWithArray:[bodyDic objectForKey:@"articles_body"]];
+        _articles = [LMMoreArticlesVO LMMoreArticlesVOWithArray:[bodyDic objectForKey:@"articles_body"]];
         _voices = [LMMoreVoicesVO LMMoreVoicesVOWithArray:[bodyDic objectForKey:@"voices_body"]];
+        
+        if (_events.count == 0 || _articles.count == 0 || _voices.count == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self textStateHUD:@"请求失败"];
+            });
+            
+        }
+//        if (_articles.count == 0) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self textStateHUD:@"文章列表请求失败"];
+//            });
+//            
+//        }
+//        if (_voices.count == 0) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self textStateHUD:@"课程列表请求失败"];
+//            });
+//            
+//        }
         
         [self.tableView reloadData];
         
@@ -220,9 +246,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
+        if (self.listData.count == 0) {
+            return 0;
+        }
         return 100;
     }
-    return 210-35;
+//    if (indexPath.row == 0) {
+//        return _articles.count > 0 ? 210 - 35 : 0;
+//    }
+//    if (indexPath.row == 1) {
+//        return _events.count > 0 ? 210 - 35 : 0;
+//    }
+//    if (indexPath.row == 2) {
+//        return _voices.count > 0 ? 210 - 35 : 0;
+//    }
+    return 175;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 30;
@@ -273,7 +311,7 @@
             cell = [[LMExpertListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.count = 8;
+        cell.count = _recommendExpert.count;
         cell.delegate = self;
         if (_recommendExpert.count > 0) {
             cell.count = _recommendExpert.count;

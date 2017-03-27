@@ -45,7 +45,7 @@
 }
 #pragma mark - 网络请求
 - (FitBaseRequest *)request{
-    
+    [self initStateHud];
     LMExpertListRequest * request = [[LMExpertListRequest alloc] initWithPageIndex:1 andPageSize:PAGE_SIZE andCategory:_category];
     return request;
 
@@ -56,10 +56,16 @@
     NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
     NSDictionary * headDic = [dic objectForKey:@"head"];
     if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
         return nil;
     }
     NSDictionary * body = [VOUtil parseBody:resp];
     if (![body[@"result"] isEqualToString:@"0"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
         return nil;
     }
     NSArray * listArr = [body objectForKey:@"list"];
@@ -67,7 +73,7 @@
     if (resultArr.count == 0) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self textStateHUD:@"后台没数据"];
+            [self textStateHUD:@"暂无数据"];
         });
     }
     return resultArr;
@@ -79,10 +85,10 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.listData.count > 0) {
-        return self.listData.count;
-    }
-    return 5;
+    
+    return self.listData.count;
+    
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     

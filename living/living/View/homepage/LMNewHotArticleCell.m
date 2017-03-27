@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 @implementation LMNewHotArticleCell
 {
+    UIView * shadow;
     
     UIImageView * backImage;
     UILabel * title;
@@ -32,6 +33,9 @@
 
 - (void)addSubViews{
     
+    
+    
+    
     UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 210-35)];
     backView.backgroundColor = [UIColor whiteColor];
     backView.userInteractionEnabled = YES;
@@ -41,10 +45,17 @@
     backImage.backgroundColor = BG_GRAY_COLOR;
     backImage.image = [UIImage imageNamed:@"BackImage"];
     backImage.clipsToBounds = YES;
+    backImage.contentMode = UIViewContentModeScaleAspectFill;
     [backView addSubview:backImage];
+    
+    
+    shadow = [[UIView alloc] initWithFrame:backImage.frame];
+    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [backView addSubview:shadow];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetHeight(backImage.frame)/2, kScreenWidth-40, 30)];
     title.text = @"这是文章标题";
+    title.numberOfLines = 2;
     title.textColor = [UIColor whiteColor];
     title.font = TEXT_FONT_BOLD_18;
     title.textAlignment = NSTextAlignmentLeft;
@@ -58,15 +69,16 @@
     avatar.layer.cornerRadius = 15;
     [backView addSubview:avatar];
     
-    flag = [[UIImageView alloc] initWithFrame:CGRectMake(25, avatar.center.y, 15, 15)];
+    flag = [[UIImageView alloc] initWithFrame:CGRectMake(25+2, avatar.center.y, 15, 15)];
     flag.image = [UIImage imageNamed:@"BigVRed"];
     //_flag.backgroundColor = ORANGE_COLOR;
     flag.layer.masksToBounds = YES;
     flag.layer.cornerRadius = 8;
     [backView addSubview:flag];
     
-    name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(flag.frame)+10, CGRectGetMaxY(avatar.frame)-15, 50, 15)];
+    name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(flag.frame)+10, CGRectGetMaxY(avatar.frame)-15, 100, 15)];
     name.text = @"夏女霞";
+    name.textAlignment = NSTextAlignmentLeft;
     name.textColor = TEXT_COLOR_LEVEL_4;
     name.font = TEXT_FONT_BOLD_14;
     [backView addSubview:name];
@@ -75,23 +87,23 @@
     category.backgroundColor = COLOR_RED_LIGHT;
     category.text = @"Yao|美丽";
     category.font = TEXT_FONT_LEVEL_3;
-    [category sizeToFit];
+    //[category sizeToFit];
     [backView addSubview:category];
 }
 - (void)setVO:(LMMoreArticlesVO *)vo{
     
     [backImage sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
-    backImage.contentMode = UIViewContentModeScaleAspectFill;
-    backImage.clipsToBounds = YES;
+    
     
     title.text = vo.articleTitle;
-    [avatar sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:[UIImage imageNamed:@""]];
+    [avatar sd_setImageWithURL:[NSURL URLWithString:vo.headImgUrl]];
     
     if (![vo.sign isEqualToString:@"menber"]) {
         [flag removeFromSuperview];
     }
     
     name.text = vo.articleName;
+    
     if ([vo.category isEqualToString:@"beautiful"]) {
         category.text = @"Yao|美丽";
     }
