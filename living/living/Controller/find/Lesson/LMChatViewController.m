@@ -14,6 +14,11 @@
 #import "LMChatRecordsRequest.h"
 #import "FirUploadImageRequest.h"
 #import "LMVoiceChangeTextRequest.h"
+
+#import "LMKeepImageView.h"
+#import "UIImageView+WebCache.h"
+#import "ZYQAssetPickerController.h"
+
 #import "LMNumberMessageRequest.h"
 #import "FirUploadVideoRequest.h"
 #import "LMCloseQuestionRequest.h"
@@ -104,6 +109,7 @@ LMExceptionalViewDelegate
     NSData *videoData;
     NSString *playVoiceURL;
     NSInteger loadIndex;
+    NSMutableArray *groupArrays;
     
 }
 
@@ -175,8 +181,10 @@ LMExceptionalViewDelegate
     [LGAudioPlayer sharePlayer].delegate = self;
     toolBarChangeH  = 0;
     timerIndex = 1;
-    loadIndex = 1;
+    loadIndex  = 1;
     
+    
+    groupArrays = [NSMutableArray array];
 }
 
 - (void)loadNewer
@@ -190,32 +198,23 @@ LMExceptionalViewDelegate
         if (items && [items count]){
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (_listData.count>0) {
-                    NSMutableArray *addArray = [NSMutableArray new];
-                    [addArray addObjectsFromArray:_listData];
-                    [_listData removeAllObjects];
-                    [_listData addObjectsFromArray:items];
-                    NSMutableArray *new = [NSMutableArray new];
-                    for (int i = 0; i<items.count; i++) {
-                        MssageVO *vo = items[i];
-                        NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-                        [new addObject:string];
-                    }
-                    
-                    for (int j = 0; j<addArray.count; j++) {
-                        MssageVO *vo = addArray[j];
-                        NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-                        if ([new containsObject:string]) {
-                            NSLog(@"currentIndex*******%@",string);
+                [_listData addObjectsFromArray:items];
+                NSMutableArray *new = [NSMutableArray new];
+                for (int i = 0; i<_listData.count; i++) {
+                    MssageVO *vo = _listData[i];
+                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                    [new addObject:string];
+                }
+                NSMutableArray *currentArrays = [NSMutableArray new];
+                if (new.count>0) {
+                    for (int j = 0; j<new.count; j++) {
+                        if ([currentArrays containsObject:new[j]]) {
+                            [_listData removeObjectAtIndex:j];
                         }else{
-                            [_listData addObject:addArray[j]];
+                            [currentArrays addObject:new[j]];
                         }
                     }
-
-                }else{
-                   [_listData addObjectsFromArray:items];
                 }
-
                 [self reLoadTableViewCell];
             });
             
@@ -230,11 +229,6 @@ LMExceptionalViewDelegate
     }];
     
     [proxy start];
-}
-
-- (void)websocketDidDisconnect:(NSError *)error
-{
-    
 }
 
 #pragma mark 初始化视图静态界面
@@ -379,7 +373,10 @@ LMExceptionalViewDelegate
     NSString    *description    = [bodyDic objectForKey:@"description"];
     if ([sign isEqualToString:@"1"]) {
         if ([hostID isEqualToString:[FitUserManager sharedUserManager].uuid]) {
-            [bootView removeFromSuperview];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [bootView removeFromSuperview];
+            });
             
         }else if([_role isEqualToString:@"student"]){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -412,7 +409,10 @@ LMExceptionalViewDelegate
             }else if([currentIndex intValue] !=[vo.currentIndex intValue]){
                 currentIndex = [NSString stringWithFormat:@"%d",[vo.currentIndex intValue]];
                 reloadCount = reloadCount+1;
-                [self stopAcyivity];
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [activity stopAnimating];
+                });
                 
             }
         }else{
@@ -421,36 +421,28 @@ LMExceptionalViewDelegate
         
         if (loadIndex == 1) {
             [self messageConnect];
+            
+            NSMutableArray *new = [NSMutableArray new];
+            for (MssageVO *vo in self.listData) {
+                NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
+                [new addObject:string];
+            }
             NSMutableArray *tempArray = [NSMutableArray new];
-            if (_listData.count>0) {
-                NSMutableArray *addArray = [NSMutableArray new];
-                [addArray addObjectsFromArray:_listData];
-                [_listData removeAllObjects];
-                [_listData addObjectsFromArray:tempArr];
-                NSMutableArray *new = [NSMutableArray new];
-                for (int i = 0; i<tempArr.count; i++) {
-                    MssageVO *vo = tempArr[i];
-                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-                    [new addObject:string];
-                }
-                
-                for (int j = 0; j<addArray.count; j++) {
-                    MssageVO *vo = addArray[j];
-                    NSString *string = [NSString stringWithFormat:@"%@",vo.currentIndex];
-                    if ([new containsObject:string]) {
-                        NSLog(@"currentIndex*******%@",string);
-                    }else{
-                        [tempArray addObject:addArray[j]];
+            [tempArray addObjectsFromArray:tempArr];
+            for (int i = 0; i<tempArr.count; i++) {
+                MssageVO *vo = tempArr[i];
+                for (int j = 0; j<new.count; j++) {
+                    NSString *current =[NSString stringWithFormat:@"%@",vo.currentIndex];
+                    if ([new[j] isEqualToString:current]) {
+                        [tempArray removeObjectAtIndex:i];
                     }
                 }
-                return tempArray;
-            }else{
-                return tempArr;
             }
-   
+            return tempArray;
         }else{
             return tempArr;
         }
+        
     }else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
 
         [self stopAcyivity];
@@ -768,7 +760,6 @@ LMExceptionalViewDelegate
         return;
     }
     
-    
     LMChangeHostRequest *request = [[LMChangeHostRequest alloc] initWithUserId:hostId voice_uuid:_voiceUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -799,7 +790,21 @@ LMExceptionalViewDelegate
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             
             NSDictionary *dics = @{@"type":@"host",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"userId":[NSString stringWithFormat:@"%ld",(long)hostId]};
-            [self websocketLinke:dics type:@"host"];
+
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+            
+            NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+            if (client.connected ==YES) {
+                [client sendTo:urlStr body:string];
+                
+            }else{
+                dispatch_async(dispatch_get_main_queue()
+                               , ^{
+                                   [self textStateHUD:@"更换主持人失败，请重试~"];
+                                   [self createWebSocket];
+                               });
+            }
             
         }else{
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -837,16 +842,26 @@ LMExceptionalViewDelegate
         }else{
             return contenSize.height+55+10+20;
         }
+
+    }
+    
+    if (vo.type && [vo.type isEqual:@"picture"]) {
+        
+        return 150+55+10+10;
     }
     
     if (vo.type&&[vo.type isEqual:@"voice"]) {
-
-        return 55+30+10+10;
+        if (vo.ifchangeText ==YES) {
+            return 180;
+        }else{
+            return 55+30+10+10;
+        }
     }
     
-    if (vo.type&&([vo.type isEqual:@"video"] ||[vo.type isEqual:@"picture"])) {
+    if (vo.type&&[vo.type isEqual:@"video"]) {
         
-        return 150+55+10+10;
+        return 180+20;
+
     }
     
     return 0;
@@ -923,7 +938,21 @@ LMExceptionalViewDelegate
                     NSString *strings  = [toorbar.inputTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     
                     NSDictionary *dics = @{@"type":@"question",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"content":strings ,@"has_profile":@"false"};
-                    [self websocketLinke:dics type:@"question1"];
+
+                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                    NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                    
+                    NSString *urlStr    = [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                    
+                    if (client.connected == YES) {
+                        
+                        [client sendTo:urlStr body:string];
+                        [self textStateHUD:@"问题提交成功"];
+                        
+                    } else {
+                        [self textStateHUD:@"问题提交失败，请重试~"];
+                        [self createWebSocket];
+                    }
                     
                     toorbar.inputTextView.text=@"";
                     
@@ -1128,17 +1157,22 @@ LMExceptionalViewDelegate
 - (void)getImageURL:(UIImage*)image index:(NSInteger)index
 {
     [self initStateHud];
-    [self checklinke];
+
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
     
     FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
-
+    
     
     request.imageData   = UIImageJPEGRepresentation(image, 1);
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding){
                                                
-
+                                               
                                                NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
                                                
                                                NSString    *result = [bodyDict objectForKey:@"result"];
@@ -1150,14 +1184,28 @@ LMExceptionalViewDelegate
                                                        if (index == 1) {
 
                                                            NSDictionary *dics = @{@"type":@"picture",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":imgUrl};
-                                                           [self websocketLinke:dics type:@"picture"];
+                                        
+                                                           NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                                                           NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                                                           NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                                                           if (client.connected ==YES) {
+                                                               [client sendTo:urlStr body:string];
+                                                               
+                                                           }else{
+                                                               dispatch_async(dispatch_get_main_queue()
+                                                                              , ^{
+                                                                                  [self textStateHUD:@"发送失败，请重试~"];
+                                                                                  [client disconnect];
+                                                                                  [self createWebSocket];
+                                                                              });
+                                                           }
                                                            
                                                            [self performSelectorOnMainThread:@selector(hideStateHud)
                                                                                   withObject:nil
                                                                                waitUntilDone:YES];
                                                            
                                                            [self reLoadTableViewCell];
-
+                                                           
                                                        }else{
                                                            imageString = imgUrl;
                                                            dispatch_async(dispatch_get_main_queue(), ^{
@@ -1267,7 +1315,6 @@ LMExceptionalViewDelegate
     _visiableTime=animationDuration;
     [UIView animateWithDuration:animationDuration animations:^{
         
-        
     } completion:^(BOOL finished) {
         
         [UIView animateWithDuration:animationDuration animations:^{
@@ -1358,13 +1405,10 @@ LMExceptionalViewDelegate
                }
                [self subscribeTopic];
            }];
-    
 }
-
 
 - (void)subscribeTopic
 {
-
     NSString *string = [NSString stringWithFormat:@"/topic/room/%@",_voiceUuid];
     
     [client subscribeTo:string messageHandler:^(STOMPMessage *message) {
@@ -1385,9 +1429,10 @@ LMExceptionalViewDelegate
         
         MssageVO *vo = [MssageVO MssageVOWithDictionary:respDict];
         NSString *number = [NSString stringWithFormat:@"%@",vo.currentIndex];
-        
-        if ([newNumArray containsObject:number]) {
-            return ;
+        for (int i = 0; i<newNumArray.count; i++) {
+            if ([newNumArray[i] isEqual:number]) {
+                return ;
+            }
         }
         
         if (vo.type && ([vo.type isEqual:@"chat"]||[vo.type isEqual:@"question"])) {
@@ -1518,13 +1563,28 @@ LMExceptionalViewDelegate
                     [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
-                
             }
             
             if ([vo.type isEqual:@"video"]) {
                 [dic setObject:vo.user_uuid forKey:@"user_uuid"];
                 if (vo.videourl&&![vo.videourl isEqualToString:@""]) {
                     [dic setObject:vo.videourl forKey:@"videourl"];
+                }else{
+                    if (vo.attachment&&![vo.attachment isEqualToString:@""]) {
+                        [dic setObject:vo.attachment forKey:@"videourl"];
+                    }
+                }
+                
+                [dic setObject:@"video" forKey:@"type"];
+                [dic setObject:vo.recordingTime forKey:@"recordingTime"];
+                if (vo.name&&![vo.name isEqual:@""]) {
+                    [dic setObject:vo.name forKey:@"name"];
+                }else{
+                    [dic setObject:@"" forKey:@"name"];
+                }
+                
+                if (vo.headimgurl&&![vo.headimgurl isEqual:@""]) {
+                    [dic setObject:vo.headimgurl forKey:@"headimgurl"];
                 }else{
                     if (vo.attachment&&![vo.attachment isEqualToString:@""]) {
                         [dic setObject:vo.attachment forKey:@"videourl"];
@@ -1549,7 +1609,6 @@ LMExceptionalViewDelegate
                     [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"VideoreadStatus"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
-                
             }
             
             if ([vo.type isEqual:@"picture"]) {
@@ -1672,6 +1731,12 @@ LMExceptionalViewDelegate
             [self performSelector:@selector(reLoadTableViewCell) withObject:nil afterDelay:0];
         }
         
+        if (self.tableView.contentSize.height-self.tableView.contentOffset.y>kScreenHeight*3/2) {
+            [self performSelector:@selector(reloadTableView) withObject:nil afterDelay:0];
+        }else{
+            [self performSelector:@selector(reLoadTableViewCell) withObject:nil afterDelay:0];
+        }
+        
     }];
 }
 
@@ -1690,9 +1755,17 @@ LMExceptionalViewDelegate
     }
     
     if (client.connected == NO) {
-        
         NSLog(@"0");
-        [self createWebSocket];
+        client = [LMWobsocket shareWebsocket];
+        dispatch_semaphore_t connected = dispatch_semaphore_create(0);
+        [client connectWithLogin:@"1"
+                        passcode:@"2"
+               completionHandler:^(STOMPFrame *connectedFrame, NSError *error) {
+                   if (!error) {
+                       dispatch_semaphore_signal(connected);
+                   }
+                   [self subscribeTopic];
+               }];
         
     } else {
         
@@ -1707,7 +1780,6 @@ LMExceptionalViewDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         [changeView removeFromSuperview];
     });
-
     if (-64 == self.tableView.contentOffset.y) {
         
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
@@ -1716,7 +1788,9 @@ LMExceptionalViewDelegate
 
 - (void)loadNextPage
 {
+    [self loadActivity];
     loadIndex = 2;
+    
     if (ifloadMoreData == NO) {
         return;
     }
@@ -1752,15 +1826,16 @@ LMExceptionalViewDelegate
                             [shieldArray addObject:vo];
                         }
                     }
-                    
                     reloadCount = 1;
                     [self.listData removeAllObjects];
                     [self.listData addObjectsFromArray:shieldArray];
-                    [self.tableView reloadData];
+                     [self.tableView reloadData];
                 } else {
-                    
-                    [self.tableView reloadData];
-                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    if (items.count>0) {
+                        
+                        [self.tableView reloadData];
+                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:items.count inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    }
                 }
             });
         }
@@ -1799,7 +1874,6 @@ LMExceptionalViewDelegate
         [cell setVoicePlayState:LGVoicePlayStateCancel];
     }
     [self reloadTableView];
-    
     if (vo.type&&[vo.type isEqual:@"voice"]) {
         
         NSString *urlStr = vo.voiceurl;
@@ -2120,7 +2194,6 @@ LMExceptionalViewDelegate
             [self lianxuPlay:vo.voiceurl];
             playVoiceURL = vo.voiceurl;
         }
-
         playTag = [newArray[0] integerValue];
         ChattingCell *cell = [self.tableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:playTag    inSection:0]];
         [cell setVoicePlayState:LGVoicePlayStatePlaying];
@@ -2161,8 +2234,8 @@ LMExceptionalViewDelegate
     dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
         NSURL *url = [[NSURL alloc]initWithString:urlString];
         NSData * audioData = [NSData dataWithContentsOfURL:url];
-        if (![playVoiceURL isEqualToString:urlString]) {
 
+        if (![playVoiceURL isEqualToString:urlString]) {
             return;
         }else{
             
@@ -2175,6 +2248,7 @@ LMExceptionalViewDelegate
             }else{
                 [cell setVoicePlayState:LGVoicePlayStateCancel];
             }
+
         }
         
         //将数据保存到本地指定位置
@@ -2205,7 +2279,6 @@ LMExceptionalViewDelegate
         case LGAudioPlayerStateCancel:
             voicePlayState = LGVoicePlayStateCancel;
             break;
-            
         default:
             break;
     }
@@ -2334,7 +2407,6 @@ LMExceptionalViewDelegate
             textLabel.textAlignment = NSTextAlignmentCenter;
             textLabel.text =bodyDic[@"turnSound"];
             [topView addSubview:textLabel];
-            
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenTopView:)];
             [topView addGestureRecognizer:tap];
             
@@ -2360,6 +2432,9 @@ LMExceptionalViewDelegate
     MssageVO *vo = self.listData[cell.tag];
     ExceptionalView.nameLabel.text = [NSString stringWithFormat:@"打赏%@",vo.name];
     [ExceptionalView.headerView sd_setImageWithURL:[NSURL URLWithString:vo.headimgurl]];
+    if (vo.name &&![vo.name isEqualToString:@""]) {
+        ExceptionalView.nameLabel.text = [NSString stringWithFormat:@"打赏%@",vo.name];
+    }
     [ExceptionalView.cancelButton addTarget:self action:@selector(closeViewAction) forControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -2401,7 +2476,6 @@ LMExceptionalViewDelegate
         return;
     }
     if ([bodyDic objectForKey:@"result"]&&[[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-        
         [self textStateHUD:@"您已成功打赏~~"];
         [self closeViewAction];
         
@@ -2471,7 +2545,6 @@ LMExceptionalViewDelegate
                 _timeNum =  (int)(doubleNum+0.5);
                 UIImage *image = [UIImage imageWithCGImage:[asset aspectRatioThumbnail]];
                 [self getImageURL:image  index:2];
-                
             }
             
         }failureBlock:^(NSError *err) {
@@ -2521,6 +2594,7 @@ LMExceptionalViewDelegate
 
 - (void)getmessageRespond:(NSString *)resp
 {
+    
     [self performSelector:@selector(messageConnect) withObject:nil afterDelay:1.0];
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     if (!bodyDic) {
@@ -2547,9 +2621,13 @@ LMExceptionalViewDelegate
                     }
                 }
                 
-                if (![newArray containsObject:strings]) {
-                    [self.listData addObjectsFromArray:tempArr];
+                for (int i = 0; i<newArray.count; i++) {
+                    if ([newArray[i] isEqual:strings]) {
+                        return;
+                    }
                 }
+                
+                [self.listData addObjectsFromArray:tempArr];
             }
         }
         [self.tableView reloadData];
@@ -2587,9 +2665,18 @@ LMExceptionalViewDelegate
                                                        
                                                        NSDictionary *dics = @{@"type":@"video",@"voice_uuid":_voiceUuid,@"user_uuid":[FitUserManager sharedUserManager].uuid, @"attachment":voiceUrl,@"recordingTime":[NSString stringWithFormat:@"%d",_timeNum],@"cover":imageString};
                                                        
-                                                       [self websocketLinke:dics type:@"video"];
+                                                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dics options:NSJSONWritingPrettyPrinted error:nil];
+                                                       NSString *string = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];;
+                                                       NSString *urlStr= [NSString stringWithFormat:@"/message/room/%@",_voiceUuid];
+                                                       if (client.connected ==YES) {
+                                                           [client sendTo:urlStr body:string];
+                                                           
+                                                       }else{
+                                                           [self textStateHUD:@"发送失败~"];
+                                                           [client disconnect];
+                                                           [self createWebSocket];
+                                                       }
                                                        [self reLoadTableViewCell];
-
                                                    }
                                                }
                                            } failed:^(NSError *error) {
