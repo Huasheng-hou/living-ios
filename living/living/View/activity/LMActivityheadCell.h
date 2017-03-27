@@ -22,6 +22,8 @@
 @property (nonatomic, readonly) float xScale;
 @property (nonatomic, readonly) float yScale;
 
+@property (nonatomic, assign) NSInteger type;
+
 - (void)setXScale:(float)xScale yScale:(float)yScale;
 
 -(void)setValue:(LMEventBodyVO *)event;

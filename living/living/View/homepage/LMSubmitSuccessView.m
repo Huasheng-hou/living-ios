@@ -27,7 +27,7 @@
 - (void)addSubViews{
     
     _flag = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, 25, 60, 60)];
-    _flag.image = [UIImage imageNamed:@"choose"];
+    _flag.image = [UIImage imageNamed:@"ok"];
     _flag.backgroundColor = BG_GRAY_COLOR;
     _flag.layer.masksToBounds = YES;
     _flag.layer.cornerRadius = 30;

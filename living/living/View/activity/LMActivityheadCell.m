@@ -120,11 +120,17 @@
     if (event.publishName ==nil) {
         _nameLabel.text = @"";
     }else{
-        _nameLabel.text = [NSString stringWithFormat:@"发布者：%@",event.publishName];
+        _nameLabel.text = [NSString stringWithFormat:@"%@",event.publishName];
     }
 //    _titleLabel.text = event.eventName;
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
-    _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+    
+    if (_type == 1) {
+        _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+    }else if (_type == 2){
+        _countLabel.text = @"此活动长期有效,赶快报名吧!";
+    }
+    
     
     
     switch (event.status) {

@@ -43,6 +43,10 @@
 #import "WXApi.h"
 //地图导航
 #import "LMNavMapViewController.h"
+
+#import "LMEventDetailMsgCell.h"
+
+
 static CGRect oldframe;
 @interface LMEventDetailViewController ()
 <
@@ -185,7 +189,7 @@ shareTypeDelegate
     line.frame = CGRectMake(kScreenWidth-71, 35, 1, 30);
     [headerView addSubview:line];
 }
-
+#pragma mark - 项目详情数目请求
 - (void)getEventListDataRequest
 {
     [self initStateHud];
@@ -328,12 +332,12 @@ shareTypeDelegate
             CGFloat _cellHight;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
             _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            return 180;
+            return 180-50;
         }else{
             CGFloat _cellHight;
             NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:13]};
             _cellHight = [eventDic.address boundingRectWithSize:CGSizeMake(kScreenWidth-59, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
-            return 150+200;
+            return 150+200-50;
         }
         
         
@@ -477,6 +481,7 @@ shareTypeDelegate
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.type = 2;
         [cell setValue:eventDic];
         cell.joinButton.titleLabel.text =_type;
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -490,7 +495,7 @@ shareTypeDelegate
         
         static NSString *cellId = @"cellIddd";
         
-        LMActivityMsgCell *cell = [[LMActivityMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        LMEventDetailMsgCell *cell = [[LMEventDetailMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         

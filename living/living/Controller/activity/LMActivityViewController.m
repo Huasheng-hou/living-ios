@@ -154,11 +154,11 @@ WJLoopViewDelegate
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
     
-//        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-//                                                                                   target:self
-//                                                                                   action:@selector(publicAction)];
-//        
-//        self.navigationItem.rightBarButtonItem = rightItem;
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                   target:self
+                                                                                   action:@selector(publicAction)];
+        
+        self.navigationItem.rightBarButtonItem = rightItem;
     }
     
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
@@ -311,6 +311,7 @@ WJLoopViewDelegate
 #pragma  mark - 请求活动数据
 - (FitBaseRequest *)request
 {
+    
     [self getBannerDataRequest];
     [self getEventsRequest];
     
@@ -348,13 +349,11 @@ WJLoopViewDelegate
         if ([headDic[@"privileges"] isEqual:@"special"]) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                           target:self
+                                                                                           action:@selector(publicAction)];
                 
-//                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-//                                                                              style:UIBarButtonItemStylePlain
-//                                                                             target:self
-//                                                                             action:@selector(publicAction)];
-//                
-//                self.navigationItem.rightBarButtonItem = rightItem;
+                self.navigationItem.rightBarButtonItem = rightItem;
             });
         }
     }
@@ -395,6 +394,7 @@ WJLoopViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    [self initStateHud];
     LMEventListRequest * request = [[LMEventListRequest alloc] initWithPageIndex:1 andPageSize:PAGER_SIZE andCity:nil];
     HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
                                          completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -418,13 +418,16 @@ WJLoopViewDelegate
     NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
     NSDictionary * headDic = [respDic objectForKey:@"head"];
     if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        [self textStateHUD:@"验证失败"];
         return;
     }
     
     NSDictionary * bodyDic = [VOUtil parseBody:resp];
     if (![bodyDic[@"result"] isEqualToString:@"0"]) {
+        [self textStateHUD:@"请求数据失败"];
         return;
     }
+    [self hideStateHud];
     NSArray * list = [bodyDic objectForKey:@"list"];
     _eventsArray = [LMEventListVO EventListVOListWithArray:list];
     

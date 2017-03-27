@@ -560,6 +560,7 @@
 		D5DFBCE11E8103CE0065C313 /* LMYGBCoinListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCE01E8103CE0065C313 /* LMYGBCoinListRequest.m */; };
 		D5DFBCE41E8104450065C313 /* LMCoinlistVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCE31E8104450065C313 /* LMCoinlistVO.m */; };
 		D5E5E7351E891DFF00A4C405 /* LMMoreStoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E5E7341E891DFF00A4C405 /* LMMoreStoryRequest.m */; };
+		D5E5E7381E89470B00A4C405 /* LMEventDetailMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E5E7371E89470B00A4C405 /* LMEventDetailMsgCell.m */; };
 		D5FEEDD21E7A8F4C00106435 /* LMExpertSpaceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */; };
 /* End PBXBuildFile section */
 
@@ -1688,6 +1689,8 @@
 		D5DFBCE31E8104450065C313 /* LMCoinlistVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCoinlistVO.m; sourceTree = "<group>"; };
 		D5E5E7331E891DFF00A4C405 /* LMMoreStoryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMoreStoryRequest.h; sourceTree = "<group>"; };
 		D5E5E7341E891DFF00A4C405 /* LMMoreStoryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMoreStoryRequest.m; sourceTree = "<group>"; };
+		D5E5E7361E89470B00A4C405 /* LMEventDetailMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailMsgCell.h; sourceTree = "<group>"; };
+		D5E5E7371E89470B00A4C405 /* LMEventDetailMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailMsgCell.m; sourceTree = "<group>"; };
 		D5FEEDD01E7A8F4C00106435 /* LMExpertSpaceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceVO.h; sourceTree = "<group>"; };
 		D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceVO.m; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -3634,6 +3637,8 @@
 				35B746A21DDE97F3000AFA26 /* LMActivityheadCell.m */,
 				35B746A31DDE97F3000AFA26 /* LMActivityMsgCell.h */,
 				35B746A41DDE97F3000AFA26 /* LMActivityMsgCell.m */,
+				D5E5E7361E89470B00A4C405 /* LMEventDetailMsgCell.h */,
+				D5E5E7371E89470B00A4C405 /* LMEventDetailMsgCell.m */,
 				35B746A51DDE97F3000AFA26 /* LMCouponChoseCell.h */,
 				35B746A61DDE97F3000AFA26 /* LMCouponChoseCell.m */,
 				35B746A71DDE97F3000AFA26 /* LMEventMsgCell.h */,
@@ -4768,6 +4773,7 @@
 				3540504F1E07BF4F00B11027 /* LMQuestionTableViewCell.m in Sources */,
 				D5D325161E712B150057F636 /* LMYGBOrderChooseCell.m in Sources */,
 				35B747F61DDE97F4000AFA26 /* LMOrderBodyVO.m in Sources */,
+				D5E5E7381E89470B00A4C405 /* LMEventDetailMsgCell.m in Sources */,
 				D5DFBCCB1E80D2370065C313 /* LMYGBBannerRequest.m in Sources */,
 				66A52E931DFBE008000BDFE2 /* LMActivityHeaderView.m in Sources */,
 				35B747681DDE97F3000AFA26 /* LMPersonViewController.m in Sources */,

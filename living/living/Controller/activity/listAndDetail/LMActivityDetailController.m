@@ -545,7 +545,7 @@ APChooseViewDelegate
         LMActivityheadCell *cell = [[LMActivityheadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        cell.type = 1;
         [cell setValue:eventDic];
         
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
@@ -1128,7 +1128,7 @@ APChooseViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"********************%f",scrollView.contentOffset.y);
+    
     if (scrollView.contentOffset.y > 220) {//如果当前位移大于缓存位移，说明scrollView向上滑动
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
