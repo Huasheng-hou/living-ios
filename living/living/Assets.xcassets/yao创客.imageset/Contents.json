@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "yao创客.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "yao创客.png",
       "scale" : "2x"
     },
     {

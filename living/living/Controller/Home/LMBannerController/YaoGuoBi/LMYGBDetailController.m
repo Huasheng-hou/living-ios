@@ -65,6 +65,11 @@
         if (resultArr && resultArr.count > 0) {
             return resultArr;
         }
+        if (resultArr.count == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self textStateHUD:@"暂无数据"];
+            });
+        }
         
     }
     return nil;
@@ -72,11 +77,8 @@
 
 #pragma mark - tableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    if (self.listData.count > 0) {
-        return self.listData.count;
-    }
-    return 10;
+
+    return self.listData.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

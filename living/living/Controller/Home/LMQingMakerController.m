@@ -10,7 +10,10 @@
 #import "FitConsts.h"
 
 #import "LMArtcleTypeRequest.h"
+#import "LMMoreStoryRequest.h"
 
+#import "UIImageView+WebCache.h"
+#import "LMWebViewController.h"
 @interface LMQingMakerController ()
 
 @end
@@ -30,7 +33,7 @@
     
     [super viewDidLoad];
     [self createUI];
-    
+    [self loadNewer];
 }
 - (void)createUI{
     [super createUI];
@@ -40,21 +43,44 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
 
 }
-
+#pragma mark - 请求创客故事数据
 - (FitBaseRequest *)request
 {
-    LMArtcleTypeRequest *request = [[LMArtcleTypeRequest alloc] init];
+    LMMoreStoryRequest *request = [[LMMoreStoryRequest alloc] init];
     
     return request;
 }
+- (NSArray *)parseResponse:(NSString *)resp{
+    
+    NSData * data = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [dic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        
+        [self textStateHUD:@"验证失败"];
+        return nil;
+    }
+    NSDictionary * body = [VOUtil parseBody:resp];
+    if (![body[@"result"] isEqualToString:@"0"]) {
+        
+        [self textStateHUD:@"请求失败"];
+        return nil;
+    }
 
+    NSArray * array = [body objectForKey:@"list"];
+    
+    [self.tableView reloadData];
+    
+    
+    return array;
+}
 #pragma mark - tableveiw代理
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
-//    return self.listData.count;
+    
+    return self.listData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
@@ -70,13 +96,21 @@
     }
     UIImageView * image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, kScreenWidth*3/5-10)];
     image.backgroundColor = BG_GRAY_COLOR;
-    image.image = [UIImage imageNamed:@"BackImage"];
+    //image.image = [UIImage imageNamed:@"BackImage"];
+    [image sd_setImageWithURL:[NSURL URLWithString:self.listData[indexPath.row][@"picture"]]];
     image.clipsToBounds = YES;
     image.contentMode = UIViewContentModeScaleAspectFill;
     [cell.contentView addSubview:image];
     return cell;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.urlString = self.listData[indexPath.row][@"url"];
+    webVC.title = @"创客故事";
+    [self.navigationController pushViewController:webVC animated:YES];
 
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -545,8 +545,8 @@
 		D5944D281E83C679002DBA7D /* LMAllEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D271E83C679002DBA7D /* LMAllEventController.m */; };
 		D5944D2B1E83C94E002DBA7D /* LMNewPublicEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D2A1E83C94E002DBA7D /* LMNewPublicEventRequest.m */; };
 		D5944D2E1E83F263002DBA7D /* LMYGBExchangeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D2D1E83F263002DBA7D /* LMYGBExchangeRequest.m */; };
-		D5944D311E83F83A002DBA7D /* LMMakerBannerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D301E83F83A002DBA7D /* LMMakerBannerRequest.m */; };
 		D5944D341E83F88C002DBA7D /* LMMakerBannerVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D331E83F88C002DBA7D /* LMMakerBannerVO.m */; };
+		D5A6147A1E89117100F46D60 /* LMMakerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A614791E89117100F46D60 /* LMMakerRequest.m */; };
 		D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */; };
 		D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */; };
 		D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */; };
@@ -559,6 +559,7 @@
 		D5DFBCDE1E80FF7B0065C313 /* LMCategoryEventsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCDD1E80FF7B0065C313 /* LMCategoryEventsRequest.m */; };
 		D5DFBCE11E8103CE0065C313 /* LMYGBCoinListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCE01E8103CE0065C313 /* LMYGBCoinListRequest.m */; };
 		D5DFBCE41E8104450065C313 /* LMCoinlistVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCE31E8104450065C313 /* LMCoinlistVO.m */; };
+		D5E5E7351E891DFF00A4C405 /* LMMoreStoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E5E7341E891DFF00A4C405 /* LMMoreStoryRequest.m */; };
 		D5FEEDD21E7A8F4C00106435 /* LMExpertSpaceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */; };
 /* End PBXBuildFile section */
 
@@ -1657,10 +1658,10 @@
 		D5944D2A1E83C94E002DBA7D /* LMNewPublicEventRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMNewPublicEventRequest.m; sourceTree = "<group>"; };
 		D5944D2C1E83F263002DBA7D /* LMYGBExchangeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBExchangeRequest.h; sourceTree = "<group>"; };
 		D5944D2D1E83F263002DBA7D /* LMYGBExchangeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBExchangeRequest.m; sourceTree = "<group>"; };
-		D5944D2F1E83F83A002DBA7D /* LMMakerBannerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMakerBannerRequest.h; sourceTree = "<group>"; };
-		D5944D301E83F83A002DBA7D /* LMMakerBannerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMakerBannerRequest.m; sourceTree = "<group>"; };
 		D5944D321E83F88C002DBA7D /* LMMakerBannerVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMakerBannerVO.h; sourceTree = "<group>"; };
 		D5944D331E83F88C002DBA7D /* LMMakerBannerVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMakerBannerVO.m; sourceTree = "<group>"; };
+		D5A614781E89117100F46D60 /* LMMakerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMakerRequest.h; sourceTree = "<group>"; };
+		D5A614791E89117100F46D60 /* LMMakerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMakerRequest.m; sourceTree = "<group>"; };
 		D5D3250B1E70F80D0057F636 /* LMYaoGuoBiConvertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMYaoGuoBiConvertController.h; path = ../../LMYaoGuoBiConvertController.h; sourceTree = "<group>"; };
 		D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMYaoGuoBiConvertController.m; path = ../../LMYaoGuoBiConvertController.m; sourceTree = "<group>"; };
 		D5D3250E1E711FFE0057F636 /* LMSubmitOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMSubmitOrderController.h; path = ../../LMSubmitOrderController.h; sourceTree = "<group>"; };
@@ -1685,6 +1686,8 @@
 		D5DFBCE01E8103CE0065C313 /* LMYGBCoinListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBCoinListRequest.m; sourceTree = "<group>"; };
 		D5DFBCE21E8104450065C313 /* LMCoinlistVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCoinlistVO.h; sourceTree = "<group>"; };
 		D5DFBCE31E8104450065C313 /* LMCoinlistVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCoinlistVO.m; sourceTree = "<group>"; };
+		D5E5E7331E891DFF00A4C405 /* LMMoreStoryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMoreStoryRequest.h; sourceTree = "<group>"; };
+		D5E5E7341E891DFF00A4C405 /* LMMoreStoryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMoreStoryRequest.m; sourceTree = "<group>"; };
 		D5FEEDD01E7A8F4C00106435 /* LMExpertSpaceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceVO.h; sourceTree = "<group>"; };
 		D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceVO.m; sourceTree = "<group>"; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
@@ -4089,8 +4092,10 @@
 				D52C14E21E825F13008CFE3F /* LMBookLivingRequest.m */,
 				D52C14E41E82638C008CFE3F /* LMNearbyLivingRequest.h */,
 				D52C14E51E82638C008CFE3F /* LMNearbyLivingRequest.m */,
-				D5944D2F1E83F83A002DBA7D /* LMMakerBannerRequest.h */,
-				D5944D301E83F83A002DBA7D /* LMMakerBannerRequest.m */,
+				D5A614781E89117100F46D60 /* LMMakerRequest.h */,
+				D5A614791E89117100F46D60 /* LMMakerRequest.m */,
+				D5E5E7331E891DFF00A4C405 /* LMMoreStoryRequest.h */,
+				D5E5E7341E891DFF00A4C405 /* LMMoreStoryRequest.m */,
 			);
 			path = maker;
 			sourceTree = "<group>";
@@ -4690,7 +4695,6 @@
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
 				35B7480D1DDE97F4000AFA26 /* LMCouponChoseCell.m in Sources */,
 				D53494C61E77B4EF00A4442C /* LMRecommendExpertVO.m in Sources */,
-				D5944D311E83F83A002DBA7D /* LMMakerBannerRequest.m in Sources */,
 				35B747B51DDE97F3000AFA26 /* LMHomelistequest.m in Sources */,
 				35E686711DEFC89600B43000 /* LMArtcleFootView.m in Sources */,
 				D5DFBCD81E80EED70065C313 /* LMYGBDetailVO.m in Sources */,
@@ -4780,6 +4784,7 @@
 				35B748331DDE97F4000AFA26 /* FitPickerView.m in Sources */,
 				358ED9141E5FC38B006B88BC /* LMMessageBoardViewController.m in Sources */,
 				35B747AE1DDE97F3000AFA26 /* LMArticleCommentDeleteRequest.m in Sources */,
+				D5E5E7351E891DFF00A4C405 /* LMMoreStoryRequest.m in Sources */,
 				35B7473D1DDE97F3000AFA26 /* AppDelegate.m in Sources */,
 				351213841DF965FB0053B83F /* LMCancelauthorRequest.m in Sources */,
 				350F2F731E6D6DB000772E5C /* LMFriendMessageCell.m in Sources */,
@@ -4876,6 +4881,7 @@
 				35E92E5B1E3457F900EE6DE6 /* LMChoseCounponButton.m in Sources */,
 				3512137E1DF963C10053B83F /* LMBlacklistViewController.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
+				D5A6147A1E89117100F46D60 /* LMMakerRequest.m in Sources */,
 				87B74E0B1E5EBEDA001E3E57 /* LMSegmentController.m in Sources */,
 				35980BD21E0138CE0054EB05 /* LMMyJoinFinishVoiceRequest.m in Sources */,
 				355E7B671DFFC4BB0089BAB1 /* LMVoiceDetailVO.m in Sources */,

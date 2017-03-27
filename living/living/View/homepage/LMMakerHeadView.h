@@ -15,4 +15,7 @@
 
 @interface LMMakerHeadView : UIView
 @property (nonatomic, weak) id <LMMakerDelegate> delegate;
+
+- (void)setValue:(NSDictionary *)dict;
+
 @end

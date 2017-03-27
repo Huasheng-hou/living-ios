@@ -7,7 +7,7 @@
 //
 
 #import "LMWebViewController.h"
-
+#import "FitConsts.h"
 @interface LMWebViewController ()
 
 @end
@@ -16,7 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = _titleString;
+    if (_titleString) {
+        self.navigationItem.title = _titleString;
+    }
     self.view.backgroundColor = [UIColor whiteColor];
     UIWebView * view = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, kScreenWidth, kScreenHeight)];
     [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_urlString]]];
@@ -24,6 +26,17 @@
     
     view.scalesPageToFit = YES;
     //    view.opaque = NO;
+    if (!_urlString) {
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+        label.center = self.view.center;
+        label.text = @"暂无数据";
+        label.textColor = MASK_COLOR;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:label];
+        return;
+        
+    }
     [self.view addSubview:view];
 }
 

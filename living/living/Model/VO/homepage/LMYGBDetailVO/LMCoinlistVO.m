@@ -53,9 +53,10 @@
 {
     self = [super init];
     if (self) {
+        NSLog(@"%@", [dictionary[@"amount"] class]);
         
         if (nil != [dictionary objectForKey:@"amount"] && ![[dictionary objectForKey:@"amount"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"amount"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"amount"] isKindOfClass:[NSNumber class]]) {
             self.amount = [dictionary objectForKey:@"amount"];
         }
         if (nil != [dictionary objectForKey:@"describe"] && ![[dictionary objectForKey:@"describe"] isEqual:[NSNull null]]

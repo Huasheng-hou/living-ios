@@ -15,11 +15,12 @@
 #import "LMBookLivingRequest.h"
 #import <CoreLocation/CoreLocation.h>
 
-#import "LMMakerBannerVO.h"
-#import "LMMakerBannerRequest.h"
-#import "WJLoopView.h"
+#import "LMMakerRequest.h"
 #import "LMWebViewController.h"
-@interface LMBannerDetailMakerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,LMMakerDelegate,CLLocationManagerDelegate,WJLoopViewDelegate>
+#import "UIImageView+WebCache.h"
+
+
+@interface LMBannerDetailMakerController ()<LMMakerDelegate,CLLocationManagerDelegate>
 
 @end
 
@@ -41,9 +42,19 @@
     CLLocationManager * locationManager;
     NSString * _currentCity;
     
-    NSArray * _bannerArray;
+    NSMutableArray * _firstArray;  //轮播图 数据
+    NSMutableArray * _secondArray; //路演
+    NSMutableArray * _thirdArray; //轻创客数据
+    
+    
     UIView * headView;
     
+}
+- (instancetype)init{
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        
+    }
+    return self;
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -53,254 +64,208 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
+    [self loadNewer];
+    //[self getMakerRequest];
     
 }
 
 - (void)createUI{
-
+    [super createUI];
+    
     self.view.backgroundColor = BG_GRAY_COLOR;
     self.navigationItem.backBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@""
                                                                             style:UIBarButtonItemStylePlain
                                                                            target:nil
                                                                            action:nil];
-    
-    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-    
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) collectionViewLayout:layout];
-    _collectionView.backgroundColor = [UIColor whiteColor];
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    [self.view addSubview:_collectionView];
-    
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"headCell"];
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"imageCell"];
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"mainCell"];
-    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead"];
-    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot"];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
-#pragma mark - 请求轮播图数据
-- (void)getBannerDataRequest
-{
-    if (![CheckUtils isLink]) {
-        
-        [self textStateHUD:@"无网络连接"];
-        return;
-    }
-    
-    LMMakerBannerRequest *request = [[LMMakerBannerRequest alloc] init];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   [self parseBannerResp:resp];
-                                               });
-                                               
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+#pragma mark - 请求创客数据
+- (FitBaseRequest *)request{
+    [self initStateHud];
+    LMMakerRequest *request = [[LMMakerRequest alloc] init];
+    return request;
 }
-- (void)parseBannerResp:(NSString *)resp{
-    
-    NSDictionary *bodyDict   = [VOUtil parseBody:resp];
-    
-    NSString     *result     = [bodyDict objectForKey:@"result"];
-    
-    if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
-        
-        _bannerArray = [LMMakerBannerVO LMMakerBannerVOWithArray:[bodyDict objectForKey:@"banners"]];
-        
-        if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
-            
-            headView.backgroundColor = BG_GRAY_COLOR;
-        } else {
-            
-            for (UIView *subView in headView.subviews) {
-                
-                [subView removeFromSuperview];
-            }
-            
-            NSMutableArray   *imgUrls    = [NSMutableArray new];
-            
-            
-            for (int i=0; i<_bannerArray.count; i++) {
-                LMMakerBannerVO * vo = _bannerArray[i];
-                if (vo && [vo isKindOfClass:[LMMakerBannerVO class]] && vo.webUrl) {
-                    
-                    [imgUrls addObject:vo.webUrl];
-                }
-            }
-            
-            WJLoopView * loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
-                                                            delegate:self
-                                                           imageURLs:imgUrls
-                                                    placeholderImage:nil
-                                                        timeInterval:8
-                                      currentPageIndicatorITintColor:nil
-                                              pageIndicatorTintColor:nil];
-            
-            loopView.location = WJPageControlAlignmentRight;
-            
-            [headView addSubview:loopView];
-        }
+- (NSArray *)parseResponse:(NSString *)resp{
+    NSData * data = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [dic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"验证失败"];
+        });
+        return nil;
     }
+    NSDictionary * body = [VOUtil parseBody:resp];
+    if (![body[@"result"] isEqualToString:@"0"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
+        return nil;
+    }
+    if (!_firstArray) {
+        _firstArray = [NSMutableArray new];
+    }
+    NSDictionary * firstFloor = [body objectForKey:@"first_floor"];
+    [_firstArray addObject:firstFloor];
     
+    if (!_secondArray) {
+        _secondArray = [NSMutableArray new];
+    }
+    NSDictionary * secondFloor = [body objectForKey:@"second_floor"];
+    [_secondArray addObject:secondFloor];
+    
+    if (!_thirdArray) {
+        _thirdArray = [NSMutableArray new];
+    }
+    _thirdArray = [body objectForKey:@"third_floor"];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        [self hideStateHud];
+    });
+    
+    return nil;
 }
 
-#pragma mark - WJLoopViewDelegate
-- (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index{
-    if (_bannerArray.count > index) {
-        
-        LMWebViewController * webVC = [[LMWebViewController alloc] init];
-        LMMakerBannerVO * vo = _bannerArray[index];
-        webVC.title = vo.title;
-        webVC.urlString = vo.webUrl;
-        [self.navigationController pushViewController:webVC animated:YES];
-    }
-    
-    
-}
-
-
-#pragma mark - collectionView代理方法
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    
+#pragma mark - tableView代理方法
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
 }
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (section == 2) {
-        return 2;
-    }
     return 1;
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return CGSizeMake(kScreenWidth, 225);
+        return  225;
     }
     if (indexPath.section == 1) {
-        return CGSizeMake(kScreenWidth, kScreenWidth*3/5);
+        return  kScreenWidth*3/5;
     }
-    return CGSizeMake((kScreenWidth-30)/2, 115);
-    
+    return 115;
 }
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    
-    if (section != 2) {
-        return UIEdgeInsetsZero;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 0;
     }
-    return UIEdgeInsetsMake(0, 10, 0, 10);
+    return 40;
 }
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 2) {
+        return 0;
+    }
+    return 10;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    NSArray * typeNames = @[@"丨 腰果路演", @"丨 腰果轻创客"];
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    backView.backgroundColor = [UIColor whiteColor];
+    for (UIView * subView in backView.subviews) {
+        [subView removeFromSuperview];
+    }
+    if (section != 0) {
+        UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 20)];
+        typeName.textColor = TEXT_COLOR_LEVEL_4;
+        typeName.font = TEXT_FONT_LEVEL_3;
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:typeNames[section-1]];
+        [attr addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(0, 2)];
+        typeName.attributedText = attr;
+        [backView addSubview:typeName];
+        
+        if (section == 1) {
+            return backView;
+        }
+        
+        UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 60, 20)];
+        lookMore.text = @"查看更多 >";
+        lookMore.textAlignment = NSTextAlignmentRight;
+        lookMore.textColor = TEXT_COLOR_LEVEL_5;
+        lookMore.font = TEXT_FONT_LEVEL_3;
+        lookMore.userInteractionEnabled = YES;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
+        [lookMore addGestureRecognizer:tap];
+        [backView addSubview:lookMore];
+        
+        return  backView;
+    }
+    return nil;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"headCell" forIndexPath:indexPath];
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"headCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"headCell"];
+        }
+        for (UIView * subView in cell.contentView.subviews) {
+            [subView removeFromSuperview];
+        }
         LMMakerHeadView * headerView = [[LMMakerHeadView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 225)];
-        headerView.delegate = self;
+        [headerView setValue:_firstArray[0]];
         [cell.contentView addSubview:headerView];
         cell.backgroundColor = BG_GRAY_COLOR;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.contentView addSubview:headerView];
         return cell;
     }
     if (indexPath.section == 1) {
-        UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"imageCell"];
+        }
         cell.backgroundColor = [UIColor whiteColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (UIView * subView in cell.contentView.subviews) {
+            [subView removeFromSuperview];
+        }
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, kScreenWidth*3/5-20)];
         imageView.backgroundColor = BG_GRAY_COLOR;
-        imageView.image = [UIImage imageNamed:@"Yao创客"];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:_secondArray[0][@"picture"]]];
         [cell.contentView addSubview:imageView];
         return cell;
     }
     if (indexPath.section == 2) {
-        UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"mainCell" forIndexPath:indexPath];
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"mainCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mainCell"];
+        }
         cell.backgroundColor = [UIColor whiteColor];
-        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-30)/2, 100)];
-        imageView.backgroundColor = BG_GRAY_COLOR;
-        imageView.image = [UIImage imageNamed:@"BackImage"];
-        [cell.contentView addSubview:imageView];
-        
-        return cell;
-
-    }
-    return nil;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    
-    return 5;
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 5;
-}
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return CGSizeZero;
-    }
-    return CGSizeMake(kScreenWidth, 40);
-}
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    if (section == 3) {
-        return CGSizeZero;
-    }
-    return CGSizeMake(kScreenWidth, 10);
-}
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    
-    NSArray * typeNames = @[@"丨 腰果路演", @"丨 腰果轻创客"];
-    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        UICollectionReusableView * backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"sectionFoot" forIndexPath:indexPath];;
-        for (UIView * subView in backView.subviews) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (UIView * subView in cell.contentView.subviews) {
             [subView removeFromSuperview];
         }
-        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
-        label.backgroundColor = BG_GRAY_COLOR;
-        [backView addSubview:label];
-        
-        return backView;
-    }
-    if (indexPath.section != 0) {
-        UICollectionReusableView * backView = nil;
-        if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        for (int i=0; i<2; i++) {
+            UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10+((kScreenWidth-30)/2+10)*i, 0, (kScreenWidth-30)/2, 100)];
+            imageView.tag = i+10;
+            imageView.backgroundColor = BG_GRAY_COLOR;
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.clipsToBounds = YES;
+            [imageView sd_setImageWithURL:[NSURL URLWithString:_thirdArray[i][@"picture"]]];
             
-            backView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHead" forIndexPath:indexPath];
-            backView.backgroundColor = [UIColor whiteColor];
-            for (UIView * subView in backView.subviews) {
-                [subView removeFromSuperview];
-            }
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+            [imageView addGestureRecognizer:tap];
             
-            UILabel * typeName = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 20)];
-            typeName.textColor = TEXT_COLOR_LEVEL_4;
-            typeName.font = TEXT_FONT_LEVEL_3;
-            NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:typeNames[indexPath.section-1]];
-            [attr addAttribute:NSForegroundColorAttributeName value:ORANGE_COLOR range:NSMakeRange(0, 2)];
-            typeName.attributedText = attr;
-            [backView addSubview:typeName];
-            
-            UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 60, 20)];
-            lookMore.text = @"查看更多 >";
-            lookMore.textAlignment = NSTextAlignmentRight;
-            lookMore.textColor = TEXT_COLOR_LEVEL_5;
-            lookMore.font = TEXT_FONT_LEVEL_3;
-            lookMore.userInteractionEnabled = YES;
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
-            [lookMore addGestureRecognizer:tap];
-            
-            if (indexPath.section == 1) {
-                return backView;
-            }
-            [backView addSubview:lookMore];
-            
-            return  backView;
+            [cell.contentView addSubview:imageView];
         }
-    
+        return cell;
     }
     return nil;
 }
-
+#pragma mark - 点击事件
+- (void)tap:(UITapGestureRecognizer *)tap{
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.title = @"创客故事";
+    if (tap.view.tag == 10) {
+        
+        webVC.urlString = _thirdArray[0][@"url"];
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+    if (tap.view.tag == 11) {
+        webVC.urlString = _thirdArray[1][@"url"];
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+}
 - (void)lookMore:(UITapGestureRecognizer *)tap{
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
@@ -312,6 +277,29 @@
     [self.navigationController pushViewController:qmVC animated:YES];
 
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0) {
+        [self gotoNextPage];
+        return;
+    }
+    
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.title = @"创客故事";
+    if (indexPath.section == 1) {
+        webVC.urlString = _secondArray[0][@"url"];
+    }
+    if (indexPath.section == 2) {
+        webVC.urlString = _thirdArray[indexPath.row][@"url"];
+    }
+    [self.navigationController pushViewController:webVC animated:YES];
+
+}
+
+/***************************************   预约生活馆   *****************************************/
+
 #pragma mark - 点击了解轻创客
 - (void)gotoNextPage{
     

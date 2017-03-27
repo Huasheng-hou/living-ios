@@ -59,15 +59,15 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (self.listData.count == 0) {
-        
-        [self loadNoState];
-    }
-
-    if (!_bannerArray || _bannerArray.count == 0) {
-        
-        [self getBannerDataRequest];
-    }
+//    if (self.listData.count == 0) {
+//        
+//        [self loadNoState];
+//    }
+//
+//    if (!_bannerArray || _bannerArray.count == 0) {
+//        
+//        [self getBannerDataRequest];
+//    }
     
     
 }
@@ -76,7 +76,7 @@
 
     [self createUI];
 
-    [self getBannerDataRequest];
+    //[self getBannerDataRequest];
     [self loadNewer];
 
 }
@@ -233,6 +233,9 @@
 #pragma mark - 请求兑换列表数据
 
 - (FitBaseRequest *)request{
+    [self initStateHud];
+    [self getBannerDataRequest];
+    
     LMYGBCoinListRequest *request = [[LMYGBCoinListRequest alloc] initWithPageIndex:self.current andPageSize:20];
     return  request;
 }
@@ -242,10 +245,18 @@
     NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
     NSDictionary * headDic = [dic objectForKey:@"head"];
     if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"身份验证失败"];
+        });
+        
         return nil;
     }
     NSDictionary * body = [VOUtil parseBody:resp];
     if (![body[@"result"] isEqualToString:@"0"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
         return nil;
     }
     NSArray * listArr = [body objectForKey:@"list"];
@@ -260,9 +271,7 @@
 
 #pragma mark - 发起兑换优惠券请求
 - (void)coinExchangeRequest:(NSInteger)index{
-    if (self.listData.count <= 0) {
-        return;
-    }
+    [self initStateHud];
     LMCoinlistVO * vo = self.listData[index];
     LMYGBExchangeRequest * request = [[LMYGBExchangeRequest alloc] initWithAmount:vo.amount andNumbers:vo.numbers];
     HTTPProxy * proxy = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -285,14 +294,20 @@
     
     NSData * data = [resp dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSString * description = [dic objectForKey:@"description"];
     NSDictionary * headDic = [dic objectForKey:@"head"];
     if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        
+        [self textStateHUD:description];
         return ;
     }
     NSDictionary * body = [VOUtil parseBody:resp];
     if (![body[@"result"] isEqualToString:@"0"]) {
+        
+        [self textStateHUD:@"兑换失败"];
         return;
     }
+    
     [self textStateHUD:@"兑换成功"];
     [self loadNewer];
 }
@@ -303,10 +318,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.listData.count > 0) {
-        return self.listData.count;
-    }
-    return 10;
+    
+    return self.listData.count;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
