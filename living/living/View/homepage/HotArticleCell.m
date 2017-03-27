@@ -52,7 +52,9 @@
     backImage.contentMode = UIViewContentModeScaleAspectFill;
     backImage.clipsToBounds = YES;
     
-    title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
+    //title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
+    title.text = list.articleTitle;
+    
     
     [icon sd_setImageWithURL:[NSURL URLWithString:list.headImgUrl]];
     
@@ -121,7 +123,7 @@
     [backView addSubview:shadow];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, kScreenWidth-40, 45)];
-    title.text = @"腰·美丽 丨 用一束光的时间与你相遇青春不负的冬日";
+    title.text = @"用一束光的时间与你相遇青春不负的冬日";
     title.textColor = [UIColor whiteColor];
     title.font = TEXT_FONT_BOLD_18;
     //title.numberOfLines = 2;

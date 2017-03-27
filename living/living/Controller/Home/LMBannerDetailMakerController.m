@@ -211,7 +211,7 @@
         cell.backgroundColor = [UIColor whiteColor];
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, kScreenWidth*3/5-20)];
         imageView.backgroundColor = BG_GRAY_COLOR;
-        imageView.image = [UIImage imageNamed:@"BackImage"];
+        imageView.image = [UIImage imageNamed:@"Yao创客"];
         [cell.contentView addSubview:imageView];
         return cell;
     }
@@ -288,6 +288,10 @@
             lookMore.userInteractionEnabled = YES;
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookMore:)];
             [lookMore addGestureRecognizer:tap];
+            
+            if (indexPath.section == 1) {
+                return backView;
+            }
             [backView addSubview:lookMore];
             
             return  backView;

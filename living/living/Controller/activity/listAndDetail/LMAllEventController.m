@@ -31,7 +31,7 @@
 @implementation LMAllEventController
 {
     UIImageView  *homeImage;
-    SXButton     *letfButton;
+    SXButton     *leftButton;
     NSString     *city;
     
     
@@ -66,42 +66,39 @@
         cityStr = string;
     }
     // 设置导航栏左侧按钮
-    letfButton = [SXButton buttonWithType:UIButtonTypeCustom];
-    letfButton.frame = CGRectMake(-10, 0, 55, 20);
-    [letfButton setTitleColor:COLOR_BLACK_LIGHT forState:UIControlStateNormal];
+    leftButton = [SXButton buttonWithType:UIButtonTypeCustom];
+    leftButton.frame = CGRectMake(-10, 0, 55, 20);
+    [leftButton setTitleColor:COLOR_BLACK_LIGHT forState:UIControlStateNormal];
     
-    [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
+    [leftButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
     
     if (cityStr&&![cityStr isEqual:@""]) {
         if (cityStr.length > 3) {
             
-            letfButton.width = 80+24*(cityStr.length-3);
+            leftButton.width = 80+24*(cityStr.length-3);
         }else{
             
             if (cityStr.length == 3) {
                 
-                letfButton.width = 80;
+                leftButton.width = 80;
             }else{
                 
-                letfButton.width = 55;
+                leftButton.width = 55;
                 
             }
         }
         
-        [letfButton setTitle:cityStr forState:UIControlStateNormal];
+        [leftButton setTitle:cityStr forState:UIControlStateNormal];
     }else{
-        [letfButton setTitle:@"全部" forState:UIControlStateNormal];
+        [leftButton setTitle:@"全部" forState:UIControlStateNormal];
     }
     
-    [letfButton setImage:[UIImage imageNamed:@"下1"] forState:UIControlStateNormal];
-    UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
+    [leftButton setImage:[UIImage imageNamed:@"下1"] forState:UIControlStateNormal];
+    UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    //UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"goback"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
+    
     self.navigationItem.rightBarButtonItem = LeftBarButton;
 
-}
-- (void)goBack:(UIBarButtonItem *)item{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)screenAction:(UIButton *)sender
 {
@@ -111,26 +108,26 @@
         
         if (str.length > 3) {
             
-            letfButton.width = 80+24*(str.length-3);
-            letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-            letfButton.imageView.originX = letfButton.width*0.5+15;
+            leftButton.width = 80+24*(str.length-3);
+            leftButton.titleLabel.width = leftButton.titleLabel.bounds.size.width;
+            leftButton.imageView.originX = leftButton.width*0.5+15;
         }else{
             
             if (str.length == 3) {
                 
-                letfButton.width = 80;
-                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-                letfButton.imageView.originX = letfButton.width*0.5+15;
+                leftButton.width = 80;
+                leftButton.titleLabel.width = leftButton.titleLabel.bounds.size.width;
+                leftButton.imageView.originX = leftButton.width*0.5+15;
                 
             }else{
                 
-                letfButton.width = 55;
-                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-                letfButton.imageView.originX = letfButton.width*0.5+15;
+                leftButton.width = 55;
+                leftButton.titleLabel.width = leftButton.titleLabel.bounds.size.width;
+                leftButton.imageView.originX = leftButton.width*0.5+15;
             }
         }
         
-        [letfButton setTitle:str forState:UIControlStateNormal];
+        [leftButton setTitle:str forState:UIControlStateNormal];
         
         NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:str, nil];
         
@@ -191,10 +188,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(publicAction)];
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
                 
                 self.navigationItem.rightBarButtonItem = rightItem;
             });

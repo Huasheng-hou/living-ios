@@ -349,12 +349,12 @@ WJLoopViewDelegate
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(publicAction)];
-                
-                self.navigationItem.rightBarButtonItem = rightItem;
+//                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
+//                                                                              style:UIBarButtonItemStylePlain
+//                                                                             target:self
+//                                                                             action:@selector(publicAction)];
+//                
+//                self.navigationItem.rightBarButtonItem = rightItem;
             });
         }
     }
