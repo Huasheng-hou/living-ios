@@ -84,6 +84,7 @@
     line2.backgroundColor = LINE_COLOR;
     [cellView addSubview:line2];
     
+    //头像
     _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, 60, 60)];
     _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.layer.cornerRadius=5;
@@ -119,27 +120,38 @@
     
     UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 115, kScreenWidth-30, 35)];
     foot.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
+    foot.backgroundColor = [UIColor whiteColor];
     [cellView addSubview:foot];
     
+    //创建时间
     _timeLabel = [UILabel new];
+    _timeLabel.backgroundColor = [UIColor whiteColor];
     _timeLabel.font = TEXT_FONT_LEVEL_3;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_3;
     [cellView addSubview:_timeLabel];
 
+    
+    _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_payButton setTintColor:[UIColor colorWithRed:16.0/255.0 green:142.0/255.0 blue:252.0/255.0 alpha:1.0]];
+    _payButton.showsTouchWhenHighlighted = YES;
+    _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
+    [cellView addSubview:_payButton];
+
+    
+    
 }
 
 - (void)setActivityList:(ActivityListVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
     
-//    if (list.createTime&&![list.createTime isEqual:@""]) {
-//        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.createTime];
-//    }else{
-//        _timeLabel.text =@"创建时间：";
-//    }
+    if (list.createTime&&![list.createTime isEqual:@""]) {
+        _timeLabel.text = [NSString stringWithFormat:@"创建时间：%@",list.createTime];
+    }else{
+        _timeLabel.text =@"创建时间：";
+    }
     
-    
-    //_titleLabel.text = list.eventDetail;
+    _titleLabel.text = list.eventDetail;
     _orderNumLabel.text = list.eventName;
     
     if ([list.totalNumber isEqual:@""]||list.totalNumber==nil) {
@@ -153,13 +165,7 @@
         
         _numLabel.attributedText = str;
     }
-    _payButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
-    [_payButton setTintColor:[UIColor colorWithRed:16.0/255.0 green:142.0/255.0 blue:252.0/255.0 alpha:1.0]];
-    _payButton.showsTouchWhenHighlighted = YES;
-    _payButton.frame = CGRectMake(0, 0, 48.f, 48.f);
-    
-    [cellView addSubview:_payButton];
     
     int payNum = [list.status intValue];
     
@@ -170,7 +176,7 @@
             [_payButton addTarget:self action:@selector(beginCell:) forControlEvents:UIControlEventTouchUpInside];
             break;
         case 2:
-            _paytypeLabel.text = @"正报名";
+            _paytypeLabel.text = @"已爆满";
             [_payButton setTitle:@"开始" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(beginCell:) forControlEvents:UIControlEventTouchUpInside];
             break;

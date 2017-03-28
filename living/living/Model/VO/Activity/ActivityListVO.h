@@ -31,6 +31,7 @@
 @property(nonatomic, copy) NSString         *eventImg;
 @property(nonatomic, copy) NSString         *eventName;
 @property(nonatomic, strong) NSNumber       *currentNumber;
+@property(nonatomic, copy) NSString         *createTime;
 @property(nonatomic, copy) NSString         *startTime;
 @property(nonatomic, copy) NSString         *perCost;
 @property(nonatomic, copy) NSString         *discount;
@@ -38,6 +39,7 @@
 @property(nonatomic, strong) NSNumber       *status;
 @property (nonatomic, copy) NSString        * category;
 @property (nonatomic, copy) NSString        * type;
+@property (nonatomic, copy) NSString        * eventDetail;
 
 
 

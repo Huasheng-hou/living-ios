@@ -60,6 +60,7 @@ LMMypublicEventCellDelegate
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
 }
 
+#pragma mark - 请求我的活动列表
 - (FitBaseRequest *)request
 {
     LMCreaterListRequest   *request    = [[LMCreaterListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
@@ -84,19 +85,17 @@ LMMypublicEventCellDelegate
             return resultArr;
         }
     }
-    
     return nil;
 }
 
+#pragma mark - tableView代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
     
     if (h) {
-        
         return h;
     }
-    
     return 165;
 }
 
@@ -119,13 +118,11 @@ LMMypublicEventCellDelegate
     cell    = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     if (cell) {
-        
         return cell;
     }
-    
     cell    = [[LMMypublicEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     if (self.listData.count > indexPath.row) {
         
@@ -208,7 +205,7 @@ LMMypublicEventCellDelegate
     
 }
 
-#pragma mark  --开始活动
+#pragma mark  - -开始活动
 -(void)cellWillbegin:(LMMypublicEventCell *)cell
 {
     if (![CheckUtils isLink]) {
@@ -250,7 +247,7 @@ LMMypublicEventCellDelegate
     }
 }
 
-#pragma mark   --结束活动
+#pragma mark   - -结束活动
 
 - (void)cellWillfinish:(LMMypublicEventCell *)cell
 {
@@ -296,7 +293,7 @@ LMMypublicEventCellDelegate
     }
 }
 
-#pragma mark 删除活动  LMActivityDeleteRequest
+#pragma mark - 删除活动  LMActivityDeleteRequest
 
 - (void)cellWilldelete:(LMMypublicEventCell *)cell
 {

@@ -522,9 +522,12 @@ WJLoopViewDelegate
             cell = [[LMRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        LMRecommendVO * vo = _recommendArray[indexPath.row];
-        if (vo) {
-            [(LMRecommendCell *)cell setValue:vo];
+        if (_recommendArray.count > indexPath.row) {
+            LMRecommendVO * vo = _recommendArray[indexPath.row];
+            if (vo) {
+                [(LMRecommendCell *)cell setValue:vo];
+            }
+
         }
         return cell;
     }

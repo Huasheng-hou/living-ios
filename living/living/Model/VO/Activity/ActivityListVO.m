@@ -89,33 +89,36 @@
             self.eventName = [dictionary objectForKey:@"event_name"];
         }
         
-        if (nil != [dictionary objectForKey:@"current_num"] && ![[dictionary objectForKey:@"current_num"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"current_num"] isKindOfClass:[NSNumber class]]) {
-            self.currentNumber = [dictionary objectForKey:@"current_num"];
+        if (nil != [dictionary objectForKey:@"total_number"] && ![[dictionary objectForKey:@"total_number"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"total_number"] isKindOfClass:[NSNumber class]]) {
+            self.currentNumber = [dictionary objectForKey:@"total_number"];
         }
         
-//        if (nil != [dictionary objectForKey:@"start_time"] && ![[dictionary objectForKey:@"start_time"] isEqual:[NSNull null]]
-//            && [[dictionary objectForKey:@"start_time"] isKindOfClass:[NSString class]]) {
+//        if (nil != [dictionary objectForKey:@"create_time"] && ![[dictionary objectForKey:@"create_time"] isEqual:[NSNull null]]
+//            && [[dictionary objectForKey:@"create_time"] isKindOfClass:[NSString class]]) {
 //            
 //            NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
 //            
 //            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 //            
-//            self.StartTime = [formatter dateFromString:[dictionary objectForKey:@"start_time"]];
+//            self.createTime = (NSString *)[formatter dateFromString:[dictionary objectForKey:@"create_time"]];
 //        }
         
+        if (nil != [dictionary objectForKey:@"create_time"] && ![[dictionary objectForKey:@"create_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"create_time"] isKindOfClass:[NSString class]]) {
+            self.createTime = [dictionary objectForKey:@"create_time"];
+        }
         if (nil != [dictionary objectForKey:@"start_time"] && ![[dictionary objectForKey:@"start_time"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"start_time"] isKindOfClass:[NSString class]]) {
             self.startTime = [dictionary objectForKey:@"start_time"];
         }
-        
         if (nil != [dictionary objectForKey:@"per_cost"] && ![[dictionary objectForKey:@"per_cost"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"per_cost"] isKindOfClass:[NSString class]]) {
             self.perCost = [dictionary objectForKey:@"per_cost"];
         }
         
         if (nil != [dictionary objectForKey:@"discount"] && ![[dictionary objectForKey:@"discount"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"event_name"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"discount"] isKindOfClass:[NSString class]]) {
             self.discount = [dictionary objectForKey:@"discount"];
         }
         
@@ -124,7 +127,7 @@
             self.totalNumber = [dictionary objectForKey:@"total_num"];
         }
         if (nil != [dictionary objectForKey:@"status"] && ![[dictionary objectForKey:@"status"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"status"] isKindOfClass:[NSNumber class]]) {
             self.status = [dictionary objectForKey:@"status"];
         }
         if (nil != [dictionary objectForKey:@"category"] && ![[dictionary objectForKey:@"category"] isEqual:[NSNull null]]
