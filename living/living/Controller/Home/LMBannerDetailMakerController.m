@@ -435,6 +435,7 @@
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    
     LMBookLivingRequest * request = [[LMBookLivingRequest alloc] initWithName:nameTF.text andPhone:phoneTF.text andLivingUuid:@""];
     HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
                                          completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -473,6 +474,7 @@
        
         return;
     }
+    
     //移除当前视图
     [bgView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -83,13 +83,17 @@
         for (int i=0; i<array.count; i++) {
             
             LMRecommendExpertVO * vo = array[i];
+            
             _icon = [[UIImageView alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10, iconW, iconW)];
-            [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:nil];
+            _icon.tag = i;
             _icon.layer.masksToBounds = YES;
             _icon.layer.cornerRadius = 25;
-            _icon.backgroundColor = BG_GRAY_COLOR;
-            [_scrollView addSubview:_icon];
             _icon.userInteractionEnabled = YES;
+            _icon.backgroundColor = BG_GRAY_COLOR;
+            
+            [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:nil];
+            [_scrollView addSubview:_icon];
+            
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapIcon:)];
             [_icon addGestureRecognizer:tap];
             

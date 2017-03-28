@@ -70,7 +70,7 @@
     self.pullToRefreshView.defaultContentInset = UIEdgeInsetsMake(0, 0, 102, 0);
     
 }
-#pragma mark - 数据请求
+#pragma mark - 官方推荐达人数据请求
 - (FitBaseRequest *)request{
     
     [self getArticlesRequest];
@@ -110,56 +110,6 @@
     return nil;
 
 }
-#pragma mark - 官方推荐达人
-//- (void)getRecommendExpertRequest{
-//    if (![CheckUtils isLink]) {
-//        
-//        [self textStateHUD:@"无网络连接"];
-//        return;
-//    }
-//    LMExpertRecommendRequest * request = [[LMExpertRecommendRequest alloc] initWithCategory:_category];
-//    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
-//                                         completed:^(NSString *resp, NSStringEncoding encoding) {
-//        
-//                                             dispatch_async(dispatch_get_main_queue(), ^{
-//                                                
-//                                                 [self parseExpertsResp:resp];
-//                                                 
-//                                             });
-//                                             
-//                                        }
-//                                            failed:^(NSError *error) {
-//                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                                                                       withObject:@"网络错误"
-//                                                                    waitUntilDone:YES];
-//                                            }];
-//    
-//     [proxy start];
-//}
-//- (void)parseExpertsResp:(NSString *)resp{
-//    
-//    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-//    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData
-//                                                             options:NSJSONReadingMutableLeaves
-//                                                               error:nil];
-//    NSDictionary * headDic = [respDic objectForKey:@"head"];
-//    if (![[headDic objectForKey:@"returnCode"] isEqualToString:@"000"]) {
-//        return ;
-//    }
-//    NSDictionary * bodyDic = [VOUtil parseBody:resp];
-//    NSString * desp = [bodyDic objectForKey:@"description"];
-//    if ([[bodyDic objectForKey:@"result"] isEqualToString:@"0"]) {
-//        
-//        _recommendExpert = [LMRecommendExpertVO LMRecommendExpertVOListWithArray:[bodyDic objectForKey:@"list"]];
-//        [self.tableView reloadData];
-//    }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
-//        
-//        [self performSelectorOnMainThread:@selector(textStateHUD:)
-//                               withObject:desp
-//                            waitUntilDone:NO];
-//    }
-//
-//}
 #pragma mark - 官方推荐文章、活动、课程
 - (void)getArticlesRequest{
     if (![CheckUtils isLink]) {
@@ -207,18 +157,6 @@
             });
             
         }
-//        if (_articles.count == 0) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self textStateHUD:@"文章列表请求失败"];
-//            });
-//            
-//        }
-//        if (_voices.count == 0) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self textStateHUD:@"课程列表请求失败"];
-//            });
-//            
-//        }
         
         [self.tableView reloadData];
         
@@ -263,7 +201,7 @@
     return 175;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 30;
+    return 40;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     NSArray * nameList = @[@"| 腰果达人", @"| 热门文章", @"| 热门活动", @"| 热门课程"];
@@ -313,7 +251,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.count = _recommendExpert.count;
         cell.delegate = self;
-        if (_recommendExpert.count > 0) {
+        if (_recommendExpert.count > indexPath.row) {
             cell.count = _recommendExpert.count;
         
             [cell setArray:_recommendExpert];
@@ -327,9 +265,9 @@
             cell = [[LMNewHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotArticleCell"];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (_articles.count > 0) {
+        if (_articles.count > indexPath.row) {
             LMMoreArticlesVO * vo = _articles[indexPath.row];
-            [cell setVO:vo];
+            [cell setArticleVO:vo];
         }
         return cell;
 
@@ -341,7 +279,7 @@
         }
         cell.type = 1;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (_events.count > 0) {
+        if (_events.count > indexPath.row) {
             LMMoreEventsVO * vo = _events[indexPath.row];
             [cell setVO:vo];
         }
@@ -353,7 +291,7 @@
             cell = [[LMExpertHotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hotClassCell"];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (_voices.count > 0) {
+        if (_voices.count > indexPath.row) {
             LMMoreVoicesVO * vo = _voices[indexPath.row];
             [cell setVO:vo];
         }
@@ -366,7 +304,10 @@
 - (void)gotoNextPage:(NSInteger)index{
     
     LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
-    vc.title = @"李莺莺的空间";
+    
+    LMExpertListVO * vo = _recommendExpert[index];
+    vc.userUuid = vo.userUuid;
+    vc.title = [NSString stringWithFormat:@"%@的空间", vo.nickName];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self

@@ -394,7 +394,6 @@ WJLoopViewDelegate
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    [self initStateHud];
     LMEventListRequest * request = [[LMEventListRequest alloc] initWithPageIndex:1 andPageSize:PAGER_SIZE andCity:nil];
     HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
                                          completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -427,7 +426,6 @@ WJLoopViewDelegate
         [self textStateHUD:@"请求数据失败"];
         return;
     }
-    [self hideStateHud];
     NSArray * list = [bodyDic objectForKey:@"list"];
     _eventsArray = [LMEventListVO EventListVOListWithArray:list];
     

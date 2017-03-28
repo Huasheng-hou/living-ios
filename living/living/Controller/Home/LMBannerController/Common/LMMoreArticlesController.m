@@ -80,7 +80,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (self.listData.count > indexPath.row) {
         LMMoreArticlesVO * vo = self.listData[indexPath.row];
-        [cell setVO:vo];
+        [cell setArticleVO:vo];
     }
     return cell;
 }

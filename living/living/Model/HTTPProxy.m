@@ -18,7 +18,8 @@
 {
     HTTPProxy       *proxy  = [[HTTPProxy alloc] init];
     NSURLRequest    *urlReq = [request req];
-    
+    NSLog(@"%@%@", [request serverHost], [request methodPath]);
+    NSLog(@"%@", [request params]);
     proxy.oper = [[AFHTTPRequestOperation alloc] initWithRequest:urlReq];
     [proxy.oper setSuccessCallbackQueue:(dispatch_get_global_queue(0, 0))];
     [proxy.oper setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {

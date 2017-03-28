@@ -15,6 +15,7 @@
 
 @implementation LMExpertHotArticleCell
 {
+    UIView * shadow;
     
     UIImageView * _backImage;
     UILabel * _title;
@@ -50,6 +51,10 @@
         _teacher.text = @"费用 ¥68/人";
         _assistant.text = @"截止至02-14";
         [_appointment setTitle:@"火热预定中" forState:UIControlStateNormal];
+        
+        [_helper setHidden:YES];
+        [_microPhone setHidden:YES];
+        
     }
     else if (type == 2)
     {
@@ -58,7 +63,7 @@
 }
 
 - (void)setVO:(id)vo{
-    
+    NSLog(@"%@", [vo class]);
     if ([vo isKindOfClass:[LMMoreEventsVO class]]) {
         LMMoreEventsVO * voo = vo;
         [_backImage sd_setImageWithURL:[NSURL URLWithString:voo.eventImg] placeholderImage:[UIImage imageNamed:@"BackImage"]];
@@ -110,6 +115,10 @@
     _backImage.image = [UIImage imageNamed:@"BackImage"];
     [topView addSubview:_backImage];
     
+    shadow = [[UIView alloc] initWithFrame:_backImage.frame];
+    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [backView addSubview:shadow];
+    
     _title = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, CGRectGetWidth(topView.frame), 20)];
     _title.text = @"动手吧！好吃到飞起来的料理";
     _title.textColor = [UIColor whiteColor];
@@ -119,8 +128,8 @@
     
     _microPhone = [[UIImageView alloc] initWithFrame:CGRectMake(topView.bounds.size.width/2-90, CGRectGetMaxY(_title.frame)+10, 8, 15)];
     //_microPhone.backgroundColor = BG_GRAY_COLOR;
-    _microPhone.image = [UIImage imageNamed:@"zan-black"];
-    //[topView addSubview:_microPhone];
+    _microPhone.image = [UIImage imageNamed:@"jiangshi"];
+    [topView addSubview:_microPhone];
     
     _teacher = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_microPhone.frame)+2, CGRectGetMinY(_microPhone.frame), 80, 15)];
     _teacher.text = @"讲师：李莺莺";
@@ -131,8 +140,8 @@
     
     _helper = [[UIImageView alloc] initWithFrame:CGRectMake(topView.bounds.size.width/2, CGRectGetMinY(_microPhone.frame), 8, 15)];
     //_helper.backgroundColor = BG_GRAY_COLOR;
-    _helper.image = [UIImage imageNamed:@"zan-black"];
-    //[topView addSubview:_helper];
+    _helper.image = [UIImage imageNamed:@"zhuli"];
+    [topView addSubview:_helper];
     
     _assistant = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_helper.frame)+2, CGRectGetMinY(_helper.frame), 100, 15)];
     _assistant.text = @"助理讲师：圆圆";

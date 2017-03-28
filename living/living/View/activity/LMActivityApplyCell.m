@@ -36,18 +36,24 @@
 - (void)setVO:(ActivityListVO *)list{
 
     [_bKGImageView sd_setImageWithURL:[NSURL URLWithString:list.eventImg] placeholderImage:nil];
-    _bKGImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _bKGImageView.clipsToBounds = YES;
+    
     _titleLbl.text = list.eventName;
+    
     _detailLbl.text = [NSString stringWithFormat:@"¥%@ 会员价:%@  %@", list.perCost,list.discount, list.startTime];
+    
+    [_joinBtn setTitle:@"火热预定中" forState:UIControlStateNormal];
+    [_joinBtn setBackgroundColor:[UIColor orangeColor]];
 }
 -(void)initLayout
 {
     self.backgroundColor = [UIColor whiteColor];
     
     _bKGImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth - 20, 185)];
-    _bKGImageView.backgroundColor = [UIColor grayColor];
-    //_bKGImageView.image = [UIImage imageNamed:@"BackImage"];
+    _bKGImageView.backgroundColor = BG_GRAY_COLOR;
+    _bKGImageView.image = [UIImage imageNamed:@"BackImage"];
+    _bKGImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _bKGImageView.clipsToBounds = YES;
+
     [self.contentView addSubview:_bKGImageView];
     
     _shadow = [[UIView alloc] initWithFrame:_bKGImageView.frame];
@@ -56,23 +62,23 @@
     
     
     _titleLbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, kScreenWidth, 23)];
-    _titleLbl.text = @"情人节单身派对";
+    //_titleLbl.text = @"情人节单身派对";
     _titleLbl.font = TEXT_FONT_LEVEL_1;
     _titleLbl.textColor = [UIColor whiteColor];
     _titleLbl.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_titleLbl];
     
     _detailLbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 87, kScreenWidth, 14)];
-    _detailLbl.text = @"¥6666 会员价:¥5555  2017-03-30 15：30：00";
+    //_detailLbl.text = @"¥6666 会员价:¥5555  2017-03-30 15：30：00";
     _detailLbl.font = TEXT_FONT_LEVEL_3;
     _detailLbl.textColor = [UIColor whiteColor];
     _detailLbl.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_detailLbl];
     
     _joinBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2 - 47, 108, 94, 23)];
-    [_joinBtn setTitle:@"火热预定中" forState:UIControlStateNormal];
+    //[_joinBtn setTitle:@"火热预定中" forState:UIControlStateNormal];
     _joinBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
-    [_joinBtn setBackgroundColor:[UIColor orangeColor]];
+    //[_joinBtn setBackgroundColor:[UIColor orangeColor]];
     _joinBtn.layer.cornerRadius = 3;
 //    [_joinBtn addTarget:self action:@selector(joinBtnPress:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_joinBtn];

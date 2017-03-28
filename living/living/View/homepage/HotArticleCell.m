@@ -90,12 +90,12 @@
         shadow.frame = backImage.frame;
         
         title.frame = CGRectMake(20, 90, kScreenWidth-40, 20);
-        title.text = @"每个女生都有变美的潜质！";
+        //title.text = @"每个女生都有变美的潜质！";
         title.numberOfLines = 1;
         
         
         desp = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(title.frame), kScreenWidth-40, 40)];
-        desp.text = @"新年新计划，是时候开展一个属于你的音乐之旅，年后让小伙伴们眼前一亮哦";
+        //desp.text = @"新年新计划，是时候开展一个属于你的音乐之旅，年后让小伙伴们眼前一亮哦";
         desp.textColor = [UIColor whiteColor];
         desp.font = TEXT_FONT_LEVEL_3;
         desp.numberOfLines = 2;
@@ -123,15 +123,15 @@
     [backView addSubview:shadow];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, kScreenWidth-40, 45)];
-    title.text = @"用一束光的时间与你相遇青春不负的冬日";
+    //title.text = @"用一束光的时间与你相遇青春不负的冬日";
     title.textColor = [UIColor whiteColor];
     title.font = TEXT_FONT_BOLD_18;
     //title.numberOfLines = 2;
     [backView addSubview:title];
     
     icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(title.frame)+10, 25, 25)];
-    icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
-    icon.backgroundColor = COLOR_RED_LIGHT;
+    //icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
+    icon.backgroundColor = BG_GRAY_COLOR;
     icon.layer.masksToBounds = YES;
     icon.layer.cornerRadius = 13;
     [backView addSubview:icon];
@@ -144,16 +144,16 @@
     [backView addSubview:sign];
     
     name = [[UILabel alloc] initWithFrame:CGRectMake(60, 162.5, 60, 15)];
-    name.text = @"James";
+    //name.text = @"James";
     name.textColor = TEXT_COLOR_LEVEL_4;
     name.font = TEXT_FONT_LEVEL_3;
     [backView addSubview:name];
     
     tag = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(name.frame)+10, 162.5, 55, 15)];
-    tag.text = @"Yao·美丽";
+    //tag.text = @"Yao·美丽";
     tag.textAlignment = NSTextAlignmentCenter;
     tag.textColor = [UIColor whiteColor];
-    tag.backgroundColor = COLOR_RED_LIGHT;
+    //tag.backgroundColor = COLOR_RED_LIGHT;
     tag.layer.masksToBounds = YES;
     tag.layer.cornerRadius = 2;
     tag.font = TEXT_FONT_LEVEL_4 ;

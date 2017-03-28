@@ -27,14 +27,14 @@
 - (void)addSubViews{
     
     _icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 25, 25)];
-    _icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
+    //_icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
     _icon.backgroundColor = BG_GRAY_COLOR;
     _icon.layer.masksToBounds = YES;
     _icon.layer.cornerRadius = 3;
     [self.contentView addSubview:_icon];
     
     _name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+10, 15, kScreenWidth-70, 15)];
-    _name.text = @"成都生活馆";
+    //_name.text = @"成都生活馆";
     _name.textColor = TEXT_COLOR_LEVEL_4;
     _name.font = TEXT_FONT_BOLD_14;
     [self.contentView addSubview:_name];

@@ -18,6 +18,11 @@
         
         NSMutableDictionary * body = [NSMutableDictionary new];
         
+        if (city) {
+            [body setObject:city forKey:@"city"];
+        }
+        
+        
         NSMutableDictionary * bodyDic = [self params];
         [bodyDic setObject:body forKey:@"body"];
     }
@@ -25,11 +30,11 @@
 }
 
 - (BOOL)isPost{
-    return NO;
+    return YES;
 }
 
 - (NSString *)methodPath{
-    return [NSString stringWithFormat:@"living/maker/%@", _city];
+    return @"living/maker";
 }
 
 @end

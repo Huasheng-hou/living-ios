@@ -44,14 +44,14 @@
     
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(120, 0, kScreenWidth-130, 25)];
-    title.text = @"比较大的大提琴体验课";
+    //title.text = @"比较大的大提琴体验课";
     title.textColor = TEXT_COLOR_LEVEL_3;
     title.font = TEXT_FONT_BOLD_14;
     [backView addSubview:title];
     
     
     summary = [[UILabel alloc] initWithFrame:CGRectMake(120, 30, kScreenWidth-130, 40)];
-    summary.text = @"新年新计划，是时候开展一个属于你的音乐之旅，年后让你周围的小伙伴眼前一亮哦";
+    //summary.text = @"新年新计划，是时候开展一个属于你的音乐之旅，年后让你周围的小伙伴眼前一亮哦";
     summary.textColor = TEXT_COLOR_LEVEL_3;
     summary.font = TEXT_FONT_LEVEL_3;
     summary.numberOfLines = 2;
@@ -59,7 +59,7 @@
     [backView addSubview:summary];
     
     icon = [[UIImageView alloc] initWithFrame:CGRectMake(120, 70, 20, 20)];
-    icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
+    //icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
     icon.backgroundColor = BG_GRAY_COLOR;
     icon.layer.masksToBounds = YES;
     icon.layer.cornerRadius = 10;
@@ -71,16 +71,16 @@
     [backView addSubview:sign];
     
     name = [[UILabel alloc] initWithFrame:CGRectMake(150, 72.5, 60, 15)];
-    name.text = @"欧阳夏丹";
+    //name.text = @"欧阳夏丹";
     name.textColor = TEXT_COLOR_LEVEL_4;
     name.font = TEXT_FONT_LEVEL_3;
     [backView addSubview:name];
     
     tag = [[UILabel alloc] initWithFrame:CGRectMake(210, 72.5, 55, 15)];
-    tag.text = @"Yao·美丽";
+    //tag.text = @"Yao·美丽";
     tag.textAlignment = NSTextAlignmentCenter;
     tag.textColor = [UIColor whiteColor];
-    tag.backgroundColor = [UIColor redColor];
+    //tag.backgroundColor = [UIColor redColor];
     tag.layer.masksToBounds = YES;
     tag.layer.cornerRadius = 2;
     tag.font = TEXT_FONT_LEVEL_4 ;

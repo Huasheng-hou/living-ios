@@ -36,6 +36,8 @@
     NSArray * _events;
     NSArray * _voices;
     
+    
+    LMExpertSpaceVO * expertVO;
     LMExpertDetailView * headerView;
 }
 - (instancetype)init{
@@ -58,7 +60,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = BG_GRAY_COLOR;
     
-    headerView = [[LMExpertDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth+10)];
+    headerView = [[LMExpertDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
     self.tableView.tableHeaderView = headerView;
     
 }
@@ -91,8 +93,7 @@
     }
     //处理返回数据
     //达人信息 model存到headerView
-    LMExpertSpaceVO * expertVO = [[LMExpertSpaceVO alloc] initWithDictionary:bodyDic[@"userInfo"]];
-    [headerView setValue:expertVO];
+    expertVO = [[LMExpertSpaceVO alloc] initWithDictionary:bodyDic[@"userInfo"]];
     
     //文章 model存到_articles
     _articles = [LMMoreArticlesVO LMMoreArticlesVOWithArray:[bodyDic objectForKey:@"articles_body"]];
@@ -102,7 +103,7 @@
     _events = [LMMoreEventsVO LMMoreEventsVOListWithArray:[bodyDic objectForKey:@"events_body"]];
     
     
-    //项目 model存到_voices
+    //课堂 model存到_voices
     _voices = [LMMoreVoicesVO LMMoreVoicesVOWithArray:[bodyDic objectForKey:@"voices_body"]];
     
     
@@ -204,6 +205,9 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    
+    [headerView setValue:expertVO];
+    
     if (indexPath.section == 0) {
         LMNewHotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"hotArticleCell"];
         if (!cell) {
@@ -212,7 +216,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (_articles.count > indexPath.row) {
             LMMoreArticlesVO * vo = _articles[indexPath.row];
-            [cell setVO:vo];
+            [cell setArticleVO:vo];
         }
         
         return cell;
@@ -225,8 +229,8 @@
         }
         cell.type = 1;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (_articles.count > indexPath.row) {
-            LMMoreEventsVO * vo = _articles[indexPath.row];
+        if (_events.count > indexPath.row) {
+            LMMoreEventsVO * vo = _events[indexPath.row];
             [cell setVO:vo];
         }
         return cell;
@@ -238,8 +242,8 @@
         }
         cell.type = 2;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (_articles.count > indexPath.row) {
-            LMMoreVoicesVO * vo = _articles[indexPath.row];
+        if (_voices.count > indexPath.row) {
+            LMMoreVoicesVO * vo = _voices[indexPath.row];
             [cell setVO:vo];
         }
         return cell;
