@@ -10,4 +10,8 @@
 
 @interface LMWriteReviewController : FitTableViewController
 
+@property (nonatomic, copy) NSString * eventUuid;
+
+@property (nonatomic, copy) NSString * eventName;
+
 @end

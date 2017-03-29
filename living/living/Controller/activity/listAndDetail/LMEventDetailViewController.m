@@ -51,6 +51,8 @@
 #import "LMEvaluateViewController.h"
 #import "LMEventDetailJudgeListCell.h"
 
+#import "LMWriteReviewController.h"
+
 
 static CGRect oldframe;
 @interface LMEventDetailViewController ()
@@ -307,13 +309,15 @@ APChooseViewDelegate
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
-        if (eventDic.status==3||eventDic.status==4) {
+        if (eventDic.status==3) {
             status = @"结束";
         }
         if (eventDic.status==1||eventDic.status==2) {
             status = @"开始";
         }
-        
+        if (eventDic.status == 4) {
+            status = @"完结";
+        }
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
@@ -330,6 +334,10 @@ APChooseViewDelegate
             
             if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
+                self.navigationItem.rightBarButtonItem = rightItem;
+            }
+            if ([status isEqualToString:@"完结"]) {
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"回顾" style:UIBarButtonItemStylePlain target:self action:@selector(review)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
         }
@@ -634,15 +642,17 @@ APChooseViewDelegate
     if (count > 0) {
         labH += 25;
     }
-    
-    
-    
     return labH;
 }
 
 
 #pragma mark - 评价
 - (void)judge:(id)sender{
+    
+    if (!eventDic.isBuy) {
+        [self textStateHUD:@"您尚未购买"];
+        return;
+    }
     
     LMEvaluateViewController * evaluateVC = [[LMEvaluateViewController alloc] init];
     evaluateVC.eventVO = eventDic;
@@ -656,8 +666,12 @@ APChooseViewDelegate
     [self cellWillApply:nil];
 }
 
+- (void)APChooseViewClose{
+    self.navigationController.navigationBar.hidden = NO;
+}
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
+    self.navigationController.navigationBar.hidden = YES;
     if ([[FitUserManager sharedUserManager] isLogin]){
         
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
@@ -1374,6 +1388,17 @@ APChooseViewDelegate
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
         }
     }
+}
+#pragma mark - 撰写活动回顾
+- (void)review{
+    
+    LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
+    
+    reviewVC.eventName = eventDic.eventName;
+    reviewVC.eventUuid = eventDic.eventUuid;
+    
+    [self.navigationController pushViewController:reviewVC animated:YES];
+    
 }
 
 #pragma mark   --结束活动

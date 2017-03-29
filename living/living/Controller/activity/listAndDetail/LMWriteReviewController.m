@@ -137,7 +137,9 @@ static NSMutableArray *cellDataArray;
     
     //标题
     titleTF = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, kScreenWidth-20, 44.5)];
-    titleTF.placeholder = @"活动标题，不可修改";
+    titleTF.placeholder = @"活动名称，不可修改";
+    titleTF.text = self.eventName;
+    titleTF.textColor = TEXT_COLOR_LEVEL_2;
     [titleTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
     titleTF.delegate = self;
     titleTF.enabled = NO;
@@ -889,7 +891,7 @@ static NSMutableArray *cellDataArray;
     }
     
     self.navigationItem.rightBarButtonItem.enabled  = NO;
-    LMWriteReviewRequest * request = [[LMWriteReviewRequest alloc] initWithEventUuid:@"" andEventContent:cont andEventImgs:array andBlend:new andDescribe:discribleTF.text andTitle:titleTF.text andCategory:typeString];
+    LMWriteReviewRequest * request = [[LMWriteReviewRequest alloc] initWithEventUuid:_eventUuid andEventContent:cont andEventImgs:array andBlend:new andDescribe:discribleTF.text andTitle:titleTF.text andCategory:typeString];
 //    LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
 //                                                                                   Article_title:titleTF.text
 //                                                                                      Descrition:discribleTF.text

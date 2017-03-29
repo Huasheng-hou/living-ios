@@ -14,7 +14,7 @@
 
 @protocol LMChooseViewDelegate <NSObject>
 -(void)LMChooseViewSelectItem;
-
+- (void)LMChooseViewClose;
 @end
 
 @interface LMChooseView : UIView

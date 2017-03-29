@@ -17,6 +17,8 @@
 
 -(void)APChooseViewSelectItem:(NSInteger)num;
 
+- (void)APChooseViewClose;
+
 @end
 
 @interface APChooseView : UIView

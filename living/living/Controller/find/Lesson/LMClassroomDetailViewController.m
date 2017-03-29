@@ -817,12 +817,17 @@ LMChooseViewDelegate
     }
 }
 
+- (void)LMChooseViewClose{
+    self.navigationController.navigationBar.hidden = NO;
+}
 - (void)cellWillApply:(LMVoiceHeaderCell *)cell
 {
+    
     if (eventDic.isBuy == YES) {
         [self textStateHUD:@"您已报名"];
         return;
     }
+    self.navigationController.navigationBar.hidden = YES;
     if ([[FitUserManager sharedUserManager] isLogin]){
         
         LMChooseView *infoView = [[LMChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];

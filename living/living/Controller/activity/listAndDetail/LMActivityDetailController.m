@@ -888,8 +888,13 @@ APChooseViewDelegate
     [self cellWillApply:nil];
 }
 
+- (void)APChooseViewClose{
+    self.navigationController.navigationBar.hidden = NO;
+}
+
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
+    self.navigationController.navigationBar.hidden = YES;
     if ([[FitUserManager sharedUserManager] isLogin]){
 
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
