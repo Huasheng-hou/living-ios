@@ -61,7 +61,8 @@ LMActivityheadCellDelegate,
 LMLeavemessagecellDelegate,
 LMEventMsgCellDelegate,
 LMActivityMsgCellDelegate,
-shareTypeDelegate
+shareTypeDelegate,
+APChooseViewDelegate
 >
 {
     UILabel  *tipLabel;
@@ -92,6 +93,11 @@ shareTypeDelegate
     
     UIImage *bigImage;
 
+    
+    NSString *nameString;
+    NSString *phoneString;
+    NSString *telephoneString;
+    
 }
 
 @end
@@ -104,14 +110,14 @@ shareTypeDelegate
     [super viewWillAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     [self scrollViewDidScroll:self.tableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadComment:) name:@"reloadComment" object:nil];
+    
+    
 }
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+- (void)reloadComment:(NSNotification *)noti{
+    [self getEventListDataRequest];
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -241,6 +247,17 @@ shareTypeDelegate
         
         if ([headDic[@"sign"] isEqual:@"menber"]) {
             vipString = @"vipString";
+        }
+        if (headDic[@"telphone"]&&![headDic[@"telphone"] isEqual:@"" ]) {
+            telephoneString= headDic[@"telphone"];
+        }
+        
+        if (headDic[@"phone"]&&![headDic[@"phone"] isEqual:@"" ]) {
+            phoneString = headDic[@"phone"];
+        }
+        
+        if (headDic[@"name"]&&![headDic[@"name"] isEqual:@"" ]) {
+            nameString = headDic[@"name"];
         }
     }
     
@@ -613,17 +630,233 @@ shareTypeDelegate
     
     NSInteger labH = label.frame.size.height;
 
+    
+    if (count > 0) {
+        labH += 25;
+    }
+    
+    
+    
     return labH;
 }
 
 
 #pragma mark - 评价
 - (void)judge:(id)sender{
+    
     LMEvaluateViewController * evaluateVC = [[LMEvaluateViewController alloc] init];
-    evaluateVC.eventUuid = self.eventUuid;
+    evaluateVC.eventVO = eventDic;
     [self.navigationController pushViewController:evaluateVC animated:YES];
     
+}
+#pragma mark - LMActivityheadCell delegate -活动报名
+
+- (void)shouldJoinActivity
+{
+    [self cellWillApply:nil];
+}
+
+- (void)cellWillApply:(LMActivityheadCell *)cell
+{
+    if ([[FitUserManager sharedUserManager] isLogin]){
+        
+        APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        infoView.delegate = self;
+        infoView.event  = eventDic;
+        
+        infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
+        infoView.titleLabel.text = @"￥:10000";
+        infoView.titleLabel.textColor = LIVING_REDCOLOR;
+        infoView.titleLabel.font = [UIFont systemFontOfSize:17];
+        [infoView.bottomView addSubview:infoView.titleLabel];
+        
+        infoView.title2 = [UILabel new];
+        infoView.title2.text = @"￥:10000";
+        infoView.title2.textColor = TEXT_COLOR_LEVEL_2;
+        infoView.title2.font = [UIFont systemFontOfSize:15];
+        
+        [infoView.bottomView addSubview:infoView.title2];
+        
+        if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
+            
+            
+            infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
+            [infoView.titleLabel sizeToFit];
+            infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+            
+            infoView.title2.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
+            [infoView.title2 sizeToFit];
+            infoView.title2.frame = CGRectMake(155+infoView.titleLabel.bounds.size.width, 25, infoView.title2.bounds.size.width, 30);
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(155+infoView.titleLabel.bounds.size.width, 40, infoView.title2.bounds.size.width+2, 1.5)];
+            line.backgroundColor = TEXT_COLOR_LEVEL_3;
+            [infoView.bottomView addSubview:line];
+            
+        }else{
+            infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.perCost];
+            [infoView.titleLabel sizeToFit];
+            infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
+            
+        }
+        if (eventDic.notices==nil) {
+            infoView.dspLabel.text = @"暂无报名须知";
+        }else{
+            infoView.dspLabel.text = eventDic.notices;
+        }
+        
+        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
+        
+        [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
+        
+        infoView.orderInfo = orderDic;
+        
+        [self.view addSubview:infoView];
+        
+        UIView *view = [infoView viewWithTag:1000];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            
+            view.frame = CGRectMake(0, kScreenHeight-425,self.view.bounds.size.width, 425);
+        }];
+    } else {
+        
+        [self IsLoginIn];
+    }
+}
+
+- (void)APChooseViewSelectItem:(NSInteger)num
+{
+    if (phoneString&&![phoneString isEqualToString:@""]) {
+        if (![CheckUtils isLink]) {
+            
+            [self textStateHUD:@"无网络"];
+            return;
+        }
+        
+        [self initStateHud];
+        
+        
+        NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+        
+        LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:phoneString];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        if (telephoneString&&![telephoneString isEqual:@""]) {
+            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+            
+            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }else{
+            
+        }
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
+        //增加确定按钮；
+        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //获取第1个输入框；
+            nameString = alertController.textFields.firstObject.text;
+            
+            phoneString = alertController.textFields.lastObject.text;
+            
+            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+            
+            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+            
+            
+        }]];
+        
+        //增加取消按钮；
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+        
+        //定义第一个输入框；
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入真实姓名";
+        }];
+        
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入手机号";
+        }];
+        
+        
+        [self presentViewController:alertController animated:true completion:nil];
+    }
     
+    
+}
+
+- (void)getEventjoinDataResponse:(NSString *)resp
+{
+    NSDictionary *bodyDic = [VOUtil parseBody:resp];
+    
+    [self logoutAction:resp];
+    
+    
+    if (!bodyDic) {
+        
+        [self textStateHUD:@"报名失败"];
+    }
+    if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+        
+        [self textStateHUD:@"报名成功"];
+        NSString *orderID = [bodyDic objectForKey:@"order_uuid"];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
+            
+            OrderVC.orderUUid   = orderID;
+            OrderVC.dict        = orderDic;
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            self.navigationController.navigationBar.hidden  = NO;
+            
+            FitNavigationController     *navVC  = [[FitNavigationController alloc] initWithRootViewController:OrderVC];
+            [self presentViewController:navVC animated:YES completion:nil];
+        });
+        
+    } else {
+        
+        NSString *str = [bodyDic objectForKey:@"description"];
+        [self textStateHUD:str];
+    }
 }
 
 

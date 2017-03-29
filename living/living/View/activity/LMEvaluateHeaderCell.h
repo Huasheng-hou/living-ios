@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LMEventBodyVO.h"
 @interface LMEvaluateHeaderCell : UITableViewCell
+
+- (void)setData:(LMEventBodyVO *)vo;
 
 @end

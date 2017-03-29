@@ -100,17 +100,6 @@
     
 }
 
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@""]) {
-        _placeholderLbl.text = @"说点什么吧，您的评价很重要哦！";
-    }else{
-        _placeholderLbl.text = @"";
-    }
-}
-
-
 -(void)setArray:(NSMutableArray *)array
 {
     _array = array;
@@ -123,6 +112,22 @@
     self.contentView.frame = CGRectMake(0, 10, kScreenWidth, _imageV.frame.size.height+155);
     
 }
+
+#pragma mark - textview代理
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@""]) {
+        _placeholderLbl.text = @"说点什么吧，您的评价很重要哦！";
+    }else{
+        _placeholderLbl.text = @"";
+    }
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    
+    [self.delegate getCommentText:textView.text];
+}
+
 
 
 

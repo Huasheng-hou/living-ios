@@ -159,7 +159,7 @@
     title.attributedText = attr;
     [backView addSubview:title];
     
-    UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 80, 20)];
+    UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-90-10, 10, 90, 20)];
     lookMore.text = @"更多 >";
     lookMore.tag = section;
     lookMore.textAlignment = NSTextAlignmentRight;

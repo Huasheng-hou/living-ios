@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^SubmitSelectedBlock)();
+
 
 @interface LMEvaluateSubmitCell : UITableViewCell
 
-@property (nonatomic, copy)SubmitSelectedBlock submitSelectedBlock;
+
+@property (nonatomic, strong) UIButton *submitBtn;
 
 @end

@@ -11,7 +11,7 @@
 
 @interface LMEvaluateSubmitCell ()
 
-@property (nonatomic, strong) UIButton *submitBtn;
+
 
 @end
 
@@ -34,24 +34,9 @@
     [_submitBtn setTitle:@"提交评价" forState:UIControlStateNormal];
     _submitBtn.backgroundColor = ORANGE_COLOR;
     _submitBtn.layer.cornerRadius = 5;
-    [_submitBtn addTarget:self action:@selector(submintBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_submitBtn];
+    
 }
 
-- (void)submintBtnPressed:(UIButton *)btn
-{
-    self.submitSelectedBlock();
-}
-
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-}
 
 @end

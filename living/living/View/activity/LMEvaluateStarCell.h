@@ -15,13 +15,17 @@
 
 - (void)getStarValue:(NSInteger)value;
 
+- (void)getCommentText:(NSString *)content;
+
 @end
 
 
 @interface LMEvaluateStarCell : UITableViewCell
 
 @property (nonatomic, strong)EditImageView *imageV;
+
 @property (nonatomic, weak) id<LMEvaluateStarDelegate> delegate;
+
 @property(nonatomic,strong)NSMutableArray *array;
 
 

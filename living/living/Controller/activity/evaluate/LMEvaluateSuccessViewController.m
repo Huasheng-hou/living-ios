@@ -27,7 +27,9 @@
 
 - (void)rightBarButtonPressed:(UIBarButtonItem *)barButtonItem
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadComment" object:nil];
+    
+    [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
 }
 
 - (void)createUI
@@ -52,10 +54,7 @@
     [self.view addSubview:thinksLbl];
     
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
+
 
 
 @end

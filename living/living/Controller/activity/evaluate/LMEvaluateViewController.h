@@ -7,10 +7,10 @@
 //
 
 #import "FitTableViewController.h"
-
+#import "LMEventBodyVO.h"
 
 @interface LMEvaluateViewController : FitTableViewController
 
-@property (nonatomic, copy) NSString * eventUuid;
+@property (nonatomic, strong) LMEventBodyVO * eventVO;
 
 @end

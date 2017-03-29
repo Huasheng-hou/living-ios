@@ -94,16 +94,21 @@ WJLoopViewDelegate
     
     return self;
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.showView dismissView];
+    [UIApplication sharedApplication].statusBarHidden = NO;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self creatUI];
     //[self creatImage];
-    
-//    [self getBannerDataRequest];
-//    [self getEventsRequest];
+
     [self loadNewer];
+    
     __weak typeof(self) weakSelf = self;
     [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
         weakSelf.isShow = NO;
@@ -129,22 +134,6 @@ WJLoopViewDelegate
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.showView dismissView];
-    [UIApplication sharedApplication].statusBarHidden = NO;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-//    if (self.listData.count == 0) {
-//        
-//        [self loadNoState];
-//    }
-}
 
 - (void)creatUI
 {
@@ -243,8 +232,9 @@ WJLoopViewDelegate
             
             [headView addSubview:loopView];
         }
+    }else{
+        
     }
-
 }
 #pragma mark - WJLoopViewDelegate
 -(void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
@@ -311,10 +301,8 @@ WJLoopViewDelegate
 #pragma  mark - 请求活动数据
 - (FitBaseRequest *)request
 {
-    
     [self getBannerDataRequest];
     [self getEventsRequest];
-    
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
     NSString *cityStr;
     for (NSString *string in searchArr) {
@@ -368,6 +356,7 @@ WJLoopViewDelegate
         NSArray *resultArr  = [ActivityListVO ActivityListVOListWithArray:[bodyDict objectForKey:@"list"]];
         
         
+        
         if (resultArr.count==0) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 homeImage.hidden = NO;
@@ -418,14 +407,19 @@ WJLoopViewDelegate
     NSDictionary * headDic = [respDic objectForKey:@"head"];
     if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
         [self textStateHUD:@"验证失败"];
+        
         return;
     }
     
     NSDictionary * bodyDic = [VOUtil parseBody:resp];
     if (![bodyDic[@"result"] isEqualToString:@"0"]) {
         [self textStateHUD:@"请求数据失败"];
+        
         return;
     }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self hideStateHud];
+    });
     NSArray * list = [bodyDic objectForKey:@"list"];
     _eventsArray = [LMEventListVO EventListVOListWithArray:list];
     
@@ -451,7 +445,10 @@ WJLoopViewDelegate
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    if (section == 0) {
+        return self.listData.count > 2 ? 2 : self.listData.count;
+    }
+    return _eventsArray.count > 2 ? 2 : _eventsArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
