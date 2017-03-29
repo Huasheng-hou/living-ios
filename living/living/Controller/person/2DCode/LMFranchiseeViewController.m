@@ -28,6 +28,9 @@
 #import "LMFranchiseeResultAliRequest.h"
 #import "LMFranchiseeChargePayRequest.h"
 
+#import "LMPersonInfoRequest.h"
+
+
 @interface LMFranchiseeViewController ()
 <
 UITableViewDelegate,
@@ -44,6 +47,9 @@ liveNameProtocol
     NSString *rechargeOrderUUID;
     UIView *footView;
     NSString *type;
+    
+    NSString * money;
+    int year;
 }
 
 @end
@@ -60,7 +66,7 @@ liveNameProtocol
 {
     [super viewDidLoad];
     [self createUI];
-    
+    [self loadNewer];
     // * 微信支付被用户取消
     //
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -88,6 +94,8 @@ liveNameProtocol
                                                  name:@"aliPayEnsure"
                                                object:nil];
 }
+
+
 
 - (void)createUI
 {
@@ -150,6 +158,42 @@ liveNameProtocol
     
     [table setTableFooterView:footView];
 }
+
+#pragma mark - 请求个人信息
+- (FitBaseRequest *)request{
+    LMPersonInfoRequest * request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].userId];
+    
+    return request;
+}
+- (NSArray *)parseResponse:(NSString *)resp{
+    
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"身份验证失败"];
+        });
+        return nil;
+    }
+    if (![bodyDict[@"result"] isEqualToString:@"0"]) {
+        return nil;
+    }
+    NSDictionary * userInfo = [bodyDict objectForKey:@"userInfo"];
+    year = [[userInfo objectForKey:@"life"] intValue];
+    [table reloadData];
+    
+    return nil;
+
+    
+}
+
 
 -(void)agreeAction:(UIButton *)button{
     
@@ -301,7 +345,24 @@ liveNameProtocol
             [addcell.contentView addSubview:label];
             
             UILabel *price = [UILabel new];
-            price.text = @"￥3600";
+            if (year == 0) {
+                price.text = @"￥3600";
+                money = @"3600";
+            }
+            else if (year == 1){
+                price.text = @"￥3000";
+                money = @"3000";
+            }else if (year == 2){
+                price.text = @"￥2400";
+                money = @"2400";
+            }else if (year == 3){
+                price.text = @"1800";
+                money = @"1800";
+            }else if (year >= 4){
+                price.text = @"￥1200";
+                money = @"1200";
+            }
+            
             price.textColor = LIVING_REDCOLOR;
             [addcell.contentView addSubview:price];
             
@@ -457,7 +518,7 @@ liveNameProtocol
     
     [self initStateHud];
     
-    LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
+    LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:money andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -602,7 +663,7 @@ liveNameProtocol
     }
     
     [self initStateHud];
-    LMFranchiseeAliPayRequest   *request = [[LMFranchiseeAliPayRequest alloc] initWithAliRecharge:@"3600"
+    LMFranchiseeAliPayRequest   *request = [[LMFranchiseeAliPayRequest alloc] initWithAliRecharge:money
                                                                                     andLivingUuid:_liveUUID
                                                                                          andPhone:headcell.NumTF.text
                                                                                           andName:headcell.NameTF.text];
@@ -735,7 +796,7 @@ liveNameProtocol
                                                     [self textStateHUD:@"无网络连接"];
                                                     return;
                                                 }
-                                                LMFranchiseeChargePayRequest *request = [[LMFranchiseeChargePayRequest alloc] initWithPayRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
+                                                LMFranchiseeChargePayRequest *request = [[LMFranchiseeChargePayRequest alloc] initWithPayRecharge:money andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
                                                 HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                                                        completed:^(NSString *resp, NSStringEncoding encoding) {
                                                                                            

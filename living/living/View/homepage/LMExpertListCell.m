@@ -46,7 +46,7 @@
         _icon = [[UIImageView alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10, iconW, iconW)];
         _icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
         _icon.layer.masksToBounds = YES;
-        _icon.layer.cornerRadius = 24;
+        _icon.layer.cornerRadius = 28;  //24
         _icon.backgroundColor = BG_GRAY_COLOR;
         [_scrollView addSubview:_icon];
         _icon.userInteractionEnabled = YES;
@@ -87,7 +87,13 @@
             _icon = [[UIImageView alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10, iconW, iconW)];
             _icon.tag = i;
             _icon.layer.masksToBounds = YES;
-            _icon.layer.cornerRadius = 25;
+            if (kScreenWidth == 320) {
+                _icon.layer.cornerRadius = 24;
+            }
+            if (kScreenWidth > 320) {
+                _icon.layer.cornerRadius = 28;
+            }
+            
             _icon.userInteractionEnabled = YES;
             _icon.backgroundColor = BG_GRAY_COLOR;
             
