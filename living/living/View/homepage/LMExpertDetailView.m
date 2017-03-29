@@ -38,7 +38,7 @@
     
     _icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, w, backView.frame.size.height-20)];
     _icon.image = [UIImage imageNamed:@"BackImage"];
-    _icon.contentMode = UIViewContentModeScaleToFill;
+    _icon.contentMode = UIViewContentModeScaleAspectFill;
     _icon.clipsToBounds = YES;
     _icon.backgroundColor = BG_GRAY_COLOR;
     [backView addSubview:_icon];

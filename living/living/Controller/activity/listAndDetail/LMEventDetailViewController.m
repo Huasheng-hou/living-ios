@@ -47,6 +47,11 @@
 #import "LMEventDetailMsgCell.h"
 
 
+#import "LMEventDetailJudgeHeadCell.h"
+#import "LMEvaluateViewController.h"
+#import "LMEventDetailJudgeListCell.h"
+
+
 static CGRect oldframe;
 @interface LMEventDetailViewController ()
 <
@@ -201,6 +206,7 @@ shareTypeDelegate
     }
     
     LMActivityDetailRequest *request = [[LMActivityDetailRequest alloc] initWithEvent_uuid:_eventUuid];
+    request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -373,6 +379,16 @@ shareTypeDelegate
             }
         }
     }
+    if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
+            return 100;
+        }
+        else if(msgArray.count == 0){
+            return 80;
+        }
+        LMEventCommentVO * vo = msgArray[indexPath.row-1];
+        return [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 90;
+    }
     
     return 0;
 }
@@ -436,6 +452,9 @@ shareTypeDelegate
         
         return headView;
     }
+    if (section == 3) {
+        return nil;
+    }
     
     return nil;
 }
@@ -452,6 +471,9 @@ shareTypeDelegate
     if (section==2) {
         return 40;
     }
+    if (section==3) {
+        return 5;
+    }
     return 0;
 }
 
@@ -462,13 +484,16 @@ shareTypeDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==2) {
         return eventArray.count;
+    }
+    if (section == 3) {
+        return msgArray.count == 0 ? 2 : msgArray.count + 1;
     }
     return 1;
 }
@@ -538,9 +563,69 @@ shareTypeDelegate
         return cell;
     }
     
+    if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
+            LMEventDetailJudgeHeadCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            if (!cell) {
+                cell = [[LMEventDetailJudgeHeadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.judge addTarget:self action:@selector(judge:) forControlEvents:UIControlEventTouchUpInside];
+            return cell;
+        }
+        else if (msgArray.count == 0) {
+            UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"noCell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"noCell"];
+            }
+            cell.textLabel.text = @"暂无评价";
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.font = TEXT_FONT_LEVEL_2;
+            cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
+            return cell;
+        }
+        LMEventDetailJudgeListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"judgeContentCell"];
+        if (!cell) {
+            cell = [[LMEventDetailJudgeListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"judgeContentCell"];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (msgArray.count > indexPath.row-1) {
+            LMEventCommentVO * vo = msgArray[indexPath.row-1];
+            [cell setData:vo];
+        }
+        
+        
+        return cell;
+    }
+    
     
     return nil;
 }
+
+#pragma mark - 根据内容cell自适应
+- (NSInteger)getHeightWithContent:(NSString *)content andImageCount:(NSInteger)count{
+    
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth-20, 0)];
+    label.text = content;
+    label.font = TEXT_FONT_LEVEL_2;
+    label.numberOfLines = -1;
+    [label sizeToFit];
+    
+    NSInteger labH = label.frame.size.height;
+
+    return labH;
+}
+
+
+#pragma mark - 评价
+- (void)judge:(id)sender{
+    LMEvaluateViewController * evaluateVC = [[LMEvaluateViewController alloc] init];
+    evaluateVC.eventUuid = self.eventUuid;
+    [self.navigationController pushViewController:evaluateVC animated:YES];
+    
+    
+}
+
 
 #pragma mark 拨打电话
 

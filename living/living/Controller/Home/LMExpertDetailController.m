@@ -23,7 +23,7 @@
 #import "LMExpertSpaceVO.h"
 
 #import "LMHomeDetailController.h"
-#import "LMEventDetailViewController.h"
+#import "LMActivityDetailController.h"
 #import "LMHomeVoiceDetailController.h"
 
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
@@ -121,7 +121,17 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 2;
+    if (section == 0) {
+        return _articles.count > 2 ? 2 : _articles.count;
+    }
+    if (section == 1) {
+        return _events.count > 2 ? 2 : _events.count;
+    }
+    if (section == 2) {
+        return _voices.count > 2 ? 2 : _voices.count;
+    }
+    
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -149,7 +159,7 @@
     title.attributedText = attr;
     [backView addSubview:title];
     
-    UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 60, 20)];
+    UILabel * lookMore = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-60-10, 10, 80, 20)];
     lookMore.text = @"更多 >";
     lookMore.tag = section;
     lookMore.textAlignment = NSTextAlignmentRight;
@@ -160,6 +170,19 @@
     [lookMore addGestureRecognizer:tap];
     [backView addSubview:lookMore];
     
+    
+    if (section == 0 && _articles.count == 0) {
+        lookMore.text = @"暂无更多文章";
+        lookMore.userInteractionEnabled = NO;
+    }
+    if (section == 1 && _events.count == 0) {
+        lookMore.text = @"暂无更多活动";
+        lookMore.userInteractionEnabled = NO;
+    }
+    if (section == 2 && _voices.count == 0) {
+        lookMore.text = @"暂无更多课程";
+        lookMore.userInteractionEnabled = NO;
+    }
     
     return backView;
     
@@ -267,7 +290,7 @@
     if (indexPath.section == 1) {
         if (_events.count > indexPath.row) {
             LMMoreEventsVO * vo = _events[indexPath.row];
-            LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
+            LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
             detailVC.eventUuid = vo.eventUuid;
             detailVC.titleStr = vo.eventName;
             [self.navigationController pushViewController:detailVC animated:YES];
@@ -277,7 +300,7 @@
         if (_voices.count > indexPath.row) {
             LMMoreVoicesVO * vo = _voices[indexPath.row];
             LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
-            detailVC.artcleuuid = vo.voiceUuid;
+            detailVC.voiceUuid = vo.voiceUuid;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }

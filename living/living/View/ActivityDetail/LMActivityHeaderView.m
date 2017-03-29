@@ -103,6 +103,9 @@
     _countLabel.frame = CGRectMake(60, 35+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
 
     
+    
+    
+    
     NSString *string = [NSString stringWithFormat:@"%d", _event.status];
     
     if ([string isEqual:@"1"]) {

@@ -10,6 +10,9 @@
 
 @interface LMActivityDetailRequest : FitBaseRequest
 
+@property (nonatomic, assign) int type;
+
+
 -(id)initWithEvent_uuid:(NSString *)event_uuid;
 
 @end

@@ -11,4 +11,6 @@
 
 @interface LMEvaluateViewController : FitTableViewController
 
+@property (nonatomic, copy) NSString * eventUuid;
+
 @end

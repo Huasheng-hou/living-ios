@@ -12,7 +12,7 @@
 
 @interface LMEvaluateStarCell ()<UITextViewDelegate>
 @property (nonatomic, strong) UILabel *titleLbl;
-@property (nonatomic, strong) LMEvaluateStarView *starView;
+@property (nonatomic, strong) UIView *starView;
 @property (nonatomic, strong) UITextView *commentText;
 @property (nonatomic, strong) UILabel *placeholderLbl;
 @property (nonatomic, strong) UIView *whiteView;
@@ -20,6 +20,9 @@
 @end
 
 @implementation LMEvaluateStarCell
+{
+    NSMutableArray * _imgArray;
+}
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -37,9 +40,10 @@
     _titleLbl.font = TEXT_FONT_LEVEL_1;
     [self.contentView addSubview:_titleLbl];
     
-    _starView = [[LMEvaluateStarView alloc]initWithFrame:CGRectMake(85, 14, kScreenWidth - 110, 22) withTotalStar:5 withTotalPoint:5 starSpace:8];
-    _starView.starAliment = StarAlimentDefault;
+    _starView = [[UIView alloc]initWithFrame:CGRectMake(85, 14, kScreenWidth - 110, 22)];
+    _starView.userInteractionEnabled = YES;
     [self.contentView addSubview:_starView];
+    [self addStarsInView:_starView];
     
     UIImageView *lineView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 51, kScreenWidth - 20, 0.5)];
     lineView.backgroundColor = LINE_COLOR;
@@ -62,6 +66,40 @@
     
     
 }
+//添加星星图案
+- (void)addStarsInView:(UIView *)superView
+{
+    if (!_imgArray) {
+        _imgArray = [[NSMutableArray alloc] init];
+    }
+    for (int i=0; i<5; i++) {
+        UIImageView * image = [[UIImageView alloc] initWithFrame:CGRectMake(i*(20+10), 0, 20, 20)];
+        image.image = [UIImage imageNamed:@"Star"];
+        image.tag = i;
+        image.userInteractionEnabled = YES;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapStar:)];
+        [image addGestureRecognizer:tap];
+        
+        [_imgArray addObject:image];
+        [superView addSubview:image];
+    }
+    
+}
+//点击星星事件
+- (void)tapStar:(UITapGestureRecognizer *)tap{
+    
+    for (UIImageView * img in _imgArray) {
+        if (img.tag > tap.view.tag) {
+            img.image = [UIImage imageNamed:@"Star"];
+        }else{
+            img.image = [UIImage imageNamed:@"in"];
+        }
+    }
+    
+    [self.delegate getStarValue:tap.view.tag+1];
+    
+}
+
 
 - (void)textViewDidChange:(UITextView *)textView
 {
@@ -86,21 +124,7 @@
     
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    CGPoint point = [touch locationInView:self];
-    _starView.commentPoint = (point.x - 85) / (self.starView.starHeight + self.starView.spaceWidth);
-    [self setNeedsDisplay];
-}
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-}
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-}
 
 @end

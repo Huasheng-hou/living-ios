@@ -551,6 +551,8 @@
 		D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */; };
 		D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */; };
 		D5D325161E712B150057F636 /* LMYGBOrderChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325151E712B150057F636 /* LMYGBOrderChooseCell.m */; };
+		D5DC79111E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC79101E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m */; };
+		D5DC79141E8A67E10025BF7C /* LMEventDetailJudgeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC79131E8A67E10025BF7C /* LMEventDetailJudgeListCell.m */; };
 		D5DFBCCB1E80D2370065C313 /* LMYGBBannerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCCA1E80D2370065C313 /* LMYGBBannerRequest.m */; };
 		D5DFBCCE1E80DAC60065C313 /* LMYGBDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCCD1E80DAC60065C313 /* LMYGBDetailController.m */; };
 		D5DFBCD11E80EB7B0065C313 /* LMYGBDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCD01E80EB7B0065C313 /* LMYGBDetailRequest.m */; };
@@ -1671,6 +1673,10 @@
 		D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBOrderHeadCell.m; sourceTree = "<group>"; };
 		D5D325141E712B150057F636 /* LMYGBOrderChooseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBOrderChooseCell.h; sourceTree = "<group>"; };
 		D5D325151E712B150057F636 /* LMYGBOrderChooseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBOrderChooseCell.m; sourceTree = "<group>"; };
+		D5DC790F1E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailJudgeHeadCell.h; sourceTree = "<group>"; };
+		D5DC79101E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailJudgeHeadCell.m; sourceTree = "<group>"; };
+		D5DC79121E8A67E10025BF7C /* LMEventDetailJudgeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailJudgeListCell.h; sourceTree = "<group>"; };
+		D5DC79131E8A67E10025BF7C /* LMEventDetailJudgeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailJudgeListCell.m; sourceTree = "<group>"; };
 		D5DFBCC91E80D2370065C313 /* LMYGBBannerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBBannerRequest.h; sourceTree = "<group>"; };
 		D5DFBCCA1E80D2370065C313 /* LMYGBBannerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBBannerRequest.m; sourceTree = "<group>"; };
 		D5DFBCCC1E80DAC60065C313 /* LMYGBDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBDetailController.h; sourceTree = "<group>"; };
@@ -3622,6 +3628,7 @@
 		35B7469A1DDE97F3000AFA26 /* activity */ = {
 			isa = PBXGroup;
 			children = (
+				D5DC790E1E8A5ED60025BF7C /* eventDetail */,
 				D5944D231E83BF5F002DBA7D /* publicEvent */,
 				8728E7C21E6542C5003303F2 /* ActivityEvaluate */,
 				8728E7C31E6542D3003303F2 /* LMActivityNewCell */,
@@ -4258,6 +4265,17 @@
 			path = publicEvent;
 			sourceTree = "<group>";
 		};
+		D5DC790E1E8A5ED60025BF7C /* eventDetail */ = {
+			isa = PBXGroup;
+			children = (
+				D5DC790F1E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.h */,
+				D5DC79101E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m */,
+				D5DC79121E8A67E10025BF7C /* LMEventDetailJudgeListCell.h */,
+				D5DC79131E8A67E10025BF7C /* LMEventDetailJudgeListCell.m */,
+			);
+			path = eventDetail;
+			sourceTree = "<group>";
+		};
 		D5DFBCC81E80D2160065C313 /* yaoguobi */ = {
 			isa = PBXGroup;
 			children = (
@@ -4665,9 +4683,11 @@
 				35B747411DDE97F3000AFA26 /* FitClientIDManager.m in Sources */,
 				35B747DC1DDE97F4000AFA26 /* LMPublicEventRequest.m in Sources */,
 				35B748171DDE97F4000AFA26 /* AMapTipAnnotation.m in Sources */,
+				D5DC79141E8A67E10025BF7C /* LMEventDetailJudgeListCell.m in Sources */,
 				3505CDFC1E14E0BC007D896C /* LGAudioPlayer.m in Sources */,
 				35B747A11DDE97F3000AFA26 /* LMActivityListRequest.m in Sources */,
 				35B7475E1DDE97F3000AFA26 /* LMOrderViewController.m in Sources */,
+				D5DC79111E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m in Sources */,
 				35B747421DDE97F3000AFA26 /* FitPayloadManager.m in Sources */,
 				35B747EC1DDE97F4000AFA26 /* LMFindVO.m in Sources */,
 				35B747211DDE97F3000AFA26 /* UIScrollView+MJRefresh.m in Sources */,

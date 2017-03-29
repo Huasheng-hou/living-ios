@@ -42,24 +42,11 @@
     
     return self;
 }
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-//    if (self.listData.count == 0) {
-//        
-//        [self loadNoState];
-//    }
-    
-    
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createUI];
-    if (_index == 2) {
-        [self getCategoryArticlesRequest];
-    }
+
     [self loadNewer];
     
 }
@@ -81,12 +68,12 @@
 
 - (FitBaseRequest *)request
 {
-    if (_index == 1) {
+    if (_index == 1) {//X发现
         LMArtcleTypeListRequest *request = [[LMArtcleTypeListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
         
         return request;
     }
-    if (_index == 2) {
+    if (_index == 2) {//X活动
         LMCategoryEventsRequest * request = [[LMCategoryEventsRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
         return request;
     }
@@ -118,6 +105,11 @@
         if (resultArr && resultArr.count > 0) {
             if (_index == 2) {
                 _reviewArr = resultArr;
+                if (_reviewArr.count == 0) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self textStateHUD:@"暂无数据"];
+                    });
+                }
             }else{
                 return resultArr;
             }
@@ -125,31 +117,20 @@
     }
     return nil;
 }
-- (void)getCategoryArticlesRequest{
-    LMCategoryEventsRequest * request = [[LMCategoryEventsRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCategory:_category];
-    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self parseResponse:resp];
-        });
-    } failed:^(NSError *error) {
-        [self textStateHUD:@"网络错误"];
-    }];
-    [proxy start];
-}
 #pragma mark - tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (_index == 1) {
-        if (self.listData.count > 0) {
+        //X发现
             return self.listData.count;
-        }
+        
     }
     if (_index == 2) {
-        if (_reviewArr.count > 0) {
+        //X活动
             return _reviewArr.count;
-        }
+        
     }
-    return 5;
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -166,7 +147,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.type = _category;
-    if (_index == 1) {
+    if (_index == 1) {//X发现
         cell.cellType = 1;
         if (self.listData.count > indexPath.row) {
             
@@ -178,7 +159,7 @@
             }
         }
     }
-    if (_index == 2) {
+    if (_index == 2) {//X活动
         cell.cellType = 2;
         if (_reviewArr.count > indexPath.row) {
             
@@ -216,7 +197,7 @@
                 LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
                 
                 detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.voiceUuid = vo.articleUuid;
                 detailVC.franchisee = vo.franchisee;
                 detailVC.sign = vo.sign;
                 [self.navigationController pushViewController:detailVC animated:YES];

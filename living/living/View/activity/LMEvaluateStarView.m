@@ -68,7 +68,7 @@
     for (int i =0 ; i<totalStar; i++) {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i*_starHeight+i*_spaceWidth, self.frame.size.height-_starHeight, _starHeight, _starHeight)];
         imageView.tag = starBaseTag+i;
-        imageView.image = [UIImage imageNamed:@"starBackImage"];
+        imageView.image = [UIImage imageNamed:@"Star"];
         [self addSubview:imageView];
     }
     
@@ -110,7 +110,7 @@
     //在长图上填充完整的星星
     for (int j = 0; j< fullNumber; j++) {
         UIImageView *starImageView = [[UIImageView alloc]init];
-        starImageView.image = [UIImage imageNamed:@"starImage"];
+        starImageView.image = [UIImage imageNamed:@"in"];
         starImageView.frame = CGRectMake(j*_starHeight+j*_spaceWidth, 0, _starHeight, _starHeight);
         [starView addSubview:starImageView];
     }
@@ -119,7 +119,7 @@
     //如果有残缺的星星 则添加
     if (part > 0) {
         UIImageView *partImage = [[UIImageView alloc]initWithFrame:CGRectMake(fullNumber*_starHeight+fullNumber*_spaceWidth, 0, _starHeight, _starHeight)];
-        partImage.image = [UIImage imageNamed:@"starImage"];
+        partImage.image = [UIImage imageNamed:@""];
         [starView addSubview:partImage];
     }
     

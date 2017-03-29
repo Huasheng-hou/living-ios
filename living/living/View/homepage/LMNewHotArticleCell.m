@@ -50,7 +50,7 @@
     
     
     shadow = [[UIView alloc] initWithFrame:backImage.frame];
-    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
     [backView addSubview:shadow];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetHeight(backImage.frame)/2, kScreenWidth-40, 30)];
@@ -79,7 +79,7 @@
     name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(flag.frame)+10, CGRectGetMaxY(avatar.frame)-15, 100, 15)];
     //name.text = @"夏女霞";
     name.textAlignment = NSTextAlignmentLeft;
-    name.textColor = TEXT_COLOR_LEVEL_4;
+    name.textColor = [UIColor cyanColor];
     name.font = TEXT_FONT_BOLD_14;
     [backView addSubview:name];
     

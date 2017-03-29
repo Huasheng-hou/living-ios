@@ -38,7 +38,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-
+#import "LMVoiceDetailRequest.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -334,7 +334,7 @@ LMContentTableViewCellDelegate
     [self dismissSelf];
     
     if ([[FitUserManager sharedUserManager] isLogin]) {
-        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
+        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_voiceUuid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
                                                    
@@ -379,7 +379,7 @@ LMContentTableViewCellDelegate
 {
     [self initStateHud];
     
-    LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
+    LMVoiceDetailRequest *request = [[LMVoiceDetailRequest alloc] initWithVoice_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1224,7 +1224,7 @@ LMContentTableViewCellDelegate
 {
     
     if ([[FitUserManager sharedUserManager] isLogin]){
-        LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
+        LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_voiceUuid CommentUUid:cell.commentUUid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
                                                    
@@ -1368,7 +1368,7 @@ LMContentTableViewCellDelegate
 {
     NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
-    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:string];
+    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_voiceUuid CommentUUid:commitUUid Reply_content:string];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1551,7 +1551,7 @@ LMContentTableViewCellDelegate
         
         NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
+        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_voiceUuid Commentcontent:string];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1627,7 +1627,7 @@ LMContentTableViewCellDelegate
 
 - (void)getDeleteRequest
 {
-    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_artcleuuid];
+    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

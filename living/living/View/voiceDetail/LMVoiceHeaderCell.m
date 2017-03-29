@@ -83,6 +83,8 @@
     _nameLabel.textColor = TEXT_COLOR_LEVEL_1;
     [self.contentView addSubview:_nameLabel];
     
+    
+    //报名
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_joinButton setTintColor:LIVING_COLOR];
     _joinButton.showsTouchWhenHighlighted = YES;
@@ -144,6 +146,11 @@
         [_headV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.avatar]];
         _countLabel.text = [NSString stringWithFormat:@"人数：%@/%@人",_voiceVO.number,_voiceVO.limitNum];
         
+        
+        int currentNum = [_voiceVO.number intValue];
+        int limitNum = [_voiceVO.limitNum intValue];
+        
+        
         if ([_role isEqualToString:@"student"]) {
             if (_voiceVO.isBuy == YES) {
                 [_joinButton setTitle:@"已报名" forState:UIControlStateNormal];
@@ -154,7 +161,13 @@
                     _joinButton.userInteractionEnabled = NO;
                 }
                 if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"ready"]) {
-                    [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+                    if (currentNum == limitNum) {
+                        [_joinButton setTitle:@"已售罄" forState:UIControlStateNormal];
+                        _joinButton.userInteractionEnabled = NO;
+                    }
+                    if (currentNum < limitNum) {
+                        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+                    }
                 }
                 if (_voiceVO.status&&[_voiceVO.status isEqualToString:@"closed"]) {
                     [_joinButton setTitle:@"已结束" forState:UIControlStateNormal];

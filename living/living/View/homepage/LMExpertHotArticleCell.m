@@ -116,8 +116,8 @@
     [topView addSubview:_backImage];
     
     shadow = [[UIView alloc] initWithFrame:_backImage.frame];
-    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    [backView addSubview:shadow];
+    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    [topView addSubview:shadow];
     
     _title = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, CGRectGetWidth(topView.frame), 20)];
     _title.text = @"动手吧！好吃到飞起来的料理";
@@ -127,7 +127,6 @@
     [topView addSubview:_title];
     
     _microPhone = [[UIImageView alloc] initWithFrame:CGRectMake(topView.bounds.size.width/2-90, CGRectGetMaxY(_title.frame)+10, 8, 15)];
-    //_microPhone.backgroundColor = BG_GRAY_COLOR;
     _microPhone.image = [UIImage imageNamed:@"jiangshi"];
     [topView addSubview:_microPhone];
     
@@ -139,7 +138,6 @@
     
     
     _helper = [[UIImageView alloc] initWithFrame:CGRectMake(topView.bounds.size.width/2, CGRectGetMinY(_microPhone.frame), 8, 15)];
-    //_helper.backgroundColor = BG_GRAY_COLOR;
     _helper.image = [UIImage imageNamed:@"zhuli"];
     [topView addSubview:_helper];
     
@@ -160,43 +158,6 @@
     _appointment.layer.cornerRadius = 5;
     [_appointment addTarget:self action:@selector(makeAppointment:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:_appointment];
-    
-    
-    
-    
-    //bottom
-//    UIView * botView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), backView.frame.size.width, 35)];
-//    botView.backgroundColor = [UIColor whiteColor];
-//    botView.userInteractionEnabled = YES;
-//    [backView addSubview:botView];
-//    
-//    UIView * contentView = [[UIView alloc] initWithFrame:CGRectMake(botView.bounds.size.width-170, 10, 170, 15)];
-//    contentView.backgroundColor = [UIColor whiteColor];
-//    contentView.userInteractionEnabled = YES;
-//    [botView addSubview:contentView];
-//    
-//    NSArray * imageNames = @[@"zan-black", @"comment", @"shareIcon-1"];
-//    NSArray * tagNames = @[@"点赞", @"评论", @"分享"];
-//    for (int i=0; i<imageNames.count; i++) {
-//        
-//        UIImageView * tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(i*65, 0, 15, 15)];
-//        tagImage.tag = 120+i;
-//        tagImage.backgroundColor = [UIColor whiteColor];
-//        tagImage.image = [UIImage imageNamed:imageNames[i]];
-//        tagImage.userInteractionEnabled = YES;
-//        [contentView addSubview:tagImage];
-//        
-//        UILabel * tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(18+i*65, 0, 22, 15)];
-//        tagLabel.text = tagNames[i];
-//        tagLabel.textColor = TEXT_COLOR_LEVEL_4;
-//        tagLabel.font = TEXT_FONT_LEVEL_4;
-//        [contentView addSubview:tagLabel];
-//        
-//        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-//        [tagImage addGestureRecognizer:tap];
-//        
-//    }
-    
     
 }
 

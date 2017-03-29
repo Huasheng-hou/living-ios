@@ -172,9 +172,9 @@
     [back addGestureRecognizer:tap];
     [headView addSubview:back];
     
-    UIImageView * ygIcon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 24, 42)];
+    UIImageView * ygIcon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 20, 20)];
     ygIcon.backgroundColor = [UIColor whiteColor];
-    ygIcon.image = [UIImage imageNamed:@"yaoguobi"];
+    ygIcon.image = [UIImage imageNamed:@"yaoguobi-2"];
     [back addSubview:ygIcon];
     
     UILabel * ygb = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(ygIcon.frame)+10, 11, 100, 20)];
@@ -185,7 +185,7 @@
     [back addSubview:ygb];
     
     UILabel * number = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-90, 11, 80, 20)];
-    number.text = @"1934颗";
+    number.text = @"0颗";
     number.textColor = TEXT_COLOR_LEVEL_3;
     number.font = TEXT_FONT_LEVEL_1;
     number.textAlignment = NSTextAlignmentRight;

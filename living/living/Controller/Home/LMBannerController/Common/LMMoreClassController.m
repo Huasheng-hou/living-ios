@@ -67,10 +67,8 @@
 #pragma mark - tableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (self.listData.count > 0) {
-        return self.listData.count;
-    }
-    return 5;
+    return self.listData.count;
+
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 175;
@@ -93,7 +91,7 @@
     if (self.listData.count > indexPath.row) {
         LMMoreVoicesVO * vo = self.listData[indexPath.row];
         LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
-        detailVC.artcleuuid = vo.voiceUuid;
+        detailVC.voiceUuid = vo.voiceUuid;
         [self.navigationController pushViewController:detailVC animated:YES];
     }
     

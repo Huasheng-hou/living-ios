@@ -11,10 +11,9 @@
 
 @class LMEvaluateStarCell;
 
-@protocol LMEvaluateStarCellDelegate <NSObject>
+@protocol LMEvaluateStarDelegate <NSObject>
 
-@optional
-- (void)cellWilladdImage:(LMEvaluateStarCell *)cell;
+- (void)getStarValue:(NSInteger)value;
 
 @end
 
@@ -22,8 +21,9 @@
 @interface LMEvaluateStarCell : UITableViewCell
 
 @property (nonatomic, strong)EditImageView *imageV;
-@property (nonatomic, weak) id<LMEvaluateStarCellDelegate> delegate;
+@property (nonatomic, weak) id<LMEvaluateStarDelegate> delegate;
 @property(nonatomic,strong)NSMutableArray *array;
+
 
 
 @end

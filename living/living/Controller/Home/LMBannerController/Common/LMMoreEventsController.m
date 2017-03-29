@@ -11,6 +11,7 @@
 #import "LMMoreEventsVO.h"
 #import "LMExpertHotArticleCell.h"
 #import "LMEventDetailViewController.h"
+#import "LMActivityDetailController.h"
 @interface LMMoreEventsController ()
 
 @end
@@ -65,10 +66,8 @@
 
 #pragma mark - tableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.listData.count > 0) {
-        return self.listData.count;
-    }
-    return 5;
+    
+    return self.listData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 175;
@@ -90,7 +89,7 @@
     
     if (self.listData.count > indexPath.row) {
         LMMoreEventsVO * vo = self.listData[indexPath.row];
-        LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
+        LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
         detailVC.eventUuid = vo.eventUuid;
         detailVC.titleStr = vo.eventName;
         [self.navigationController pushViewController:detailVC animated:YES];

@@ -27,6 +27,11 @@
 #import "LMMoreVoicesVO.h"
 #import "LMAllRecommendRequest.h"
 
+#import "LMHomeDetailController.h"
+#import "LMActivityDetailController.h"
+#import "LMEventDetailViewController.h"
+#import "LMHomeVoiceDetailController.h"
+
 #define PAGE_SIZE 20
 @interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource,LMExpertListDelegate>
 
@@ -151,13 +156,6 @@
         _articles = [LMMoreArticlesVO LMMoreArticlesVOWithArray:[bodyDic objectForKey:@"articles_body"]];
         _voices = [LMMoreVoicesVO LMMoreVoicesVOWithArray:[bodyDic objectForKey:@"voices_body"]];
         
-        if (_events.count == 0 || _articles.count == 0 || _voices.count == 0) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self textStateHUD:@"请求失败"];
-            });
-            
-        }
-        
         [self.tableView reloadData];
         
     }else if (desp && ![desp isEqual:[NSNull null]] && [desp isKindOfClass:[NSString class]]) {
@@ -176,28 +174,26 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (section == 0) {
-        return 1;
+        return self.listData.count > 0 ? 1 : 0;
     }
-    return 2;
+    if (section == 1) {
+        return _articles.count > 2 ? 2 : _articles.count;
+    }
+    if (section == 2) {
+        return _events.count > 2 ? 2 : _events.count;
+    }
+    if (section == 3) {
+        return _voices.count > 2 ? 2 : _voices.count;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        if (self.listData.count == 0) {
-            return 0;
-        }
         return 100;
     }
-//    if (indexPath.row == 0) {
-//        return _articles.count > 0 ? 210 - 35 : 0;
-//    }
-//    if (indexPath.row == 1) {
-//        return _events.count > 0 ? 210 - 35 : 0;
-//    }
-//    if (indexPath.row == 2) {
-//        return _voices.count > 0 ? 210 - 35 : 0;
-//    }
+
     return 175;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -299,6 +295,44 @@
     }
     return nil;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 1) {
+        
+        if (_articles.count > indexPath.row) {
+            LMMoreArticlesVO * vo = _articles[indexPath.row];
+            LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+            
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.artcleuuid = vo.articleUuid;
+            detailVC.franchisee = vo.franchisee;
+            detailVC.sign = vo.sign;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+        
+    }
+    else if (indexPath.section == 2) {
+        if (_events.count > indexPath.row) {
+            LMMoreEventsVO * vo = _events[indexPath.row];
+            LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
+            detailVC.eventUuid = vo.eventUuid;
+            detailVC.titleStr = vo.eventName;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+    }
+    else if (indexPath.section == 3) {
+        if (_voices.count > indexPath.row) {
+            LMMoreVoicesVO * vo = _voices[indexPath.row];
+            LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
+            detailVC.voiceUuid = vo.voiceUuid;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+    }
+    
+}
+
 
 #pragma mark 点击达人头像进入详情代理方法
 - (void)gotoNextPage:(NSInteger)index{

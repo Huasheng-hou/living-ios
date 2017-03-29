@@ -447,14 +447,10 @@ WJLoopViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (section == 0) {
-        return 2;
+        return _recommendArray.count;
     }
-    if (section == 1) {
-        if (self.listData.count > 0) {
-            return self.listData.count;
-        }
-    }
-    return 5;
+    
+    return self.listData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -570,7 +566,7 @@ WJLoopViewDelegate
                 LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
                 
                 detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.voiceUuid = vo.articleUuid;
                 detailVC.franchisee = vo.franchisee;
                 detailVC.sign = vo.sign;
                 [self.navigationController pushViewController:detailVC animated:YES];
@@ -600,7 +596,7 @@ WJLoopViewDelegate
                     LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
                     
                     detailVC.hidesBottomBarWhenPushed = YES;
-                    detailVC.artcleuuid = vo.articleUuid;
+                    detailVC.voiceUuid = vo.articleUuid;
                     detailVC.franchisee = vo.franchisee;
                     detailVC.sign = vo.sign;
                     [self.navigationController pushViewController:detailVC animated:YES];

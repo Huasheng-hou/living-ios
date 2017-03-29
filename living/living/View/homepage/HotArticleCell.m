@@ -49,8 +49,7 @@
     NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
     
     [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
-    backImage.contentMode = UIViewContentModeScaleAspectFill;
-    backImage.clipsToBounds = YES;
+    
     
     //title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
     title.text = list.articleTitle;
@@ -72,9 +71,22 @@
         sign.image = [UIImage imageNamed:@""];
         
     }
+    
+    
+    if (_cellType == 2) {
+        [backImage sd_setImageWithURL:[NSURL URLWithString:list.image]];
+        title.text = list.title;
+        desp.text = list.content;
+        name.text = list.nickName;
+    }
+    
+    
+    
+    
 }
 
 - (void)setCellType:(NSInteger)cellType{
+    _cellType = cellType;
     if (cellType == 1) {
         //发现
         backImage.frame = CGRectMake(0, 0, kScreenWidth, 205);
@@ -116,10 +128,12 @@
     backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 205)];
     backImage.image = [UIImage imageNamed:@"BackImage"];
     backImage.backgroundColor = BG_GRAY_COLOR;
+    backImage.contentMode = UIViewContentModeScaleAspectFill;
+    backImage.clipsToBounds = YES;
     [backView addSubview:backImage];
     
     shadow = [[UIView alloc] initWithFrame:backImage.frame];
-    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
     [backView addSubview:shadow];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, kScreenWidth-40, 45)];
@@ -143,9 +157,9 @@
     sign.layer.cornerRadius = 7;
     [backView addSubview:sign];
     
-    name = [[UILabel alloc] initWithFrame:CGRectMake(60, 162.5, 60, 15)];
+    name = [[UILabel alloc] initWithFrame:CGRectMake(60, 162.5, 80, 15)];
     //name.text = @"James";
-    name.textColor = TEXT_COLOR_LEVEL_4;
+    name.textColor = [UIColor cyanColor];
     name.font = TEXT_FONT_LEVEL_3;
     [backView addSubview:name];
     

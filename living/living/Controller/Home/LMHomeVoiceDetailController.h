@@ -12,7 +12,7 @@
 
 @property(nonatomic,strong)UITableView *tableView;
 
-@property(nonatomic, strong) NSString *artcleuuid;
+@property(nonatomic, strong) NSString *voiceUuid;
 
 @property(nonatomic, strong) NSString *franchisee;
 

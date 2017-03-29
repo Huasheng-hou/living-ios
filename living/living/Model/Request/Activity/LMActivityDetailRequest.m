@@ -38,8 +38,11 @@
 
 - (NSString *)methodPath
 {
-    //return @"event/detail";
-    return @"item/detail";
+    if (self.type == 2) {
+        return @"item/detail";
+    }
+    return @"event/detail";
+//    return @"item/detail";
 }
 
 @end

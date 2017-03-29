@@ -15,7 +15,7 @@
 #import "ZYQAssetPickerController.h"
 
 
-@interface LMEvaluateViewController ()<LMEvaluateStarCellDelegate,editViewDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,ZYQAssetPickerControllerDelegate,UIViewControllerTransitioningDelegate>
+@interface LMEvaluateViewController ()<LMEvaluateStarDelegate,editViewDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,ZYQAssetPickerControllerDelegate,UIViewControllerTransitioningDelegate>
 {
     NSInteger addImageIndex; // 添加图片的位置
     NSUInteger imageNum;  // 所有选择的图片数目
@@ -149,6 +149,12 @@
     }
     
     return cell;
+}
+
+#pragma mark - 获取星级代理
+- (void)getStarValue:(NSInteger)value{
+    
+    
 }
 
 #pragma mark - editViewDelegate 添加图片

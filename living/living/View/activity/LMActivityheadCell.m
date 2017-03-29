@@ -135,8 +135,18 @@
     
     switch (event.status) {
         case 1:
-            [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+        {
+            if (event.totalNumber == event.totalNum) {
+                [_joinButton setTitle:@"已售罄" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = NO;
+            }
+            if (event.totalNumber < event.totalNum) {
+                [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = YES;
+            }
+            
             break;
+        }
         case 2:
             [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
             _joinButton.userInteractionEnabled = NO;
