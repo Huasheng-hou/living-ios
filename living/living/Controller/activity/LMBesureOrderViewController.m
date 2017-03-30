@@ -57,6 +57,12 @@ FitPickerViewDelegate
     NSInteger selectedRow;
     NSMutableArray *couponPriceArray;
     NSString *type;
+    
+    
+    NSMutableArray * selectedArray;
+    NSMutableArray * selectedUuid;
+    
+    
 }
 
 @end
@@ -229,7 +235,8 @@ FitPickerViewDelegate
             if (orderdata.coupons &&orderdata.coupons>0) {
                 return 190;
             }else{
-                return 150;
+                return 190;
+                //return 150;
             }
             
         }
@@ -338,7 +345,7 @@ FitPickerViewDelegate
             UILabel *perNum = [UILabel new];
             perNum.textColor = TEXT_COLOR_LEVEL_3;
             perNum.font  = TEXT_FONT_LEVEL_3;
-            NSString *string2 = [NSString stringWithFormat:@"x%d/人",orderdata.number];
+            NSString *string2 = [NSString stringWithFormat:@"/人x%d",orderdata.number];
             perNum.text = [NSString stringWithFormat:@"%@",string2];
             [perNum sizeToFit];
             perNum.frame = CGRectMake(40+perCost.bounds.size.width, 85, perNum.bounds.size.width, 25);
@@ -380,7 +387,7 @@ FitPickerViewDelegate
             [payButton addTarget:self action:@selector(payAction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:payButton];
             
-            if (orderdata.coupons&&orderdata.coupons>0) {
+            if (orderdata.coupons||orderdata.coupons>=0) {
                 
                 UILabel *cPLabel = [UILabel new];
                 NSString *couponString;
@@ -412,7 +419,7 @@ FitPickerViewDelegate
                 [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
                 [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
                 couponLabel.attributedText = cStr;
-                couponLabel.textColor = TEXT_COLOR_LEVEL_3;
+                couponLabel.textColor = LIVING_COLOR;
                 [cell.contentView addSubview:couponLabel];
                 
                 
@@ -571,11 +578,15 @@ FitPickerViewDelegate
             cell.nameLabel.text = @"不使用任何优惠券";
             cell.nameLabel.textColor = [UIColor colorWithRed:255.0/255.0 green:180.0/255.0 blue:21.0/255.0 alpha:1.0];
             cell.priceLabel.hidden = YES;
+            [selectedArray addObject:@0];
         }
-        if (indexPath.row==selectedRow) {
-            cell.chooseView.image= [UIImage imageNamed:@"choose"];
-        }else{
-            cell.chooseView.image= [UIImage imageNamed:@"choose-no"];
+        for (NSNumber * num in selectedArray) {
+            if (indexPath.row==[num integerValue]) {
+                cell.chooseView.image= [UIImage imageNamed:@"choose"];
+            }else{
+                cell.chooseView.image= [UIImage imageNamed:@"choose-no"];
+            }
+
         }
         
         
@@ -615,6 +626,36 @@ FitPickerViewDelegate
         if (indexPath.row<couponList.count) {
             
             selectedRow=indexPath.row;
+            
+            NSInteger discountMoney = 0;
+            if ([orderdata.totalMoney integerValue] < 120) {
+                discountMoney = 10;
+            }
+            else if ([orderdata.totalMoney integerValue] < 200) {
+                discountMoney = 20;
+            }else{
+                discountMoney = 30;
+            }
+            
+            NSInteger currentMoney = 0;
+            
+            for (NSNumber * num in selectedArray) {
+                
+                NSInteger money = [couponPriceArray[[num integerValue]] integerValue];
+                currentMoney += money;
+                
+                if ([num integerValue] == selectedRow) {
+                    [selectedArray removeObject:num];
+                }else{
+                    
+                    NSInteger selectedMoney = [couponPriceArray[selectedRow] integerValue];
+                    if (currentMoney + selectedMoney > discountMoney) {
+                        [self textStateHUD:[NSString stringWithFormat:@"您最多抵扣%d元",discountMoney]];
+                    }else{
+                        [selectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
+                    }
+                }
+            }
             
         } else {
             
@@ -1053,23 +1094,25 @@ FitPickerViewDelegate
 
 - (void)CouponChose
 {
+    selectedArray = [NSMutableArray new];
+    selectedUuid = [NSMutableArray new];
     [self createTableView];
 }
 
-- (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
-{
-    NSString *uuidString = items[0];
-    
-    if ([uuidString isEqual:@"不抵扣"]) {
-        
-        [self useCouponreload:@"0" couponUUid:@"0"];
-    } else {
-        
-        NSString *couponUUid = couponIDList[row];
-        NSString *coupon = [uuidString substringFromIndex:8];
-        [self useCouponreload:coupon couponUUid:couponUUid];
-    }
-}
+//- (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
+//{
+//    NSString *uuidString = items[0];
+//    
+//    if ([uuidString isEqual:@"不抵扣"]) {
+//        
+//        [self useCouponreload:@"0" couponUUid:@[]];
+//    } else {
+//        
+//        NSString *couponUUid = couponIDList[row];
+//        NSString *coupon = [uuidString substringFromIndex:8];
+//        [self useCouponreload:coupon couponUUid:@[couponUUid]];
+//    }
+//}
 
 - (void)getCouponListRequest
 {
@@ -1119,9 +1162,9 @@ FitPickerViewDelegate
     }
 }
 
-- (void)useCouponreload:(NSString *)couponPrice couponUUid:(NSString *)uuid;
+- (void)useCouponreload:(NSString *)couponPrice couponUUid:(NSArray *)uuidArray;
 {
-    LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuid];
+    LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuidArray];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1208,13 +1251,23 @@ FitPickerViewDelegate
 {
     if (selectedRow==couponList.count) {
         
-        [self useCouponreload:@"0" couponUUid:@"0"];
+        [self useCouponreload:@"0" couponUUid:@[]];
     } else {
+        NSInteger money = 0;
+        for (NSNumber * num in selectedArray) {
+            //总金额
+            NSString *string =  couponPriceArray[[num integerValue]];
+            NSInteger mon = [string integerValue];
+            money += mon;
+            //UUID数组
+            LMCouponVO *vo = couponList[[num integerValue]];
+            [selectedUuid addObject:vo.couponUuid];
+        }
         
-        LMCouponVO *vo = couponList[selectedRow];
-        NSString *string =  couponPriceArray[selectedRow];
+        NSString * totalMoney = [NSString stringWithFormat:@"%d", money];
         
-        [self useCouponreload:string couponUUid:vo.couponUuid];
+        
+        [self useCouponreload:totalMoney couponUUid:selectedUuid];
     }
     
     [backView removeFromSuperview];

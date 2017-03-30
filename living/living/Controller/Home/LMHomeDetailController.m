@@ -37,6 +37,18 @@
 #import "LMArtcleTypeViewController.h"
 #import "PlayerViewController.h"
 
+//活动回顾
+#import "LMReviewDetailRequest.h"
+#import "LMDeleteReviewRequest.h"
+#import "LMReviewCommentRequest.h"
+#import "LMReviewCommentZanRequest.h"
+#import "LMReviewArticleZanRequest.h"
+#import "LMReviewAnswerRequest.h"
+#import "LMDeleteCommentOrAnswerRequest.h"
+
+
+
+
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -111,6 +123,9 @@ LMContentTableViewCellDelegate
 {
     [super viewDidLoad];
     self.title = @"文章详情";
+    if (_type == 2) {
+        self.title = @"活动回顾";
+    }
     [self creatUI];
     listArray = [NSMutableArray new];
     newImageArray = [NSMutableArray new];
@@ -316,27 +331,45 @@ LMContentTableViewCellDelegate
     [textcView becomeFirstResponder];
 }
 
-#pragma mark --文章点赞
+#pragma mark - -文章点赞
 
 - (void)zanButtonAction:(id)senser
 {
     [self dismissSelf];
     
     if ([[FitUserManager sharedUserManager] isLogin]) {
-        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
-                                                                          withObject:resp
-                                                                       waitUntilDone:YES];
-                                               } failed:^(NSError *error) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"网络错误"
-                                                                       waitUntilDone:YES];
-                                               }];
-        [proxy start];
+        if (_type == 2) {
+            LMReviewArticleZanRequest * request = [[LMReviewArticleZanRequest alloc] initWithReviewUuid:_artcleuuid];
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }
+        else{
+            LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getarticlePraiseDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }
     }else{
         [self IsLoginIn];
     }
@@ -363,25 +396,44 @@ LMContentTableViewCellDelegate
     }
 }
 
-#pragma mark  --请求详情数据
+#pragma mark  - -请求详情数据
 - (void)getHomeDetailDataRequest
 {
     [self initStateHud];
     
-    LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getHomeDeatilDataResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"获取详情失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    if (_type == 2) {
+        //活动回顾
+        LMReviewDetailRequest * request = [[LMReviewDetailRequest alloc] initWithReviewUuid:_artcleuuid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getHomeDeatilDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"获取详情失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+    
+        LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
+        HTTPProxy * proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getHomeDeatilDataResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"获取详情失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
 }
 
 - (void)getHomeDeatilDataResponse:(NSString *)resp
@@ -396,6 +448,9 @@ LMContentTableViewCellDelegate
         }
  
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
+        if (_type == 2) {
+            articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"review_body"]];
+        }
         uesruuid = articleData.userUuid;
         if (articleData.hasPraised ==YES) {
             [footView.zanartcle setImage:[UIImage imageNamed:@"zan-red"] forState:UIControlStateNormal];
@@ -405,6 +460,9 @@ LMContentTableViewCellDelegate
         [footView.comentcount sizeToFit];
         footView.comentcount.frame = CGRectMake(footView.commentButton.imageView.frame.origin.x+footView.commentButton.imageView.frame.size.width/2+1, footView.commentButton.imageView.frame.origin.y-5, footView.comentcount.bounds.size.width, 10);
         footView.zanCount.text = [NSString stringWithFormat:@"%d",articleData.articlePraiseNum];
+        if (_type == 2) {
+            footView.zanCount.text = [NSString stringWithFormat:@"%d",articleData.praiseNum];
+        }
         [footView.zanCount sizeToFit];
         footView.zanCount.frame = CGRectMake(footView.zanartcle.imageView.frame.origin.x+footView.zanartcle.imageView.frame.size.width/2+6,footView.zanartcle.imageView.frame.origin.y-5, footView.zanCount.bounds.size.width, 10);
         if (articleData.commentNum&&articleData.commentNum!=0 ) {
@@ -485,6 +543,9 @@ LMContentTableViewCellDelegate
             }
         }
         contentLabel.text =articleData.articleContent;
+        if (_type == 2) {
+            contentLabel.text = articleData.content;
+        }
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
         if (contentLabel.text!=nil) {
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
@@ -518,10 +579,15 @@ LMContentTableViewCellDelegate
             NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
             
             NSString *string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
-            
+            if (_type == 2) {
+                string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.title];
+            }
             if (!articleData.type || ![articleData.type isKindOfClass:[NSString class]] || [articleData.type isEqualToString:@""]) {
                 
                 string  = articleData.articleTitle;
+                if (_type == 2) {
+                    string = articleData.title;
+                }
             }
             
             CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
@@ -625,6 +691,9 @@ LMContentTableViewCellDelegate
         
         if (indexPath.section==0) {
             contentLabel.text =articleData.articleContent;
+            if (_type == 2) {
+                contentLabel.text = articleData.content;
+            }
             NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
             if (contentLabel.text!=nil) {
                 NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
@@ -658,10 +727,15 @@ LMContentTableViewCellDelegate
                 NSDictionary *attributes5 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
                 
                 NSString *string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
-                
+                if (_type == 2) {
+                    string = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.title];
+                }
                 if (!articleData.type || ![articleData.type isKindOfClass:[NSString class]] || [articleData.type isEqualToString:@""]) {
                     
                     string  = articleData.articleTitle;
+                    if (_type == 2) {
+                        string  = articleData.title;
+                    }
                 }
                 
                 CGFloat conHigh = [string boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000)
@@ -677,6 +751,9 @@ LMContentTableViewCellDelegate
             if (indexPath.row==1) {
                 
                 contentLabel.text =articleData.articleContent;
+                if (_type == 2) {
+                    contentLabel.text = articleData.content;
+                }
                 NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
                 if (contentLabel.text!=nil) {
                     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
@@ -706,12 +783,15 @@ LMContentTableViewCellDelegate
                 
                 CGFloat conHigh2 = [contentLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes2 context:nil].size.height+10;
                 
-                if (!articleData.articleImgs) {
+                if (!articleData.articleImgs && !articleData.imgs) {
                     return 20+conHigh2;
                 }else{
                     
                     NSMutableArray *newHight = [NSMutableArray new];
                     NSArray *arr = articleData.articleImgs;
+                    if(_type == 2){
+                        arr = articleData.imgs;
+                    }
                     for (int i = 0; i<arr.count; i++) {
                         
                         NSDictionary *dic = arr[i];
@@ -871,7 +951,9 @@ LMContentTableViewCellDelegate
                 if (articleData.type&&![articleData.type isEqual:@""]) {
                     
                     titleLabel.text = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
-                    
+                    if (_type == 2) {
+                        titleLabel.text = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.title];
+                    }
                     NSInteger lenth = articleData.type.length;
                     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:titleLabel.text];
                     [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,lenth+2)];
@@ -882,6 +964,9 @@ LMContentTableViewCellDelegate
                     
                 }else{
                     titleLabel.text = articleData.articleTitle;
+                    if (_type == 2) {
+                        titleLabel.text = articleData.title;
+                    }
                 }
                 NSDictionary *attributes4 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
                 CGFloat conHigh = [titleLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes4 context:nil].size.height;
@@ -909,6 +994,15 @@ LMContentTableViewCellDelegate
                 }else{
                     nameLabel.text = articleData.articleName;
                 }
+                
+                if (_type == 2) {
+                    if (!articleData.name||articleData.name ==nil) {
+                        nameLabel.text = @"匿名用户";
+                    }else{
+                        nameLabel.text = articleData.name;
+                    }
+                }
+                
                 
                 [nameLabel sizeToFit];
                 nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
@@ -975,8 +1069,15 @@ LMContentTableViewCellDelegate
                 contentLabel.textColor = TEXT_COLOR_LEVEL_2;
                 contentLabel.numberOfLines=0;
                 contentLabel.text = articleData.articleContent;
+                if (_type == 2) {
+                    contentLabel.text = articleData.content;
+                }
                 
                 contentLabel.text = [articleData.articleContent stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+                if (_type == 2) {
+                    contentLabel.text = [articleData.content stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+                }
+                
                 NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
                 if (contentLabel.text!=nil) {
                     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:contentLabel.text];
@@ -1014,9 +1115,12 @@ LMContentTableViewCellDelegate
                 [cell.contentView addSubview:contentLabel];
                 
                 
-                if (articleData.articleImgs) {
+                if (articleData.articleImgs || articleData.imgs) {
                     
                     NSArray *arr =articleData.articleImgs;
+                    if (_type == 2) {
+                        arr = articleData.imgs;
+                    }
                     hightArray = [NSMutableArray new];
                     
                     imageArray = [NSMutableArray new];
@@ -1114,7 +1218,9 @@ LMContentTableViewCellDelegate
         if (articleData.type&&![articleData.type isEqual:@""]) {
             
             titleLabel.text = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.articleTitle];
-            
+            if (_type == 2) {
+                titleLabel.text = [NSString stringWithFormat:@"#%@#%@",articleData.type,articleData.title];
+            }
             NSInteger lenth = articleData.type.length;
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:titleLabel.text];
             [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,lenth+2)];
@@ -1126,6 +1232,9 @@ LMContentTableViewCellDelegate
             
         }else{
             titleLabel.text = articleData.articleTitle;
+            if (_type == 2) {
+                titleLabel.text = articleData.title;
+            }
         }
         
         NSDictionary *attributes4 = @{NSFontAttributeName:[UIFont systemFontOfSize:16.0]};
@@ -1154,6 +1263,15 @@ LMContentTableViewCellDelegate
         }else{
             nameLabel.text = articleData.articleName;
         }
+        if (_type == 2) {
+            if (!articleData.name||articleData.name ==nil) {
+                nameLabel.text = @"匿名用户";
+            }else{
+                nameLabel.text = articleData.name;
+            }
+        }
+        
+        
         
         [nameLabel sizeToFit];
         nameLabel.frame = CGRectMake(40, conHigh+25, nameLabel.bounds.size.width,20);
@@ -1264,7 +1382,7 @@ LMContentTableViewCellDelegate
     
 }
 
-#pragma mark 分享按钮
+#pragma mark - 分享按钮
 
 -(void)shareButton
 {
@@ -1331,7 +1449,7 @@ LMContentTableViewCellDelegate
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark - 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1351,6 +1469,9 @@ LMContentTableViewCellDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=articleData.articleTitle;
+            if (_type == 2) {
+                message.title = articleData.title;
+            }
             message.description=articleData.describe;
             
             if (imageArray.count==0) {
@@ -1380,6 +1501,9 @@ LMContentTableViewCellDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=articleData.articleTitle;
+            if (_type == 2) {
+                message.title = articleData.title;
+            }
             message.description=articleData.describe;
             
             
@@ -1418,6 +1542,10 @@ LMContentTableViewCellDelegate
             }
             
             QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+            if (_type == 2) {
+                txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.title description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+
+            }
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1433,6 +1561,10 @@ LMContentTableViewCellDelegate
             }
             
             QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+            if (_type == 2) {
+                txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.title description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+            }
+
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];
@@ -1444,7 +1576,7 @@ LMContentTableViewCellDelegate
     }
 }
 
-#pragma mark  --点击图片放大
+#pragma mark  - -点击图片放大
 - (void)tapimageAction:(UITapGestureRecognizer *)tap
 {
     SYPhotoBrowser *photoBrowser = [[SYPhotoBrowser alloc] initWithImageSourceArray:imageArray delegate:self];
@@ -1453,7 +1585,7 @@ LMContentTableViewCellDelegate
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 
-#pragma mark  --点击图片放大
+#pragma mark  - -点击图片放大
 - (void)clickViewTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
     NSMutableArray *new = [NSMutableArray new];
@@ -1495,7 +1627,7 @@ LMContentTableViewCellDelegate
     [self presentViewController:photoBrowser animated:YES completion:nil];
 }
 
-#pragma mark  --点击播放视频
+#pragma mark  - - 点击播放视频
 
 - (void)clickViewVideoTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
@@ -1527,38 +1659,75 @@ LMContentTableViewCellDelegate
 {
     
     if ([[FitUserManager sharedUserManager] isLogin]){
-        LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                   
-                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                       NSDictionary *bodyDic = [VOUtil parseBody:resp];
-                                                       [self logoutAction:resp];
-                                                       if (!bodyDic) {
-                                                           [self textStateHUD:@"点赞失败"];
-                                                       }else{
-                                                           
-                                                           
-                                                           if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
-                                                               [self textStateHUD:@"点赞成功"];
-                                                               [self getHomeDetailDataRequest];
-                                                               
-                                                               
-                                                           }else{
-                                                               NSString *str = [bodyDic objectForKey:@"description"];
-                                                               [self textStateHUD:str];
-                                                           }
-                                                       }
-                                                   });
-                                                   
-                                               } failed:^(NSError *error) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"网络错误"
-                                                                       waitUntilDone:YES];
-                                               }];
-        [proxy start];
         
+        if (_type == 2) {//活动回顾
+            LMReviewCommentZanRequest * request = [[LMReviewCommentZanRequest alloc] initWithReviewUuid:_artcleuuid andCommentUuid:cell.commentUUid];
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                           [self logoutAction:resp];
+                                                           if (!bodyDic) {
+                                                               [self textStateHUD:@"点赞失败"];
+                                                           }else{
+                                                               
+                                                               
+                                                               if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                                   [self textStateHUD:@"点赞成功"];
+                                                                   [self getHomeDetailDataRequest];
+                                                                   
+                                                                   
+                                                               }else{
+                                                                   NSString *str = [bodyDic objectForKey:@"description"];
+                                                                   [self textStateHUD:str];
+                                                               }
+                                                           }
+                                                       });
+                                                       
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+
+        }
+        else{
+        
+            LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           NSDictionary *bodyDic = [VOUtil parseBody:resp];
+                                                           [self logoutAction:resp];
+                                                           if (!bodyDic) {
+                                                               [self textStateHUD:@"点赞失败"];
+                                                           }else{
+                                                               
+                                                               
+                                                               if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
+                                                                   [self textStateHUD:@"点赞成功"];
+                                                                   [self getHomeDetailDataRequest];
+                                                                   
+                                                                   
+                                                               }else{
+                                                                   NSString *str = [bodyDic objectForKey:@"description"];
+                                                                   [self textStateHUD:str];
+                                                               }
+                                                           }
+                                                       });
+                                                       
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }
     }else{
         [self IsLoginIn];
     }
@@ -1669,25 +1838,43 @@ LMContentTableViewCellDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
+#pragma mark - 回复评论
 -(void)commitDataRequest
 {
     NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
-    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:string];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getEventcommitResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"回复失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    if (_type == 2) {//活动回顾
+        LMReviewAnswerRequest * request = [[LMReviewAnswerRequest alloc] initWithReviewUuid:_artcleuuid andCommentUuid:commitUUid andReplyContent:string];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventcommitResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"回复失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }else{
+        LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:string];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getEventcommitResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"回复失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
 }
 
 - (void)getEventcommitResponse:(NSString *)resp
@@ -1713,7 +1900,7 @@ LMContentTableViewCellDelegate
     }
 }
 
-#pragma mark 键盘部分
+#pragma mark - 键盘部分
 
 - (void) registerForKeyboardNotifications
 {
@@ -1776,7 +1963,7 @@ LMContentTableViewCellDelegate
     
 }
 
-#pragma mark UITextFieldDelegate
+#pragma mark - UITextFieldDelegate
 
 //获取textView高度
 
@@ -1843,7 +2030,7 @@ LMContentTableViewCellDelegate
     return YES;
 }
 
-#pragma mark  --评论文章
+#pragma mark  - -评论文章
 - (void)getCommentArticleDataRequest
 {
     if ([[FitUserManager sharedUserManager] isLogin]){
@@ -1858,22 +2045,40 @@ LMContentTableViewCellDelegate
         
         NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
-        
-        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                               completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(getCommentArticleDataResponse:)
-                                                                          withObject:resp
-                                                                       waitUntilDone:YES];
-                                               } failed:^(NSError *error) {
-                                                   
-                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                          withObject:@"网络错误"
-                                                                       waitUntilDone:YES];
-                                               }];
-        [proxy start];
-        
+        if (_type == 2) {//活动回顾
+            LMReviewCommentRequest * request = [[LMReviewCommentRequest alloc] initWithReviewUuid:_artcleuuid andCommentContent:string];
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getCommentArticleDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+
+        }else{
+            
+            LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
+            
+            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(getCommentArticleDataResponse:)
+                                                                              withObject:resp
+                                                                           waitUntilDone:YES];
+                                                   } failed:^(NSError *error) {
+                                                       
+                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                              withObject:@"网络错误"
+                                                                           waitUntilDone:YES];
+                                                   }];
+            [proxy start];
+        }
     } else {
      
         [self IsLoginIn];
@@ -1914,7 +2119,7 @@ LMContentTableViewCellDelegate
     [textcView becomeFirstResponder];
 }
 
-#pragma mark 删除文章
+#pragma mark - 删除文章
 - (void)deleteActivityRequest:(NSString *)article_uuid
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
@@ -1935,21 +2140,41 @@ LMContentTableViewCellDelegate
 
 - (void)getDeleteRequest
 {
-    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_artcleuuid];
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除失败"
-                                                                   waitUntilDone:YES];
-                                               
-                                           }];
-    [proxy start];
+    if (_type == 2) {//活动回顾
+        LMDeleteReviewRequest * request = [[LMDeleteReviewRequest alloc] initWithReviewUuid:_artcleuuid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"删除失败"
+                                                                       waitUntilDone:YES];
+                                                   
+                                               }];
+        [proxy start];
+    }
+    else{
+    
+        LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_artcleuuid];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(deleteActivityResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"删除失败"
+                                                                       waitUntilDone:YES];
+                                                   
+                                               }];
+        [proxy start];
+    }
 }
 
 
@@ -1961,6 +2186,7 @@ LMContentTableViewCellDelegate
     if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
         
         [self textStateHUD:@"删除成功"];
+    
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController popViewControllerAnimated:YES];
             
@@ -1974,7 +2200,7 @@ LMContentTableViewCellDelegate
     
 }
 
-#pragma mark --删除评论
+#pragma mark - -删除评论
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
     NSInteger index = tap.view.tag;
@@ -2035,21 +2261,40 @@ LMContentTableViewCellDelegate
 
 - (void)deleteCommentdata:(NSString *)uuid
 {
-    LMArticleCommentDeleteRequest *request = [[LMArticleCommentDeleteRequest alloc] initWithCommentUUid:uuid];
+    if (_type == 2) {//活动回顾
+        LMDeleteCommentOrAnswerRequest * request = [[LMDeleteCommentOrAnswerRequest alloc] initWithCommentUuid:uuid andType:@"comment"];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getdeleteArticlecommentResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
+    else{
     
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getdeleteArticlecommentResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+        LMArticleCommentDeleteRequest *request = [[LMArticleCommentDeleteRequest alloc] initWithCommentUUid:uuid];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getdeleteArticlecommentResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"网络错误"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
 }
 
 - (void)getdeleteArticlecommentResponse:(NSString *)resp
@@ -2068,25 +2313,42 @@ LMContentTableViewCellDelegate
         }
     }
 }
-
+#pragma mark - 删除回复
 - (void)deleteArticleReply:(NSString *)uuid
 {
-    
-    LMArticeDeleteReplyRequst *request = [[LMArticeDeleteReplyRequst alloc] initWithArticle_uuid:uuid];
-    
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(getdeleteArticlereplyResponse:)
-                                                                      withObject:resp
-                                                                   waitUntilDone:YES];
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"删除回复失败"
-                                                                   waitUntilDone:YES];
-                                           }];
-    [proxy start];
+    if (_type == 2) {//活动回顾
+        LMDeleteCommentOrAnswerRequest * request = [[LMDeleteCommentOrAnswerRequest alloc] initWithCommentUuid:uuid andType:@"reply"];
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getdeleteArticlereplyResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"删除回复失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+
+    }else{
+        LMArticeDeleteReplyRequst *request = [[LMArticeDeleteReplyRequst alloc] initWithArticle_uuid:uuid];
+        
+        HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                               completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(getdeleteArticlereplyResponse:)
+                                                                          withObject:resp
+                                                                       waitUntilDone:YES];
+                                               } failed:^(NSError *error) {
+                                                   
+                                                   [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                          withObject:@"删除回复失败"
+                                                                       waitUntilDone:YES];
+                                               }];
+        [proxy start];
+    }
 }
 
 - (void)getdeleteArticlereplyResponse:(NSString *)resp
@@ -2126,7 +2388,7 @@ LMContentTableViewCellDelegate
     [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
 }
 
-#pragma mark --跳转writerVC
+#pragma mark - -跳转writerVC
 
 - (void)WriterVC
 {
@@ -2162,7 +2424,7 @@ LMContentTableViewCellDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark --更多按钮
+#pragma mark - -更多按钮
 
 - (void)creatMoreView
 {
@@ -2256,10 +2518,12 @@ LMContentTableViewCellDelegate
         writeButton.layer.borderColor = LIVING_COLOR.CGColor;
         writeButton.layer.borderWidth = 0.5;
         
-        [addView addSubview:writeButton];
-        [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
-        
-        
+        if (_type != 2) {
+            
+            [addView addSubview:writeButton];
+            [writeButton addTarget:self action:@selector(WriterVC) forControlEvents:UIControlEventTouchUpInside];
+        }
+                
     }else{
         [self dismissSelf];
     }
@@ -2297,6 +2561,9 @@ LMContentTableViewCellDelegate
 - (void)tapVideoAction:(UITapGestureRecognizer*)tap
 {
     NSArray *arr =articleData.articleImgs;
+    if (_type == 2) {
+        arr = articleData.imgs;
+    }
     NSDictionary *dic = arr[tap.view.tag];
     if (dic[@"videoUrl"]&&![dic[@"videoUrl"] isEqual:@""]) {
         PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:dic[@"videoUrl"]];
@@ -2306,7 +2573,6 @@ LMContentTableViewCellDelegate
     }else{
         [self textStateHUD:@"未获取视频文件~"];
     }
-    
     
 }
 

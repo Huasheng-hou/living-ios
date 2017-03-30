@@ -15,6 +15,7 @@
     UIImageView * _icon;
     
     UILabel * _name;
+    UILabel * _time;
     
     UILabel * _content;
     
@@ -33,47 +34,65 @@
 
 - (void)addSubViews{
     
-    _icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 40, 40)];
+    _icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
     _icon.backgroundColor = BG_GRAY_COLOR;
     _icon.clipsToBounds = YES;
     _icon.layer.cornerRadius = 3;
     [self.contentView addSubview:_icon];
     
     
-    _name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+15, 10, 100, 40)];
+    _name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+15, 10, 100, 20)];
     _name.text = @"世纪东方";
-    _name.textColor = TEXT_COLOR_LEVEL_2;
-    _name.font = TEXT_FONT_LEVEL_2;
+    _name.textColor = TEXT_COLOR_LEVEL_3;
+    _name.font = TEXT_FONT_LEVEL_3;
     [self.contentView addSubview:_name];
     
-    _content = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_name.frame)+10, kScreenWidth-20, 0)];
+    _time = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+15, CGRectGetMaxY(_name.frame)+10, 100, 20)];
+    _time.text = @"";
+    _time.textColor = TEXT_COLOR_LEVEL_4;
+    _time.font = TEXT_FONT_LEVEL_4;
+    [self.contentView addSubview:_time];
+    
+    
+    _content = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_icon.frame)+10, kScreenWidth-20, 0)];
     [self.contentView addSubview:_content];
     
-    _imageBack = [UIView new];
+    _imageBack = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_content.frame)+10, kScreenWidth-20, 0)];
     _imageBack.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:_imageBack];
     
+    
+    _botLine = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_imageBack.frame)+5, kScreenWidth-20, 1)];
+    _botLine.backgroundColor = BG_GRAY_COLOR;
+    [self.contentView addSubview:_botLine];
 }
 
 - (void)setData:(LMEventCommentVO *)vo{
     
-    frameH = [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 90;
-    
-    
+    //cell高度
+    frameH = [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 80;
+        
     [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
     
     _name.text = vo.nickName;
+    
+    _time.text = [vo.commentTime substringFromIndex:5];
+    [_time sizeToFit];
+    
     
     _content.text = vo.commentContent;
     _content.textColor = TEXT_COLOR_LEVEL_2;
     _content.font = TEXT_FONT_LEVEL_2;
     _content.numberOfLines = -1;
     [_content sizeToFit];
-
+    _content.frame = CGRectMake(10, CGRectGetMaxY(_icon.frame)+10, kScreenWidth-20, _content.bounds.size.height);
+    
     
     if (vo.images.count > 0) {
-        _imageBack.frame = CGRectMake(0, CGRectGetMaxY(_content.frame), kScreenWidth, 30);
-        
+        _imageBack.frame = CGRectMake(0, CGRectGetMaxY(_content.frame)+10, kScreenWidth, 30);
+        for (UIView * sub in _imageBack.subviews) {
+            [sub removeFromSuperview];
+        }
         for (int i=0; i<vo.images.count; i++) {
             NSString * url = [vo.images[i] objectForKey:@"url"];
             
@@ -87,9 +106,9 @@
     }
     
     
-    _botLine = [[UILabel alloc] initWithFrame:CGRectMake(0, frameH-5, kScreenWidth, 1)];
-    _botLine.backgroundColor = BG_GRAY_COLOR;
-    [self.contentView addSubview:_botLine];
+    _botLine.frame = CGRectMake(10, frameH-2, kScreenWidth-20, 1);
+    
+    
 }
 
 #pragma mark - 根据内容cell自适应
@@ -101,13 +120,13 @@
     label.numberOfLines = -1;
     [label sizeToFit];
     
-    NSInteger labH = label.frame.size.height;
+    NSInteger contentH = label.frame.size.height;
     
     
     if (count > 0) {
-        labH += 25;
+        contentH += 30;
     }
-    return labH;
+    return contentH;
 }
 
 @end

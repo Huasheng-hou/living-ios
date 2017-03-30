@@ -456,7 +456,10 @@ WJLoopViewDelegate
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 40;
+    if (section == 0) {
+        return self.listData.count > 0 ? 40 : 0;
+    }
+    return  _eventsArray.count > 0 ? 40 : 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

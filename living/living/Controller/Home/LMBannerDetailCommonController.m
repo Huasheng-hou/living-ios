@@ -17,6 +17,10 @@
 #import "LMBannerrequest.h"
 #import "BannerVO.h"
 #import "LMCategoryEventsRequest.h"
+
+#import "LMActivityDetailController.h"
+
+
 #define PAGE_SIZE 20
 @interface LMBannerDetailCommonController ()<UITableViewDelegate, UITableViewDataSource>
 @end
@@ -38,9 +42,16 @@
         _category = type;
         _index = index;
         self.current = 1;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"reloadlist" object:nil];
+        
     }
     
     return self;
+}
+
+- (void)refresh{
+    [self loadNewer];
 }
 
 - (void)viewDidLoad {
@@ -177,34 +188,54 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (self.listData.count > indexPath.row) {
+    if (_index == 1) {
+        if (self.listData.count > indexPath.row) {
         
-        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
+            LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+                
+                if (vo.group&&[vo.group isEqualToString:@"article"]) {
+                    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    detailVC.artcleuuid = vo.articleUuid;
+                    detailVC.franchisee = vo.franchisee;
+                    detailVC.sign = vo.sign;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                    LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    detailVC.voiceUuid = vo.articleUuid;
+                    detailVC.franchisee = vo.franchisee;
+                    detailVC.sign = vo.sign;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                
+            }
+        }
+
+    }
+    if (_index == 2) {
         
-        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+        //LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
+        if (_reviewArr.count > indexPath.row) {
+            LMActicleVO * vo = _reviewArr[indexPath.row];
+            LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
             
-            if (vo.group&&[vo.group isEqualToString:@"article"]) {
-                LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-                
-                detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.artcleuuid = vo.articleUuid;
-                detailVC.franchisee = vo.franchisee;
-                detailVC.sign = vo.sign;
-                [self.navigationController pushViewController:detailVC animated:YES];
-            }
-            
-            if (vo.group&&[vo.group isEqualToString:@"voice"]) {
-                LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
-                
-                detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.voiceUuid = vo.articleUuid;
-                detailVC.franchisee = vo.franchisee;
-                detailVC.sign = vo.sign;
-                [self.navigationController pushViewController:detailVC animated:YES];
-            }
-            
+            detailVC.hidesBottomBarWhenPushed = YES;
+            detailVC.artcleuuid = vo.reviewUuid;
+            detailVC.franchisee = vo.franchisee;
+            detailVC.sign = vo.sign;
+            detailVC.type = 2;
+            [self.navigationController pushViewController:detailVC animated:YES];
             
         }
+        
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

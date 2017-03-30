@@ -18,7 +18,7 @@
 
 @property(nonatomic, strong) NSString *sign;
 
-
+@property (nonatomic, assign) NSInteger type;
 
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;

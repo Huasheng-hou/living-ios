@@ -12,6 +12,6 @@
 
 -(id)initWithOrder_uuid:(NSString *)order_uuid
             couponMoney:(NSString *)couponMoney
-             couponUuid:(NSString *)coupon_uuid;
+             couponUuid:(NSArray *)coupon_uuid;
 
 @end

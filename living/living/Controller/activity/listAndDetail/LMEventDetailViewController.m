@@ -412,7 +412,7 @@ APChooseViewDelegate
             return 80;
         }
         LMEventCommentVO * vo = msgArray[indexPath.row-1];
-        return [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 90;
+        return [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 80;
     }
     
     return 0;
@@ -568,9 +568,10 @@ APChooseViewDelegate
     if (indexPath.section==2) {
         
         static NSString *cellId = @"cellId";
-        
-        LMEventMsgCell *cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
+        LMEventMsgCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMProjectBodyVO *list = eventArray[indexPath.row];
         
@@ -636,23 +637,23 @@ APChooseViewDelegate
     label.numberOfLines = -1;
     [label sizeToFit];
     
-    NSInteger labH = label.frame.size.height;
+    NSInteger contentH = label.bounds.size.height;
 
     
     if (count > 0) {
-        labH += 25;
+        contentH += 30;
     }
-    return labH;
+    return contentH;
 }
 
 
 #pragma mark - 评价
 - (void)judge:(id)sender{
     
-    if (!eventDic.isBuy) {
-        [self textStateHUD:@"您尚未购买"];
-        return;
-    }
+//    if (!eventDic.isBuy) {
+//        [self textStateHUD:@"您尚未购买"];
+//        return;
+//    }
     
     LMEvaluateViewController * evaluateVC = [[LMEvaluateViewController alloc] init];
     evaluateVC.eventVO = eventDic;

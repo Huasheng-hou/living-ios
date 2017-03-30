@@ -41,4 +41,12 @@
 @property (nonatomic, retain) NSString *type;
 
 
+//活动回顾
+@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * reviewUuid;
+@property (nonatomic, copy) NSString * content;
+@property (nonatomic, copy) NSString * title;
+@property (nonatomic, strong) NSArray * imgs;
+@property (nonatomic, assign) int praiseNum;
+
 @end

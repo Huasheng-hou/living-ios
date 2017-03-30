@@ -11,7 +11,7 @@
 @implementation LMCouponUseRequest
 -(id)initWithOrder_uuid:(NSString *)order_uuid
             couponMoney:(NSString *)couponMoney
-             couponUuid:(NSString *)coupon_uuid
+             couponUuid:(NSArray *)coupon_uuid
 {
     self = [super init];
     
@@ -27,7 +27,7 @@
         }
         
         if (coupon_uuid){
-            [bodyDict setObject:coupon_uuid forKey:@"coupon_uuid"];
+            [bodyDict setObject:coupon_uuid forKey:@"couponUuid"];
         }
         
         
