@@ -43,7 +43,7 @@
         _index = index;
         self.current = 1;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"reloadlist" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
         
     }
     

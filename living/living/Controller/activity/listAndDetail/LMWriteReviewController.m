@@ -190,7 +190,7 @@ static NSMutableArray *cellDataArray;
 {
     if (section == 0) {
         
-        return 45;
+        return 0;
     }
     return 0.01;
 }
@@ -204,7 +204,7 @@ static NSMutableArray *cellDataArray;
         //描述
         typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 44.5)];
         typeLabel.textColor = TEXT_COLOR_LEVEL_4;
-        
+        type = 2;
         if (type == 1) {
             
             typeLabel.text = @"请选择文章分类";
@@ -225,7 +225,7 @@ static NSMutableArray *cellDataArray;
         line.backgroundColor = LINE_COLOR;
         [bgView addSubview:line];
         
-        return bgView;
+        return nil;
     }
     
     return nil;
@@ -891,7 +891,7 @@ static NSMutableArray *cellDataArray;
     }
     
     self.navigationItem.rightBarButtonItem.enabled  = NO;
-    LMWriteReviewRequest * request = [[LMWriteReviewRequest alloc] initWithEventUuid:_eventUuid andEventContent:cont andEventImgs:array andBlend:new andDescribe:discribleTF.text andTitle:titleTF.text andCategory:typeString];
+    LMWriteReviewRequest * request = [[LMWriteReviewRequest alloc] initWithEventUuid:_eventUuid andEventContent:cont andEventImgs:array andBlend:new andDescribe:discribleTF.text andTitle:titleTF.text andCategory:nil];
 //    LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
 //                                                                                   Article_title:titleTF.text
 //                                                                                      Descrition:discribleTF.text

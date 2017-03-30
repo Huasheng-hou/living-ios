@@ -960,7 +960,9 @@ LMContentTableViewCellDelegate
                     titleLabel.attributedText = str;
                     titleLabel.userInteractionEnabled = YES;
                     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleClick)];
+                    
                     [titleLabel addGestureRecognizer:tap];
+                    
                     
                 }else{
                     titleLabel.text = articleData.articleTitle;
@@ -1228,7 +1230,12 @@ LMContentTableViewCellDelegate
             
             titleLabel.userInteractionEnabled = YES;
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleClick)];
+            
             [titleLabel addGestureRecognizer:tap];
+            
+            titleLabel.userInteractionEnabled = NO;
+            
+            
             
         }else{
             titleLabel.text = articleData.articleTitle;
@@ -2392,6 +2399,9 @@ LMContentTableViewCellDelegate
 
 - (void)WriterVC
 {
+    if (_type == 2) {
+        return;
+    }
     [self dismissSelf];
     LMWriterViewController *VC = [[LMWriterViewController alloc] initWithUUid:articleData.userUuid];
     VC.hidesBottomBarWhenPushed = YES;
@@ -2552,6 +2562,9 @@ LMContentTableViewCellDelegate
 
 - (void)titleClick
 {
+    if (_type == 2) {
+        return ;
+    }
     LMArtcleTypeViewController *writerVC = [[LMArtcleTypeViewController alloc] initWithType:articleData.type];
     writerVC.hidesBottomBarWhenPushed = YES;
     

@@ -568,10 +568,10 @@ APChooseViewDelegate
     if (indexPath.section==2) {
         
         static NSString *cellId = @"cellId";
-        LMEventMsgCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        if (!cell) {
-            cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        }
+        ///LMEventMsgCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        //if (!cell) {
+           LMEventMsgCell * cell = [[LMEventMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        //}
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         LMProjectBodyVO *list = eventArray[indexPath.row];
         
@@ -610,10 +610,10 @@ APChooseViewDelegate
             cell.textLabel.textColor = TEXT_COLOR_LEVEL_2;
             return cell;
         }
-        LMEventDetailJudgeListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"judgeContentCell"];
-        if (!cell) {
-            cell = [[LMEventDetailJudgeListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"judgeContentCell"];
-        }
+//        LMEventDetailJudgeListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"judgeContentCell"];
+//        if (!cell) {
+           LMEventDetailJudgeListCell * cell = [[LMEventDetailJudgeListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"judgeContentCell"];
+        //}
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (msgArray.count > indexPath.row-1) {
             LMEventCommentVO * vo = msgArray[indexPath.row-1];

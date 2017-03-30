@@ -87,9 +87,9 @@
     //    _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
     //    [self.contentView addSubview:_timeLabel];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 30)];
-    footView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:footView];
+//    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 170, kScreenWidth, 30)];
+//    footView.backgroundColor = [UIColor whiteColor];
+//    [self.contentView addSubview:footView];
     
     //活动地址
     _addressV = [UIImageView new];
@@ -106,9 +106,9 @@
     [self.contentView addSubview:_addressLabel];
     
     //分割线
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 175, kScreenWidth, 5)];
-    [view setBackgroundColor:BG_GRAY_COLOR];
-    [self addSubview:view];
+//    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 175, kScreenWidth, 5)];
+//    [view setBackgroundColor:BG_GRAY_COLOR];
+//    [self addSubview:view];
     
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 185, kScreenWidth-30, 160)];
     _mapView.mapType = MKMapTypeStandard;
