@@ -128,6 +128,14 @@
             self.voiceTitle = [dictionary objectForKey:@"voiceTitle"];
         }
  
+        if (nil != [dictionary objectForKey:@"review_uuid"] && ![[dictionary objectForKey:@"review_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"review_uuid"] isKindOfClass:[NSString class]]) {
+            self.reviewUuid = [dictionary objectForKey:@"review_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"reviewTitle"] && ![[dictionary objectForKey:@"reviewTitle"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"reviewTitle"] isKindOfClass:[NSString class]]) {
+            self.reviewTitle = [dictionary objectForKey:@"reviewTitle"];
+        }
     }
     
     return self;

@@ -37,4 +37,10 @@
 @property (nonatomic, retain) NSString *voiceUuid;
 @property (nonatomic, retain) NSString *voiceTitle;
 
+@property (nonatomic, copy) NSString * reviewUuid;
+@property (nonatomic, copy) NSString * reviewTitle;
+
+
+
+
 @end
