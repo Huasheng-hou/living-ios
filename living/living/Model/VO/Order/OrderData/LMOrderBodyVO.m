@@ -115,7 +115,10 @@
             && [[dictionary objectForKey:@"voice_uuid"] isKindOfClass:[NSString class]]) {
             self.voiceUuid = [dictionary objectForKey:@"voice_uuid"];
         }
-        
+        if (nil != [dictionary objectForKey:@"available"] && ![[dictionary objectForKey:@"available"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"available"] isKindOfClass:[NSString class]]) {
+            self.available = [dictionary objectForKey:@"available"];
+        }
         
         
     }

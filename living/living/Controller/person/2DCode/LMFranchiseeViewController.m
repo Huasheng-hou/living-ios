@@ -161,7 +161,7 @@ liveNameProtocol
 
 #pragma mark - 请求个人信息
 - (FitBaseRequest *)request{
-    LMPersonInfoRequest * request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].userId];
+    LMPersonInfoRequest * request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
     
     return request;
 }

@@ -62,6 +62,7 @@ FitPickerViewDelegate
     NSMutableArray * selectedArray;
     NSMutableArray * selectedUuid;
     
+    NSInteger discountMoney;//可抵扣金额
     
 }
 
@@ -101,6 +102,10 @@ FitPickerViewDelegate
                                                  selector:@selector(aliPayEnsure:)
                                                      name:@"aliPayEnsure"
                                                    object:nil];
+        
+        
+        selectedArray = [NSMutableArray new];
+        selectedUuid = [NSMutableArray new];
     }
     
     return self;
@@ -181,6 +186,15 @@ FitPickerViewDelegate
             orderInfos = [[LMOrderInfoVO alloc] initWithDictionary:[bodyDic objectForKey:@"orderInfo"]];
             orderdata = [[LMOrderBodyVO alloc] initWithDictionary:[bodyDic objectForKey:@"order_body"]];
             
+            if ([orderdata.totalMoney integerValue] < 120) {
+                discountMoney = 10;
+            }
+            else if ([orderdata.totalMoney integerValue] < 200) {
+                discountMoney = 20;
+            }else{
+                discountMoney = 30;
+            }
+            
             if (orderdata.coupons && orderdata.coupons>0) {
                 [self getCouponListRequest];
             }
@@ -235,8 +249,8 @@ FitPickerViewDelegate
             if (orderdata.coupons &&orderdata.coupons>0) {
                 return 190;
             }else{
+//                return 150;
                 return 190;
-                //return 150;
             }
             
         }
@@ -396,6 +410,13 @@ FitPickerViewDelegate
                     cPLabel.text = @"未使用优惠券";
                     cPLabel.font = TEXT_FONT_LEVEL_2;
                     couponString = [NSString stringWithFormat:@"优惠券："];
+                    if ([orderdata.available isEqualToString:@"1"]) {
+                        cPLabel.text = @"不支持使用优惠券";
+                    }else if ([orderdata.available isEqualToString:@"3"] ){
+                        cPLabel.text = @"无可用优惠券";
+                    }else if ([orderdata.available isEqualToString:@"4"]){
+                        cPLabel.text = @"无优惠券";
+                    }
                 }else{
                     cPLabel.textColor = LIVING_REDCOLOR;
                     NSString *cpString =[NSString stringWithFormat:@"抵￥%@",orderdata.couponPrice];
@@ -412,13 +433,30 @@ FitPickerViewDelegate
                 
                 
                 UILabel *couponLabel = [UILabel new];
-                couponString = [NSString stringWithFormat:@"优惠券 x%d",orderdata.coupons];
+                int couponNum ;
                 
-                NSMutableAttributedString *cStr = [[NSMutableAttributedString alloc] initWithString:couponString];
+                if ([orderdata.couponPrice intValue] > 0) {
+                    if (selectedArray.count > 0) {
+                        couponNum = selectedArray.count;
+                    }else{
+                        couponNum = 1;
+                    }
+                    couponString = [NSString stringWithFormat:@"优惠券 x%d",couponNum];
+                    
+                    NSMutableAttributedString *cStr = [[NSMutableAttributedString alloc] initWithString:couponString];
                 
-                [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
-                [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
-                couponLabel.attributedText = cStr;
+                    [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
+                    [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
+                    couponLabel.attributedText = cStr;
+                   
+                        
+                    
+                }else{
+                    
+                    couponLabel.attributedText = nil;
+                    
+                }
+                
                 couponLabel.textColor = LIVING_COLOR;
                 [cell.contentView addSubview:couponLabel];
                 
@@ -572,24 +610,29 @@ FitPickerViewDelegate
             [cell setValue:vo];
             [cell setArray:couponPriceArray index:indexPath.row];
             
-            
-            
         }else{
             cell.nameLabel.text = @"不使用任何优惠券";
             cell.nameLabel.textColor = [UIColor colorWithRed:255.0/255.0 green:180.0/255.0 blue:21.0/255.0 alpha:1.0];
             cell.priceLabel.hidden = YES;
-            [selectedArray addObject:@0];
+            
         }
-        for (NSNumber * num in selectedArray) {
-            if (indexPath.row==[num integerValue]) {
+        
+        if (selectedRow == couponList.count) {
+            if (indexPath.row == selectedRow) {
                 cell.chooseView.image= [UIImage imageNamed:@"choose"];
             }else{
                 cell.chooseView.image= [UIImage imageNamed:@"choose-no"];
             }
-
+        } else {
+    
+            cell.chooseView.image = [UIImage imageNamed:@"choose-no"];
+        
+            for (NSNumber * num in selectedArray) {
+                if (indexPath.row==[num integerValue]) {
+                    cell.chooseView.image= [UIImage imageNamed:@"choose"];
+                }
+            }
         }
-        
-        
         return cell;
     }
     
@@ -622,43 +665,49 @@ FitPickerViewDelegate
         }
     }
     if (tableView ==_couponView){
-        
+        //使用优惠券
         if (indexPath.row<couponList.count) {
             
             selectedRow=indexPath.row;
             
-            NSInteger discountMoney = 0;
-            if ([orderdata.totalMoney integerValue] < 120) {
-                discountMoney = 10;
-            }
-            else if ([orderdata.totalMoney integerValue] < 200) {
-                discountMoney = 20;
-            }else{
-                discountMoney = 30;
-            }
             
             NSInteger currentMoney = 0;
             
-            for (NSNumber * num in selectedArray) {
+            //数组为空
+            if (selectedArray.count == 0) {
                 
-                NSInteger money = [couponPriceArray[[num integerValue]] integerValue];
-                currentMoney += money;
-                
-                if ([num integerValue] == selectedRow) {
-                    [selectedArray removeObject:num];
+                NSInteger selectedMoney = [couponPriceArray[selectedRow] integerValue];
+                if (currentMoney + selectedMoney > discountMoney) {
+                    [self textStateHUD:[NSString stringWithFormat:@"最多抵扣%d元",discountMoney]];
+                    return;
                 }else{
+                    [selectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
+                }
+            } else {
+            
+                for (NSNumber * num in selectedArray) {
                     
+                    NSInteger money = [couponPriceArray[[num integerValue]] integerValue];
+                    currentMoney += money;
+                }
+                NSNumber * num = [NSNumber numberWithInteger:selectedRow];
+                if ([selectedArray containsObject:num]) {
+                    [selectedArray removeObject:num];
+                }
+                else{
+                        
                     NSInteger selectedMoney = [couponPriceArray[selectedRow] integerValue];
                     if (currentMoney + selectedMoney > discountMoney) {
-                        [self textStateHUD:[NSString stringWithFormat:@"您最多抵扣%d元",discountMoney]];
+                        [self textStateHUD:[NSString stringWithFormat:@"最多抵扣%d元",discountMoney]];
+                        return;
                     }else{
                         [selectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
                     }
+                    
                 }
             }
-            
         } else {
-            
+            //不使用优惠券
             selectedRow=indexPath.row;
         }
         
@@ -1094,25 +1143,43 @@ FitPickerViewDelegate
 
 - (void)CouponChose
 {
-    selectedArray = [NSMutableArray new];
-    selectedUuid = [NSMutableArray new];
+    if ([orderdata.available isEqualToString:@"1"]) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"不支持使用优惠券"];
+            return ;
+        });
+    }else if ([orderdata.available isEqualToString:@"3"] ){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"无可用优惠券"];
+            return ;
+        });
+    }else if ([orderdata.available isEqualToString:@"4"]){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"无优惠券"];
+            return ;
+        });
+    }
+    
     [self createTableView];
 }
 
-//- (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
-//{
-//    NSString *uuidString = items[0];
-//    
-//    if ([uuidString isEqual:@"不抵扣"]) {
-//        
-//        [self useCouponreload:@"0" couponUUid:@[]];
-//    } else {
-//        
-//        NSString *couponUUid = couponIDList[row];
-//        NSString *coupon = [uuidString substringFromIndex:8];
-//        [self useCouponreload:coupon couponUUid:@[couponUUid]];
-//    }
-//}
+- (void)didSelectedItems:(NSArray *)items Row:(NSInteger)row
+{
+    NSString *uuidString = items[0];
+    
+    if ([uuidString isEqual:@"不抵扣"]) {
+        
+        [self useCouponreload:@"0" couponUUid:@[]];
+    } else {
+        
+        NSString *couponUUid = couponIDList[row];
+        NSString *coupon = [uuidString substringFromIndex:8];
+        [self useCouponreload:coupon couponUUid:@[couponUUid]];
+    }
+}
 
 - (void)getCouponListRequest
 {
@@ -1155,6 +1222,7 @@ FitPickerViewDelegate
                 [couponList addObject:vo];
                 [couponPriceArray addObject:vo.amount];
             }
+            selectedRow = couponList.count;
         } else {
             
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -1219,6 +1287,13 @@ FitPickerViewDelegate
     [cancelBtn addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
     
     [buttonView addSubview:cancelBtn];
+    
+    UILabel * tip = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, kScreenWidth-140, 44)];
+    tip.text = [NSString stringWithFormat:@"您当前最多可抵扣金额为%d元",discountMoney];
+    tip.textColor = LIVING_COLOR;
+    tip.textAlignment = NSTextAlignmentCenter;
+    tip.font = TEXT_FONT_LEVEL_3;
+    [buttonView addSubview:tip];
     
     UIButton    *confirmBtn     = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 0, 70, 44)];
     [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];

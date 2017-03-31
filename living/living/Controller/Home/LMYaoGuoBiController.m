@@ -30,6 +30,9 @@
 #import "LMCoinlistVO.h"
 #import "LMYGBDetailVO.h"
 #import "LMYGBExchangeRequest.h"
+
+#import "LMPersonInfoRequest.h"
+
 @interface LMYaoGuoBiController ()<UITableViewDelegate,UITableViewDataSource,WJLoopViewDelegate>
 
 @end
@@ -41,6 +44,8 @@
     NSArray * _bannerArray;
     NSMutableArray  *stateArray;
     NSArray * _coinDetailArray;
+    
+    int coins;
 }
 
 - (id)init
@@ -159,7 +164,7 @@
             [headView addSubview:loopView];
             
         }
-        [self addHeadSubViews];
+        [self getUserInfoToGetCoinNumber];
     }
 }
 - (void)addHeadSubViews{
@@ -185,7 +190,7 @@
     [back addSubview:ygb];
     
     UILabel * number = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-90, 11, 80, 20)];
-    number.text = @"0颗";
+    number.text = [NSString stringWithFormat:@"%d颗", coins];
     number.textColor = TEXT_COLOR_LEVEL_3;
     number.font = TEXT_FONT_LEVEL_1;
     number.textAlignment = NSTextAlignmentRight;
@@ -197,45 +202,56 @@
     
     
 }
-#pragma mark - 请求果币明细数据
-- (void)getCoinDetailRequest{
-    LMYGBDetailRequest * request = [[LMYGBDetailRequest alloc] initWithPageIndex:self.current andPageSize:20];
+#pragma mark - 请求用户资料获取腰果币数量
+- (void)getUserInfoToGetCoinNumber{
+    LMPersonInfoRequest * request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
     HTTPProxy * proxy = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
-        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self parseCoinDetailResponse:resp];
+            [self parseCoinResp:resp];
         });
-        
     } failed:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self textStateHUD:@"请求失败"];
-        });
+        NSLog(@"%@", error.localizedDescription);
     }];
     [proxy start];
 }
-- (void)parseCoinDetailResponse:(NSString *)resp{
+- (NSArray *)parseCoinResp:(NSString *)resp{
     
-    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary * respDict = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
-    NSDictionary * headDict = [respDict objectForKey:@"head"];
-    if (![[headDict objectForKey:@"returnCode"] isEqualToString:@"000"]) {
-        [self textStateHUD:@"请求失败"];
-        return;
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"身份验证失败"];
+        });
+        return nil;
     }
-    NSDictionary * bodyDict = [VOUtil parseBody:resp];
-    if ([bodyDict[@"result"] isEqualToString:@"0"]) {
-        
-        _coinDetailArray = [LMYGBDetailVO LMYGBDetailVOWithArray:bodyDict[@"list"]];
+    if (![bodyDict[@"result"] isEqualToString:@"0"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"请求失败"];
+        });
+        return nil;
     }
+    NSDictionary * userInfo = [bodyDict objectForKey:@"userInfo"];
+    coins = [userInfo[@"coins"] intValue];
+    //[self.tableView reloadData];
+    [self addHeadSubViews];
+    return nil;
+    
+    
 }
-
 
 #pragma mark - 请求兑换列表数据
 
 - (FitBaseRequest *)request{
     [self initStateHud];
     [self getBannerDataRequest];
-    
+    //[self getUserInfoToGetCoinNumber];
     LMYGBCoinListRequest *request = [[LMYGBCoinListRequest alloc] initWithPageIndex:self.current andPageSize:20];
     return  request;
 }
