@@ -21,7 +21,7 @@
     [super viewDidLoad];
     self.title = @"评价成功";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonPressed:)];
-    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"<返回" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonPressed:)];
     [self createUI];
 }
 
@@ -37,7 +37,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth * 0.4, kScreenWidth * 0.07 + 64, kScreenWidth * 0.2, kScreenWidth * 0.2)];
     //imageView.backgroundColor = BG_GRAY_COLOR;
-    imageView.image = [UIImage imageNamed:@"choose"];
+    imageView.image = [UIImage imageNamed:@"ok"];
     [self.view addSubview:imageView];
     
     UILabel *commitLbl = [[UILabel alloc]initWithFrame:CGRectMake(0, kScreenWidth * 0.33 + 64, kScreenWidth, kScreenWidth * 0.05)];

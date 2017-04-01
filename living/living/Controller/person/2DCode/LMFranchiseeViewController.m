@@ -59,7 +59,9 @@ liveNameProtocol
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
+    self.navigationController.navigationBar.barTintColor  = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
 }
 
 - (void)viewDidLoad

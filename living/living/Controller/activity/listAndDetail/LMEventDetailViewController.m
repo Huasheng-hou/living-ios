@@ -153,43 +153,46 @@ APChooseViewDelegate
     headerView.hidden=YES;
     
     [self.view addSubview:headerView];
+    
+    [self creatHeaderView];
 }
 
 - (void)creatHeaderView
 {
     //活动人头像
     UIImageView *headV = [UIImageView new];
+    headV.tag = 10;
     [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar]];
     headV.layer.cornerRadius = 5.f;
-    [headV sizeToFit];
-    headV.frame = CGRectMake(15, 30, 40, 40);
+//    [headV sizeToFit];
+//    headV.frame = CGRectMake(15, 30, 40, 40);
     [headerView addSubview:headV];
     
     //活动人名
     UILabel *nameLabel = [UILabel new];
+    nameLabel.tag = 11;
     nameLabel.text = [NSString stringWithFormat:@"发布者：%@",eventDic.publishName];
     nameLabel.font = [UIFont systemFontOfSize:13.f];
     nameLabel.textColor = [UIColor whiteColor];
     nameLabel.textAlignment = NSTextAlignmentCenter;
-    [nameLabel sizeToFit];
-    nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
+//    [nameLabel sizeToFit];
+//    nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
     [headerView addSubview:nameLabel];
     
     //费用
     UILabel *countLabel = [UILabel new];
+    countLabel.tag = 12;
     countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@",eventDic.perCost];
     countLabel.textColor = [UIColor whiteColor];
     countLabel.font = [UIFont systemFontOfSize:13.f];
-    [countLabel sizeToFit];
-    countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
+//    [countLabel sizeToFit];
+//    countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
     
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
+    joinButton.tag = 13;
     [joinButton setTitle:_type forState:UIControlStateNormal];
     joinButton.userInteractionEnabled = NO;
-    
-    
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
     joinButton.frame = CGRectMake(kScreenWidth-70, 25, 60.f, 50.f);
@@ -201,6 +204,29 @@ APChooseViewDelegate
     [line sizeToFit];
     line.frame = CGRectMake(kScreenWidth-71, 35, 1, 30);
     [headerView addSubview:line];
+}
+- (void)reloadHeaderView{
+    
+    UIImageView * headV = [headerView viewWithTag:10];
+    [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar]];
+    [headV sizeToFit];
+    headV.frame = CGRectMake(15, 30, 40, 40);
+    
+    UILabel * nameLabel = [headerView viewWithTag:11];
+    nameLabel.text = [NSString stringWithFormat:@"发布者：%@",eventDic.publishName];
+    [nameLabel sizeToFit];
+    nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
+    
+    
+    UILabel * countLabel = [headerView viewWithTag:12];
+    countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@",eventDic.perCost];
+    [countLabel sizeToFit];
+    countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
+    
+//    UIButton * joinButton = [headerView viewWithTag:13];
+//    [joinButton setTitle:_type forState:UIControlStateNormal];
+    
+    
 }
 #pragma mark - 项目详情数目请求
 - (void)getEventListDataRequest
@@ -342,7 +368,7 @@ APChooseViewDelegate
             }
         }
         
-        [self creatHeaderView];
+        [self reloadHeaderView];
         [self.tableView reloadData];
         
     } else {

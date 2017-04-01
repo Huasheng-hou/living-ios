@@ -446,6 +446,7 @@ FitPickerViewDelegate
                     NSMutableAttributedString *cStr = [[NSMutableAttributedString alloc] initWithString:couponString];
                 
                     [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_1 range:NSMakeRange(0,3)];
+                    [cStr addAttribute:NSForegroundColorAttributeName value:BLUE_COLOR range:NSMakeRange(0, 3)];
                     [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
                     couponLabel.attributedText = cStr;
                    

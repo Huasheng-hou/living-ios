@@ -91,11 +91,11 @@ WJLoopViewDelegate
 {
     [super viewWillAppear:animated];
     
-    if (self.listData.count == 0) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self initStateHud];
-        });
-    }
+//    if (self.listData.count == 0) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self initStateHud];
+//        });
+//    }
 
     
     self.tabBarController.tabBar.hidden = NO;
@@ -106,16 +106,16 @@ WJLoopViewDelegate
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if (self.listData.count == 0) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self initStateHud];
-        });
-        [self loadNoState];
-    }
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    if (self.listData.count == 0) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self initStateHud];
+//        });
+//        //[self loadNoState];
+//    }
+//}
 
 - (void)viewDidLoad
 {
@@ -371,9 +371,7 @@ WJLoopViewDelegate
         default:
             break;
     }
-    
-    
-    
+
 }
 
 #pragma mark - scrollview代理函数
