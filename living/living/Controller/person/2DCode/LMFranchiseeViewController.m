@@ -189,7 +189,10 @@ liveNameProtocol
     }
     NSDictionary * userInfo = [bodyDict objectForKey:@"userInfo"];
     year = [[userInfo objectForKey:@"life"] intValue];
-    [table reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadData];
+    });
+    
     
     return nil;
 
@@ -341,7 +344,9 @@ liveNameProtocol
             if (!addcell) {
                 addcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
             }
-            
+            for (UIView * subView in addcell.contentView.subviews) {
+                [subView removeFromSuperview];
+            }
             UILabel *label = [UILabel new];
             label.text = @"轻创客包年学习费";
             [addcell.contentView addSubview:label];
@@ -436,7 +441,10 @@ liveNameProtocol
         if (indexPath.row>0) {
             NSInteger index=indexPath.row-1;
             selectedIndex=index;
-            [table reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [table reloadData];
+            });
+
         }
     }
 }
@@ -447,14 +455,20 @@ liveNameProtocol
 {
     _liveRoomName=liveRoom;
     _liveUUID=live_uuid;
-    [table reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadData];
+    });
+
 }
 
 -(void)selectedButton:(UIButton *)sender
 {
     NSInteger index=sender.tag;
     selectedIndex=index;
-    [table reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadData];
+    });
+
 }
 
 #pragma mark 立即充值按钮方法

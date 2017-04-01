@@ -458,7 +458,7 @@ FitPickerViewDelegate
                     
                 }
                 
-                couponLabel.textColor = LIVING_COLOR;
+                //couponLabel.textColor = LIVING_COLOR;
                 [cell.contentView addSubview:couponLabel];
                 
                 

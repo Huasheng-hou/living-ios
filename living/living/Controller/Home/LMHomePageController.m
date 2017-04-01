@@ -91,13 +91,6 @@ WJLoopViewDelegate
 {
     [super viewWillAppear:animated];
     
-//    if (self.listData.count == 0) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self initStateHud];
-//        });
-//    }
-
-    
     self.tabBarController.tabBar.hidden = NO;
     if ([[FitUserManager sharedUserManager] isLogin]) {
 
@@ -106,22 +99,15 @@ WJLoopViewDelegate
     }
 }
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    if (self.listData.count == 0) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self initStateHud];
-//        });
-//        //[self loadNoState];
-//    }
-//}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"首页";
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self initStateHud];
+    });
     
     [self creatUI];
     
@@ -133,7 +119,7 @@ WJLoopViewDelegate
 {
     [super createUI];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    self.title = @"首页";
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
