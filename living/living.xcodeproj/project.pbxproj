@@ -123,7 +123,6 @@
 		35B747131DDE97F3000AFA26 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744551DDE97F2000AFA26 /* openssl_wrapper.m */; };
 		35B747141DDE97F3000AFA26 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744571DDE97F2000AFA26 /* RSADataSigner.m */; };
 		35B747151DDE97F3000AFA26 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744591DDE97F2000AFA26 /* RSADataVerifier.m */; };
-		35B747161DDE97F3000AFA26 /* libGeTuiSdk-1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B7445E1DDE97F2000AFA26 /* libGeTuiSdk-1.2.1.a */; };
 		35B747171DDE97F3000AFA26 /* MJPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744611DDE97F2000AFA26 /* MJPhoto.m */; };
 		35B747181DDE97F3000AFA26 /* MJPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744631DDE97F2000AFA26 /* MJPhotoBrowser.m */; };
 		35B747191DDE97F3000AFA26 /* MJPhotoToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B744651DDE97F2000AFA26 /* MJPhotoToolbar.m */; };
@@ -424,7 +423,6 @@
 		35D1B83E1DEBFDC8004BE2A2 /* LM2DresultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B83D1DEBFDC8004BE2A2 /* LM2DresultViewController.m */; };
 		35D1B8461DEC16A2004BE2A2 /* LMAddressChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8451DEC16A2004BE2A2 /* LMAddressChooseView.m */; };
 		35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */; };
-		35D1B84E1DEC4C4C004BE2A2 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */; };
 		35D1B8511DEC4CBD004BE2A2 /* GeocodeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */; };
 		35DCDD381DFE6ECA00813172 /* LMSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD371DFE6ECA00813172 /* LMSegmentViewController.m */; };
 		35DCDD3A1DFE71E900813172 /* SegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DCDD391DFE71E900813172 /* SegmentViewController.m */; };
@@ -492,10 +490,6 @@
 		8E0E28AE1DF8101600B735BE /* LMSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28AD1DF8101600B735BE /* LMSegmentView.m */; };
 		8E0E28BB1DF8234100B735BE /* FitChatExpressionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */; };
 		8E0E28BC1DF8234100B735BE /* FitChatFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E28B61DF8234100B735BE /* FitChatFaceView.m */; };
-		8E4C98F91DD1D6C400B17046 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */; };
-		8E4C98FB1DD1D6CB00B17046 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */; };
-		8E4C98FD1DD1D7D300B17046 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */; };
-		8E4C98FF1DD1D7DC00B17046 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E4C98FE1DD1D7DC00B17046 /* AMap.bundle */; };
 		8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E8886231DCB018B009D3374 /* MessageUI.framework */; };
 		8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A41DC8410500448997 /* libsqlite3.0.tbd */; };
 		8EC998A71DC8411900448997 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC998A61DC8411900448997 /* Security.framework */; };
@@ -504,8 +498,6 @@
 		8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */; };
 		8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD01DC98227000CD0AB /* AdSupport.framework */; };
 		8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */; };
-		8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */; };
-		8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */; };
 		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
 		D52149B21E725319006890CE /* LMRecommendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B11E725319006890CE /* LMRecommendVO.m */; };
 		D52149B51E7284EE006890CE /* LMCategoryArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */; };
@@ -572,6 +564,16 @@
 		D5E5E7381E89470B00A4C405 /* LMEventDetailMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E5E7371E89470B00A4C405 /* LMEventDetailMsgCell.m */; };
 		D5F3FE171E8B909E0001C3B6 /* LMItemCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5F3FE161E8B909E0001C3B6 /* LMItemCommentRequest.m */; };
 		D5FEEDD21E7A8F4C00106435 /* LMExpertSpaceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */; };
+		D50E9FE11E7FCFAD000F2599 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */; };
+		D50E9FE21E7FCFAD000F2599 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */; };
+		D50E9FE31E7FCFAD000F2599 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */; };
+		D50E9FE41E7FCFAD000F2599 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */; };
+		D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */; };
+		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
+		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
+		D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */; };
+		D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */; };
+		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -875,9 +877,6 @@
 		35B744571DDE97F2000AFA26 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		35B744581DDE97F2000AFA26 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		35B744591DDE97F2000AFA26 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
-		35B7445C1DDE97F2000AFA26 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
-		35B7445D1DDE97F2000AFA26 /* GeTuiSdkError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdkError.h; sourceTree = "<group>"; };
-		35B7445E1DDE97F2000AFA26 /* libGeTuiSdk-1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.2.1.a"; sourceTree = "<group>"; };
 		35B744601DDE97F2000AFA26 /* MJPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhoto.h; sourceTree = "<group>"; };
 		35B744611DDE97F2000AFA26 /* MJPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhoto.m; sourceTree = "<group>"; };
 		35B744621DDE97F2000AFA26 /* MJPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoBrowser.h; sourceTree = "<group>"; };
@@ -1466,7 +1465,6 @@
 		35D1B8471DEC4B45004BE2A2 /* LMSearchAddressController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMSearchAddressController.h; sourceTree = "<group>"; };
 		35D1B84A1DEC4BB5004BE2A2 /* NSString+StringHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+StringHelper.h"; sourceTree = "<group>"; };
 		35D1B84B1DEC4BB9004BE2A2 /* NSString+StringHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringHelper.m"; sourceTree = "<group>"; };
-		35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
 		35D1B84F1DEC4CBD004BE2A2 /* GeocodeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodeAnnotation.h; sourceTree = "<group>"; };
 		35D1B8501DEC4CBD004BE2A2 /* GeocodeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodeAnnotation.m; sourceTree = "<group>"; };
 		35DCDD341DFE6E2E00813172 /* SegmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentViewController.h; sourceTree = "<group>"; };
@@ -1577,10 +1575,6 @@
 		8E0E28B41DF8234100B735BE /* FitChatExpressionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatExpressionView.m; sourceTree = "<group>"; };
 		8E0E28B51DF8234100B735BE /* FitChatFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitChatFaceView.h; sourceTree = "<group>"; };
 		8E0E28B61DF8234100B735BE /* FitChatFaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitChatFaceView.m; sourceTree = "<group>"; };
-		8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
-		8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMapNavi.bundle; path = AMapNaviKit.framework/AMapNavi.bundle; sourceTree = "<group>"; };
-		8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
-		8E4C98FE1DD1D7DC00B17046 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMap.bundle; path = MAMapKit.framework/AMap.bundle; sourceTree = "<group>"; };
 		8E8886231DCB018B009D3374 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8EC998A41DC8410500448997 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8EC998A61DC8411900448997 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -1589,8 +1583,6 @@
 		8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		8ECA2AD01DC98227000CD0AB /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
 		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
 		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
@@ -1723,6 +1715,18 @@
 		D5F3FE161E8B909E0001C3B6 /* LMItemCommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMItemCommentRequest.m; sourceTree = "<group>"; };
 		D5FEEDD01E7A8F4C00106435 /* LMExpertSpaceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceVO.h; sourceTree = "<group>"; };
 		D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceVO.m; sourceTree = "<group>"; };
+		D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
+		D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
+		D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
+		D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
+		D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMapNavi.bundle; sourceTree = "<group>"; };
+		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
+		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.2.0.a"; sourceTree = "<group>"; };
+		D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.1.0.a"; sourceTree = "<group>"; };
+		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1731,8 +1735,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */,
 				3533A7901E4DB3730088734A /* AssetsLibrary.framework in Frameworks */,
 				3533A7891E4D872F0088734A /* libPods-ALiVideoRecorder.a in Frameworks */,
+				D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */,
 				35B0734C1E48247300FEB168 /* Photos.framework in Frameworks */,
 				35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */,
 				3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */,
@@ -1745,34 +1751,34 @@
 				35FA8E951DB5BCBD00510A75 /* QuartzCore.framework in Frameworks */,
 				8ECA2ACB1DC981A7000CD0AB /* Foundation.framework in Frameworks */,
 				35FA8E971DB5BCE500510A75 /* UIKit.framework in Frameworks */,
-				35B747161DDE97F3000AFA26 /* libGeTuiSdk-1.2.1.a in Frameworks */,
 				8E0760281DC892AE001D7098 /* MapKit.framework in Frameworks */,
 				8E07601F1DC84C59001D7098 /* libstdc++.tbd in Frameworks */,
 				35B747351DDE97F3000AFA26 /* libWeChatSDK.a in Frameworks */,
 				8E07601D1DC84C2E001D7098 /* CoreGraphics.framework in Frameworks */,
 				8E07601B1DC84C06001D7098 /* libiconv.tbd in Frameworks */,
+				D50E9FE31E7FCFAD000F2599 /* AMapNaviKit.framework in Frameworks */,
 				8EC998A71DC8411900448997 /* Security.framework in Frameworks */,
 				8EC998A51DC8410500448997 /* libsqlite3.0.tbd in Frameworks */,
 				35FA8E931DB5BC8600510A75 /* libc++.tbd in Frameworks */,
 				35FA8E911DB5BC7300510A75 /* libz.tbd in Frameworks */,
+				D50E9FE41E7FCFAD000F2599 /* AMapSearchKit.framework in Frameworks */,
 				35FA8E8F1DB5BC5B00510A75 /* CoreMotion.framework in Frameworks */,
 				35FA8E8B1DB5BC1100510A75 /* SystemConfiguration.framework in Frameworks */,
-				8E4C98F91DD1D6C400B17046 /* AMapNaviKit.framework in Frameworks */,
 				35FA8E8D1DB5BC4500510A75 /* CFNetwork.framework in Frameworks */,
 				35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */,
 				3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */,
-				8ECA2AD61DC98316000CD0AB /* AMapFoundationKit.framework in Frameworks */,
-				35D1B84E1DEC4C4C004BE2A2 /* AMapLocationKit.framework in Frameworks */,
-				8ECA2ADB1DC988E9000CD0AB /* AMapSearchKit.framework in Frameworks */,
+				D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */,
+				D50E9FE11E7FCFAD000F2599 /* AMapFoundationKit.framework in Frameworks */,
 				3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */,
 				3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */,
 				35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */,
-				8E4C98FD1DD1D7D300B17046 /* MAMapKit.framework in Frameworks */,
+				D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */,
 				3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */,
 				3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */,
 				35FA8E891DB5BBF000510A75 /* libssl.a in Frameworks */,
 				3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */,
 				35B7472B1DDE97F3000AFA26 /* libUMSocial_Sdk_4.2.5.a in Frameworks */,
+				D50E9FE21E7FCFAD000F2599 /* AMapLocationKit.framework in Frameworks */,
 				3547F4C11D9905190068F04E /* libsqlite3.tbd in Frameworks */,
 				3A346D29BF7AB3A82E02350D /* libPods-living.a in Frameworks */,
 			);
@@ -1784,17 +1790,18 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */,
+				D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */,
+				D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */,
+				D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */,
+				D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */,
+				D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */,
+				D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */,
+				D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */,
 				3533A78F1E4DB3730088734A /* AssetsLibrary.framework */,
 				35B0734B1E48247300FEB168 /* Photos.framework */,
-				35D1B84D1DEC4C4C004BE2A2 /* AMapLocationKit.framework */,
 				35B748391DDE9B37000AFA26 /* UMMobClick.framework */,
-				8E4C98FE1DD1D7DC00B17046 /* AMap.bundle */,
-				8E4C98FC1DD1D7D300B17046 /* MAMapKit.framework */,
-				8E4C98FA1DD1D6CB00B17046 /* AMapNavi.bundle */,
-				8E4C98F81DD1D6C400B17046 /* AMapNaviKit.framework */,
 				8E8886231DCB018B009D3374 /* MessageUI.framework */,
-				8ECA2ADA1DC988E9000CD0AB /* AMapSearchKit.framework */,
-				8ECA2AD41DC98316000CD0AB /* AMapFoundationKit.framework */,
 				8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */,
 				8ECA2AD01DC98227000CD0AB /* AdSupport.framework */,
 				8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */,
@@ -2189,8 +2196,8 @@
 		35B743F81DDE97F2000AFA26 /* 3rdLibs */ = {
 			isa = PBXGroup;
 			children = (
+				D50E9FE81E7FD134000F2599 /* GtSdkLib */,
 				35B743F91DDE97F2000AFA26 /* AliPay */,
-				35B7445A1DDE97F2000AFA26 /* Gtui */,
 				35B7445F1DDE97F2000AFA26 /* MJPhotoBrowser */,
 				35B744681DDE97F2000AFA26 /* MJRefresh */,
 				35B744791DDE97F2000AFA26 /* SSPullToRefresh */,
@@ -2316,24 +2323,6 @@
 				35B744591DDE97F2000AFA26 /* RSADataVerifier.m */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		35B7445A1DDE97F2000AFA26 /* Gtui */ = {
-			isa = PBXGroup;
-			children = (
-				35B7445B1DDE97F2000AFA26 /* include */,
-				35B7445E1DDE97F2000AFA26 /* libGeTuiSdk-1.2.1.a */,
-			);
-			path = Gtui;
-			sourceTree = "<group>";
-		};
-		35B7445B1DDE97F2000AFA26 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				35B7445C1DDE97F2000AFA26 /* GeTuiSdk.h */,
-				35B7445D1DDE97F2000AFA26 /* GeTuiSdkError.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		35B7445F1DDE97F2000AFA26 /* MJPhotoBrowser */ = {
@@ -4052,6 +4041,7 @@
 			path = ChatFace;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		D52149AF1E7252EF006890CE /* LMRecommendVO */ = {
 			isa = PBXGroup;
 			children = (
@@ -4348,6 +4338,17 @@
 				D5DFBCE31E8104450065C313 /* LMCoinlistVO.m */,
 			);
 			path = LMYGBDetailVO;
+        sourceTree = "<group>";
+        };
+		D50E9FE81E7FD134000F2599 /* GtSdkLib */ = {
+			isa = PBXGroup;
+			children = (
+				D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */,
+				D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */,
+				D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */,
+				D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */,
+			);
+			path = GtSdkLib;
 			sourceTree = "<group>";
 		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
@@ -4441,7 +4442,6 @@
 				35DE846E1E15EEBE00314EA8 /* 2@2x.png in Resources */,
 				D537C59F1E7677BC002125E7 /* 下1@2x.png in Resources */,
 				35B747361DDE97F3000AFA26 /* README.txt in Resources */,
-				8E4C98FF1DD1D7DC00B17046 /* AMap.bundle in Resources */,
 				35B747301DDE97F3000AFA26 /* UMShareEditViewControlleriPad.xib in Resources */,
 				35B748011DDE97F4000AFA26 /* lightNormal.png in Resources */,
 				35FA8E831DB5B7FD00510A75 /* AlipaySDK.bundle in Resources */,
@@ -4458,7 +4458,6 @@
 				35DE84781E15EEF700314EA8 /* 7@2x.png in Resources */,
 				35C3778A1DEE71A1007FC70A /* zhankai@2x.png in Resources */,
 				35B747311DDE97F3000AFA26 /* UMSLoginViewController.xib in Resources */,
-				8E4C98FB1DD1D6CB00B17046 /* AMapNavi.bundle in Resources */,
 				353AA87B1E1E3B520035D21C /* touch.png in Resources */,
 				35B747231DDE97F3000AFA26 /* LICENSE in Resources */,
 				35B7472D1DDE97F3000AFA26 /* UMSCommentInputController.xib in Resources */,
@@ -4467,6 +4466,7 @@
 				3505CDFE1E14E0BC007D896C /* toast_cancelsend@2x.png in Resources */,
 				35B747341DDE97F3000AFA26 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				35B7472C1DDE97F3000AFA26 /* UMSCommentDetailController.xib in Resources */,
+				D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */,
 				35B7472F1DDE97F3000AFA26 /* UMShareEditViewController.xib in Resources */,
 				3505CE001E14E0BC007D896C /* toast_timeshort@2x.png in Resources */,
 				35B748051DDE97F4000AFA26 /* scanLine@2x.png in Resources */,
@@ -4478,6 +4478,7 @@
 				35B748021DDE97F4000AFA26 /* lightSelect.png in Resources */,
 				35DE84721E15EECB00314EA8 /* 4@2x.png in Resources */,
 				35B747701DDE97F3000AFA26 /* city.plist in Resources */,
+				D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5169,6 +5170,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/Wechat",
 					"$(PROJECT_DIR)/living/Controller/find/Lesson/Class/Vendor/AMR/lib",
+					"$(PROJECT_DIR)/living/3rdLibs/GtSdkLib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -5262,6 +5264,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/Wechat",
 					"$(PROJECT_DIR)/living/Controller/find/Lesson/Class/Vendor/AMR/lib",
+					"$(PROJECT_DIR)/living/3rdLibs/GtSdkLib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
