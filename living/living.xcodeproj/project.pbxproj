@@ -4041,7 +4041,6 @@
 			path = ChatFace;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		D52149AF1E7252EF006890CE /* LMRecommendVO */ = {
 			isa = PBXGroup;
 			children = (

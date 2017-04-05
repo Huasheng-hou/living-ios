@@ -69,9 +69,9 @@
     dateTime.text = vo.dateTime;
     
     if ([vo.type isEqualToString:@"1"]) {
-        type.text = @"+1";
+        type.text = [NSString stringWithFormat:@"+%@", vo.numbers];
     }else if ([vo.type isEqualToString:@"2"]){
-        type.text = @"-1";
+        type.text = [NSString stringWithFormat:@"-%@", vo.numbers];
     }
     
     

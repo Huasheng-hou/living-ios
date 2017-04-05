@@ -17,7 +17,7 @@
 
 @property (nonatomic, copy) NSString * userUuid;
 @property (nonatomic, copy) NSString * dateTime;
-@property (nonatomic, copy) NSString * numbers;
+@property (nonatomic, strong) NSNumber * numbers;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * type;
 

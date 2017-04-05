@@ -62,7 +62,7 @@
             self.dateTime = [dictionary objectForKey:@"datetime"];
         }
         if (nil != [dictionary objectForKey:@"numbers"] && ![[dictionary objectForKey:@"numbers"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"numbers"] isKindOfClass:[NSString class]]) {
+            && [[dictionary objectForKey:@"numbers"] isKindOfClass:[NSNumber class]]) {
             self.numbers = [dictionary objectForKey:@"numbers"];
         }
         if (nil != [dictionary objectForKey:@"title"] && ![[dictionary objectForKey:@"title"] isEqual:[NSNull null]]
