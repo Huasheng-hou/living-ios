@@ -14,6 +14,7 @@
               Article_title:(NSString *)article_title
                  Descrition:(NSString *)descrition
                 andImageURL:(NSArray *)article_imgs
+                andCategory:(NSString *)category
                     andType:(NSString *)type
                       blend:(NSArray *)blend
                        sign:(NSString *)sign
@@ -40,8 +41,8 @@
             [bodyDict setObject:article_imgs forKey:@"article_imgs"];
         }
         
-        if (type) {
-            [bodyDict setObject:article_imgs forKey:@"article_imgs"];
+        if (category) {
+            [bodyDict setObject:category forKey:@"category"];
         }
         
         if (blend) {
@@ -49,7 +50,7 @@
         }
         
         if (type) {
-            [bodyDict setObject:type forKey:@"category"];
+            [bodyDict setObject:type forKey:@"type"];
         }
         if (sign) {
             [bodyDict setObject:sign forKey:@"sign"];

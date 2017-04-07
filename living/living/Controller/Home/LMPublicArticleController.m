@@ -375,7 +375,7 @@ static NSMutableArray *cellDataArray;
     
     NSInteger row   = button.tag;
     
-    NSLog(@"Currently closed cell is:%ld", row);
+    NSLog(@"Currently closed cell is:%ld", (long)row);
     
     if (cellDataArray.count > row) {
         
@@ -414,7 +414,7 @@ static NSMutableArray *cellDataArray;
             ALAsset *asset=assets[i];
             NSLog(@"%@",[asset valueForProperty:ALAssetPropertyType]);
             if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
-                typeIndex =[NSString stringWithFormat:@"%ld",imageNum];
+                typeIndex =[NSString stringWithFormat:@"%ld",(unsigned long)imageNum];
                 
                 ALAssetRepresentation * representation = asset.defaultRepresentation;
                 NSLog(@"%@",representation.url);
@@ -582,8 +582,10 @@ static NSMutableArray *cellDataArray;
 {
     NSMutableDictionary *newDic=cellDataArray[row];
     NSMutableArray  *newArray= newDic[@"images"];
-    NSMutableDictionary *dic = [NSMutableDictionary new];
+    //NSMutableArray * newArray = [NSMutableArray new];
     for (int i = 0; i<imageUrl.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary new];
+
         if (typeIndex) {
             
             [dic setObject:imageUrl[i] forKey:@"coverUrl"];
@@ -895,12 +897,26 @@ static NSMutableArray *cellDataArray;
     
     self.navigationItem.rightBarButtonItem.enabled  = NO;
     
+    NSString * category = typeString;
+    if ([typeString isEqualToString:@"美丽"]) {
+        category = @"beautiful";
+    }else if ([typeString isEqualToString:@"健康"]){
+        category = @"healthy";
+    }else if ([typeString isEqualToString:@"美食"]){
+        category = @"delicious";
+    }else if ([typeString isEqualToString:@"幸福"]){
+        category = @"happiness";
+    }
+    
+    
     LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
                                                                                    Article_title:titleTF.text
                                                                                       Descrition:discribleTF.text
                                                                                      andImageURL:array
+                                                                                     andCategory:category
                                                                                          andType:typeString
-                                                                                           blend:new sign:@"2"];
+                                                                                           blend:new
+                                                                                            sign:@"2"];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -910,7 +926,7 @@ static NSMutableArray *cellDataArray;
                                                                    waitUntilDone:YES];
                                                
                                            } failed:^(NSError *error) {
-                                               
+                                               NSLog(@"%@", error.localizedDescription);
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    
                                                    [self textStateHUD:@"网络错误"];

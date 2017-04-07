@@ -256,20 +256,20 @@ UIViewControllerTransitioningDelegate
         return;
     }
     
-    if ([_imgURL isEqualToString:@""]) {
-        [self textStateHUD:@"请选择头像"];
-        return;
-    }
-    
-    if ([provinceStr isEqualToString:@""]||[cityStr isEqualToString:@""]) {
-        [self textStateHUD:@"请选择所在城市"];
-        return;
-    }
-    
-    if ([ageTF.textLabel.text isEqualToString:@""]) {
-        [self textStateHUD:@"请选择出生日期"];
-        return;
-    }
+//    if ([_imgURL isEqualToString:@""]) {
+//        [self textStateHUD:@"请选择头像"];
+//        return;
+//    }
+//    
+//    if ([provinceStr isEqualToString:@""]||[cityStr isEqualToString:@""]) {
+//        [self textStateHUD:@"请选择所在城市"];
+//        return;
+//    }
+//    
+//    if ([ageTF.textLabel.text isEqualToString:@""]) {
+//        [self textStateHUD:@"请选择出生日期"];
+//        return;
+//    }
     
     LMRegisterRequest *request = [[LMRegisterRequest alloc] initWithNickname:nickTF.text andGender:genderStr andAvatar:_imgURL andBirtyday:ageTF.textLabel.text andProvince:provinceStr andCity:cityStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request

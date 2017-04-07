@@ -218,7 +218,6 @@ WJLoopViewDelegate
         [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
     }
 
-    
 }
 
 #pragma mark - 热门文章  --  原首页文章列表
