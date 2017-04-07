@@ -156,7 +156,7 @@ LMFindCellDelegate
             headViewHight =  90+146;
         }
 
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight+90)];
+    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight+90-70)];
     headView.backgroundColor = BG_GRAY_COLOR;
     WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
                                                     delegate:self
@@ -196,14 +196,14 @@ LMFindCellDelegate
     [classView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(voiceClassenter)]];
     
     //腰果币
-    UIView *ygbView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5+90, kScreenWidth, headViewHight)];
+    UIView *ygbView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5+90, kScreenWidth, headViewHight-70)];
     ygbView.backgroundColor = [UIColor clearColor];
     [headView addSubview:ygbView];
     
     UIView *backView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
     backView2.backgroundColor = [UIColor whiteColor];
     backView2.layer.cornerRadius = 5;
-    [ygbView addSubview:backView2];
+    //[ygbView addSubview:backView2];
     
     UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 40, 40)];
     imageView2.image = [UIImage imageNamed:@"shareIcon"];
@@ -224,20 +224,20 @@ LMFindCellDelegate
     
     //共创社区
     if (kScreenWidth<750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90-80, kScreenWidth, 49)];
         footView.image = [UIImage imageNamed:@"VoiceImage"];
         footView.userInteractionEnabled = NO;
         [ygbView addSubview:footView];
     }
     
     if (kScreenWidth == 750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90-80, kScreenWidth, 97)];
         footView.image = [UIImage imageNamed:@"VoiceImage"];
         footView.userInteractionEnabled = NO;
         [ygbView addSubview:footView];
     }
     if (kScreenWidth>750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90-80, kScreenWidth, 146)];
         footView.image = [UIImage imageNamed:@"VoiceImage"];
         footView.userInteractionEnabled = NO;
         [ygbView addSubview:footView];

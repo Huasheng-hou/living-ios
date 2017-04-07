@@ -276,6 +276,9 @@ static CGRect oldframe;
         }
         return 45;
     }
+    if (indexPath.section == 1 && indexPath.row == 1) {
+        return 0;
+    }
     return 45;
 }
 
@@ -318,7 +321,6 @@ static CGRect oldframe;
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bigImageAction:)];
                 [headerView addGestureRecognizer:tap];
                 headerView.userInteractionEnabled = YES;
-                
                 
             }
             [cell.contentView addSubview:headerView];
@@ -419,7 +421,7 @@ static CGRect oldframe;
             case 1:
                 cell.textLabel.text = @"腰果";
                 cell.imageView.image = [UIImage imageNamed:@"icon-1"];
-                
+                cell.hidden = YES;
                 break;
                 
             case 2:

@@ -49,7 +49,7 @@
     CGFloat imageCount = 6;
     NSArray * listName = @[@"Yao·美丽", @"Yao·健康", @"Yao·美食", @"Yao·幸福", @"Yao·创客", @"Yao·果币"];
     NSArray * imageNames = @[@"beautiful", @"healthy", @"delicious", @"happiness", @"maker", @"yaoguobi-1"];
-    for (int i=0; i<imageCount; i++) {
+    for (int i=0; i<imageCount-1; i++) {
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(i*cellW, 0, cellW, cellH)];
         backView.backgroundColor = [UIColor whiteColor];
@@ -72,7 +72,7 @@
         
         [_scrollView addSubview:backView];
     }
-    _scrollView.contentSize = CGSizeMake(imageCount*cellW, cellH);
+    _scrollView.contentSize = CGSizeMake((imageCount-1)*cellW, cellH);
     _scrollView.delegate = self;
     _scrollView.bounces = NO;
     _scrollView.pagingEnabled = NO;
