@@ -520,10 +520,8 @@ WJLoopViewDelegate
             
             LMActicleVO * vo = self.listData[indexPath.row];
             
-            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-                
-                [(HotArticleCell *)cell setValue:vo];
-            }
+            [cell setValue:vo];
+
         }
         return cell;
     }

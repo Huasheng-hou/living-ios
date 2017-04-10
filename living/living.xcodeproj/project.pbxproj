@@ -498,6 +498,16 @@
 		8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2ACE1DC981F9000CD0AB /* libstdc++.6.0.9.tbd */; };
 		8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD01DC98227000CD0AB /* AdSupport.framework */; };
 		8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */; };
+		D50E9FE11E7FCFAD000F2599 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */; };
+		D50E9FE21E7FCFAD000F2599 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */; };
+		D50E9FE31E7FCFAD000F2599 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */; };
+		D50E9FE41E7FCFAD000F2599 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */; };
+		D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */; };
+		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
+		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
+		D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */; };
+		D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */; };
+		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
 		D52149B21E725319006890CE /* LMRecommendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B11E725319006890CE /* LMRecommendVO.m */; };
 		D52149B51E7284EE006890CE /* LMCategoryArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */; };
@@ -564,16 +574,6 @@
 		D5E5E7381E89470B00A4C405 /* LMEventDetailMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E5E7371E89470B00A4C405 /* LMEventDetailMsgCell.m */; };
 		D5F3FE171E8B909E0001C3B6 /* LMItemCommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5F3FE161E8B909E0001C3B6 /* LMItemCommentRequest.m */; };
 		D5FEEDD21E7A8F4C00106435 /* LMExpertSpaceVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */; };
-		D50E9FE11E7FCFAD000F2599 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */; };
-		D50E9FE21E7FCFAD000F2599 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */; };
-		D50E9FE31E7FCFAD000F2599 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */; };
-		D50E9FE41E7FCFAD000F2599 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */; };
-		D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */; };
-		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
-		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
-		D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */; };
-		D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */; };
-		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1584,6 +1584,18 @@
 		8ECA2AD01DC98227000CD0AB /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		C9FB20427D7B4B67E501817E /* Pods-living.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.debug.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.debug.xcconfig"; sourceTree = "<group>"; };
+		D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
+		D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
+		D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
+		D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
+		D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMapNavi.bundle; sourceTree = "<group>"; };
+		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
+		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.2.0.a"; sourceTree = "<group>"; };
+		D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.1.0.a"; sourceTree = "<group>"; };
+		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
 		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
 		D52149B01E725319006890CE /* LMRecommendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendVO.h; sourceTree = "<group>"; };
@@ -1715,18 +1727,6 @@
 		D5F3FE161E8B909E0001C3B6 /* LMItemCommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMItemCommentRequest.m; sourceTree = "<group>"; };
 		D5FEEDD01E7A8F4C00106435 /* LMExpertSpaceVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceVO.h; sourceTree = "<group>"; };
 		D5FEEDD11E7A8F4C00106435 /* LMExpertSpaceVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceVO.m; sourceTree = "<group>"; };
-		D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
-		D50E9FDC1E7FCFAD000F2599 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
-		D50E9FDD1E7FCFAD000F2599 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
-		D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
-		D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
-		D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMapNavi.bundle; sourceTree = "<group>"; };
-		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
-		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
-		D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.2.0.a"; sourceTree = "<group>"; };
-		D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.1.0.a"; sourceTree = "<group>"; };
-		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		F1F1FD392FD85DADB9B1FC52 /* Pods-living.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-living.release.xcconfig"; path = "Pods/Target Support Files/Pods-living/Pods-living.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -4041,6 +4041,17 @@
 			path = ChatFace;
 			sourceTree = "<group>";
 		};
+		D50E9FE81E7FD134000F2599 /* GtSdkLib */ = {
+			isa = PBXGroup;
+			children = (
+				D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */,
+				D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */,
+				D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */,
+				D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */,
+			);
+			path = GtSdkLib;
+			sourceTree = "<group>";
+		};
 		D52149AF1E7252EF006890CE /* LMRecommendVO */ = {
 			isa = PBXGroup;
 			children = (
@@ -4337,17 +4348,6 @@
 				D5DFBCE31E8104450065C313 /* LMCoinlistVO.m */,
 			);
 			path = LMYGBDetailVO;
-        sourceTree = "<group>";
-        };
-		D50E9FE81E7FD134000F2599 /* GtSdkLib */ = {
-			isa = PBXGroup;
-			children = (
-				D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */,
-				D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */,
-				D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */,
-				D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */,
-			);
-			path = GtSdkLib;
 			sourceTree = "<group>";
 		};
 		E7F237F3688F8F83DD82DEAF /* Pods */ = {
