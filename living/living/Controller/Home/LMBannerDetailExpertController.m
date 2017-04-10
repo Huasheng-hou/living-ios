@@ -32,6 +32,8 @@
 #import "LMEventDetailViewController.h"
 #import "LMHomeVoiceDetailController.h"
 
+#import "LMClassroomDetailViewController.h"
+
 #define PAGE_SIZE 20
 @interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource,LMExpertListDelegate>
 
@@ -325,8 +327,8 @@
     else if (indexPath.section == 3) {
         if (_voices.count > indexPath.row) {
             LMMoreVoicesVO * vo = _voices[indexPath.row];
-            LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
-            detailVC.voiceUuid = vo.voiceUuid;
+            LMClassroomDetailViewController * detailVC = [[LMClassroomDetailViewController alloc] init];
+            detailVC.voiceUUid = vo.voiceUuid;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }

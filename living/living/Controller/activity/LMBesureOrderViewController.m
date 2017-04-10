@@ -449,21 +449,22 @@ FitPickerViewDelegate
                     [cStr addAttribute:NSForegroundColorAttributeName value:BLUE_COLOR range:NSMakeRange(0, 3)];
                     [cStr addAttribute:NSFontAttributeName value:TEXT_FONT_LEVEL_3 range:NSMakeRange(3,couponString.length-3)];
                     couponLabel.attributedText = cStr;
-                   
-                        
                     
                 }else{
                     
                     couponLabel.attributedText = nil;
                     
                 }
-                
                 //couponLabel.textColor = LIVING_COLOR;
                 [cell.contentView addSubview:couponLabel];
                 
                 
                 UILabel *cPMoneyLabel = [UILabel new];
+                
                 cPMoneyLabel.text = [NSString stringWithFormat:@"￥%@",orderdata.couponMoney];
+                if (![orderdata.available isEqualToString:@"2"]) {
+                    cPMoneyLabel.text = [NSString stringWithFormat:@"¥%@", orderdata.totalMoney];
+                }
                 cPMoneyLabel.font = [UIFont systemFontOfSize:20];
                 cPMoneyLabel.textColor = LIVING_REDCOLOR;
                 [cell.contentView addSubview:cPMoneyLabel];

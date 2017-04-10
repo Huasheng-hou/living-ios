@@ -39,6 +39,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "LMVoiceDetailRequest.h"
+#import "LMVoiceDetailVO.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -62,6 +63,7 @@ LMContentTableViewCellDelegate
     UIButton *zanButton;
     LMCommentButton *zanLabel;
     LMArticleBodyVO *articleData;
+    LMVoiceDetailVO *voiceData;
     NSMutableArray *listArray;
     
     UIView *commentsView;
@@ -406,9 +408,9 @@ LMContentTableViewCellDelegate
             [listArray removeAllObjects];
         }
         
-        articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
-        uesruuid = articleData.userUuid;
-        if (articleData.hasPraised ==YES) {
+        voiceData = [[LMVoiceDetailVO alloc] initWithDictionary:bodyDic[@"voice_body"]];
+        uesruuid = voiceData.userUuid;
+        if (articleData.hasPraised ==YES) { 
             [footView.zanartcle setImage:[UIImage imageNamed:@"zan-red"] forState:UIControlStateNormal];
         }
         

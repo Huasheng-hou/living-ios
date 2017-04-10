@@ -49,4 +49,27 @@
 @property (nonatomic, strong) NSArray * imgs;
 @property (nonatomic, assign) int praiseNum;
 
+//课程
+@property (nonatomic, copy) NSString * voiceUuid;
+@property (nonatomic, copy) NSString * image;
+@property (nonatomic, copy) NSString * voiceTitle;
+@property (nonatomic, copy) NSString * publishName;
+@property (nonatomic, assign) NSInteger  number;
+@property (nonatomic, copy) NSString * contactPhone;
+@property (nonatomic, copy) NSString * contactName;
+@property (nonatomic, copy) NSString * perCost;
+@property (nonatomic, copy) NSString * discount;
+@property (nonatomic, copy) NSString * startTime;
+@property (nonatomic, copy) NSString * endTime;
+@property (nonatomic, assign) NSInteger limitNum;
+@property (nonatomic, copy) NSString * notices;
+@property (nonatomic, assign) BOOL isBuy;
+@property (nonatomic, assign) BOOL isReport;
+@property (nonatomic, copy) NSString * status;
+@property (nonatomic, copy) NSString * livingUuid;
+@property (nonatomic, assign) NSInteger totalNumber;
+@property (nonatomic, strong) NSArray * list;
+@property (nonatomic, copy) NSString * available;
+
+
 @end
