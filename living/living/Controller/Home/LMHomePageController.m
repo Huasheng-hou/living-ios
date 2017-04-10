@@ -458,7 +458,7 @@ WJLoopViewDelegate
     if (section == 0) {
         return 10;
     }
-        return 0;
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -478,7 +478,6 @@ WJLoopViewDelegate
         headerTitle.attributedText = [[NSAttributedString alloc] initWithAttributedString:attr];
         [headerView addSubview:headerTitle];
     }else{
-        headerView.backgroundColor = [UIColor whiteColor];
         UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 20)];
         headerTitle.backgroundColor = [UIColor whiteColor];
         headerTitle.textColor = TEXT_COLOR_LEVEL_3;
@@ -519,7 +518,7 @@ WJLoopViewDelegate
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.listData.count > indexPath.row) {
             
-            LMActicleVO     *vo = self.listData[indexPath.row];
+            LMActicleVO * vo = self.listData[indexPath.row];
             
             if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
                 
@@ -561,7 +560,7 @@ WJLoopViewDelegate
         
         if (self.listData.count > indexPath.row) {
             
-            LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
+            LMActicleVO * vo = [self.listData objectAtIndex:indexPath.row];
             
             if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
                 
@@ -584,15 +583,10 @@ WJLoopViewDelegate
                     detailVC.sign = vo.sign;
                     [self.navigationController pushViewController:detailVC animated:YES];
                 }
-                
-                
             }
         }
-
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
 
 

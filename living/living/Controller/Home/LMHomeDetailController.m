@@ -446,7 +446,7 @@ LMContentTableViewCellDelegate
         if (listArray.count>0) {
             [listArray removeAllObjects];
         }
- 
+
         articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
         if (_type == 2) {
             articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"review_body"]];

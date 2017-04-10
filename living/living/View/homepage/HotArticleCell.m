@@ -45,15 +45,15 @@
     if (index >= 4) {
         index = 3;
     }
-    NSArray * preTitle = @[@"腰·幸福 丨 ", @"腰·美丽 丨 ", @"腰·健康 丨 ", @"腰·美食 丨 ", @"腰·幸福 丨 "];
+    //NSArray * preTitle = @[@"腰·幸福 丨 ", @"腰·美丽 丨 ", @"腰·健康 丨 ", @"腰·美食 丨 ", @"腰·幸福 丨 "];
     NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
     
-    [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
-    
+    if (list.avatar) {
+        [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+    }
     
     //title.text = [NSString stringWithFormat:@"%@%@",preTitle[index], list.articleTitle];
     title.text = list.articleTitle;
-    
     
     [icon sd_setImageWithURL:[NSURL URLWithString:list.headImgUrl]];
     
@@ -72,17 +72,12 @@
         
     }
     
-    
     if (_cellType == 2) {
         [backImage sd_setImageWithURL:[NSURL URLWithString:list.image]];
         title.text = list.title;
         desp.text = list.content;
         name.text = list.nickName;
     }
-    
-    
-    
-    
 }
 
 - (void)setCellType:(NSInteger)cellType{
@@ -93,7 +88,7 @@
         shadow.frame = backImage.frame;
         title.numberOfLines = 2;
         
-        [tag removeFromSuperview];
+        //[tag removeFromSuperview];
     }
     if (cellType == 2) {
         //活动总结
@@ -146,14 +141,14 @@
     icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(title.frame)+10, 25, 25)];
     //icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
     icon.backgroundColor = BG_GRAY_COLOR;
-    icon.layer.masksToBounds = YES;
+    icon.clipsToBounds = YES;
     icon.layer.cornerRadius = 13;
     [backView addSubview:icon];
     
     sign = [[UIImageView alloc] initWithFrame:CGRectMake(icon.center.x+3, icon.center.y, CGRectGetWidth(icon.frame)/2, CGRectGetHeight(icon.frame)/2)];
     //sign.backgroundColor = BG_GRAY_COLOR;
     //sign.image = [UIImage imageNamed:@"BigVRed"];
-    sign.layer.masksToBounds = YES;
+    sign.clipsToBounds = YES;
     sign.layer.cornerRadius = 7;
     [backView addSubview:sign];
     
@@ -168,7 +163,7 @@
     tag.textAlignment = NSTextAlignmentCenter;
     tag.textColor = [UIColor whiteColor];
     //tag.backgroundColor = COLOR_RED_LIGHT;
-    tag.layer.masksToBounds = YES;
+    tag.clipsToBounds = YES;
     tag.layer.cornerRadius = 2;
     tag.font = TEXT_FONT_LEVEL_4 ;
     [backView addSubview:tag];
