@@ -33,14 +33,14 @@
 }
 
 - (void)setValue:(LMActicleVO *)list{
-    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3分类
+    //NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3分类
     NSArray * colorList = @[[UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1],
                             [UIColor colorWithRed:242/255.0 green:85/255.0 blue:120/255.0 alpha:1],
                             [UIColor colorWithRed:243/255.0 green:111/255.0 blue:102/255.0 alpha:1],
                             [UIColor colorWithRed:248/255.0 green:198/255.0 blue:41/255.0 alpha:1],
                             [UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1]];
-    //NSArray * typeList = @[@"happiness", @"beautiful", @"healthy", @"delicious", @"其他"];  //3.0
-    NSInteger index = [typeList indexOfObject:list.type];
+    NSArray * typeList = @[@"happiness", @"beautiful", @"healthy", @"delicious", @"其他"];  //3.0
+    NSInteger index = [typeList indexOfObject:list.category];
 
     if (index >= 4) {
         index = 3;
@@ -56,7 +56,8 @@
     [icon sd_setImageWithURL:[NSURL URLWithString:list.headImgUrl]];
 
     name.text = list.articleName;
-
+    
+    
     tag.text = newType[index];
     tag.backgroundColor = colorList[index];
 
@@ -75,6 +76,12 @@
         desp.text = list.content;
         name.text = list.nickName;
     }
+    
+    [name sizeToFit];
+    name.frame = CGRectMake(60, 162.5, name.frame.size.width+20, 15);
+    tag.frame = CGRectMake(CGRectGetMaxX(name.frame)+10, 162.5, 55, 15);
+    
+    
 }
 
 - (void)setCellType:(NSInteger)cellType{

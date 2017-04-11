@@ -910,7 +910,7 @@ static NSMutableArray *cellDataArray;
     }else if ([typeString isEqualToString:@"幸福"]){
         category = @"happiness";
     }
-    
+    NSLog(@"%@", category);
     
     LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
                                                                                    Article_title:titleTF.text
@@ -1019,6 +1019,7 @@ static NSMutableArray *cellDataArray;
 {
     type = 2;
     typeString  = liveRoom;
+    NSLog(@"%@", typeString);
     [self.tableView reloadData];
 }
 

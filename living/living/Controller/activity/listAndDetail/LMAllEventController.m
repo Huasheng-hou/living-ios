@@ -59,7 +59,8 @@
     
     self.view.backgroundColor =[UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
+    self.tableView.separatorColor = [UIColor whiteColor];
+    
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
     NSString *cityStr;
     for (NSString *string in searchArr) {

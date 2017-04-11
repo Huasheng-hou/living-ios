@@ -627,13 +627,14 @@ FitPickerViewDelegate
             }
         } else {
     
-            cell.chooseView.image = [UIImage imageNamed:@"choose-no"];
+            
         
-            for (NSNumber * num in selectedArray) {
-                if (indexPath.row==[num integerValue]) {
-                    cell.chooseView.image= [UIImage imageNamed:@"choose"];
-                }
+            if ([selectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
+                cell.chooseView.image= [UIImage imageNamed:@"choose"];
+            }else{
+                cell.chooseView.image = [UIImage imageNamed:@"choose-no"];
             }
+            
         }
         return cell;
     }
@@ -667,7 +668,7 @@ FitPickerViewDelegate
         }
     }
     if (tableView ==_couponView){
-        //使用优惠券
+        //可使用优惠券
         if (indexPath.row<couponList.count) {
             
             selectedRow=indexPath.row;
@@ -771,6 +772,10 @@ FitPickerViewDelegate
         
     }]];
     
+    if (![orderdata.totalMoney isEqualToString:@"0"] && ![orderdata.couponMoney isEqualToString:@"0"]) {
+        
+    
+    
     [alert addAction:[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         
@@ -811,6 +816,8 @@ FitPickerViewDelegate
 
                                                 
                                             }]];
+        
+    }
     [alert addAction:[UIAlertAction actionWithTitle:@"取消"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
@@ -1224,7 +1231,7 @@ FitPickerViewDelegate
                 [couponList addObject:vo];
                 [couponPriceArray addObject:vo.amount];
             }
-            selectedRow = couponList.count;
+            //selectedRow = couponList.count;
         } else {
             
             [self textStateHUD:[bodyDic objectForKey:@"description"]];
@@ -1315,6 +1322,7 @@ FitPickerViewDelegate
     _couponView.delegate = self;
     _couponView.dataSource = self;
     [addView addSubview:_couponView];
+    
     [_couponView reloadData];
 }
 
