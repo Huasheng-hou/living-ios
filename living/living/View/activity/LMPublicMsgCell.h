@@ -35,6 +35,8 @@
 
 @property(nonatomic,strong)LMTimeButton *addressButton;
 
+@property (nonatomic, strong) LMTimeButton * category;
+
 @property(nonatomic,strong)UITextField *dspTF;
 
 @property(nonatomic,strong)UIButton *mapButton;

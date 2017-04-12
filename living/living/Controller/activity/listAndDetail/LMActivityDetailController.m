@@ -889,7 +889,11 @@ APChooseViewDelegate
 }
 
 - (void)APChooseViewClose{
-    self.navigationController.navigationBar.hidden = NO;
+    if (headerView.hidden == YES) {
+        self.navigationController.navigationBar.hidden = NO;
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    }
+    
 }
 
 - (void)cellWillApply:(LMActivityheadCell *)cell

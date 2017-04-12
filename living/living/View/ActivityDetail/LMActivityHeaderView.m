@@ -68,9 +68,8 @@
 
     
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
-    
     [_joinButton setTintColor:[UIColor whiteColor]];
+    [_joinButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _joinButton.showsTouchWhenHighlighted = YES;
     _joinButton.frame = CGRectMake(kScreenWidth - 70, 25, 60.f, 50.f);
     [_joinButton addTarget:self action:@selector(joinButtonPressed) forControlEvents:UIControlEventTouchUpInside];

@@ -102,6 +102,10 @@
             && [[dictionary objectForKey:@"group"] isKindOfClass:[NSString class]]) {
             self.group = [dictionary objectForKey:@"group"];
         }
+        if (nil != [dictionary objectForKey:@"category"] && ![[dictionary objectForKey:@"category"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"category"] isKindOfClass:[NSString class]]) {
+            self.category = [dictionary objectForKey:@"category"];
+        }
         
     }
     return self;

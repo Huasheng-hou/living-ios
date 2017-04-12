@@ -32,6 +32,7 @@
 @property (nonatomic, copy) NSString * franchisee;
 @property (nonatomic, copy) NSString * sign;
 @property (nonatomic, copy) NSString * group;
+@property (nonatomic, copy) NSString * category;
 
 
 

@@ -100,6 +100,7 @@ APChooseViewDelegate
     NSString *phoneString;
     NSString *telephoneString;
     
+    BOOL isStatusHidden;
 }
 
 @end
@@ -162,36 +163,27 @@ APChooseViewDelegate
     //活动人头像
     UIImageView *headV = [UIImageView new];
     headV.tag = 10;
-    [headV sd_setImageWithURL:[NSURL URLWithString:eventDic.publishAvatar]];
     headV.layer.cornerRadius = 5.f;
-//    [headV sizeToFit];
-//    headV.frame = CGRectMake(15, 30, 40, 40);
     [headerView addSubview:headV];
     
     //活动人名
     UILabel *nameLabel = [UILabel new];
     nameLabel.tag = 11;
-    nameLabel.text = [NSString stringWithFormat:@"发布者：%@",eventDic.publishName];
     nameLabel.font = [UIFont systemFontOfSize:13.f];
     nameLabel.textColor = [UIColor whiteColor];
     nameLabel.textAlignment = NSTextAlignmentCenter;
-//    [nameLabel sizeToFit];
-//    nameLabel.frame = CGRectMake(60, 30, nameLabel.bounds.size.width, nameLabel.bounds.size.height);
     [headerView addSubview:nameLabel];
     
     //费用
     UILabel *countLabel = [UILabel new];
     countLabel.tag = 12;
-    countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@",eventDic.perCost];
     countLabel.textColor = [UIColor whiteColor];
     countLabel.font = [UIFont systemFontOfSize:13.f];
-//    [countLabel sizeToFit];
-//    countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     [headerView addSubview:countLabel];
     
     UIButton *joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
     joinButton.tag = 13;
-    [joinButton setTitle:_type forState:UIControlStateNormal];
+    [joinButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     joinButton.userInteractionEnabled = NO;
     [joinButton setTintColor:[UIColor whiteColor]];
     joinButton.showsTouchWhenHighlighted = YES;
@@ -223,9 +215,9 @@ APChooseViewDelegate
     [countLabel sizeToFit];
     countLabel.frame = CGRectMake(60, 35+nameLabel.bounds.size.height, countLabel.bounds.size.width, countLabel.bounds.size.height);
     
-//    UIButton * joinButton = [headerView viewWithTag:13];
-//    [joinButton setTitle:_type forState:UIControlStateNormal];
-    
+    UIButton * joinButton = [self.view viewWithTag:13];
+    [joinButton setTitle:@"报名" forState:UIControlStateNormal];
+    joinButton.userInteractionEnabled = YES;
     
 }
 #pragma mark - 项目详情数目请求
@@ -559,7 +551,7 @@ APChooseViewDelegate
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.type = 2;
         [cell setValue:eventDic];
-        cell.joinButton.titleLabel.text =_type;
+        //[cell.joinButton setTitle:_type forState:UIControlStateNormal];
         [cell setXScale:self.xScale yScale:self.yScaleNoTab];
         cell.delegate = self;
         
@@ -694,7 +686,11 @@ APChooseViewDelegate
 }
 
 - (void)APChooseViewClose{
-    self.navigationController.navigationBar.hidden = NO;
+    if (headerView.hidden == YES) {
+        self.navigationController.navigationBar.hidden = NO;
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    }
+    
 }
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
@@ -1239,8 +1235,11 @@ APChooseViewDelegate
         backgroundViews.alpha=1;
         hiddenIndex =1;
         [self scrollViewDidScroll:self.tableView];
+        
         [UIApplication sharedApplication].statusBarHidden = YES;
         self.navigationController.navigationBar.hidden = YES;
+        
+        
     } completion:^(BOOL finished) {
         
     }];
@@ -1249,7 +1248,11 @@ APChooseViewDelegate
 -(void)hideImage:(UITapGestureRecognizer*)tap{
     hiddenIndex =2;
     [self scrollViewDidScroll:self.tableView];
+    
     [UIApplication sharedApplication].statusBarHidden = NO;
+    self.navigationController.navigationBar.hidden = NO;
+    
+    
     UIView *backgroundView=tap.view;
     UIImageView *imageView=(UIImageView*)[tap.view viewWithTag:1];
     [UIView animateWithDuration:0.3 animations:^{

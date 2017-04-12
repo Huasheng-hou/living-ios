@@ -97,14 +97,14 @@
     icon.clipsToBounds = YES;
     name.text = vo.articleName;
     
-    NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3
+    //NSArray * typeList = @[@"幸福情商", @"美丽造型", @"营养养生", @"美食吃货", @"其他"]; //2.3
+    NSArray * typeList = @[@"happiness", @"beautiful", @"healthy", @"delicious", @"其他"];  //3.0
     NSArray * colorList = @[[UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1],
                             [UIColor colorWithRed:242/255.0 green:85/255.0 blue:120/255.0 alpha:1],
                             [UIColor colorWithRed:243/255.0 green:111/255.0 blue:102/255.0 alpha:1],
                             [UIColor colorWithRed:248/255.0 green:198/255.0 blue:41/255.0 alpha:1],
                             [UIColor colorWithRed:247/255.0 green:179/255.0 blue:155/255.0 alpha:1]];
-    NSInteger index = [typeList indexOfObject:vo.type];
-    
+    NSInteger index = [typeList indexOfObject:vo.category];
     if (index >= 4) {
         index = 3;
     }

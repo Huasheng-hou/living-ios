@@ -171,7 +171,7 @@
         [self textStateHUD:@"请选择星级"];
         return;
     }
-    if ([_content isEqualToString:@""]) {
+    if ([_content isEqualToString:@""] || _content == nil) {
         [self textStateHUD:@"请输入评价内容"];
         return;
     }
@@ -244,7 +244,7 @@
                                                if (result && [result isKindOfClass:[NSString class]]
                                                    && [result isEqualToString:@"0"]) {
                                                    NSString    *imgUrl = [bodyDict objectForKey:@"attachment_url"];
-                                                   NSString * imgUuid = [bodyDict objectForKey:@"attachment_uuid"];
+                                                   
                                                    if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                  
                                                         [self performSelectorOnMainThread:@selector(hideStateHud)

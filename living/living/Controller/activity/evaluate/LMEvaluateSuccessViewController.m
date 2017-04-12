@@ -21,7 +21,7 @@
     [super viewDidLoad];
     self.title = @"评价成功";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonPressed:)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"<返回" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"＜返回" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonPressed:)];
     [self createUI];
 }
 
@@ -29,7 +29,7 @@
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadComment" object:nil];
     
-    [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
+    [self.navigationController popToViewController:self.navigationController.viewControllers[2] animated:YES];
 }
 
 - (void)createUI

@@ -166,9 +166,9 @@ static NSMutableArray *cellDataArray;
 
 - (void)typeChoose
 {
-    LMTypeListViewController    *typeVC     = [[LMTypeListViewController alloc] init];
-    typeVC.delegate     = self;
-    
+    LMTypeListViewController *typeVC = [[LMTypeListViewController alloc] init];
+    typeVC.delegate = self;
+    typeVC.name = @"文章分类";
     [self.navigationController pushViewController:typeVC animated:YES];
 }
 

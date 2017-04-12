@@ -404,7 +404,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)chooseType:(id)sender{
     LMTypeListViewController * typeVC = [[LMTypeListViewController alloc] init];
-
+    typeVC.name = @"项目分类";
     typeVC.delegate     = self;
     
     [self.navigationController pushViewController:typeVC animated:YES];

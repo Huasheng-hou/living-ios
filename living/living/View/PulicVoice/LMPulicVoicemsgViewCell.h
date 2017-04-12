@@ -25,6 +25,8 @@
 
 @property(nonatomic,strong)UITextField *couponTF;
 
+@property (nonatomic, strong) LMTimeButton * category;
+
 @property(nonatomic,strong)UITextField *joincountTF;
 
 @property(nonatomic,strong)LMTimeButton *teacherButton;
