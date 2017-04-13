@@ -31,6 +31,8 @@
     CustomButton *_addButton;
 }
 
+@property (nonatomic, assign) NSInteger type;
+
 @property (nonatomic , strong)NSString *size;
 @property (nonatomic , strong)NSString *color;
 

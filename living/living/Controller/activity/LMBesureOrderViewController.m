@@ -627,8 +627,6 @@ FitPickerViewDelegate
             }
         } else {
     
-            
-        
             if ([selectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
                 cell.chooseView.image= [UIImage imageNamed:@"choose"];
             }else{
@@ -710,6 +708,7 @@ FitPickerViewDelegate
                 }
             }
         } else {
+            [selectedArray removeAllObjects];
             //不使用优惠券
             selectedRow=indexPath.row;
         }

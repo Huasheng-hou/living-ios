@@ -129,9 +129,9 @@
         _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
     }else if (_type == 2){
         _countLabel.text = @"此活动长期有效,赶快报名吧!";
-        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
-        _joinButton.userInteractionEnabled = YES;
-        return;
+//        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+//        _joinButton.userInteractionEnabled = YES;
+//        return;
     }
     
     
@@ -139,14 +139,14 @@
     switch (event.status) {
         case 1:
         {
-            if (event.totalNumber == event.totalNum) {
-                [_joinButton setTitle:@"已售罄" forState:UIControlStateNormal];
-                _joinButton.userInteractionEnabled = NO;
-            }
-            if (event.totalNumber < event.totalNum) {
+//            if (event.totalNumber == event.totalNum) {
+//                [_joinButton setTitle:@"已售罄" forState:UIControlStateNormal];
+//                _joinButton.userInteractionEnabled = NO;
+//            }
+//            if (event.totalNumber < event.totalNum) {
                 [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
                 _joinButton.userInteractionEnabled = YES;
-            }
+//            }
             
             break;
         }

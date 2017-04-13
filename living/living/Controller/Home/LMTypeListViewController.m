@@ -36,7 +36,7 @@
 
 - (id)init
 {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super init];
     if (self) {
         typeList = @[@"美丽", @"健康", @"美食", @"幸福"];
         self.hidesBottomBarWhenPushed   = NO;

@@ -699,6 +699,7 @@ APChooseViewDelegate
         
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         infoView.delegate = self;
+        infoView.type = 1;
         infoView.event  = eventDic;
         
         infoView.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(145, 25, 150, 30)];
@@ -740,7 +741,8 @@ APChooseViewDelegate
             infoView.dspLabel.text = eventDic.notices;
         }
         
-        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
+        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNum,eventDic.totalNumber];
+        infoView.inventory.text = @"活动长期有效！";
         
         [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
         
@@ -762,6 +764,12 @@ APChooseViewDelegate
 
 - (void)APChooseViewSelectItem:(NSInteger)num
 {
+    
+    if (headerView.hidden == YES) {
+        self.navigationController.navigationBar.hidden = NO;
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    }
+
     if (phoneString&&![phoneString isEqualToString:@""]) {
         if (![CheckUtils isLink]) {
             

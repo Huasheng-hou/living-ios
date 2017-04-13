@@ -192,10 +192,13 @@
 {
     count+=1;
     
-    if (count > _event.totalNum) {
-        
-        count -= 1;
-        return;
+    if (_type != 1) {
+        if (count > _event.totalNumber) {
+            
+            count -= 1;
+            return;
+        }
+
     }
     
     _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];
