@@ -439,15 +439,19 @@ static NSMutableArray *cellDataArray;
                 
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-                [imageArray addObject:tempImg];
-                [imageViewArray addObject:tempImg];
-                [updateImageArray addObject:tempImg];
+                UIImage *newImg = [UIImage imageWithData:UIImageJPEGRepresentation(tempImg, 0.05)];
+                [imageArray addObject:newImg];
+                [imageViewArray addObject:newImg];
+                [updateImageArray addObject:newImg];
             }
             
-            [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
             
-            [self refreshData];
         }
+        [projectImageArray insertObject:imageViewArray atIndex:addImageIndex];
+        //[projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+        
+        [self refreshData];
+        
         [self getImageURL:updateImageArray];
     }
     
@@ -469,7 +473,7 @@ static NSMutableArray *cellDataArray;
         }
     }
     
-    if (imageNum > 100) {
+    if (imageNum >= 100) {
         
         [self textStateHUD:@"总图片数已达上限"];
         return;
@@ -499,6 +503,9 @@ static NSMutableArray *cellDataArray;
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
+        [imageViewArray removeObjectsInArray:updateImageArray];
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+        [self refreshData];
         return;
     }
     
@@ -531,12 +538,12 @@ static NSMutableArray *cellDataArray;
                                                            [urlArray addObject:imgUrl];
                                                            
                                                        } else {
-                                                           [urlArray addObject:@""];
+                                                           //[urlArray addObject:@""];
                                                        }
                                                        
                                                    } else {
                                                        
-                                                       [urlArray addObject:@""];
+                                                       //[urlArray addObject:@""];
                                                    }
                                                    
                                                    if (urlArray.count == imgArr.count) {
@@ -555,8 +562,10 @@ static NSMutableArray *cellDataArray;
                                                    
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [self textStateHUD:@"上传失败,请重试"];
-                                                       [projectImageArray removeObjectAtIndex:addImageIndex];
+                                                       [imageViewArray removeObjectsInArray:updateImageArray];
+                                                       [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
                                                        [self refreshData];
+                                                       return ;
                                                    });
                                                    
                                                    if (urlArray.count == imgArr.count) {
@@ -808,11 +817,11 @@ static NSMutableArray *cellDataArray;
                                                         [cellDataArray[viewTag] setObject:urlArray forKey:@"images"];
                                                     }
                                                 }
-                                                if (imageArray.count > tag) {
-                                                    
-                                                    [imageArray removeObjectAtIndex:tag];
-                                                    
-                                                }
+//                                                if (imageArray.count > tag) {
+//                                                    
+//                                                    [imageArray removeObjectAtIndex:tag];
+//                                                    
+//                                                }
                                                 
                                                 [self refreshData];
                                                 
@@ -1115,6 +1124,15 @@ static NSMutableArray *cellDataArray;
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
+}
+
+
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    
+    NSLog(@"内存警告⚠️");
+    
+    
 }
 
 @end
