@@ -15,6 +15,7 @@
     UIImageView * _icon;
     
     UILabel * _name;
+    UIView * _starView;
     UILabel * _time;
     
     UILabel * _content;
@@ -42,13 +43,15 @@
     
     
     _name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+15, 10, 100, 20)];
-    _name.text = @"世纪东方";
     _name.textColor = TEXT_COLOR_LEVEL_3;
     _name.font = TEXT_FONT_LEVEL_3;
     [self.contentView addSubview:_name];
     
+    _starView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_name.frame)+10, 10, kScreenWidth-CGRectGetMaxX(_name.frame)-20, 20)];
+    [self.contentView addSubview:_starView];
+    
+    
     _time = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+15, CGRectGetMaxY(_name.frame)+10, 100, 20)];
-    _time.text = @"";
     _time.textColor = TEXT_COLOR_LEVEL_4;
     _time.font = TEXT_FONT_LEVEL_4;
     [self.contentView addSubview:_time];
@@ -75,6 +78,9 @@
     [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
     
     _name.text = vo.nickName;
+//    [_name sizeToFit];
+//    _name.frame = CGRectMake(CGRectGetMaxX(_icon.frame)+15, 10, _name.bounds.size.width+20, 20);
+    
     
     _time.text = [vo.commentTime substringFromIndex:5];
     [_time sizeToFit];
@@ -105,6 +111,15 @@
         }
     }
     
+    
+    NSInteger star = [vo.star integerValue];
+    for (int i=0; i<star; i++) {
+        UIImageView * image = [[UIImageView alloc] initWithFrame:CGRectMake(i*(10+15), 0, 15, 15)];
+        image.image = [UIImage imageNamed:@"in"];
+        
+        [_starView addSubview:image];
+
+    }
     
     _botLine.frame = CGRectMake(10, frameH-2, kScreenWidth-20, 1);
     

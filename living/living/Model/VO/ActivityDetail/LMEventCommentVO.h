@@ -39,5 +39,6 @@
 @property (nonatomic, assign) int praiseCount;
 @property (nonatomic, strong) NSString *replyContent;
 @property (nonatomic, strong) NSArray * images;
+@property (nonatomic, copy) NSString * star;
 
 @end

@@ -126,6 +126,10 @@
             && [[dictionary objectForKey:@"images"] isKindOfClass:[NSArray class]]) {
             self.images= [dictionary objectForKey:@"images"];
         }
+        if (nil != [dictionary objectForKey:@"star"] && ![[dictionary objectForKey:@"star"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"star"] isKindOfClass:[NSString class]]) {
+            self.star= [dictionary objectForKey:@"star"];
+        }
     }
     return self;
 }
