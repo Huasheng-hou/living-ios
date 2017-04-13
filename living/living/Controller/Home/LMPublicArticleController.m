@@ -553,7 +553,11 @@ static NSMutableArray *cellDataArray;
                                                    
                                                } failed:^(NSError *error) {
                                                    
-                                                   [urlArray addObject:@""];
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [self textStateHUD:@"上传失败,请重试"];
+                                                       [projectImageArray removeObjectAtIndex:addImageIndex];
+                                                       [self refreshData];
+                                                   });
                                                    
                                                    if (urlArray.count == imgArr.count) {
                                                        
@@ -582,8 +586,9 @@ static NSMutableArray *cellDataArray;
 {
     NSMutableDictionary *newDic=cellDataArray[row];
     NSMutableArray  *newArray= newDic[@"images"];
-    NSMutableDictionary *dic = [NSMutableDictionary new];
+    
     for (int i = 0; i<imageUrl.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary new];
         if (typeIndex) {
             
             [dic setObject:imageUrl[i] forKey:@"coverUrl"];
@@ -875,16 +880,16 @@ static NSMutableArray *cellDataArray;
             
             if (imgNumber > 0) {
                 
-                int random = rand() % 100;
-                
-                if (random > 50) {
-                    
-                    [self textStateHUD:@"您的图片有点多哦，请等待上传完毕~"];
-                } else {
-                    
-                    [self textStateHUD:@"等一下再点哦，还在上传图片~"];
-                }
-                
+//                int random = rand() % 100;
+//                
+//                if (random > 50) {
+//                    
+//                    [self textStateHUD:@"您的图片有点多哦，请等待上传完毕~"];
+//                } else {
+//                    
+//                    [self textStateHUD:@"等一下再点哦，还在上传图片~"];
+//                }
+//                
                 return;
             }
         }
