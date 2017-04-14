@@ -456,8 +456,9 @@ static NSMutableArray *cellDataArray;
                 
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-                UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.3];
+//                UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.3];
 //                UIImage *newImg = [UIImage imageWithData:UIImageJPEGRepresentation(tempImg, 0.05)];
+                UIImage *newImg = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
                 [imageArray addObject:newImg];
                 [imageViewArray addObject:newImg];
                 [updateImageArray addObject:newImg];
@@ -806,7 +807,8 @@ static NSMutableArray *cellDataArray;
         updateImageArray = [NSMutableArray new];
         UIImage *tempImg = [[UIImage alloc] init];
         tempImg = info[@"UIImagePickerControllerOriginalImage"];
-        UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.2];
+//        UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.2];
+        UIImage *newImg = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
         [imageArray addObject:newImg];
         [imageViewArray addObject:newImg];
         [updateImageArray addObject:newImg];
