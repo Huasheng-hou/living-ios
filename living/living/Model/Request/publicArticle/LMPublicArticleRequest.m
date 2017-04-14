@@ -40,9 +40,6 @@
             [bodyDict setObject:article_imgs forKey:@"article_imgs"];
         }
         
-        if (type) {
-            [bodyDict setObject:article_imgs forKey:@"article_imgs"];
-        }
         
         if (blend) {
             [bodyDict setObject:blend forKey:@"blend"];

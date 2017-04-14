@@ -1020,7 +1020,7 @@ LMContentTableViewCellDelegate
                     hightArray = [NSMutableArray new];
                     
                     imageArray = [NSMutableArray new];
-                    for (int i = 0; i<arr.count; i++) {
+                    for (int i = 0, j = 0; i<arr.count; i++) {
                         
                         NSDictionary *dic = arr[i];
                         UIImageView *headImage = [UIImageView new];
@@ -1043,8 +1043,9 @@ LMContentTableViewCellDelegate
                            [imageArray addObject:[dic objectForKey:@"url"]];
                            [headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"BackImage"]];
                             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
-                            headImage.tag = i;
+                            headImage.tag = j;
                             [headImage addGestureRecognizer:tap];
+                            j++;
                         }
                         if (!dic[@"height"]) {
                             imageVH = 300;
