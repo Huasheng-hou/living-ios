@@ -46,7 +46,7 @@ LMTypeListProtocol,
 KZVideoViewControllerDelegate
 >
 {
-    UIImagePickerController *pickImage;
+    //UIImagePickerController *pickImage;
     ZYQAssetPickerController *LMpicker;
     NSMutableArray *imageArray;
     NSUInteger imageNum;
@@ -58,7 +58,7 @@ KZVideoViewControllerDelegate
     NSInteger addViewIndex;
     NSMutableArray *cellDataArray;
     NSMutableArray *contentArray;
-    LMPAHeadViewCell *cell;
+    //LMPAHeadViewCell *cell;
     
     NSMutableArray *imageViewArray;
     UILabel *typeLabel;
@@ -71,6 +71,10 @@ KZVideoViewControllerDelegate
     NSMutableArray *updateImageArray;
     
 }
+
+
+
+@property (strong,nonatomic)UIImagePickerController *pickImage;
 
 @end
 
@@ -121,11 +125,13 @@ static NSMutableArray *cellDataArray;
 - (void)createUI
 {
     self.title = @"发布文章";
-    pickImage   =[[UIImagePickerController alloc]init];
-    
-    [pickImage setDelegate:self];
-    pickImage.transitioningDelegate     = self;
-    pickImage.modalPresentationStyle    = UIModalPresentationCustom;
+//    _pickImage   =[[UIImagePickerController alloc]init];
+//    
+//    [_pickImage setDelegate:self];
+//    //_pickImage.transitioningDelegate     = self;
+//    _pickImage.allowsEditing = YES;
+//    _pickImage.videoQuality = UIImagePickerControllerQualityTypeMedium;
+//    _pickImage.modalPresentationStyle    = UIModalPresentationCurrentContext;
     
     
     UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth,90+10)];
@@ -162,6 +168,7 @@ static NSMutableArray *cellDataArray;
     [bgView addSubview:line2];
     
     self.tableView.tableHeaderView = bgView;
+    
 }
 
 - (void)typeChoose
@@ -275,8 +282,9 @@ static NSMutableArray *cellDataArray;
         
         static NSString *cellId = @"cellId";
         
-        cell    = [[LMPAHeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
+        LMPAHeadViewCell *  cell    = [[LMPAHeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+
+        cell = (LMPAHeadViewCell *)cell;
         cell.selectionStyle     = UITableViewCellSelectionStyleNone;
         cell.backgroundColor    = [UIColor clearColor];
         cell.tag                = indexPath.row;
@@ -384,17 +392,21 @@ static NSMutableArray *cellDataArray;
     
     if (projectImageArray.count > row) {
         
-        [projectImageArray replaceObjectAtIndex:row withObject:@""];
+        [projectImageArray removeObjectAtIndex:row];
     }
+    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    });
     
-    [self refreshData];
+//    [self refreshData];
 }
 
 #pragma mark UIImagePickerController代理函数
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [pickImage dismissViewControllerAnimated:YES completion:nil];
+    [_pickImage dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -410,7 +422,12 @@ static NSMutableArray *cellDataArray;
         for (int i = 0; i < assets.count; i++) {
             
             imageNum++;
-            
+            if (imageNum > 100) {
+                
+                [self textStateHUD:@"总图片数已达上限"];
+                break;
+            }
+
             ALAsset *asset=assets[i];
             NSLog(@"%@",[asset valueForProperty:ALAssetPropertyType]);
             if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
@@ -439,7 +456,8 @@ static NSMutableArray *cellDataArray;
                 
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-                UIImage *newImg = [UIImage imageWithData:UIImageJPEGRepresentation(tempImg, 0.05)];
+                UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.3];
+//                UIImage *newImg = [UIImage imageWithData:UIImageJPEGRepresentation(tempImg, 0.05)];
                 [imageArray addObject:newImg];
                 [imageViewArray addObject:newImg];
                 [updateImageArray addObject:newImg];
@@ -449,13 +467,38 @@ static NSMutableArray *cellDataArray;
         }
         [projectImageArray insertObject:imageViewArray atIndex:addImageIndex];
         //[projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-        
-        [self refreshData];
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        });
+        //[self refreshData];
         
         [self getImageURL:updateImageArray];
     }
     
 }
+
+- (UIImage*)changeImageSizeWithOriginalImage:(UIImage*)image percent:(float)percent
+{
+    // change the image size
+    UIImage *changedImage=nil;
+    float iwidth=image.size.width*percent;
+    float iheight=image.size.height*percent;
+    if (image.size.width != iwidth && image.size.height != iheight)
+    {
+        CGSize itemSize = CGSizeMake(iwidth, iheight);
+        UIGraphicsBeginImageContext(itemSize);
+        CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+        [image drawInRect:imageRect];
+        changedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    else{
+        changedImage = image;
+    }
+    return changedImage;
+}
+
 
 - (void)addViewTag:(NSInteger)viewTag
 {
@@ -693,17 +736,26 @@ static NSMutableArray *cellDataArray;
         [self presentViewController:LMpicker animated:YES completion:NULL];
     }
     if (buttonIndex == 1){//摄像头
+        if (!_pickImage) {
+            _pickImage = [[UIImagePickerController alloc] init];
+            _pickImage.sourceType = UIImagePickerControllerSourceTypeCamera;
+            _pickImage.allowsEditing = YES;
+            _pickImage.delegate = self;
+            _pickImage.transitioningDelegate = self;
+            _pickImage.modalPresentationStyle = UIModalPresentationFullScreen;
+        }
         //判断后边的摄像头是否可用
         if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
         {
-            [pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
-            [self presentViewController:pickImage animated:YES completion:nil];
+            [_pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
+            [self presentViewController:_pickImage animated:YES completion:nil];
+
         }
         //判断前边的摄像头是否可用
         else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
         {
-            [pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
-            [self presentViewController:pickImage animated:YES completion:nil];
+            [_pickImage setSourceType:UIImagePickerControllerSourceTypeCamera];
+            [self presentViewController:_pickImage animated:YES completion:nil];
         }else{
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@""
                                                          message:@"相机不可用" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -749,13 +801,19 @@ static NSMutableArray *cellDataArray;
     [picker dismissViewControllerAnimated:YES completion:^{
         updateImageArray = [NSMutableArray new];
         UIImage *tempImg = [[UIImage alloc] init];
-        tempImg = info[UIImagePickerControllerOriginalImage];
-        [imageArray addObject:tempImg];
-        [imageViewArray addObject:tempImg];
-        [updateImageArray addObject:tempImg];
+        tempImg = info[@"UIImagePickerControllerOriginalImage"];
+        UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.2];
+        [imageArray addObject:newImg];
+        [imageViewArray addObject:newImg];
+        [updateImageArray addObject:newImg];
         
         [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-        [self refreshData];
+
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        });
+
         [self getImageURL:updateImageArray];
     }];
 
