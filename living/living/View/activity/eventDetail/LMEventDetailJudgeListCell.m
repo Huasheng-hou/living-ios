@@ -35,10 +35,10 @@
 
 - (void)addSubViews{
     
-    _icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
+    _icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
     _icon.backgroundColor = BG_GRAY_COLOR;
     _icon.clipsToBounds = YES;
-    _icon.layer.cornerRadius = 3;
+    _icon.layer.cornerRadius = 15;
     [self.contentView addSubview:_icon];
     
     
@@ -47,17 +47,17 @@
     _name.font = TEXT_FONT_LEVEL_3;
     [self.contentView addSubview:_name];
     
-    _starView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_name.frame)+10, 10, kScreenWidth-CGRectGetMaxX(_name.frame)-20, 20)];
+    _starView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_icon.frame), CGRectGetMaxY(_icon.frame)+10, kScreenWidth-CGRectGetMaxX(_name.frame)-20, 20)];
     [self.contentView addSubview:_starView];
     
     
-    _time = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_icon.frame)+15, CGRectGetMaxY(_name.frame)+10, 100, 20)];
+    _time = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-120, CGRectGetMaxY(_name.frame)+10, 100, 20)];
     _time.textColor = TEXT_COLOR_LEVEL_4;
     _time.font = TEXT_FONT_LEVEL_4;
     [self.contentView addSubview:_time];
     
     
-    _content = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_icon.frame)+10, kScreenWidth-20, 0)];
+    _content = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_starView.frame)+10, kScreenWidth-20, 0)];
     [self.contentView addSubview:_content];
     
     _imageBack = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_content.frame)+10, kScreenWidth-20, 0)];
@@ -73,7 +73,7 @@
 - (void)setData:(LMEventCommentVO *)vo{
     
     //cell高度
-    frameH = [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 80;
+    frameH = [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 100;
         
     [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
     
@@ -91,7 +91,7 @@
     _content.font = TEXT_FONT_LEVEL_2;
     _content.numberOfLines = -1;
     [_content sizeToFit];
-    _content.frame = CGRectMake(10, CGRectGetMaxY(_icon.frame)+10, kScreenWidth-20, _content.bounds.size.height);
+    _content.frame = CGRectMake(10, CGRectGetMaxY(_starView.frame)+10, kScreenWidth-20, _content.bounds.size.height);
     
     
     if (vo.images.count > 0) {

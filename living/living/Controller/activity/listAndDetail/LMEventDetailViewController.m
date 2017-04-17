@@ -430,7 +430,7 @@ APChooseViewDelegate
             return 80;
         }
         LMEventCommentVO * vo = msgArray[indexPath.row-1];
-        return [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 80;
+        return [self getHeightWithContent:vo.commentContent andImageCount:vo.images.count] + 100;
     }
     
     return 0;
