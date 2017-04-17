@@ -35,7 +35,7 @@
 #import "LMEventListVO.h"
 #import "LMEventDetailViewController.h"
 #import "LMPublicEventController.h"
-#import "LMRechargeViewController.h"
+#import "LMSpecialRechargeController.h"
 
 #define PAGER_SIZE      20
 
@@ -288,7 +288,7 @@ WJLoopViewDelegate
         }
         if ([vo.Type isEqualToString:@"recharge"]) {
             
-            LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
+            LMSpecialRechargeController *reVC = [[LMSpecialRechargeController alloc] init];
             
             [reVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:reVC animated:YES];

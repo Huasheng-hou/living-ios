@@ -1,12 +1,12 @@
 //
-//  LMRechargeViewController.m
+//  LMSpecialRechargeController.m
 //  living
 //
-//  Created by Ding on 16/10/18.
-//  Copyright © 2016年 chenle. All rights reserved.
+//  Created by hxm on 2017/4/17.
+//  Copyright © 2017年 chenle. All rights reserved.
 //
 
-#import "LMRechargeViewController.h"
+#import "LMSpecialRechargeController.h"
 #import "LMChangeLivingController.h"
 #import "LMRechargeCell.h"
 #import "LMRePayCell.h"
@@ -29,8 +29,13 @@
 
 #import "LMWXRechargrRequest.h"
 #import "LMWXRechargeResultRequest.h"
+#import "LMCouponCell.h"
 
-@interface LMRechargeViewController ()
+
+#import "LMSpecialRechargeRequest.h"
+
+
+@interface LMSpecialRechargeController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
@@ -46,16 +51,23 @@ liveNameProtocol
     NSString *rechargeOrderUUID;
     UIView *footView;
     NSString *type;
+    
+    NSDictionary * _dataBody;
+    NSArray * _dataArray;
+    NSArray * _listArray;
 }
 
 @end
 
-@implementation LMRechargeViewController
+@implementation LMSpecialRechargeController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self createUI];
+    
+    [self getListData];
+    
     
     // * 微信支付被用户取消
     //
@@ -91,7 +103,7 @@ liveNameProtocol
     self.title=@"余额充值";
     
     if (_index!=1) {
-        _liveRoomName=@"添加充值生活馆";
+        _liveRoomName=@"选择所属生活馆";
     }
     
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
@@ -102,69 +114,25 @@ liveNameProtocol
     table.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     //尾部
-    footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 375)];
+    footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 90)];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 40)];
-    title.text = @"直接选择支付（获取优惠券将在确认订单中直接抵扣金额）";
-    title.font = TEXT_FONT_LEVEL_3;
-    title.textColor = TEXT_COLOR_LEVEL_2;
-    [footView addSubview:title];
-    
-    
-    LMChargeButton *button1 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 40, (kScreenWidth-40)/3, 80)];
-    button1.backgroundColor = [UIColor whiteColor];
-    button1.tag = 1;
-    button1.layer.borderWidth = 0.5;
-    button1.layer.borderColor = LINE_COLOR.CGColor;
-    button1.upLabel.text = @"1000元";
-    button1.downLabel.text = @"升级会员";
-    [button1 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
-    [footView addSubview:button1];
-    
-    
-    
-    LMChargeButton *button2 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)/3+20, 40, (kScreenWidth-40)/3, 80)];
-    button2.backgroundColor = [UIColor whiteColor];
-    button2.tag = 2;
-    button2.layer.borderWidth = 0.5;
-    button2.layer.borderColor = LINE_COLOR.CGColor;
-    button2.upLabel.text = @"3000元";
-    button2.downLabel.text = @"优惠券188元";
-    [button2 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
-    [footView addSubview:button2];
-    
-    LMChargeButton *button3 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)*2/3+25, 40, (kScreenWidth-40)/3, 80)];
-    button3.backgroundColor = [UIColor whiteColor];
-    button3.tag = 3;
-    button3.layer.borderWidth = 0.5;
-    button3.layer.borderColor = LINE_COLOR.CGColor;
-    button3.upLabel.text = @"5000元";
-    button3.downLabel.text = @"优惠券388元";
-    [button3 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
-    [footView addSubview:button3];
-    
-    
-    LMChargeButton *button4 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 130, (kScreenWidth-40)/3, 80)];
-    button4.backgroundColor = [UIColor whiteColor];
-    button4.layer.borderWidth = 0.5;
-    button4.tag = 4;
-    button4.layer.borderColor = LINE_COLOR.CGColor;
-    button4.upLabel.text = @"10000元";
-    button4.downLabel.text = @"优惠券888元";
-    [button4 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
-    [footView addSubview:button4];
+//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 40)];
+//    title.text = @"大礼包内容";
+//    title.font = TEXT_FONT_LEVEL_2;
+//    title.textColor = TEXT_COLOR_LEVEL_2;
+    //[footView addSubview:title];
     
     
     UIButton *agreeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    agreeButton.frame = CGRectMake(15, 238, 45, 30);
+    agreeButton.frame = CGRectMake(15, 5, 45, 30);
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
     if (searchArr==nil) {
         [agreeButton setImage:[UIImage imageNamed:@"disagree"] forState:UIControlStateNormal];
-
+        
     }else{
         for (NSString *string in searchArr) {
             if ([string isEqual:@"agree"]) {
-               [agreeButton setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
+                [agreeButton setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
             }else{
                 [agreeButton setImage:[UIImage imageNamed:@"disagree"] forState:UIControlStateNormal];
             }
@@ -183,11 +151,11 @@ liveNameProtocol
     [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(6,6)];
     agreeLabel.attributedText = str;
     [agreeLabel sizeToFit];
-
-    agreeLabel.frame = CGRectMake(60, 238, agreeLabel.bounds.size.width, 30);
+    
+    agreeLabel.frame = CGRectMake(60, 5, agreeLabel.bounds.size.width, 30);
     [footView addSubview:agreeLabel];
-
-    UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 288, kScreenWidth-30, 45)];
+    
+    UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 35, kScreenWidth-30, 45)];
     [loginOut setTitle:@"立即充值" forState:UIControlStateNormal];
     loginOut.titleLabel.textAlignment = NSTextAlignmentCenter;
     loginOut.titleLabel.font = [UIFont systemFontOfSize:17];
@@ -196,6 +164,56 @@ liveNameProtocol
     loginOut.backgroundColor = LIVING_COLOR;
     [footView addSubview:loginOut];
     [table setTableFooterView:footView];
+}
+
+- (void)getListData{
+    
+    LMSpecialRechargeRequest * request = [[LMSpecialRechargeRequest alloc] init];
+    
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 [self parseResp:resp];
+                                             });
+                                         }
+                                            failed:^(NSError *error) {
+                                                NSLog(@"%@", error.localizedDescription);
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    [self textStateHUD:@"网络错误"];
+                                                });
+                                            }];
+    [proxy start];
+    
+    
+    
+}
+
+- (void)parseResp:(NSString *)resp{
+    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        
+        [self textStateHUD:@"身份验证失败"];
+        return;
+    }
+    
+    NSDictionary * bodyDic = respDic[@"body"];
+    if (![bodyDic[@"result"] isEqualToString:@"0"]) {
+        [self textStateHUD:@"请求失败"];
+        return;
+    }
+    
+    if (bodyDic[@"gifts"]) {
+        _dataArray = bodyDic[@"gifts"];
+    }
+    if (bodyDic[@"list"]) {
+        _listArray = bodyDic[@"list"];
+    }
+    _dataBody = bodyDic;
+    
+    [table reloadData];
 }
 
 -(void)agreeAction:(UIButton *)button{
@@ -222,7 +240,7 @@ liveNameProtocol
                 [button setImage:[UIImage imageNamed:@"disagree"] forState:UIControlStateNormal];
             }else{
                 NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:@"agree", nil];
-
+                
                 [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"payArr"];
                 
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -234,96 +252,111 @@ liveNameProtocol
 }
 
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [self.view endEditing:YES];
-    return YES;
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    return [HcbAmountChecker textField:textField shouldChangeCharactersInRange:range replacementString:string];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    CGFloat     amount  = [textField.text floatValue];
-    
-    for (UIView *view in footView.subviews) {
-        
-        if ([view isKindOfClass:[LMChargeButton class]]) {
-            
-            LMChargeButton *btn = (LMChargeButton *)view;
-            
-            btn.upLabel.textColor       = TEXT_COLOR_LEVEL_2;
-            btn.downLabel.textColor     = TEXT_COLOR_LEVEL_2;
-            btn.layer.borderColor       = LINE_COLOR.CGColor;
-        }
-    }
-    
-    if (amount == 1000 || amount == 3000 || amount == 5000 || amount == 10000) {
-        
-        for (UIView *view in footView.subviews) {
-            
-            if ([view isKindOfClass:[LMChargeButton class]]) {
-                
-                LMChargeButton *btn = (LMChargeButton *)view;
-                
-                NSString *string = [btn.upLabel.text substringToIndex:[btn.upLabel.text length] - 1];
-                
-                if ([string isEqualToString:[NSString stringWithFormat:@"%d", (int)amount]]) {
-                    
-                    btn.upLabel.textColor = LIVING_COLOR;
-                    btn.downLabel.textColor = LIVING_COLOR;
-                    btn.layer.borderColor = LIVING_COLOR.CGColor;
-                }
-            }
-        }
-    }
-}
-
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    [self.view endEditing:YES];
+//    return YES;
+//}
+//
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+//{
+//    return [HcbAmountChecker textField:textField shouldChangeCharactersInRange:range replacementString:string];
+//}
+//
+//- (void)textFieldDidEndEditing:(UITextField *)textField
+//{
+//    CGFloat     amount  = [textField.text floatValue];
+//    
+//    for (UIView *view in footView.subviews) {
+//        
+//        if ([view isKindOfClass:[LMChargeButton class]]) {
+//            
+//            LMChargeButton *btn = (LMChargeButton *)view;
+//            
+//            btn.upLabel.textColor       = TEXT_COLOR_LEVEL_2;
+//            btn.downLabel.textColor     = TEXT_COLOR_LEVEL_2;
+//            btn.layer.borderColor       = LINE_COLOR.CGColor;
+//        }
+//    }
+//    
+//    if (amount == 1000 || amount == 3000 || amount == 5000 || amount == 10000) {
+//        
+//        for (UIView *view in footView.subviews) {
+//            
+//            if ([view isKindOfClass:[LMChargeButton class]]) {
+//                
+//                LMChargeButton *btn = (LMChargeButton *)view;
+//                
+//                NSString *string = [btn.upLabel.text substringToIndex:[btn.upLabel.text length] - 1];
+//                
+//                if ([string isEqualToString:[NSString stringWithFormat:@"%d", (int)amount]]) {
+//                    
+//                    btn.upLabel.textColor = LIVING_COLOR;
+//                    btn.downLabel.textColor = LIVING_COLOR;
+//                    btn.layer.borderColor = LIVING_COLOR.CGColor;
+//                }
+//            }
+//        }
+//    }
+//}
+//
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 1) {
-        
+//    if (section == 1) {
+//        
+//        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+//        headView.backgroundColor = [UIColor clearColor];
+//        UILabel *label = [UILabel new];
+//        label.text = @"选择支付方式";
+//        label.font = TEXT_FONT_LEVEL_2;
+//        label.textColor = TEXT_COLOR_LEVEL_2;
+//        [label sizeToFit];
+//        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
+//        [headView addSubview:label];
+//        
+//        return headView;
+//    }
+//    if (section == 2) {
+//        
+//        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+//        headView.backgroundColor = [UIColor clearColor];
+//        UILabel *label = [UILabel new];
+//        label.text = @"您的资金会很安全";
+//        label.font = TEXT_FONT_LEVEL_2;
+//        label.textColor = TEXT_COLOR_LEVEL_2;
+//        [label sizeToFit];
+//        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
+//        [headView addSubview:label];
+//        
+//        return headView;
+//    }
+    if (section == 3) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-        headView.backgroundColor = [UIColor clearColor];
-        UILabel *label = [UILabel new];
-        label.text = @"选择支付方式";
-        label.font = TEXT_FONT_LEVEL_2;
+        headView.backgroundColor = [UIColor whiteColor];
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 15)];
+        label.backgroundColor = [UIColor whiteColor];
+        label.text = @"   大礼包内容：";
         label.textColor = TEXT_COLOR_LEVEL_2;
-        [label sizeToFit];
-        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
-        [headView addSubview:label];
+        label.font = TEXT_FONT_LEVEL_3;
         
-        return headView;
-    }
-    if (section == 2) {
-        
-        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-        headView.backgroundColor = [UIColor clearColor];
-        UILabel *label = [UILabel new];
-        label.text = @"您的资金会很安全";
-        label.font = TEXT_FONT_LEVEL_2;
-        label.textColor = TEXT_COLOR_LEVEL_2;
-        [label sizeToFit];
-        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
-        [headView addSubview:label];
-        
-        return headView;
+        return label;
     }
     return nil;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==1) {
         return 2;
+    }
+    if (section == 3) {
+        return 10;
+//        return _dataArray.count + _listArray.count;
     }
     return 1;
 }
@@ -339,9 +372,20 @@ liveNameProtocol
         return 65;
     }
     
+    if (indexPath.section == 3) {
+        return 100;
+    }
+    
     return 45;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    if (section == 3) {
+        return 30;
+    }
+    return 0;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
@@ -387,24 +431,39 @@ liveNameProtocol
         
         static NSString *cellId = @"cellId";
         headcell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        
+        headcell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!headcell) {
             
             headcell = [[LMRePayCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
-            headcell.payNum.delegate            = self;
-            headcell.payNum.clearButtonMode     = UITextFieldViewModeAlways;
-            
-            
+            headcell.payNum.text = _dataBody[@"amount"];
+            headcell.payNum.enabled = NO;
             
         }
         
         return headcell;
+    }
+    if (indexPath.section == 3) {
+        
+        LMCouponCell * listCell = [[LMCouponCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        
+        listCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (5 > indexPath.row) {
+            listCell.type = 1;
+            [listCell setData:_dataArray[indexPath.row]];
+            return listCell;
+        }
+        listCell.type = 2;
+        [listCell setData:nil];
+        
+        return listCell;
     }
     return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section==0) {
         
         LMChangeLivingController *livingVC = [[LMChangeLivingController alloc] init];
@@ -467,7 +526,7 @@ liveNameProtocol
                 
             }
         }
-
+        
     }
     if (selectedIndex==1) {//微信
         
@@ -535,7 +594,7 @@ liveNameProtocol
             [self senderWeiXinPay:bodyDict[@"wxOrder"]];
             
         }else{
-
+            
             [self textStateHUD:[bodyDict objectForKey:@"description"]];
             
             
@@ -677,7 +736,7 @@ liveNameProtocol
             
         } else {
             
-                [self textStateHUD:[bodyDict objectForKey:@"description"]];
+            [self textStateHUD:[bodyDict objectForKey:@"description"]];
             
         }
     }
@@ -733,7 +792,7 @@ liveNameProtocol
             [self textStateHUD:@"充值成功！"];
             //刷新订单数据
             [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeMoney" object:nil];
-        
+            
         }else{
             
             [self textStateHUD:bodyDict[@"description"]];

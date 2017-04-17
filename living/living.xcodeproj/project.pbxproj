@@ -541,6 +541,8 @@
 		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
 		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
+		D563F0941EA4C681004C4B28 /* LMSpecialRechargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */; };
+		D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */; };
 		D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */; };
 		D5944D221E83BAA8002DBA7D /* LMPublicEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D211E83BAA8002DBA7D /* LMPublicEventController.m */; };
 		D5944D261E83BFB0002DBA7D /* LMPublicEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D251E83BFB0002DBA7D /* LMPublicEventCell.m */; };
@@ -1662,6 +1664,10 @@
 		D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBConvertCell.m; sourceTree = "<group>"; };
 		D542F3C31E6FEEA900CDB2EB /* LMYGBActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBActivityCell.h; sourceTree = "<group>"; };
 		D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBActivityCell.m; sourceTree = "<group>"; };
+		D563F0921EA4C681004C4B28 /* LMSpecialRechargeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSpecialRechargeController.h; sourceTree = "<group>"; };
+		D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeController.m; sourceTree = "<group>"; };
+		D563F0951EA4D7D9004C4B28 /* LMSpecialRechargeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSpecialRechargeRequest.h; sourceTree = "<group>"; };
+		D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeRequest.m; sourceTree = "<group>"; };
 		D5944D1C1E8377CA002DBA7D /* LMExpertSpaceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceRequest.h; sourceTree = "<group>"; };
 		D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceRequest.m; sourceTree = "<group>"; };
 		D5944D201E83BAA8002DBA7D /* LMPublicEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicEventController.h; sourceTree = "<group>"; };
@@ -2601,6 +2607,8 @@
 				35B744E61DDE97F2000AFA26 /* LMBlanceDetailController.m */,
 				35B744E71DDE97F2000AFA26 /* LMRechargeViewController.h */,
 				35B744E81DDE97F2000AFA26 /* LMRechargeViewController.m */,
+				D563F0921EA4C681004C4B28 /* LMSpecialRechargeController.h */,
+				D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */,
 			);
 			path = Balance;
 			sourceTree = "<group>";
@@ -3223,6 +3231,8 @@
 				35B746131DDE97F3000AFA26 /* LMWXRechargeResultRequest.m */,
 				35B746141DDE97F3000AFA26 /* LMWXRechargrRequest.h */,
 				35B746151DDE97F3000AFA26 /* LMWXRechargrRequest.m */,
+				D563F0951EA4D7D9004C4B28 /* LMSpecialRechargeRequest.h */,
+				D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */,
 			);
 			path = Pay;
 			sourceTree = "<group>";
@@ -4703,6 +4713,7 @@
 				35B747711DDE97F3000AFA26 /* CncpStartTime.m in Sources */,
 				359F818A1E0270E20070F6C7 /* LMVoiceMemberVO.m in Sources */,
 				35980BDE1E014D340054EB05 /* LMVoiceStartRequest.m in Sources */,
+				D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */,
 				358ED9171E5FC69C006B88BC /* LMMyMessageViewController.m in Sources */,
 				35B747781DDE97F3000AFA26 /* FitConsts.m in Sources */,
 				354298D41E0A207E001E11B4 /* FirUploadVoiceRequest.m in Sources */,
@@ -4713,6 +4724,7 @@
 				877290DA1E61565700519550 /* LMNearbyLifeMuseumCell.m in Sources */,
 				35980BD81E0139210054EB05 /* LMMyPublicVoicFinish.m in Sources */,
 				35B7476E1DDE97F3000AFA26 /* SQMenuShowView.m in Sources */,
+				D563F0941EA4C681004C4B28 /* LMSpecialRechargeController.m in Sources */,
 				35B286FE1E347CF400B2AA40 /* LMHomeVoiceDetailController.m in Sources */,
 				35980BCF1E01388F0054EB05 /* LMMyjoinVoiceRequest.m in Sources */,
 				35B748111DDE97F4000AFA26 /* LMMemberViewCell.m in Sources */,
