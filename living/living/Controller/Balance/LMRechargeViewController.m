@@ -116,10 +116,16 @@ liveNameProtocol
     button1.tag = 1;
     button1.layer.borderWidth = 0.5;
     button1.layer.borderColor = LINE_COLOR.CGColor;
-    button1.upLabel.text = @"1000元";
+    button1.upLabel.text = @"199元";
     button1.downLabel.text = @"升级会员";
     [button1 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:button1];
+    
+    button1.upLabel.textColor = LIVING_COLOR;
+    button1.downLabel.textColor = LIVING_COLOR;
+    button1.layer.borderColor = LIVING_COLOR.CGColor;
+    NSString *string1 =[button1.upLabel.text substringToIndex:[button1.upLabel.text length] - 1];
+    headcell.payNum.text = string1;
     
     
     
@@ -393,6 +399,9 @@ liveNameProtocol
             headcell = [[LMRePayCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
             headcell.payNum.delegate            = self;
             headcell.payNum.clearButtonMode     = UITextFieldViewModeAlways;
+            
+            
+            
         }
         
         return headcell;

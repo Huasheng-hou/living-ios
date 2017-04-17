@@ -11,40 +11,31 @@
 #import "LMPublishViewController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
-
 #import "LMActivityDeleteRequest.h"
 #import "SQMenuShowView.h"
 #import "ActivityListVO.h"
 #import "LMMyPublicViewController.h"
 #import "SXButton.h"
 #import "SearchViewController.h"
-
 #import "LMBannerrequest.h"
 #import "BannerVO.h"
 #import "WJLoopView.h"
-
 #import "LMActivityLifeHouseCell.h"
 #import "LMActivityApplyCell.h"
 #import "LMActivityExperienceCell.h"
-
 #import "LMEvaluateViewController.h"
-
-
 #import "LMHomeDetailController.h"
 #import "LMHomeVoiceDetailController.h"
 #import "LMWebViewController.h"
 #import "LMClassroomDetailViewController.h"
-
 #import "LMAllActivityController.h"
 #import "LMAllEventController.h"
 #import "LMPublicArticleController.h"
-
-
 #import "LMEventListRequest.h"
 #import "LMEventListVO.h"
 #import "LMEventDetailViewController.h"
-
 #import "LMPublicEventController.h"
+#import "LMRechargeViewController.h"
 
 #define PAGER_SIZE      20
 
@@ -295,6 +286,15 @@ WJLoopViewDelegate
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
+        if ([vo.Type isEqualToString:@"recharge"]) {
+            
+            LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
+            
+            [reVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:reVC animated:YES];
+        
+        }
+
     }
 
 }
