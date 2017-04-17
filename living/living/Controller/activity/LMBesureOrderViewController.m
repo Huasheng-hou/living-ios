@@ -574,9 +574,20 @@ FitPickerViewDelegate
                         [longFormater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                         [shortFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
                         
-                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\n至\n%@",
-                                                     [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.startTime]],
-                                                     [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.endTime]]];
+                        
+                        
+                        if (orderInfos.endTime) {
+                            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\n至\n%@",
+                                                         [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.startTime]],
+                                                         [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.endTime]]];
+                        }else{
+                            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",
+                                                         [shortFormatter stringFromDate:[longFormater dateFromString:orderInfos.startTime]]];
+                            
+                        }
+                        
+                        
+                        
                     }
                     
                     break;
