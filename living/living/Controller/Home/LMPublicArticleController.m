@@ -456,8 +456,9 @@ static NSMutableArray *cellDataArray;
                 
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-                UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.3];
+//                UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.3];
 //                UIImage *newImg = [UIImage imageWithData:UIImageJPEGRepresentation(tempImg, 0.05)];
+                UIImage *newImg = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
                 [imageArray addObject:newImg];
                 [imageViewArray addObject:newImg];
                 [updateImageArray addObject:newImg];
@@ -744,6 +745,7 @@ static NSMutableArray *cellDataArray;
             _pickImage.transitioningDelegate = self;
             _pickImage.modalPresentationStyle = UIModalPresentationFullScreen;
         }
+        typeIndex = nil;
         //判断后边的摄像头是否可用
         if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
         {
@@ -797,12 +799,16 @@ static NSMutableArray *cellDataArray;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    
+    if (picker.sourceType != UIImagePickerControllerSourceTypeCamera) {
+        return;
+    }
+    typeIndex = nil;
     [picker dismissViewControllerAnimated:YES completion:^{
         updateImageArray = [NSMutableArray new];
         UIImage *tempImg = [[UIImage alloc] init];
         tempImg = info[@"UIImagePickerControllerOriginalImage"];
-        UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.2];
+//        UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.2];
+        UIImage *newImg = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
         [imageArray addObject:newImg];
         [imageViewArray addObject:newImg];
         [updateImageArray addObject:newImg];
@@ -1092,24 +1098,28 @@ static NSMutableArray *cellDataArray;
     [imageArray addObject:newImage];
     [imageViewArray addObject:newImage];
     [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-    [self refreshData];
+    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    });
+//    [self refreshData];
     [self getImageURL:updateImageArray];
     
     
 }
-- (UIImage*) getVideoPreViewImage:(NSURL *)path
-{
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:path options:nil];
-    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    assetGen.appliesPreferredTrackTransform = YES;
-    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
-    NSError *error = nil;
-    CMTime actualTime;
-    CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
-    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
-    CGImageRelease(image);
-    return videoImage;
-}
+//- (UIImage*) getVideoPreViewImage:(NSURL *)path
+//{
+//    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:path options:nil];
+//    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+//    assetGen.appliesPreferredTrackTransform = YES;
+//    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+//    NSError *error = nil;
+//    CMTime actualTime;
+//    CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
+//    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+//    CGImageRelease(image);
+//    return videoImage;
+//}
 
 #pragma mark  mov格式转MP4
 - (void)movFileTransformToMP4WithSourceUrl:(NSURL *)sourceUrl completion:(void(^)(NSString *Mp4FilePath))comepleteBlock

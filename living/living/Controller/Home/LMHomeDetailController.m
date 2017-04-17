@@ -1020,7 +1020,7 @@ LMContentTableViewCellDelegate
                     hightArray = [NSMutableArray new];
                     
                     imageArray = [NSMutableArray new];
-                    for (int i = 0; i<arr.count; i++) {
+                    for (int i = 0, j = 0; i<arr.count; i++) {
                         
                         NSDictionary *dic = arr[i];
                         UIImageView *headImage = [UIImageView new];
@@ -1030,7 +1030,7 @@ LMContentTableViewCellDelegate
                         CGFloat imageViewH = kScreenWidth*imageVH/imageVW;
                         
                         if ([dic[@"type"] isEqual:@"video"]) {
-//                           [imageArray addObject:[dic objectForKey:@"coverUrl"]];
+                           [imageArray addObject:[dic objectForKey:@"coverUrl"]];
                             UIImageView *playView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-21-15, imageViewH/2-21, 42, 42)];
                             playView.image = [UIImage imageNamed:@"playIcon"];
                             playView.userInteractionEnabled = YES;
@@ -1045,6 +1045,7 @@ LMContentTableViewCellDelegate
                             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapimageAction:)];
                             headImage.tag = i;
                             [headImage addGestureRecognizer:tap];
+                            j++;
                         }
                         if (!dic[@"height"]) {
                             imageVH = 300;
@@ -1465,7 +1466,7 @@ LMContentTableViewCellDelegate
                 NSString *string = dic[@"url"];
                 [new addObject:string];
             }else{
-                NSString *string = dic[@"url"];
+                NSString *string = dic[@"coverUrl"];
                 [new addObject:string];
             }
 
@@ -1479,8 +1480,14 @@ LMContentTableViewCellDelegate
             BlendVO *vo = newImageArray[i];
             NSArray *imgArray = vo.images;
             for (NSDictionary *dic in imgArray) {
-                NSString *string = dic[@"url"];
-                [countArray addObject:string];
+                if (dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
+                    NSString *string = dic[@"url"];
+                    [countArray addObject:string];
+                }else{
+                    NSString *string = dic[@"coverUrl"];
+                    [countArray addObject:string];
+                }
+
             }
         }
     }
