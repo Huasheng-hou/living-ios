@@ -504,7 +504,10 @@ liveNameProtocol
     
     [self initStateHud];
     
-    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
+    NSString * totalMoney = headcell.payNum.text;
+    totalMoney = [totalMoney substringToIndex:totalMoney.length-1];
+    
+    LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:totalMoney andLivingUuid:_liveUUID];
     request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -513,7 +516,7 @@ liveNameProtocol
                                                                       withObject:resp
                                                                    waitUntilDone:YES];
                                            } failed:^(NSError *error) {
-                                               
+                                               NSLog(@"%@", error.localizedDescription);
                                                [self textStateHUD:@"网络错误"];
                                            }];
     [proxy start];
@@ -640,8 +643,9 @@ liveNameProtocol
     }
     
     [self initStateHud];
-    
-    LMAliRechargeRequest    *request    = [[LMAliRechargeRequest alloc] initWithAliRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
+    NSString * totalMoney = headcell.payNum.text;
+    totalMoney = [totalMoney substringToIndex:totalMoney.length-1];
+    LMAliRechargeRequest    *request    = [[LMAliRechargeRequest alloc] initWithAliRecharge:totalMoney andLivingUuid:_liveUUID];
     request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {

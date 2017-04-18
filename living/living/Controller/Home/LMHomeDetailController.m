@@ -1601,7 +1601,7 @@ LMContentTableViewCellDelegate
         NSArray *imgArray;
         imgArray = vo.images;
         for (NSDictionary *dic in imgArray) {
-            if (dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
+            if ((dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) || _type == 1) {
                 NSString *string = dic[@"url"];
                 [new addObject:string];
             }else{
@@ -1619,7 +1619,7 @@ LMContentTableViewCellDelegate
             BlendVO *vo = newImageArray[i];
             NSArray *imgArray = vo.images;
             for (NSDictionary *dic in imgArray) {
-                if (dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
+                if ((dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) || _type == 1) {
                     NSString *string = dic[@"url"];
                     [countArray addObject:string];
                 }else{

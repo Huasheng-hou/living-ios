@@ -198,7 +198,7 @@
                 
                 if (vo.group&&[vo.group isEqualToString:@"article"]) {
                     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
-                    
+                    detailVC.type = 1;
                     detailVC.hidesBottomBarWhenPushed = YES;
                     detailVC.artcleuuid = vo.articleUuid;
                     detailVC.franchisee = vo.franchisee;
