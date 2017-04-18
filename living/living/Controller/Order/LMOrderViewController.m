@@ -39,6 +39,10 @@
 #import "LMClassroomDetailViewController.h"
 
 #import "LMCouponMsgRequest.h"
+
+#import "LMEventDetailViewController.h"
+
+
 #define PAGER_SIZE      20
 
 @interface LMOrderViewController ()
@@ -249,7 +253,13 @@ LMOrderCellDelegate
             
             [self.navigationController pushViewController:detailVC animated:YES];
         }
-        
+        if (list.type && [list.type isKindOfClass:[NSString class]] && [list.type isEqualToString:@"item"]) {
+            
+            LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
+            detailVC.eventUuid = list.eventUuid;
+            
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
         if (list.type && [list.type isKindOfClass:[NSString class]] && [list.type isEqualToString:@"voice"]) {
             
             LMClassroomDetailViewController *voiceVC = [[LMClassroomDetailViewController alloc] init];

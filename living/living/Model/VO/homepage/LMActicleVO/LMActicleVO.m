@@ -56,6 +56,10 @@
             && [[dictionary objectForKey:@"article_name"] isKindOfClass:[NSString class]]) {
             self.articleName = [dictionary objectForKey:@"article_name"];
         }
+        if (nil != [dictionary objectForKey:@"nickname"] && ![[dictionary objectForKey:@"nickname"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"nickname"] isKindOfClass:[NSString class]]) {
+            self.nickName = [dictionary objectForKey:@"nickname"];
+        }
         
         if (nil != [dictionary objectForKey:@"article_content"] && ![[dictionary objectForKey:@"article_content"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"article_content"] isKindOfClass:[NSString class]]) {
@@ -90,6 +94,14 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.type = [dictionary objectForKey:@"type"];
         }
+        if (nil != [dictionary objectForKey:@"headimgurl"] && ![[dictionary objectForKey:@"headimgurl"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"headimgurl"] isKindOfClass:[NSString class]]) {
+            self.headImgUrl = [dictionary objectForKey:@"headimgurl"];
+        }
+        if (nil != [dictionary objectForKey:@"image"] && ![[dictionary objectForKey:@"image"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"image"] isKindOfClass:[NSString class]]) {
+            self.image = [dictionary objectForKey:@"image"];
+        }
         if (nil != [dictionary objectForKey:@"franchisee"] && ![[dictionary objectForKey:@"franchisee"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"franchisee"] isKindOfClass:[NSString class]]) {
             self.franchisee = [dictionary objectForKey:@"franchisee"];
@@ -103,8 +115,30 @@
             && [[dictionary objectForKey:@"group"] isKindOfClass:[NSString class]]) {
             self.group = [dictionary objectForKey:@"group"];
         }
-        
-        
+        if (nil != [dictionary objectForKey:@"category"] && ![[dictionary objectForKey:@"category"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"category"] isKindOfClass:[NSString class]]) {
+            self.category = [dictionary objectForKey:@"category"];
+        }
+        if (nil != [dictionary objectForKey:@"review_uuid"] && ![[dictionary objectForKey:@"review_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"review_uuid"] isKindOfClass:[NSString class]]) {
+            self.reviewUuid = [dictionary objectForKey:@"review_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"living_uuid"] && ![[dictionary objectForKey:@"living_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"living_uuid"] isKindOfClass:[NSString class]]) {
+            self.livingUuid = [dictionary objectForKey:@"living_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"content"] && ![[dictionary objectForKey:@"content"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"content"] isKindOfClass:[NSString class]]) {
+            self.content = [dictionary objectForKey:@"content"];
+        }
+        if (nil != [dictionary objectForKey:@"event_uuid"] && ![[dictionary objectForKey:@"event_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"event_uuid"] isKindOfClass:[NSString class]]) {
+            self.eventUuid = [dictionary objectForKey:@"event_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"title"] && ![[dictionary objectForKey:@"title"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"title"] isKindOfClass:[NSString class]]) {
+            self.title = [dictionary objectForKey:@"title"];
+        }
     }
     
     return self;

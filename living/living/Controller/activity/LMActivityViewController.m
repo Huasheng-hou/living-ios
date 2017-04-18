@@ -11,17 +11,38 @@
 #import "LMPublishViewController.h"
 #import "LMActivityListRequest.h"
 #import "LMActivityCell.h"
-
 #import "LMActivityDeleteRequest.h"
 #import "SQMenuShowView.h"
 #import "ActivityListVO.h"
 #import "LMMyPublicViewController.h"
 #import "SXButton.h"
 #import "SearchViewController.h"
+#import "LMBannerrequest.h"
+#import "BannerVO.h"
+#import "WJLoopView.h"
+#import "LMActivityLifeHouseCell.h"
+#import "LMActivityApplyCell.h"
+#import "LMActivityExperienceCell.h"
+#import "LMEvaluateViewController.h"
+#import "LMHomeDetailController.h"
+#import "LMHomeVoiceDetailController.h"
+#import "LMWebViewController.h"
+#import "LMClassroomDetailViewController.h"
+#import "LMAllActivityController.h"
+#import "LMAllEventController.h"
+#import "LMPublicArticleController.h"
+#import "LMEventListRequest.h"
+#import "LMEventListVO.h"
+#import "LMEventDetailViewController.h"
+#import "LMPublicEventController.h"
+#import "LMSpecialRechargeController.h"
 
 #define PAGER_SIZE      20
 
 @interface LMActivityViewController ()
+<
+WJLoopViewDelegate
+>
 {
     UIBarButtonItem *backItem;
     UIImageView *homeImage;
@@ -34,6 +55,11 @@
     BOOL                reload;
     SXButton     *letfButton;
     NSString         *city;
+    
+    UIView *headView; //头部视图
+    NSArray         *_bannerArray;
+    NSMutableArray  *stateArray;
+    NSArray * _eventsArray;
 }
 @property (strong, nonatomic)  SQMenuShowView *showView;
 @property (assign, nonatomic)  BOOL  isShow;
@@ -59,25 +85,39 @@
     
     return self;
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.showView dismissView];
+    [UIApplication sharedApplication].statusBarHidden = NO;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self creatUI];
-    [self creatImage];
+    //[self creatImage];
 
     [self loadNewer];
+    
     __weak typeof(self) weakSelf = self;
     [self.showView selectBlock:^(SQMenuShowView *view, NSInteger index) {
         weakSelf.isShow = NO;
         if (index==0) {
             LMPublishViewController *publicVC = [[LMPublishViewController alloc] init];
             [publicVC setHidesBottomBarWhenPushed:YES];
-            
+            publicVC.title = @"发布活动";
             [self.navigationController pushViewController:publicVC animated:YES];
         }
         
         if (index==1) {
+            LMPublicEventController *publicVC = [[LMPublicEventController alloc] init];
+            publicVC.title = @"发布项目";
+            [publicVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:publicVC animated:YES];
+        }
+        
+        if (index==2) {
             LMMyPublicViewController *myfVC = [[LMMyPublicViewController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
@@ -85,32 +125,18 @@
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [UIApplication sharedApplication].statusBarHidden = NO;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (self.listData.count == 0) {
-        
-        [self loadNoState];
-    }
-}
 
 - (void)creatUI
 {
     [super createUI];
     
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     if ([[FitUserManager sharedUserManager].privileges isEqual:@"special"]) {
     
-        UIBarButtonItem     *rightItem  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:self
-                                                                          action:@selector(publicAction)];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                   target:self
+                                                                                   action:@selector(publicAction)];
         
         self.navigationItem.rightBarButtonItem = rightItem;
     }
@@ -119,130 +145,180 @@
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     
-    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
-    NSString *cityStr;
-    for (NSString *string in searchArr) {
-        cityStr = string;
+    headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
+    headView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableHeaderView = headView;
+}
+
+#pragma mark - 请求轮播图数据
+- (void)getBannerDataRequest
+{
+    if (![CheckUtils isLink]) {
+        
+        [self textStateHUD:@"无网络连接"];
+        return;
     }
     
-    // 设置导航栏左侧按钮
-    letfButton = [SXButton buttonWithType:UIButtonTypeCustom];
-    letfButton.frame = CGRectMake(-10, 0, 55, 20);
-    [letfButton addTarget:self action:@selector(screenAction:) forControlEvents:UIControlEventTouchUpInside];
+    LMBannerrequest *request = [[LMBannerrequest alloc] init];
     
-    if (cityStr&&![cityStr isEqual:@""]) {
-        if (cityStr.length > 3) {
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
+                                               
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [self parseBannerResp:resp];
+                                               });
+                                               
+                                           } failed:^(NSError *error) {
+                                               
+                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                      withObject:@"网络错误"
+                                                                   waitUntilDone:YES];
+                                           }];
+    [proxy start];
+}
+- (void)parseBannerResp:(NSString *)resp{
+    
+    NSDictionary *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSString     *result     = [bodyDict objectForKey:@"result"];
+    
+    if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
+        
+        _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
+        
+        if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
             
-            letfButton.width = 80+24*(cityStr.length-3);
-        }else{
+            headView.backgroundColor = BG_GRAY_COLOR;
+        } else {
             
-            if (cityStr.length == 3) {
+            for (UIView *subView in headView.subviews) {
                 
-                letfButton.width = 80;
-            }else{
+                [subView removeFromSuperview];
+            }
+            
+            NSMutableArray   *imgUrls    = [NSMutableArray new];
+            stateArray  = [NSMutableArray new];
+            
+            for (BannerVO *vo in _bannerArray) {
                 
-                letfButton.width = 55;
-
+                if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
+                    
+                    [imgUrls addObject:vo.LinkUrl];
+                }
+                if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
+                    
+                    [stateArray addObject:vo.KeyUUID];
+                }
+            }
+            
+            WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
+                                                            delegate:self
+                                                           imageURLs:imgUrls
+                                                    placeholderImage:nil
+                                                        timeInterval:8
+                                      currentPageIndicatorITintColor:nil
+                                              pageIndicatorTintColor:nil];
+            
+            loopView.location = WJPageControlAlignmentRight;
+            
+            [headView addSubview:loopView];
+        }
+    }else{
+        
+    }
+}
+#pragma mark - WJLoopViewDelegate
+-(void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
+{
+    if (_bannerArray.count>index) {
+        
+        BannerVO *vo = _bannerArray[index];
+        //活动
+        if ([vo.Type isEqualToString:@"event"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]){
+                
+                LMActivityDetailController *eventVC = [[LMActivityDetailController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.eventUuid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
-        
-       [letfButton setTitle:cityStr forState:UIControlStateNormal];
-    }else{
-        [letfButton setTitle:@"全部" forState:UIControlStateNormal];
-    }
-    
-    
-    [letfButton setImage:[UIImage imageNamed:@"zhankai"] forState:UIControlStateNormal];
-    UIBarButtonItem *LeftBarButton = [[UIBarButtonItem alloc] initWithCustomView:letfButton];
-    self.navigationItem.leftBarButtonItem = LeftBarButton;
-    
-    
-}
-
-- (void)screenAction:(UIButton *)sender
-{
-    SearchViewController *searchV = [[SearchViewController alloc]init];
-    UINavigationController *naV = [[UINavigationController alloc]initWithRootViewController:searchV];
-    [searchV setSucceed:^(NSString *str) {
-        
-        if (str.length > 3) {
+        //文章
+        if ([vo.Type isEqualToString:@"article"]) {
             
-            letfButton.width = 80+24*(str.length-3);
-            letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-            letfButton.imageView.originX = letfButton.width*0.5+15;
-        }else{
-            
-            if (str.length == 3) {
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
                 
-                letfButton.width = 80;
-                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-                letfButton.imageView.originX = letfButton.width*0.5+15;
+                LMHomeDetailController *eventVC = [[LMHomeDetailController alloc] init];
                 
-            }else{
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.artcleuuid = vo.KeyUUID;
                 
-                letfButton.width = 55;
-                letfButton.titleLabel.width = letfButton.titleLabel.bounds.size.width;
-                letfButton.imageView.originX = letfButton.width*0.5+15;
+                [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
+        //web
+        if ([vo.Type isEqualToString:@"web"]) {
+            
+            if (vo.webUrl && [vo.webUrl isKindOfClass:[NSString class]] && ![vo.webUrl isEqualToString:@""]) {
+                
+                LMWebViewController *webVC = [[LMWebViewController alloc] init];
+                
+                webVC.hidesBottomBarWhenPushed  = YES;
+                webVC.titleString               = vo.webTitle ;
+                webVC.urlString                 = vo.webUrl;
+                
+                [self.navigationController pushViewController:webVC animated:YES];
+            }
+        }
+        //语音课堂
+        if ([vo.Type isEqualToString:@"voice"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+                
+                LMClassroomDetailViewController *eventVC = [[LMClassroomDetailViewController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.voiceUUid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
+        if ([vo.Type isEqualToString:@"recharge"]) {
+            
+            LMSpecialRechargeController *reVC = [[LMSpecialRechargeController alloc] init];
+            
+            [reVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:reVC animated:YES];
         
-        [letfButton setTitle:str forState:UIControlStateNormal];
-        
-        NSMutableArray *mutArr = [[NSMutableArray alloc]initWithObjects:str, nil];
-        
-        //存入数组并同步
-        
-        [[NSUserDefaults standardUserDefaults] setObject:mutArr forKey:@"cityArr"];
-        
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }];
-    [self presentViewController:naV animated:YES completion:^{
-        
-    }];
-    
-}
+        }
 
-
-
-#pragma mark 发布活动
-
-- (void)publicAction
-{
-    _isShow = !_isShow;
-    
-    if (_isShow) {
-        [self.showView showView];
-        
-    }else{
-        [self.showView dismissView];
     }
-    
 
 }
-
+#pragma  mark - 请求活动数据
 - (FitBaseRequest *)request
 {
+    [self getBannerDataRequest];
+    [self getEventsRequest];
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
     NSString *cityStr;
     for (NSString *string in searchArr) {
         cityStr = string;
         city = cityStr;
     }
-    
     if ([city isEqual:@"其它"]) {
         city = @"其它";
     }
     if ([city isEqual:@"全部"]) {
         city = nil;
     }
-    
-    
     LMActivityListRequest   *request    = [[LMActivityListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE andCity:city];
     
     return request;
 }
-
 - (NSArray *)parseResponse:(NSString *)resp
 {
     NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
@@ -261,11 +337,9 @@
         if ([headDic[@"privileges"] isEqual:@"special"]) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(publicAction)];
+                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                           target:self
+                                                                                           action:@selector(publicAction)];
                 
                 self.navigationItem.rightBarButtonItem = rightItem;
             });
@@ -280,6 +354,7 @@
         self.max    = [[bodyDict objectForKey:@"total"] intValue];
         
         NSArray *resultArr  = [ActivityListVO ActivityListVOListWithArray:[bodyDict objectForKey:@"list"]];
+        
         
         
         if (resultArr.count==0) {
@@ -301,41 +376,90 @@
     
     return nil;
 }
-
--(void)creatImage
-{
-    homeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, kScreenHeight/2-160, kScreenWidth, 100)];
-    
-    UIImageView *homeImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-41, 5, 82, 91)];
-    homeImg.image = [UIImage imageNamed:@"eventload"];
-    [homeImage addSubview:homeImg];
-    UILabel *imageLb = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-150, 95, 300, 60)];
-    imageLb.numberOfLines = 0;
-    imageLb.text = @"您选择的城市还没有活动哦\n选择其它城市看看吧";
-    imageLb.textColor = TEXT_COLOR_LEVEL_3;
-    imageLb.font = TEXT_FONT_LEVEL_2;
-    imageLb.textAlignment = NSTextAlignmentCenter;
-    [homeImage addSubview:imageLb];
-    homeImage.hidden = YES;
-    [self.tableView addSubview:homeImage];
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
-    
-    if (h) {
+#pragma mark - 请求项目数据
+- (void)getEventsRequest{
+    if (![CheckUtils isLink]) {
         
-        return h;
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    LMEventListRequest * request = [[LMEventListRequest alloc] initWithPageIndex:1 andPageSize:PAGER_SIZE andCity:nil];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 
+                                                 [self parseEventsResponse:resp];
+                                             });
+                                         }
+                                            failed:^(NSError *error) {
+                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                       withObject:@"网络错误"
+                                                                    waitUntilDone:YES];
+                                            }];
+    
+    
+    [proxy start];
+}
+- (void)parseEventsResponse:(NSString *)resp{
+    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * respDic = [NSJSONSerialization JSONObjectWithData:respData options:NSJSONReadingMutableLeaves error:nil];
+    NSDictionary * headDic = [respDic objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        [self textStateHUD:@"验证失败"];
+        
+        return;
     }
     
-    return 220;
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    if (![bodyDic[@"result"] isEqualToString:@"0"]) {
+        [self textStateHUD:@"请求数据失败"];
+        
+        return;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self hideStateHud];
+    });
+    NSArray * list = [bodyDic objectForKey:@"list"];
+    _eventsArray = [LMEventListVO EventListVOListWithArray:list];
+    
+}
+#pragma mark 发布活动
+- (void)publicAction
+{
+    _isShow = !_isShow;
+    
+    if (_isShow) {
+        [self.showView showView];
+        
+    }else{
+        [self.showView dismissView];
+    }
+    
 }
 
+#pragma mark - tableView代理方法
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return self.listData.count > 2 ? 2 : self.listData.count;
+    }
+    return _eventsArray.count > 2 ? 2 : _eventsArray.count;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 195;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.01;
+    if (section == 0) {
+        return self.listData.count > 0 ? 40 : 0;
+    }
+    return  _eventsArray.count > 0 ? 40 : 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -343,63 +467,142 @@
     return 0.01;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    static NSString *cellId = @"cellId";
+    UIView *sectionTitleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    sectionTitleView.backgroundColor = [UIColor whiteColor];
     
-    UITableViewCell     *cell;
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 14, 2, 12)];
+    imageView.backgroundColor = ORANGE_COLOR;
+    [sectionTitleView addSubview:imageView];
     
-    cell    = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    if (cell) {
-        
-        return cell;
+    UILabel *sectionTitleLbl = [[UILabel alloc]initWithFrame:CGRectMake(17, 12, kScreenWidth - 17, 15)];
+    switch (section) {
+        case 0:
+            sectionTitleLbl.text = @"活动";
+            break;
+        case 1:
+            sectionTitleLbl.text = @"项目";
+            break;
+        default:
+            break;
     }
+    sectionTitleLbl.font = TEXT_FONT_LEVEL_2;
+    sectionTitleLbl.textColor = TEXT_COLOR_LEVEL_3;
+    [sectionTitleView addSubview:sectionTitleLbl];
     
-    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
+    UILabel * more = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-100, 12, 90, 15)];
+    more.text = @"更多 >";
+    more.tag = section+100;
+    more.textColor = TEXT_COLOR_LEVEL_3;
+    more.font = TEXT_FONT_LEVEL_2;
+    more.textAlignment = NSTextAlignmentRight;
+    more.userInteractionEnabled = YES;
+    [more addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allList:)]];
+    [sectionTitleView addSubview:more];
     
-    if (!cell) {
-        
-        cell = [[LMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    if (self.listData.count > indexPath.row) {
-        
-        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
-            
-            [(LMActivityCell *)cell setActivityList:vo index:0] ;
-        }
-    }
-    
-    [(LMActivityCell *)cell setXScale:self.xScale yScale:self.yScaleWithAll];
-    
-    return cell;
+    return sectionTitleView;
 }
 
+//进入全量列表
+- (void)allList:(UITapGestureRecognizer *)tap{
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+    switch (tap.view.tag) {
+        case 100:
+        {
+            NSLog(@"更多活动");
+            LMAllActivityController * allAC = [[LMAllActivityController alloc] init];
+            allAC.title = @"活动";
+            [self.navigationController pushViewController:allAC animated:YES];
+            
+            
+        }
+            break;
+        case 101:
+        {
+            NSLog(@"更多项目");
+            LMAllEventController * allEvent = [[LMAllEventController alloc] init];
+            allEvent.title = @"项目";
+            [self.navigationController pushViewController:allEvent animated:YES];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+        switch (indexPath.section) {
+            case 0:{
+                static NSString *ApplyCellId = @"activityCell";
+                LMActivityApplyCell * cell = [tableView dequeueReusableCellWithIdentifier:ApplyCellId];
+                if (!cell) {
+                    cell = [[LMActivityApplyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ApplyCellId];
+                }
+                if (self.listData.count > indexPath.row) {
+                    ActivityListVO * vo = self.listData[indexPath.row];
+                    [cell setVO:vo];
+                }
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
+                break;
+            }
+            case 1:{
+                static NSString *EventCellId = @"EventCell";
+                LMActivityExperienceCell * cell = [tableView dequeueReusableCellWithIdentifier:EventCellId];
+                if (!cell) {
+                    cell = [[LMActivityExperienceCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:EventCellId];
+                }
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                if (_eventsArray.count > indexPath.row) {
+                    LMEventListVO * vo = _eventsArray[indexPath.row];
+                    [cell setVO:vo];
+                }
+                return cell;
+                break;
+            }
+            default:
+                break;
+        }
+    
+    return  nil;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count > indexPath.row) {
-        
-        ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+    if (indexPath.section == 0) {
+        if (self.listData.count > indexPath.row) {
             
-            LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+            ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
             
+            if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
+                
+                LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                
+                detailVC.eventUuid  = vo.eventUuid;
+                detailVC.titleStr   = vo.eventName;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+        }
+    }
+    if (indexPath.section == 1) {
+        if (_eventsArray.count > indexPath.row) {
+            LMEventListVO * vo = _eventsArray[indexPath.row];
+            LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
             detailVC.hidesBottomBarWhenPushed = YES;
-            
-            detailVC.eventUuid  = vo.EventUuid;
-            detailVC.titleStr   = vo.EventName;
-            
+            detailVC.eventUuid = vo.eventUuid;
+            detailVC.titleStr = vo.eventName;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }
-
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -412,11 +615,11 @@
     }
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    _isShow = NO;
-    [self.showView dismissView];
-}
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+//{
+//    _isShow = NO;
+//    [self.showView dismissView];
+//}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -428,7 +631,7 @@
     if (_showView) {
         return _showView;
     }
-    NSArray *array = @[@"发布活动",@"我的活动"];
+    NSArray *array = @[@"发布活动",@"发布项目", @"我的活动"];
     _showView = [[SQMenuShowView alloc]initWithFrame:(CGRect){CGRectGetWidth(self.view.frame)-100-10,64,100,0}
                                                items:array
                                            showPoint:(CGPoint){CGRectGetWidth(self.view.frame)-25,10}];
@@ -436,7 +639,6 @@
     [self.view addSubview:_showView];
     return _showView;
 }
-
 
 
 @end

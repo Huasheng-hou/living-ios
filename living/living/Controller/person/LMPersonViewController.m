@@ -27,6 +27,8 @@
 #import "LMMyvoicSegmentViewController.h"
 #import "LMHostoryEventViewController.h"
 
+#import "LMYaoGuoBiController.h"
+
 static CGRect oldframe;
 @interface LMPersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -46,8 +48,10 @@ static CGRect oldframe;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
-
+    self.navigationController.navigationBar.barTintColor  = [UIColor whiteColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
+    
     if (![[FitUserManager sharedUserManager] isLogin]) {
         NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
         
@@ -240,14 +244,14 @@ static CGRect oldframe;
         
         if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
             if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                return 8;
+            }
+            return 7;
+        }else{
+            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
                 return 7;
             }
             return 6;
-        }else{
-            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
-                return 6;
-            }
-            return 5;
         }
         
 
@@ -271,6 +275,9 @@ static CGRect oldframe;
             return 100;
         }
         return 45;
+    }
+    if (indexPath.section == 1 && indexPath.row == 1) {
+        return 0;
     }
     return 45;
 }
@@ -314,7 +321,6 @@ static CGRect oldframe;
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bigImageAction:)];
                 [headerView addGestureRecognizer:tap];
                 headerView.userInteractionEnabled = YES;
-                
                 
             }
             [cell.contentView addSubview:headerView];
@@ -413,32 +419,38 @@ static CGRect oldframe;
                 break;
                 
             case 1:
+                cell.textLabel.text = @"腰果";
+                cell.imageView.image = [UIImage imageNamed:@"icon-1"];
+                cell.hidden = YES;
+                break;
+                
+            case 2:
                 cell.textLabel.text = @"订单";
                 cell.imageView.image = [UIImage imageNamed:@"order"];
                 
                 break;
                 
-            case 2:
+            case 3:
                 cell.textLabel.text = @"生活馆";
                 cell.imageView.image = [UIImage imageNamed:@"living"];
                 
                 break;
-            case 3:
+            case 4:
                 cell.textLabel.text = @"我的好友";
                 cell.imageView.image = [UIImage imageNamed:@"friend"];
             
                 break;
-            case 4:
+            case 5:
                 cell.textLabel.text = @"我的优惠券";
                 cell.imageView.image = [UIImage imageNamed:@"personCoupon"];
                 
                 break;
-            case 5:
+            case 6:
                 cell.textLabel.text = @"我是讲师";
                 cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
                 
                 break;
-            case 6:
+            case 7:
                 cell.textLabel.text = @"历史活动";
                 cell.imageView.image = [UIImage imageNamed:@"hostory"];
                 
@@ -534,8 +546,22 @@ static CGRect oldframe;
             [baVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:baVC animated:YES];
         }
-        //订单
+        //腰果
         if (indexPath.row==1) {
+            
+            LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+            [ygbVC setHidesBottomBarWhenPushed:YES];
+            [self.navigationController pushViewController:ygbVC animated:YES];
+            
+//            UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
+//            LMOrderViewController *orderVC = [[LMOrderViewController alloc] init];
+//            [orderVC setHidesBottomBarWhenPushed:YES];
+//            orderVC.useBalance = [NSString stringWithFormat:@"%.2f", infoModel.balance];
+//            [self.navigationController pushViewController:orderVC animated:YES];
+        }
+        
+        //订单
+        if (indexPath.row==2) {
             UserInfoVO *infoModel = [[UserInfoVO alloc] initWithDictionary:infoDic];
             LMOrderViewController *orderVC = [[LMOrderViewController alloc] init];
             [orderVC setHidesBottomBarWhenPushed:YES];
@@ -544,7 +570,7 @@ static CGRect oldframe;
         }
         
         // * 生活馆
-        if (indexPath.row == 2) {
+        if (indexPath.row == 3) {
             
             if (infoModel.livingUuid && infoModel.livingUuid != nil && infoModel.livingNumber > 0) {
                 
@@ -560,7 +586,7 @@ static CGRect oldframe;
             }
         }
         //我的好友
-        if (indexPath.row ==3) {
+        if (indexPath.row ==4) {
             LMMyFriendViewController *myfVC = [[LMMyFriendViewController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
@@ -570,20 +596,20 @@ static CGRect oldframe;
         }
         
         //我的优惠券
-        if (indexPath.row == 4) {
+        if (indexPath.row == 5) {
             
             LMMyCouponController *myfVC = [[LMMyCouponController alloc] init];
             [myfVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:myfVC animated:YES];
         }
         
-        if (indexPath.row == 5) {
+        if (indexPath.row == 6) {
             LMMyvoicSegmentViewController *myVoiceVC = [[LMMyvoicSegmentViewController alloc] init];
             myVoiceVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:myVoiceVC animated:YES];
         }
         
-        if (indexPath.row == 6) {
+        if (indexPath.row == 7) {
             LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
             myVoiceVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:myVoiceVC animated:YES];

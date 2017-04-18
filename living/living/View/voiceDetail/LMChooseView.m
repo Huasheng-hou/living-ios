@@ -181,6 +181,7 @@
         self.bottomView.frame = CGRectMake(0, self.bounds.size.height+280, self.bounds.size.width, 280);
         [weakSelf setAlpha:0.0f];
     } completion:^(BOOL finished) {
+        [weakSelf.delegate LMChooseViewClose];
         [weakSelf removeFromSuperview];
     }];
 }

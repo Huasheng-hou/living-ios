@@ -124,6 +124,7 @@
     
     UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 115, kScreenWidth-30, 35)];
     foot.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
+    foot.backgroundColor = [UIColor whiteColor];
     [cellView addSubview:foot];
     
     _timeLabel = [UILabel new];

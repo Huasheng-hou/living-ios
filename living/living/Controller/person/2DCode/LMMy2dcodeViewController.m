@@ -19,7 +19,7 @@
     UIView *KeepImage;
     UIButton *downButton;
     UILabel *endTimeLabel;
-    NSInteger index;
+    //NSInteger _index;
     NSString *xufei;
 }
 
@@ -31,12 +31,15 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor  = [UIColor blackColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor blackColor];
+        self.view.backgroundColor = [UIColor blackColor];
     self.title = @"二维码";
     [self get2DcodeRequest];
     
@@ -123,11 +126,16 @@
 
 -(void)creatImageView
 {
-    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
+    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, +6064, kScreenWidth-30, 115+kScreenWidth)];
     KeepImage.clipsToBounds = YES;
     KeepImage.layer.cornerRadius = 5;
     KeepImage.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:KeepImage];
+    
+    if (kScreenHeight == 480) {
+        KeepImage.frame = CGRectMake(15, 64, kScreenWidth-30, kScreenWidth+105);
+    }
+    
     
     UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
     headImage.backgroundColor = [UIColor lightGrayColor];

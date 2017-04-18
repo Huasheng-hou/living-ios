@@ -173,9 +173,9 @@ static NSMutableArray *cellDataArray;
 
 - (void)typeChoose
 {
-    LMTypeListViewController    *typeVC     = [[LMTypeListViewController alloc] init];
-    typeVC.delegate     = self;
-    
+    LMTypeListViewController *typeVC = [[LMTypeListViewController alloc] init];
+    typeVC.delegate = self;
+    typeVC.name = @"文章分类";
     [self.navigationController pushViewController:typeVC animated:YES];
 }
 
@@ -383,7 +383,7 @@ static NSMutableArray *cellDataArray;
     
     NSInteger row   = button.tag;
     
-    NSLog(@"Currently closed cell is:%ld", row);
+    NSLog(@"Currently closed cell is:%ld", (long)row);
     
     if (cellDataArray.count > row) {
         
@@ -431,7 +431,7 @@ static NSMutableArray *cellDataArray;
             ALAsset *asset=assets[i];
             NSLog(@"%@",[asset valueForProperty:ALAssetPropertyType]);
             if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
-                typeIndex =[NSString stringWithFormat:@"%ld",imageNum];
+                typeIndex =[NSString stringWithFormat:@"%ld",(unsigned long)imageNum];
                 
                 ALAssetRepresentation * representation = asset.defaultRepresentation;
                 NSLog(@"%@",representation.url);
@@ -962,7 +962,6 @@ static NSMutableArray *cellDataArray;
 //                    
 //                    [self textStateHUD:@"等一下再点哦，还在上传图片~"];
 //                }
-//                
                 return;
             }
         }
@@ -973,12 +972,26 @@ static NSMutableArray *cellDataArray;
     
     self.navigationItem.rightBarButtonItem.enabled  = NO;
     
+    NSString * category = typeString;
+    if ([typeString isEqualToString:@"美丽"]) {
+        category = @"beautiful";
+    }else if ([typeString isEqualToString:@"健康"]){
+        category = @"healthy";
+    }else if ([typeString isEqualToString:@"美食"]){
+        category = @"delicious";
+    }else if ([typeString isEqualToString:@"幸福"]){
+        category = @"happiness";
+    }
+    NSLog(@"%@", category);
+    
     LMPublicArticleRequest  *request    = [[LMPublicArticleRequest alloc] initWithArticlecontent:cont
                                                                                    Article_title:titleTF.text
                                                                                       Descrition:discribleTF.text
                                                                                      andImageURL:array
+                                                                                     andCategory:category
                                                                                          andType:typeString
-                                                                                           blend:new sign:@"2"];
+                                                                                           blend:new
+                                                                                            sign:@"2"];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -988,7 +1001,7 @@ static NSMutableArray *cellDataArray;
                                                                    waitUntilDone:YES];
                                                
                                            } failed:^(NSError *error) {
-                                               
+                                               NSLog(@"%@", error.localizedDescription);
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    
                                                    [self textStateHUD:@"网络错误"];
@@ -1078,6 +1091,7 @@ static NSMutableArray *cellDataArray;
 {
     type = 2;
     typeString  = liveRoom;
+    NSLog(@"%@", typeString);
     [self.tableView reloadData];
 }
 

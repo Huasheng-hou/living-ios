@@ -14,6 +14,7 @@
           Article_title:(NSString *)article_title
             Descrition:(NSString *)descrition
             andImageURL:(NSArray *)article_imgs
+                andCategory:(NSString *)category
                     andType:(NSString *)type
                       blend:(NSArray *)blend
                        sign:(NSString *)sign;

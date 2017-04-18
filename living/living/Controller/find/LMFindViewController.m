@@ -20,6 +20,9 @@
 #import "LMLessonViewController.h"
 #import "LMSegmentViewController.h"
 
+
+#import "LMYaoGuoBiController.h"
+
 #define PAGER_SIZE      20
 
 @interface LMFindViewController ()
@@ -130,6 +133,9 @@ LMFindCellDelegate
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
+    
     imageURLs =@[@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/9f8d96ce455e3ce4c168a1a087cfab44.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/dba0b35d39f1513507f0bbac17e90d21.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/c643d748dc1a7c128a8d052def67a92e.jpg",@"http://yaoguo.oss-cn-hangzhou.aliyuncs.com/24437ada0e0fec458a4d4b7bcd6d3b03.jpg"];
     
 
@@ -150,7 +156,7 @@ LMFindCellDelegate
             headViewHight =  90+146;
         }
 
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight)];
+    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5+headViewHight+90-70)];
     headView.backgroundColor = BG_GRAY_COLOR;
     WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
                                                     delegate:self
@@ -164,10 +170,10 @@ LMFindCellDelegate
     
     [headView addSubview:loopView];
     
-    UIView *classView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5, kScreenWidth, headViewHight)];
+    //语音课堂
+    UIView *classView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5, kScreenWidth, 90)];
     classView.backgroundColor = [UIColor clearColor];
     [headView addSubview:classView];
-    
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
     backView.backgroundColor = [UIColor whiteColor];
@@ -187,28 +193,62 @@ LMFindCellDelegate
     right.image = [UIImage imageNamed:@"rightIcon"];
     [backView addSubview:right];
     
+    [classView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(voiceClassenter)]];
+    
+    //腰果币
+    UIView *ygbView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth*3/5+90, kScreenWidth, headViewHight-70)];
+    ygbView.backgroundColor = [UIColor clearColor];
+    [headView addSubview:ygbView];
+    
+    UIView *backView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth-20, 70)];
+    backView2.backgroundColor = [UIColor whiteColor];
+    backView2.layer.cornerRadius = 5;
+    //[ygbView addSubview:backView2];
+    
+    UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 40, 40)];
+    imageView2.image = [UIImage imageNamed:@"shareIcon"];
+    imageView2.layer.masksToBounds = YES;
+    imageView2.layer.cornerRadius = 5;
+    [backView2 addSubview:imageView2];
+    
+    UILabel *titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(60, 15, kScreenWidth-80, 40)];
+    titleLabel2.text = @"腰果币";
+    titleLabel2.font = TEXT_FONT_LEVEL_1;
+    [backView2 addSubview:titleLabel2];
+    
+    UIImageView *right2 = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 15+13.5, 7, 13)];
+    right2.image = [UIImage imageNamed:@"rightIcon"];
+    [backView2 addSubview:right2];
+    
+    [backView2 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myYGB)]];
+    
+    //共创社区
     if (kScreenWidth<750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 49)];
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90-80, kScreenWidth, 49)];
         footView.image = [UIImage imageNamed:@"VoiceImage"];
-        [classView addSubview:footView];
+        footView.userInteractionEnabled = NO;
+        [ygbView addSubview:footView];
     }
     
     if (kScreenWidth == 750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 97)];
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90-80, kScreenWidth, 97)];
         footView.image = [UIImage imageNamed:@"VoiceImage"];
-        [classView addSubview:footView];
+        footView.userInteractionEnabled = NO;
+        [ygbView addSubview:footView];
     }
     if (kScreenWidth>750) {
-        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, kScreenWidth, 146)];
+        UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90-80, kScreenWidth, 146)];
         footView.image = [UIImage imageNamed:@"VoiceImage"];
-        [classView addSubview:footView];
+        footView.userInteractionEnabled = NO;
+        [ygbView addSubview:footView];
     }
     
-    [classView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(voiceClassenter)]];
+    
+
     
     self.tableView.tableHeaderView = headView;
 }
-
+#pragma mark - 请求数据
 - (FitBaseRequest *)request
 {
     LMFindListRequest    *request    = [[LMFindListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
@@ -290,6 +330,7 @@ LMFindCellDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.listData.count;
+//    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -329,7 +370,7 @@ LMFindCellDelegate
     
     return cell;
 }
-
+#pragma mark - 手势点击
 - (void)voiceClassenter
 {
     LMSegmentViewController *lessonVC = [[LMSegmentViewController alloc] init];
@@ -337,7 +378,11 @@ LMFindCellDelegate
     [self.navigationController pushViewController:lessonVC animated:YES];
 }
 
-
+- (void)myYGB{
+    LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+    [self.navigationController pushViewController:ygbVC animated:YES];
+    
+}
 
 
 

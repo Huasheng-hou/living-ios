@@ -20,7 +20,7 @@
 #import "FitPickerThreeLevelView.h"
 #import "UIImageView+WebCache.h"
 #import "LMChoosehostViewController.h"
-
+#import "LMTypeListViewController.h"
 @interface LMPulicVoicViewController ()
 <
 UITableViewDelegate,
@@ -33,7 +33,8 @@ UIImagePickerControllerDelegate,
 UIViewControllerTransitioningDelegate,
 UIActionSheetDelegate,
 FitPickerViewDelegate,
-LMhostchooseProtocol
+LMhostchooseProtocol,
+LMTypeListProtocol
 
 >
 {
@@ -63,6 +64,9 @@ LMhostchooseProtocol
     NSInteger index;
     NSString *useCounpon;
     
+    
+    NSString * typeName;
+    NSString * typeStr;
 }
 
 @property (nonatomic,retain)UITableView *tableView;
@@ -157,7 +161,7 @@ static NSMutableArray *cellDataArray;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        return 490 +kScreenWidth*3/5+90;
+        return 490 +kScreenWidth*3/5+90+45;
     }
     if (indexPath.section==1) {
         return 340;
@@ -263,7 +267,9 @@ static NSMutableArray *cellDataArray;
         msgCell.joincountTF.tag = 100;
         msgCell.couponTF.tag = 100;
         
-        
+        msgCell.category.titleLabel.text = typeName;
+        [msgCell.category addTarget:self action:@selector(chooseType:) forControlEvents:UIControlEventTouchUpInside];
+
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -335,6 +341,33 @@ static NSMutableArray *cellDataArray;
         return cell;
     }
     return nil;
+}
+#pragma mark - 选择分类代理
+- (void)backLiveName:(NSString *)liveRoom
+{
+    typeName = liveRoom;
+    if ([liveRoom isEqualToString:@"美丽"]) {
+        typeStr = @"beautiful";
+    }
+    if ([liveRoom isEqualToString:@"幸福"]) {
+        typeStr = @"happiness";
+    }
+    if ([liveRoom isEqualToString:@"健康"]) {
+        typeStr = @"healthy";
+    }
+    if ([liveRoom isEqualToString:@"美食"]) {
+        typeStr = @"delicious";
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)chooseType:(id)sender{
+    LMTypeListViewController * typeVC = [[LMTypeListViewController alloc] init];
+    typeVC.name = @"课程分类";
+    typeVC.delegate     = self;
+    
+    [self.navigationController pushViewController:typeVC animated:YES];
 }
 
 //是否允许使用优惠券
@@ -937,7 +970,7 @@ static NSMutableArray *cellDataArray;
     }
      publicButton.userInteractionEnabled = YES;
 
-    LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc] initWithvoice_title:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString image:_imgURL host:UserId limit_number:[msgCell.joincountTF.text intValue]  notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
+    LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc] initWithvoice_title:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString image:_imgURL host:UserId limit_number:[msgCell.joincountTF.text intValue]  notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon category:typeStr];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

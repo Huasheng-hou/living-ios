@@ -38,7 +38,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-
+#import "LMVoiceDetailRequest.h"
+#import "LMVoiceDetailVO.h"
 
 #define Text_size_color [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1.0]
 
@@ -62,6 +63,7 @@ LMContentTableViewCellDelegate
     UIButton *zanButton;
     LMCommentButton *zanLabel;
     LMArticleBodyVO *articleData;
+    LMVoiceDetailVO *voiceData;
     NSMutableArray *listArray;
     
     UIView *commentsView;
@@ -334,7 +336,7 @@ LMContentTableViewCellDelegate
     [self dismissSelf];
     
     if ([[FitUserManager sharedUserManager] isLogin]) {
-        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_artcleuuid];
+        LMArtclePariseRequest *request = [[LMArtclePariseRequest alloc] initWithArticle_uuid:_voiceUuid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
                                                    
@@ -379,7 +381,7 @@ LMContentTableViewCellDelegate
 {
     [self initStateHud];
     
-    LMHomeDetailRequest *request = [[LMHomeDetailRequest alloc] initWithArticle_uuid:_artcleuuid];
+    LMVoiceDetailRequest *request = [[LMVoiceDetailRequest alloc] initWithVoice_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -406,9 +408,9 @@ LMContentTableViewCellDelegate
             [listArray removeAllObjects];
         }
         
-        articleData = [[LMArticleBodyVO alloc] initWithDictionary:bodyDic[@"article_body"]];
-        uesruuid = articleData.userUuid;
-        if (articleData.hasPraised ==YES) {
+        voiceData = [[LMVoiceDetailVO alloc] initWithDictionary:bodyDic[@"voice_body"]];
+        uesruuid = voiceData.userUuid;
+        if (articleData.hasPraised ==YES) { 
             [footView.zanartcle setImage:[UIImage imageNamed:@"zan-red"] forState:UIControlStateNormal];
         }
         
@@ -1224,7 +1226,7 @@ LMContentTableViewCellDelegate
 {
     
     if ([[FitUserManager sharedUserManager] isLogin]){
-        LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:cell.commentUUid];
+        LMCommentPraiseRequest *request = [[LMCommentPraiseRequest alloc] initWithArticle_uuid:_voiceUuid CommentUUid:cell.commentUUid];
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
                                                    
@@ -1368,7 +1370,7 @@ LMContentTableViewCellDelegate
 {
     NSString *string    = [commentText.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
-    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_artcleuuid CommentUUid:commitUUid Reply_content:string];
+    LMArtcleCommitRequest *request = [[LMArtcleCommitRequest alloc] initWithArticle_uuid:_voiceUuid CommentUUid:commitUUid Reply_content:string];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1551,7 +1553,7 @@ LMContentTableViewCellDelegate
         
         NSString *string    = [textcView.text stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_artcleuuid Commentcontent:string];
+        LMCommentArticleRequest *request = [[LMCommentArticleRequest alloc] initWithArticle_uuid:_voiceUuid Commentcontent:string];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1627,7 +1629,7 @@ LMContentTableViewCellDelegate
 
 - (void)getDeleteRequest
 {
-    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_artcleuuid];
+    LMArticeDeleteRequest *request = [[LMArticeDeleteRequest alloc] initWithArticle_uuid:_voiceUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

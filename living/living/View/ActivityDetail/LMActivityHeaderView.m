@@ -68,9 +68,8 @@
 
     
     _joinButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
-    
     [_joinButton setTintColor:[UIColor whiteColor]];
+    [_joinButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _joinButton.showsTouchWhenHighlighted = YES;
     _joinButton.frame = CGRectMake(kScreenWidth - 70, 25, 60.f, 50.f);
     [_joinButton addTarget:self action:@selector(joinButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -102,6 +101,9 @@
     [_countLabel sizeToFit];
     _countLabel.frame = CGRectMake(60, 35+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
 
+    
+    
+    
     
     NSString *string = [NSString stringWithFormat:@"%d", _event.status];
     

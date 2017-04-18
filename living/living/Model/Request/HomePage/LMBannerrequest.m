@@ -18,7 +18,7 @@
         
         NSMutableDictionary *bodyDict   = [NSMutableDictionary new];
         
-        
+    
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];
     }
@@ -28,7 +28,8 @@
 
 - (NSString *)methodPath
 {
-    return @"home/banner";
+    //return @"home/banner";
+    return @"event/banner"; //3.0
 }
 
 

@@ -109,15 +109,15 @@
     cell.textTitle.text = self.items[indexPath.row];
     cell.textTitle.textColor = _itemTextColor;
     
-    if ([self.choseSet containsObject:@(indexPath.row)]) {
-        cell.backgroundColor = itemSelectColor;
-    }else{
-        cell.backgroundColor = [UIColor clearColor];
-    }
+//    if ([self.choseSet containsObject:@(indexPath.row)]) {
+//        cell.backgroundColor = itemSelectColor;
+//    }else{
+//        cell.backgroundColor = [UIColor clearColor];
+//    }
     
-    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, itemHeigth)];
-    backView.backgroundColor = itemSelectColor;
-    cell.selectedBackgroundView = backView;
+//    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, itemHeigth)];
+//    backView.backgroundColor = itemSelectColor;
+//    cell.selectedBackgroundView = backView;
     return cell;
 }
 

@@ -83,7 +83,7 @@
     
     
     _timeLabel = [UILabel new];
-//    _timeLabel.text = @"2016-10-1 12:20 —— 2016-12-03 13:00";
+    _timeLabel.text = @"2016-10-1 12:20 —— 2016-12-03 13:00";
     _timeLabel.font = [UIFont systemFontOfSize:14.f];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_2;

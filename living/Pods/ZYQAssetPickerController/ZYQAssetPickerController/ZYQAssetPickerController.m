@@ -1054,10 +1054,11 @@ static UIColor *titleColor;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationBar.tintColor                    = [UIColor whiteColor];
+    self.navigationBar.tintColor                    = [UIColor blackColor];
     self.navigationBar.barTintColor                 = [UIColor colorWithRed:250/255.0 green:108/255.0 blue:35/255.0 alpha:1.0]
 ;
-    self.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+    self.navigationBar.barTintColor                 = [UIColor whiteColor];
+    self.navigationBar.titleTextAttributes          = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],
                                                        NSForegroundColorAttributeName, nil];
 }
 

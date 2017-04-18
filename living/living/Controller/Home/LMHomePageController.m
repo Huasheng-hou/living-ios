@@ -18,7 +18,6 @@
 #import "LMPublicArticleController.h"
 #import "MJRefresh.h"
 #import "LMWriterViewController.h"
-#import "LMHomeDetailController.h"
 #import "LMWebViewController.h"
 
 #import "LMArtcleTypeViewController.h"
@@ -27,15 +26,28 @@
 
 #import "BannerVO.h"
 
+#import "LMRecommendCell.h"
+#import "HotArticleCell.h"
+#import "LMHomeBannerView.h"
+#import "LMBannerDetailController.h"
+
+#import "LMBannerDetailMakerController.h"
+#import "LMYaoGuoBiController.h"
+
+#import "LMRecommendArticleRequest.h"
+#import "LMRecommendVO.h"
+
 #define PAGER_SIZE      20
 
 @interface LMHomePageController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
-WJLoopViewDelegate,
-LMhomePageCellDelegate
+LMHomeBannerDelegate,
+WJLoopViewDelegate
 >
+//LMhomePageCellDelegate
+
 {
     UIView *headView;
     UIBarButtonItem *backItem;
@@ -47,6 +59,11 @@ LMhomePageCellDelegate
     
     NSArray         *_bannerArray;
     NSMutableArray  *stateArray;
+    
+    
+    NSArray * sectionList;
+    
+    NSArray * _recommendArray;
 }
 
 @end
@@ -63,66 +80,60 @@ LMhomePageCellDelegate
         self.hidesBottomBarWhenPushed   = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
     }
     
     return self;
 }
 
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = NO;
     if ([[FitUserManager sharedUserManager] isLogin]) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"publicIcon"]
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(publicAction)];
-        
+
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publicAction)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (self.listData.count == 0) {
-        
-        [self loadNoState];
-    }
-    
-    if (!_bannerArray || _bannerArray.count == 0) {
-        
-        [self getBannerDataRequest];
-    }
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"首页";
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self initStateHud];
+    });
     
     [self creatUI];
     
-    [self getBannerDataRequest];
+    [self getRecommendArticleRequest];
     [self loadNewer];
 }
 
 - (void)creatUI
 {
     [super createUI];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"首页";
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 49, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 49, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
-    
-    headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)];
-    headView.backgroundColor = BG_GRAY_COLOR;
-    self.tableView.tableHeaderView = headView;
+    self.tableView.backgroundColor = [UIColor whiteColor];
 
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:TEXT_COLOR_LEVEL_2};
+    self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
+    sectionList = @[@"腰果推荐", @"热门文章"];
+    
+    LMHomeBannerView * banner = [[LMHomeBannerView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 132)];
+    banner.delegate = self;
+    self.tableView.tableHeaderView = banner;
 }
 
 - (void)adjustIndicator:(UIView *)loadingView
@@ -139,86 +150,80 @@ LMhomePageCellDelegate
     }
 }
 
+
+#pragma mark 发布文章
 - (void)publicAction
 {
     LMPublicArticleController *publicVC = [[LMPublicArticleController alloc] init];
     [self.navigationController pushViewController:publicVC animated:YES];
 }
-
-- (void)getBannerDataRequest
-{
+#pragma mark - 推荐数据请求
+//推荐
+- (void)getRecommendArticleRequest{
+    
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
         return;
     }
+    LMRecommendArticleRequest * request = [[LMRecommendArticleRequest alloc] init];
+    HTTPProxy * proxy = [HTTPProxy loadWithRequest:request
+                                         completed:^(NSString *resp, NSStringEncoding encoding) {
+
+                                             [self performSelectorOnMainThread:@selector(parseData:)
+                                                                    withObject:resp
+                                                                 waitUntilDone:YES];
+                                         }
+                                            failed:^(NSError *error) {
+                                                
+                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                       withObject:@"网络错误"
+                                                                    waitUntilDone:YES];
+                                            }];
     
-    LMBannerrequest *request = [[LMBannerrequest alloc] init];
     
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                           completed:^(NSString *resp, NSStringEncoding encoding) {
-                                               
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   
-                                                   NSDictionary *bodyDict   = [VOUtil parseBody:resp];
-                                                   
-                                                   NSString     *result     = [bodyDict objectForKey:@"result"];
-                                                   
-                                                   if (result && ![result isEqual:[NSNull null]] && [result isEqualToString:@"0"]) {
-                                                       
-                                                       _bannerArray = [BannerVO BannerVOListWithArray:[bodyDict objectForKey:@"banners"]];
-                                                       
-                                                       if (!_bannerArray || ![_bannerArray isKindOfClass:[NSArray class]] || _bannerArray.count < 1) {
-                                                           
-                                                           headView.backgroundColor = BG_GRAY_COLOR;
-                                                       } else {
-                                                           
-                                                           for (UIView *subView in headView.subviews) {
-                                                               
-                                                               [subView removeFromSuperview];
-                                                           }
-                                                           
-                                                           NSMutableArray   *imgUrls    = [NSMutableArray new];
-                                                           stateArray  = [NSMutableArray new];
-                                                           
-                                                           for (BannerVO *vo in _bannerArray) {
-                                                               
-                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.LinkUrl) {
-                                                                   
-                                                                   [imgUrls addObject:vo.LinkUrl];
-                                                               }
-                                                               if (vo && [vo isKindOfClass:[BannerVO class]] && vo.KeyUUID) {
-                                                                   
-                                                                   [stateArray addObject:vo.KeyUUID];
-                                                               }
-                                                           }
-                                                           
-                                                           WJLoopView *loopView = [[WJLoopView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5)
-                                                                                                           delegate:self
-                                                                                                          imageURLs:imgUrls
-                                                                                                   placeholderImage:nil
-                                                                                                       timeInterval:8
-                                                                                     currentPageIndicatorITintColor:nil
-                                                                                             pageIndicatorTintColor:nil];
-                                                           
-                                                           loopView.location = WJPageControlAlignmentRight;
-                                                           
-                                                           [headView addSubview:loopView];
-                                                       }
-                                                   }
-                                               });
-                                               
-                                           } failed:^(NSError *error) {
-                                               
-                                               [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                      withObject:@"网络错误"
-                                                                   waitUntilDone:YES];
-                                           }];
     [proxy start];
 }
+- (void)parseData:(NSString *)resp{
+    
+    NSString * franchisee;
+    NSDictionary * bodyDic = [VOUtil parseBody:resp];
+    
+    NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary * respDict = [NSJSONSerialization JSONObjectWithData:respData
+                                                              options:NSJSONReadingMutableLeaves
+                                                                error:nil];
+    NSDictionary * headDict = [respDict objectForKey:@"head"];
+    NSString * returnCode = [headDict objectForKey:@"returnCode"];
+    
+    if ([returnCode isEqualToString:@"000"])
+    {
+        if ([headDict objectForKey:@"franchisee"] && ![[headDict objectForKey:@"franchisee"] isEqual:[NSNull null]]
+            && [[headDict objectForKey:@"franchisee"] isKindOfClass:[NSString class]] && [headDict[@"franchisee"] isEqual:@"yes"]) {
+            
+            franchisee = @"yes";
+        }
+    }
+    NSString    *result         = [bodyDic objectForKey:@"result"];
+    NSString    *description    = [bodyDic objectForKey:@"description"];
+    
+    if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
+        
+        self.max    = [[bodyDic objectForKey:@"total"] intValue];
+        
+        _recommendArray = [LMRecommendVO LMRecommendVOListWithArray:[bodyDic objectForKey:@"list"]];
+        
+    } else if (description && ![description isEqual:[NSNull null]] && [description isKindOfClass:[NSString class]]) {
+        
+        [self performSelectorOnMainThread:@selector(textStateHUD:) withObject:description waitUntilDone:NO];
+    }
 
+}
+
+#pragma mark - 热门文章  --  原首页文章列表
 - (FitBaseRequest *)request
 {
+    [self getRecommendArticleRequest];
     LMHomelistequest    *request    = [[LMHomelistequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
     
     return request;
@@ -226,6 +231,7 @@ LMhomePageCellDelegate
 
 - (NSArray *)parseResponse:(NSString *)resp
 {
+    
     NSString        *franchisee;
     NSDictionary    *bodyDic        = [VOUtil parseBody:resp];
     
@@ -251,6 +257,10 @@ LMhomePageCellDelegate
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideStateHud];
+        });
+
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
         return [LMActicleVO LMActicleVOListWithArray:[bodyDic objectForKey:@"list"]];
@@ -263,7 +273,93 @@ LMhomePageCellDelegate
     return nil;
 }
 
-#pragma mark scrollview代理函数
+#pragma mark  - banner代理函数
+- (void)gotoNextPage:(NSInteger)index{
+    
+        switch (index) {
+        case 10:
+        {
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+            //NSLog(@"Yao·美丽");
+            bdVC.navigationItem.title = @"Yao·美丽";
+            [self.navigationController pushViewController:bdVC animated:YES];
+            break;
+        }
+        case 11:
+        {
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+
+            //NSLog(@"Yao·健康");
+            bdVC.navigationItem.title = @"Yao·健康";
+            [self.navigationController pushViewController:bdVC animated:YES];
+            break;
+        }
+        case 12:
+        {
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+
+            //NSLog(@"Yao·美食");
+            bdVC.navigationItem.title = @"Yao·美食";
+            [self.navigationController pushViewController:bdVC animated:YES];
+            break;
+        }
+        case 13:
+        {
+                
+            LMBannerDetailController * bdVC = [[LMBannerDetailController alloc] initWithIndex:index];
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+            //NSLog(@"Yao·幸福");
+            bdVC.navigationItem.title = @"Yao·幸福";
+            [self.navigationController pushViewController:bdVC animated:YES];
+            break;
+        }
+        case 14:
+        {
+            //NSLog(@"Yao·创客");
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+            LMBannerDetailMakerController * maker = [[LMBannerDetailMakerController alloc] init];
+            maker.title = @"Yao·创客";
+            [self.navigationController pushViewController:maker animated:YES];
+            break;
+        }
+        case 15:
+        {
+            //NSLog(@"Yao·果币");
+            self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:nil];
+            LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+            ygbVC.title = @"Yao·果币";
+            [self.navigationController pushViewController:ygbVC animated:YES];
+            break;
+        }
+            
+        default:
+            break;
+    }
+
+}
+
+#pragma mark - scrollview代理函数
 
 - (void)WJLoopView:(WJLoopView *)LoopView didClickImageIndex:(NSInteger)index
 {
@@ -325,73 +421,119 @@ LMhomePageCellDelegate
         }
     }
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+#pragma mark - tableView代理函数
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    if (h) {
-        
-        return h;
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        return _recommendArray.count;
     }
     
-    return 130;
+    return self.listData.count;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    if (indexPath.section == 0) {
+        return 110;
+    }
+    if (indexPath.section == 1) {
+        return 215;
+    }
+    return 0;
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.01;
+    return 40;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    if (section == 0) {
+        return 10;
+    }
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    
+    if (section == 0) {
+        UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 20)];
+        headerTitle.backgroundColor = [UIColor whiteColor];
+        headerTitle.textColor = TEXT_COLOR_LEVEL_3;
+        headerTitle.font = TEXT_FONT_LEVEL_3;
+        headerTitle.numberOfLines = 2;
+        
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"   丨  腰果推荐"];
+        [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
+        headerTitle.attributedText = [[NSAttributedString alloc] initWithAttributedString:attr];
+        [headerView addSubview:headerTitle];
+    }else{
+        UILabel * headerTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, tableView.size.width, 20)];
+        headerTitle.backgroundColor = [UIColor whiteColor];
+        headerTitle.textColor = TEXT_COLOR_LEVEL_3;
+        headerTitle.font = TEXT_FONT_LEVEL_3;
+        NSMutableAttributedString * attr = [[NSMutableAttributedString alloc] initWithString:@"   丨  热门文章"];
+        [attr addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0, 6)];
+        headerTitle.attributedText = attr;
+        [headerView addSubview:headerTitle];
+    }
+    
+    return headerView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    
-    UITableViewCell *cell   = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    if (cell) {
-        
+    if (indexPath.section == 0) {
+        LMRecommendCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[LMRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_recommendArray.count > indexPath.row) {
+            LMRecommendVO * vo = _recommendArray[indexPath.row];
+            if (vo) {
+                [(LMRecommendCell *)cell setValue:vo];
+            }
+
+        }
         return cell;
     }
-    
-    cell    = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
-    if (!cell) {
+    if (indexPath.section == 1) {
         
-        cell    = [[LMhomePageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    if (self.listData.count > indexPath.row) {
-        
-        LMActicleVO     *vo = self.listData[indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-            
-            [(LMhomePageCell *)cell setValue:vo];
+        HotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (!cell) {
+            cell = [[HotArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.listData.count > indexPath.row) {
+            
+            LMActicleVO * vo = self.listData[indexPath.row];
+            
+            [cell setValue:vo];
+
+        }
+        return cell;
     }
-    
-    cell.tag = indexPath.row;
-    [(LMhomePageCell *)cell setDelegate:self];
-    
-    return cell;
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count > indexPath.row) {
-        
-        LMActicleVO *vo     = [self.listData objectAtIndex:indexPath.row];
-        
-        if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
-            
-            if (vo.group&&[vo.group isEqualToString:@"article"]) {
+    if (indexPath.section == 0) {
+        LMRecommendVO * vo = _recommendArray[indexPath.row];
+        if (vo) {
+            if (vo.group && [vo.group isEqualToString:@"article"]) {
                 LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
                 
                 detailVC.hidesBottomBarWhenPushed = YES;
@@ -400,23 +542,49 @@ LMhomePageCellDelegate
                 detailVC.sign = vo.sign;
                 [self.navigationController pushViewController:detailVC animated:YES];
             }
-            
             if (vo.group&&[vo.group isEqualToString:@"voice"]) {
                 LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
                 
                 detailVC.hidesBottomBarWhenPushed = YES;
-                detailVC.artcleuuid = vo.articleUuid;
+                detailVC.voiceUuid = vo.articleUuid;
                 detailVC.franchisee = vo.franchisee;
                 detailVC.sign = vo.sign;
                 [self.navigationController pushViewController:detailVC animated:YES];
             }
+        }
+        
+    }
+    if (indexPath.section == 1) {
+        
+        if (self.listData.count > indexPath.row) {
             
-
+            LMActicleVO * vo = [self.listData objectAtIndex:indexPath.row];
+            
+            if (vo && [vo isKindOfClass:[LMActicleVO class]]) {
+                
+                if (vo.group&&[vo.group isEqualToString:@"article"]) {
+                    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    detailVC.artcleuuid = vo.articleUuid;
+                    detailVC.franchisee = vo.franchisee;
+                    detailVC.sign = vo.sign;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                if (vo.group&&[vo.group isEqualToString:@"voice"]) {
+                    LMHomeVoiceDetailController *detailVC = [[LMHomeVoiceDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    detailVC.voiceUuid = vo.articleUuid;
+                    detailVC.franchisee = vo.franchisee;
+                    detailVC.sign = vo.sign;
+                    [self.navigationController pushViewController:detailVC animated:YES];
+                }
+            }
         }
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
 
 

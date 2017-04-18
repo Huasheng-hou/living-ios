@@ -122,7 +122,14 @@
             self.replyContent= [dictionary objectForKey:@"replyContent"];
         }
         
-        
+        if (nil != [dictionary objectForKey:@"images"] && ![[dictionary objectForKey:@"images"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"images"] isKindOfClass:[NSArray class]]) {
+            self.images= [dictionary objectForKey:@"images"];
+        }
+        if (nil != [dictionary objectForKey:@"star"] && ![[dictionary objectForKey:@"star"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"star"] isKindOfClass:[NSString class]]) {
+            self.star= [dictionary objectForKey:@"star"];
+        }
     }
     return self;
 }

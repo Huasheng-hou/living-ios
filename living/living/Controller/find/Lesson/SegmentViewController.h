@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, SegmentControlStyle) {
 @property (nonatomic, strong) NSArray *titleArray;
 //每个标签对应ViewController数组
 @property (nonatomic, strong) NSArray *subViewControllers;
+
 //标签栏背景色
 @property (nonatomic, strong) UIColor *headViewBackgroundColor;
 //非选中状态下标签字体颜色
@@ -30,18 +31,21 @@ typedef NS_ENUM(NSInteger, SegmentControlStyle) {
 @property (nonatomic, strong) UIColor *titleSelectedColor;
 //标签字体大小
 @property (nonatomic, assign) CGFloat fontSize;
+
 //标签栏每个按钮高度
 @property (nonatomic, assign) CGFloat buttonHeight;
 //标签栏每个按钮宽度
 @property (nonatomic, assign) CGFloat buttonWidth;
 //选中标签下划线高度
 @property (nonatomic, assign) CGFloat bottomLineHeight;
+
 //选中标签底部划线颜色
 @property (nonatomic, strong) UIColor *bottomLineColor;
+
 //标签栏类型，默认为滚动
 @property (nonatomic, assign) SegmentHeaderType segmentHeaderType;
 //内容类型，默认为滚动
-//@property (nonatomic, assign) SegmentControlStyle segmentControlType;
+@property (nonatomic, assign) SegmentControlStyle segmentControlType;
 
 //初始化方法
 - (void)initSegment;

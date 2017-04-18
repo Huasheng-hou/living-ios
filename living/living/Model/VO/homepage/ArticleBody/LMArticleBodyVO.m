@@ -126,6 +126,31 @@
             && [[dictionary objectForKey:@"type"] isKindOfClass:[NSString class]]) {
             self.type = [dictionary objectForKey:@"type"];
         }
+        /******/
+        if (nil != [dictionary objectForKey:@"name"] && ![[dictionary objectForKey:@"name"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"name"] isKindOfClass:[NSString class]]) {
+            self.name = [dictionary objectForKey:@"name"];
+        }
+        if (nil != [dictionary objectForKey:@"title"] && ![[dictionary objectForKey:@"title"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"title"] isKindOfClass:[NSString class]]) {
+            self.title = [dictionary objectForKey:@"title"];
+        }
+        if (nil != [dictionary objectForKey:@"content"] && ![[dictionary objectForKey:@"content"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"content"] isKindOfClass:[NSString class]]) {
+            self.content = [dictionary objectForKey:@"content"];
+        }
+        if (nil != [dictionary objectForKey:@"review_uuid"] && ![[dictionary objectForKey:@"review_uuid"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"review_uuid"] isKindOfClass:[NSString class]]) {
+            self.reviewUuid = [dictionary objectForKey:@"review_uuid"];
+        }
+        if (nil != [dictionary objectForKey:@"imgs"] && ![[dictionary objectForKey:@"imgs"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"imgs"] isKindOfClass:[NSArray class]]) {
+            self.imgs = [dictionary objectForKey:@"imgs"];
+        }
+        if (nil != [dictionary objectForKey:@"praise_num"] && ![[dictionary objectForKey:@"praise_num"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"praise_num"] isKindOfClass:[NSNumber class]]) {
+            self.praiseNum = [[dictionary objectForKey:@"praise_num"] intValue];
+        }
     }
     return self;
 }

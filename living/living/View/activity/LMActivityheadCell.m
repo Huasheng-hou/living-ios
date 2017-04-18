@@ -120,19 +120,38 @@
     if (event.publishName ==nil) {
         _nameLabel.text = @"";
     }else{
-        _nameLabel.text = [NSString stringWithFormat:@"发布者：%@",event.publishName];
+        _nameLabel.text = [NSString stringWithFormat:@"%@",event.publishName];
     }
 //    _titleLabel.text = event.eventName;
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
-    _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+    
+    if (_type == 1) {
+        _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+    }else if (_type == 2){
+        _countLabel.text = @"此活动长期有效,赶快报名吧!";
+//        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+//        _joinButton.userInteractionEnabled = YES;
+//        return;
+    }
+    
     
     
     switch (event.status) {
         case 1:
-            [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+        {
+//            if (event.totalNumber == event.totalNum) {
+//                [_joinButton setTitle:@"已售罄" forState:UIControlStateNormal];
+//                _joinButton.userInteractionEnabled = NO;
+//            }
+//            if (event.totalNumber < event.totalNum) {
+                [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
+                _joinButton.userInteractionEnabled = YES;
+//            }
+            
             break;
+        }
         case 2:
-            [_joinButton setTitle:@"人满" forState:UIControlStateNormal];
+            [_joinButton setTitle:@"已售罄" forState:UIControlStateNormal];
             _joinButton.userInteractionEnabled = NO;
             break;
         case 3:

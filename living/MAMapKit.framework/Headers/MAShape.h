@@ -17,10 +17,15 @@
     NSString *_subtitle;    ///<副标题
 }
 
-///标题
+
+/**
+ *  标题
+ */
 @property (nonatomic, copy) NSString *title;
 
-///副标题
+/**
+ *  副标题
+ */
 @property (nonatomic, copy) NSString *subtitle;
 
 @end

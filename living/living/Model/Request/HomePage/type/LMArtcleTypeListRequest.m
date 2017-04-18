@@ -10,7 +10,7 @@
 
 @implementation LMArtcleTypeListRequest
 
--(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize andType:(NSString *)type
+-(id)initWithPageIndex:(NSInteger)pageIndex andPageSize:(NSInteger)pageSize andCategory:(NSString *)category
 {
     self = [super init];
     if (self) {
@@ -22,8 +22,8 @@
             [body setObject:[NSString stringWithFormat:@"%ld", (long)pageSize] forKey:@"pageSize"];
         }
         
-        if (type) {
-            [body setObject:type forKey:@"type"];
+        if (category) {
+            [body setObject:category forKey:@"category"];
         }
         
         NSMutableDictionary *parmDic = [self params];
@@ -40,7 +40,8 @@
 
 - (NSString *)methodPath
 {
-    return @"article/typeOfAll";//分类下所有文章
+    //return @"article/typeOfAll";//分类下所有文章
+    return @"category/articles"; //3.0
 }
 
 @end

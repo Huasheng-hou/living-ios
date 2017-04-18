@@ -60,6 +60,7 @@ LMMypublicEventCellDelegate
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
 }
 
+#pragma mark - 请求我的活动列表
 - (FitBaseRequest *)request
 {
     LMCreaterListRequest   *request    = [[LMCreaterListRequest alloc] initWithPageIndex:self.current andPageSize:PAGER_SIZE];
@@ -84,19 +85,17 @@ LMMypublicEventCellDelegate
             return resultArr;
         }
     }
-    
     return nil;
 }
 
+#pragma mark - tableView代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat h   = [super tableView:tableView heightForRowAtIndexPath:indexPath];
     
     if (h) {
-        
         return h;
     }
-    
     return 165;
 }
 
@@ -119,13 +118,11 @@ LMMypublicEventCellDelegate
     cell    = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     if (cell) {
-        
         return cell;
     }
-    
     cell    = [[LMMypublicEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     if (self.listData.count > indexPath.row) {
         
@@ -153,7 +150,7 @@ LMMypublicEventCellDelegate
             LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
             
             detailVC.hidesBottomBarWhenPushed = YES;
-            int payNum = [vo.Status intValue];
+            int payNum = [vo.status intValue];
             switch (payNum) {
                 case 1:
                     detailVC.type = @"正报名";
@@ -179,8 +176,8 @@ LMMypublicEventCellDelegate
                 default:
                     break;
             }
-            detailVC.eventUuid  = vo.EventUuid;
-            detailVC.titleStr   = vo.EventName;
+            detailVC.eventUuid  = vo.eventUuid;
+            detailVC.titleStr   = vo.eventName;
             
             [self.navigationController pushViewController:detailVC animated:YES];
         }
@@ -202,13 +199,13 @@ LMMypublicEventCellDelegate
 {
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
     LMMemberListViewController *memberVC = [[LMMemberListViewController alloc] init];
-    memberVC.eventUuid = vo.EventUuid;
+    memberVC.eventUuid = vo.eventUuid;
     
     [self.navigationController pushViewController:memberVC animated:YES];
     
 }
 
-#pragma mark  --开始活动
+#pragma mark  - -开始活动
 -(void)cellWillbegin:(LMMypublicEventCell *)cell
 {
     if (![CheckUtils isLink]) {
@@ -217,7 +214,7 @@ LMMypublicEventCellDelegate
         return;
     }
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
-    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:vo.EventUuid];
+    LMEventStartRequest *request = [[LMEventStartRequest alloc] initWithEvent_uuid:vo.eventUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -250,7 +247,7 @@ LMMypublicEventCellDelegate
     }
 }
 
-#pragma mark   --结束活动
+#pragma mark   - -结束活动
 
 - (void)cellWillfinish:(LMMypublicEventCell *)cell
 {
@@ -262,7 +259,7 @@ LMMypublicEventCellDelegate
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
 
     
-    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:vo.EventUuid];
+    LMEventEndRequest *request = [[LMEventEndRequest alloc] initWithEvent_uuid:vo.eventUuid];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -296,12 +293,12 @@ LMMypublicEventCellDelegate
     }
 }
 
-#pragma mark 删除活动  LMActivityDeleteRequest
+#pragma mark - 删除活动  LMActivityDeleteRequest
 
 - (void)cellWilldelete:(LMMypublicEventCell *)cell
 {
     ActivityListVO *vo =[self.listData objectAtIndex:cell.tag];
-    NSString *uuid = vo.EventUuid;
+    NSString *uuid = vo.eventUuid;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:@"是否删除"

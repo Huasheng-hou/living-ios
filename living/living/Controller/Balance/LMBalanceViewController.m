@@ -18,6 +18,9 @@
 
 //数据
 #import "LMBalanceDataModels.h"
+
+#import "LMYaoGuoBiController.h"
+
 #define PAGER_SIZE      20
 
 @interface LMBalanceViewController ()
@@ -244,6 +247,11 @@ UITableViewDataSource
                 cell.detailTextLabel.textColor = LIVING_REDCOLOR;
                 cell.imageView.image = [UIImage imageNamed:@"balance"];
                 break;
+//            case 1:
+//                cell.textLabel.text = @"我的腰果";
+//                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                cell.imageView.image = [UIImage imageNamed:@"recharge"];
+//                break;
             case 1:
                 cell.textLabel.text = @"余额充值";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -283,12 +291,18 @@ UITableViewDataSource
 {
     
     if (indexPath.section==0) {
+//        if (indexPath.row == 1) {
+//            LMYaoGuoBiController * ygbVC = [[LMYaoGuoBiController alloc] init];
+//            [ygbVC setHidesBottomBarWhenPushed:YES];
+//            [self.navigationController pushViewController:ygbVC animated:YES];
+//        }
         if (indexPath.row==1) {
             LMRechargeViewController *reVC = [[LMRechargeViewController alloc] init];
             
             [reVC setHidesBottomBarWhenPushed:YES];
             [self.navigationController pushViewController:reVC animated:YES];
         }
+        
     }else{
         
     }

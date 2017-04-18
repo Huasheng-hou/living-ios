@@ -16,6 +16,10 @@
 #import "LMHomeDetailController.h"
 #import "LMClassroomDetailViewController.h"
 
+
+#import "LMEventDetailViewController.h"
+
+
 @interface LMNoticViewController ()
 <
 UITableViewDelegate,
@@ -139,7 +143,6 @@ UITableViewDataSource
 
         
     }
-    
     listArray = [NSMutableArray new];
     
     if (!bodyDic) {
@@ -165,18 +168,24 @@ UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
-    
+    CGFloat h = 0;
     if (list.sign&&[list.sign isEqualToString:@"article"]) {
-            return [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.articleTitle content:list.content];
+        h = [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.articleTitle content:list.content];
     }
     if (list.sign&&[list.sign isEqualToString:@"event"]) {
-        return [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.eventName content:list.content];
+       h = [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.eventName content:list.content];
     }
     if (list.sign&&[list.sign isEqualToString:@"voice"]) {
-        return [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.voiceTitle content:list.content];
+        h = [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.voiceTitle content:list.content];
+    }
+    if (list.sign&&[list.sign isEqualToString:@"item"]) {
+        h = [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.eventName content:list.content];
+    }
+    if (list.sign&&[list.sign isEqualToString:@"eventReview"]) {
+        h = [LMNoticCell cellHigth:_nameString friendName:list.userNick type:list.type sign:list.sign title:list.reviewTitle content:list.content];
     }
     
-    return 0;
+    return h + 10;
 
 }
 
@@ -209,15 +218,15 @@ UITableViewDataSource
     }
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
-    [cell  setData:list name:_nameString];
-    if ([Estring isEqual:@"完成"]) {
-        cell.INDEX = 1;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    }else{
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    [cell setData:list name:_nameString];
+//    if ([Estring isEqual:@"完成"]) {
+//        cell.INDEX = 1;
+//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+//    }else{
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
     
-    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    //[cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
 }
@@ -351,6 +360,30 @@ UITableViewDataSource
                     detailVC.voiceUUid  = vo.voiceUuid;
                     
                     [self.navigationController pushViewController:detailVC animated:YES];
+                }
+                
+                if (vo.sign&&[vo.sign isEqualToString:@"eventReview"]) {
+                    LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    
+                    detailVC.artcleuuid  = vo.reviewUuid;
+                    
+                    detailVC.type = 2;
+                    
+                    [self.navigationController pushViewController:detailVC animated:YES];
+
+                }
+                
+                if (vo.sign&&[vo.sign isEqualToString:@"item"]) {
+                    LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
+                    
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    
+                    detailVC.eventUuid  = vo.eventUuid;
+                    
+                    [self.navigationController pushViewController:detailVC animated:YES];
+
                 }
                 
                 

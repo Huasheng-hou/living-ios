@@ -22,6 +22,7 @@
            limit_number:(int)limit_number
                 notices:(NSString *)notices
         franchiseePrice:(NSString *)franchiseePrice
-               available:(NSString *)available;
+               available:(NSString *)available
+                category:(NSString *)category;
 
 @end

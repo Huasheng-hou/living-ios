@@ -183,6 +183,7 @@
         self.bottomView.frame = CGRectMake(0, self.bounds.size.height+280, self.bounds.size.width, 280);
         [weakSelf setAlpha:0.0f];
     } completion:^(BOOL finished) {
+        [weakSelf.delegate APChooseViewClose];
         [weakSelf removeFromSuperview];
     }];
 }
@@ -191,10 +192,13 @@
 {
     count+=1;
     
-    if (count > _event.totalNum) {
-        
-        count -= 1;
-        return;
+    if (_type != 1) {
+        if (count > _event.totalNumber) {
+            
+            count -= 1;
+            return;
+        }
+
     }
     
     _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];

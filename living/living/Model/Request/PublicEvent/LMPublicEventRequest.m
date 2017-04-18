@@ -27,6 +27,8 @@
                 notices:(NSString *)notices
 franchiseePrice:(NSString *)franchiseePrice
               available:(NSString *)available
+               category:(NSString *)category
+                   type:(NSString *)type
 
 {
     self = [super init];
@@ -89,7 +91,12 @@ franchiseePrice:(NSString *)franchiseePrice
         if (available){
             [bodyDict setObject:available forKey:@"available"];
         }
-
+        if (category){
+            [bodyDict setObject:category forKey:@"category"];
+        }
+        if (type){
+            [bodyDict setObject:type forKey:@"type"];
+        }
         
         NSMutableDictionary *paramsDict = [self params];
         [paramsDict setObject:bodyDict forKey:@"body"];

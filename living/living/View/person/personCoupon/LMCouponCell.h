@@ -21,7 +21,11 @@
 
 @property(nonatomic,strong)UILabel *typeLabel;
 
+@property (nonatomic, assign) NSInteger type;
 
 -(void)setValue:(LMCouponVO *)list;
+
+- (void)setData:(NSDictionary *)dict;
+
 
 @end

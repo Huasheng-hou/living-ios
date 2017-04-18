@@ -54,7 +54,8 @@
 #define DATE_TIME_FORMAT        @"yyyy-MM-dd HH:mm:ss"
 
 //----------------字号分级------------------
-
+#define TEXT_FONT_LEVEL_S2           [UIFont systemFontOfSize:20]
+#define TEXT_FONT_LEVEL_S1           [UIFont systemFontOfSize:18]
 #define TEXT_FONT_LEVEL_1           [UIFont systemFontOfSize:16]
 #define TEXT_FONT_LEVEL_2           [UIFont systemFontOfSize:14]
 #define TEXT_FONT_LEVEL_3           [UIFont systemFontOfSize:12]
@@ -71,6 +72,8 @@
 #define TEXT_FONT_BOLD_14           [UIFont fontWithName:@"Helvetica-Bold"        size:14]
 #define TEXT_FONT_BOLD_16           [UIFont fontWithName:@"Helvetica-Bold"        size:16]
 #define TEXT_FONT_BOLD_18           [UIFont fontWithName:@"Helvetica-Bold"        size:18]
+#define TEXT_FONT_BOLD_20           [UIFont fontWithName:@"Helvetica-Bold"        size:20]
+#define TEXT_FONT_BOLD_22           [UIFont fontWithName:@"Helvetica-Bold"        size:22]
 #define TEXT_FONT_OBLIQUE_12        [UIFont fontWithName:@"Helvetica-Oblique"     size:12]
 
 //------------------色值--------------------
@@ -130,4 +133,9 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define imageH   (kScreenWidth-160)*2/3
 
 #define imageW  kScreenWidth/2
+
+
+//支付协议
+#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"  //测试
+#define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"   //正式
 

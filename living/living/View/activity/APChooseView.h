@@ -17,6 +17,8 @@
 
 -(void)APChooseViewSelectItem:(NSInteger)num;
 
+- (void)APChooseViewClose;
+
 @end
 
 @interface APChooseView : UIView
@@ -28,6 +30,8 @@
     CustomButton *_recordSizeButton;
     CustomButton *_addButton;
 }
+
+@property (nonatomic, assign) NSInteger type;
 
 @property (nonatomic , strong)NSString *size;
 @property (nonatomic , strong)NSString *color;

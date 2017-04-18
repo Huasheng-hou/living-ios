@@ -72,7 +72,7 @@
     priceLabel.textAlignment  = NSTextAlignmentRight;
     [backView addSubview:priceLabel];
     
-    nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 50, 100, 20)];
+    nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 50, 150, 20)];
     nameLabel.textColor = TEXT_COLOR_LEVEL_2;
     nameLabel.font = TEXT_FONT_LEVEL_2;
     [backView addSubview:nameLabel];

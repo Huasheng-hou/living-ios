@@ -26,6 +26,7 @@
 #import "KZVideoViewController.h"
 #import "ZYQAssetPickerController.h"
 #import "FirUploadVideoRequest.h"
+#import "LMTypeListViewController.h"
 
 @interface LMPublishViewController ()
 <
@@ -43,7 +44,8 @@ selectAddressDelegate,
 addressTypeDelegate,
 ZYQAssetPickerControllerDelegate,
 KZVideoViewControllerDelegate,
-LMProjectCellDelegate
+LMProjectCellDelegate,
+LMTypeListProtocol
 >
 {
     LMPublicMsgCell *msgCell;
@@ -79,6 +81,10 @@ LMProjectCellDelegate
     NSData *videoData;
     NSInteger publicTag;
     
+    
+    NSString * typeName;
+    NSString * typeStr;
+    
 }
 @property(nonatomic,strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
@@ -91,7 +97,6 @@ static NSMutableArray *cellDataArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发布活动";
     cellDataArray=[NSMutableArray arrayWithCapacity:10];
     projectImageArray=[NSMutableArray arrayWithCapacity:10];
     
@@ -261,6 +266,8 @@ static NSMutableArray *cellDataArray;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
     if (indexPath.section==0) {
         
         static NSString *cellID = @"cellID";
@@ -288,7 +295,8 @@ static NSMutableArray *cellDataArray;
         msgCell.applyTextView.delegate = self;
         msgCell.couponTF.tag = 100;
         
-        
+        msgCell.category.titleLabel.text = typeName;
+        [msgCell.category addTarget:self action:@selector(chooseType:) forControlEvents:UIControlEventTouchUpInside];
         [msgCell.dateButton addTarget:self action:@selector(beginDateAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [msgCell.endDateButton addTarget:self action:@selector(endDateAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -381,6 +389,33 @@ static NSMutableArray *cellDataArray;
     [projectImageArray removeObjectAtIndex:row];
     
     [self refreshData];
+}
+#pragma mark - 选择分类代理
+- (void)backLiveName:(NSString *)liveRoom
+{
+    typeName = liveRoom;
+    if ([liveRoom isEqualToString:@"美丽"]) {
+        typeStr = @"beautiful";
+    }
+    if ([liveRoom isEqualToString:@"幸福"]) {
+        typeStr = @"happiness";
+    }
+    if ([liveRoom isEqualToString:@"健康"]) {
+        typeStr = @"healthy";
+    }
+    if ([liveRoom isEqualToString:@"美食"]) {
+        typeStr = @"delicious";
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)chooseType:(id)sender{
+    LMTypeListViewController * typeVC = [[LMTypeListViewController alloc] init];
+    typeVC.name = @"活动分类";
+    typeVC.delegate     = self;
+    
+    [self.navigationController pushViewController:typeVC animated:YES];
 }
 
 #pragma mark 地图选择地址详情
@@ -1093,7 +1128,7 @@ static NSMutableArray *cellDataArray;
     }
     
     
-    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon];
+    LMPublicEventRequest *request = [[LMPublicEventRequest alloc] initWithevent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text Start_time:startstring End_time:endString Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Event_type:@"ordinary" andLatitude:latitudeString andLongitude:longitudeString limit_number:[msgCell.joincountTF.text intValue] notices:msgCell.applyTextView.text franchiseePrice:msgCell.couponTF.text available:useCounpon category:typeStr type:@"event"];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -1149,7 +1184,7 @@ static NSMutableArray *cellDataArray;
         cover = @"";
     }
         
-        LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"] videoUrl:url coverUrl:cover];
+    LMPublicProjectRequest *request = [[LMPublicProjectRequest alloc]initWithEvent_uuid:eventUUid Project_title:dic[@"title"] Project_dsp:dic[@"content"] Project_imgs:dic[@"image"] videoUrl:url coverUrl:cover];
         
         HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                completed:^(NSString *resp, NSStringEncoding encoding) {

@@ -56,9 +56,6 @@
     [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17] range:NSMakeRange(1,str.length-1)];
     _priceLabel.attributedText = str;
 
-    
-    
-    
 }
 
 -(void)setValue:(LMCouponVO *)vo

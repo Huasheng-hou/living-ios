@@ -28,6 +28,9 @@
 #import "LMFranchiseeResultAliRequest.h"
 #import "LMFranchiseeChargePayRequest.h"
 
+#import "LMPersonInfoRequest.h"
+#import "LMWebViewController.h"
+
 @interface LMFranchiseeViewController ()
 <
 UITableViewDelegate,
@@ -44,6 +47,9 @@ liveNameProtocol
     NSString *rechargeOrderUUID;
     UIView *footView;
     NSString *type;
+    
+    NSString * money;
+    int year;
 }
 
 @end
@@ -53,14 +59,16 @@ liveNameProtocol
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor  = LIVING_COLOR;
+    self.navigationController.navigationBar.barTintColor  = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self createUI];
-    
+    [self loadNewer];
     // * 微信支付被用户取消
     //
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -88,6 +96,8 @@ liveNameProtocol
                                                  name:@"aliPayEnsure"
                                                object:nil];
 }
+
+
 
 - (void)createUI
 {
@@ -144,12 +154,61 @@ liveNameProtocol
     agreeLabel.attributedText = str;
     [agreeLabel sizeToFit];
     agreeLabel.frame = CGRectMake(60, 25, agreeLabel.bounds.size.width, 30);
+    agreeLabel.userInteractionEnabled = YES;
     [footView addSubview:agreeLabel];
     
-    
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(agreeLabel.frame)/3, 0, CGRectGetWidth(agreeLabel.frame)*2/3, CGRectGetHeight(agreeLabel.frame))];
+    btn.backgroundColor = [UIColor clearColor];
+    [btn addTarget:self action:@selector(lookProtocol:) forControlEvents:UIControlEventTouchUpInside];
+    [agreeLabel addSubview:btn];
     
     [table setTableFooterView:footView];
 }
+- (void)lookProtocol:(UIButton *)btn{
+    
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.titleString = @"支付协议";
+    webVC.urlString = PAY_PROTOCOL_LINK;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+#pragma mark - 请求个人信息
+- (FitBaseRequest *)request{
+    LMPersonInfoRequest * request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
+    
+    return request;
+}
+- (NSArray *)parseResponse:(NSString *)resp{
+    
+    NSDictionary    *bodyDict   = [VOUtil parseBody:resp];
+    
+    NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    NSDictionary *respDict = [NSJSONSerialization
+                              JSONObjectWithData:respData
+                              options:NSJSONReadingMutableLeaves
+                              error:nil];
+    
+    NSDictionary *headDic = [respDict objectForKey:@"head"];
+    if (![headDic[@"returnCode"] isEqualToString:@"000"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textStateHUD:@"身份验证失败"];
+        });
+        return nil;
+    }
+    if (![bodyDict[@"result"] isEqualToString:@"0"]) {
+        return nil;
+    }
+    NSDictionary * userInfo = [bodyDict objectForKey:@"userInfo"];
+    year = [[userInfo objectForKey:@"life"] intValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadData];
+    });
+    
+    
+    return nil;
+
+    
+}
+
 
 -(void)agreeAction:(UIButton *)button{
     
@@ -295,13 +354,32 @@ liveNameProtocol
             if (!addcell) {
                 addcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
             }
-            
+            for (UIView * subView in addcell.contentView.subviews) {
+                [subView removeFromSuperview];
+            }
             UILabel *label = [UILabel new];
             label.text = @"轻创客包年学习费";
             [addcell.contentView addSubview:label];
             
             UILabel *price = [UILabel new];
-            price.text = @"￥3600";
+            if (year == 0) {
+                price.text = @"￥3600";
+                money = @"3600";
+            }
+            else if (year == 1){
+                price.text = @"￥3000";
+                money = @"3000";
+            }else if (year == 2){
+                price.text = @"￥2400";
+                money = @"2400";
+            }else if (year == 3){
+                price.text = @"1800";
+                money = @"1800";
+            }else if (year >= 4){
+                price.text = @"￥1200";
+                money = @"1200";
+            }
+            
             price.textColor = LIVING_REDCOLOR;
             [addcell.contentView addSubview:price];
             
@@ -373,7 +451,10 @@ liveNameProtocol
         if (indexPath.row>0) {
             NSInteger index=indexPath.row-1;
             selectedIndex=index;
-            [table reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [table reloadData];
+            });
+
         }
     }
 }
@@ -384,14 +465,20 @@ liveNameProtocol
 {
     _liveRoomName=liveRoom;
     _liveUUID=live_uuid;
-    [table reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadData];
+    });
+
 }
 
 -(void)selectedButton:(UIButton *)sender
 {
     NSInteger index=sender.tag;
     selectedIndex=index;
-    [table reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadData];
+    });
+
 }
 
 #pragma mark 立即充值按钮方法
@@ -457,7 +544,7 @@ liveNameProtocol
     
     [self initStateHud];
     
-    LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
+    LMFranchiseeWchatPayRequest *request=[[LMFranchiseeWchatPayRequest alloc] initWithWXRecharge:money andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -602,7 +689,7 @@ liveNameProtocol
     }
     
     [self initStateHud];
-    LMFranchiseeAliPayRequest   *request = [[LMFranchiseeAliPayRequest alloc] initWithAliRecharge:@"3600"
+    LMFranchiseeAliPayRequest   *request = [[LMFranchiseeAliPayRequest alloc] initWithAliRecharge:money
                                                                                     andLivingUuid:_liveUUID
                                                                                          andPhone:headcell.NumTF.text
                                                                                           andName:headcell.NameTF.text];
@@ -735,7 +822,7 @@ liveNameProtocol
                                                     [self textStateHUD:@"无网络连接"];
                                                     return;
                                                 }
-                                                LMFranchiseeChargePayRequest *request = [[LMFranchiseeChargePayRequest alloc] initWithPayRecharge:@"3600" andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
+                                                LMFranchiseeChargePayRequest *request = [[LMFranchiseeChargePayRequest alloc] initWithPayRecharge:money andLivingUuid:_liveUUID andPhone:headcell.NumTF.text andName:headcell.NameTF.text];
                                                 HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                                                                        completed:^(NSString *resp, NSStringEncoding encoding) {
                                                                                            

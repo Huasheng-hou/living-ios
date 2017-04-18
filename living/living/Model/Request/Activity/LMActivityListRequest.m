@@ -40,7 +40,8 @@
 
 - (NSString *)methodPath
 {
-    return @"event/list";
+    //return @"event/list";
+    return @"active/list"; //3.0
 }
 
 @end

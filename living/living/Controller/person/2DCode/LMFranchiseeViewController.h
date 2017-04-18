@@ -6,9 +6,9 @@
 //  Copyright © 2016年 chenle. All rights reserved.
 //
 
-#import "FitBaseViewController.h"
+#import "FitStatefulTableViewController.h"
 
-@interface LMFranchiseeViewController : FitBaseViewController
+@interface LMFranchiseeViewController : FitStatefulTableViewController
 
 @property(nonatomic,strong)    NSString *liveRoomName;
 @property(nonatomic,strong)    NSString *liveUUID;

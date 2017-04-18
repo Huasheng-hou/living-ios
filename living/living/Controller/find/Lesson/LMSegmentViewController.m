@@ -48,15 +48,15 @@ static CGFloat const ButtonHeight = 50;
     self.navigationItem.title = @"语音课堂";
     
     SegmentViewController *vc = [[SegmentViewController alloc]init];
-    NSArray *titleArray = @[@"进行中",@"全部"];
+    NSArray *titleArray = @[@"全部",@"进行中"];
     
     vc.titleArray = titleArray;
     NSMutableArray *controlArray = [[NSMutableArray alloc]init];
     
-    LMLessonViewController *vc1 = [[LMLessonViewController alloc]init];
+    LMLessonAllViewController *vc1 = [[LMLessonAllViewController alloc]init];
     [controlArray addObject:vc1];
     
-    LMLessonAllViewController *vc2 = [[LMLessonAllViewController alloc]init];
+    LMLessonViewController *vc2 = [[LMLessonViewController alloc]init];
     [controlArray addObject:vc2];
     
     vc.titleSelectedColor = LIVING_COLOR;

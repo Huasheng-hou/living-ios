@@ -39,11 +39,13 @@
     [view  addSubview:lineDown];
     
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(10, 0, 40, 45)];
+    label.tag = 10;
     [label setText:@"金额"];
     [label setFont:TEXT_FONT_LEVEL_1];
     [view addSubview:label];
     
     _payNum=[[UITextField alloc]initWithFrame:CGRectMake(50, 0, kScreenWidth-60, 45)];
+    
     [_payNum setPlaceholder:@"请输入要充值的金额"];
     _payNum.keyboardType=UIKeyboardTypeDecimalPad;
     [_payNum setReturnKeyType:UIReturnKeyDone];
@@ -52,6 +54,19 @@
     [view addSubview:_payNum];
 
 }
+
+- (void)setType:(NSInteger)type{
+    
+    _type = type;
+    
+    UILabel * label = [self viewWithTag:10];
+    label.text = @"仅需";
+    
+    
+    
+}
+
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];

@@ -136,6 +136,7 @@ UIScrollViewDelegate
  */
 - (void)didSelectSegmentIndex:(NSInteger)index
 {
+    
     UIButton *btn = (UIButton *)[self.view viewWithTag:self.selectIndex];
     btn.selected = NO;
     self.selectIndex = index;
@@ -144,7 +145,7 @@ UIScrollViewDelegate
     
     CGRect rect = self.lineView.frame;
     
-    NSInteger lineWidth=80;
+    NSInteger lineWidth=70;
     NSInteger margin=(self.buttonWidth-lineWidth)/2;
     
     rect.origin.x = (index - HEADBTN_TAG) * (kScreenWidth/2)+margin;
