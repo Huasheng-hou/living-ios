@@ -107,39 +107,29 @@
     
     
     [_nameLabel removeFromSuperview];
-    //if ([dict[@"type"] isEqualToString:@"gift"]) {
-    if (_type == 1) {
-        
+    
+    _contentLabel.textAlignment = NSTextAlignmentCenter;
+    _contentLabel.frame = CGRectMake(10, 26, _imageV.bounds.size.width*2/3-20, 35);
+    
+    if ([dict[@"type"] isEqualToString:@"gift"]) {
         //商品
         _imageV.image = [UIImage imageNamed:@"CouponBule"];
         
         _contentLabel.text = dict[@"content"];
-        _contentLabel.frame = CGRectMake(10, 25, _imageV.bounds.size.width*2/3-20, 35);
-        _contentLabel.text = @"这里是商品描述";
         
         rightImage = [[UIImageView alloc] initWithFrame:CGRectMake(_imageV.bounds.size.width*2/3, 0, _imageV.bounds.size.width/3, _imageV.bounds.size.height)];
         rightImage.backgroundColor = BG_GRAY_COLOR;
         [rightImage sd_setImageWithURL:[NSURL URLWithString:dict[@"image"]]];
         [_imageV addSubview:rightImage];
         
+    }else if ([dict[@"type"] isEqualToString:@"coupon"]) {
         
-        
-    }
-    
-    if (_type == 2) {
-    //if ([dict[@"type"] isEqualToString:@"coupon"]) {
-        
-        
-        
-        //礼包
-        _imageV.image = [UIImage imageNamed:@"CouponRed2"];
+        //优惠券
+        _imageV.image = [UIImage imageNamed:@"CouponRed1"];
         
         [rightImage removeFromSuperview];
         
-//        _contentLabel.text = dict[@"title"];
-        _contentLabel.text = @"";
-        _contentLabel.frame = CGRectMake(10, 25, _imageV.bounds.size.width*2/3-20, 35);
-        _contentLabel.text = @"这里是优惠券描述";
+        _contentLabel.text = dict[@"title"];
         
         _priceLabel.text = [NSString stringWithFormat:@"抵 %@", dict[@"amount"]];
         

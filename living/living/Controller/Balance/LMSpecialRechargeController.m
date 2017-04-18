@@ -116,13 +116,6 @@ liveNameProtocol
     //尾部
     footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 90)];
     
-//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 40)];
-//    title.text = @"大礼包内容";
-//    title.font = TEXT_FONT_LEVEL_2;
-//    title.textColor = TEXT_COLOR_LEVEL_2;
-    //[footView addSubview:title];
-    
-    
     UIButton *agreeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     agreeButton.frame = CGRectMake(15, 5, 45, 30);
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
@@ -165,7 +158,7 @@ liveNameProtocol
     [footView addSubview:loginOut];
     [table setTableFooterView:footView];
 }
-
+#pragma mark - 获取大礼包内容
 - (void)getListData{
     
     LMSpecialRechargeRequest * request = [[LMSpecialRechargeRequest alloc] init];
@@ -183,9 +176,6 @@ liveNameProtocol
                                                 });
                                             }];
     [proxy start];
-    
-    
-    
 }
 
 - (void)parseResp:(NSString *)resp{
@@ -213,8 +203,13 @@ liveNameProtocol
     }
     _dataBody = bodyDic;
     
-    [table reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [table reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 2)] withRowAnimation:UITableViewRowAnimationFade];
+
+    });
+    
 }
+
 
 -(void)agreeAction:(UIButton *)button{
     
@@ -250,86 +245,10 @@ liveNameProtocol
         }
     }
 }
-
-
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-//    [self.view endEditing:YES];
-//    return YES;
-//}
-//
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-//{
-//    return [HcbAmountChecker textField:textField shouldChangeCharactersInRange:range replacementString:string];
-//}
-//
-//- (void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    CGFloat     amount  = [textField.text floatValue];
-//    
-//    for (UIView *view in footView.subviews) {
-//        
-//        if ([view isKindOfClass:[LMChargeButton class]]) {
-//            
-//            LMChargeButton *btn = (LMChargeButton *)view;
-//            
-//            btn.upLabel.textColor       = TEXT_COLOR_LEVEL_2;
-//            btn.downLabel.textColor     = TEXT_COLOR_LEVEL_2;
-//            btn.layer.borderColor       = LINE_COLOR.CGColor;
-//        }
-//    }
-//    
-//    if (amount == 1000 || amount == 3000 || amount == 5000 || amount == 10000) {
-//        
-//        for (UIView *view in footView.subviews) {
-//            
-//            if ([view isKindOfClass:[LMChargeButton class]]) {
-//                
-//                LMChargeButton *btn = (LMChargeButton *)view;
-//                
-//                NSString *string = [btn.upLabel.text substringToIndex:[btn.upLabel.text length] - 1];
-//                
-//                if ([string isEqualToString:[NSString stringWithFormat:@"%d", (int)amount]]) {
-//                    
-//                    btn.upLabel.textColor = LIVING_COLOR;
-//                    btn.downLabel.textColor = LIVING_COLOR;
-//                    btn.layer.borderColor = LIVING_COLOR.CGColor;
-//                }
-//            }
-//        }
-//    }
-//}
-//
+#pragma mark - tableview代理方法
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-//    if (section == 1) {
-//        
-//        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-//        headView.backgroundColor = [UIColor clearColor];
-//        UILabel *label = [UILabel new];
-//        label.text = @"选择支付方式";
-//        label.font = TEXT_FONT_LEVEL_2;
-//        label.textColor = TEXT_COLOR_LEVEL_2;
-//        [label sizeToFit];
-//        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
-//        [headView addSubview:label];
-//        
-//        return headView;
-//    }
-//    if (section == 2) {
-//        
-//        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
-//        headView.backgroundColor = [UIColor clearColor];
-//        UILabel *label = [UILabel new];
-//        label.text = @"您的资金会很安全";
-//        label.font = TEXT_FONT_LEVEL_2;
-//        label.textColor = TEXT_COLOR_LEVEL_2;
-//        [label sizeToFit];
-//        label.frame = CGRectMake(15, 0, label.bounds.size.width, 30);
-//        [headView addSubview:label];
-//        
-//        return headView;
-//    }
+
     if (section == 3) {
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
         headView.backgroundColor = [UIColor whiteColor];
@@ -355,8 +274,7 @@ liveNameProtocol
         return 2;
     }
     if (section == 3) {
-        return 10;
-//        return _dataArray.count + _listArray.count;
+        return _dataArray.count + _listArray.count;
     }
     return 1;
 }
@@ -435,11 +353,10 @@ liveNameProtocol
         if (!headcell) {
             
             headcell = [[LMRePayCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
-            headcell.payNum.text = _dataBody[@"amount"];
+            headcell.payNum.text = [NSString stringWithFormat:@"%@", _dataBody[@"amount"]];
             headcell.payNum.enabled = NO;
             
         }
-        
         return headcell;
     }
     if (indexPath.section == 3) {
@@ -448,13 +365,13 @@ liveNameProtocol
         
         listCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if (5 > indexPath.row) {
+        if (_dataArray.count > indexPath.row) {
             listCell.type = 1;
             [listCell setData:_dataArray[indexPath.row]];
             return listCell;
         }
         listCell.type = 2;
-        [listCell setData:nil];
+        [listCell setData:_listArray[indexPath.row-_dataArray.count]];
         
         return listCell;
     }
