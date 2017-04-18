@@ -65,10 +65,11 @@
 - (void)createUI{
     [super createUI];
     
+    self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-102);
     self.tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
-    self.tableView.contentInset                 = UIEdgeInsetsMake(0, 0, 102, 0);
-    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(0, 0, 102, 0);
-    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(0, 0, 102, 0);
+    self.tableView.contentInset                 = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
