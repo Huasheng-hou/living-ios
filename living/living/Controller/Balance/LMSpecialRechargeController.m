@@ -33,7 +33,7 @@
 
 
 #import "LMSpecialRechargeRequest.h"
-
+#import "LMWebViewController.h"
 
 @interface LMSpecialRechargeController ()
 <
@@ -100,7 +100,7 @@ liveNameProtocol
 
 - (void)createUI
 {
-    self.title=@"余额充值";
+    self.title=@"会员大礼包";
     
     if (_index!=1) {
         _liveRoomName=@"选择所属生活馆";
@@ -144,9 +144,15 @@ liveNameProtocol
     [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(6,6)];
     agreeLabel.attributedText = str;
     [agreeLabel sizeToFit];
-    
+    agreeLabel.userInteractionEnabled = YES;
     agreeLabel.frame = CGRectMake(60, 5, agreeLabel.bounds.size.width, 30);
     [footView addSubview:agreeLabel];
+    
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(agreeLabel.frame)/3, 0, CGRectGetWidth(agreeLabel.frame)*2/3, CGRectGetHeight(agreeLabel.frame))];
+    btn.backgroundColor = [UIColor clearColor];
+    [btn addTarget:self action:@selector(lookProtocol:) forControlEvents:UIControlEventTouchUpInside];
+    [agreeLabel addSubview:btn];
+    
     
     UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 35, kScreenWidth-30, 45)];
     [loginOut setTitle:@"立即充值" forState:UIControlStateNormal];
@@ -157,6 +163,13 @@ liveNameProtocol
     loginOut.backgroundColor = LIVING_COLOR;
     [footView addSubview:loginOut];
     [table setTableFooterView:footView];
+}
+- (void)lookProtocol:(UIButton *)btn{
+    
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.titleString = @"支付协议";
+    webVC.urlString = @"";
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 #pragma mark - 获取大礼包内容
 - (void)getListData{
