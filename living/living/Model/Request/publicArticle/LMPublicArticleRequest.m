@@ -43,8 +43,7 @@
         
         if (category) {
             [bodyDict setObject:category forKey:@"category"];
-        }
-        
+        }        
         if (blend) {
             [bodyDict setObject:blend forKey:@"blend"];
         }

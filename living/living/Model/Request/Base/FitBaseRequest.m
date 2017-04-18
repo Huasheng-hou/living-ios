@@ -40,6 +40,7 @@
     return @"http://120.26.64.40/living/";   //测试地址
 //    return @"http://120.26.64.40:8080/living/";
     //return @"http://api.yaoguo1818.com/living/";  //正式
+
 }
 
 - (NSString *)methodPath

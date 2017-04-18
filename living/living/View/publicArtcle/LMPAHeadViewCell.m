@@ -36,6 +36,10 @@
 -(void)addSubviews
 {
     
+    for (UIView * sub in self.contentView.subviews) {
+        [sub removeFromSuperview];
+    }
+    
     whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, (kScreenWidth-10*5)/4+170)];
     whiteView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:whiteView];

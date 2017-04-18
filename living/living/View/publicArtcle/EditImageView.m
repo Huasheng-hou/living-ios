@@ -56,7 +56,10 @@
         [imageV setTag:i];
         [imageV setContentMode:UIViewContentModeScaleAspectFill];
         [imageV setClipsToBounds:YES];
-        [imageV setImage:imageArray[i]];
+        
+        imageV.image = imageArray[i];
+//        NSData * imageData = UIImageJPEGRepresentation((UIImage *)imageArray[i], 0.05);
+//        imageV.image = [UIImage imageWithData:imageData];
         imageV.userInteractionEnabled = YES;
         [self addSubview:imageV];
         //删除按钮
