@@ -12,4 +12,6 @@
 
 @property(nonatomic,strong)UITextField *payNum;
 
+@property (nonatomic, assign) NSInteger type;
+
 @end

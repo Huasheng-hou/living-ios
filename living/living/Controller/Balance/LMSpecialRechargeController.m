@@ -53,7 +53,8 @@ liveNameProtocol
     NSString *type;
     
     NSDictionary * _dataBody;
-    NSArray * _dataArray;
+    NSMutableArray * _giftArray;
+    NSMutableArray * _couponArray;
     NSArray * _listArray;
 }
 
@@ -106,6 +107,9 @@ liveNameProtocol
         _liveRoomName=@"选择所属生活馆";
     }
     
+    _giftArray = [NSMutableArray new];
+    _couponArray = [NSMutableArray new];
+    
     table=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
     [table setBackgroundColor:BG_GRAY_COLOR];
     [table setDelegate:self];
@@ -155,7 +159,7 @@ liveNameProtocol
     
     
     UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 35, kScreenWidth-30, 45)];
-    [loginOut setTitle:@"立即充值" forState:UIControlStateNormal];
+    [loginOut setTitle:@"立即付款" forState:UIControlStateNormal];
     loginOut.titleLabel.textAlignment = NSTextAlignmentCenter;
     loginOut.titleLabel.font = [UIFont systemFontOfSize:17];
     loginOut.layer.cornerRadius=5.0f;
@@ -208,12 +212,19 @@ liveNameProtocol
         return;
     }
     
-    if (bodyDic[@"gifts"]) {
-        _dataArray = bodyDic[@"gifts"];
-    }
     if (bodyDic[@"list"]) {
         _listArray = bodyDic[@"list"];
+        
+        for (int i=0; i<_listArray.count; i++) {
+            if ([[_listArray[i] objectForKey:@"type"] isEqualToString:@"gift"]) {
+                [_giftArray addObject:_listArray[i]];
+            }else if([[_listArray[i] objectForKey:@"type"] isEqualToString:@"coupon"]) {
+                [_couponArray addObject:_listArray[i]];
+            }
+        }
+        
     }
+
     _dataBody = bodyDic;
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -267,7 +278,7 @@ liveNameProtocol
         headView.backgroundColor = [UIColor whiteColor];
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 15)];
         label.backgroundColor = [UIColor whiteColor];
-        label.text = @"   大礼包内容：";
+        label.text = @"   即可成为会员，并获得超值大礼包：";
         label.textColor = TEXT_COLOR_LEVEL_2;
         label.font = TEXT_FONT_LEVEL_3;
         
@@ -287,7 +298,7 @@ liveNameProtocol
         return 2;
     }
     if (section == 3) {
-        return _dataArray.count + _listArray.count;
+        return _giftArray.count + _couponArray.count;
     }
     return 1;
 }
@@ -366,7 +377,10 @@ liveNameProtocol
         if (!headcell) {
             
             headcell = [[LMRePayCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
-            headcell.payNum.text = [NSString stringWithFormat:@"%@", _dataBody[@"amount"]];
+            headcell.type = 2;
+            headcell.payNum.text = [NSString stringWithFormat:@"%@元", _dataBody[@"amount"]];
+            headcell.payNum.textColor = [UIColor redColor];
+            headcell.payNum.font = TEXT_FONT_LEVEL_1;
             headcell.payNum.enabled = NO;
             
         }
@@ -378,13 +392,13 @@ liveNameProtocol
         
         listCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if (_dataArray.count > indexPath.row) {
+        if (_giftArray.count > indexPath.row) {
             listCell.type = 1;
-            [listCell setData:_dataArray[indexPath.row]];
+            [listCell setData:_giftArray[indexPath.row]];
             return listCell;
         }
         listCell.type = 2;
-        [listCell setData:_listArray[indexPath.row-_dataArray.count]];
+        [listCell setData:_couponArray[indexPath.row-_giftArray.count]];
         
         return listCell;
     }
