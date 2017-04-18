@@ -134,3 +134,6 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 #define imageW  kScreenWidth/2
 
+
+#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"
+

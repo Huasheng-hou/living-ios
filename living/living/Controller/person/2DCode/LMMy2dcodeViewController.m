@@ -126,11 +126,16 @@
 
 -(void)creatImageView
 {
-    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 60+64, kScreenWidth-30, 115+kScreenWidth)];
+    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, +6064, kScreenWidth-30, 115+kScreenWidth)];
     KeepImage.clipsToBounds = YES;
     KeepImage.layer.cornerRadius = 5;
     KeepImage.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:KeepImage];
+    
+    if (kScreenHeight == 480) {
+        KeepImage.frame = CGRectMake(15, 64, kScreenWidth-30, kScreenWidth+105);
+    }
+    
     
     UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
     headImage.backgroundColor = [UIColor lightGrayColor];

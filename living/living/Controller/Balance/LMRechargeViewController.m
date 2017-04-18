@@ -185,6 +185,7 @@ liveNameProtocol
     [agreeLabel sizeToFit];
 
     agreeLabel.frame = CGRectMake(60, 238, agreeLabel.bounds.size.width, 30);
+    agreeLabel.userInteractionEnabled = YES;
     [footView addSubview:agreeLabel];
 
     UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(agreeLabel.frame)/3, 0, CGRectGetWidth(agreeLabel.frame)*2/3, CGRectGetHeight(agreeLabel.frame))];
@@ -208,7 +209,7 @@ liveNameProtocol
     
     LMWebViewController * webVC = [[LMWebViewController alloc] init];
     webVC.titleString = @"支付协议";
-    webVC.urlString = @"http://120.26.64.40/living-web/pay-cn.html";
+    webVC.urlString = PAY_PROTOCOL_LINK;
     [self.navigationController pushViewController:webVC animated:YES];
 }
 -(void)agreeAction:(UIButton *)button{

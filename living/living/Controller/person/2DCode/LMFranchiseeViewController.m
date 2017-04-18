@@ -29,7 +29,7 @@
 #import "LMFranchiseeChargePayRequest.h"
 
 #import "LMPersonInfoRequest.h"
-
+#import "LMWebViewController.h"
 
 @interface LMFranchiseeViewController ()
 <
@@ -154,13 +154,23 @@ liveNameProtocol
     agreeLabel.attributedText = str;
     [agreeLabel sizeToFit];
     agreeLabel.frame = CGRectMake(60, 25, agreeLabel.bounds.size.width, 30);
+    agreeLabel.userInteractionEnabled = YES;
     [footView addSubview:agreeLabel];
     
-    
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(agreeLabel.frame)/3, 0, CGRectGetWidth(agreeLabel.frame)*2/3, CGRectGetHeight(agreeLabel.frame))];
+    btn.backgroundColor = [UIColor clearColor];
+    [btn addTarget:self action:@selector(lookProtocol:) forControlEvents:UIControlEventTouchUpInside];
+    [agreeLabel addSubview:btn];
     
     [table setTableFooterView:footView];
 }
-
+- (void)lookProtocol:(UIButton *)btn{
+    
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.titleString = @"支付协议";
+    webVC.urlString = PAY_PROTOCOL_LINK;
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 #pragma mark - 请求个人信息
 - (FitBaseRequest *)request{
     LMPersonInfoRequest * request = [[LMPersonInfoRequest alloc] initWithUserUUid:[FitUserManager sharedUserManager].uuid];
