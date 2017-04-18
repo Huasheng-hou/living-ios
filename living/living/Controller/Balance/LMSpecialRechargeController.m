@@ -168,7 +168,7 @@ liveNameProtocol
     
     LMWebViewController * webVC = [[LMWebViewController alloc] init];
     webVC.titleString = @"支付协议";
-    webVC.urlString = @"";
+    webVC.urlString = @"http://120.26.64.40/living-web/pay-cn.html";
     [self.navigationController pushViewController:webVC animated:YES];
 }
 #pragma mark - 获取大礼包内容

@@ -29,7 +29,7 @@
 
 #import "LMWXRechargrRequest.h"
 #import "LMWXRechargeResultRequest.h"
-
+#import "LMWebViewController.h"
 @interface LMRechargeViewController ()
 <
 UITableViewDelegate,
@@ -187,6 +187,13 @@ liveNameProtocol
     agreeLabel.frame = CGRectMake(60, 238, agreeLabel.bounds.size.width, 30);
     [footView addSubview:agreeLabel];
 
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(agreeLabel.frame)/3, 0, CGRectGetWidth(agreeLabel.frame)*2/3, CGRectGetHeight(agreeLabel.frame))];
+    btn.backgroundColor = [UIColor clearColor];
+    [btn addTarget:self action:@selector(lookProtocol:) forControlEvents:UIControlEventTouchUpInside];
+    [agreeLabel addSubview:btn];
+    
+    
+    
     UIButton *loginOut = [[UIButton alloc] initWithFrame:CGRectMake(15, 288, kScreenWidth-30, 45)];
     [loginOut setTitle:@"立即充值" forState:UIControlStateNormal];
     loginOut.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -197,7 +204,13 @@ liveNameProtocol
     [footView addSubview:loginOut];
     [table setTableFooterView:footView];
 }
-
+- (void)lookProtocol:(UIButton *)btn{
+    
+    LMWebViewController * webVC = [[LMWebViewController alloc] init];
+    webVC.titleString = @"支付协议";
+    webVC.urlString = @"http://120.26.64.40/living-web/pay-cn.html";
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 -(void)agreeAction:(UIButton *)button{
     
     NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"payArr"];
