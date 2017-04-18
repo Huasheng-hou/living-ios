@@ -10,6 +10,8 @@
 
 @interface LMAliRechargeRequest : FitBaseRequest
 
+@property (nonatomic, assign) NSInteger type;
+
 - (id)initWithAliRecharge:(NSString *)recharge andLivingUuid:(NSString *)living_uuid;
 
 @end

@@ -491,7 +491,7 @@ liveNameProtocol
     [self initStateHud];
     
     LMWXRechargrRequest *request=[[LMWXRechargrRequest alloc]initWithWXRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
-    
+    request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -573,7 +573,7 @@ liveNameProtocol
     }
     
     LMWXRechargeResultRequest   *request    = [[LMWXRechargeResultRequest alloc] initWithMyOrderUuid:rechargeOrderUUID];
-    
+    request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -628,7 +628,7 @@ liveNameProtocol
     [self initStateHud];
     
     LMAliRechargeRequest    *request    = [[LMAliRechargeRequest alloc] initWithAliRecharge:headcell.payNum.text andLivingUuid:_liveUUID];
-    
+    request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                
@@ -692,7 +692,7 @@ liveNameProtocol
         return;
     }
     LMAliRechargeResultRequest *request=[[LMAliRechargeResultRequest alloc]initWithMyOrderUuid:rechargeOrderUUID andAlipayResult:dic.object];
-    
+    request.type = 2;
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

@@ -40,7 +40,12 @@
 
 - (NSString *)methodPath
 {
+    if (_type == 2) {
+        return @"recharge/alipay/result";//支付宝充值结果确认 大礼包
+    }
+    
     return @"alipayRecharge/result";//支付宝充值结果确认
+    
 }
 
 @end

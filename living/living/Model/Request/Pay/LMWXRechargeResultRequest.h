@@ -10,6 +10,8 @@
 
 @interface LMWXRechargeResultRequest : FitBaseRequest
 
+@property (nonatomic, assign) NSInteger type;
+
 - (id)initWithMyOrderUuid:(NSString *)myOrderUuid;
 
 @end

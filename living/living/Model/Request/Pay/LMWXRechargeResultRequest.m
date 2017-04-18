@@ -37,7 +37,11 @@
 
 - (NSString *)methodPath
 {
+    if (_type == 2) {
+        return @"recharge/wechat/result";//微信支付结果确认 大礼包
+    }
     return @"wxrecharge/result";//微信支付结果确认
+    
 }
 
 @end
