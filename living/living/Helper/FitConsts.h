@@ -137,5 +137,5 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 //支付协议
 #define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"  //测试
-//#define PAY_PROTOCOL_LINK @"http://api.yaoguo1818.com/living-web/pay-cn.html"   //正式
+#define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"   //正式
 

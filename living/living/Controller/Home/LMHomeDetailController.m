@@ -1601,14 +1601,18 @@ LMContentTableViewCellDelegate
         NSArray *imgArray;
         imgArray = vo.images;
         for (NSDictionary *dic in imgArray) {
-            if ((dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) || _type == 1) {
-                NSString *string = dic[@"url"];
-                [new addObject:string];
-            }else{
+            
+            if (dic[@"type"]&&[dic[@"type"] isEqual:@"video"]) {
                 NSString *string = dic[@"coverUrl"];
                 [new addObject:string];
+            }else if(dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
+                NSString *string = dic[@"url"];
+                [new addObject:string];
+            }else if (_type == 1){
+                NSString *string = dic[@"url"];
+                [new addObject:string];
             }
-
+            
         }
         NSLog(@"%@",new);
     }
@@ -1619,11 +1623,14 @@ LMContentTableViewCellDelegate
             BlendVO *vo = newImageArray[i];
             NSArray *imgArray = vo.images;
             for (NSDictionary *dic in imgArray) {
-                if ((dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) || _type == 1) {
+                if (dic[@"type"]&&[dic[@"type"] isEqual:@"video"]) {
+                    NSString *string = dic[@"coverUrl"];
+                    [countArray addObject:string];
+                }else if(dic[@"type"]&&[dic[@"type"] isEqual:@"picture"]) {
                     NSString *string = dic[@"url"];
                     [countArray addObject:string];
-                }else{
-                    NSString *string = dic[@"coverUrl"];
+                }else if (_type == 1){
+                    NSString *string = dic[@"url"];
                     [countArray addObject:string];
                 }
 
