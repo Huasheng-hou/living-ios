@@ -45,7 +45,8 @@
     for (int i=0; i<count; i++) {
         _icon = [[UIImageView alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10, iconW, iconW)];
         _icon.image = [UIImage imageNamed:@"cellHeadImageIcon"];
-        _icon.layer.masksToBounds = YES;
+        _icon.clipsToBounds = YES;
+        _icon.contentMode = UIViewContentModeScaleAspectFill;
         _icon.layer.cornerRadius = 28;  //24
         _icon.backgroundColor = BG_GRAY_COLOR;
         [_scrollView addSubview:_icon];
@@ -86,7 +87,8 @@
             
             _icon = [[UIImageView alloc] initWithFrame:CGRectMake(edgeW+3*margin*i, 10, iconW, iconW)];
             _icon.tag = i;
-            _icon.layer.masksToBounds = YES;
+            _icon.contentMode = UIViewContentModeScaleAspectFill;
+            _icon.clipsToBounds = YES;
             if (kScreenWidth == 320) {
                 _icon.layer.cornerRadius = 24;
             }

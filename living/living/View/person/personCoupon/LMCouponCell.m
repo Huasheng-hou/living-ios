@@ -129,8 +129,13 @@
         
         [rightImage removeFromSuperview];
         
-        _contentLabel.text = dict[@"title"];
         
+        NSString * str = dict[@"title"];
+        if ([str containsString:@"优惠券"]) {
+            _contentLabel.text = str;
+        }else{
+            _contentLabel.text = [NSString stringWithFormat:@"%@优惠券", str];
+        }
         _priceLabel.text = [NSString stringWithFormat:@"抵 %@", dict[@"amount"]];
         
     }

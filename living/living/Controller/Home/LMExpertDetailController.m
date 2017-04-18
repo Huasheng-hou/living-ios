@@ -109,6 +109,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideStateHud];
+        [headerView setValue:expertVO];
         [self refreshData];
     });
     return nil;
@@ -229,7 +230,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     
-    [headerView setValue:expertVO];
+//    [headerView setValue:expertVO];
     
     if (indexPath.section == 0) {
         LMNewHotArticleCell * cell = [tableView dequeueReusableCellWithIdentifier:@"hotArticleCell"];
