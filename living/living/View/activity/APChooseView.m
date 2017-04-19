@@ -193,14 +193,13 @@
     count+=1;
     
     if (_type != 1) {
-        if (count > _event.totalNumber) {
+        if (count + _event.totalNumber > _event.totalNum) {
             
             count -= 1;
             return;
         }
 
     }
-    
     _numLabel.text = [NSString stringWithFormat:@"%@",@(count)];
  
     if (_reduceButotn.isRed == NO) {

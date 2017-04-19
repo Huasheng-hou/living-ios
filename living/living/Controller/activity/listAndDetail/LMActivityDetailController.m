@@ -898,9 +898,10 @@ APChooseViewDelegate
 
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    self.navigationController.navigationBar.hidden = YES;
+    
     if ([[FitUserManager sharedUserManager] isLogin]){
-
+        self.navigationController.navigationBar.hidden = YES;
+        
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         infoView.delegate = self;
         infoView.event  = eventDic;

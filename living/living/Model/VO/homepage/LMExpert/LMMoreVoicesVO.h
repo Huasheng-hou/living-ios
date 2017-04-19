@@ -34,6 +34,6 @@
 @property (nonatomic, assign) NSInteger  totalNum;
 @property (nonatomic, copy) NSString * status;
 @property (nonatomic, copy) NSString * category;
-
+@property (nonatomic, copy) NSString * hoster;
 
 @end
