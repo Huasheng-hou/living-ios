@@ -64,6 +64,7 @@ FitPickerViewDelegate
     
     NSInteger discountMoney;//可抵扣金额
     
+    NSMutableArray * tempSelectedArray;
 }
 
 @end
@@ -638,7 +639,7 @@ FitPickerViewDelegate
             }
         } else {
     
-            if ([selectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
+            if ([tempSelectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
                 cell.chooseView.image= [UIImage imageNamed:@"choose"];
             }else{
                 cell.chooseView.image = [UIImage imageNamed:@"choose-no"];
@@ -682,29 +683,28 @@ FitPickerViewDelegate
             
             selectedRow=indexPath.row;
             
-            
             NSInteger currentMoney = 0;
             
             //数组为空
-            if (selectedArray.count == 0) {
+            if (tempSelectedArray.count == 0) {
                 
                 NSInteger selectedMoney = [couponPriceArray[selectedRow] integerValue];
                 if (currentMoney + selectedMoney > discountMoney) {
                     [self textStateHUD:[NSString stringWithFormat:@"最多抵扣%d元",discountMoney]];
                     return;
                 }else{
-                    [selectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
+                    [tempSelectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
                 }
             } else {
             
-                for (NSNumber * num in selectedArray) {
+                for (NSNumber * num in tempSelectedArray) {
                     
                     NSInteger money = [couponPriceArray[[num integerValue]] integerValue];
                     currentMoney += money;
                 }
                 NSNumber * num = [NSNumber numberWithInteger:selectedRow];
-                if ([selectedArray containsObject:num]) {
-                    [selectedArray removeObject:num];
+                if ([tempSelectedArray containsObject:num]) {
+                    [tempSelectedArray removeObject:num];
                 }
                 else{
                         
@@ -713,13 +713,13 @@ FitPickerViewDelegate
                         [self textStateHUD:[NSString stringWithFormat:@"最多抵扣%d元",discountMoney]];
                         return;
                     }else{
-                        [selectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
+                        [tempSelectedArray addObject:[NSNumber numberWithInteger:selectedRow]];
                     }
                     
                 }
             }
         } else {
-            [selectedArray removeAllObjects];
+            [tempSelectedArray removeAllObjects];
             //不使用优惠券
             selectedRow=indexPath.row;
         }
@@ -1289,6 +1289,8 @@ FitPickerViewDelegate
 
 - (void)createTableView
 {
+    tempSelectedArray = [NSMutableArray arrayWithArray:selectedArray];
+    
     backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     backView.backgroundColor = [UIColor blackColor];
     backView.alpha = 0.5;
@@ -1349,6 +1351,9 @@ FitPickerViewDelegate
         [self useCouponreload:@"0" couponUUid:@[]];
     } else {
         NSInteger money = 0;
+        [selectedArray removeAllObjects];
+        [selectedArray addObjectsFromArray:tempSelectedArray];
+        [selectedUuid removeAllObjects];
         for (NSNumber * num in selectedArray) {
             //总金额
             NSString *string =  couponPriceArray[[num integerValue]];

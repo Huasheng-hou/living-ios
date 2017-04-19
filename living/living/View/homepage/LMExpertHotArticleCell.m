@@ -81,8 +81,11 @@
         _backImage.clipsToBounds = YES;
         
         _title.text = voo.voiceTitle;
-        _teacher.text = [NSString stringWithFormat:@"费用 ¥%@/人", voo.perCost];
-    
+        _teacher.text = [NSString stringWithFormat:@"讲师:%@", voo.nickName];
+        _assistant.text = [NSString stringWithFormat:@"助理讲师:%@", voo.hoster];
+        
+        
+        
         if ([voo.status isEqualToString:@"ready"]) {
             [_appointment setTitle:@"准备开课" forState:UIControlStateNormal];
         }
@@ -141,7 +144,7 @@
     _helper.image = [UIImage imageNamed:@"zhuli"];
     [topView addSubview:_helper];
     
-    _assistant = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_helper.frame)+2, CGRectGetMinY(_helper.frame), 100, 15)];
+    _assistant = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_helper.frame)+2, CGRectGetMinY(_helper.frame), kScreenWidth-20-CGRectGetMaxX(_helper.frame)-2, 15)];
     _assistant.text = @"助理讲师：圆圆";
     _assistant.textColor = [UIColor whiteColor];
     _assistant.font = TEXT_FONT_BOLDOBLIQUE_12;
@@ -156,7 +159,7 @@
     _appointment.titleLabel.textAlignment = NSTextAlignmentCenter;
     _appointment.layer.masksToBounds = YES;
     _appointment.layer.cornerRadius = 5;
-    [_appointment addTarget:self action:@selector(makeAppointment:) forControlEvents:UIControlEventTouchUpInside];
+    //[_appointment addTarget:self action:@selector(makeAppointment:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:_appointment];
     
 }

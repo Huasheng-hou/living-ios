@@ -69,6 +69,12 @@
             && [[dictionary objectForKey:@"nick_name"] isKindOfClass:[NSString class]]) {
             self.nickName = [dictionary objectForKey:@"nick_name"];
         }
+        if (nil != [dictionary objectForKey:@"hoster"] && ![[dictionary objectForKey:@"hoster"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"hoster"] isKindOfClass:[NSString class]]) {
+            self.hoster = [dictionary objectForKey:@"hoster"];
+        }else{
+            self.hoster = @"";
+        }
         if (nil != [dictionary objectForKey:@"image"] && ![[dictionary objectForKey:@"image"] isEqual:[NSNull null]]
             && [[dictionary objectForKey:@"image"] isKindOfClass:[NSString class]]) {
             self.image = [dictionary objectForKey:@"image"];
