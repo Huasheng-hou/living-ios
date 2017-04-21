@@ -183,9 +183,6 @@
     [KeepImage addSubview: addressLabel];
     
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 125, kScreenWidth-70, kScreenWidth-70)];
-//    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:codeSting]];
-//    UIImage * codeImage = [UIImage imageWithData:data];
-//    imageView.image = codeImage;
     [imageView sd_setImageWithURL:[NSURL URLWithString:codeSting]];
     [KeepImage addSubview:imageView];
     

@@ -242,7 +242,7 @@
             imageView.contentMode = UIViewContentModeScaleAspectFill;
             imageView.clipsToBounds = YES;
             [imageView sd_setImageWithURL:[NSURL URLWithString:_thirdArray[i][@"picture"]]];
-            
+            imageView.userInteractionEnabled = YES;
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
             [imageView addGestureRecognizer:tap];
             
@@ -286,15 +286,17 @@
         return;
     }
     
-    LMWebViewController * webVC = [[LMWebViewController alloc] init];
-    webVC.title = @"创客故事";
+    
     if (indexPath.section == 1) {
+        LMWebViewController * webVC = [[LMWebViewController alloc] init];
+        webVC.title = @"创客故事";
         webVC.urlString = _secondArray[0][@"url"];
+        [self.navigationController pushViewController:webVC animated:YES];
     }
-    if (indexPath.section == 2) {
-        webVC.urlString = _thirdArray[indexPath.row][@"url"];
-    }
-    [self.navigationController pushViewController:webVC animated:YES];
+//    if (indexPath.section == 2) {
+////        webVC.urlString = _thirdArray[indexPath.row][@"url"];
+//    }
+    
 
 }
 

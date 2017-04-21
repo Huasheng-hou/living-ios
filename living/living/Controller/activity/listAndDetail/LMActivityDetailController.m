@@ -1014,52 +1014,51 @@ APChooseViewDelegate
                                                    }];
             [proxy start];
         }else{
+         
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
+            //增加确定按钮；
+            [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //获取第1个输入框；
+                nameString = alertController.textFields.firstObject.text;
+                
+                telephoneString = alertController.textFields.lastObject.text;
+                
+                NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+                
+                LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+                
+                HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                       completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                                  withObject:resp
+                                                                               waitUntilDone:YES];
+                                                       } failed:^(NSError *error) {
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                                  withObject:@"网络错误"
+                                                                               waitUntilDone:YES];
+                                                       }];
+                [proxy start];
+                
+                
+            }]];
             
-        }
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
-        //增加确定按钮；
-        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //获取第1个输入框；
-            nameString = alertController.textFields.firstObject.text;
+            //增加取消按钮；
+            [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
             
-            phoneString = alertController.textFields.lastObject.text;
+            //定义第一个输入框；
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"请输入真实姓名";
+            }];
             
-            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
-            
-            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
-            
-            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                       
-                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-                                                                              withObject:resp
-                                                                           waitUntilDone:YES];
-                                                   } failed:^(NSError *error) {
-                                                       
-                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                              withObject:@"网络错误"
-                                                                           waitUntilDone:YES];
-                                                   }];
-            [proxy start];
-            
-            
-        }]];
-        
-        //增加取消按钮；
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
-        
-        //定义第一个输入框；
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入真实姓名";
-        }];
-        
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入手机号";
-        }];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"请输入手机号";
+            }];
 
-        
-        [self presentViewController:alertController animated:true completion:nil];
+            
+            [self presentViewController:alertController animated:true completion:nil];
+        }
     }
 
 
