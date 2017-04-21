@@ -61,7 +61,7 @@
             self.avatar = [dictionary objectForKey:@"avatar"];
         }
         if (nil != [dictionary objectForKey:@"images"] && ![[dictionary objectForKey:@"images"] isEqual:[NSNull null]]
-            && [[dictionary objectForKey:@"images"] isKindOfClass:[NSArray class]]) {
+            && [[dictionary objectForKey:@"images"] isKindOfClass:[NSString class]]) {
             self.images = [dictionary objectForKey:@"images"];
         }
         if (nil != [dictionary objectForKey:@"introduce"] && ![[dictionary objectForKey:@"introduce"] isEqual:[NSNull null]]

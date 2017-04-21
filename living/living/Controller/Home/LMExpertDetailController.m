@@ -25,7 +25,7 @@
 #import "LMHomeDetailController.h"
 #import "LMActivityDetailController.h"
 #import "LMHomeVoiceDetailController.h"
-
+#import "LMClassroomDetailViewController.h"
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -300,8 +300,8 @@
     if (indexPath.section == 2) {
         if (_voices.count > indexPath.row) {
             LMMoreVoicesVO * vo = _voices[indexPath.row];
-            LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
-            detailVC.voiceUuid = vo.voiceUuid;
+            LMClassroomDetailViewController * detailVC = [[LMClassroomDetailViewController alloc] init];
+            detailVC.voiceUUid = vo.voiceUuid;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }
