@@ -668,10 +668,10 @@ APChooseViewDelegate
 #pragma mark - 评价
 - (void)judge:(id)sender{
     
-//    if (!eventDic.isBuy) {
-//        [self textStateHUD:@"您尚未购买"];
-//        return;
-//    }
+    if (!eventDic.isBuy) {
+        [self textStateHUD:@"您尚未购买"];
+        return;
+    }
     
     LMEvaluateViewController * evaluateVC = [[LMEvaluateViewController alloc] init];
     evaluateVC.eventVO = eventDic;

@@ -271,7 +271,7 @@ LMOrderCellDelegate
     }
 }
 
-#pragma mark - LMOrderCell delegate -
+#pragma mark - LMOrderCell delegate
 
 - (void)cellWilldelete:(LMOrderCell *)cell
 {
