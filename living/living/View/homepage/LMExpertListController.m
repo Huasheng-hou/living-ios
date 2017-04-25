@@ -112,7 +112,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
-    vc.title = @"李莺莺的空间";
+    //vc.title = @"李莺莺的空间";
     if (self.listData.count > indexPath.row) {
         LMExpertListVO * vo = self.listData[indexPath.row];
         vc.userUuid = vo.userUuid;

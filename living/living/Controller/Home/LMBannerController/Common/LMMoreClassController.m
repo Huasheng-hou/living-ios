@@ -11,6 +11,7 @@
 #import "LMHomeVoiceDetailController.h"
 #import "LMExpertHotArticleCell.h"
 #import "LMExpertVoicesRequest.h"
+#import "LMClassroomDetailViewController.h"
 @interface LMMoreClassController ()
 
 @end
@@ -34,7 +35,7 @@
 - (void)createUI{
     [super createUI];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"文章";
+    self.navigationItem.title = @"课程";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
 }
@@ -90,8 +91,8 @@
     
     if (self.listData.count > indexPath.row) {
         LMMoreVoicesVO * vo = self.listData[indexPath.row];
-        LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
-        detailVC.voiceUuid = vo.voiceUuid;
+        LMClassroomDetailViewController * detailVC = [[LMClassroomDetailViewController alloc] init];
+        detailVC.voiceUUid = vo.voiceUuid;
         [self.navigationController pushViewController:detailVC animated:YES];
     }
     

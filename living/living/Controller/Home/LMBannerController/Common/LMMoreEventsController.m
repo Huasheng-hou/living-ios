@@ -89,13 +89,19 @@
     
     if (self.listData.count > indexPath.row) {
         LMMoreEventsVO * vo = self.listData[indexPath.row];
-        LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
-        detailVC.eventUuid = vo.eventUuid;
-        detailVC.titleStr = vo.eventName;
-        [self.navigationController pushViewController:detailVC animated:YES];
+        if (vo.type && [vo.type isEqualToString:@"event"]) {
+            LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
+            detailVC.eventUuid = vo.eventUuid;
+            detailVC.titleStr = vo.eventName;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+        if (vo.type && [vo.type isEqualToString:@"item"]) {
+            LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
+            detailVC.eventUuid = vo.eventUuid;
+            detailVC.titleStr = vo.eventName;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
     }
-    
-    
 }
 
 @end
