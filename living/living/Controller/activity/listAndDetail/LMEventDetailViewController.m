@@ -694,8 +694,9 @@ APChooseViewDelegate
 }
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    self.navigationController.navigationBar.hidden = YES;
+    
     if ([[FitUserManager sharedUserManager] isLogin]){
+        self.navigationController.navigationBar.hidden = YES;
         
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         infoView.delegate = self;
@@ -1358,7 +1359,7 @@ APChooseViewDelegate
         }
         
     }
-    NSLog(@"%lu",(unsigned long)array.count);
+    //NSLog(@"%lu",(unsigned long)array.count);
     
     photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];

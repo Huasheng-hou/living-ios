@@ -246,6 +246,19 @@ WJLoopViewDelegate
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
+        //项目
+        if ([vo.Type isEqualToString:@"item"]) {
+            
+            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]){
+                
+                LMEventDetailViewController *eventVC = [[LMEventDetailViewController alloc] init];
+                
+                eventVC.hidesBottomBarWhenPushed = YES;
+                eventVC.eventUuid = vo.KeyUUID;
+                
+                [self.navigationController pushViewController:eventVC animated:YES];
+            }
+        }
         //文章
         if ([vo.Type isEqualToString:@"article"]) {
             
@@ -286,6 +299,7 @@ WJLoopViewDelegate
                 [self.navigationController pushViewController:eventVC animated:YES];
             }
         }
+        //大礼包
         if ([vo.Type isEqualToString:@"recharge"]) {
             
             LMSpecialRechargeController *reVC = [[LMSpecialRechargeController alloc] init];
@@ -513,7 +527,7 @@ WJLoopViewDelegate
     switch (tap.view.tag) {
         case 100:
         {
-            NSLog(@"更多活动");
+            //NSLog(@"更多活动");
             LMAllActivityController * allAC = [[LMAllActivityController alloc] init];
             allAC.title = @"活动";
             [self.navigationController pushViewController:allAC animated:YES];
@@ -523,7 +537,7 @@ WJLoopViewDelegate
             break;
         case 101:
         {
-            NSLog(@"更多项目");
+            //NSLog(@"更多项目");
             LMAllEventController * allEvent = [[LMAllEventController alloc] init];
             allEvent.title = @"项目";
             [self.navigationController pushViewController:allEvent animated:YES];
