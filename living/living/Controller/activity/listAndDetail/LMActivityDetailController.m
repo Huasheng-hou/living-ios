@@ -1085,6 +1085,7 @@ APChooseViewDelegate
             LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
             
             OrderVC.orderUUid   = orderID;
+            NSLog(@"--------%@", orderID);
             OrderVC.dict        = orderDic;
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;

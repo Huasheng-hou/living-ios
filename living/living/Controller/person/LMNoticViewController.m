@@ -208,14 +208,15 @@ UITableViewDataSource
 {
     static NSString *cellId = @"cellId";
     
-    LMNoticCell     *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+//    LMNoticCell     *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     
-    if (!cell) {
+//    if (!cell) {
 
-        cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
-    }
+       LMNoticCell * cell = [[LMNoticCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        
+//    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell setData:list name:_nameString];
@@ -334,6 +335,10 @@ UITableViewDataSource
             if (vo && [vo isKindOfClass:[LMNoticVO class]]) {
                 
                 if (vo.sign&&[vo.sign isEqual:@"event"] ) {
+                    if (!vo.eventName || [vo.eventName isEqualToString:@""] || [vo.eventName isKindOfClass:[NSNull class]]) {
+                        [self textStateHUD:@"此活动已删除"];
+                        return;
+                    }
                     LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
                     
                     detailVC.hidesBottomBarWhenPushed = YES;
@@ -343,6 +348,10 @@ UITableViewDataSource
                     [self.navigationController pushViewController:detailVC animated:YES];
                 }
                 if (vo.sign&&[vo.sign isEqualToString:@"article"]) {
+                    if (!vo.articleTitle || [vo.articleTitle isEqualToString:@""] || [vo.articleTitle isKindOfClass:[NSNull class]]) {
+                        [self textStateHUD:@"此文章已删除"];
+                        return;
+                    }
                     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
                     
                     detailVC.hidesBottomBarWhenPushed = YES;
@@ -353,6 +362,11 @@ UITableViewDataSource
                 }
                 
                 if (vo.sign&&[vo.sign isEqualToString:@"voice"]) {
+                    if (!vo.voiceTitle || [vo.voiceTitle isEqualToString:@""] || [vo.voiceTitle isKindOfClass:[NSNull class]]) {
+                        [self textStateHUD:@"此课程已删除"];
+                        return;
+                    }
+
                     LMClassroomDetailViewController *detailVC = [[LMClassroomDetailViewController alloc] init];
                     
                     detailVC.hidesBottomBarWhenPushed = YES;
@@ -363,6 +377,11 @@ UITableViewDataSource
                 }
                 
                 if (vo.sign&&[vo.sign isEqualToString:@"eventReview"]) {
+                    if (!vo.reviewTitle || [vo.reviewTitle isEqualToString:@""] || [vo.reviewTitle isKindOfClass:[NSNull class]]) {
+                        [self textStateHUD:@"此文章已删除"];
+                        return;
+                    }
+
                     LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
                     
                     detailVC.hidesBottomBarWhenPushed = YES;
@@ -376,6 +395,10 @@ UITableViewDataSource
                 }
                 
                 if (vo.sign&&[vo.sign isEqualToString:@"item"]) {
+                    if (!vo.eventName || [vo.eventName isEqualToString:@""] || [vo.eventName isKindOfClass:[NSNull class]]) {
+                        [self textStateHUD:@"此活动已删除"];
+                        return;
+                    }
                     LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
                     
                     detailVC.hidesBottomBarWhenPushed = YES;

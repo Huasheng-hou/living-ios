@@ -847,6 +847,7 @@ FitPickerViewDelegate
     }
     
     [self initStateHud];
+    NSLog(@"%@", orderInfos.orderUuid);
     LMWXPayRequest *request=[[LMWXPayRequest alloc]initWithWXRecharge:orderInfos.orderUuid];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -909,6 +910,7 @@ FitPickerViewDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self textStateHUD:@"支付失败，用户取消"];
+        
     });
 }
 
@@ -1219,6 +1221,7 @@ FitPickerViewDelegate
 
 - (void)getCouponListResponse:(NSString *)resp
 {
+    NSLog(@"%@", _orderUUid);
     NSDictionary *bodyDic = [VOUtil parseBody:resp];
     
     couponList          = [NSMutableArray new];
@@ -1251,7 +1254,7 @@ FitPickerViewDelegate
 
 - (void)useCouponreload:(NSString *)couponPrice couponUUid:(NSArray *)uuidArray;
 {
-    LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuidArray];
+    LMCouponUseRequest *request = [[LMCouponUseRequest alloc] initWithOrder_uuid:_orderUUid couponMoney:couponPrice couponUuid:uuidArray sign:@"1"];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1278,7 +1281,7 @@ FitPickerViewDelegate
         NSString    *result     = [bodyDic objectForKey:@"result"];
         
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]){
-            
+            _orderUUid = bodyDic[@"order_uuid"];
             [self getOrderData];
         } else {
             
