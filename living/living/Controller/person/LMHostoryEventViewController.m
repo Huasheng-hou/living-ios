@@ -19,7 +19,7 @@
 #import "FitDatePickerView.h"
 #import "LMHostoryView.h"
 #import "LMEventUpstoreRequest.h"
-
+#import "LMEventDetailViewController.h"
 #define PAGER_SIZE      20
 
 @interface LMHostoryEventViewController ()
@@ -94,6 +94,7 @@ FitDatePickerDelegate
 - (void)creatUI
 {
     [super createUI];
+    self.navigationItem.title = @"历史活动";
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
@@ -245,14 +246,28 @@ FitDatePickerDelegate
         
         if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
             
-            LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
-            
-            detailVC.hidesBottomBarWhenPushed = YES;
-            
-            detailVC.eventUuid  = vo.eventUuid;
-            detailVC.titleStr   = vo.eventName;
-            
-            [self.navigationController pushViewController:detailVC animated:YES];
+            if ([vo.type isEqualToString:@"event"]) {
+                LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                
+                detailVC.eventUuid  = vo.eventUuid;
+                detailVC.titleStr   = vo.eventName;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+
+            }
+            if ([vo.type isEqualToString:@"item"]) {
+                LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                
+                detailVC.eventUuid  = vo.eventUuid;
+                detailVC.titleStr   = vo.eventName;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+
+            }
         }
     }
     
@@ -270,12 +285,19 @@ FitDatePickerDelegate
 
 -(void)cellWillClick:(LMActivityCell *)cell
 {
+    ActivityListVO  *vo = [self.listData objectAtIndex:cell.tag];
+    if ([vo.type isEqualToString:@"item"]) {
+        UIButton * button = [UIButton new];
+        button.tag = cell.tag;
+        [self upstoreAction:button];
+        return;
+    }
     
     hostoryView = [[LMHostoryView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     
     hostoryView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    [[[UIApplication sharedApplication].windows lastObject] addSubview:hostoryView];
-    
+    //[[[UIApplication sharedApplication].windows lastObject] addSubview:hostoryView];
+    [self.view addSubview:hostoryView];
     
     [hostoryView.startButton addTarget:self action:@selector(startAction:) forControlEvents:UIControlEventTouchUpInside];
     [hostoryView.finishButton addTarget:self action:@selector(finishAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -308,6 +330,7 @@ FitDatePickerDelegate
                                CurrentDate:currentDate
                                       Mode:UIDatePickerModeDateAndTime
                                   Delegate:self];
+    
 }
 
 - (void)finishAction:(UIButton *)sender
@@ -339,22 +362,31 @@ FitDatePickerDelegate
 - (void)upstoreAction:(UIButton *)sender
 {
 
-     ActivityListVO  *vo = [self.listData objectAtIndex:sender.tag];
-    [hostoryView removeFromSuperview];
-    [self initStateHud];
-    if ([hostoryView.startButton.textLabel.text isEqual:@"请选择开始时间          "]) {
-        [self textStateHUD:@"请输入开始时间"];
-        return;
+    ActivityListVO  *vo = [self.listData objectAtIndex:sender.tag];
+    NSString * startTime = @"";
+    NSString * endTime = @"";
+    if ([vo.type isEqualToString:@"event"]) {
+        [hostoryView removeFromSuperview];
+        [self initStateHud];
+        if ([hostoryView.startButton.textLabel.text isEqual:@"请选择开始时间          "]) {
+            [self textStateHUD:@"请输入开始时间"];
+            return;
+        }
+        
+        if ([hostoryView.finishButton.textLabel.text isEqual:@"请选择结束时间         "]) {
+            [self textStateHUD:@"请输入结束时间"];
+            return;
+        }
+        
+        startTime = hostoryView.startButton.textLabel.text;
+        endTime = hostoryView.finishButton.textLabel.text;
+        
+    }else{
+     
+        [self initStateHud];
     }
-    
-    if ([hostoryView.finishButton.textLabel.text isEqual:@"请选择结束时间         "]) {
-        [self textStateHUD:@"请输入结束时间"];
-        return;
-    }
-    
-    
-    
-    LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.eventUuid andstart_time:hostoryView.startButton.textLabel.text andend_time:hostoryView.finishButton.textLabel.text];
+    NSLog(@"%@--%@--%@", vo.eventUuid, startTime, endTime);
+    LMEventUpstoreRequest *request = [[LMEventUpstoreRequest alloc] initWithevent_uuid:vo.eventUuid andstart_time:startTime andend_time:endTime];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
                                                

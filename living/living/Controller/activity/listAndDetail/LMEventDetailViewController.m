@@ -327,11 +327,8 @@ APChooseViewDelegate
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
-        if (eventDic.status==3) {
+        if (eventDic.status==1||eventDic.status==2||eventDic.status==3) {
             status = @"结束";
-        }
-        if (eventDic.status==1||eventDic.status==2) {
-            status = @"开始";
         }
         if (eventDic.status == 4) {
             status = @"完结";
@@ -339,23 +336,18 @@ APChooseViewDelegate
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
-            if (eventDic.totalNumber==0) {
-                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
-                self.navigationItem.rightBarButtonItem = rightItem;
-            }
-            
-            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+            if ([status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
                 
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
+            if ([status isEqual:@"结束"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             if ([status isEqualToString:@"完结"]) {
-                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"回顾" style:UIBarButtonItemStylePlain target:self action:@selector(review)];
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"已完结" style:UIBarButtonItemStylePlain target:nil action:nil];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
         }

@@ -174,11 +174,21 @@
             _paytypeLabel.text = @"正报名";
             [_payButton setTitle:@"开始" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(beginCell:) forControlEvents:UIControlEventTouchUpInside];
+            if ([list.type isEqualToString:@"item"]) {
+                _paytypeLabel.text = @"已开始";
+                [_payButton setTitle:@"结束" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(finishCell:) forControlEvents:UIControlEventTouchUpInside];
+            }
             break;
         case 2:
             _paytypeLabel.text = @"已爆满";
             [_payButton setTitle:@"开始" forState:UIControlStateNormal];
             [_payButton addTarget:self action:@selector(beginCell:) forControlEvents:UIControlEventTouchUpInside];
+            if ([list.type isEqualToString:@"item"]) {
+                _paytypeLabel.text = @"已开始";
+                [_payButton setTitle:@"结束" forState:UIControlStateNormal];
+                [_payButton addTarget:self action:@selector(finishCell:) forControlEvents:UIControlEventTouchUpInside];
+            }
             break;
         case 3:
             _paytypeLabel.text = @"已开始";

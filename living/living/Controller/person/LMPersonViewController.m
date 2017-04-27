@@ -446,10 +446,17 @@ static CGRect oldframe;
                 
                 break;
             case 6:
-                cell.textLabel.text = @"我是讲师";
-                cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
-                
+            {
+                if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                    cell.textLabel.text = @"我是讲师";
+                    cell.imageView.image = [UIImage imageNamed:@"teacherIcon"];
+                }else if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]){
+                    
+                    cell.textLabel.text = @"历史活动";
+                    cell.imageView.image = [UIImage imageNamed:@"hostory"];
+                }
                 break;
+            }
             case 7:
                 cell.textLabel.text = @"历史活动";
                 cell.imageView.image = [UIImage imageNamed:@"hostory"];
@@ -604,9 +611,17 @@ static CGRect oldframe;
         }
         
         if (indexPath.row == 6) {
-            LMMyvoicSegmentViewController *myVoiceVC = [[LMMyvoicSegmentViewController alloc] init];
-            myVoiceVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:myVoiceVC animated:YES];
+            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                LMMyvoicSegmentViewController *myVoiceVC = [[LMMyvoicSegmentViewController alloc] init];
+                myVoiceVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:myVoiceVC animated:YES];
+            }else if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]){
+                
+                LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
+                myVoiceVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:myVoiceVC animated:YES];
+            }
+            
         }
         
         if (indexPath.row == 7) {
