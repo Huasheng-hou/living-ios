@@ -44,6 +44,9 @@
 #import "WXApi.h"
 #import "PlayerViewController.h"
 
+#import "LMWriteReviewController.h"
+
+
 //地图导航
 #import "LMNavMapViewController.h"
 static CGRect oldframe;
@@ -263,9 +266,13 @@ APChooseViewDelegate
         eventDic    = [[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
         orderDic    = [bodyDic objectForKey:@"event_body"];
         
-        if (eventDic.status == 3 || eventDic.status == 4) {
+        if (eventDic.status == 3) {
             
             status = @"结束";
+        }
+        if (eventDic.status == 4) {
+            
+            status = @"总结";
         }
         if (eventDic.status == 1 || eventDic.status==2) {
             status = @"开始";
@@ -273,18 +280,18 @@ APChooseViewDelegate
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
-            if (eventDic.totalNumber==0) {
-                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+            if ([status isEqualToString:@"总结"]) {
+                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"总结" style:UIBarButtonItemStylePlain target:self action:@selector(review)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+            if ([status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
                 
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
+            if ([status isEqual:@"结束"]) {
                 
                 
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
@@ -302,6 +309,15 @@ APChooseViewDelegate
     }
 }
 
+- (void)review{
+    
+    LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
+    reviewVC.eventUuid = eventDic.eventUuid;
+    reviewVC.eventName = eventDic.eventName;
+    
+    [self.navigationController pushViewController:reviewVC animated:YES];
+    
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {

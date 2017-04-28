@@ -51,7 +51,7 @@
 #import "LMEvaluateViewController.h"
 #import "LMEventDetailJudgeListCell.h"
 
-#import "LMWriteReviewController.h"
+
 
 
 static CGRect oldframe;
@@ -1418,17 +1418,7 @@ APChooseViewDelegate
         }
     }
 }
-#pragma mark - 撰写活动回顾
-- (void)review{
-    
-    LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
-    
-    reviewVC.eventName = eventDic.eventName;
-    reviewVC.eventUuid = eventDic.eventUuid;
-    
-    [self.navigationController pushViewController:reviewVC animated:YES];
-    
-}
+
 
 #pragma mark   --结束活动
 

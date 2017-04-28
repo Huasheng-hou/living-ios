@@ -456,8 +456,6 @@ static NSMutableArray *cellDataArray;
                 
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-//                UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.3];
-//                UIImage *newImg = [UIImage imageWithData:UIImageJPEGRepresentation(tempImg, 0.05)];
                 UIImage *newImg = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
                 [imageArray addObject:newImg];
                 [imageViewArray addObject:newImg];
@@ -466,8 +464,8 @@ static NSMutableArray *cellDataArray;
             
             
         }
-        [projectImageArray insertObject:imageViewArray atIndex:addImageIndex];
-        //[projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+        //[projectImageArray insertObject:imageViewArray atIndex:addImageIndex];
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -500,7 +498,7 @@ static NSMutableArray *cellDataArray;
     return changedImage;
 }
 
-
+#pragma mark - 添加图片或视频
 - (void)addViewTag:(NSInteger)viewTag
 {
     addImageIndex   = viewTag;
@@ -807,7 +805,6 @@ static NSMutableArray *cellDataArray;
         updateImageArray = [NSMutableArray new];
         UIImage *tempImg = [[UIImage alloc] init];
         tempImg = info[@"UIImagePickerControllerOriginalImage"];
-//        UIImage * newImg = [self changeImageSizeWithOriginalImage:tempImg percent:0.2];
         UIImage *newImg = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
         [imageArray addObject:newImg];
         [imageViewArray addObject:newImg];

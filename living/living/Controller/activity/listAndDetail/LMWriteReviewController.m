@@ -436,20 +436,25 @@ static NSMutableArray *cellDataArray;
                 
             }else if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto]){
                 UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-                [imageArray addObject:tempImg];
-                [imageViewArray addObject:tempImg];
-                [updateImageArray addObject:tempImg];
+                UIImage *newImage = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
+                [imageArray addObject:newImage];
+                [imageViewArray addObject:newImage];
+                [updateImageArray addObject:newImage];
             }
             
-            [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-            
-            [self refreshData];
         }
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        });
+        
+        //   [self refreshData];
         [self getImageURL:updateImageArray];
     }
     
 }
-
+#pragma mark - 添加图片或视频
 - (void)addViewTag:(NSInteger)viewTag
 {
     addImageIndex   = viewTag;
@@ -496,6 +501,9 @@ static NSMutableArray *cellDataArray;
     if (![CheckUtils isLink]) {
         
         [self textStateHUD:@"无网络连接"];
+        [imageViewArray removeObjectsInArray:updateImageArray];
+        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+        [self refreshData];
         return;
     }
     
@@ -528,12 +536,12 @@ static NSMutableArray *cellDataArray;
                                                            [urlArray addObject:imgUrl];
                                                            
                                                        } else {
-                                                           [urlArray addObject:@""];
+                                                           //[urlArray addObject:@""];
                                                        }
                                                        
                                                    } else {
                                                        
-                                                       [urlArray addObject:@""];
+                                                       //[urlArray addObject:@""];
                                                    }
                                                    
                                                    if (urlArray.count == imgArr.count) {
@@ -550,7 +558,14 @@ static NSMutableArray *cellDataArray;
                                                    
                                                } failed:^(NSError *error) {
                                                    
-                                                   [urlArray addObject:@""];
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [self textStateHUD:@"上传失败,请重试"];
+                                                       [imageViewArray removeObjectsInArray:updateImageArray];
+                                                       [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+                                                       imageNum -= updateImageArray.count;
+                                                       [self refreshData];
+                                                       return ;
+                                                   });
                                                    
                                                    if (urlArray.count == imgArr.count) {
                                                        
@@ -579,8 +594,9 @@ static NSMutableArray *cellDataArray;
 {
     NSMutableDictionary *newDic=cellDataArray[row];
     NSMutableArray  *newArray= newDic[@"images"];
-    NSMutableDictionary *dic = [NSMutableDictionary new];
+    
     for (int i = 0; i<imageUrl.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary new];
         if (typeIndex) {
             
             [dic setObject:imageUrl[i] forKey:@"coverUrl"];
@@ -728,17 +744,25 @@ static NSMutableArray *cellDataArray;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    
+    if (picker.sourceType != UIImagePickerControllerSourceTypeCamera) {
+        return;
+    }
+    typeIndex = nil;
     [picker dismissViewControllerAnimated:YES completion:^{
         updateImageArray = [NSMutableArray new];
         UIImage *tempImg = [[UIImage alloc] init];
         tempImg = info[UIImagePickerControllerOriginalImage];
-        [imageArray addObject:tempImg];
-        [imageViewArray addObject:tempImg];
-        [updateImageArray addObject:tempImg];
+        UIImage *newImage = [ImageHelpTool imageWithImage:tempImg scaledToSize:CGSizeMake(kScreenWidth-40, (kScreenWidth-40)/tempImg.size.width*tempImg.size.height)];
+        [imageArray addObject:newImage];
+        [imageViewArray addObject:newImage];
+        [updateImageArray addObject:newImage];
         
         [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
-        [self refreshData];
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        });
+//        [self refreshData];
         [self getImageURL:updateImageArray];
     }];
     
@@ -800,11 +824,11 @@ static NSMutableArray *cellDataArray;
                                                         [cellDataArray[viewTag] setObject:urlArray forKey:@"images"];
                                                     }
                                                 }
-                                                if (imageArray.count > tag) {
-                                                    
-                                                    [imageArray removeObjectAtIndex:tag];
-                                                    
-                                                }
+//                                                if (imageArray.count > tag) {
+//                                                    
+//                                                    [imageArray removeObjectAtIndex:tag];
+//                                                    
+//                                                }
                                                 
                                                 [self refreshData];
                                                 
@@ -812,9 +836,7 @@ static NSMutableArray *cellDataArray;
     
     [self presentViewController:alert animated:YES completion:nil];
 }
-
 #pragma mark 发布文章
-
 - (void)publishAction
 {
     if (![CheckUtils isLink]) {
