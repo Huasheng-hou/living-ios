@@ -165,7 +165,20 @@
 
 #pragma mark - 数据请求
 - (FitBaseRequest *)request{
+    NSArray *searchArr = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityArr"];
+    NSString *cityStr;
+    for (NSString *string in searchArr) {
+        cityStr = string;
+        city = cityStr;
+    }
     
+    if ([city isEqual:@"其它"]) {
+        city = @"其它";
+    }
+    if ([city isEqual:@"全部"]) {
+        city = nil;
+    }
+
     LMEventListRequest   *request    = [[LMEventListRequest alloc] initWithPageIndex:self.current andPageSize:PAGE_SIZE andCity:city];
     
     return request;
