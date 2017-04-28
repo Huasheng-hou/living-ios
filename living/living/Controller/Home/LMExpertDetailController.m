@@ -25,7 +25,8 @@
 #import "LMHomeDetailController.h"
 #import "LMActivityDetailController.h"
 #import "LMHomeVoiceDetailController.h"
-
+#import "LMClassroomDetailViewController.h"
+#import "LMEventDetailViewController.h"
 @interface LMExpertDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -291,17 +292,26 @@
     if (indexPath.section == 1) {
         if (_events.count > indexPath.row) {
             LMMoreEventsVO * vo = _events[indexPath.row];
-            LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
-            detailVC.eventUuid = vo.eventUuid;
-            detailVC.titleStr = vo.eventName;
-            [self.navigationController pushViewController:detailVC animated:YES];
+            if (vo.type && [vo.type isEqualToString:@"event"]) {
+                LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
+                detailVC.eventUuid = vo.eventUuid;
+                detailVC.titleStr = vo.eventName;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            if (vo.type && [vo.type isEqualToString:@"item"]) {
+                LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
+                detailVC.eventUuid = vo.eventUuid;
+                detailVC.titleStr = vo.eventName;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+
         }
     }
     if (indexPath.section == 2) {
         if (_voices.count > indexPath.row) {
             LMMoreVoicesVO * vo = _voices[indexPath.row];
-            LMHomeVoiceDetailController * detailVC = [[LMHomeVoiceDetailController alloc] init];
-            detailVC.voiceUuid = vo.voiceUuid;
+            LMClassroomDetailViewController * detailVC = [[LMClassroomDetailViewController alloc] init];
+            detailVC.voiceUUid = vo.voiceUuid;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
     }

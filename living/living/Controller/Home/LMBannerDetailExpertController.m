@@ -318,10 +318,18 @@
     else if (indexPath.section == 2) {
         if (_events.count > indexPath.row) {
             LMMoreEventsVO * vo = _events[indexPath.row];
-            LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
-            detailVC.eventUuid = vo.eventUuid;
-            detailVC.titleStr = vo.eventName;
-            [self.navigationController pushViewController:detailVC animated:YES];
+            if (vo.type && [vo.type isEqualToString:@"event"]) {
+                LMActivityDetailController * detailVC = [[LMActivityDetailController alloc] init];
+                detailVC.eventUuid = vo.eventUuid;
+                detailVC.titleStr = vo.eventName;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            if (vo.type && [vo.type isEqualToString:@"item"]) {
+                LMEventDetailViewController * detailVC = [[LMEventDetailViewController alloc] init];
+                detailVC.eventUuid = vo.eventUuid;
+                detailVC.titleStr = vo.eventName;
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
         }
     }
     else if (indexPath.section == 3) {

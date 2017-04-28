@@ -27,5 +27,9 @@
                 CurrentDate:(NSDate *)currentDate
                        Mode:(UIDatePickerMode)mode
                    Delegate:(id<FitDatePickerDelegate>)delegate;
-
+- (void)showWithMinimumDate:(NSDate *)minimumDate
+                MaximumDate:(NSDate *)maximumDate
+                CurrentDate:(NSDate *)currentDate
+                       Mode:(UIDatePickerMode)mode
+                   Delegate:(id<FitDatePickerDelegate>)delegate;
 @end

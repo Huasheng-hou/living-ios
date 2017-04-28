@@ -44,6 +44,9 @@
 #import "WXApi.h"
 #import "PlayerViewController.h"
 
+#import "LMWriteReviewController.h"
+
+
 //地图导航
 #import "LMNavMapViewController.h"
 static CGRect oldframe;
@@ -263,9 +266,13 @@ APChooseViewDelegate
         eventDic    = [[LMEventBodyVO alloc] initWithDictionary:bodyDic[@"event_body"]];
         orderDic    = [bodyDic objectForKey:@"event_body"];
         
-        if (eventDic.status == 3 || eventDic.status == 4) {
+        if (eventDic.status == 3) {
             
             status = @"结束";
+        }
+        if (eventDic.status == 4) {
+            
+            status = @"总结";
         }
         if (eventDic.status == 1 || eventDic.status==2) {
             status = @"开始";
@@ -273,18 +280,18 @@ APChooseViewDelegate
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
-            if (eventDic.totalNumber==0) {
-                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
+            if ([status isEqualToString:@"总结"]) {
+                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"总结" style:UIBarButtonItemStylePlain target:self action:@selector(review)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+            if ([status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
                 
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
+            if ([status isEqual:@"结束"]) {
                 
                 
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
@@ -302,6 +309,15 @@ APChooseViewDelegate
     }
 }
 
+- (void)review{
+    
+    LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
+    reviewVC.eventUuid = eventDic.eventUuid;
+    reviewVC.eventName = eventDic.eventName;
+    
+    [self.navigationController pushViewController:reviewVC animated:YES];
+    
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
@@ -1014,52 +1030,51 @@ APChooseViewDelegate
                                                    }];
             [proxy start];
         }else{
+         
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
+            //增加确定按钮；
+            [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //获取第1个输入框；
+                nameString = alertController.textFields.firstObject.text;
+                
+                telephoneString = alertController.textFields.lastObject.text;
+                
+                NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+                
+                LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+                
+                HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                       completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                                  withObject:resp
+                                                                               waitUntilDone:YES];
+                                                       } failed:^(NSError *error) {
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                                  withObject:@"网络错误"
+                                                                               waitUntilDone:YES];
+                                                       }];
+                [proxy start];
+                
+                
+            }]];
             
-        }
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
-        //增加确定按钮；
-        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //获取第1个输入框；
-            nameString = alertController.textFields.firstObject.text;
+            //增加取消按钮；
+            [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
             
-            phoneString = alertController.textFields.lastObject.text;
+            //定义第一个输入框；
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"请输入真实姓名";
+            }];
             
-            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
-            
-            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
-            
-            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                       
-                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-                                                                              withObject:resp
-                                                                           waitUntilDone:YES];
-                                                   } failed:^(NSError *error) {
-                                                       
-                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                              withObject:@"网络错误"
-                                                                           waitUntilDone:YES];
-                                                   }];
-            [proxy start];
-            
-            
-        }]];
-        
-        //增加取消按钮；
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
-        
-        //定义第一个输入框；
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入真实姓名";
-        }];
-        
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入手机号";
-        }];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"请输入手机号";
+            }];
 
-        
-        [self presentViewController:alertController animated:true completion:nil];
+            
+            [self presentViewController:alertController animated:true completion:nil];
+        }
     }
 
 
@@ -1086,6 +1101,7 @@ APChooseViewDelegate
             LMBesureOrderViewController *OrderVC = [[LMBesureOrderViewController alloc] init];
             
             OrderVC.orderUUid   = orderID;
+            NSLog(@"--------%@", orderID);
             OrderVC.dict        = orderDic;
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;

@@ -72,7 +72,7 @@
     
     _name.text = vo.nickName;
     
-    [_icon sd_setImageWithURL:[NSURL URLWithString:vo.avatar]];
+    [_icon sd_setImageWithURL:[NSURL URLWithString:vo.images]];
     
     
     _introduce.text = vo.introduce;

@@ -40,7 +40,43 @@
         viewMask.alpha      = 0.2;
         datePicker.frame    = CGRectMake(0, kScreenHeight - 260, kScreenWidth, 260);
     }];
+    
+    
+    
 }
+- (void)showWithMinimumDate:(NSDate *)minimumDate MaximumDate:(NSDate *)maximumDate CurrentDate:(NSDate *)currentDate Mode:(UIDatePickerMode)mode Delegate:(id<FitDatePickerDelegate>)delegate
+{
+    
+    UIView *viewMask   = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    viewMask.backgroundColor    = [UIColor blackColor];
+    viewMask.alpha              = 0;
+    
+    UITapGestureRecognizer  *tapGR  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+    [viewMask addGestureRecognizer:tapGR];
+    
+    self.viewMask = viewMask;
+    
+    self.minimumDate  = minimumDate;
+    self.maximumDate  = maximumDate;
+    self.currentDate  = currentDate;
+    self.mode         = mode;
+    self.delegate     = delegate;
+    
+    //[[[[UIApplication sharedApplication] delegate] window] addSubview:viewMask];
+    //[[[[UIApplication sharedApplication] delegate] window] addSubview:self];
+    
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        viewMask.alpha      = 0.2;
+        //self.frame    = CGRectMake(0, kScreenHeight - 260, kScreenWidth, 260);
+    }];
+    
+    
+    
+}
+
 
 - (id)initWithFrame:(CGRect)frame
 {

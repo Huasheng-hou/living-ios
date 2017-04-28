@@ -47,16 +47,14 @@
     }
     NSArray * newType = @[@"Yao·幸福", @"Yao·美丽", @"Yao·健康", @"Yao·美食",  @"Yao·幸福"];
 
-    if (list.avatar) {
+    if (list.avatar && _cellType != 2) {
         [backImage sd_setImageWithURL:[NSURL URLWithString:list.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     }
-   
-    title.text = list.articleTitle;  //神奇卡顿崩溃bug iPhone 4S iOS 9.3.5
-    
+    if (_cellType != 2) {
+        title.text = list.articleTitle;  //神奇卡顿崩溃bug iPhone 4S iOS 9.3.5
+        name.text = list.articleName;
+    }
     [icon sd_setImageWithURL:[NSURL URLWithString:list.headImgUrl]];
-
-    name.text = list.articleName;
-    
     
     tag.text = newType[index];
     tag.backgroundColor = colorList[index];
@@ -102,14 +100,6 @@
         
         title.frame = CGRectMake(20, 90, kScreenWidth-40, 20);
         title.numberOfLines = 1;
-        
-        
-        desp = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(title.frame), kScreenWidth-40, 40)];
-        desp.textColor = [UIColor whiteColor];
-        desp.font = TEXT_FONT_LEVEL_3;
-        desp.numberOfLines = 2;
-        [backView addSubview:desp];
-        
         
         [tag removeFromSuperview];
     }
@@ -162,6 +152,11 @@
     tag.font = TEXT_FONT_LEVEL_4 ;
     [backView addSubview:tag];
 
+    desp = [[UILabel alloc] initWithFrame:CGRectMake(20, 110, kScreenWidth-40, 40)];
+    desp.textColor = [UIColor whiteColor];
+    desp.font = TEXT_FONT_LEVEL_3;
+    desp.numberOfLines = 2;
+    [backView addSubview:desp];
     
 }
 

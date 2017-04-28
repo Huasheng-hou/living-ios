@@ -18,6 +18,7 @@ LMActivityHeaderViewDelegate
 
 @property(nonatomic, strong) NSString *titleStr;
 @property(nonatomic, strong) NSString *eventUuid;
+@property (nonatomic, copy) NSString * type;
 
 // 带tab, nav, status的y向缩放
 @property (nonatomic) CGFloat yScaleWithAll;

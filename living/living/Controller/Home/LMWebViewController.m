@@ -8,9 +8,12 @@
 
 #import "LMWebViewController.h"
 #import "FitConsts.h"
-@interface LMWebViewController ()
+#import <WebKit/WebKit.h>
+@interface LMWebViewController ()<WKNavigationDelegate>
 
 @end
+
+//http://yaoguo1818.com/living-web/maker-160166.html
 
 @implementation LMWebViewController
 
@@ -19,13 +22,15 @@
     if (_titleString) {
         self.navigationItem.title = _titleString;
     }
-    self.view.backgroundColor = [UIColor whiteColor];
-    UIWebView * view = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, kScreenWidth, kScreenHeight)];
-    [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_urlString]]];
     NSLog(@"%@",_urlString);
+    self.view.backgroundColor = [UIColor whiteColor];
+    WKWebView * web = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_urlString]]];
+    web.navigationDelegate = self;
     
-    view.scalesPageToFit = YES;
+    //view.scalesPageToFit = YES;
     //    view.opaque = NO;
+    
     if (!_urlString) {
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
         label.center = self.view.center;
@@ -37,11 +42,30 @@
         return;
         
     }
-    [self.view addSubview:view];
+    [self.view addSubview:web];
 }
 
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
+    
+    
+    NSLog(@"准备加载页面");
+}
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation{
+    
+    NSLog(@"内容开始加载");
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
+    
+    NSLog(@"页面加载完成");
+}
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error{
+    NSLog(@"页面加载失败");
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    NSLog(@"内存警告");
     // Dispose of any resources that can be recreated.
 }
 

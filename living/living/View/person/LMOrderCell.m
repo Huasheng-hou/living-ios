@@ -160,7 +160,7 @@
         [_headImage sd_setImageWithURL:[NSURL URLWithString:list.voiceImages]];
     }
     
-    if (list .type&&[list.type isEqualToString:@"event"]) {
+    if (list.type && ([list.type isEqualToString:@"event"] || [list.type isEqualToString:@"item"])) {
         _titleLabel.text = list.eventName;
         [_headImage sd_setImageWithURL:[NSURL URLWithString:list.eventImg]];
     }

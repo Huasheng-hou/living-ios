@@ -12,6 +12,7 @@
 -(id)initWithOrder_uuid:(NSString *)order_uuid
             couponMoney:(NSString *)couponMoney
              couponUuid:(NSArray *)coupon_uuid
+                   sign:(NSString *)sign
 {
     self = [super init];
     
@@ -29,7 +30,9 @@
         if (coupon_uuid){
             [bodyDict setObject:coupon_uuid forKey:@"couponUuid"];
         }
-        
+        if (sign) {
+            [bodyDict setObject:sign forKey:@"sign"];
+        }
         
         
         NSMutableDictionary *paramsDict = [self params];

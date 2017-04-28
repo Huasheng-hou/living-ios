@@ -106,7 +106,7 @@
     NSString *string;
     NSString *typeString;
     NSString *signString;
-    NSString *title;
+    NSString *title = @"";
     
     if (name&&![name isEqualToString:@""]) {
         
@@ -202,7 +202,11 @@
     
     _contentLabel.text = list.content;
     
-    _titleLabel.text = [NSString stringWithFormat:@"《%@》  ", title];
+    if (title && title != nil && ![title isEqualToString:@""]) {
+       
+        _titleLabel.text = [NSString stringWithFormat:@"《%@》  ", title];
+    }
+    
     
     
     if (![string isEqualToString:@"系统消息:"]) {

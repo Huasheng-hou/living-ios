@@ -51,7 +51,7 @@
 #import "LMEvaluateViewController.h"
 #import "LMEventDetailJudgeListCell.h"
 
-#import "LMWriteReviewController.h"
+
 
 
 static CGRect oldframe;
@@ -327,11 +327,8 @@ APChooseViewDelegate
         
         orderDic = [bodyDic objectForKey:@"event_body"];
         
-        if (eventDic.status==3) {
+        if (eventDic.status==1||eventDic.status==2||eventDic.status==3) {
             status = @"结束";
-        }
-        if (eventDic.status==1||eventDic.status==2) {
-            status = @"开始";
         }
         if (eventDic.status == 4) {
             status = @"完结";
@@ -339,23 +336,18 @@ APChooseViewDelegate
         
         if ([eventDic.userUuid isEqualToString:[FitUserManager sharedUserManager].uuid]) {
             
-            if (eventDic.totalNumber==0) {
-                rightItem  = [[UIBarButtonItem alloc] initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteActivity)];
-                self.navigationItem.rightBarButtonItem = rightItem;
-            }
-            
-            if (eventDic.totalNumber>0&&[status isEqual:@"开始"]) {
+            if ([status isEqual:@"开始"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"开始" style:UIBarButtonItemStylePlain target:self action:@selector(startActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
                 
             }
             
-            if (eventDic.totalNumber>0&&[status isEqual:@"结束"]) {
+            if ([status isEqual:@"结束"]) {
                 rightItem = [[UIBarButtonItem alloc] initWithTitle:@"结束" style:UIBarButtonItemStylePlain target:self action:@selector(endActivity)];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
             if ([status isEqualToString:@"完结"]) {
-                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"回顾" style:UIBarButtonItemStylePlain target:self action:@selector(review)];
+                rightItem = [[UIBarButtonItem alloc] initWithTitle:@"已完结" style:UIBarButtonItemStylePlain target:nil action:nil];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }
         }
@@ -668,10 +660,10 @@ APChooseViewDelegate
 #pragma mark - 评价
 - (void)judge:(id)sender{
     
-//    if (!eventDic.isBuy) {
-//        [self textStateHUD:@"您尚未购买"];
-//        return;
-//    }
+    if (!eventDic.isBuy) {
+        [self textStateHUD:@"您尚未购买"];
+        return;
+    }
     
     LMEvaluateViewController * evaluateVC = [[LMEvaluateViewController alloc] init];
     evaluateVC.eventVO = eventDic;
@@ -694,8 +686,9 @@ APChooseViewDelegate
 }
 - (void)cellWillApply:(LMActivityheadCell *)cell
 {
-    self.navigationController.navigationBar.hidden = YES;
+    
     if ([[FitUserManager sharedUserManager] isLogin]){
+        self.navigationController.navigationBar.hidden = YES;
         
         APChooseView *infoView = [[APChooseView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         infoView.delegate = self;
@@ -818,53 +811,51 @@ APChooseViewDelegate
             [proxy start];
         }else{
             
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
+            //增加确定按钮；
+            [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //获取第1个输入框；
+                nameString = alertController.textFields.firstObject.text;
+                
+                telephoneString = alertController.textFields.lastObject.text;
+                
+                NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
+                
+                LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
+                
+                HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                                       completed:^(NSString *resp, NSStringEncoding encoding) {
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
+                                                                                  withObject:resp
+                                                                               waitUntilDone:YES];
+                                                       } failed:^(NSError *error) {
+                                                           
+                                                           [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                                  withObject:@"网络错误"
+                                                                               waitUntilDone:YES];
+                                                       }];
+                [proxy start];
+                
+                
+            }]];
+            
+            //增加取消按钮；
+            [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+            
+            //定义第一个输入框；
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"请输入真实姓名";
+            }];
+            
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"请输入手机号";
+            }];
+            
+            
+            [self presentViewController:alertController animated:true completion:nil];
         }
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
-        //增加确定按钮；
-        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //获取第1个输入框；
-            nameString = alertController.textFields.firstObject.text;
-            
-            phoneString = alertController.textFields.lastObject.text;
-            
-            NSString *nums = [NSString stringWithFormat:@"%ld",(long)num];
-            
-            LMEventJoinRequest *request = [[LMEventJoinRequest alloc] initWithEvent_uuid:_eventUuid order_nums:nums name:nameString phone:telephoneString];
-            
-            HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
-                                                   completed:^(NSString *resp, NSStringEncoding encoding) {
-                                                       
-                                                       [self performSelectorOnMainThread:@selector(getEventjoinDataResponse:)
-                                                                              withObject:resp
-                                                                           waitUntilDone:YES];
-                                                   } failed:^(NSError *error) {
-                                                       
-                                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                                              withObject:@"网络错误"
-                                                                           waitUntilDone:YES];
-                                                   }];
-            [proxy start];
-            
-            
-        }]];
-        
-        //增加取消按钮；
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
-        
-        //定义第一个输入框；
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入真实姓名";
-        }];
-        
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"请输入手机号";
-        }];
-        
-        
-        [self presentViewController:alertController animated:true completion:nil];
     }
-    
     
 }
 
@@ -1360,7 +1351,7 @@ APChooseViewDelegate
         }
         
     }
-    NSLog(@"%lu",(unsigned long)array.count);
+    //NSLog(@"%lu",(unsigned long)array.count);
     
     photoBrowser.initialPageIndex = cell.tag-array.count;
     [self presentViewController:photoBrowser animated:YES completion:nil];
@@ -1427,17 +1418,7 @@ APChooseViewDelegate
         }
     }
 }
-#pragma mark - 撰写活动回顾
-- (void)review{
-    
-    LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
-    
-    reviewVC.eventName = eventDic.eventName;
-    reviewVC.eventUuid = eventDic.eventUuid;
-    
-    [self.navigationController pushViewController:reviewVC animated:YES];
-    
-}
+
 
 #pragma mark   --结束活动
 

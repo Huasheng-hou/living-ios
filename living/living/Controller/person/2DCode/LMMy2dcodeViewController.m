@@ -100,7 +100,7 @@
         codeSting =  bodyDic[@"code"];
         
         [self creatImageView];
-        //将数据缓存到本地
+//        将数据缓存到本地
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
         NSString *path = [paths objectAtIndex:0];
         NSString *filename = [path stringByAppendingPathComponent:@"img.plist"];
@@ -126,7 +126,7 @@
 
 -(void)creatImageView
 {
-    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, +6064, kScreenWidth-30, 115+kScreenWidth)];
+    KeepImage = [[UIView alloc] initWithFrame:CGRectMake(15, 64, kScreenWidth-30, 115+kScreenWidth)];
     KeepImage.clipsToBounds = YES;
     KeepImage.layer.cornerRadius = 5;
     KeepImage.backgroundColor = [UIColor whiteColor];

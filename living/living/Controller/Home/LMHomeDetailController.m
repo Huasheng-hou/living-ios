@@ -1614,9 +1614,9 @@ LMContentTableViewCellDelegate
             }
             
         }
-        NSLog(@"%@",new);
+        //NSLog(@"%@",new);
     }
-    NSLog(@"********%@",new);
+    //NSLog(@"********%@",new);
     NSMutableArray *countArray = [NSMutableArray new];
     if (viewTag>0) {
         for (int i = 0; i<viewTag; i++) {
@@ -1663,7 +1663,7 @@ LMContentTableViewCellDelegate
             
         }
     }
-    NSLog(@"********%@",string);
+    //NSLog(@"********%@",string);
     
     if (string&&![string isEqual:@""]) {
         PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:string];
@@ -1971,14 +1971,14 @@ LMContentTableViewCellDelegate
 
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
-    NSDictionary *info = [notif userInfo];
-    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
+    //NSDictionary *info = [notif userInfo];
+    //NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
+    //CGSize keyboardSize = [value CGRectValue].size;
+    //NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
     if (textIndex!=1) {
         [UIView animateWithDuration:0.1f animations:^{
             [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
-            NSLog(@"***keyboardWasHidden*%@",toolBar);
+            //NSLog(@"***keyboardWasHidden*%@",toolBar);
         }];
     }
     
@@ -2000,7 +2000,7 @@ LMContentTableViewCellDelegate
         // numberlines用来控制输入的行数
         NSInteger numberLines = textView.contentSize.height / textView.font.lineHeight;
         if (numberLines != _rows) {
-            NSLog(@"text = %@", textcView.text);
+            //NSLog(@"text = %@", textcView.text);
             _rows = numberLines;
             if  (_rows < 5){
                 [self changeFrame:textView.contentSize.height];
@@ -2136,7 +2136,7 @@ LMContentTableViewCellDelegate
 
 - (void)replyAction:(id)sender
 {
-    NSLog(@"*********");
+    //NSLog(@"*********");
     [textcView becomeFirstResponder];
 }
 
@@ -2243,7 +2243,7 @@ LMContentTableViewCellDelegate
                 [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                           style:UIAlertActionStyleDestructive
                                                         handler:^(UIAlertAction*action) {
-                                                            NSLog(@"*****删除");
+                                                            //NSLog(@"*****删除");
                                                             
                                                             [self deleteCommentdata:list.commentUuid];
                                                             
@@ -2263,7 +2263,7 @@ LMContentTableViewCellDelegate
                 [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                           style:UIAlertActionStyleDestructive
                                                         handler:^(UIAlertAction*action) {
-                                                            NSLog(@"*****删除");
+                                                            //NSLog(@"*****删除");
                                                             
                                                             [self deleteArticleReply:list.replyUuid];
                                                             
@@ -2275,7 +2275,7 @@ LMContentTableViewCellDelegate
                 
             }
         } else {
-            NSLog(@"failed");
+            //NSLog(@"failed");
         }
     }
 }

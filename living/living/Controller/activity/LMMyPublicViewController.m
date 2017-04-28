@@ -7,6 +7,7 @@
 //
 
 #import "LMMyPublicViewController.h"
+#import "LMActivityDetailController.h"
 #import "LMEventDetailViewController.h"
 #import "LMMemberListViewController.h"
 #import "LMCreaterListRequest.h"
@@ -146,40 +147,77 @@ LMMypublicEventCellDelegate
         ActivityListVO  *vo = [self.listData objectAtIndex:indexPath.row];
         
         if (vo && [vo isKindOfClass:[ActivityListVO class]]) {
-            
-            LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
-            
-            detailVC.hidesBottomBarWhenPushed = YES;
-            int payNum = [vo.status intValue];
-            switch (payNum) {
-                case 1:
-                    detailVC.type = @"正报名";
-
-                    break;
-                case 2:
-                    detailVC.type = @"正报名";
-
-                    break;
-                case 3:
-                    detailVC.type = @"已开始";
-
-                    break;
-                case 4:
-                    detailVC.type = @"已结束";
-
-                    break;
-                case 5:
-                    detailVC.type = @"已结束";
-
-                    break;
-                    
-                default:
-                    break;
+            if ([vo.type isEqualToString:@"event"]) {
+                LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                int payNum = [vo.status intValue];
+                switch (payNum) {
+                    case 1:
+                        detailVC.type = @"正报名";
+                        
+                        break;
+                    case 2:
+                        detailVC.type = @"正报名";
+                        
+                        break;
+                    case 3:
+                        detailVC.type = @"已开始";
+                        
+                        break;
+                    case 4:
+                        detailVC.type = @"已结束";
+                        
+                        break;
+                    case 5:
+                        detailVC.type = @"已结束";
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
+                detailVC.eventUuid  = vo.eventUuid;
+                detailVC.titleStr   = vo.eventName;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
             }
-            detailVC.eventUuid  = vo.eventUuid;
-            detailVC.titleStr   = vo.eventName;
+            if ([vo.type isEqualToString:@"item"]) {
+                LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
+                
+                detailVC.hidesBottomBarWhenPushed = YES;
+                int payNum = [vo.status intValue];
+                switch (payNum) {
+                    case 1:
+                        detailVC.type = @"正报名";
+                        
+                        break;
+                    case 2:
+                        detailVC.type = @"正报名";
+                        
+                        break;
+                    case 3:
+                        detailVC.type = @"已开始";
+                        
+                        break;
+                    case 4:
+                        detailVC.type = @"已结束";
+                        
+                        break;
+                    case 5:
+                        detailVC.type = @"已结束";
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
+                detailVC.eventUuid  = vo.eventUuid;
+                detailVC.titleStr   = vo.eventName;
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
             
-            [self.navigationController pushViewController:detailVC animated:YES];
         }
     }
     
