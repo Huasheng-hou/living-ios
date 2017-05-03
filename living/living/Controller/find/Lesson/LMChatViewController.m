@@ -138,12 +138,19 @@ LMExceptionalViewDelegate
     
     return self;
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     moreView.hidden = YES;
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

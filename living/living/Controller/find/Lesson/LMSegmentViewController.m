@@ -41,9 +41,21 @@ static CGFloat const ButtonHeight = 50;
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+   
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"语音课堂";
     
