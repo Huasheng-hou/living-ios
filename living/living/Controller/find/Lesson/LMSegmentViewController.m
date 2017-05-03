@@ -112,9 +112,9 @@ static CGFloat const ButtonHeight = 50;
         iconArray=@[@"myJoin"];
     }
     if ([string isEqualToString:@"can"]) {
-        titleArray=@[@"发布",@"我的",@"我参与"];
+        titleArray=@[@"我的",@"我参与"];
         clickItem = 2;
-        iconArray=@[@"publicVoice",@"myVoice",@"myJoin"];
+        iconArray=@[@"myVoice",@"myJoin"];
     }
 
     
@@ -140,13 +140,13 @@ static CGFloat const ButtonHeight = 50;
         }
     }
     if (clickItem  == 2) {
+//        if (item == 0) {
+//            [self publicAction];
+//        }
         if (item == 0) {
-            [self publicAction];
-        }
-        if (item == 1) {
             [self myVoice];
         }
-        if (item == 2) {
+        if (item == 1) {
             [self myjoin];
         }
     }

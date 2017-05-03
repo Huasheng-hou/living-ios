@@ -34,7 +34,7 @@
 @property (nonatomic, strong) NSString *cover;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *attachment;
-@property (nonatomic, assign) NSNumber *currentIndex;
+@property (nonatomic, strong) NSNumber *currentIndex;
 @property (nonatomic, assign) NSNumber *recordingTime;
 @property (nonatomic, strong) NSString *sign;
 @property (nonatomic, strong) NSString *host_uuid;
