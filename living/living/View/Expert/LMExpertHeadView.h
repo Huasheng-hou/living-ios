@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "LMExpertSpaceVO.h"
+
+@protocol LMExpertHeadViewDelegate <NSObject>
+
+- (void)gotoListPage:(NSInteger)index;
+
+@end
+
 @interface LMExpertHeadView : UIView
 
 @property (nonatomic, assign) CGFloat cellH;
+
+
+@property (nonatomic, weak) id<LMExpertHeadViewDelegate> delegate;
 
 - (void)setData:(LMExpertSpaceVO *)vo;
 

@@ -1611,6 +1611,9 @@ LMContentTableViewCellDelegate
             }else if (_type == 1){
                 NSString *string = dic[@"url"];
                 [new addObject:string];
+            }else {
+                NSString * string = dic[@"url"];
+                [new addObject:string];
             }
             
         }
@@ -1631,6 +1634,9 @@ LMContentTableViewCellDelegate
                     [countArray addObject:string];
                 }else if (_type == 1){
                     NSString *string = dic[@"url"];
+                    [countArray addObject:string];
+                }else {
+                    NSString * string = dic[@"url"];
                     [countArray addObject:string];
                 }
 

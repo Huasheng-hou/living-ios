@@ -36,7 +36,9 @@
 @property (nonatomic, copy) NSString * franchisee;
 @property (nonatomic, copy) NSString * sign;
 @property (nonatomic, copy) NSString * userUuid;
-
+@property (nonatomic, strong) NSNumber * articleNums;
+@property (nonatomic, strong) NSNumber * eventNums;
+@property (nonatomic, strong) NSNumber * voiceNums;
 
 
 

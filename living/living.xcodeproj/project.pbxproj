@@ -543,6 +543,10 @@
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
 		D54942601EB9819D0089CF0D /* LMExpertSpaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = D549425F1EB9819D0089CF0D /* LMExpertSpaceController.m */; };
 		D54942641EB985950089CF0D /* LMExpertHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D54942631EB985950089CF0D /* LMExpertHeadView.m */; };
+		D54942671EB9B1940089CF0D /* LMExpertFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = D54942661EB9B1940089CF0D /* LMExpertFootView.m */; };
+		D549426A1EB9C0F80089CF0D /* LMExpertArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D54942691EB9C0F80089CF0D /* LMExpertArticleView.m */; };
+		D549426D1EB9CA180089CF0D /* LMExpertEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = D549426C1EB9CA180089CF0D /* LMExpertEventView.m */; };
+		D54942701EB9CA280089CF0D /* LMExpertVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = D549426F1EB9CA280089CF0D /* LMExpertVoiceView.m */; };
 		D563F0941EA4C681004C4B28 /* LMSpecialRechargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */; };
 		D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */; };
 		D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */; };
@@ -1670,6 +1674,14 @@
 		D549425F1EB9819D0089CF0D /* LMExpertSpaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceController.m; sourceTree = "<group>"; };
 		D54942621EB985950089CF0D /* LMExpertHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertHeadView.h; sourceTree = "<group>"; };
 		D54942631EB985950089CF0D /* LMExpertHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertHeadView.m; sourceTree = "<group>"; };
+		D54942651EB9B1940089CF0D /* LMExpertFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertFootView.h; sourceTree = "<group>"; };
+		D54942661EB9B1940089CF0D /* LMExpertFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertFootView.m; sourceTree = "<group>"; };
+		D54942681EB9C0F80089CF0D /* LMExpertArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertArticleView.h; sourceTree = "<group>"; };
+		D54942691EB9C0F80089CF0D /* LMExpertArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertArticleView.m; sourceTree = "<group>"; };
+		D549426B1EB9CA180089CF0D /* LMExpertEventView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertEventView.h; sourceTree = "<group>"; };
+		D549426C1EB9CA180089CF0D /* LMExpertEventView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertEventView.m; sourceTree = "<group>"; };
+		D549426E1EB9CA280089CF0D /* LMExpertVoiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertVoiceView.h; sourceTree = "<group>"; };
+		D549426F1EB9CA280089CF0D /* LMExpertVoiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertVoiceView.m; sourceTree = "<group>"; };
 		D563F0921EA4C681004C4B28 /* LMSpecialRechargeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSpecialRechargeController.h; sourceTree = "<group>"; };
 		D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeController.m; sourceTree = "<group>"; };
 		D563F0951EA4D7D9004C4B28 /* LMSpecialRechargeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSpecialRechargeRequest.h; sourceTree = "<group>"; };
@@ -4297,6 +4309,14 @@
 			children = (
 				D54942621EB985950089CF0D /* LMExpertHeadView.h */,
 				D54942631EB985950089CF0D /* LMExpertHeadView.m */,
+				D54942651EB9B1940089CF0D /* LMExpertFootView.h */,
+				D54942661EB9B1940089CF0D /* LMExpertFootView.m */,
+				D54942681EB9C0F80089CF0D /* LMExpertArticleView.h */,
+				D54942691EB9C0F80089CF0D /* LMExpertArticleView.m */,
+				D549426B1EB9CA180089CF0D /* LMExpertEventView.h */,
+				D549426C1EB9CA180089CF0D /* LMExpertEventView.m */,
+				D549426E1EB9CA280089CF0D /* LMExpertVoiceView.h */,
+				D549426F1EB9CA280089CF0D /* LMExpertVoiceView.m */,
 			);
 			path = Expert;
 			sourceTree = "<group>";
@@ -4659,6 +4679,7 @@
 				35B747D11DDE97F4000AFA26 /* LMWXRechargeResultRequest.m in Sources */,
 				D5944D281E83C679002DBA7D /* LMAllEventController.m in Sources */,
 				35B7478D1DDE97F3000AFA26 /* LMALLBody.m in Sources */,
+				D549426A1EB9C0F80089CF0D /* LMExpertArticleView.m in Sources */,
 				35B7471A1DDE97F3000AFA26 /* MJPhotoView.m in Sources */,
 				35B747A21DDE97F3000AFA26 /* LMEventCommitReplyRequset.m in Sources */,
 				35C218361E03DF62009371F4 /* LMChatViewController.m in Sources */,
@@ -4751,6 +4772,7 @@
 				35B747BD1DDE97F3000AFA26 /* LMScanRequest.m in Sources */,
 				35DCDD4D1DFE951000813172 /* ClassroomVO.m in Sources */,
 				355E7B621DFFC12F0089BAB1 /* LMVoiceDetailHeaderView.m in Sources */,
+				D54942701EB9CA280089CF0D /* LMExpertVoiceView.m in Sources */,
 				35B7480F1DDE97F4000AFA26 /* LMLeavemessagecell.m in Sources */,
 				35B747E41DDE97F4000AFA26 /* LMEventCommentVO.m in Sources */,
 				35B747B31DDE97F3000AFA26 /* LMCommentPraiseRequest.m in Sources */,
@@ -4770,6 +4792,7 @@
 				3505CDFC1E14E0BC007D896C /* LGAudioPlayer.m in Sources */,
 				35B747A11DDE97F3000AFA26 /* LMActivityListRequest.m in Sources */,
 				35B7475E1DDE97F3000AFA26 /* LMOrderViewController.m in Sources */,
+				D54942671EB9B1940089CF0D /* LMExpertFootView.m in Sources */,
 				D5DC79111E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m in Sources */,
 				35B747421DDE97F3000AFA26 /* FitPayloadManager.m in Sources */,
 				35B747EC1DDE97F4000AFA26 /* LMFindVO.m in Sources */,
@@ -4911,6 +4934,7 @@
 				35B747771DDE97F3000AFA26 /* README.md in Sources */,
 				35B747CC1DDE97F4000AFA26 /* LMRefundRequest.m in Sources */,
 				D537C5981E764A41002125E7 /* LMAllActivityController.m in Sources */,
+				D549426D1EB9CA180089CF0D /* LMExpertEventView.m in Sources */,
 				35B748101DDE97F4000AFA26 /* LMMapViewCell.m in Sources */,
 				35B747451DDE97F3000AFA26 /* LMActivityDetailController.m in Sources */,
 				351213811DF964FD0053B83F /* LMBlackListRequest.m in Sources */,

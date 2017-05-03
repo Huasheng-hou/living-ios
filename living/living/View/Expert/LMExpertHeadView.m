@@ -101,6 +101,8 @@
     [articleBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     articleBtn.titleLabel.font = TEXT_FONT_LEVEL_S1;
     articleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    articleBtn.tag = 100;
+    [articleBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [botView addSubview:articleBtn];
     
     UILabel * articleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(articleBtn.frame), kScreenWidth/3, 10)];
@@ -116,6 +118,8 @@
     [activityBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     activityBtn.titleLabel.font = TEXT_FONT_LEVEL_S1;
     activityBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    activityBtn.tag = 101;
+    [activityBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [botView addSubview:activityBtn];
     
     UILabel * activityLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/3, CGRectGetMaxY(activityBtn.frame), kScreenWidth/3, 10)];
@@ -133,6 +137,8 @@
     [classBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     classBtn.titleLabel.font = TEXT_FONT_LEVEL_S1;
     classBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    classBtn.tag = 102;
+    [classBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [botView addSubview:classBtn];
     
     UILabel * classLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth*2/3, CGRectGetMaxY(classBtn.frame), kScreenWidth/3, 10)];
@@ -155,6 +161,12 @@
     
     _name.text = vo.nickName;
     
+    [articleBtn setTitle:[NSString stringWithFormat:@"%@", vo.articleNums] forState:UIControlStateNormal];
+    [activityBtn setTitle:[NSString stringWithFormat:@"%@", vo.eventNums] forState:UIControlStateNormal];
+    [classBtn setTitle:[NSString stringWithFormat:@"%@", vo.voiceNums] forState:UIControlStateNormal];
+
+    
+    
     _desp.text = vo.introduce;
     _desp.numberOfLines = -1;
     [_desp sizeToFit];
@@ -163,6 +175,9 @@
     botView.frame = CGRectMake(0, CGRectGetMaxY(_desp.frame)+10, kScreenWidth, 50);
     
     _cellH = CGRectGetMaxY(botView.frame)+10;
+    
+    
+    
 }
 
 - (void)layoutSubviews{
@@ -172,6 +187,14 @@
     
     self.frame = CGRectMake(0, 0, kScreenWidth, _cellH);
     
+    
+}
+
+
+- (void)btnClicked:(UIButton *)sender {
+    
+    
+    [self.delegate gotoListPage:sender.tag];
     
 }
 
