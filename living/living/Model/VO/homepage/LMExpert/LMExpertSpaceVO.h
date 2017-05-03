@@ -27,7 +27,7 @@
 
 @property (nonatomic, copy) NSString * nickName;
 @property (nonatomic, copy) NSString * avatar;
-@property (nonatomic, strong) NSString * images;
+@property (nonatomic, copy) NSString * images;
 @property (nonatomic, copy) NSString * introduce;
 @property (nonatomic, copy) NSString * gender;
 @property (nonatomic, copy) NSString * userId;

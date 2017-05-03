@@ -12,7 +12,7 @@
 #import "LMHomelistequest.h"
 #import "LMExpertListRequest.h"
 #import "LMExpertListVO.h"
-
+#import "LMExpertSpaceController.h"
 
 #define PAGE_SIZE 20
 @interface LMExpertListController ()
@@ -111,8 +111,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
-    //vc.title = @"李莺莺的空间";
+    LMExpertSpaceController * vc = [[LMExpertSpaceController alloc] init];
+    
     if (self.listData.count > indexPath.row) {
         LMExpertListVO * vo = self.listData[indexPath.row];
         vc.userUuid = vo.userUuid;

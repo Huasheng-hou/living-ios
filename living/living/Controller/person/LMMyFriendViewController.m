@@ -21,6 +21,7 @@
     
     NSInteger        totalPage;
 
+    NSInteger totalNumber;
     
     NSMutableArray *stateArray;
     
@@ -72,7 +73,6 @@
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
-//    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"留言" style:UIBarButtonItemStylePlain target:self action:@selector(MessageBoardAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -105,6 +105,7 @@
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
+        totalNumber = [bodyDic[@"friendsNums"] integerValue];
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
@@ -152,7 +153,7 @@
     if (indexPath.row == 0) {
         UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [NSString stringWithFormat:@"%ld位好友", (unsigned long)self.listData.count];
+        cell.textLabel.text = [NSString stringWithFormat:@"%d位好友", totalNumber];
         cell.textLabel.textColor = TEXT_COLOR_LEVEL_3;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         return cell;
