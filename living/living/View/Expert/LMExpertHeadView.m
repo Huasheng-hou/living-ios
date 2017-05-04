@@ -192,14 +192,11 @@
     image = [ImageHelpTool imageWithImage:image scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth/image.size.width*image.size.height)];
     
     CIImage * inputImg = [[CIImage alloc] initWithImage:image];
-    
     CIFilter * filter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [filter setValue:inputImg forKey:kCIInputImageKey];
     [filter setValue:@3 forKey:@"inputRadius"];
-    
     CIImage * outputImg = [filter valueForKey:kCIOutputImageKey];
-    CGImageRef cgImage = [context createCGImage:outputImg fromRect:[inputImg extent]];
-    NSLog(@"%@", outputImg);
+    CGImageRef cgImage = [context createCGImage:outputImg fromRect:inputImg.extent];
     UIImage * resultImg = [UIImage imageWithCGImage:cgImage];
     
     CGImageRelease(cgImage);

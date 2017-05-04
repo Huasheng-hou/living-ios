@@ -40,7 +40,7 @@
     if (self) {
         
         self.ifRemoveLoadNoState        = NO;
-        self.ifShowTableSeparator       = NO;
+        self.ifShowTableSeparator       = YES;
         self.hidesBottomBarWhenPushed   = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];

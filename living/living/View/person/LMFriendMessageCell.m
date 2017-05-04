@@ -39,8 +39,12 @@
             string =[NSString stringWithFormat:@"%@：%@",friendVO.nickname,friendVO.content];
         }
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.nickname length]+1)];
-        
+        if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.remark length]+1)];
+        }else{
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.nickname length]+1)];
+        }
+
         __textLabel.attributedText = str;
     }else{
         if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
@@ -51,7 +55,12 @@
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
         [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.myNickname length])];
         
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([friendVO.myNickname length]+2,[friendVO.nickname length]+1)];
+        if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([friendVO.myNickname length]+2,[friendVO.remark length]+1)];
+        }else{
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([friendVO.myNickname length]+2,[friendVO.nickname length]+1)];
+        }
+        
         
         __textLabel.attributedText = str;
     }

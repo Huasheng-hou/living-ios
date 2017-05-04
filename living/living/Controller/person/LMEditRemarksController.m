@@ -117,7 +117,7 @@
         LMFriendCell * cell = [[LMFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.editBtn.hidden = YES;
-        cell.addressLabel.hidden = YES;
+        
         cell.isEdit = YES;
         [cell setData:_friendVO];
         

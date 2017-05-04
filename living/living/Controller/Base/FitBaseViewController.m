@@ -151,12 +151,16 @@
         [self textStateHUD:@"无网络连接"];
         return;
     }
-    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
+                                           completed:^(NSString *resp, NSStringEncoding encoding) {
         
-        [self performSelectorOnMainThread:@selector(requestResponse:) withObject:resp waitUntilDone:YES];
-    } failed:^(NSError *error) {
-        [self textStateHUD:@"网络出错"];
-    }];
+                                               [self performSelectorOnMainThread:@selector(requestResponse:)
+                                                                      withObject:resp
+                                                                   waitUntilDone:YES];
+                                           }
+                                              failed:^(NSError *error) {
+                                                  [self textStateHUD:@"网络出错"];
+                                              }];
     [proxy start];
 }
 
