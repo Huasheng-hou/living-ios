@@ -14,6 +14,9 @@
 #import "LMFriendVO.h"
 #import "LMMyMessageViewController.h"
 #import "LMMessageBoardViewController.h"
+#import "LMEditRemarksController.h"
+
+
 #define PAGER_SIZE      20
 @interface LMMyFriendViewController ()
 {
@@ -153,7 +156,7 @@
     if (indexPath.row == 0) {
         UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [NSString stringWithFormat:@"%d位好友", totalNumber];
+        cell.textLabel.text = [NSString stringWithFormat:@"%ld位好友", (long)totalNumber];
         cell.textLabel.textColor = TEXT_COLOR_LEVEL_3;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         return cell;
@@ -169,9 +172,11 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.editBtn.tag = indexPath.row-1;
+    [cell.editBtn addTarget:self action:@selector(editRemarks:) forControlEvents:UIControlEventTouchUpInside];
+    
     
     LMFriendVO *list = [self.listData objectAtIndex:indexPath.row-1];
-    
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
@@ -201,7 +206,16 @@
     }
 }
 
-
+#pragma mark - 修改备注
+- (void)editRemarks:(UIButton *)btn{
+    
+    LMEditRemarksController * editVC = [[LMEditRemarksController alloc] init];
+    LMFriendVO * vo = self.listData[btn.tag];
+    editVC.friendVO = vo;
+    editVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:editVC animated:YES];
+    
+}
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {

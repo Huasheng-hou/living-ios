@@ -22,14 +22,16 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-@property (nonatomic, retain) NSString *avatar;
-@property (nonatomic, retain) NSString *nickname;
-@property (nonatomic, retain) NSString *myNickname;
-@property (nonatomic, retain) NSString *userUuid;
-@property (nonatomic, retain) NSString *address;
-@property (nonatomic, retain) NSString *UserID;
+@property (nonatomic, copy) NSString *avatar;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *myNickname;
+@property (nonatomic, copy) NSString *userUuid;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *UserID;
 @property (nonatomic, assign) int  userId;
-@property (nonatomic, retain) NSString *content;
-@property (nonatomic, retain) NSString *myContent;
+@property (nonatomic, copy) NSString *content;
+@property (nonatomic, copy) NSString *myContent;
+@property (nonatomic, copy) NSString * remark;
+@property (nonatomic, copy) NSString * addTime;
 
 @end

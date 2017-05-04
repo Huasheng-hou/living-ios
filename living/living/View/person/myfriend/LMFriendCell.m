@@ -49,25 +49,35 @@
     _addressLabel.text = @"浙江-杭州";
     [self.contentView addSubview:_addressLabel];
     
-
+    _editBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-60, 0, 50, 30)];
+    [_editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [_editBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    _editBtn.titleLabel.font = TEXT_FONT_LEVEL_2;
+    [self addSubview:_editBtn];
     
 }
 
 -(void)setData:(LMFriendVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
-    _nameLabel.text = list.nickname;
+    
+    if (_isEdit) {
+        _nameLabel.text = list.nickname;
+    }else{
+        if (list.remark && list.remark != nil && ![list.remark isEqualToString:@""] && list.remark.length > 0) {
+            _nameLabel.text = list.remark;
+        }else{
+            _nameLabel.text = list.nickname;
+        }
+    }
     _addressLabel.text = list.address;
     
 
-        if (list.userId&&list.userId!=0) {
-            _idLabel.text = [NSString stringWithFormat:@"ID:%d",list.userId];
-        }else{
-            _idLabel.text = @"ID:";
-        }
-
-    
-
+    if (list.userId&&list.userId!=0) {
+        _idLabel.text = [NSString stringWithFormat:@"ID:%d",list.userId];
+    }else{
+        _idLabel.text = @"ID:";
+    }
 
 }
 

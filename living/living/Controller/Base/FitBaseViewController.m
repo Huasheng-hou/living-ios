@@ -144,5 +144,25 @@
     
     
 }
+#pragma mark 获取请求
+- (void)loadWithRequest:(FitBaseRequest *)request
+{
+    if (![CheckUtils isLink]) {
+        [self textStateHUD:@"无网络连接"];
+        return;
+    }
+    HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+        
+        [self performSelectorOnMainThread:@selector(requestResponse:) withObject:resp waitUntilDone:YES];
+    } failed:^(NSError *error) {
+        [self textStateHUD:@"网络出错"];
+    }];
+    [proxy start];
+}
+
+- (void)requestResponse:(NSString *)resp
+{
+    NSLog(@"============基类响应===============");
+}
 
 @end

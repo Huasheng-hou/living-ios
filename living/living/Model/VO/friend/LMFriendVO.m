@@ -97,7 +97,15 @@
             && [[dictionary objectForKey:@"myContent"] isKindOfClass:[NSString class]]) {
             self.myContent = [dictionary objectForKey:@"myContent"];
         }
+        if (nil != [dictionary objectForKey:@"remark"] && ![[dictionary objectForKey:@"remark"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"remark"] isKindOfClass:[NSString class]]) {
+            self.remark = [dictionary objectForKey:@"remark"];
+        }
         
+        if (nil != [dictionary objectForKey:@"add_time"] && ![[dictionary objectForKey:@"add_time"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"add_time"] isKindOfClass:[NSString class]]) {
+            self.addTime = [dictionary objectForKey:@"add_time"];
+        }
     }
     
     return self;
