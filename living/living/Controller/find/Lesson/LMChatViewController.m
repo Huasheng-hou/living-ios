@@ -1889,7 +1889,8 @@ LMExceptionalViewDelegate
         playTag = cell.tag;
         //播放本地音乐
         AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
-        
+        [audioSessions setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [audioSessions setActive:YES error:nil];
         NSError *audioError = nil;
         BOOL successs = [audioSessions overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
         if (!successs) {
