@@ -220,14 +220,14 @@ UITableViewDataSource
     LMNoticVO *list = [listArray objectAtIndex:indexPath.row];
     cell.tintColor = LIVING_COLOR;
     [cell setData:list name:_nameString];
-//    if ([Estring isEqual:@"完成"]) {
-//        cell.INDEX = 1;
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//    }else{
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
+    if ([Estring isEqual:@"完成"]) {
+        cell.INDEX = 1;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    }else{
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
     
-    //[cell setXScale:self.xScale yScale:self.yScaleWithAll];
+    [cell setXScale:self.xScale yScale:self.yScaleWithAll];
     
     return cell;
 }
