@@ -43,6 +43,7 @@
     return self;
 }
 
+
 - (void)setType:(NSInteger)type{
     _type = type;
     
@@ -163,6 +164,7 @@
     [topView addSubview:_appointment];
     
 }
+
 
 - (void)makeAppointment:(UIButton *)btn{
     

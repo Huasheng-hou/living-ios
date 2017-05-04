@@ -41,9 +41,21 @@ static CGFloat const ButtonHeight = 50;
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+   
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"语音课堂";
     
@@ -112,9 +124,9 @@ static CGFloat const ButtonHeight = 50;
         iconArray=@[@"myJoin"];
     }
     if ([string isEqualToString:@"can"]) {
-        titleArray=@[@"发布",@"我的",@"我参与"];
+        titleArray=@[@"我的",@"我参与"];
         clickItem = 2;
-        iconArray=@[@"publicVoice",@"myVoice",@"myJoin"];
+        iconArray=@[@"myVoice",@"myJoin"];
     }
 
     
@@ -140,13 +152,13 @@ static CGFloat const ButtonHeight = 50;
         }
     }
     if (clickItem  == 2) {
+//        if (item == 0) {
+//            [self publicAction];
+//        }
         if (item == 0) {
-            [self publicAction];
-        }
-        if (item == 1) {
             [self myVoice];
         }
-        if (item == 2) {
+        if (item == 1) {
             [self myjoin];
         }
     }

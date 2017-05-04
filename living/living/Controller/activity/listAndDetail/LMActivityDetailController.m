@@ -960,8 +960,9 @@ APChooseViewDelegate
         }else{
             infoView.dspLabel.text = eventDic.notices;
         }
+       
         
-        infoView.inventory.text = [NSString stringWithFormat:@"活动人数 %d/%d人",eventDic.totalNumber,eventDic.totalNum];
+//        infoView.inventory.text = [NSString stringWithFormat:@"活动人数：%d/%d人",eventDic.totalNumber, eventDic.totalNum];
         
         [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.eventImg]];
         

@@ -21,6 +21,7 @@
     
     NSInteger        totalPage;
 
+    NSInteger totalNumber;
     
     NSMutableArray *stateArray;
     
@@ -72,7 +73,6 @@
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
-//    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"留言" style:UIBarButtonItemStylePlain target:self action:@selector(MessageBoardAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -105,6 +105,7 @@
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
+        totalNumber = [bodyDic[@"friendsNums"] integerValue];
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
@@ -143,11 +144,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.listData.count;
+    return self.listData.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if (indexPath.row == 0) {
+        UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = [NSString stringWithFormat:@"%d位好友", totalNumber];
+        cell.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        return cell;
+    }
+    
+    
     static NSString *cellId = @"cellId";
   
     LMFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -158,14 +170,14 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
+    LMFriendVO *list = [self.listData objectAtIndex:indexPath.row-1];
     
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
     UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
     tap.minimumPressDuration = 1.0;
-    cell.contentView.tag = indexPath.row;
+    cell.contentView.tag = indexPath.row-1;
     [cell.contentView addGestureRecognizer:tap];
     
     
@@ -175,9 +187,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count > indexPath.row) {
+    if (indexPath.row == 0) {
+        return;
+    }
+    
+    if (self.listData.count > indexPath.row-1) {
         NSLog(@"留言板");
-        LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
+        LMFriendVO *list = [self.listData objectAtIndex:indexPath.row-1];
         LMMessageBoardViewController *messageBoardVC = [[LMMessageBoardViewController alloc] init];
         messageBoardVC.friendUUid = list.userUuid;
         messageBoardVC.hidesBottomBarWhenPushed = YES;

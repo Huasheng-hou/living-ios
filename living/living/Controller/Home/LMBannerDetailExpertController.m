@@ -34,6 +34,8 @@
 
 #import "LMClassroomDetailViewController.h"
 
+#import "LMExpertSpaceController.h"
+
 #define PAGE_SIZE 20
 @interface LMBannerDetailExpertController ()<UITableViewDelegate,UITableViewDataSource,LMExpertListDelegate>
 
@@ -347,7 +349,7 @@
 #pragma mark 点击达人头像进入详情代理方法
 - (void)gotoNextPage:(NSInteger)index{
     
-    LMExpertDetailController * vc = [[LMExpertDetailController alloc] init];
+    LMExpertSpaceController * vc = [[LMExpertSpaceController alloc] init];
     
     LMExpertListVO * vo = _recommendExpert[index];
     vc.userUuid = vo.userUuid;

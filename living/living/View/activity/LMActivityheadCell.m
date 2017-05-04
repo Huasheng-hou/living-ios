@@ -126,7 +126,22 @@
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
     
     if (_type == 1) {
-        _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+//        _countLabel.text = [NSString stringWithFormat:@"活动人数：%d/%d人",event.totalNumber,event.totalNum];
+        
+        if (event.status == 1 ) {
+            
+            if(event.totalNumber / (float)event.totalNum < 0.75) {
+                
+                _countLabel.text = [NSString stringWithFormat:@"%d人   报名中",event.totalNum];
+            }else {
+                //名额不多
+                _countLabel.text = [NSString stringWithFormat:@"%d人   名额不多",event.totalNum];
+            }
+        }else{
+            _countLabel.text = [NSString stringWithFormat:@"%d人",event.totalNum];
+        }
+        
+        
     }else if (_type == 2){
         _countLabel.text = @"此活动长期有效,赶快报名吧!";
 //        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];

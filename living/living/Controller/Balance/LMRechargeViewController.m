@@ -117,7 +117,7 @@ liveNameProtocol
     button1.layer.borderWidth = 0.5;
     button1.layer.borderColor = LINE_COLOR.CGColor;
     button1.upLabel.text = @"1000元";
-    button1.downLabel.text = @"";
+    button1.downLabel.text = @"优惠券50元";
     [button1 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:button1];
     
