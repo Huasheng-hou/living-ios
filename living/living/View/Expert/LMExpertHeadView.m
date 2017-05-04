@@ -9,7 +9,7 @@
 #import "LMExpertHeadView.h"
 #import "FitConsts.h"
 #import "UIImageView+WebCache.h"
-
+#import "ImageHelpTool.h"
 @implementation LMExpertHeadView
 {
     UIImageView * _headImg;
@@ -43,18 +43,6 @@
     _headImg.clipsToBounds = YES;
     _headImg.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:_headImg];
-    
-    
-//    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleProminent];
-//    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
-//    effectView.frame = _headImg.bounds;
-//    [_headImg addSubview:effectView];
-    
-//    UIView * shadow = [[UIView alloc] initWithFrame:_headImg.bounds];
-//    shadow.backgroundColor = [UIColor whiteColor];
-//    shadow.alpha = 0.5;
-//    [_headImg addSubview:shadow];
-    
     
     _avatar = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-30, CGRectGetMaxY(_headImg.frame)-30, 60, 60)];
     _avatar.backgroundColor = BG_GRAY_COLOR;
@@ -155,7 +143,9 @@
 
 - (void)setData:(LMExpertSpaceVO *)vo{
     
-    [_headImg sd_setImageWithURL:[NSURL URLWithString:vo.images] placeholderImage:[UIImage imageNamed:@"BackImage"]];
+    if (vo.images) {
+        _headImg.image = [self getBlurImage:vo.images];
+    }
     
     [_avatar sd_setImageWithURL:[NSURL URLWithString:vo.avatar] placeholderImage:[UIImage imageNamed:@"BackImage"]];
     
@@ -186,16 +176,36 @@
     [self sizeToFit];
     
     self.frame = CGRectMake(0, 0, kScreenWidth, _cellH);
-    
-    
 }
 
-
 - (void)btnClicked:(UIButton *)sender {
-    
     
     [self.delegate gotoListPage:sender.tag];
     
 }
+
+#pragma mark - 模糊处理
+- (UIImage *)getBlurImage:(NSString *)imgUrl{
+    
+    CIContext * context = [CIContext contextWithOptions:nil];
+    UIImage * image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl]]];
+    image = [ImageHelpTool imageWithImage:image scaledToSize:CGSizeMake(kScreenWidth, kScreenWidth/image.size.width*image.size.height)];
+    
+    CIImage * inputImg = [[CIImage alloc] initWithImage:image];
+    
+    CIFilter * filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [filter setValue:inputImg forKey:kCIInputImageKey];
+    [filter setValue:@3 forKey:@"inputRadius"];
+    
+    CIImage * outputImg = [filter valueForKey:kCIOutputImageKey];
+    CGImageRef cgImage = [context createCGImage:outputImg fromRect:[inputImg extent]];
+    NSLog(@"%@", outputImg);
+    UIImage * resultImg = [UIImage imageWithCGImage:cgImage];
+    
+    CGImageRelease(cgImage);
+
+    return resultImg;
+}
+
 
 @end
