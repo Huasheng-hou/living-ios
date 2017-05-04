@@ -49,7 +49,7 @@
     topLine.backgroundColor = BG_GRAY_COLOR;
     [topView addSubview:topLine];
     
-    NSArray * typeArray = @[@"文章篇数", @"活动", @"课堂"];
+    NSArray * typeArray = @[@"文章", @"活动", @"课堂"];
     for (int i=0; i<typeArray.count; i++) {
         UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(i*kScreenWidth/3, 15, kScreenWidth/3, 20)];
         [btn setTitle:typeArray[i] forState:UIControlStateNormal];
@@ -149,6 +149,11 @@
 - (void)tapped:(UITapGestureRecognizer *)tap{
    
     [self.delegate gotoDetailPage:tap.view.tag];
+    
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
     
 }
 

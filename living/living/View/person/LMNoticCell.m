@@ -363,6 +363,7 @@
     
     _titleLabel.frame = CGRectMake(5, CellConHigh+contentHigh+20+10, kScreenWidth-150, 20);
     
+    _whiteView.backgroundColor = [UIColor whiteColor];
 }
 
 

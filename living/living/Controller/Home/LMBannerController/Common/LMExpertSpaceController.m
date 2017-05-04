@@ -43,6 +43,8 @@
     
     
     LMExpertSpaceVO * expertVO;
+    
+    UIView * tableHeadView;
     LMExpertHeadView * headerView;
     LMExpertFootView * footerView;
     
@@ -67,9 +69,16 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = BG_GRAY_COLOR;
     
+    tableHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     headerView = [[LMExpertHeadView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     headerView.delegate = self;
-    self.tableView.tableHeaderView = headerView;
+    [tableHeadView addSubview:headerView];
+    
+    footerView = [[LMExpertFootView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(headerView.frame), kScreenWidth, 165)];
+    footerView.delegate = self;
+    [tableHeadView addSubview:footerView];
+    
+    self.tableView.tableHeaderView = tableHeadView;
     
 }
 
@@ -118,42 +127,19 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideStateHud];
         [headerView setData:expertVO];
+        
+        footerView.frame = CGRectMake(0, headerView.cellH, kScreenWidth, 165);
+        [footerView setDataWithArticle:_articles andEvents:_events andVoices:_voices];
+        
         UIView * view = self.tableView.tableHeaderView;
-        view.height = headerView.cellH;
+        view.height = headerView.cellH + 165;
         [self.tableView beginUpdates];
         [self.tableView setTableHeaderView:view];
-        
         [self.tableView endUpdates];
-        [self refreshData];
+        //[self refreshData];
     });
     return nil;
     
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 165;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    for (UIView * subView in cell.contentView.subviews) {
-        [subView removeFromSuperview];
-    }
-    
-    footerView = [[LMExpertFootView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 165)];
-    footerView.delegate = self;
-    [footerView setDataWithArticle:_articles andEvents:_events andVoices:_voices];
-    [cell.contentView addSubview:footerView];
-    
-    return cell;
 }
 
 - (void)gotoListPage:(NSInteger)index{
