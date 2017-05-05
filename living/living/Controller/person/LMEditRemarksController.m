@@ -131,7 +131,7 @@
         cell.textLabel.font = TEXT_FONT_LEVEL_2;
         
         _remarksTF = [[UITextField alloc] initWithFrame:CGRectMake(60, 0, kScreenWidth-70, 40)];
-        _remarksTF.placeholder = @"请输入备注信息";
+        _remarksTF.placeholder = _friendVO.remark;
         [_remarksTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
         _remarksTF.textColor = TEXT_COLOR_LEVEL_1;
         _remarksTF.font = TEXT_FONT_LEVEL_2;

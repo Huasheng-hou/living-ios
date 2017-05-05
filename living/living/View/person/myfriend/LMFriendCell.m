@@ -42,7 +42,7 @@
     _idLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_idLabel];
     
-    _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-15-150, 30, 150, 20)];
+    _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-15-170, 30, 170, 20)];
     _addressLabel.font = TEXT_FONT_LEVEL_3;
     _addressLabel.textColor = TEXT_COLOR_LEVEL_2;
     _addressLabel.textAlignment = NSTextAlignmentRight;
@@ -70,7 +70,7 @@
             _nameLabel.text = list.nickname;
         }
     }
-    _addressLabel.text = list.address;
+    _addressLabel.text = [NSString stringWithFormat:@"%@ %@", [list.addTime substringToIndex:10], list.address];
     
 
     if (list.userId&&list.userId!=0) {
