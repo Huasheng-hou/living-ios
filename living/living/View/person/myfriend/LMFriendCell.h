@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong)UILabel *nameLabel;
 
+@property (nonatomic, strong) UILabel * timeLabel;
+
 @property (nonatomic, strong)UILabel *idLabel;
 
 @property (nonatomic, strong)UIButton * editBtn;

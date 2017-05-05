@@ -53,6 +53,12 @@
         [self textStateHUD:@"请填写备注信息"];
         return;
     }
+    if ([_remarksTF.text isEqualToString:_friendVO.remark]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    
     [self initStateHud];
     LMRemarkRequest * request = [[LMRemarkRequest alloc] initWithFriendUuid:_friendVO.userUuid andRemark:_remarksTF.text];
     [self loadWithRequest:request];
@@ -99,7 +105,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 60;
+        return 80;
     }
     return 40;
 }
@@ -131,7 +137,8 @@
         cell.textLabel.font = TEXT_FONT_LEVEL_2;
         
         _remarksTF = [[UITextField alloc] initWithFrame:CGRectMake(60, 0, kScreenWidth-70, 40)];
-        _remarksTF.placeholder = _friendVO.remark;
+        _remarksTF.text = _friendVO.remark;
+        _remarksTF.placeholder = @"填写备注信息";
         [_remarksTF setValue:TEXT_COLOR_LEVEL_4 forKeyPath:@"_placeholderLabel.textColor"];
         _remarksTF.textColor = TEXT_COLOR_LEVEL_1;
         _remarksTF.font = TEXT_FONT_LEVEL_2;
