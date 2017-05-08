@@ -360,6 +360,7 @@
     _typeLabel.frame = CGRectMake(5, 10, kScreenWidth-150, CellConHigh);
     
     _contentLabel.frame = CGRectMake(5, CellConHigh+20, kScreenWidth-150, contentHigh);
+    _whiteView.backgroundColor = [UIColor whiteColor];
     
     _titleLabel.frame = CGRectMake(5, CellConHigh+contentHigh+20+10, kScreenWidth-150, 20);
     
