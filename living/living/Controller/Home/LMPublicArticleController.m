@@ -19,7 +19,6 @@
 #import "KZVideoViewController.h"
 #import "UIImageView+WebCache.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "ZYQAssetPickerController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "PlayerViewController.h"
@@ -394,12 +393,8 @@ static NSMutableArray *cellDataArray;
         
         [projectImageArray removeObjectAtIndex:row];
     }
-    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    });
     
-//    [self refreshData];
+    [self refreshData];
 }
 
 #pragma mark UIImagePickerController代理函数
@@ -477,26 +472,6 @@ static NSMutableArray *cellDataArray;
     
 }
 
-- (UIImage*)changeImageSizeWithOriginalImage:(UIImage*)image percent:(float)percent
-{
-    // change the image size
-    UIImage *changedImage=nil;
-    float iwidth=image.size.width*percent;
-    float iheight=image.size.height*percent;
-    if (image.size.width != iwidth && image.size.height != iheight)
-    {
-        CGSize itemSize = CGSizeMake(iwidth, iheight);
-        UIGraphicsBeginImageContext(itemSize);
-        CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-        [image drawInRect:imageRect];
-        changedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    }
-    else{
-        changedImage = image;
-    }
-    return changedImage;
-}
 
 #pragma mark - 添加图片或视频
 - (void)addViewTag:(NSInteger)viewTag
@@ -604,6 +579,7 @@ static NSMutableArray *cellDataArray;
                                                    
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [self textStateHUD:@"上传失败,请重试"];
+                                                       imageNum -= imgArr.count;
                                                        [imageViewArray removeObjectsInArray:updateImageArray];
                                                        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
                                                        [self refreshData];
@@ -687,6 +663,7 @@ static NSMutableArray *cellDataArray;
 
 - (void)projectDataStorageWithArrayIndex:(NSInteger)index
 {
+    [projectImageArray addObject:@""];
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithCapacity:0];
     NSMutableArray *array = [NSMutableArray new];
     [dic setObject:@"" forKey:@"content"];
@@ -714,7 +691,11 @@ static NSMutableArray *cellDataArray;
             imgNumber   = [projectImageArray[actionSheet.tag] count];
         }
         LMpicker = [[ZYQAssetPickerController alloc] init];
-        LMpicker.maximumNumberOfSelection     = 10 - imgNumber;
+        if (imageNum > 90) {
+            LMpicker.maximumNumberOfSelection = 100 - imageNum;
+        }else{
+            LMpicker.maximumNumberOfSelection     = 10 - imgNumber;
+        }
         LMpicker.assetsFilter     = [ALAssetsFilter allPhotos];
         LMpicker.showEmptyGroups  = NO;
         LMpicker.delegate         = self;
@@ -871,7 +852,7 @@ static NSMutableArray *cellDataArray;
                                                             videoUrl = nil;
                                                         }
                                                     }
-                                                    
+                                                    imageNum--;
                                                     [newArray removeObjectAtIndex:tag];
                                                     if ([urlArray isKindOfClass:[NSArray class]]&& urlArray.count > tag) {
                                                         [urlArray removeObjectAtIndex:tag];
