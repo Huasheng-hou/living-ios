@@ -69,6 +69,22 @@
     
 }
 
+- (void)setType:(NSInteger)type{
+    _type = type;
+    
+    if (type == 1) {
+        //课堂参加人员列表cell
+        _handImage.hidden = YES;
+        _editBtn.hidden = YES;
+        
+        _headImage.frame = CGRectMake(15, 10, 40, 40);
+        _addressLabel.frame = CGRectMake(kScreenWidth-15-150, 30, 150, 20);
+    }
+    
+    
+    
+}
+
 -(void)setData:(LMFriendVO *)list
 {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
@@ -101,8 +117,19 @@
     [super layoutSubviews];
     [_nameLabel sizeToFit];
     [_idLabel sizeToFit];
+    
+    if (_type == 1) {
+        
+        _nameLabel.frame = CGRectMake(65, 7, _nameLabel.bounds.size.width, 25);
+        _idLabel.frame = CGRectMake(65, 30, _idLabel.bounds.size.width, 20);
+        return;
+    }
+    
     _nameLabel.frame = CGRectMake(85, 7, _nameLabel.bounds.size.width, 25);
     _idLabel.frame = CGRectMake(85, 30, _idLabel.bounds.size.width, 20);
+    
+    
+    
 }
 
 

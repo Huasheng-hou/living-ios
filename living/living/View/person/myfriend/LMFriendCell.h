@@ -25,6 +25,9 @@
 
 @property (nonatomic, assign) BOOL isEdit;
 
+@property (nonatomic, assign) NSInteger type;
+
+- (void)setType:(NSInteger)type;
 
 -(void)setData:(LMFriendVO *)list;
 
