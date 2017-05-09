@@ -221,6 +221,8 @@
 
 -(void)sendMessageDataRequest
 {
+    contentSize = 0;
+    [textcView resignFirstResponder];
     [self initStateHud];
     LMLevavingMessageRequest *request = [[LMLevavingMessageRequest alloc] initWithuser_uuid:_friendUUid andContent:textcView.text];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
@@ -256,6 +258,7 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self hideStateHud];
+            textcView.frame = CGRectMake(15, 7.5, kScreenWidth-65, 30);
         });
         textcView.text = @"";
         tipLabel.hidden=NO;
@@ -305,7 +308,7 @@
     CGRect end = [[[notif userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
     
     // 第三方键盘回调三次问题，监听仅执行最后一次
-
+    
     if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
         [UIView animateWithDuration:0.1f animations:^{
             [toolBar setFrame:CGRectMake(0, kScreenHeight-(curkeyBoardHeight+toolBar.height+contentSize), kScreenWidth, toolBar.height+contentSize)];
@@ -322,9 +325,10 @@
     NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
     
     [UIView animateWithDuration:0.1f animations:^{
-        [toolBar setFrame:CGRectMake(0, kScreenHeight-45, kScreenWidth, 45)];
+        toolBar.frame = CGRectMake(0, kScreenHeight-45, kScreenWidth, 45);
+        
         NSLog(@"***keyboardWasHidden*%@",toolBar);
-        self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight - toolBar.frame.size.height);
+        self.tableView.frame  = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     }];
     
     
