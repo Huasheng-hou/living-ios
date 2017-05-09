@@ -143,7 +143,7 @@
         
         
     }else if (_type == 2){
-        _countLabel.text = @"此活动长期有效,赶快报名吧!";
+        _countLabel.text = @"长期有效,赶快报名吧!";
 //        [_joinButton setTitle:@"报名" forState:UIControlStateNormal];
 //        _joinButton.userInteractionEnabled = YES;
 //        return;
