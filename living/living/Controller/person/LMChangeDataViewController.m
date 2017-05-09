@@ -212,7 +212,7 @@ UIViewControllerTransitioningDelegate
         [cell.contentView addSubview:lineLabel];
         
         UILabel *ageLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 60, 75, 30)];
-        ageLabel.text = @"真实年龄";
+        ageLabel.text = @"出生日期";
         ageLabel.font = TEXT_FONT_LEVEL_2;
         ageLabel.textColor = TEXT_COLOR_LEVEL_2;
         [cell.contentView addSubview:ageLabel];
