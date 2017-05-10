@@ -53,9 +53,9 @@ static CGRect oldframe;
     self.navigationController.navigationBar.tintColor = TEXT_COLOR_LEVEL_2;
     
     if (![[FitUserManager sharedUserManager] isLogin]) {
-        NSString*appDomain = [[NSBundle mainBundle]bundleIdentifier];
+        NSString*appDomain = [[NSBundle mainBundle] bundleIdentifier];
         
-        [[NSUserDefaults standardUserDefaults]removePersistentDomainForName:appDomain];
+        [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
         
         [self.navigationController popViewControllerAnimated:NO];
         
