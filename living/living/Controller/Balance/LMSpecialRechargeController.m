@@ -421,6 +421,17 @@ liveNameProtocol
         selectedIndex=index;
         [table reloadData];
     }
+    if (indexPath.section == 3) {
+        if (_giftArray.count > indexPath.row) {
+            
+            NSDictionary * dict = _giftArray[indexPath.row];
+            LMWebViewController * webVC = [[LMWebViewController alloc] init];
+            webVC.urlString = dict[@"url"];
+            webVC.titleString = dict[@"content"];
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
+    }
+    
 }
 
 #pragma mark LMChangeLivingController&&liveNameProtocol代理协议

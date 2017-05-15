@@ -33,18 +33,34 @@
 {
     NSString *string;
     if (friendVO.content) {
-        string =[NSString stringWithFormat:@"%@：%@",friendVO.nickname,friendVO.content];
-        
+        if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
+            string =[NSString stringWithFormat:@"%@：%@",friendVO.remark,friendVO.content];
+        }else{
+            string =[NSString stringWithFormat:@"%@：%@",friendVO.nickname,friendVO.content];
+        }
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.nickname length]+1)];
-        
+        if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.remark length]+1)];
+        }else{
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.nickname length]+1)];
+        }
+
         __textLabel.attributedText = str;
     }else{
-        string =[NSString stringWithFormat:@"%@回复%@：%@",friendVO.myNickname,friendVO.nickname,friendVO.myContent];
+        if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
+            string =[NSString stringWithFormat:@"%@回复%@：%@",friendVO.myNickname,friendVO.remark,friendVO.myContent];
+        }else{
+            string =[NSString stringWithFormat:@"%@回复%@：%@",friendVO.myNickname,friendVO.nickname,friendVO.myContent];
+        }
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:string];
         [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange(0,[friendVO.myNickname length])];
         
-        [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([friendVO.myNickname length]+2,[friendVO.nickname length]+1)];
+        if (friendVO.remark && ![friendVO.remark isEqualToString:@""]) {
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([friendVO.myNickname length]+2,[friendVO.remark length]+1)];
+        }else{
+            [str addAttribute:NSForegroundColorAttributeName value:LIVING_COLOR range:NSMakeRange([friendVO.myNickname length]+2,[friendVO.nickname length]+1)];
+        }
+        
         
         __textLabel.attributedText = str;
     }

@@ -41,5 +41,5 @@ MBProgressHUDDelegate
 - (void)resignCurrentFirstResponder;
 
 - (void)IsLoginIn;
-
+-(void)loadWithRequest:(FitBaseRequest *)request;
 @end

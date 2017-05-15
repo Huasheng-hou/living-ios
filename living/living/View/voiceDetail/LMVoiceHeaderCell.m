@@ -144,11 +144,23 @@
         }
 
         [_headV sd_setImageWithURL:[NSURL URLWithString:_voiceVO.avatar]];
-        _countLabel.text = [NSString stringWithFormat:@"人数：%@/%@人",_voiceVO.number,_voiceVO.limitNum];
+        //_countLabel.text = [NSString stringWithFormat:@"人数：%@/%@人",_voiceVO.number,_voiceVO.limitNum];
         
         
         int currentNum = [_voiceVO.number intValue];
         int limitNum = [_voiceVO.limitNum intValue];
+        
+        if (_voiceVO.status && [_voiceVO.status isEqualToString:@"ready"] && currentNum < limitNum) {
+            if (currentNum / (float)limitNum < 0.75) {
+                _countLabel.text = [NSString stringWithFormat:@"%@人   报名中",_voiceVO.limitNum];
+            }else{
+                _countLabel.text = [NSString stringWithFormat:@"%@人   名额不多",_voiceVO.limitNum];
+            }
+        }else{
+            _countLabel.text = [NSString stringWithFormat:@"%@人",_voiceVO.limitNum];
+        }
+        
+        
         
         
         if ([_role isEqualToString:@"student"]) {

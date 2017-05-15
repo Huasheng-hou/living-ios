@@ -145,7 +145,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 //        cell.backgroundColor = [UIColor clearColor];
     }
-    
+    [(LMFriendCell *)cell setType:1];
     if (self.listData.count > indexPath.row) {
         LMFriendVO *vo = self.listData[indexPath.row];
         if (vo && [vo isKindOfClass:[LMFriendVO class]]) {

@@ -66,7 +66,7 @@
         
         //活动人数
         _inventory = [[UILabel alloc]initWithFrame:CGRectMake(145, 55, 150, 20)];
-        _inventory.text = @"活动人数 ";
+        _inventory.text = @"";
         _inventory.font = [UIFont systemFontOfSize:14];
         [self.bottomView addSubview:_inventory];
         

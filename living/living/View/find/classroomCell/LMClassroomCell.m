@@ -86,10 +86,10 @@
     timeLabel.textColor = TEXT_COLOR_LEVEL_3;
     [backView addSubview:timeLabel];
     
-    numberLabel = [UILabel new];
-    numberLabel.font = TEXT_FONT_LEVEL_3;
-    numberLabel.textColor = TEXT_COLOR_LEVEL_3;
-    [backView addSubview:numberLabel];
+//    numberLabel = [UILabel new];
+//    numberLabel.font = TEXT_FONT_LEVEL_3;
+//    numberLabel.textColor = TEXT_COLOR_LEVEL_3;
+//    [backView addSubview:numberLabel];
     
     
 }
@@ -104,7 +104,7 @@
     NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     timeLabel.text = [NSString stringWithFormat:@"时间：%@", [formatter stringFromDate:list.startTime]];
-    numberLabel.text = [NSString stringWithFormat:@"学员:%d",list.currentNum];
+//    numberLabel.text = [NSString stringWithFormat:@"学员:%d",list.currentNum];
     
     
 }
@@ -113,9 +113,9 @@
 {
     [super layoutSubviews];
     [nameLabel sizeToFit];
-    [numberLabel sizeToFit];
+//    [numberLabel sizeToFit];
     nameLabel.frame = CGRectMake(110, 50, backView.frame.size.width-10-priceLabel.bounds.size.width-110, 20);
-    numberLabel.frame = CGRectMake(backView.frame.size.width-10-numberLabel.bounds.size.width, 85, numberLabel.bounds.size.width, 35);
+//    numberLabel.frame = CGRectMake(backView.frame.size.width-10-numberLabel.bounds.size.width, 85, numberLabel.bounds.size.width, 35);
 }
 
 

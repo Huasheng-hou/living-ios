@@ -138,12 +138,19 @@ LMExceptionalViewDelegate
     
     return self;
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     moreView.hidden = YES;
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -1882,7 +1889,8 @@ LMExceptionalViewDelegate
         playTag = cell.tag;
         //播放本地音乐
         AVAudioSession *audioSessions = [AVAudioSession sharedInstance];
-        
+        [audioSessions setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [audioSessions setActive:YES error:nil];
         NSError *audioError = nil;
         BOOL successs = [audioSessions overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
         if (!successs) {

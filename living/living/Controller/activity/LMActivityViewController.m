@@ -37,6 +37,9 @@
 #import "LMPublicEventController.h"
 #import "LMSpecialRechargeController.h"
 
+#import "LMSegmentViewController.h"
+
+
 #define PAGER_SIZE      20
 
 @interface LMActivityViewController ()
@@ -289,15 +292,15 @@ WJLoopViewDelegate
         //语音课堂
         if ([vo.Type isEqualToString:@"voice"]) {
             
-            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+//            if (vo.KeyUUID && [vo.KeyUUID isKindOfClass:[NSString class]] && ![vo.KeyUUID isEqual:@""]) {
+            
+                LMSegmentViewController *segmentVC = [[LMSegmentViewController alloc] init];
                 
-                LMClassroomDetailViewController *eventVC = [[LMClassroomDetailViewController alloc] init];
-                
-                eventVC.hidesBottomBarWhenPushed = YES;
-                eventVC.voiceUUid = vo.KeyUUID;
-                
-                [self.navigationController pushViewController:eventVC animated:YES];
-            }
+//                eventVC.hidesBottomBarWhenPushed = YES;
+//                eventVC.voiceUUid = vo.KeyUUID;
+                segmentVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:segmentVC animated:YES];
+//            }
         }
         //大礼包
         if ([vo.Type isEqualToString:@"recharge"]) {

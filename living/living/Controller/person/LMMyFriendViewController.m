@@ -14,6 +14,9 @@
 #import "LMFriendVO.h"
 #import "LMMyMessageViewController.h"
 #import "LMMessageBoardViewController.h"
+#import "LMEditRemarksController.h"
+
+
 #define PAGER_SIZE      20
 @interface LMMyFriendViewController ()
 {
@@ -21,6 +24,7 @@
     
     NSInteger        totalPage;
 
+    NSInteger totalNumber;
     
     NSMutableArray *stateArray;
     
@@ -36,7 +40,7 @@
     if (self) {
         
         self.ifRemoveLoadNoState        = NO;
-        self.ifShowTableSeparator       = NO;
+        self.ifShowTableSeparator       = YES;
         self.hidesBottomBarWhenPushed   = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];
@@ -72,7 +76,6 @@
     self.tableView.contentInset                 = UIEdgeInsetsMake(64, 0, 0, 0);
     self.pullToRefreshView.defaultContentInset  = UIEdgeInsetsMake(64, 0, 0, 0);
     self.tableView.scrollIndicatorInsets        = UIEdgeInsetsMake(64, 0, 0, 0);
-//    self.tableView.separatorStyle               = UITableViewCellSeparatorStyleNone;
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"留言" style:UIBarButtonItemStylePlain target:self action:@selector(MessageBoardAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -105,6 +108,7 @@
     
     if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
         
+        totalNumber = [bodyDic[@"friendsNums"] integerValue];
         
         self.max    = [[bodyDic objectForKey:@"total"] intValue];
         
@@ -133,7 +137,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 80;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -143,11 +147,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.listData.count;
+    return self.listData.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if (indexPath.row == 0) {
+        UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = [NSString stringWithFormat:@"%ld位好友", (long)totalNumber];
+        cell.textLabel.textColor = TEXT_COLOR_LEVEL_3;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        return cell;
+    }
+    
+    
     static NSString *cellId = @"cellId";
   
     LMFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -157,15 +172,17 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.editBtn.tag = indexPath.row-1;
+    [cell.editBtn addTarget:self action:@selector(editRemarks:) forControlEvents:UIControlEventTouchUpInside];
     
-    LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
     
+    LMFriendVO *list = [self.listData objectAtIndex:indexPath.row-1];
     cell.tintColor = LIVING_COLOR;
     [cell  setData:list];
     
     UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deletCellAction:)];
     tap.minimumPressDuration = 1.0;
-    cell.contentView.tag = indexPath.row;
+    cell.contentView.tag = indexPath.row-1;
     [cell.contentView addGestureRecognizer:tap];
     
     
@@ -175,9 +192,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listData.count > indexPath.row) {
+    if (indexPath.row == 0) {
+        return;
+    }
+    
+    if (self.listData.count > indexPath.row-1) {
         NSLog(@"留言板");
-        LMFriendVO *list = [self.listData objectAtIndex:indexPath.row];
+        LMFriendVO *list = [self.listData objectAtIndex:indexPath.row-1];
         LMMessageBoardViewController *messageBoardVC = [[LMMessageBoardViewController alloc] init];
         messageBoardVC.friendUUid = list.userUuid;
         messageBoardVC.hidesBottomBarWhenPushed = YES;
@@ -185,7 +206,16 @@
     }
 }
 
-
+#pragma mark - 修改备注
+- (void)editRemarks:(UIButton *)btn{
+    
+    LMEditRemarksController * editVC = [[LMEditRemarksController alloc] init];
+    LMFriendVO * vo = self.listData[btn.tag];
+    editVC.friendVO = vo;
+    editVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:editVC animated:YES];
+    
+}
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {

@@ -11,7 +11,7 @@
 #import "FitNotificationNames.h"
 
 @implementation FitPayloadManager
-
+//推送
 + (void)processPayload:(NSString *)payload
 {
     if (payload) {
@@ -33,7 +33,7 @@
         }
     }
 }
-
+//透传
 + (void)processTransPayload:(NSString *)payload
 {
     if (payload) {
@@ -52,7 +52,8 @@
                     
                 }else{
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getui_message"
-                                                                        object:nil];
+                                                                        object:nil
+                                                                      userInfo:payloadDict];
                 }
 
                 }

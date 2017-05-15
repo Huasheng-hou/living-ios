@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0.4</string>
+	<string>3.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -100,6 +100,8 @@
 	<string>请同意获取您的多媒体资料</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>

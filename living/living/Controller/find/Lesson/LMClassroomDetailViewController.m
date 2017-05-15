@@ -874,7 +874,7 @@ LMChooseViewDelegate
             infoView.dspLabel.text = eventDic.notices;
         }
         
-        infoView.inventory.text = [NSString stringWithFormat:@"课程人数 %@/%@人",eventDic.number,eventDic.limitNum];
+        //infoView.inventory.text = [NSString stringWithFormat:@"课程人数 %@/%@人",eventDic.number,eventDic.limitNum];
         
         [infoView.productImage sd_setImageWithURL:[NSURL URLWithString:eventDic.image]];
         infoView.orderInfo = orderDic;

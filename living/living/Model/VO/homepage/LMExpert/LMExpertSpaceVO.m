@@ -96,8 +96,18 @@
             && [[dictionary objectForKey:@"user_uuid"] isKindOfClass:[NSString class]]) {
             self.userUuid = [dictionary objectForKey:@"user_uuid"];
         }
-        
-        
+        if (nil != [dictionary objectForKey:@"articleNums"] && ![[dictionary objectForKey:@"articleNums"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"articleNums"] isKindOfClass:[NSNumber class]]) {
+            self.articleNums = [dictionary objectForKey:@"articleNums"];
+        }
+        if (nil != [dictionary objectForKey:@"eventNums"] && ![[dictionary objectForKey:@"eventNums"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"eventNums"] isKindOfClass:[NSNumber class]]) {
+            self.eventNums = [dictionary objectForKey:@"eventNums"];
+        }
+        if (nil != [dictionary objectForKey:@"voiceNums"] && ![[dictionary objectForKey:@"voiceNums"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voiceNums"] isKindOfClass:[NSNumber class]]) {
+            self.voiceNums = [dictionary objectForKey:@"voiceNums"];
+        }
     }
     return self;
 }

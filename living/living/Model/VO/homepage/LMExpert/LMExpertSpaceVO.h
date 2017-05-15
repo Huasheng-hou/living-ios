@@ -27,7 +27,7 @@
 
 @property (nonatomic, copy) NSString * nickName;
 @property (nonatomic, copy) NSString * avatar;
-@property (nonatomic, strong) NSString * images;
+@property (nonatomic, copy) NSString * images;
 @property (nonatomic, copy) NSString * introduce;
 @property (nonatomic, copy) NSString * gender;
 @property (nonatomic, copy) NSString * userId;
@@ -36,7 +36,9 @@
 @property (nonatomic, copy) NSString * franchisee;
 @property (nonatomic, copy) NSString * sign;
 @property (nonatomic, copy) NSString * userUuid;
-
+@property (nonatomic, strong) NSNumber * articleNums;
+@property (nonatomic, strong) NSNumber * eventNums;
+@property (nonatomic, strong) NSNumber * voiceNums;
 
 
 

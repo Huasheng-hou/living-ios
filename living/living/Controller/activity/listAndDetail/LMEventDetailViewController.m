@@ -810,7 +810,7 @@ APChooseViewDelegate
                                                    }];
             [proxy start];
         }else{
-            
+          
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入个人信息" preferredStyle:UIAlertControllerStyleAlert];
             //增加确定按钮；
             [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -851,7 +851,6 @@ APChooseViewDelegate
             [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
                 textField.placeholder = @"请输入手机号";
             }];
-            
             
             [self presentViewController:alertController animated:true completion:nil];
         }
