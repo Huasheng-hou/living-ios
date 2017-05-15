@@ -16,7 +16,6 @@ static STOMPClient *client;
 {
     
 //    NSURL *websocketUrl = [NSURL URLWithString:@"ws://websocket.yaoguo1818.com/live-connect/websocket"];  //正式
-//    NSURL *websocketUrl = [NSURL URLWithString:@"ws://47.88.13.29/live-connect/websocket"];
     NSURL *websocketUrl = [NSURL URLWithString:@"ws://116.62.37.248/live-connect/websocket"];   //测试
     
     if (!client) {
