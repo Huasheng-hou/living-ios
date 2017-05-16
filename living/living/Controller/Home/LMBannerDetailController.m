@@ -75,7 +75,7 @@ static CGFloat const ButtonHeight = 38;
 {
     
     self.view.backgroundColor = [UIColor whiteColor];
-    NSArray *titleArrays = @[@[@"美·发现", @"美·活动", @"美·达人"], @[@"康·发现", @"康·活动", @"康·达人"], @[@"食·发现", @"食·活动", @"食·达人"], @[@"福·发现", @"福·活动", @"福·达人"]];
+    NSArray *titleArrays = @[@[@"美丽·发现", @"美丽·活动", @"美丽·达人"], @[@"健康·发现", @"健康·活动", @"健康·达人"], @[@"美食·发现", @"美食·活动", @"美食·达人"], @[@"幸福·发现", @"幸福·活动", @"幸福·达人"]];
     LMSegmentController *vc = [[LMSegmentController alloc]init];
     
     NSArray *titleArray = titleArrays[index-10];

@@ -505,8 +505,6 @@
 		D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FDE1E7FCFAD000F2599 /* MAMapKit.framework */; };
 		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
 		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
-		D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */; };
-		D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */; };
 		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
 		D52149B21E725319006890CE /* LMRecommendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B11E725319006890CE /* LMRecommendVO.m */; };
@@ -566,6 +564,8 @@
 		D5BCAF1D1E8D034000B4FCFA /* LMReviewArticleZanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5BCAF1C1E8D034000B4FCFA /* LMReviewArticleZanRequest.m */; };
 		D5BCAF201E8D037700B4FCFA /* LMReviewAnswerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5BCAF1F1E8D037700B4FCFA /* LMReviewAnswerRequest.m */; };
 		D5BCAF231E8D039800B4FCFA /* LMDeleteCommentOrAnswerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5BCAF221E8D039800B4FCFA /* LMDeleteCommentOrAnswerRequest.m */; };
+		D5C76A791EC984EC0086641B /* libGeTuiSdk-1.6.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5C76A771EC984EC0086641B /* libGeTuiSdk-1.6.3.0.a */; };
+		D5C76A7A1EC984EC0086641B /* libGtExtensionSdk-1.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5C76A781EC984EC0086641B /* libGtExtensionSdk-1.2.0.a */; };
 		D5D3250D1E70F80D0057F636 /* LMYaoGuoBiConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */; };
 		D5D325101E711FFE0057F636 /* LMSubmitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3250F1E711FFE0057F636 /* LMSubmitOrderController.m */; };
 		D5D325131E712A7A0057F636 /* LMYGBOrderHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325121E712A7A0057F636 /* LMYGBOrderHeadCell.m */; };
@@ -1603,8 +1603,6 @@
 		D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMapNavi.bundle; sourceTree = "<group>"; };
 		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
 		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
-		D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.2.0.a"; sourceTree = "<group>"; };
-		D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.1.0.a"; sourceTree = "<group>"; };
 		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
 		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
@@ -1721,6 +1719,8 @@
 		D5BCAF1F1E8D037700B4FCFA /* LMReviewAnswerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMReviewAnswerRequest.m; sourceTree = "<group>"; };
 		D5BCAF211E8D039800B4FCFA /* LMDeleteCommentOrAnswerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMDeleteCommentOrAnswerRequest.h; sourceTree = "<group>"; };
 		D5BCAF221E8D039800B4FCFA /* LMDeleteCommentOrAnswerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMDeleteCommentOrAnswerRequest.m; sourceTree = "<group>"; };
+		D5C76A771EC984EC0086641B /* libGeTuiSdk-1.6.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.3.0.a"; sourceTree = "<group>"; };
+		D5C76A781EC984EC0086641B /* libGtExtensionSdk-1.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.2.0.a"; sourceTree = "<group>"; };
 		D5D3250B1E70F80D0057F636 /* LMYaoGuoBiConvertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMYaoGuoBiConvertController.h; path = ../../LMYaoGuoBiConvertController.h; sourceTree = "<group>"; };
 		D5D3250C1E70F80D0057F636 /* LMYaoGuoBiConvertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMYaoGuoBiConvertController.m; path = ../../LMYaoGuoBiConvertController.m; sourceTree = "<group>"; };
 		D5D3250E1E711FFE0057F636 /* LMSubmitOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMSubmitOrderController.h; path = ../../LMSubmitOrderController.h; sourceTree = "<group>"; };
@@ -1774,6 +1774,7 @@
 				3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
+				D5C76A7A1EC984EC0086641B /* libGtExtensionSdk-1.2.0.a in Frameworks */,
 				8ECA2AD11DC98227000CD0AB /* AdSupport.framework in Frameworks */,
 				8ECA2ACF1DC981F9000CD0AB /* libstdc++.6.0.9.tbd in Frameworks */,
 				8ECA2ACD1DC981D3000CD0AB /* OpenGLES.framework in Frameworks */,
@@ -1797,15 +1798,14 @@
 				35FA8E8D1DB5BC4500510A75 /* CFNetwork.framework in Frameworks */,
 				35FA8E851DB5B80200510A75 /* AlipaySDK.framework in Frameworks */,
 				3547F4CB1D9905560068F04E /* AVFoundation.framework in Frameworks */,
-				D50E9FED1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a in Frameworks */,
 				D50E9FE11E7FCFAD000F2599 /* AMapFoundationKit.framework in Frameworks */,
 				3547F4C91D99054C0068F04E /* CoreTelephony.framework in Frameworks */,
 				3547F4C71D9905440068F04E /* CoreText.framework in Frameworks */,
 				35FA8E871DB5BBEC00510A75 /* libcrypto.a in Frameworks */,
-				D50E9FEE1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a in Frameworks */,
 				3505CE091E14E0BC007D896C /* libopencore-amrnb.a in Frameworks */,
 				3547F4C51D99053A0068F04E /* CoreLocation.framework in Frameworks */,
 				35FA8E891DB5BBF000510A75 /* libssl.a in Frameworks */,
+				D5C76A791EC984EC0086641B /* libGeTuiSdk-1.6.3.0.a in Frameworks */,
 				3547F4C31D99052D0068F04E /* libstdc++.6.tbd in Frameworks */,
 				35B7472B1DDE97F3000AFA26 /* libUMSocial_Sdk_4.2.5.a in Frameworks */,
 				D50E9FE21E7FCFAD000F2599 /* AMapLocationKit.framework in Frameworks */,
@@ -4084,8 +4084,8 @@
 			children = (
 				D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */,
 				D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */,
-				D50E9FEB1E7FD134000F2599 /* libGeTuiSdk-1.6.2.0.a */,
-				D50E9FEC1E7FD134000F2599 /* libGtExtensionSdk-1.1.0.a */,
+				D5C76A771EC984EC0086641B /* libGeTuiSdk-1.6.3.0.a */,
+				D5C76A781EC984EC0086641B /* libGtExtensionSdk-1.2.0.a */,
 			);
 			path = GtSdkLib;
 			sourceTree = "<group>";
