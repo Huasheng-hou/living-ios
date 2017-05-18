@@ -2202,6 +2202,7 @@
 		35B743F71DDE97F2000AFA26 /* living */ = {
 			isa = PBXGroup;
 			children = (
+				3533A78B1E4D8CC60088734A /* ALiVideoRecorder-Prefix.pch */,
 				35B744CE1DDE97F2000AFA26 /* Controller */,
 				35B746991DDE97F3000AFA26 /* View */,
 				35B745671DDE97F2000AFA26 /* Model */,
@@ -2218,7 +2219,6 @@
 				35B745661DDE97F2000AFA26 /* main.m */,
 				35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */,
 				35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */,
-				3533A78B1E4D8CC60088734A /* ALiVideoRecorder-Prefix.pch */,
 			);
 			path = living;
 			sourceTree = "<group>";
@@ -5234,7 +5234,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)//ALiVideoRecorder-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/living/ALiVideoRecorder-Prefix.pch";
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -5328,7 +5328,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)//ALiVideoRecorder-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/living/ALiVideoRecorder-Prefix.pch";
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

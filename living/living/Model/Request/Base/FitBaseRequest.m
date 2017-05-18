@@ -37,9 +37,7 @@
 - (NSString *)serverHost
 {
 
-    return @"http://120.26.64.40/living/";   //测试地址
-//    return @"http://api.yaoguo1818.com/living/";  //正式
-
+    return SERVER_HOST;
 }
 
 - (NSString *)methodPath
