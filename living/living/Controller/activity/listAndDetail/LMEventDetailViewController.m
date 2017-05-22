@@ -710,7 +710,6 @@ APChooseViewDelegate
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
             
-            
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
             infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);

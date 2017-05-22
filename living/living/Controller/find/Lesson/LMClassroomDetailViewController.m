@@ -63,6 +63,8 @@ LMChooseViewDelegate
 {
     UIImageView * qrCode;
     NSString * voiceCode;
+    NSString * tip;
+    
     
     UILabel  *tipLabel;
     UIButton *zanButton;
@@ -880,6 +882,17 @@ LMChooseViewDelegate
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
             
+            CGFloat totalPrice = [eventDic.perCost floatValue];
+            CGFloat nowPrice = [eventDic.discount floatValue];
+            CGFloat resultPrice = totalPrice - nowPrice;
+            if (resultPrice > (NSInteger)resultPrice) {
+                tip = [NSString stringWithFormat:@"%@就是任性,立减%.2f元", eventDic.publishName, resultPrice];
+            }else {
+                tip = [NSString stringWithFormat:@"%@就是任性,立减%.f元", eventDic.publishName, resultPrice];
+            }
+            infoView.tipLabel.text = tip;
+            
+            
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
             infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
@@ -1040,6 +1053,7 @@ LMChooseViewDelegate
             OrderVC.orderUUid   = orderID;
             OrderVC.dict        = orderDic;
             OrderVC.Type        = @"voice";
+            OrderVC.tips        = tip;
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             

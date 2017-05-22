@@ -72,7 +72,7 @@ APChooseViewDelegate
 {
     UIImageView * qrCode;
     NSString * voiceCode;
-    
+    NSString * tip;
     
     UILabel  *tipLabel;
     UIButton *zanButton;
@@ -969,6 +969,16 @@ APChooseViewDelegate
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
             
+            CGFloat totalPrice = [eventDic.perCost floatValue];
+            CGFloat nowPrice = [eventDic.discount floatValue];
+            CGFloat resultPrice = totalPrice - nowPrice;
+            if (resultPrice > (NSInteger)resultPrice) {
+                tip = [NSString stringWithFormat:@"%@就是任性,立减%.2f元", eventDic.publishName, resultPrice];
+            }else {
+                tip = [NSString stringWithFormat:@"%@就是任性,立减%.f元", eventDic.publishName, resultPrice];
+            }
+            infoView.tipLabel.text = tip;
+
             
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
@@ -1136,6 +1146,7 @@ APChooseViewDelegate
             OrderVC.orderUUid   = orderID;
             NSLog(@"--------%@", orderID);
             OrderVC.dict        = orderDic;
+            OrderVC.tips = tip;
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             
@@ -1210,7 +1221,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark  --活动留言或评论
+#pragma mark  -- 活动留言或评论
 
 - (void)besureAction:(id)sender
 {

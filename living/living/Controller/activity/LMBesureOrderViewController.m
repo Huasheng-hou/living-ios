@@ -836,7 +836,7 @@ FitPickerViewDelegate
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-#pragma mark 微信充值下单请求
+#pragma mark - 微信充值下单请求
 
 - (void)wxRechargeRequest
 {
@@ -979,7 +979,7 @@ FitPickerViewDelegate
     }
 }
 
-#pragma mark 支付宝充值下单请求
+#pragma mark - 支付宝充值下单请求
 
 - (void)aliRechargeRequest
 {
@@ -1038,7 +1038,7 @@ FitPickerViewDelegate
     }
 }
 
-#pragma mark 发起第三方支付宝支付
+#pragma mark - 发起第三方支付宝支付
 
 -(void)senderAliPay:(NSString *)payOrderStr
 {
@@ -1048,7 +1048,7 @@ FitPickerViewDelegate
     }];
 }
 
-#pragma mark 支付宝支付结果确认
+#pragma mark - 支付宝支付结果确认
 
 -(void)aliPayEnsure:(NSNotification *)dic
 {
@@ -1095,7 +1095,7 @@ FitPickerViewDelegate
     }
 }
 
-#pragma mark  --余额支付
+#pragma mark  -- 余额支付
 
 - (void)balanceChargeRequest
 {
@@ -1136,7 +1136,7 @@ FitPickerViewDelegate
         
         if (result && ![result isEqual:[NSNull null]] && [result isKindOfClass:[NSString class]] && [result isEqualToString:@"0"]) {
             
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您已成功付款"
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"您已成功付款\n%@", _tips]
                                                                            message:nil
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
@@ -1160,7 +1160,7 @@ FitPickerViewDelegate
     }
 }
 
-#pragma mark --选择优惠券
+#pragma mark -- 选择优惠券
 
 - (void)CouponChose
 {

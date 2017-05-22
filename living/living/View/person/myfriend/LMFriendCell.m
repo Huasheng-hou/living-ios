@@ -13,6 +13,9 @@
 @implementation LMFriendCell
 {
     UIImageView * _handImage;
+    
+    UILabel * _endTime;
+    
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -27,32 +30,36 @@
 
 -(void)addSubviews
 {
-    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 60, 60)];
+    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 80, 80)];
     _headImage.layer.cornerRadius = 5;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
     _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.clipsToBounds = YES;
     [self.contentView addSubview:_headImage];
     
-    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 0, 150, 30)];
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 0, 150, 30)];
     _nameLabel.font = TEXT_FONT_LEVEL_2;
     _nameLabel.textColor = TEXT_COLOR_LEVEL_1;
     [self.contentView addSubview:_nameLabel];
     
-    _idLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 30, 150, 20)];
+    _idLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 30, 150, 20)];
     _idLabel.font = TEXT_FONT_LEVEL_3;
     _idLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_idLabel];
     
-    _handImage = [[UIImageView alloc] initWithFrame:CGRectMake(85, 55, 15, 10)];
+    _handImage = [[UIImageView alloc] initWithFrame:CGRectMake(105, 55, 15, 10)];
     _handImage.image = [UIImage imageNamed:@"握手"];
     [self.contentView addSubview:_handImage];
     
-    _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 20)];
+    _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 50, 120, 20)];
     _timeLabel.font = TEXT_FONT_LEVEL_3;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_timeLabel];
     
+    _endTime = [[UILabel alloc] initWithFrame:CGRectMake(105, 70, kScreenWidth/2, 20)];
+    _endTime.textColor = TEXT_COLOR_LEVEL_2;
+    _endTime.font = TEXT_FONT_LEVEL_3;
+    [self.contentView addSubview:_endTime];
     
     _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-15-150, 50, 150, 20)];
     _addressLabel.font = TEXT_FONT_LEVEL_3;

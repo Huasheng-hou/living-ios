@@ -21,7 +21,7 @@
 {
     int count ;
     UILabel *_numLabel;
-    
+    UILabel * tipLabel;
     CustomButton *_recordButton;
     CustomButton *_recordSizeButton;
 }
