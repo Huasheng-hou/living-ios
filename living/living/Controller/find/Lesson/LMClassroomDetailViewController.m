@@ -42,6 +42,8 @@
 #import "LMVoiceMemeberListViewController.h"
 #import "LMChatViewController.h"
 
+#import "LMEventClassCodeController.h"
+
 
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
@@ -59,6 +61,9 @@ LMVoiceHeaderCellDelegate,
 LMChooseViewDelegate
 >
 {
+    UIImageView * qrCode;
+    NSString * voiceCode;
+    
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -90,6 +95,9 @@ LMChooseViewDelegate
     NSString *nameString;
     NSString *phoneString;
     NSString *telephoneString;
+    
+    
+    
 }
 
 @end
@@ -158,6 +166,27 @@ LMChooseViewDelegate
     
     [self.view addSubview:headerView];
 
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 64, 40, 40)];
+    qrCode.image = [UIImage imageNamed:@"qrcode"];
+    qrCode.contentMode = UIViewContentModeScaleAspectFill;
+    qrCode.backgroundColor = [UIColor clearColor];
+    qrCode.clipsToBounds = YES;
+    qrCode.layer.cornerRadius = 20;
+    qrCode.userInteractionEnabled = YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCode:)];
+    [qrCode addGestureRecognizer:tap];
+    [self.view addSubview:qrCode];
+    
+}
+
+- (void)tapCode:(UITapGestureRecognizer *)tap {
+    
+    LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
+    codeVC.navigationItem.title = @"课程二维码";
+    codeVC.name = eventDic.voiceTitle;
+    codeVC.codeUrl = eventDic.voiceCode;
+    codeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:codeVC animated:YES];
 }
 
 #pragma mark 分享按钮
@@ -274,7 +303,7 @@ LMChooseViewDelegate
         
         eventDic    = [[LMVoiceDetailVO alloc] initWithDictionary:bodyDic[@"voice_body"]];
         orderDic    = [bodyDic objectForKey:@"voice_body"];
-        
+
         if ([eventDic.status isEqualToString:@"ready"]) {
             
             status = @"开始";
@@ -1031,6 +1060,7 @@ LMChooseViewDelegate
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        qrCode.hidden = YES;
         hiddenIndex=2;
         
     }else{
@@ -1044,6 +1074,7 @@ LMChooseViewDelegate
         
         self.navigationController.navigationBar.hidden=NO;
         headerView.hidden=YES;
+        qrCode.hidden = NO;
     }
 }
 

@@ -166,7 +166,10 @@
             && [[dictionary objectForKey:@"eventid"] isKindOfClass:[NSNumber class]]) {
             self.isBuy= [(NSNumber *)[dictionary objectForKey:@"is_buy"] intValue];
         }
-
+        if (nil != [dictionary objectForKey:@"event_code"] && ![[dictionary objectForKey:@"event_code"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"event_code"] isKindOfClass:[NSString class]]) {
+            self.eventCode = [dictionary objectForKey:@"event_code"];
+        }
         
     }
     return self;

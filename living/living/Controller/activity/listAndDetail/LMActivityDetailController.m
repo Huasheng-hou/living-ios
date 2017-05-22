@@ -49,6 +49,12 @@
 
 //地图导航
 #import "LMNavMapViewController.h"
+
+
+#import "LMEventClassCodeController.h"
+
+
+
 static CGRect oldframe;
 @interface LMActivityDetailController ()
 <
@@ -64,6 +70,10 @@ shareTypeDelegate,
 APChooseViewDelegate
 >
 {
+    UIImageView * qrCode;
+    NSString * voiceCode;
+    
+    
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -156,6 +166,28 @@ APChooseViewDelegate
     headerView.delegate         = self;
     
     [self.view addSubview:headerView];
+    
+    
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 64, 40, 40)];
+    qrCode.image = [UIImage imageNamed:@"qrcode"];
+    qrCode.contentMode = UIViewContentModeScaleAspectFill;
+    qrCode.backgroundColor = [UIColor clearColor];
+    qrCode.clipsToBounds = YES;
+    qrCode.layer.cornerRadius = 20;
+    qrCode.userInteractionEnabled = YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCode:)];
+    [qrCode addGestureRecognizer:tap];
+    [self.view addSubview:qrCode];
+    
+}
+- (void)tapCode:(UITapGestureRecognizer *)tap {
+    
+    LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
+    codeVC.navigationItem.title = @"活动二维码";
+    codeVC.name = eventDic.eventName;
+    codeVC.codeUrl = eventDic.eventCode;
+    codeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:codeVC animated:YES];
 }
 
 - (void)getEventListDataRequest
@@ -1160,6 +1192,7 @@ APChooseViewDelegate
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        qrCode.hidden = YES;
         hiddenIndex=2;
         
     }else{
@@ -1173,6 +1206,7 @@ APChooseViewDelegate
         
         self.navigationController.navigationBar.hidden=NO;
         headerView.hidden=YES;
+        qrCode.hidden = NO;
     }
 }
 
