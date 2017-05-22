@@ -28,7 +28,7 @@
 
 @property (nonatomic, strong) UIButton *shareButton;
 
-@property (nonatomic, strong) UILabel *joinLabel;
+//@property (nonatomic, strong) UILabel *joinLabel;
 
 @property (nonatomic, strong) UIView *imageArrayView;
 
@@ -110,10 +110,10 @@
     [self.contentView addSubview:_titleLabel];
     
     //活动参与者
-    _joinLabel = [UILabel new];
-    _joinLabel.textColor = TEXT_COLOR_LEVEL_2;
-    _joinLabel.font = [UIFont systemFontOfSize:14.f];
-    [self.contentView addSubview:_joinLabel];
+//    _joinLabel = [UILabel new];
+//    _joinLabel.textColor = TEXT_COLOR_LEVEL_2;
+//    _joinLabel.font = [UIFont systemFontOfSize:14.f];
+    //[self.contentView addSubview:_joinLabel];
     
     _imageArrayView = [UIView new];
     [self.contentView addSubview:_imageArrayView];
@@ -209,7 +209,7 @@
         conHigh = [_voiceVO.voiceTitle boundingRectWithSize:CGSizeMake(kScreenWidth-30, 100000) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size.height;
         _titleLabel.text = _voiceVO.voiceTitle;
         
-        _joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",_voiceVO.number];
+        //_joinLabel.text = [NSString stringWithFormat:@"共%@人参与课堂",_voiceVO.number];
         
         if (_voiceVO.list&&_voiceVO.list.count>0) {
             NSInteger num = _voiceVO.list.count;
@@ -273,7 +273,7 @@
     [_titleLabel sizeToFit];
     [_countLabel sizeToFit];
     [_headV sizeToFit];
-    [_joinLabel sizeToFit];
+    //[_joinLabel sizeToFit];
     [_imageArrayView sizeToFit];
     [_shareButton sizeToFit];
     
@@ -288,8 +288,8 @@
     
     _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height +65, kScreenWidth-30, conHigh);
     
-    _joinLabel.frame = CGRectMake(15, _imageV.bounds.size.height +70+conHigh, kScreenWidth-30, 30);
-    _imageArrayView.frame = CGRectMake(0, _imageV.bounds.size.height +110+conHigh, kScreenWidth, headImgH+10);
+    //_joinLabel.frame = CGRectMake(15, _imageV.bounds.size.height +70+conHigh, kScreenWidth-30, 30);
+    _imageArrayView.frame = CGRectMake(0, _imageV.bounds.size.height +75+conHigh, kScreenWidth, headImgH+10);
     
     _shareButton.frame = CGRectMake(kScreenWidth-71-80, kScreenWidth*3/5+15, 80, 30);
 }
@@ -301,9 +301,9 @@
     
     if (array&&array.count>0) {
         CGFloat imgW = (kScreenWidth - 100)/9;
-      return (60+conHigh+kScreenWidth*3/5 +80-30+imgW+10);
+      return (60+conHigh+kScreenWidth*3/5 +80-30+imgW+10-35);
     }else{
-        return (60+conHigh+kScreenWidth*3/5 +80-30);
+        return (60+conHigh+kScreenWidth*3/5 +80-30-35);
     }
     
     
