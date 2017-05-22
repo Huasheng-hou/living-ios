@@ -84,6 +84,7 @@
         _handImage.hidden = YES;
         _editBtn.hidden = YES;
         
+        _endTime.hidden = YES;
         _headImage.frame = CGRectMake(15, 10, 40, 40);
         _addressLabel.frame = CGRectMake(kScreenWidth-15-150, 30, 150, 20);
     }
@@ -117,6 +118,22 @@
         _idLabel.text = @"ID:";
     }
 
+    double  minTime = [[list.coupons[0] objectForKey:@"failtureTime"] doubleValue];;
+    for (NSDictionary * dic in list.coupons) {
+        double time = [dic[@"failtureTime"] doubleValue];
+        if (minTime > time) {
+            minTime = time;
+        }
+    }
+    
+    double timeInterval = [[NSDate date] timeIntervalSince1970];
+    if (minTime - timeInterval < 30 * 24 * 60 * 60 * 100) {
+        _endTime.textColor = [UIColor redColor];
+    }
+    
+    _endTime.text = [NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]];
+    
+    
 }
 
 -(void)layoutSubviews
@@ -132,11 +149,18 @@
         return;
     }
     
-    _nameLabel.frame = CGRectMake(85, 7, _nameLabel.bounds.size.width, 25);
-    _idLabel.frame = CGRectMake(85, 30, _idLabel.bounds.size.width, 20);
+    _nameLabel.frame = CGRectMake(105, 7, _nameLabel.bounds.size.width, 25);
+    _idLabel.frame = CGRectMake(105, 30, _idLabel.bounds.size.width, 20);
     
-    
-    
+}
+
+
+- (NSString *)getDateStringFromSeconds:(double)second {
+    NSDate * date = [NSDate dateWithTimeIntervalSince1970:second/1000];
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    NSString * dateStr = [formatter stringFromDate:date];
+    return dateStr;
 }
 
 

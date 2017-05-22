@@ -33,8 +33,6 @@
 @property (nonatomic, copy) NSString *myContent;
 @property (nonatomic, copy) NSString * remark;
 @property (nonatomic, copy) NSString * addTime;
-@property (nonatomic, copy) NSString * failtureTime;
-@property (nonatomic, copy) NSString * amount;
-
+@property (nonatomic, strong) NSArray * coupons;
 
 @end
