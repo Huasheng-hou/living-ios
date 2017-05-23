@@ -152,6 +152,7 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define WEBSOCKET @"ws://116.62.37.248/live-connect/websocket"
 
 
+#define SHARE_LINK @"http://120.26.243.47:3006/living-share-h5/H5/cashew-download.html"
 
 
 

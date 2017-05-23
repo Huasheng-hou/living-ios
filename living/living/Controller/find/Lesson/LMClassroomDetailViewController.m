@@ -191,7 +191,7 @@ LMChooseViewDelegate
     [self.navigationController pushViewController:codeVC animated:YES];
 }
 
-#pragma mark 分享按钮
+#pragma mark - 分享按钮
 
 -(void)shareButton
 {
@@ -619,7 +619,7 @@ LMChooseViewDelegate
     return nil;
 }
 
-#pragma mark 拨打电话
+#pragma mark - 拨打电话
 
 - (void)callTelephone
 {
@@ -1222,7 +1222,7 @@ LMChooseViewDelegate
     [keyWindow endEditing:YES];
 }
 
-#pragma mark 删除课程
+#pragma mark - 删除课程
 
 - (void)deleteActivity
 {
@@ -1280,7 +1280,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark --删除评论
+#pragma mark - -  删除评论
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
@@ -1409,7 +1409,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark -课程大图
+#pragma mark - 课程大图
 
 - (void)cellClickImage:(LMVoiceHeaderCell *)cell
 {
@@ -1422,7 +1422,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark --课程项目大图
+#pragma mark - - 课程项目大图
 
 - (void)cellProjectImage:(LMVoiceProjectCell *)cell
 {
@@ -1464,7 +1464,7 @@ LMChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始课程
+#pragma mark  - - 开始课程
 
 - (void)startVoice
 {
@@ -1533,7 +1533,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark   --结束课程
+#pragma mark - - 结束课程
 
 - (void)endVoice
 {
@@ -1739,7 +1739,7 @@ LMChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark - 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1776,7 +1776,7 @@ LMChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
+            web.webpageUrl=urlString; //[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
             message.mediaObject=web;
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
             req.bText=NO;
@@ -1803,7 +1803,7 @@ LMChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
+            web.webpageUrl=urlString; //[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1825,7 +1825,7 @@ LMChooseViewDelegate
                 imageUrl=eventDic.image;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid]] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1840,7 +1840,7 @@ LMChooseViewDelegate
                 imageUrl=eventDic.image;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid]] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];
@@ -1889,7 +1889,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark 键盘部分
+#pragma mark - 键盘部分
 
 - (void) registerForKeyboardNotifications
 {
