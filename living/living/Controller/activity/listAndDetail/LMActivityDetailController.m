@@ -73,6 +73,8 @@ APChooseViewDelegate
     UIImageView * qrCode;
     NSString * voiceCode;
     NSString * tip;
+    CGFloat resultPrice;
+    
     
     UILabel  *tipLabel;
     UIButton *zanButton;
@@ -971,11 +973,11 @@ APChooseViewDelegate
             
             CGFloat totalPrice = [eventDic.perCost floatValue];
             CGFloat nowPrice = [eventDic.discount floatValue];
-            CGFloat resultPrice = totalPrice - nowPrice;
+            resultPrice = totalPrice - nowPrice;
             if (resultPrice > (NSInteger)resultPrice) {
-                tip = [NSString stringWithFormat:@"%@就是任性,立减%.2f元", eventDic.publishName, resultPrice];
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.2f元", resultPrice];
             }else {
-                tip = [NSString stringWithFormat:@"%@就是任性,立减%.f元", eventDic.publishName, resultPrice];
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.f元", resultPrice];
             }
             infoView.tipLabel.text = tip;
 
@@ -1026,6 +1028,7 @@ APChooseViewDelegate
 
 - (void)APChooseViewSelectItem:(NSInteger)num
 {
+    resultPrice *= num;
     if (phoneString&&![phoneString isEqualToString:@""]) {
         if (![CheckUtils isLink]) {
             
@@ -1146,7 +1149,12 @@ APChooseViewDelegate
             OrderVC.orderUUid   = orderID;
             NSLog(@"--------%@", orderID);
             OrderVC.dict        = orderDic;
-            OrderVC.tips = tip;
+        
+            if (resultPrice > (NSInteger)resultPrice) {
+                OrderVC.tips = [NSString stringWithFormat:@"会员就是任性,立减%.2f元", resultPrice];
+            }else {
+                OrderVC.tips = [NSString stringWithFormat:@"会员就是任性,立减%.f元", resultPrice];
+            }
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             
@@ -1161,7 +1169,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark UITextFieldDelegate
+#pragma mark - UITextFieldDelegate
 
 - (void)textViewDidChange:(UITextView *)textView{
     
@@ -1319,7 +1327,7 @@ APChooseViewDelegate
     [keyWindow endEditing:YES];
 }
 
-#pragma mark 删除活动  LMActivityDeleteRequest
+#pragma mark - 删除活动  LMActivityDeleteRequest
 
 - (void)deleteActivity
 {
@@ -1379,7 +1387,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark --删除评论
+#pragma mark -- 删除评论
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
@@ -1509,7 +1517,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark -活动大图
+#pragma mark - 活动大图
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
@@ -1523,7 +1531,7 @@ APChooseViewDelegate
     
 }
 
-#pragma mark --项目大图
+#pragma mark -- 项目大图
 
 - (void)cellProjectImage:(LMEventMsgCell *)cell
 {
@@ -1565,7 +1573,7 @@ APChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始活动
+#pragma mark  -- 开始活动
 
 - (void)startActivity
 {
@@ -1628,7 +1636,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark   --结束活动
+#pragma mark   -- 结束活动
 
 - (void)endActivity
 {
@@ -1848,7 +1856,7 @@ APChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark = 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1859,11 +1867,11 @@ APChooseViewDelegate
     return newImage;
 }
 
-
+#pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
-    
+    NSString *urlString = SHARE_LINK; //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+
     switch (type) {
         case 1://微信好友
         {

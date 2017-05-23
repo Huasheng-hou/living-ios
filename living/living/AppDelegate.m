@@ -270,6 +270,9 @@ UNUserNotificationCenterDelegate
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    
+    
+    
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"aliPayEnsure" object:resultDic];

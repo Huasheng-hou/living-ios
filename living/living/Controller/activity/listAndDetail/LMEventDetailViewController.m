@@ -1186,7 +1186,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark -活动大图
+#pragma mark - 活动大图
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
@@ -1335,7 +1335,7 @@ APChooseViewDelegate
 }
 
 
-#pragma mark --项目大图
+#pragma mark -- 项目大图
 
 -(void)cellProjectImage:(LMEventMsgCell *)cell
 {
@@ -1376,7 +1376,7 @@ APChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始活动
+#pragma mark  -- 开始活动
 -(void)startActivity
 {
     if (![CheckUtils isLink]) {
@@ -1418,7 +1418,7 @@ APChooseViewDelegate
 }
 
 
-#pragma mark   --结束活动
+#pragma mark   -- 结束活动
 
 - (void)endActivity
 {
@@ -1490,7 +1490,7 @@ APChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark - 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1501,10 +1501,10 @@ APChooseViewDelegate
     return newImage;
 }
 
-
+#pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+    NSString *urlString = SHARE_LINK; //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
     
     switch (type) {
         case 1://微信好友

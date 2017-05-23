@@ -64,7 +64,7 @@ LMChooseViewDelegate
     UIImageView * qrCode;
     NSString * voiceCode;
     NSString * tip;
-    
+    CGFloat resultPrice;
     
     UILabel  *tipLabel;
     UIButton *zanButton;
@@ -884,11 +884,11 @@ LMChooseViewDelegate
             
             CGFloat totalPrice = [eventDic.perCost floatValue];
             CGFloat nowPrice = [eventDic.discount floatValue];
-            CGFloat resultPrice = totalPrice - nowPrice;
+            resultPrice = totalPrice - nowPrice;
             if (resultPrice > (NSInteger)resultPrice) {
-                tip = [NSString stringWithFormat:@"%@就是任性,立减%.2f元", eventDic.publishName, resultPrice];
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.2f元", resultPrice];
             }else {
-                tip = [NSString stringWithFormat:@"%@就是任性,立减%.f元", eventDic.publishName, resultPrice];
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.f元", resultPrice];
             }
             infoView.tipLabel.text = tip;
             
@@ -1750,9 +1750,10 @@ LMChooseViewDelegate
 }
 
 
+#pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
+    NSString *urlString = SHARE_LINK; //@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
 //    NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
     
     switch (type) {
