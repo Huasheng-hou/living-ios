@@ -1870,7 +1870,8 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = SHARE_LINK; //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+    NSString *urlString = [NSString stringWithFormat:@"%@?type=1&uuid=%@",SHARE_LINK,_eventUuid]; 
+    //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
 
     switch (type) {
         case 1://微信好友

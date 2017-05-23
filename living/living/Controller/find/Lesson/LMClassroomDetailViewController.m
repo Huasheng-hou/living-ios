@@ -1753,15 +1753,16 @@ LMChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = SHARE_LINK; //@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
-//    NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
+    NSString *urlString = [NSString stringWithFormat:@"%@?type=3&uuid=%@",SHARE_LINK,_voiceUUid];
+    //@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
+    //NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
     
     switch (type) {
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
-            //            message.description=eventDic.describe;
+            //message.description=eventDic.describe;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];

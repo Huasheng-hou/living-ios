@@ -27,6 +27,11 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <UserNotifications/UserNotifications.h>
 #import "UMMobClick/MobClick.h"
+
+#import "LMHomeDetailController.h"
+
+
+
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
 
 
@@ -270,7 +275,17 @@ UNUserNotificationCenterDelegate
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    
+    if ([url.absoluteString hasPrefix:@"yaoguo://"]) {
+        
+        NSString * urlStr = url.absoluteString;
+        
+        NSString * paramStr = [urlStr componentsSeparatedByString:@"?"][1];
+        NSString * typeStr = [paramStr substringWithRange:NSMakeRange(5, 1)];
+        NSString * uuidStr = [paramStr substringWithRange:NSMakeRange(12, paramStr.length - 12)];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"goToDetailFromShareLink" object:nil  userInfo:@{@"type":typeStr, @"uuid":uuidStr}];
+        
+        return YES;
+    }
     
     
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
@@ -293,6 +308,21 @@ UNUserNotificationCenterDelegate
 // NOTE: 9.0以后使用新API接口
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
+    
+    
+    if ([url.absoluteString hasPrefix:@"yaoguo://"]) {
+        
+        NSString * urlStr = url.absoluteString;
+        
+        NSString * paramStr = [urlStr componentsSeparatedByString:@"?"][1];
+        NSString * typeStr = [paramStr substringWithRange:NSMakeRange(5, 1)];
+        NSString * uuidStr = [paramStr substringWithRange:NSMakeRange(12, paramStr.length - 12)];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"goToDetailFromShareLink" object:nil  userInfo:@{@"type":typeStr, @"uuid":uuidStr}];
+        
+        return YES;
+    }
+    
+    
     
     if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@",TENCENT_CONNECT_APP_KEY]]) {
         
