@@ -1659,17 +1659,11 @@ LMContentTableViewCellDelegate
 - (void)clickViewVideoTag:(NSInteger)viewTag andSubViewTag:(NSInteger)tag
 {
     NSString *string = [NSString new];
-    for (BlendVO *vo in newImageArray) {
-        NSArray *imgArray;
-        imgArray = vo.images;
-        for (NSDictionary *dic in imgArray) {
-            if (dic[@"type"]&&[dic[@"type"] isEqual:@"video"]) {
-              string = dic[@"videoUrl"];
-            }
-            
-        }
-    }
-    //NSLog(@"********%@",string);
+    
+    BlendVO * vo = newImageArray[viewTag];
+    NSArray * imgArray = vo.images;
+    NSDictionary * dic = imgArray[tag];
+    string = dic[@"videoUrl"];
     
     if (string&&![string isEqual:@""]) {
         PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:string];
