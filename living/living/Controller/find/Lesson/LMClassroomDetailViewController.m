@@ -168,7 +168,7 @@ LMChooseViewDelegate
     
     [self.view addSubview:headerView];
 
-    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 64, 40, 40)];
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
     qrCode.image = [UIImage imageNamed:@"qrcode"];
     qrCode.contentMode = UIViewContentModeScaleAspectFill;
     qrCode.backgroundColor = [UIColor clearColor];
@@ -1753,7 +1753,7 @@ LMChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@?type=3&uuid=%@",SHARE_LINK,_voiceUUid];
+    NSString *urlString = [NSString stringWithFormat:@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=%@", _voiceUUid];
     //@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
     //NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
     

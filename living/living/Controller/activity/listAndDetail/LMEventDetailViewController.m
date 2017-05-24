@@ -51,7 +51,7 @@
 #import "LMEvaluateViewController.h"
 #import "LMEventDetailJudgeListCell.h"
 
-
+#import "LMEventClassCodeController.h"
 
 
 static CGRect oldframe;
@@ -67,6 +67,8 @@ shareTypeDelegate,
 APChooseViewDelegate
 >
 {
+    UIImageView * qrCode;
+    
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -156,8 +158,29 @@ APChooseViewDelegate
     [self.view addSubview:headerView];
     
     [self creatHeaderView];
-}
+    
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
+    qrCode.image = [UIImage imageNamed:@"qrcode"];
+    qrCode.contentMode = UIViewContentModeScaleAspectFill;
+    qrCode.backgroundColor = [UIColor clearColor];
+    qrCode.clipsToBounds = YES;
+    qrCode.layer.cornerRadius = 20;
+    qrCode.userInteractionEnabled = YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCode:)];
+    [qrCode addGestureRecognizer:tap];
+    [self.view addSubview:qrCode];
 
+    
+}
+- (void)tapCode:(UITapGestureRecognizer *)tap {
+    
+    LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
+    codeVC.navigationItem.title = @"项目二维码";
+    codeVC.name = eventDic.eventName;
+    codeVC.codeUrl = eventDic.eventCode;
+    codeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:codeVC animated:YES];
+}
 - (void)creatHeaderView
 {
     //活动人头像
@@ -955,6 +978,7 @@ APChooseViewDelegate
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        qrCode.hidden = YES;
         
     }else{
         if (hiddenIndex==2) {
@@ -967,6 +991,7 @@ APChooseViewDelegate
         
         self.navigationController.navigationBar.hidden=NO;
         headerView.hidden=YES;
+        qrCode.hidden = NO;
     }
 }
 
@@ -1504,7 +1529,7 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@?type=2&uuid=%@",SHARE_LINK,_eventUuid];
+    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@",_eventUuid];
     //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
     
     switch (type) {

@@ -170,7 +170,7 @@ APChooseViewDelegate
     [self.view addSubview:headerView];
     
     
-    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-40, 64, 40, 40)];
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
     qrCode.image = [UIImage imageNamed:@"qrcode"];
     qrCode.contentMode = UIViewContentModeScaleAspectFill;
     qrCode.backgroundColor = [UIColor clearColor];
@@ -1870,7 +1870,7 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@?type=1&uuid=%@",SHARE_LINK,_eventUuid]; 
+    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@", _eventUuid]; 
     //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
 
     switch (type) {
