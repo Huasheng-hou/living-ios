@@ -1870,7 +1870,7 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@", _eventUuid]; 
+    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=1", _eventUuid]; 
     //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
 
     switch (type) {

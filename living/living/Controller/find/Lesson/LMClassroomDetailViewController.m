@@ -1753,10 +1753,9 @@ LMChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=%@", _voiceUUid];
+    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/voice/detail?voiceUuid=%@", _voiceUUid];
     //@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
-    //NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
-    
+
     switch (type) {
         case 1://微信好友
         {

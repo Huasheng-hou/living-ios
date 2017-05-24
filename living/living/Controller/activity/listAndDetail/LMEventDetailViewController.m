@@ -1529,7 +1529,7 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@",_eventUuid];
+    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=2",_eventUuid];
     //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
     
     switch (type) {
@@ -1537,7 +1537,7 @@ APChooseViewDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-            //            message.description=eventDic.describe;
+            message.description=@""; //eventDic.describe;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];

@@ -1470,7 +1470,8 @@ LMContentTableViewCellDelegate
 
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://120.26.64.40/living-web/apparticle/article?fakeId="; //@"http://yaoguo1818.com/living-web/apparticle/article?fakeId=";
+    NSString *urlString = @"http://120.26.64.40/living-web/apparticle/article?fakeId=";
+    //@"http://yaoguo1818.com/living-web/apparticle/article?fakeId=";
     
     switch (type) {
         case 1://微信好友
