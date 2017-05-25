@@ -16,7 +16,7 @@
     CGFloat headImgH;
 }
 
-
+@property (nonatomic, strong) UIView * shadow;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
@@ -60,9 +60,15 @@
     UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
     [_imageV addGestureRecognizer:tapImage];
     
+    
+    _shadow = [UIView new];
+    _shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    [_imageV addSubview:_shadow];
+    
+    
+    
     //活动人数
     _countLabel = [UILabel new];
-    
     _countLabel.textColor = TEXT_COLOR_LEVEL_2;
     _countLabel.font = [UIFont systemFontOfSize:13.f];
     [self.contentView addSubview:_countLabel];
@@ -124,8 +130,6 @@
     [_shareButton addTarget:self action:@selector(shareButton:) forControlEvents:UIControlEventTouchUpInside];
     [_shareButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
     _shareButton.layer.cornerRadius = 3;
-    //    _shareButton.layer.borderColor =LIVING_COLOR.CGColor;
-    //    _shareButton.layer.borderWidth = 0.5;
     [self.contentView addSubview:_shareButton];
     
     
@@ -228,7 +232,6 @@
                 UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
                 headImage.backgroundColor = BG_GRAY_COLOR;
                 [headImage sd_setImageWithURL:[NSURL URLWithString:[_voiceVO.list[i] objectForKey:@"userAvatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-//                headImage.image = [UIImage imageNamed:@"headIcon"];
                 headImage.layer.cornerRadius = 2;
                 headImage.contentMode = UIViewContentModeScaleAspectFill;
                 headImage.clipsToBounds = YES;
@@ -243,7 +246,6 @@
             for (int i = 0; i<num; i++) {
                 UIImageView *headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10*(i+1)+i*imgW, 0, imgW, imgW)];
                 [headImage sd_setImageWithURL:[NSURL URLWithString:[_voiceVO.list[i] objectForKey:@"userAvatar"]] placeholderImage:[UIImage imageNamed:@"headIcon"]];
-//                headImage.image = [UIImage imageNamed:@"headIcon"];
                 headImage.layer.cornerRadius = 2;
                 headImage.contentMode = UIViewContentModeScaleAspectFill;
                 headImage.clipsToBounds = YES;
@@ -271,6 +273,7 @@
     [_nameLabel sizeToFit];
     [_imageV sizeToFit];
     [_titleLabel sizeToFit];
+    [_titleLabel sizeToFit];
     [_countLabel sizeToFit];
     [_headV sizeToFit];
     //[_joinLabel sizeToFit];
@@ -278,6 +281,9 @@
     [_shareButton sizeToFit];
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
+    
+    _shadow.frame = _imageV.bounds;
+    
     _headV.frame = CGRectMake(15, 10+_imageV.bounds.size.height, 40, 40);
     
     _nameLabel.frame = CGRectMake(61, 14+_imageV.bounds.size.height, kScreenWidth-65-80-61, _nameLabel.bounds.size.height);

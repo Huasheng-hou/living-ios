@@ -14,13 +14,10 @@
 #import "LMActivityheadCell.h"
 #import "LMActivityMsgCell.h"
 #import "LMMapViewCell.h"
-
 #import "LMActivityDetailRequest.h"
-
 #import "LMEventCommentVO.h"
 #import "LMEventBodyVO.h"
 #import "LMProjectBodyVO.h"
-
 #import "LMEventJoinRequest.h"
 #import "LMEventLivingMsgRequest.h"
 #import "LMEventpraiseRequest.h"
@@ -28,14 +25,11 @@
 #import "APChooseView.h"
 #import "UIImageView+WebCache.h"
 #import "LMActivityDeleteRequest.h"
-
 #import "LMBesureOrderViewController.h"
 #import "FitNavigationController.h"
-
 #import "LMEventCommentRequest.h"
 #import "LMEventReplydeleteRequest.h"
 #import "ImageHelpTool.h"
-
 #import "SYPhotoBrowser.h"
 #import "LMEventEndRequest.h"
 #import "LMEventStartRequest.h"
@@ -43,14 +37,9 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
 #import "PlayerViewController.h"
-
 #import "LMWriteReviewController.h"
-
-
 //地图导航
 #import "LMNavMapViewController.h"
-
-
 #import "LMEventClassCodeController.h"
 
 
@@ -169,7 +158,7 @@ APChooseViewDelegate
     
     [self.view addSubview:headerView];
     
-    
+    //二维码图标
     qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
     qrCode.image = [UIImage imageNamed:@"qrcode"];
     qrCode.contentMode = UIViewContentModeScaleAspectFill;
@@ -182,6 +171,7 @@ APChooseViewDelegate
     [self.view addSubview:qrCode];
     
 }
+#pragma mark - 进入二维码界面
 - (void)tapCode:(UITapGestureRecognizer *)tap {
     
     LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
@@ -191,7 +181,7 @@ APChooseViewDelegate
     codeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:codeVC animated:YES];
 }
-
+#pragma mark - 请求活动数据
 - (void)getEventListDataRequest
 {
     [self initStateHud];
@@ -342,7 +332,7 @@ APChooseViewDelegate
         [self textStateHUD:str];
     }
 }
-
+#pragma mark - 编写活动回顾
 - (void)review{
     
     LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
@@ -352,6 +342,8 @@ APChooseViewDelegate
     [self.navigationController pushViewController:reviewVC animated:YES];
     
 }
+
+#pragma mark - tableView代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
@@ -675,7 +667,7 @@ APChooseViewDelegate
     return nil;
 }
 
-#pragma mark 拨打电话
+#pragma mark - 拨打电话
 
 - (void)callTelephone
 {
@@ -702,7 +694,7 @@ APChooseViewDelegate
     
 }
 
-#pragma mark 跳转到地图
+#pragma mark - 跳转到地图
 
 -(void)transitionMapView
 {
@@ -830,6 +822,7 @@ APChooseViewDelegate
     [commentText becomeFirstResponder];//再次让textView成为第一响应者（第二次）这次键盘才成功显示
 }
 
+#pragma mark - 评论
 - (void)createCommentsView
 {
     if (!commentsView) {
@@ -1169,7 +1162,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView{
     
@@ -1203,7 +1196,26 @@ APChooseViewDelegate
     
     return YES;
 }
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self scrollEditingRectToVisible:textView.frame EditingView:textView];
+}
 
+- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+{
+    CGFloat     keyboardHeight  = 280;
+    
+    if (view && view.superview) {
+        rect    = [self.tableView convertRect:rect fromView:view.superview];
+    }
+    
+    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        return;
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+}
+#pragma mark - scrollView代理方法
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
@@ -1229,7 +1241,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark  -- 活动留言或评论
+#pragma mark  - 活动留言或评论
 
 - (void)besureAction:(id)sender
 {
@@ -1301,25 +1313,7 @@ APChooseViewDelegate
     }
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView
-{
-    [self scrollEditingRectToVisible:textView.frame EditingView:textView];
-}
 
-- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
-{
-    CGFloat     keyboardHeight  = 280;
-    
-    if (view && view.superview) {
-        rect    = [self.tableView convertRect:rect fromView:view.superview];
-    }
-    
-    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
-        return;
-    }
-    
-    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
-}
 
 - (void)resignCurrentFirstResponder
 {
@@ -1387,7 +1381,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark -- 删除评论
+#pragma mark - 删除评论
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
@@ -1573,7 +1567,7 @@ APChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  -- 开始活动
+#pragma mark  - 开始活动
 
 - (void)startActivity
 {
@@ -1636,7 +1630,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark   -- 结束活动
+#pragma mark   - 结束活动
 
 - (void)endActivity
 {
@@ -1701,7 +1695,7 @@ APChooseViewDelegate
     }
 }
 
-//活动举报按钮
+#pragma mark - 活动举报按钮
 - (void)cellWillreport:(LMActivityMsgCell *)cell
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该活动"

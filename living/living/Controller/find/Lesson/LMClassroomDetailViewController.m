@@ -200,7 +200,7 @@ LMChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-
+#pragma mark - 请求数据
 - (void)getEventListDataRequest
 {
     [self initStateHud];

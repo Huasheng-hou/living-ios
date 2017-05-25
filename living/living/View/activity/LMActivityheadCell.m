@@ -14,7 +14,7 @@
     float _yScale;
 }
 
-
+@property (nonatomic, strong) UIView * shadow;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
@@ -49,6 +49,11 @@
     _imageV.clipsToBounds = YES;
     [self.contentView addSubview:_imageV];
     _imageV.userInteractionEnabled = YES;
+    
+    _shadow = [UIView new];
+    _shadow.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    [_imageV addSubview:_shadow];
+    
     
     UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage:)];
     [_imageV addGestureRecognizer:tapImage];
@@ -122,7 +127,7 @@
     }else{
         _nameLabel.text = [NSString stringWithFormat:@"%@",event.publishName];
     }
-//    _titleLabel.text = event.eventName;
+    _titleLabel.text = event.eventName;
     [_headV sd_setImageWithURL:[NSURL URLWithString:event.publishAvatar]];
     
     if (_type == 1) {
@@ -201,6 +206,7 @@
     [super layoutSubviews];
     [_nameLabel sizeToFit];
     [_imageV sizeToFit];
+    [_shadow sizeToFit];
     [_titleLabel sizeToFit];
     [_countLabel sizeToFit];
     [_headV sizeToFit];
@@ -208,6 +214,7 @@
     
     
     _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth*3/5);
+    _shadow.frame = _imageV.bounds;
     
     _titleLabel.frame = CGRectMake(15, _imageV.bounds.size.height-_titleLabel.bounds.size.height*2, kScreenWidth-30, _titleLabel.bounds.size.height*2);
     
