@@ -135,24 +135,59 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define imageW  kScreenWidth/2
 
 
-//支付协议
-//#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"  //测试
-#define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"   //正式
 
 
-//正式服务器
-//#define SERVER_HOST @"http://api.yaoguo1818.com/living/"
-//测试服务器
+#define DEBUG_VERSION 1
+
+#ifdef DEBUG_VERSION
+///////*************   测试    ******************////////////
+
+//服务器
 #define SERVER_HOST @"http://120.26.64.40/living/"
-
-
-//正式websocket
-//#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connec/t/websocket"
-//测试websocket
+//支付协议
+#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"
+//websocket
 #define WEBSOCKET @"ws://116.62.37.248/live-connect/websocket"
 
+//////////分享链接
 
-#define SHARE_LINK @"http://120.26.243.47:3006/living-share-h5/H5/cashew-download.html"
+//文章
+#define ARTICLE_SHARE_LINK @"http://120.26.64.40/living-web/apparticle/article?fakeId=%@"
+//活动
+#define ACTIVITY_SHARE_LINK @"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=1"
+//项目
+#define ITEM_SHARE_LINK @"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=2"
+//课程
+#define CLASS_SHARE_LINK @"http://120.26.64.40/living-web/voice/detail?voiceUuid=%@"
 
+
+
+
+#else
+
+///////*************   正式    ******************////////////
+
+//服务器
+#define SERVER_HOST @"http://api.yaoguo1818.com/living/"
+//支付协议
+#define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"
+//websocket
+#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connec/t/websocket"
+
+//////////分享链接
+//文章
+#define ARTICLE_SHARE_LINK @"http://yaoguo1818.com/living-web/apparticle/article?fakeId=%@"
+//活动
+#define ACTIVITY_SHARE_LINK @"http://yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=1"
+//项目
+#define ITEM_SHARE_LINK @"http://yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=2"
+//课程
+#define CLASS_SHARE_LINK @"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
+
+
+
+
+
+#endif
 
 

@@ -1870,15 +1870,14 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=1", _eventUuid]; 
-    //@"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+    NSString *urlString = [NSString stringWithFormat:ACTIVITY_SHARE_LINK, _eventUuid];
 
     switch (type) {
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-//            message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1893,7 +1892,7 @@ APChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl = urlString; //[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl = urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1907,7 +1906,7 @@ APChooseViewDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-//            message.description=articleData.describe;
+            message.description=eventDic.notices;
             
             
             if (imageArray.count==0) {
@@ -1922,7 +1921,7 @@ APChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=urlString; //[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1944,7 +1943,7 @@ APChooseViewDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.eventImg description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1965,7 +1964,6 @@ APChooseViewDelegate
             [QQApiInterface SendReqToQZone:req];
         }
             break;
-            
         default:
             break;
     }
@@ -1978,10 +1976,8 @@ APChooseViewDelegate
         if (vo.videoUrl&&![vo.videoUrl isEqual:@""]) {
             string = vo.videoUrl;
         }
-
     }
 
-    
     if (string&&![string isEqual:@""]) {
         PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:string];
         [self presentViewController:playVC animated:NO completion:^{

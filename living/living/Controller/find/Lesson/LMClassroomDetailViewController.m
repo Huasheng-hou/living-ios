@@ -1753,15 +1753,14 @@ LMChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://120.26.64.40/living-web/voice/detail?voiceUuid=%@", _voiceUUid];
-    //@"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
+    NSString *urlString = [NSString stringWithFormat:CLASS_SHARE_LINK, _voiceUUid];
 
     switch (type) {
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
-            //message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1776,7 +1775,7 @@ LMChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=urlString; //[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
             req.bText=NO;
@@ -1789,7 +1788,7 @@ LMChooseViewDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
-//                        message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1803,7 +1802,7 @@ LMChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=urlString; //[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
