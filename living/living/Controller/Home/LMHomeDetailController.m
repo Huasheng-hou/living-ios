@@ -1183,11 +1183,7 @@ LMContentTableViewCellDelegate
                 }else{
                     contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
                 }
-                    
-                
-                
             }
-            
             return cell;
             
         }
