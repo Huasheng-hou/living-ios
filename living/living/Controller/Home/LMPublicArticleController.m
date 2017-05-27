@@ -107,6 +107,7 @@ static NSMutableArray *cellDataArray;
     [self createUI];
     typeIndex = nil;
     type = 1;
+    imageNum = 0;
     imageArray      = [NSMutableArray arrayWithCapacity:0];
     imageViewArray  = [NSMutableArray new];
     cellDataArray   = [NSMutableArray new];
@@ -459,15 +460,14 @@ static NSMutableArray *cellDataArray;
             
             
         }
-        //[projectImageArray insertObject:imageViewArray atIndex:addImageIndex];
         [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:addImageIndex inSection:0];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self getImageURL:updateImageArray];
         });
-        //[self refreshData];
         
-        [self getImageURL:updateImageArray];
+        
     }
     
 }
@@ -530,7 +530,7 @@ static NSMutableArray *cellDataArray;
     [self initStateHud];
     
     NSMutableArray *urlArray = [NSMutableArray new];
-    
+    NSMutableDictionary * urlDict = [NSMutableDictionary new];
     for (int i = 0; i < imgArr.count; i++) {
         
         FirUploadImageRequest   *request    = [[FirUploadImageRequest alloc] initWithFileName:@"file"];
@@ -552,8 +552,8 @@ static NSMutableArray *cellDataArray;
                                                        
                                                        if (imgUrl && [imgUrl isKindOfClass:[NSString class]]) {
                                                            
+                                                           [urlDict setObject:imgUrl forKey:[NSNumber numberWithInt:i]];
                                                            [urlArray addObject:imgUrl];
-                                                           
                                                        } else {
                                                            //[urlArray addObject:@""];
                                                        }
@@ -564,8 +564,12 @@ static NSMutableArray *cellDataArray;
                                                    }
                                                    
                                                    if (urlArray.count == imgArr.count) {
+                                                       [urlArray removeAllObjects];
+                                                       for (int j=0; j<imgArr.count; j++) {
+                                                           [urlArray addObject:urlDict[[NSNumber numberWithInt:j]]];
+                                                       }
                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                           
+                                                 
                                                            if (typeIndex&&![typeIndex isEqual:@""]) {
                                                                [self sendVideo:videoData andArray:urlArray];
                                                            }else{
