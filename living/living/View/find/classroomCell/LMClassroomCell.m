@@ -96,18 +96,33 @@
 
 -(void)setValue:(ClassroomVO *)list
 {
+    
+
+    
     titleLabel.text = list.voiceTitle;
     [headView sd_setImageWithURL:[NSURL URLWithString:list.image]];
     [headV sd_setImageWithURL:[NSURL URLWithString:list.avatar]];
     nameLabel.text = [NSString stringWithFormat:@"讲师:%@",list.nickname];
-    priceLabel.text = [NSString stringWithFormat:@"￥%@",list.perCost];
+//    priceLabel.text = [NSString stringWithFormat:@"￥%@",list.perCost];
+    
     NSDateFormatter     *formatter  = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     timeLabel.text = [NSString stringWithFormat:@"时间：%@", [formatter stringFromDate:list.startTime]];
 //    numberLabel.text = [NSString stringWithFormat:@"学员:%d",list.currentNum];
-    
-    
+    /////    审核    ////
+    NSDate * endDate = [formatter dateFromString:REVIEW_TIME];
+    NSTimeInterval endInterval = [endDate timeIntervalSince1970];
+    NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
+    if (endInterval < nowInterval) {
+        priceLabel.text = [NSString stringWithFormat:@"￥%@",list.perCost];
+    }else {
+        priceLabel.text = @"";
+    }
 }
+
+
+
+
 
 -(void)layoutSubviews
 {

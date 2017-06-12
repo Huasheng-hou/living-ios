@@ -136,8 +136,8 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 
 //支付协议
-//#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"  //测试
-#define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"   //正式
+#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"  //测试
+//#define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"   //正式
 
 
 //正式服务器
@@ -147,9 +147,9 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 
 //正式websocket
-//#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connec/t/websocket"
+//#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connect/websocket"
 //测试websocket
-#define WEBSOCKET @"ws://116.62.37.248/live-connect/websocket"
+#define WEBSOCKET @"ws://114.55.26.86/live-connect/websocket"
 
 
 

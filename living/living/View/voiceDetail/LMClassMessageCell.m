@@ -121,7 +121,18 @@
     if (event.perCost == nil) {
         _priceLabel.text = @"";
     }else{
-        _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
+        
+        ////   审核   ////
+        NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"YYYY-MM-dd HH:mm";
+        NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
+        NSDate * endDate = [formatter dateFromString:REVIEW_TIME];
+        NSTimeInterval endInterval = [endDate timeIntervalSince1970];
+        if (nowInterval < endInterval) {
+            _priceLabel.text = @"";
+        }else {
+            _priceLabel.text = [NSString stringWithFormat:@"人均费用 %@ 元",event.perCost];
+        }
     }
 }
 

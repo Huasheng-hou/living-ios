@@ -111,7 +111,7 @@ WJLoopViewDelegate
     
     [self creatUI];
     
-    [self getRecommendArticleRequest];
+    //[self getRecommendArticleRequest];
     [self loadNewer];
 }
 
