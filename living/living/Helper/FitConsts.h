@@ -147,9 +147,9 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 
 //正式websocket
-//#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connec/t/websocket"
+//#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connect/websocket"
 //测试websocket
-#define WEBSOCKET @"ws://116.62.37.248/live-connect/websocket"
+#define WEBSOCKET @"ws://114.55.26.86/live-connect/websocket"
 
 
 
