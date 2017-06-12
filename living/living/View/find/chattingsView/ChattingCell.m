@@ -212,8 +212,15 @@
         _packetButton.frame = CGRectMake(55+_chatNameLabel.bounds.size.width+30, 9, 22, 22);
         [_packetButton setHidden:NO];
     }
-    
-  
+    //////////  审核   ////////
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"YYYY-MM-dd HH:mm";
+    NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
+    NSDate * endDate = [formatter dateFromString:REVIEW_TIME];
+    NSTimeInterval endInterval = [endDate timeIntervalSince1970];
+    if (nowInterval < endInterval) {
+        [_packetButton setHidden:YES];
+    }
     
     [_packetButton addTarget:self action:@selector(tipAction:) forControlEvents:UIControlEventTouchUpInside];
     

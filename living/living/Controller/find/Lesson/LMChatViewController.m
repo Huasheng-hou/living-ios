@@ -419,6 +419,7 @@ LMExceptionalViewDelegate
 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [activity stopAnimating];
+                    [activity removeFromSuperview];
                 });
                 
             }
@@ -470,6 +471,7 @@ LMExceptionalViewDelegate
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [activity stopAnimating];
+        [activity removeFromSuperview];
     });
 }
 
@@ -1799,12 +1801,14 @@ LMExceptionalViewDelegate
     loadIndex = 2;
     
     if (ifloadMoreData == NO) {
+        [self stopAcyivity];
         return;
     }
-    [self loadActivity];
     
     FitBaseRequest * req = [self request];
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:req completed:^(NSString *resp, NSStringEncoding encoding) {
+        
+        [self stopAcyivity];
         
         NSArray * items = [self parseResponse:resp];
         

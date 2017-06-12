@@ -99,7 +99,17 @@
     [_nameLabel sizeToFit];
     _nameLabel.frame = CGRectMake(60, 32, _nameLabel.bounds.size.width, _nameLabel.bounds.size.height);
     
-    _countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@", _event.perCost];
+    //// 审核  ////
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"YYYY-MM-dd HH:mm";
+    NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
+    NSDate * endDate = [formatter dateFromString:REVIEW_TIME];
+    NSTimeInterval endInterval = [endDate timeIntervalSince1970];
+    if (nowInterval < endInterval) {
+        _countLabel.text = @"";
+    }else {
+        _countLabel.text = [NSString stringWithFormat:@"人均费用 ￥%@", _event.perCost];
+    }
     [_countLabel sizeToFit];
     _countLabel.frame = CGRectMake(60, 35+_nameLabel.bounds.size.height, _countLabel.bounds.size.width, _countLabel.bounds.size.height);
     

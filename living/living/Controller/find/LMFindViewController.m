@@ -65,8 +65,20 @@ LMFindCellDelegate
 {
     [super viewWillAppear:animated];
     if (![[FitUserManager sharedUserManager] isLogin]) {
+        NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"YYYY-MM-dd HH:mm";
+        NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
+        NSDate * endDate = [formatter dateFromString:REVIEW_TIME];
+        NSTimeInterval endInterval = [endDate timeIntervalSince1970];
+        NSString * msg;
+        if (nowInterval < endInterval) {
+            msg = @"请登录";
+        }else{
+            msg = @"发现页需要对新功能进行投票，请登录";
+        }
+
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                       message:@"发现页需要对新功能进行投票，请登录"
+                                                                       message:msg
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定"
                                                   style:UIAlertActionStyleDestructive

@@ -149,6 +149,7 @@ static CGFloat const ButtonHeight = 50;
     if (clickItem  == 1) {
         if (item == 0) {
             [self myjoin];
+            
         }
     }
     if (clickItem  == 2) {
