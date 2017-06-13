@@ -1166,7 +1166,7 @@ LMContentTableViewCellDelegate
 
                         headImage.userInteractionEnabled = YES;
                         if (i>0) {
-                            headImage.frame = CGRectMake(15, 10 + conHighs + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
+                            headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
                         }else{
                             headImage.frame = CGRectMake(15, 10 + conHighs, kScreenWidth-30, imageViewH);
                         }
