@@ -14,7 +14,8 @@
 #import "FitPayloadManager.h"
 #import "FitClientIDManager.h"
 #import <AVFoundation/AVFoundation.h>
-
+//Bugtags
+#import <Bugtags/Bugtags.h>
 //支付宝
 #import <AlipaySDK/AlipaySDK.h>
 //微信支付
@@ -27,7 +28,6 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <UserNotifications/UserNotifications.h>
 #import "UMMobClick/MobClick.h"
-
 #import "LMHomeDetailController.h"
 
 
@@ -58,6 +58,10 @@ UNUserNotificationCenterDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //Bugtags
+    // BTGInvocationEventNone, 静默模式，只收集 Crash 信息（如果允许）  /*正式*/
+    // BTGInvocationEventBubble  通过悬浮小球呼出 Bugtags   /*测试*/
+    [Bugtags startWithAppKey:BugAppKey invocationEvent:BTGInvocationEventBubble];
     
     // * 启动个推
     //

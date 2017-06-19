@@ -24,14 +24,18 @@
 //------------------第三方分享-------------------
 
 #define umAppKey                @"55d57f0d67e58ed077003880"
-
 #define umShareAppKey           @"560274c367e58ec5cb004a8d"
 
+//------------------Bugtags-------------------
+
+#define BugAppKey       @"c07430a1ee2d3b104750f0676ffb230a"
+#define BugAppSecret    @"8a8a8f84a77f0de7bb36d76c3038bbbd"
+
+//------------------微信--------------------
 
 ////暂时的，换车吧
 //#define wxAppID                 @"wxe6c31febbd05d58d"
 //#define wxAppSecret             @"efbbec4b7b7440e339f1192d0733082b"
-
 
 #define wxAppID                 @"wx443c64230b24fe24"
 #define wxAppSecret             @"434afce230f6a7fb72c2279e3c8dec57"
