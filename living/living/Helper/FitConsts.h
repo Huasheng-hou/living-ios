@@ -8,7 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <Bugtags/Bugtags.h>
 //------------------个推配置--------------------
 
 #define gtAppID                 @"Jms51IsCqtAeWqnCUAavX1"
@@ -153,7 +153,11 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 //websocket
 #define WEBSOCKET @"ws://116.62.37.248/live-connect/websocket"
 
-//////////分享链接
+//Bugtags
+#define BUG_MODE BTGInvocationEventBubble
+
+
+
 
 //文章
 #define ARTICLE_SHARE_LINK @"http://120.26.64.40/living-web/apparticle/article?fakeId=%@"
@@ -178,7 +182,11 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 //websocket
 #define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connec/t/websocket"
 
-//////////分享链接
+//Bugtags
+#define BUG_MODE BTGInvocationEventNone
+
+
+
 //文章
 #define ARTICLE_SHARE_LINK @"http://yaoguo1818.com/living-web/apparticle/article?fakeId=%@"
 //活动
