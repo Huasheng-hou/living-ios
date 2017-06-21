@@ -151,7 +151,7 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 //支付协议
 #define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"
 //websocket
-#define WEBSOCKET @"ws://116.62.37.248/live-connect/websocket"
+#define WEBSOCKET @"ws://114.55.26.86/live-connect/websocket"
 
 //Bugtags
 #define BUG_MODE BTGInvocationEventBubble
@@ -180,7 +180,7 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 //支付协议
 #define PAY_PROTOCOL_LINK @"http://yaoguo1818.com/living-web/pay-cn.html"
 //websocket
-#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connec/t/websocket"
+#define WEBSOCKET @"ws://websocket.yaoguo1818.com/live-connect/websocket"
 
 //Bugtags
 #define BUG_MODE BTGInvocationEventNone
