@@ -117,21 +117,26 @@
     }else{
         _idLabel.text = @"ID:";
     }
-
-    double  minTime = [[list.coupons[0] objectForKey:@"failtureTime"] doubleValue];;
-    for (NSDictionary * dic in list.coupons) {
-        double time = [dic[@"failtureTime"] doubleValue];
-        if (minTime > time) {
-            minTime = time;
+    
+    if (list.coupons.count > 0) {
+        double  minTime = [[list.coupons[0] objectForKey:@"failtureTime"] doubleValue];;
+        for (NSDictionary * dic in list.coupons) {
+            double time = [dic[@"failtureTime"] doubleValue];
+            if (minTime > time) {
+                minTime = time;
+            }
         }
+        
+        double timeInterval = [[NSDate date] timeIntervalSince1970];
+        if (minTime - timeInterval < 30 * 24 * 60 * 60 * 100) {
+            _endTime.textColor = [UIColor redColor];
+        }
+        
+        _endTime.text = [NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]];
+        
+    }else {
+        _endTime.text = @"无优惠券";
     }
-    
-    double timeInterval = [[NSDate date] timeIntervalSince1970];
-    if (minTime - timeInterval < 30 * 24 * 60 * 60 * 100) {
-        _endTime.textColor = [UIColor redColor];
-    }
-    
-    _endTime.text = [NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]];
     
     
 }
