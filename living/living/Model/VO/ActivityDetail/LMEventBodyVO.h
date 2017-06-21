@@ -45,5 +45,5 @@
 @property (nonatomic, strong) NSString *notices;
 @property (nonatomic, assign) int eventid;
 @property (nonatomic, assign) BOOL isBuy;
-
+@property (nonatomic, copy) NSString * eventCode;
 @end

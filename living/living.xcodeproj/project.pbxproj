@@ -409,7 +409,6 @@
 		35B748361DDE97F4000AFA26 /* FitShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747051DDE97F3000AFA26 /* FitShareView.m */; };
 		35B748371DDE97F4000AFA26 /* HBShareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747071DDE97F3000AFA26 /* HBShareButton.m */; };
 		35B748381DDE97F4000AFA26 /* HBShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B747091DDE97F3000AFA26 /* HBShareView.m */; };
-		35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B748391DDE9B37000AFA26 /* UMMobClick.framework */; };
 		35C218361E03DF62009371F4 /* LMChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C218351E03DF62009371F4 /* LMChatViewController.m */; };
 		35C218401E03DF83009371F4 /* ChattingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C218391E03DF83009371F4 /* ChattingCell.m */; };
 		35C218411E03DF83009371F4 /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C2183B1E03DF83009371F4 /* CustomToolbar.m */; };
@@ -538,6 +537,7 @@
 		D537C5A51E76A388002125E7 /* LMEventListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D537C5A41E76A388002125E7 /* LMEventListRequest.m */; };
 		D539B8981EBAC9010094B619 /* LMEditRemarksController.m in Sources */ = {isa = PBXBuildFile; fileRef = D539B8971EBAC9010094B619 /* LMEditRemarksController.m */; };
 		D539B89C1EBAD1500094B619 /* LMRemarkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D539B89B1EBAD1500094B619 /* LMRemarkRequest.m */; };
+		D540117F1ED2D91100BDFFED /* LMEventClassCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = D540117E1ED2D91100BDFFED /* LMEventClassCodeController.m */; };
 		D542F3BE1E6FE73B00CDB2EB /* LMYaoGuoBiController.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */; };
 		D542F3C21E6FEE8000CDB2EB /* LMYGBConvertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C11E6FEE8000CDB2EB /* LMYGBConvertCell.m */; };
 		D542F3C51E6FEEA900CDB2EB /* LMYGBActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D542F3C41E6FEEA900CDB2EB /* LMYGBActivityCell.m */; };
@@ -549,6 +549,7 @@
 		D54942701EB9CA280089CF0D /* LMExpertVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = D549426F1EB9CA280089CF0D /* LMExpertVoiceView.m */; };
 		D563F0941EA4C681004C4B28 /* LMSpecialRechargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */; };
 		D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */; };
+		D57565F11ED5823B00B28B68 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D57565F01ED5823B00B28B68 /* UMMobClick.framework */; };
 		D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */; };
 		D5944D221E83BAA8002DBA7D /* LMPublicEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D211E83BAA8002DBA7D /* LMPublicEventController.m */; };
 		D5944D261E83BFB0002DBA7D /* LMPublicEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D251E83BFB0002DBA7D /* LMPublicEventCell.m */; };
@@ -1450,7 +1451,6 @@
 		35B7470A1DDE97F3000AFA26 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		35B7470B1DDE97F3000AFA26 /* 腰果.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果.entitlements"; sourceTree = "<group>"; };
 		35B7470C1DDE97F3000AFA26 /* 腰果生活.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "腰果生活.entitlements"; sourceTree = "<group>"; };
-		35B748391DDE9B37000AFA26 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		35C218341E03DF5D009371F4 /* LMChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMChatViewController.h; sourceTree = "<group>"; };
 		35C218351E03DF62009371F4 /* LMChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMChatViewController.m; sourceTree = "<group>"; };
 		35C218381E03DF83009371F4 /* ChattingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChattingCell.h; sourceTree = "<group>"; };
@@ -1668,6 +1668,8 @@
 		D539B8971EBAC9010094B619 /* LMEditRemarksController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEditRemarksController.m; sourceTree = "<group>"; };
 		D539B89A1EBAD1500094B619 /* LMRemarkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRemarkRequest.h; sourceTree = "<group>"; };
 		D539B89B1EBAD1500094B619 /* LMRemarkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRemarkRequest.m; sourceTree = "<group>"; };
+		D540117D1ED2D91100BDFFED /* LMEventClassCodeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventClassCodeController.h; sourceTree = "<group>"; };
+		D540117E1ED2D91100BDFFED /* LMEventClassCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventClassCodeController.m; sourceTree = "<group>"; };
 		D542F3BC1E6FE73B00CDB2EB /* LMYaoGuoBiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMYaoGuoBiController.h; path = ../../LMYaoGuoBiController.h; sourceTree = "<group>"; };
 		D542F3BD1E6FE73B00CDB2EB /* LMYaoGuoBiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMYaoGuoBiController.m; path = ../../LMYaoGuoBiController.m; sourceTree = "<group>"; };
 		D542F3C01E6FEE8000CDB2EB /* LMYGBConvertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBConvertCell.h; sourceTree = "<group>"; };
@@ -1690,6 +1692,7 @@
 		D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeController.m; sourceTree = "<group>"; };
 		D563F0951EA4D7D9004C4B28 /* LMSpecialRechargeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSpecialRechargeRequest.h; sourceTree = "<group>"; };
 		D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeRequest.m; sourceTree = "<group>"; };
+		D57565F01ED5823B00B28B68 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		D5944D1C1E8377CA002DBA7D /* LMExpertSpaceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceRequest.h; sourceTree = "<group>"; };
 		D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceRequest.m; sourceTree = "<group>"; };
 		D5944D201E83BAA8002DBA7D /* LMPublicEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPublicEventController.h; sourceTree = "<group>"; };
@@ -1765,12 +1768,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D57565F11ED5823B00B28B68 /* UMMobClick.framework in Frameworks */,
 				D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */,
 				3533A7901E4DB3730088734A /* AssetsLibrary.framework in Frameworks */,
 				3533A7891E4D872F0088734A /* libPods-ALiVideoRecorder.a in Frameworks */,
 				D50E9FE51E7FCFAD000F2599 /* MAMapKit.framework in Frameworks */,
 				35B0734C1E48247300FEB168 /* Photos.framework in Frameworks */,
-				35B7483A1DDE9B37000AFA26 /* UMMobClick.framework in Frameworks */,
 				3505CE0A1E14E0BC007D896C /* libopencore-amrwb.a in Frameworks */,
 				8E8886241DCB018B009D3374 /* MessageUI.framework in Frameworks */,
 				8ECA2AD31DC9822F000CD0AB /* JavaScriptCore.framework in Frameworks */,
@@ -1820,6 +1823,7 @@
 		0375616249953AADF6976798 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D57565F01ED5823B00B28B68 /* UMMobClick.framework */,
 				D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */,
 				D50E9FDA1E7FCFAD000F2599 /* AMapFoundationKit.framework */,
 				D50E9FDB1E7FCFAD000F2599 /* AMapLocationKit.framework */,
@@ -1830,7 +1834,6 @@
 				D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */,
 				3533A78F1E4DB3730088734A /* AssetsLibrary.framework */,
 				35B0734B1E48247300FEB168 /* Photos.framework */,
-				35B748391DDE9B37000AFA26 /* UMMobClick.framework */,
 				8E8886231DCB018B009D3374 /* MessageUI.framework */,
 				8ECA2AD21DC9822F000CD0AB /* JavaScriptCore.framework */,
 				8ECA2AD01DC98227000CD0AB /* AdSupport.framework */,
@@ -1995,6 +1998,8 @@
 				35DCDD3C1DFE73D300813172 /* LMLessonAllViewController.m */,
 				355E7B591DFFB3550089BAB1 /* LMClassroomDetailViewController.h */,
 				355E7B5A1DFFB3550089BAB1 /* LMClassroomDetailViewController.m */,
+				D540117D1ED2D91100BDFFED /* LMEventClassCodeController.h */,
+				D540117E1ED2D91100BDFFED /* LMEventClassCodeController.m */,
 				355E7B771DFFE8C50089BAB1 /* LMPulicVoicViewController.h */,
 				355E7B781DFFE8C50089BAB1 /* LMPulicVoicViewController.m */,
 				355E7B7F1DFFF6C90089BAB1 /* LMChoosehostViewController.h */,
@@ -4578,7 +4583,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		3EDA935F2854A6B29E0E9E94 /* [CP] Copy Pods Resources */ = {
@@ -4842,6 +4847,7 @@
 				D53494BC1E779F0300A4442C /* LMExpertRecommendRequest.m in Sources */,
 				35B7481E1DDE97F4000AFA26 /* QRCodeReaderView.m in Sources */,
 				35B7476C1DDE97F3000AFA26 /* SQMenuShowCell.m in Sources */,
+				D540117F1ED2D91100BDFFED /* LMEventClassCodeController.m in Sources */,
 				D54942641EB985950089CF0D /* LMExpertHeadView.m in Sources */,
 				35B747801DDE97F3000AFA26 /* README.md in Sources */,
 				35B7480D1DDE97F4000AFA26 /* LMCouponChoseCell.m in Sources */,

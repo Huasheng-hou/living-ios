@@ -106,6 +106,13 @@
             && [[dictionary objectForKey:@"add_time"] isKindOfClass:[NSString class]]) {
             self.addTime = [dictionary objectForKey:@"add_time"];
         }
+        
+        if (nil != [dictionary objectForKey:@"coupons"] && ![[dictionary objectForKey:@"coupons"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"coupons"] isKindOfClass:[NSArray class]]) {
+            self.coupons = [dictionary objectForKey:@"coupons"];
+        }
+        
+        
     }
     
     return self;

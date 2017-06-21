@@ -14,13 +14,10 @@
 #import "LMActivityheadCell.h"
 #import "LMActivityMsgCell.h"
 #import "LMMapViewCell.h"
-
 #import "LMActivityDetailRequest.h"
-
 #import "LMEventCommentVO.h"
 #import "LMEventBodyVO.h"
 #import "LMProjectBodyVO.h"
-
 #import "LMEventJoinRequest.h"
 #import "LMEventLivingMsgRequest.h"
 #import "LMEventpraiseRequest.h"
@@ -28,14 +25,11 @@
 #import "APChooseView.h"
 #import "UIImageView+WebCache.h"
 #import "LMActivityDeleteRequest.h"
-
 #import "LMBesureOrderViewController.h"
 #import "FitNavigationController.h"
-
 #import "LMEventCommentRequest.h"
 #import "LMEventReplydeleteRequest.h"
 #import "ImageHelpTool.h"
-
 #import "SYPhotoBrowser.h"
 #import "LMEventEndRequest.h"
 #import "LMEventStartRequest.h"
@@ -43,12 +37,13 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
 #import "PlayerViewController.h"
-
 #import "LMWriteReviewController.h"
-
-
 //地图导航
 #import "LMNavMapViewController.h"
+#import "LMEventClassCodeController.h"
+
+
+
 static CGRect oldframe;
 @interface LMActivityDetailController ()
 <
@@ -64,6 +59,12 @@ shareTypeDelegate,
 APChooseViewDelegate
 >
 {
+    UIImageView * qrCode;
+    NSString * voiceCode;
+    NSString * tip;
+    CGFloat resultPrice;
+    
+    
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -156,8 +157,31 @@ APChooseViewDelegate
     headerView.delegate         = self;
     
     [self.view addSubview:headerView];
+    
+    //二维码图标
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
+    qrCode.image = [UIImage imageNamed:@"qrcode"];
+    qrCode.contentMode = UIViewContentModeScaleAspectFill;
+    qrCode.backgroundColor = [UIColor clearColor];
+    qrCode.clipsToBounds = YES;
+    qrCode.layer.cornerRadius = 20;
+    qrCode.userInteractionEnabled = YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCode:)];
+    [qrCode addGestureRecognizer:tap];
+    [self.view addSubview:qrCode];
+    
 }
-
+#pragma mark - 进入二维码界面
+- (void)tapCode:(UITapGestureRecognizer *)tap {
+    
+    LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
+    codeVC.navigationItem.title = @"活动二维码";
+    codeVC.name = eventDic.eventName;
+    codeVC.codeUrl = eventDic.eventCode;
+    codeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:codeVC animated:YES];
+}
+#pragma mark - 请求活动数据
 - (void)getEventListDataRequest
 {
     [self initStateHud];
@@ -308,7 +332,7 @@ APChooseViewDelegate
         [self textStateHUD:str];
     }
 }
-
+#pragma mark - 编写活动回顾
 - (void)review{
     
     LMWriteReviewController * reviewVC = [[LMWriteReviewController alloc] init];
@@ -318,6 +342,8 @@ APChooseViewDelegate
     [self.navigationController pushViewController:reviewVC animated:YES];
     
 }
+
+#pragma mark - tableView代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
@@ -641,7 +667,7 @@ APChooseViewDelegate
     return nil;
 }
 
-#pragma mark 拨打电话
+#pragma mark - 拨打电话
 
 - (void)callTelephone
 {
@@ -668,7 +694,7 @@ APChooseViewDelegate
     
 }
 
-#pragma mark 跳转到地图
+#pragma mark - 跳转到地图
 
 -(void)transitionMapView
 {
@@ -796,6 +822,7 @@ APChooseViewDelegate
     [commentText becomeFirstResponder];//再次让textView成为第一响应者（第二次）这次键盘才成功显示
 }
 
+#pragma mark - 评论
 - (void)createCommentsView
 {
     if (!commentsView) {
@@ -937,6 +964,16 @@ APChooseViewDelegate
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
             
+            CGFloat totalPrice = [eventDic.perCost floatValue];
+            CGFloat nowPrice = [eventDic.discount floatValue];
+            resultPrice = totalPrice - nowPrice;
+            if (resultPrice > (NSInteger)resultPrice) {
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.2f元", resultPrice];
+            }else {
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.f元", resultPrice];
+            }
+            infoView.tipLabel.text = tip;
+
             
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
@@ -984,6 +1021,7 @@ APChooseViewDelegate
 
 - (void)APChooseViewSelectItem:(NSInteger)num
 {
+    resultPrice *= num;
     if (phoneString&&![phoneString isEqualToString:@""]) {
         if (![CheckUtils isLink]) {
             
@@ -1104,6 +1142,12 @@ APChooseViewDelegate
             OrderVC.orderUUid   = orderID;
             NSLog(@"--------%@", orderID);
             OrderVC.dict        = orderDic;
+        
+            if (resultPrice > (NSInteger)resultPrice) {
+                OrderVC.tips = [NSString stringWithFormat:@"会员就是任性,立减%.2f元", resultPrice];
+            }else {
+                OrderVC.tips = [NSString stringWithFormat:@"会员就是任性,立减%.f元", resultPrice];
+            }
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             
@@ -1118,7 +1162,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark UITextFieldDelegate
+#pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView{
     
@@ -1152,7 +1196,26 @@ APChooseViewDelegate
     
     return YES;
 }
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self scrollEditingRectToVisible:textView.frame EditingView:textView];
+}
 
+- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
+{
+    CGFloat     keyboardHeight  = 280;
+    
+    if (view && view.superview) {
+        rect    = [self.tableView convertRect:rect fromView:view.superview];
+    }
+    
+    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
+        return;
+    }
+    
+    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
+}
+#pragma mark - scrollView代理方法
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
@@ -1160,6 +1223,7 @@ APChooseViewDelegate
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        qrCode.hidden = YES;
         hiddenIndex=2;
         
     }else{
@@ -1173,10 +1237,11 @@ APChooseViewDelegate
         
         self.navigationController.navigationBar.hidden=NO;
         headerView.hidden=YES;
+        qrCode.hidden = NO;
     }
 }
 
-#pragma mark  --活动留言或评论
+#pragma mark  - 活动留言或评论
 
 - (void)besureAction:(id)sender
 {
@@ -1248,25 +1313,7 @@ APChooseViewDelegate
     }
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView
-{
-    [self scrollEditingRectToVisible:textView.frame EditingView:textView];
-}
 
-- (void)scrollEditingRectToVisible:(CGRect)rect EditingView:(UIView *)view
-{
-    CGFloat     keyboardHeight  = 280;
-    
-    if (view && view.superview) {
-        rect    = [self.tableView convertRect:rect fromView:view.superview];
-    }
-    
-    if (rect.origin.y < kScreenHeight - keyboardHeight - rect.size.height - 64) {
-        return;
-    }
-    
-    [self.tableView setContentOffset:CGPointMake(0, rect.origin.y - (kScreenHeight - keyboardHeight - rect.size.height)) animated:YES];
-}
 
 - (void)resignCurrentFirstResponder
 {
@@ -1274,7 +1321,7 @@ APChooseViewDelegate
     [keyWindow endEditing:YES];
 }
 
-#pragma mark 删除活动  LMActivityDeleteRequest
+#pragma mark - 删除活动  LMActivityDeleteRequest
 
 - (void)deleteActivity
 {
@@ -1334,7 +1381,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark --删除评论
+#pragma mark - 删除评论
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
@@ -1464,7 +1511,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark -活动大图
+#pragma mark - 活动大图
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
@@ -1478,7 +1525,7 @@ APChooseViewDelegate
     
 }
 
-#pragma mark --项目大图
+#pragma mark -- 项目大图
 
 - (void)cellProjectImage:(LMEventMsgCell *)cell
 {
@@ -1520,7 +1567,7 @@ APChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始活动
+#pragma mark  - 开始活动
 
 - (void)startActivity
 {
@@ -1583,7 +1630,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark   --结束活动
+#pragma mark   - 结束活动
 
 - (void)endActivity
 {
@@ -1648,7 +1695,7 @@ APChooseViewDelegate
     }
 }
 
-//活动举报按钮
+#pragma mark - 活动举报按钮
 - (void)cellWillreport:(LMActivityMsgCell *)cell
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否举报该活动"
@@ -1803,7 +1850,7 @@ APChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark = 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1814,17 +1861,17 @@ APChooseViewDelegate
     return newImage;
 }
 
-
+#pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
-    
+    NSString *urlString = [NSString stringWithFormat:ACTIVITY_SHARE_LINK, _eventUuid];
+
     switch (type) {
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-//            message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1839,7 +1886,7 @@ APChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl = urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1853,7 +1900,7 @@ APChooseViewDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-//            message.description=articleData.describe;
+            message.description=eventDic.notices;
             
             
             if (imageArray.count==0) {
@@ -1868,7 +1915,7 @@ APChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1890,7 +1937,7 @@ APChooseViewDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_eventUuid]] title:eventDic.eventImg description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1905,13 +1952,12 @@ APChooseViewDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_eventUuid]] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];
         }
             break;
-            
         default:
             break;
     }
@@ -1924,10 +1970,8 @@ APChooseViewDelegate
         if (vo.videoUrl&&![vo.videoUrl isEqual:@""]) {
             string = vo.videoUrl;
         }
-
     }
 
-    
     if (string&&![string isEqual:@""]) {
         PlayerViewController *playVC=[[PlayerViewController alloc]initWithVideoUrl:string];
         [self presentViewController:playVC animated:NO completion:^{

@@ -158,6 +158,11 @@
         if (nil != [dictionary objectForKey:@"is_buy"] && ![[dictionary objectForKey:@"is_buy"] isEqual:[NSNull null]]) {
             self.isBuy = [(NSNumber *)[dictionary objectForKey:@"is_buy"] boolValue];
         }
+        if (nil != [dictionary objectForKey:@"voice_code"] && ![[dictionary objectForKey:@"voice_code"] isEqual:[NSNull null]]
+            && [[dictionary objectForKey:@"voice_code"] isKindOfClass:[NSString class]]) {
+            self.voiceCode = [dictionary objectForKey:@"voice_code"];
+        }
+        
     }
     
     return self;

@@ -1467,7 +1467,7 @@ LMContentTableViewCellDelegate
 
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/apparticle/article?fakeId=";
+    NSString *urlString = [NSString stringWithFormat:ARTICLE_SHARE_LINK, fakeId];
     
     switch (type) {
         case 1://微信好友
@@ -1492,7 +1492,7 @@ LMContentTableViewCellDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
+            web.webpageUrl = urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1524,7 +1524,7 @@ LMContentTableViewCellDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,fakeId];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1546,9 +1546,9 @@ LMContentTableViewCellDelegate
                 imageUrl=imageArray[0];
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
             if (_type == 2) {
-                txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.title description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+                txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:articleData.title description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
 
             }
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
@@ -1565,9 +1565,9 @@ LMContentTableViewCellDelegate
                 imageUrl=imageArray[0];
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:articleData.articleTitle description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
             if (_type == 2) {
-                txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,fakeId]] title:articleData.title description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
+                txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:articleData.title description:articleData.describe previewImageURL:[NSURL URLWithString:imageUrl]];
             }
 
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];

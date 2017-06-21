@@ -51,7 +51,7 @@
 #import "LMEvaluateViewController.h"
 #import "LMEventDetailJudgeListCell.h"
 
-
+#import "LMEventClassCodeController.h"
 
 
 static CGRect oldframe;
@@ -67,6 +67,8 @@ shareTypeDelegate,
 APChooseViewDelegate
 >
 {
+    UIImageView * qrCode;
+    
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -156,8 +158,29 @@ APChooseViewDelegate
     [self.view addSubview:headerView];
     
     [self creatHeaderView];
-}
+    
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
+    qrCode.image = [UIImage imageNamed:@"qrcode"];
+    qrCode.contentMode = UIViewContentModeScaleAspectFill;
+    qrCode.backgroundColor = [UIColor clearColor];
+    qrCode.clipsToBounds = YES;
+    qrCode.layer.cornerRadius = 20;
+    qrCode.userInteractionEnabled = YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCode:)];
+    [qrCode addGestureRecognizer:tap];
+    [self.view addSubview:qrCode];
 
+    
+}
+- (void)tapCode:(UITapGestureRecognizer *)tap {
+    
+    LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
+    codeVC.navigationItem.title = @"项目二维码";
+    codeVC.name = eventDic.eventName;
+    codeVC.codeUrl = eventDic.eventCode;
+    codeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:codeVC animated:YES];
+}
 - (void)creatHeaderView
 {
     //活动人头像
@@ -361,7 +384,7 @@ APChooseViewDelegate
         [self textStateHUD:str];
     }
 }
-
+#pragma mark - tableView代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
@@ -710,7 +733,6 @@ APChooseViewDelegate
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
             
-            
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
             infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
@@ -956,6 +978,7 @@ APChooseViewDelegate
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        qrCode.hidden = YES;
         
     }else{
         if (hiddenIndex==2) {
@@ -968,6 +991,7 @@ APChooseViewDelegate
         
         self.navigationController.navigationBar.hidden=NO;
         headerView.hidden=YES;
+        qrCode.hidden = NO;
     }
 }
 
@@ -1187,7 +1211,7 @@ APChooseViewDelegate
     }
 }
 
-#pragma mark -活动大图
+#pragma mark - 活动大图
 
 - (void)cellClickImage:(LMActivityheadCell *)cell
 {
@@ -1336,7 +1360,7 @@ APChooseViewDelegate
 }
 
 
-#pragma mark --项目大图
+#pragma mark -- 项目大图
 
 -(void)cellProjectImage:(LMEventMsgCell *)cell
 {
@@ -1377,7 +1401,7 @@ APChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始活动
+#pragma mark  -- 开始活动
 -(void)startActivity
 {
     if (![CheckUtils isLink]) {
@@ -1419,7 +1443,7 @@ APChooseViewDelegate
 }
 
 
-#pragma mark   --结束活动
+#pragma mark   -- 结束活动
 
 - (void)endActivity
 {
@@ -1491,7 +1515,7 @@ APChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark - 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1502,17 +1526,18 @@ APChooseViewDelegate
     return newImage;
 }
 
-
+#pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/event/detail?event_uuid=";
+    NSString *urlString = [NSString stringWithFormat:ITEM_SHARE_LINK, _eventUuid];
+   
     
     switch (type) {
         case 1://微信好友
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-            //            message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1527,7 +1552,7 @@ APChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1541,7 +1566,7 @@ APChooseViewDelegate
         {
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
-            //            message.description=articleData.describe;
+            message.description=eventDic.notices;
             
             
             if (imageArray.count==0) {
@@ -1556,7 +1581,7 @@ APChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_eventUuid];
+            web.webpageUrl=urlString; 
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1578,7 +1603,7 @@ APChooseViewDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_eventUuid]] title:eventDic.eventImg description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1593,7 +1618,7 @@ APChooseViewDelegate
                 imageUrl=eventDic.eventImg;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_eventUuid]] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.eventName description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];

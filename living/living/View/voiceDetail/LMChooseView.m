@@ -70,6 +70,13 @@
         _inventory.font = [UIFont systemFontOfSize:14];
         [self.bottomView addSubview:_inventory];
         
+        
+        //提示
+        _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(headView.frame)+10, kScreenWidth-30, 20)];
+        _tipLabel.textColor = TEXT_COLOR_LEVEL_1;
+        _tipLabel.font = TEXT_FONT_LEVEL_2;
+        [self.bottomView addSubview:_tipLabel];
+        
         //分界线
         UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,130, kScreenWidth, 0.5)];
         lineLabel.backgroundColor = [UIColor lightGrayColor];
