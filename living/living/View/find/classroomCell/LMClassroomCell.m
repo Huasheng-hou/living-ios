@@ -64,7 +64,7 @@
     [backView addSubview:headV];
     
     priceLabel = [UILabel new];
-    priceLabel.text = @"￥：999999";
+    priceLabel.text = @"￥9999";
     priceLabel.textColor = LIVING_REDCOLOR;
     [priceLabel sizeToFit];
     priceLabel.frame = CGRectMake(backView.frame.size.width-10-priceLabel.bounds.size.width, 45, priceLabel.bounds.size.width, 30);

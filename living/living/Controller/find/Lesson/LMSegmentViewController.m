@@ -124,15 +124,14 @@ static CGFloat const ButtonHeight = 50;
         iconArray=@[@"myJoin"];
     }
     if ([string isEqualToString:@"can"]) {
-        titleArray=@[@"我的",@"我参与"];
+        titleArray=@[@"发布", @"我的",@"我参与"];
         clickItem = 2;
-        iconArray=@[@"myVoice",@"myJoin"];
+        iconArray=@[@"publicVoice", @"myVoice",@"myJoin"];
     }
 
     
     moreView=[[MoreFunctionView alloc]initWithContentArray:titleArray andImageArray:iconArray];
     moreView.delegate=self;
-   
     
     backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     backView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -153,13 +152,13 @@ static CGFloat const ButtonHeight = 50;
         }
     }
     if (clickItem  == 2) {
-//        if (item == 0) {
-//            [self publicAction];
-//        }
         if (item == 0) {
-            [self myVoice];
+            [self publicAction];
         }
         if (item == 1) {
+            [self myVoice];
+        }
+        if (item == 2) {
             [self myjoin];
         }
     }

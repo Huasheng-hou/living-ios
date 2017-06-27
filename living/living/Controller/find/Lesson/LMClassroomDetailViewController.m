@@ -1182,7 +1182,7 @@ LMChooseViewDelegate
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"留言成功"];
             [self getEventListDataRequest];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 tipLabel.hidden=NO;
                 NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:0 inSection:3];
                 [[self tableView] scrollToRowAtIndexPath:indexPaths
