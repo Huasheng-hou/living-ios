@@ -159,11 +159,11 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 //文章
 #define ARTICLE_SHARE_LINK @"http://120.26.64.40/living-web/apparticle/article?fakeId=%@"
 //活动
-#define ACTIVITY_SHARE_LINK @"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=1"
+#define ACTIVITY_SHARE_LINK @"http://wechat.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=1"
 //项目
-#define ITEM_SHARE_LINK @"http://120.26.64.40/living-web/event/detail?event_uuid=%@&type=2"
+#define ITEM_SHARE_LINK @"http://wechat.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=2"
 //课程
-#define CLASS_SHARE_LINK @"http://120.26.64.40/living-web/voice/detail?voiceUuid=%@"
+#define CLASS_SHARE_LINK @"http://wechat.yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
 
 
 #else
