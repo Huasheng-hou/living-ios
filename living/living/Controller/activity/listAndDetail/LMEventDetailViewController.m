@@ -1529,12 +1529,14 @@ APChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:ITEM_SHARE_LINK, _eventUuid];
+    NSString *urlString = [NSString stringWithFormat:ITEM_SHARE_LINK_QQ, _eventUuid];
    
     
     switch (type) {
         case 1://微信好友
         {
+            urlString = [NSString stringWithFormat:ITEM_SHARE_LINK_WECHAT, _eventUuid];
+
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
             message.description=eventDic.notices;
@@ -1564,6 +1566,8 @@ APChooseViewDelegate
             break;
         case 2://微信朋友圈
         {
+            urlString = [NSString stringWithFormat:ITEM_SHARE_LINK_WECHAT, _eventUuid];
+
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.eventName;
             message.description=eventDic.notices;

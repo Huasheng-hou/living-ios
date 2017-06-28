@@ -1753,11 +1753,12 @@ LMChooseViewDelegate
 #pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:CLASS_SHARE_LINK, _voiceUUid];
+    NSString *urlString = [NSString stringWithFormat:CLASS_SHARE_LINK_QQ, _voiceUUid];
 
     switch (type) {
         case 1://微信好友
         {
+            urlString = [NSString stringWithFormat:CLASS_SHARE_LINK_WECHAT, _voiceUUid];
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
             message.description=eventDic.notices;
@@ -1786,6 +1787,7 @@ LMChooseViewDelegate
             break;
         case 2://微信朋友圈
         {
+            urlString = [NSString stringWithFormat:CLASS_SHARE_LINK_WECHAT, _voiceUUid];
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
             message.description=eventDic.notices;

@@ -1467,11 +1467,12 @@ LMContentTableViewCellDelegate
 
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = [NSString stringWithFormat:ARTICLE_SHARE_LINK, fakeId];
+    NSString *urlString = [NSString stringWithFormat:ARTICLE_SHARE_LINK_QQ, fakeId];
     
     switch (type) {
         case 1://微信好友
         {
+            urlString = [NSString stringWithFormat:ARTICLE_SHARE_LINK_WECHAT, fakeId];
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=articleData.articleTitle;
             if (_type == 2) {
@@ -1504,6 +1505,7 @@ LMContentTableViewCellDelegate
             break;
         case 2://微信朋友圈
         {
+            urlString = [NSString stringWithFormat:ARTICLE_SHARE_LINK_WECHAT, fakeId];
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=articleData.articleTitle;
             if (_type == 2) {
