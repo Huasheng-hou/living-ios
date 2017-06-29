@@ -29,6 +29,7 @@
     CustomButton *_recordButton;
     CustomButton *_recordSizeButton;
     CustomButton *_addButton;
+    UILabel * tipLabel;
 }
 
 @property (nonatomic, assign) NSInteger type;

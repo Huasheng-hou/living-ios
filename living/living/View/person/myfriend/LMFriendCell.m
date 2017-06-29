@@ -13,6 +13,9 @@
 @implementation LMFriendCell
 {
     UIImageView * _handImage;
+    
+    UILabel * _endTime;
+    
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -27,32 +30,36 @@
 
 -(void)addSubviews
 {
-    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 60, 60)];
+    _headImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 80, 80)];
     _headImage.layer.cornerRadius = 5;
     _headImage.contentMode = UIViewContentModeScaleAspectFill;
     _headImage.backgroundColor = BG_GRAY_COLOR;
     _headImage.clipsToBounds = YES;
     [self.contentView addSubview:_headImage];
     
-    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 0, 150, 30)];
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 0, 150, 30)];
     _nameLabel.font = TEXT_FONT_LEVEL_2;
     _nameLabel.textColor = TEXT_COLOR_LEVEL_1;
     [self.contentView addSubview:_nameLabel];
     
-    _idLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 30, 150, 20)];
+    _idLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 30, 150, 20)];
     _idLabel.font = TEXT_FONT_LEVEL_3;
     _idLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_idLabel];
     
-    _handImage = [[UIImageView alloc] initWithFrame:CGRectMake(85, 55, 15, 10)];
+    _handImage = [[UIImageView alloc] initWithFrame:CGRectMake(105, 55, 15, 10)];
     _handImage.image = [UIImage imageNamed:@"握手"];
     [self.contentView addSubview:_handImage];
     
-    _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 20)];
+    _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 50, 120, 20)];
     _timeLabel.font = TEXT_FONT_LEVEL_3;
     _timeLabel.textColor = TEXT_COLOR_LEVEL_2;
     [self.contentView addSubview:_timeLabel];
     
+    _endTime = [[UILabel alloc] initWithFrame:CGRectMake(105, 70, kScreenWidth/2, 20)];
+    _endTime.textColor = TEXT_COLOR_LEVEL_2;
+    _endTime.font = TEXT_FONT_LEVEL_3;
+    [self.contentView addSubview:_endTime];
     
     _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-15-150, 50, 150, 20)];
     _addressLabel.font = TEXT_FONT_LEVEL_3;
@@ -77,6 +84,7 @@
         _handImage.hidden = YES;
         _editBtn.hidden = YES;
         
+        _endTime.hidden = YES;
         _headImage.frame = CGRectMake(15, 10, 40, 40);
         _addressLabel.frame = CGRectMake(kScreenWidth-15-150, 30, 150, 20);
     }
@@ -109,7 +117,28 @@
     }else{
         _idLabel.text = @"ID:";
     }
-
+    
+    if (list.coupons.count > 0) {
+        double  minTime = [[list.coupons[0] objectForKey:@"failtureTime"] doubleValue];;
+        for (NSDictionary * dic in list.coupons) {
+            double time = [dic[@"failtureTime"] doubleValue];
+            if (minTime > time) {
+                minTime = time;
+            }
+        }
+        
+        double timeInterval = [[NSDate date] timeIntervalSince1970];
+        if (minTime - timeInterval < 30 * 24 * 60 * 60 * 100) {
+            _endTime.textColor = [UIColor redColor];
+        }
+        
+        _endTime.text = [NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]];
+        
+    }else {
+        _endTime.text = @"无优惠券";
+    }
+    
+    
 }
 
 -(void)layoutSubviews
@@ -125,11 +154,18 @@
         return;
     }
     
-    _nameLabel.frame = CGRectMake(85, 7, _nameLabel.bounds.size.width, 25);
-    _idLabel.frame = CGRectMake(85, 30, _idLabel.bounds.size.width, 20);
+    _nameLabel.frame = CGRectMake(105, 7, _nameLabel.bounds.size.width, 25);
+    _idLabel.frame = CGRectMake(105, 30, _idLabel.bounds.size.width, 20);
     
-    
-    
+}
+
+
+- (NSString *)getDateStringFromSeconds:(double)second {
+    NSDate * date = [NSDate dateWithTimeIntervalSince1970:second/1000];
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    NSString * dateStr = [formatter stringFromDate:date];
+    return dateStr;
 }
 
 

@@ -47,6 +47,7 @@
         stateHud.delegate = self;
         [self.view addSubview:stateHud];
     }
+    stateHud.labelText = @"";
     stateHud.mode = MBProgressHUDModeIndeterminate;
     stateHud.labelColor    = [UIColor whiteColor];
     stateHud.color=[UIColor blackColor];

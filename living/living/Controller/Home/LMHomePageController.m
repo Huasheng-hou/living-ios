@@ -37,6 +37,12 @@
 #import "LMRecommendArticleRequest.h"
 #import "LMRecommendVO.h"
 
+#import "LMActivityDetailController.h"
+#import "LMEventDetailViewController.h"
+#import "LMClassroomDetailViewController.h"
+
+
+
 #define PAGER_SIZE      20
 
 @interface LMHomePageController ()
@@ -81,6 +87,7 @@ WJLoopViewDelegate
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadHomePage" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNoState) name:@"reloadlist" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fromShare:) name:@"goToDetailFromShareLink" object:nil];
     }
     
     return self;
@@ -629,6 +636,43 @@ WJLoopViewDelegate
         && [self canLoadMore]) {
         [self performSelectorInBackground:@selector(loadNextPage) withObject:nil];
     }
+}
+
+
+#pragma mark - 点击外部分享链接打开APP
+- (void)fromShare:(NSNotification *)noti {
+    
+    NSDictionary * userInfo = noti.userInfo;
+    if ([userInfo[@"type"] isEqualToString:@"0"]) {//文章
+        
+        LMHomeDetailController *detailVC = [[LMHomeDetailController alloc] init];
+        detailVC.artcleuuid = userInfo[@"uuid"];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+        
+    }else if ([userInfo[@"type"] isEqualToString:@"1"]) {//活动
+        
+        LMActivityDetailController *detailVC = [[LMActivityDetailController alloc] init];
+        detailVC.eventUuid = userInfo[@"uuid"];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+        
+    }else if ([userInfo[@"type"] isEqualToString:@"2"]) {//项目
+        
+        LMEventDetailViewController *detailVC = [[LMEventDetailViewController alloc] init];
+        detailVC.eventUuid = userInfo[@"uuid"];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+        
+    }else if ([userInfo[@"type"] isEqualToString:@"3"]) {//课程
+        
+        LMClassroomDetailViewController *detailVC = [[LMClassroomDetailViewController alloc] init];
+        detailVC.voiceUUid = userInfo[@"uuid"];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailVC animated:YES];
+        
+    }
+    
 }
 
 @end

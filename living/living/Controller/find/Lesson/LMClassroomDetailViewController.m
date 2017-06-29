@@ -42,6 +42,8 @@
 #import "LMVoiceMemeberListViewController.h"
 #import "LMChatViewController.h"
 
+#import "LMEventClassCodeController.h"
+
 
 static CGRect oldframe;
 @interface LMClassroomDetailViewController ()
@@ -59,6 +61,11 @@ LMVoiceHeaderCellDelegate,
 LMChooseViewDelegate
 >
 {
+    UIImageView * qrCode;
+    NSString * voiceCode;
+    NSString * tip;
+    CGFloat resultPrice;
+    
     UILabel  *tipLabel;
     UIButton *zanButton;
     UITextView *suggestTF;
@@ -90,6 +97,9 @@ LMChooseViewDelegate
     NSString *nameString;
     NSString *phoneString;
     NSString *telephoneString;
+    
+    
+    
 }
 
 @end
@@ -158,9 +168,30 @@ LMChooseViewDelegate
     
     [self.view addSubview:headerView];
 
+    qrCode = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-60, 84, 40, 40)];
+    qrCode.image = [UIImage imageNamed:@"qrcode"];
+    qrCode.contentMode = UIViewContentModeScaleAspectFill;
+    qrCode.backgroundColor = [UIColor clearColor];
+    qrCode.clipsToBounds = YES;
+    qrCode.layer.cornerRadius = 20;
+    qrCode.userInteractionEnabled = YES;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCode:)];
+    [qrCode addGestureRecognizer:tap];
+    [self.view addSubview:qrCode];
+    
 }
 
-#pragma mark 分享按钮
+- (void)tapCode:(UITapGestureRecognizer *)tap {
+    
+    LMEventClassCodeController * codeVC = [[LMEventClassCodeController alloc] init];
+    codeVC.navigationItem.title = @"课程二维码";
+    codeVC.name = eventDic.voiceTitle;
+    codeVC.codeUrl = eventDic.voiceCode;
+    codeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:codeVC animated:YES];
+}
+
+#pragma mark - 分享按钮
 
 -(void)shareButton
 {
@@ -169,7 +200,7 @@ LMChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-
+#pragma mark - 请求数据
 - (void)getEventListDataRequest
 {
     [self initStateHud];
@@ -274,7 +305,7 @@ LMChooseViewDelegate
         
         eventDic    = [[LMVoiceDetailVO alloc] initWithDictionary:bodyDic[@"voice_body"]];
         orderDic    = [bodyDic objectForKey:@"voice_body"];
-        
+
         if ([eventDic.status isEqualToString:@"ready"]) {
             
             status = @"开始";
@@ -588,7 +619,7 @@ LMChooseViewDelegate
     return nil;
 }
 
-#pragma mark 拨打电话
+#pragma mark - 拨打电话
 
 - (void)callTelephone
 {
@@ -851,6 +882,17 @@ LMChooseViewDelegate
         
         if ([[FitUserManager sharedUserManager].vipString isEqual:@"menber"]||[vipString isEqual:@"vipString"]) {
             
+            CGFloat totalPrice = [eventDic.perCost floatValue];
+            CGFloat nowPrice = [eventDic.discount floatValue];
+            resultPrice = totalPrice - nowPrice;
+            if (resultPrice > (NSInteger)resultPrice) {
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.2f元", resultPrice];
+            }else {
+                tip = [NSString stringWithFormat:@"会员就是任性,立减%.f元", resultPrice];
+            }
+            infoView.tipLabel.text = tip;
+            
+            
             infoView.titleLabel.text = [NSString stringWithFormat:@"￥%@", eventDic.discount];
             [infoView.titleLabel sizeToFit];
             infoView.titleLabel.frame = CGRectMake(145, 25, infoView.titleLabel.bounds.size.width, 30);
@@ -1011,6 +1053,7 @@ LMChooseViewDelegate
             OrderVC.orderUUid   = orderID;
             OrderVC.dict        = orderDic;
             OrderVC.Type        = @"voice";
+            OrderVC.tips        = tip;
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             
@@ -1031,6 +1074,7 @@ LMChooseViewDelegate
         self.navigationController.navigationBar.hidden=YES;
         [UIApplication sharedApplication].statusBarHidden = YES;
         headerView.hidden=NO;
+        qrCode.hidden = YES;
         hiddenIndex=2;
         
     }else{
@@ -1044,6 +1088,7 @@ LMChooseViewDelegate
         
         self.navigationController.navigationBar.hidden=NO;
         headerView.hidden=YES;
+        qrCode.hidden = NO;
     }
 }
 
@@ -1137,7 +1182,7 @@ LMChooseViewDelegate
         if ([[bodyDic objectForKey:@"result"] isEqual:@"0"]) {
             [self textStateHUD:@"留言成功"];
             [self getEventListDataRequest];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 tipLabel.hidden=NO;
                 NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:0 inSection:3];
                 [[self tableView] scrollToRowAtIndexPath:indexPaths
@@ -1177,7 +1222,7 @@ LMChooseViewDelegate
     [keyWindow endEditing:YES];
 }
 
-#pragma mark 删除课程
+#pragma mark - 删除课程
 
 - (void)deleteActivity
 {
@@ -1235,7 +1280,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark --删除评论
+#pragma mark - -  删除评论
 
 - (void)deletCellAction:(UILongPressGestureRecognizer *)tap
 {
@@ -1364,7 +1409,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark -课程大图
+#pragma mark - 课程大图
 
 - (void)cellClickImage:(LMVoiceHeaderCell *)cell
 {
@@ -1377,7 +1422,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark --课程项目大图
+#pragma mark - - 课程项目大图
 
 - (void)cellProjectImage:(LMVoiceProjectCell *)cell
 {
@@ -1419,7 +1464,7 @@ LMChooseViewDelegate
     self.tableView.userInteractionEnabled = YES;
 }
 
-#pragma mark  --开始课程
+#pragma mark  - - 开始课程
 
 - (void)startVoice
 {
@@ -1488,7 +1533,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark   --结束课程
+#pragma mark - - 结束课程
 
 - (void)endVoice
 {
@@ -1694,7 +1739,7 @@ LMChooseViewDelegate
     [self.view addSubview:shareView];
 }
 
-#pragma mark 对图片尺寸进行压缩
+#pragma mark - 对图片尺寸进行压缩
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContext(newSize);
@@ -1705,17 +1750,18 @@ LMChooseViewDelegate
 }
 
 
+#pragma mark - 分享
 - (void)shareType:(NSInteger)type
 {
-    NSString *urlString = @"http://yaoguo1818.com/living-web/voice/detail?voiceUuid=";//正式
-//    NSString *urlString = @"http://120.26.137.44/living-web/voice/detail?voiceUuid=";//测试
-    
+    NSString *urlString = [NSString stringWithFormat:CLASS_SHARE_LINK_QQ, _voiceUUid];
+
     switch (type) {
         case 1://微信好友
         {
+            urlString = [NSString stringWithFormat:CLASS_SHARE_LINK_WECHAT, _voiceUUid];
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
-            //            message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1730,7 +1776,7 @@ LMChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
             req.bText=NO;
@@ -1741,9 +1787,10 @@ LMChooseViewDelegate
             break;
         case 2://微信朋友圈
         {
+            urlString = [NSString stringWithFormat:CLASS_SHARE_LINK_WECHAT, _voiceUUid];
             WXMediaMessage *message=[WXMediaMessage message];
             message.title=eventDic.voiceTitle;
-//                        message.description=eventDic.describe;
+            message.description=eventDic.notices;
             
             if (imageArray.count==0) {
                 [message setThumbImage:[UIImage imageNamed:@"editMsg"]];
@@ -1757,7 +1804,7 @@ LMChooseViewDelegate
             }
             
             WXWebpageObject *web=[WXWebpageObject object];
-            web.webpageUrl=[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid];
+            web.webpageUrl=urlString;
             message.mediaObject=web;
             
             SendMessageToWXReq *req=[[SendMessageToWXReq alloc]init];
@@ -1779,7 +1826,7 @@ LMChooseViewDelegate
                 imageUrl=eventDic.image;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid]] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq
             [QQApiInterface sendReq:req];
@@ -1794,7 +1841,7 @@ LMChooseViewDelegate
                 imageUrl=eventDic.image;
             }
             
-            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",urlString,_voiceUUid]] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
+            QQApiNewsObject *txtObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:eventDic.voiceTitle description:nil previewImageURL:[NSURL URLWithString:imageUrl]];
             SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:txtObj];
             //将内容分享到qq空间
             [QQApiInterface SendReqToQZone:req];
@@ -1843,7 +1890,7 @@ LMChooseViewDelegate
     }
 }
 
-#pragma mark 键盘部分
+#pragma mark - 键盘部分
 
 - (void) registerForKeyboardNotifications
 {

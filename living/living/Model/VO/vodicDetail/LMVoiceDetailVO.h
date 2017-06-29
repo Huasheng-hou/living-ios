@@ -60,6 +60,8 @@
 
 @property(nonatomic, retain) NSString       *notices;
 
+@property (nonatomic, copy) NSString        *voiceCode;
+
 @property (nonatomic, assign) BOOL          isBuy;
 
 

@@ -12,4 +12,10 @@ pod 'MIHCrypto', 		'~> 0.4.0'
 pod 'WebsocketStompKit', :git => 'https://github.com/rguldener/WebsocketStompKit.git'
 pod 'jetfire', '0.1.2'
 pod 'Masonry','1.0.1'
+pod 'Bugtags'
+
+
+
+
+
 end
