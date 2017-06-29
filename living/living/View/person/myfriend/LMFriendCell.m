@@ -128,17 +128,19 @@
         }
         
         double timeInterval = [[NSDate date] timeIntervalSince1970];
-        if (minTime - timeInterval < 30 * 24 * 60 * 60 * 100) {
+        if (minTime / 1000 - timeInterval < 30 * 24 * 60 * 60) {
             _endTime.textColor = [UIColor redColor];
-        }
+            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]]];
+            [attrStr addAttribute:NSForegroundColorAttributeName value:TEXT_COLOR_LEVEL_2 range:NSMakeRange(0, 8)];
+            _endTime.attributedText = attrStr;
+        } else {
         
-        _endTime.text = [NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]];
+            _endTime.text = [NSString stringWithFormat:@"优惠券到期时间:%@", [self getDateStringFromSeconds:minTime]];
+        }
         
     }else {
         _endTime.text = @"无优惠券";
     }
-    
-    
 }
 
 -(void)layoutSubviews
