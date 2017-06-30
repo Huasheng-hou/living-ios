@@ -61,7 +61,7 @@ UNUserNotificationCenterDelegate
     //Bugtags
     // BTGInvocationEventNone, 静默模式，只收集 Crash 信息（如果允许）  /*正式*/
     // BTGInvocationEventBubble  通过悬浮小球呼出 Bugtags   /*测试*/
-    [Bugtags startWithAppKey:BugAppKey invocationEvent:BTGInvocationEventBubble];
+    [Bugtags startWithAppKey:BugAppKey invocationEvent:BUG_MODE];
     
     // * 启动个推
     //
