@@ -902,6 +902,7 @@ APChooseViewDelegate
             
             OrderVC.orderUUid   = orderID;
             OrderVC.dict        = orderDic;
+            OrderVC.tips = @"";
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
             self.navigationController.navigationBar.hidden  = NO;
             
