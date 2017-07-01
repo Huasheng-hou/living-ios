@@ -24,6 +24,6 @@
 
 #define WEAKSELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
-#define REVIEW_TIME @"2017-07-01 00:00"
+#define REVIEW_TIME @"2017-07-03 00:00"
 
 #endif /* ALiVideoRecorder_Prefix_h */

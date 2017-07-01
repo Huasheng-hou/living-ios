@@ -29,14 +29,22 @@
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:titleLabel];
     
-    UILabel *desp = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, kScreenWidth, 30)];
+    UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, kScreenWidth, 30)];
+    tip.text = @"请扫描腰果会员身份的二维码";
+    tip.textColor = TEXT_COLOR_LEVEL_2;
+    tip.font = TEXT_FONT_LEVEL_2;
+    tip.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:tip];
+
+    
+    UILabel *desp = [[UILabel alloc] initWithFrame:CGRectMake(0, 150+50, kScreenWidth, 30)];
     desp.text = @"预知后事如何，请参照下方扫描结果";
     desp.textColor = TEXT_COLOR_LEVEL_2;
     desp.font = TEXT_FONT_LEVEL_2;
     desp.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:desp];
     
-    UIView *yellowView = [[UIView alloc] initWithFrame:CGRectMake(15, 230, kScreenWidth-30, 100)];
+    UIView *yellowView = [[UIView alloc] initWithFrame:CGRectMake(15, 230+50, kScreenWidth-30, 100)];
     yellowView.layer.cornerRadius = 10;
     yellowView.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:186.0/255.0 blue:2.0/255.0 alpha:1.0];
     
