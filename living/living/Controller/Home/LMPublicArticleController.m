@@ -583,10 +583,11 @@ static NSMutableArray *cellDataArray;
                                                    
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [self textStateHUD:@"上传失败,请重试"];
-                                                       imageNum -= imgArr.count;
+                                                       imageNum--;
                                                        [imageViewArray removeObjectsInArray:updateImageArray];
                                                        [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
                                                        [self refreshData];
+                                                       
                                                        return ;
                                                    });
                                                    
@@ -1186,6 +1187,15 @@ static NSMutableArray *cellDataArray;
                                                [self performSelectorOnMainThread:@selector(textStateHUD:)
                                                                       withObject:@"网络错误"
                                                                    waitUntilDone:YES];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   
+                                                   imageNum--;
+                                                   [imageViewArray removeObjectsInArray:updateImageArray];
+                                                   [projectImageArray replaceObjectAtIndex:addImageIndex withObject:imageViewArray];
+                                                   [self refreshData];
+                                                   return ;
+                                               });
+
                                            }];
     [proxy start];
 }
