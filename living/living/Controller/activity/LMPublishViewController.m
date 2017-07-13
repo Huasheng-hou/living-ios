@@ -129,6 +129,13 @@ static NSMutableArray *cellDataArray;
     [self.view addSubview:_tableView];
     _tableView.keyboardDismissMode          = UIScrollViewKeyboardDismissModeOnDrag;
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"存草稿"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(saveDraft)];
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     //去分割线
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
@@ -1482,5 +1489,10 @@ static NSMutableArray *cellDataArray;
     projectcell.button.hidden = YES;
 }
 
+#pragma mark - 存草稿
+- (void)saveDraft {
+    NSLog(@"存草稿");
+    
+}
 
 @end
