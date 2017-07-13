@@ -41,7 +41,11 @@
 #import "LMEventDetailViewController.h"
 #import "LMClassroomDetailViewController.h"
 
-
+typedef struct Test
+{
+    int a;
+    int b;
+}Test;
 
 #define PAGER_SIZE      20
 
@@ -537,6 +541,18 @@ WJLoopViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    //LMRecommendVO * vo = _recommendArray[10000];
+    //SIGBUS，内存地址未对齐
+    //EXC_BAD_ACCESS(code=1,address=0x1000dba58)
+//    char *s = "hello world";
+//    *s = 'H';
+    
+//    Test *pTest = {1, 2};
+//    free(pTest);//导致SIGABRT的错误，因为内存中根本就没有这个空间，哪来的free，就在栈中的对象而已
+//    pTest->a = 5;
+    
+    
     if (indexPath.section == 0) {
         LMRecommendVO * vo = _recommendArray[indexPath.row];
         if (vo) {
@@ -595,7 +611,7 @@ WJLoopViewDelegate
 }
 
 
-#pragma mark  --cell click delegat
+#pragma mark  - cell click delegate
 
 - (void)cellWillClick:(LMhomePageCell *)cell
 {

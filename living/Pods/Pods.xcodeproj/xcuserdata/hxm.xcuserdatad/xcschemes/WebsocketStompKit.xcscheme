@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '99A6DC86FA2E4F9DDF496AD53CED08C3'
+               BlueprintIdentifier = 'C366E7DD547F1E5C0C12C04364D29B16'
                BlueprintName = 'WebsocketStompKit'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libWebsocketStompKit.a'>

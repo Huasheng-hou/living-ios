@@ -505,6 +505,7 @@
 		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
 		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
 		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D51FF88B1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D51FF88A1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m */; };
 		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
 		D52149B21E725319006890CE /* LMRecommendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B11E725319006890CE /* LMRecommendVO.m */; };
 		D52149B51E7284EE006890CE /* LMCategoryArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */; };
@@ -1604,6 +1605,8 @@
 		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
 		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
 		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		D51FF8891F0CCA4200D87DE6 /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
+		D51FF88A1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
 		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
 		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
 		D52149B01E725319006890CE /* LMRecommendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendVO.h; sourceTree = "<group>"; };
@@ -2215,6 +2218,7 @@
 				35B744BD1DDE97F2000AFA26 /* Components */,
 				35B743F81DDE97F2000AFA26 /* 3rdLibs */,
 				35B7468E1DDE97F3000AFA26 /* Resources */,
+				D51FF8881F0CCA0700D87DE6 /* Crash */,
 				35B744B81DDE97F2000AFA26 /* AppDelegate.h */,
 				35B744B91DDE97F2000AFA26 /* AppDelegate.m */,
 				35B744BA1DDE97F2000AFA26 /* Assets.xcassets */,
@@ -4095,6 +4099,15 @@
 			path = GtSdkLib;
 			sourceTree = "<group>";
 		};
+		D51FF8881F0CCA0700D87DE6 /* Crash */ = {
+			isa = PBXGroup;
+			children = (
+				D51FF8891F0CCA4200D87DE6 /* UncaughtExceptionHandler.h */,
+				D51FF88A1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m */,
+			);
+			path = Crash;
+			sourceTree = "<group>";
+		};
 		D52149AF1E7252EF006890CE /* LMRecommendVO */ = {
 			isa = PBXGroup;
 			children = (
@@ -5044,6 +5057,7 @@
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				35E92E5B1E3457F900EE6DE6 /* LMChoseCounponButton.m in Sources */,
 				3512137E1DF963C10053B83F /* LMBlacklistViewController.m in Sources */,
+				D51FF88B1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
 				D5A6147A1E89117100F46D60 /* LMMakerRequest.m in Sources */,
 				87B74E0B1E5EBEDA001E3E57 /* LMSegmentController.m in Sources */,
@@ -5240,6 +5254,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/living/ALiVideoRecorder-Prefix.pch";
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -5334,6 +5349,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/living/3rdLibs/TencentShare",
 				);
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/living/ALiVideoRecorder-Prefix.pch";
 				INFOPLIST_FILE = living/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

@@ -64,6 +64,7 @@
 
 }
 
+
 - (void)switchAction
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
