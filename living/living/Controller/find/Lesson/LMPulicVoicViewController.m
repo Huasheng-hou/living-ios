@@ -21,6 +21,9 @@
 #import "UIImageView+WebCache.h"
 #import "LMChoosehostViewController.h"
 #import "LMTypeListViewController.h"
+
+#import "DataBase.h"
+
 @interface LMPulicVoicViewController ()
 <
 UITableViewDelegate,
@@ -67,6 +70,9 @@ LMTypeListProtocol
     
     NSString * typeName;
     NSString * typeStr;
+    
+    DataBase *db;
+    
 }
 
 @property (nonatomic,retain)UITableView *tableView;
@@ -1119,8 +1125,148 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark - 存草稿
 - (void)saveDraft {
-    NSLog(@"存草稿");
+    NSLog(@"课程存草稿");
+    NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
+    NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
+//    LMPublicVoiceRequest *request = [[LMPublicVoiceRequest alloc]
+//                                     initWithvoice_title:msgCell.titleTF.text
+//                                     Contact_phone:msgCell.phoneTF.text
+//                                     Contact_name:msgCell.nameTF.text
+//                                     Per_cost:msgCell.freeTF.text
+//                                     Discount:msgCell.VipFreeTF.text
+//                                     Start_time:startstring
+//                                     End_time:endString
+//                                     image:_imgURL
+//                                     host:UserId
+//                                     limit_number:[msgCell.joincountTF.text intValue]
+//                                     notices:msgCell.applyTextView.text
+//                                     franchiseePrice:msgCell.couponTF.text
+//                                     available:useCounpon
+//                                     category:typeStr];
     
+    db = [DataBase sharedDataBase];
+    NSString *latitudeString;
+    NSString *longitudeString;
+    if (_latitude ==0 &&_longitude==0) {
+        latitudeString = @"";
+        longitudeString = @"";
+    }else{
+        latitudeString = [NSString stringWithFormat:@"%f",_latitude];
+        longitudeString =[NSString stringWithFormat:@"%f",_longitude] ;
+    }
+
+    
+    NSString *msgTitle = @"";
+    NSString *msgPhone = @"";
+    NSString *msgName = @"";
+    
+    NSString *msgFee = @"";
+    NSString *msgVipFee = @"";
+    NSString *msgCouponFee = @"";
+    
+    NSString *msgStartTime = @"";
+    NSString *msgEndTime = @"";
+    
+    NSString *msgImgUrl = @"";
+    NSString *host = @"";
+    
+    NSString *msgLatitude = @"";
+    NSString *msgLongitude = @"";
+    
+    NSString *msgLimit = @"";
+    NSString *msgNotice = @"";
+    NSString *msgAvailable = @"";
+    NSString *msgCategory = @"";
+    
+    
+    if (msgCell.titleTF.text) {
+        msgTitle = msgCell.titleTF.text;
+    }
+    if (msgCell.phoneTF.text) {
+        msgPhone = msgCell.phoneTF.text;
+    }
+    if (msgCell.nameTF.text) {
+        msgName = msgCell.nameTF.text;
+    }
+    //////
+    if (msgCell.freeTF.text) {
+        msgFee = msgCell.freeTF.text;
+    }
+    if (msgCell.VipFreeTF.text) {
+        msgVipFee = msgCell.VipFreeTF.text;
+    }
+    if (msgCell.couponTF.text) {
+        msgCouponFee = msgCell.couponTF.text;
+    }
+    //////
+    if (startstring) {
+        msgStartTime = startstring;
+    }
+    if (endString) {
+        msgEndTime = endString;
+    }
+    
+    //////
+    if (_imgURL) {
+        msgImgUrl = _imgURL;
+    }
+    if (UserId) {
+        host = UserId;
+    }
+    //////
+    if (latitudeString) {
+        msgLatitude = latitudeString;
+    }
+    if (longitudeString) {
+        msgLongitude = longitudeString;
+    }
+    //////
+    if (msgCell.joincountTF.text) {
+        msgLimit = msgCell.joincountTF.text;
+    }
+    if (msgCell.applyTextView.text) {
+        msgNotice = msgCell.applyTextView.text;
+    }
+    if (useCounpon) {
+        msgAvailable = useCounpon;
+    }
+    if (typeStr) {
+        msgCategory = typeStr;
+    }
+    
+    NSDictionary *contentDic = @{@"headData":@{@"title":msgTitle,
+                                               @"phone":msgPhone,
+                                               @"name":msgName,
+                                               @"fee":msgFee,
+                                               @"vipFee":msgVipFee,
+                                               @"couponFee":msgCouponFee,
+                                               @"start":msgStartTime,
+                                               @"end":msgEndTime,
+                                               @"imgUrl":msgImgUrl,
+                                               @"host":host,
+                                               @"latitude":msgLatitude,
+                                               @"longitude":msgLongitude,
+                                               @"limitNum":msgLimit,
+                                               @"notices":msgNotice,
+                                               @"available":msgAvailable,
+                                               @"category":msgCategory
+                                               },
+                                 @"cellData":cellDataArray};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd hh:mm";
+    NSString *dateStr = [format stringFromDate:[NSDate date]];
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":msgCell.titleTF.text, @"desp":msgNotice, @"category":msgCell.category.titleLabel.text, @"type":@"class", @"content":contentStr, @"time":dateStr};
+    NSLog(@"%@", info);
+    if([db addToDraft:info]) {
+        [self textStateHUD:@"保存成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self textStateHUD:@"保存失败,请重试"];
+    }
+    
+
 }
 @end
 
