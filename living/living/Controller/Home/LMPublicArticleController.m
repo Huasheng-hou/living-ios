@@ -27,7 +27,7 @@
 #import <AVFoundation/AVAsset.h>
 #import <AVFoundation/AVAssetImageGenerator.h>
 #import <AVFoundation/AVTime.h>
-
+#import "DataBase.h"
 @interface LMPublicArticleController ()
 <
 UITextFieldDelegate,
@@ -69,6 +69,8 @@ KZVideoViewControllerDelegate
     NSString *videoUrl;
     NSMutableArray *updateImageArray;
     
+    //数据库
+    DataBase *db;
 }
 
 
@@ -301,7 +303,7 @@ static NSMutableArray *cellDataArray;
         cell.delegate = self;
         
         cell.includeTF.text     = cellDataArray[indexPath.row][@"content"];
-        
+        NSLog(@"%@", cellDataArray);
         if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""] && cellDataArray[indexPath.row][@"content"]) {
             
             [cell.textLab setHidden:NO];
@@ -1235,6 +1237,21 @@ static NSMutableArray *cellDataArray;
 }
 #pragma mark - 存草稿
 - (void)saveDraft {
+    db = [DataBase sharedDataBase];
+    NSDictionary *contentDic = @{@"cellData":cellDataArray};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd hh:mm";
+    NSString *dateStr = [format stringFromDate:[NSDate date]];
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":titleTF.text, @"desp":discribleTF.text, @"category":typeLabel.text, @"type":@"article", @"content":contentStr, @"time":dateStr};
+    NSLog(@"%@", info);
+    if([db addToDraft:info]) {
+        [self textStateHUD:@"保存成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self textStateHUD:@"保存失败,请重试"];
+    }
     
 }
 

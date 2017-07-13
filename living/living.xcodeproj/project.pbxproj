@@ -551,6 +551,8 @@
 		D563F0941EA4C681004C4B28 /* LMSpecialRechargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */; };
 		D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */; };
 		D569CA321F1703E5001C6C1D /* LMDraftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569CA311F1703E5001C6C1D /* LMDraftViewController.m */; };
+		D569CA361F171244001C6C1D /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D569CA351F171244001C6C1D /* DataBase.m */; };
+		D569CA3C1F1755B2001C6C1D /* DraftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D569CA3B1F1755B2001C6C1D /* DraftCell.m */; };
 		D57565F11ED5823B00B28B68 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D57565F01ED5823B00B28B68 /* UMMobClick.framework */; };
 		D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */; };
 		D5944D221E83BAA8002DBA7D /* LMPublicEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D211E83BAA8002DBA7D /* LMPublicEventController.m */; };
@@ -1698,6 +1700,10 @@
 		D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeRequest.m; sourceTree = "<group>"; };
 		D569CA301F1703E5001C6C1D /* LMDraftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMDraftViewController.h; sourceTree = "<group>"; };
 		D569CA311F1703E5001C6C1D /* LMDraftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMDraftViewController.m; sourceTree = "<group>"; };
+		D569CA341F171244001C6C1D /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
+		D569CA351F171244001C6C1D /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
+		D569CA3A1F1755B2001C6C1D /* DraftCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftCell.h; sourceTree = "<group>"; };
+		D569CA3B1F1755B2001C6C1D /* DraftCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftCell.m; sourceTree = "<group>"; };
 		D57565F01ED5823B00B28B68 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		D5944D1C1E8377CA002DBA7D /* LMExpertSpaceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceRequest.h; sourceTree = "<group>"; };
 		D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceRequest.m; sourceTree = "<group>"; };
@@ -2608,6 +2614,7 @@
 				35B745021DDE97F2000AFA26 /* Login */,
 				35B745071DDE97F2000AFA26 /* Order */,
 				35B7450A1DDE97F2000AFA26 /* person */,
+				D569CA331F171212001C6C1D /* DataBase */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3848,6 +3855,8 @@
 				3524CF711E4FFD6A00651E64 /* LMHostoryView.m */,
 				350F2F711E6D6DB000772E5C /* LMFriendMessageCell.h */,
 				350F2F721E6D6DB000772E5C /* LMFriendMessageCell.m */,
+				D569CA3A1F1755B2001C6C1D /* DraftCell.h */,
+				D569CA3B1F1755B2001C6C1D /* DraftCell.m */,
 				35B746E71DDE97F3000AFA26 /* myfriend */,
 				35B746EA1DDE97F3000AFA26 /* personCoupon */,
 				35B746ED1DDE97F3000AFA26 /* personMyliveRoom */,
@@ -4362,6 +4371,15 @@
 			path = Expert;
 			sourceTree = "<group>";
 		};
+		D569CA331F171212001C6C1D /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				D569CA341F171244001C6C1D /* DataBase.h */,
+				D569CA351F171244001C6C1D /* DataBase.m */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
 		D5944D1F1E83BA7D002DBA7D /* public */ = {
 			isa = PBXGroup;
 			children = (
@@ -4777,6 +4795,7 @@
 				35B7470E1DDE97F3000AFA26 /* base64.m in Sources */,
 				35B747B81DDE97F3000AFA26 /* LMWriterDataRequest.m in Sources */,
 				8728E7E01E6544B7003303F2 /* LMActivityViewController.m in Sources */,
+				D569CA3C1F1755B2001C6C1D /* DraftCell.m in Sources */,
 				D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */,
 				359F81961E027D340070F6C7 /* LMVoiceDeleteCommentRequest.m in Sources */,
 				D52C14E31E825F13008CFE3F /* LMBookLivingRequest.m in Sources */,
@@ -5029,6 +5048,7 @@
 				D5BCAF1A1E8D032C00B4FCFA /* LMReviewCommentZanRequest.m in Sources */,
 				3524CF781E50349300651E64 /* LMNumberMessageRequest.m in Sources */,
 				35B747E71DDE97F4000AFA26 /* LMBalanceBillVO.m in Sources */,
+				D569CA361F171244001C6C1D /* DataBase.m in Sources */,
 				87B74E051E5EB16E001E3E57 /* LMBannerDetailMakerController.m in Sources */,
 				8728E7CF1E654331003303F2 /* LMEvaluateSubmitCell.m in Sources */,
 				35B747F91DDE97F4000AFA26 /* PayloadVO.m in Sources */,
