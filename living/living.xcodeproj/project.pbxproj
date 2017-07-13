@@ -550,6 +550,7 @@
 		D54942701EB9CA280089CF0D /* LMExpertVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = D549426F1EB9CA280089CF0D /* LMExpertVoiceView.m */; };
 		D563F0941EA4C681004C4B28 /* LMSpecialRechargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */; };
 		D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */; };
+		D569CA321F1703E5001C6C1D /* LMDraftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569CA311F1703E5001C6C1D /* LMDraftViewController.m */; };
 		D57565F11ED5823B00B28B68 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D57565F01ED5823B00B28B68 /* UMMobClick.framework */; };
 		D5944D1E1E8377CA002DBA7D /* LMExpertSpaceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */; };
 		D5944D221E83BAA8002DBA7D /* LMPublicEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5944D211E83BAA8002DBA7D /* LMPublicEventController.m */; };
@@ -1695,6 +1696,8 @@
 		D563F0931EA4C681004C4B28 /* LMSpecialRechargeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeController.m; sourceTree = "<group>"; };
 		D563F0951EA4D7D9004C4B28 /* LMSpecialRechargeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSpecialRechargeRequest.h; sourceTree = "<group>"; };
 		D563F0961EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSpecialRechargeRequest.m; sourceTree = "<group>"; };
+		D569CA301F1703E5001C6C1D /* LMDraftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMDraftViewController.h; sourceTree = "<group>"; };
+		D569CA311F1703E5001C6C1D /* LMDraftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMDraftViewController.m; sourceTree = "<group>"; };
 		D57565F01ED5823B00B28B68 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		D5944D1C1E8377CA002DBA7D /* LMExpertSpaceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMExpertSpaceRequest.h; sourceTree = "<group>"; };
 		D5944D1D1E8377CA002DBA7D /* LMExpertSpaceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMExpertSpaceRequest.m; sourceTree = "<group>"; };
@@ -2746,6 +2749,8 @@
 				3512137D1DF963C10053B83F /* LMBlacklistViewController.m */,
 				35FB58141E4AE48300378199 /* LMHostoryEventViewController.h */,
 				35FB58151E4AE48300378199 /* LMHostoryEventViewController.m */,
+				D569CA301F1703E5001C6C1D /* LMDraftViewController.h */,
+				D569CA311F1703E5001C6C1D /* LMDraftViewController.m */,
 				35B745201DDE97F2000AFA26 /* setting */,
 				35B745271DDE97F2000AFA26 /* SQMenuShowView */,
 			);
@@ -4928,6 +4933,7 @@
 				35B747A01DDE97F3000AFA26 /* LMActivityDetailRequest.m in Sources */,
 				8728E7C01E6541FC003303F2 /* LMEvaluateSuccessViewController.m in Sources */,
 				35B7474A1DDE97F3000AFA26 /* LMMyPublicViewController.m in Sources */,
+				D569CA321F1703E5001C6C1D /* LMDraftViewController.m in Sources */,
 				359F818D1E027A0C0070F6C7 /* LMVoiceCommentRequest.m in Sources */,
 				35DCDD3A1DFE71E900813172 /* SegmentViewController.m in Sources */,
 				350C1BF81E556CEE00251DD9 /* PlayerViewController.m in Sources */,

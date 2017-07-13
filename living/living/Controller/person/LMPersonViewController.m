@@ -26,7 +26,7 @@
 #import "LMBlacklistViewController.h"
 #import "LMMyvoicSegmentViewController.h"
 #import "LMHostoryEventViewController.h"
-
+#import "LMDraftViewController.h"
 #import "LMYaoGuoBiController.h"
 
 static CGRect oldframe;
@@ -640,12 +640,18 @@ static CGRect oldframe;
             }else if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]){
                 
                 NSLog(@"草稿箱");
+                LMDraftViewController *draftVC = [[LMDraftViewController alloc] init];
+                draftVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:draftVC animated:YES];
             }
             
 //            [self textStateHUD:@"该功能暂未开放~"];
         }
         if (indexPath.row == 8) {
             NSLog(@"草稿箱");
+            LMDraftViewController *draftVC = [[LMDraftViewController alloc] init];
+            draftVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:draftVC animated:YES];
         }
         
     }
