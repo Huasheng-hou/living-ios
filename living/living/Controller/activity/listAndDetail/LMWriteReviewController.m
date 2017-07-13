@@ -28,7 +28,7 @@
 #import <AVFoundation/AVAsset.h>
 #import <AVFoundation/AVAssetImageGenerator.h>
 #import <AVFoundation/AVTime.h>
-
+#import "DataBase.h"
 #import "LMWriteReviewRequest.h"
 @interface LMWriteReviewController ()
 <
@@ -71,6 +71,8 @@ KZVideoViewControllerDelegate
     NSString *videoUrl;
     NSMutableArray *updateImageArray;
     
+    //数据库
+    DataBase *db;
 }
 
 @end
@@ -1170,7 +1172,22 @@ static NSMutableArray *cellDataArray;
 #pragma mark - 存草稿
 - (void)saveDraft {
     NSLog(@"存草稿");
-    
+    db = [DataBase sharedDataBase];
+    NSDictionary *contentDic = @{@"cellData":cellDataArray};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd hh:mm";
+    NSString *dateStr = [format stringFromDate:[NSDate date]];
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":titleTF.text, @"desp":discribleTF.text, @"category":@"", @"type":@"review", @"content":contentStr, @"time":dateStr};
+    NSLog(@"%@", info);
+    if([db addToDraft:info]) {
+        [self textStateHUD:@"保存成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self textStateHUD:@"保存失败,请重试"];
+    }
+
 }
 
 @end
