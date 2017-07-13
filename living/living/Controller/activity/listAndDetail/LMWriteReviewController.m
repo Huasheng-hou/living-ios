@@ -91,10 +91,10 @@ static NSMutableArray *cellDataArray;
     
     [self.view addSubview:self.tableView];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布"
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"存草稿"
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
-                                                                 action:@selector(publishArtcle)];
+                                                                 action:@selector(saveDraft)];
     
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -184,7 +184,7 @@ static NSMutableArray *cellDataArray;
     if (section == 0) {
         return cellDataArray.count;
     }
-    return 1;
+    return 2;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -262,8 +262,14 @@ static NSMutableArray *cellDataArray;
         
         return 190 + rowNum*(imageWidth + margin);
     }
-    
-    return 100;
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            return 55;
+        } else {
+            return 100;
+        }
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -334,23 +340,51 @@ static NSMutableArray *cellDataArray;
     }
     
     if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            static NSString *cellId     = @"cellId";
+            
+            UITableViewCell *addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
+            addCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 45)];
+            
+            textLabel.text              = @"添加内容";
+            textLabel.textAlignment     = NSTextAlignmentCenter;
+            textLabel.font              = TEXT_FONT_LEVEL_1;
+            [addCell.contentView addSubview:textLabel];
+            textLabel.backgroundColor   = [UIColor whiteColor];
+            addCell.backgroundColor     = [UIColor clearColor];
+            
+            return addCell;
+
+        } else if (indexPath.row == 1) {
+            static NSString *cellId     = @"publicCell";
+            
+            UITableViewCell *publicCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
+            publicCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, kScreenWidth - 40, 45)];
+            
+            textLabel.text              = @"发布";
+            textLabel.textColor         = [UIColor whiteColor];
+            textLabel.textAlignment     = NSTextAlignmentCenter;
+            textLabel.font              = TEXT_FONT_LEVEL_1;
+            textLabel.clipsToBounds     = YES;
+            textLabel.layer.cornerRadius = 5;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(publishAction)];
+            textLabel.userInteractionEnabled = YES;
+            [textLabel addGestureRecognizer:tap];
+            [publicCell.contentView addSubview:textLabel];
+            textLabel.backgroundColor   = LIVING_COLOR;
+            publicCell.backgroundColor  = [UIColor clearColor];
+            
+            return publicCell;
+            
+        }
+
         
-        static NSString *cellId     = @"cellId";
-        
-        UITableViewCell *addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
-        addCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 45)];
-        
-        textLabel.text              = @"添加内容";
-        textLabel.textAlignment     = NSTextAlignmentCenter;
-        textLabel.font              = TEXT_FONT_LEVEL_1;
-        [addCell.contentView addSubview:textLabel];
-        textLabel.backgroundColor   = [UIColor whiteColor];
-        addCell.backgroundColor     = [UIColor clearColor];
-        
-        return addCell;
     }
     
     return nil;
@@ -359,10 +393,12 @@ static NSMutableArray *cellDataArray;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            NSInteger length    = cellDataArray.count;
+            [self projectDataStorageWithArrayIndex:length];
+            [self refreshData];
+        }
         
-        NSInteger length    = cellDataArray.count;
-        [self projectDataStorageWithArrayIndex:length];
-        [self refreshData];
     }
 }
 
@@ -1129,6 +1165,12 @@ static NSMutableArray *cellDataArray;
                                                                    waitUntilDone:YES];
                                            }];
     [proxy start];
+}
+
+#pragma mark - 存草稿
+- (void)saveDraft {
+    NSLog(@"存草稿");
+    
 }
 
 @end
