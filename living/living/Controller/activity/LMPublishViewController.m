@@ -1615,7 +1615,7 @@ static NSMutableArray *cellDataArray;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     format.dateFormat = @"yyyy-MM-dd hh:mm";
     NSString *dateStr = [format stringFromDate:[NSDate date]];
-    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":msgCell.titleTF.text, @"desp":@"", @"category":msgCell.category.titleLabel.text, @"type":@"activity", @"content":contentStr, @"time":dateStr};
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":msgCell.titleTF.text, @"desp":msgNotice, @"category":msgCell.category.titleLabel.text, @"type":@"activity", @"content":contentStr, @"time":dateStr};
     NSLog(@"%@", info);
     if([db addToDraft:info]) {
         [self textStateHUD:@"保存成功"];

@@ -342,10 +342,11 @@ static NSMutableArray *cellDataArray;
             UIImage *image=(UIImage *)projectImageArray[indexPath.row];
             [cell.imgView setImage:image];
             
-        }else
-            if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
-                [cell.imgView setImage:[UIImage imageNamed:@""]];
-            }
+        }else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+            
+            [cell.imgView setImage:[UIImage imageNamed:@""]];
+            
+        }
         
         
         [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
@@ -1432,13 +1433,142 @@ static NSMutableArray *cellDataArray;
 - (void)saveDraft {
     NSLog(@"存项目草稿");
     db = [DataBase sharedDataBase];
-    NSDictionary *contentDic = @{@"cellData":cellDataArray};
+    NSString *latitudeString;
+    NSString *longitudeString;
+    if (_latitude ==0 &&_longitude==0) {
+        latitudeString = @"";
+        longitudeString = @"";
+    }else{
+        latitudeString = [NSString stringWithFormat:@"%f",_latitude];
+        longitudeString =[NSString stringWithFormat:@"%f",_longitude] ;
+    }
+    NSMutableArray * dataArr = [NSMutableArray new];
+    for (; index<cellDataArray.count; index++) {
+        NSDictionary *dic=cellDataArray[index];
+        NSString *url = @"";
+        NSString *cover = @"";
+        if (publicTag-100 == index) {
+            url = videoUrl;
+            cover = coverUrl;
+        }else{
+            url = @"";
+            cover = @"";
+        }
+        
+        NSDictionary * dict = @{@"project_title":dic[@"title"], @"project_dsp":dic[@"content"], @"project_imgs":dic[@"image"], @"videoUrl":url, @"coverUrl":cover};
+        [dataArr addObject:dict];
+        
+    }
+
+    LMNewPublicEventRequest * request = [[LMNewPublicEventRequest alloc]
+                                         initWithEvent_name:msgCell.titleTF.text
+                                         Contact_phone:msgCell.phoneTF.text
+                                         Contact_name:msgCell.nameTF.text
+                                         Per_cost:msgCell.freeTF.text
+                                         Discount:msgCell.VipFreeTF.text
+                                         FranchiseePrice:msgCell.couponTF.text
+                                         Address:msgCell.addressButton.textLabel.text
+                                         Address_detail:msgCell.dspTF.text
+                                         Event_img:_imgURL
+                                         Latitude:latitudeString
+                                         Longitude:longitudeString
+                                         notices:msgCell.applyTextView.text
+                                         available:useCounpon
+                                         Category:typeStr
+                                         Type:@"item"
+                                         blend:dataArr];
+    
+    
+    NSString *msgTitle = @"";
+    NSString *msgPhone = @"";
+    NSString *msgName = @"";
+    
+    NSString *msgFee = @"";
+    NSString *msgVipFee = @"";
+    NSString *msgCouponFee = @"";
+    
+    NSString *msgAddress = @"";
+    NSString *msgDetailAddress = @"";
+    NSString *msgImgUrl = @"";
+    
+    NSString *msgLatitude = @"";
+    NSString *msgLongitude = @"";
+    NSString *msgNotice = @"";
+    NSString *msgAvailable = @"";
+    
+    NSString *msgCategory = @"";
+    
+    
+    if (msgCell.titleTF.text) {
+        msgTitle = msgCell.titleTF.text;
+    }
+    if (msgCell.phoneTF.text) {
+        msgPhone = msgCell.phoneTF.text;
+    }
+    if (msgCell.nameTF.text) {
+        msgName = msgCell.nameTF.text;
+    }
+     //////
+    if (msgCell.freeTF.text) {
+        msgFee = msgCell.freeTF.text;
+    }
+    if (msgCell.VipFreeTF.text) {
+        msgVipFee = msgCell.VipFreeTF.text;
+    }
+    if (msgCell.couponTF.text) {
+        msgCouponFee = msgCell.couponTF.text;
+    }
+    //////
+    
+    if (msgCell.addressButton.textLabel.text) {
+        msgAddress = msgCell.addressButton.textLabel.text;
+    }
+    if (msgCell.dspTF.text) {
+        msgDetailAddress = msgCell.dspTF.text;
+    }
+    if (_imgURL) {
+        msgImgUrl = _imgURL;
+    }
+    //////
+    if (latitudeString) {
+        msgLatitude = latitudeString;
+    }
+    if (longitudeString) {
+        msgLongitude = longitudeString;
+    }
+    if (msgCell.applyTextView.text) {
+        msgNotice = msgCell.applyTextView.text;
+    }
+    if (useCounpon) {
+        msgAvailable = useCounpon;
+    }
+    if (typeStr) {
+        msgCategory = typeStr;
+    }
+    
+    NSDictionary *contentDic = @{@"headData":@{@"title":msgTitle,
+                                               @"phone":msgPhone,
+                                               @"name":msgName,
+                                               @"fee":msgFee,
+                                               @"vipFee":msgVipFee,
+                                               @"couponFee":msgCouponFee,
+                                               @"address":msgAddress,
+                                               @"detailAddress":msgDetailAddress,
+                                               @"imgUrl":msgImgUrl,
+                                               @"latitude":msgLatitude,
+                                               @"longitude":msgLongitude,
+                                               @"notices":msgNotice,
+                                               @"available":msgAvailable,
+                                               @"category":msgCategory
+                                               },
+                                 @"cellData":cellDataArray};
+    
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
     NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     format.dateFormat = @"yyyy-MM-dd hh:mm";
     NSString *dateStr = [format stringFromDate:[NSDate date]];
-    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":@"", @"desp":@"", @"category":@"", @"type":@"review", @"content":contentStr, @"time":dateStr};
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":msgTitle, @"desp":msgNotice, @"category":msgCategory, @"type":@"event", @"content":contentStr, @"time":dateStr};
     NSLog(@"%@", info);
     if([db addToDraft:info]) {
         [self textStateHUD:@"保存成功"];
