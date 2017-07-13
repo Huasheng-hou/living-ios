@@ -29,6 +29,9 @@
 #import "LMPublicEventCell.h"
 #import "LMNewPublicEventRequest.h"
 #import "LMTypeListViewController.h"
+
+#import "DataBase.h"
+
 @interface LMPublicEventController ()
 <
 UITableViewDelegate,
@@ -84,6 +87,9 @@ LMTypeListProtocol
     
     NSString * typeName;
     NSString * typeStr;
+    
+    DataBase *db;
+    
 }
 @property(nonatomic,strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
@@ -1424,8 +1430,23 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark - 存草稿
 - (void)saveDraft {
-    NSLog(@"存草稿");
-    
+    NSLog(@"存项目草稿");
+    db = [DataBase sharedDataBase];
+    NSDictionary *contentDic = @{@"cellData":cellDataArray};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd hh:mm";
+    NSString *dateStr = [format stringFromDate:[NSDate date]];
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":@"", @"desp":@"", @"category":@"", @"type":@"review", @"content":contentStr, @"time":dateStr};
+    NSLog(@"%@", info);
+    if([db addToDraft:info]) {
+        [self textStateHUD:@"保存成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self textStateHUD:@"保存失败,请重试"];
+    }
+
 }
 
 @end

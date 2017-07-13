@@ -31,6 +31,9 @@
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self action:@selector(clearAll:)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     //数据库查询
     _db = [DataBase sharedDataBase];
     NSArray *array = [_db queryFromDraft];
@@ -91,10 +94,6 @@
         }
         
         
-        
-        
-        
-        
     }
 }
 
@@ -102,12 +101,35 @@
 - (void)deleteItemWithTag:(NSInteger)index {
     NSDictionary *dataDic = _dataSource[index];
     _db = [DataBase sharedDataBase];
-    [_db deleteTableWithName:@"article"];
+    
+    BOOL isOK = [_db deleteFromDraftWithID:dataDic[@"id"]];
+    if (isOK) {
+        [self textStateHUD:@"删除成功"];
+        [_dataSource removeObjectAtIndex:index];
+        [self.tableView reloadData];
+    } else {
+        [self textStateHUD:@"删除失败"];
+    }
+    
+    //[_db deleteTableWithName:@"article"];
 }
 
 
 #pragma mark - 清空草稿箱
+- (void)clearAll:(UIBarButtonItem *)item {
+    _db = [DataBase sharedDataBase];
+    
+    BOOL isOK = [_db deleteAllDataFromDraft];
+    if (isOK) {
+        [self textStateHUD:@"清空成功"];
+        [_dataSource removeAllObjects];
+        [self.tableView reloadData];
+    } else {
+        [self textStateHUD:@"清空失败"];
+    }
 
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

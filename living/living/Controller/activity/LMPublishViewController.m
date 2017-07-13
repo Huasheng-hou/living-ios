@@ -27,7 +27,7 @@
 #import "ZYQAssetPickerController.h"
 #import "FirUploadVideoRequest.h"
 #import "LMTypeListViewController.h"
-
+#import "DataBase.h"
 @interface LMPublishViewController ()
 <
 UITableViewDelegate,
@@ -84,6 +84,8 @@ LMTypeListProtocol
     
     NSString * typeName;
     NSString * typeStr;
+    
+    DataBase *db;
     
 }
 @property(nonatomic,strong) MAMapView *mapView;
@@ -344,10 +346,10 @@ static NSMutableArray *cellDataArray;
             UIImage *image=(UIImage *)projectImageArray[indexPath.row];
             [cell.imgView setImage:image];
             
-        }else
-            if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
-                [cell.imgView setImage:[UIImage imageNamed:@""]];
-            }
+        }else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
+            
+            [cell.imgView setImage:[UIImage imageNamed:@""]];
+        }
         
         
         [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
@@ -1181,6 +1183,7 @@ static NSMutableArray *cellDataArray;
 - (void)publicProject
 {
     NSDictionary *dic=cellDataArray[index];
+    NSLog(@"%@", cellDataArray);
     NSString *url = @"";
     NSString *cover = @"";
     if (publicTag-100 == index) {
@@ -1489,10 +1492,138 @@ static NSMutableArray *cellDataArray;
     projectcell.button.hidden = YES;
 }
 
+
+
 #pragma mark - 存草稿
 - (void)saveDraft {
-    NSLog(@"存草稿");
+    NSLog(@"存活动草稿");
+    db = [DataBase sharedDataBase];
+    NSString *latitudeString;
+    NSString *longitudeString;
+    if (_latitude ==0 &&_longitude==0) {
+        latitudeString = @"";
+        longitudeString = @"";
+    }else{
+        latitudeString = [NSString stringWithFormat:@"%f",_latitude];
+        longitudeString =[NSString stringWithFormat:@"%f",_longitude] ;
+    }
+    NSString *startstring = [NSString stringWithFormat:@"%@",msgCell.dateButton.textLabel.text];
+    NSString *endString =[NSString stringWithFormat:@"%@",msgCell.endDateButton.textLabel.text];
     
+    NSString *msgTitle = @"";
+    NSString *msgPhone = @"";
+    NSString *msgName = @"";
+    NSString *msgFee = @"";
+    
+    NSString *msgVipFee = @"";
+    NSString *msgCouponFee = @"";
+    NSString *msgStartTime = @"";
+    NSString *msgEndTime = @"";
+
+    NSString *msgAddress = @"";
+    NSString *msgDetailAddress = @"";
+    NSString *msgImgUrl = @"";
+    NSString *msgLatitude = @"";
+
+    NSString *msgLongitude = @"";
+    NSString *msgLimit = @"";
+    NSString *msgNotice = @"";
+    NSString *msgAvailable = @"";
+
+    NSString *msgCategory = @"";
+    
+    
+    if (msgCell.titleTF.text) {
+        msgTitle = msgCell.titleTF.text;
+    }
+    if (msgCell.phoneTF.text) {
+        msgPhone = msgCell.phoneTF.text;
+    }
+    if (msgCell.nameTF.text) {
+        msgName = msgCell.nameTF.text;
+    }
+    if (msgCell.freeTF.text) {
+        msgFee = msgCell.freeTF.text;
+    }
+    
+    //////
+    if (msgCell.VipFreeTF.text) {
+        msgVipFee = msgCell.VipFreeTF.text;
+    }
+    if (msgCell.couponTF.text) {
+        msgCouponFee = msgCell.couponTF.text;
+    }
+    if (startstring) {
+        msgStartTime = startstring;
+    }
+    if (endString) {
+        msgEndTime = endString;
+    }
+    //////
+    
+    if (msgCell.addressButton.textLabel.text) {
+        msgAddress = msgCell.addressButton.textLabel.text;
+    }
+    if (msgCell.dspTF.text) {
+        msgDetailAddress = msgCell.dspTF.text;
+    }
+    if (_imgURL) {
+        msgImgUrl = _imgURL;
+    }
+    if (latitudeString) {
+        msgLatitude = latitudeString;
+    }
+    //////
+    
+    if (longitudeString) {
+        msgLongitude = longitudeString;
+    }
+    if (msgCell.joincountTF.text) {
+        msgLimit = msgCell.joincountTF.text;
+    }
+    if (msgCell.applyTextView.text) {
+        msgNotice = msgCell.applyTextView.text;
+    }
+    if (useCounpon) {
+        msgAvailable = useCounpon;
+    }
+    if (typeStr) {
+        msgCategory = typeStr;
+    }
+    
+    NSDictionary *contentDic = @{@"headData":@{@"title":msgTitle,
+                                               @"phone":msgPhone,
+                                               @"name":msgName,
+                                               @"fee":msgFee,
+                                               @"vipFee":msgVipFee,
+                                               @"couponFee":msgCouponFee,
+                                               @"start":msgStartTime,
+                                               @"end":msgEndTime,
+                                               @"address":msgAddress,
+                                               @"detailAddress":msgDetailAddress,
+                                               @"imgUrl":msgImgUrl,
+                                               @"latitude":msgLatitude,
+                                               @"longitude":msgLongitude,
+                                               @"limitNum":msgLimit,
+                                               @"notices":msgNotice,
+                                               @"available":msgAvailable,
+                                               @"category":msgCategory
+                                               },
+                                 @"cellData":cellDataArray};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd hh:mm";
+    NSString *dateStr = [format stringFromDate:[NSDate date]];
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":msgCell.titleTF.text, @"desp":@"", @"category":msgCell.category.titleLabel.text, @"type":@"activity", @"content":contentStr, @"time":dateStr};
+    NSLog(@"%@", info);
+    if([db addToDraft:info]) {
+        [self textStateHUD:@"保存成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self textStateHUD:@"保存失败,请重试"];
+    }
+
 }
 
 @end

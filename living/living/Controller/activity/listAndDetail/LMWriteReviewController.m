@@ -1171,7 +1171,7 @@ static NSMutableArray *cellDataArray;
 
 #pragma mark - 存草稿
 - (void)saveDraft {
-    NSLog(@"存草稿");
+    NSLog(@"存回顾草稿");
     db = [DataBase sharedDataBase];
     NSDictionary *contentDic = @{@"cellData":cellDataArray};
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];

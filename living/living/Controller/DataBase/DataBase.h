@@ -17,6 +17,8 @@
 - (BOOL)deleteFromDraftWithID:(NSString *)ID;
 - (NSArray *)queryFromDraft;
 
+- (BOOL)deleteAllDataFromDraft;
+
 //删除表
 - (void)deleteTableWithName:(NSString *)table;
 

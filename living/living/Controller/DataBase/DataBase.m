@@ -125,6 +125,21 @@ static DataBase *dataBase = nil;
     return isOK;
 }
 
+//清空表
+- (BOOL)deleteAllDataFromDraft {
+    
+    [_db open];
+    
+    BOOL isOK = [_db executeUpdate:@"delete from draft;"];
+    if (!isOK) {
+        NSLog(@"删除失败");
+    } else {
+        NSLog(@"删除成功");
+    }
+    
+    [_db close];
+    return isOK;
+}
 //删除表
 - (void)deleteTableWithName:(NSString *)table {
     [_db open];
