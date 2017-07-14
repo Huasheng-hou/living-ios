@@ -146,6 +146,12 @@ static NSMutableArray *cellDataArray;
     self.navigationItem.rightBarButtonItem = rightItem;
     
     [self creatFootView];
+    
+    //草稿箱
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setDataFromDraft];
+    });
+
 }
 
 -(void)creatFootView
@@ -344,10 +350,13 @@ static NSMutableArray *cellDataArray;
             
         }else if ([projectImageArray[indexPath.row] isKindOfClass:[NSString class]]) {
             
-            [cell.imgView setImage:[UIImage imageNamed:@""]];
+            if (![projectImageArray[indexPath.row] isEqualToString:@""]) {
+                [cell.imgView sd_setImageWithURL:[NSURL URLWithString:projectImageArray[indexPath.row]]];
+            } else {
+                [cell.imgView setImage:[UIImage imageNamed:@""]];
+            }
             
         }
-        
         
         [cell.deleteBt addTarget:self action:@selector(closeCell:) forControlEvents:UIControlEventTouchUpInside];
         [cell.deleteBt setTag:indexPath.row];
@@ -1133,7 +1142,23 @@ static NSMutableArray *cellDataArray;
     }
     
     
-    LMNewPublicEventRequest * request = [[LMNewPublicEventRequest alloc] initWithEvent_name:msgCell.titleTF.text Contact_phone:msgCell.phoneTF.text Contact_name:msgCell.nameTF.text Per_cost:msgCell.freeTF.text Discount:msgCell.VipFreeTF.text FranchiseePrice:msgCell.couponTF.text Address:msgCell.addressButton.textLabel.text Address_detail:msgCell.dspTF.text Event_img:_imgURL Latitude:latitudeString Longitude:longitudeString notices:msgCell.applyTextView.text available:useCounpon Category:typeStr Type:@"item" blend:dataArr];
+    LMNewPublicEventRequest * request = [[LMNewPublicEventRequest alloc]
+                                         initWithEvent_name:msgCell.titleTF.text
+                                         Contact_phone:msgCell.phoneTF.text
+                                         Contact_name:msgCell.nameTF.text
+                                         Per_cost:msgCell.freeTF.text
+                                         Discount:msgCell.VipFreeTF.text
+                                         FranchiseePrice:msgCell.couponTF.text
+                                         Address:msgCell.addressButton.textLabel.text
+                                         Address_detail:msgCell.dspTF.text
+                                         Event_img:_imgURL
+                                         Latitude:latitudeString
+                                         Longitude:longitudeString
+                                         notices:msgCell.applyTextView.text
+                                         available:useCounpon
+                                         Category:typeStr
+                                         Type:@"item"
+                                         blend:dataArr];
     
     HTTPProxy   *proxy  = [HTTPProxy loadWithRequest:request
                                            completed:^(NSString *resp, NSStringEncoding encoding) {
@@ -1166,7 +1191,11 @@ static NSMutableArray *cellDataArray;
             eventUUid = string;
             
             [self textStateHUD:@"发布成功"];
-            
+            //删除草稿
+            if (_draftDic) {
+                db = [DataBase sharedDataBase];
+                [db deleteFromDraftWithID:_draftDic[@"id"]];
+            }
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
                 
@@ -1497,7 +1526,10 @@ static NSMutableArray *cellDataArray;
     NSString *msgAvailable = @"";
     
     NSString *msgCategory = @"";
+    NSString *msgType = @"";
     
+    NSString *videoStr = @"";
+    NSString *coverStr = @"";
     
     if (msgCell.titleTF.text) {
         msgTitle = msgCell.titleTF.text;
@@ -1542,10 +1574,18 @@ static NSMutableArray *cellDataArray;
     if (useCounpon) {
         msgAvailable = useCounpon;
     }
-    if (typeStr) {
-        msgCategory = typeStr;
+    if (typeName) {
+        msgCategory = typeName;
     }
-    
+    if (typeStr) {
+        msgType = typeStr;
+    }
+    if (videoUrl) {
+        videoStr = videoUrl;
+    }
+    if (coverUrl) {
+        coverStr = coverUrl;
+    }
     NSDictionary *contentDic = @{@"headData":@{@"title":msgTitle,
                                                @"phone":msgPhone,
                                                @"name":msgName,
@@ -1559,7 +1599,11 @@ static NSMutableArray *cellDataArray;
                                                @"longitude":msgLongitude,
                                                @"notices":msgNotice,
                                                @"available":msgAvailable,
-                                               @"category":msgCategory
+                                               @"category":msgCategory,
+                                               @"typeStr":msgType,
+                                               @"cellTag":[NSNumber numberWithInteger:cellTag],
+                                               @"videoUrl":videoStr,
+                                               @"coverUrl":coverStr
                                                },
                                  @"cellData":cellDataArray};
     
@@ -1570,6 +1614,16 @@ static NSMutableArray *cellDataArray;
     NSString *dateStr = [format stringFromDate:[NSDate date]];
     NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":msgTitle, @"desp":msgNotice, @"category":msgCategory, @"type":@"event", @"content":contentStr, @"time":dateStr};
     NSLog(@"%@", info);
+    if (_draftDic) {
+        //修改
+        if([db updateDraft:_draftDic[@"id"] withInfo:info]) {
+            [self textStateHUD:@"保存成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [self textStateHUD:@"保存失败,请重试"];
+        }
+        return;
+    }
     if([db addToDraft:info]) {
         [self textStateHUD:@"保存成功"];
         [self.navigationController popViewControllerAnimated:YES];
@@ -1577,6 +1631,83 @@ static NSMutableArray *cellDataArray;
         [self textStateHUD:@"保存失败,请重试"];
     }
 
+}
+#pragma mark - 从草稿箱填充数据
+- (void)setDataFromDraft {
+    if (!_draftDic) {
+        return;
+    }
+    NSString *contentStr = _draftDic[@"content"];
+    NSData *contentData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *contentDic = [NSJSONSerialization JSONObjectWithData:contentData options:NSJSONReadingMutableContainers error:nil];
+    
+    NSDictionary *headDic = contentDic[@"headData"];
+    
+    msgCell.titleTF.text = headDic[@"title"];
+    msgCell.phoneTF.text = headDic[@"phone"];
+    msgCell.nameTF.text = headDic[@"name"];
+    
+    msgCell.freeTF.text = headDic[@"fee"];
+    msgCell.VipFreeTF.text = headDic[@"vipFee"];
+    msgCell.couponTF.text = headDic[@"couponFee"];
+    
+    
+    msgCell.addressButton.textLabel.text = headDic[@"address"];
+    msgCell.dspTF.text = headDic[@"detailAddress"];
+    
+    _imgURL = headDic[@"imgUrl"];
+    if (_imgURL && ![_imgURL isEqualToString:@""]) {
+        [msgCell.imgView sd_setImageWithURL:[NSURL URLWithString:_imgURL]];
+        msgCell.imgView.contentMode = UIViewContentModeScaleAspectFill;
+        msgCell.imgView.clipsToBounds = YES;
+    }
+    
+    
+    _latitude = [headDic[@"latitude"] doubleValue];
+    _longitude = [headDic[@"longitude"] doubleValue];
+    
+    if (headDic[@"notices"] && ![headDic[@"notices"] isEqualToString:@""]) {
+        msgCell.applyTextView.text = headDic[@"notices"];
+        msgCell.msgLabel.hidden = YES;
+    }
+    
+    if (headDic[@"category"] && ![headDic[@"category"] isEqualToString:@""]) {
+        typeName = headDic[@"category"];
+    }
+    if (headDic[@"typeStr"] && ![headDic[@"typeStr"] isEqualToString:@""]) {
+        typeStr = headDic[@"typeStr"];
+    }
+    
+    
+    cellTag = [headDic[@"cellTag"] integerValue];
+    publicTag = cellTag;
+    videoUrl = headDic[@"videoUrl"];
+    coverUrl = headDic[@"coverUrl"];
+    if (coverUrl) {
+        videoImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:coverUrl]]];
+    }
+    
+    
+    useCounpon = headDic[@"available"];
+    if ([useCounpon isEqualToString:@"1"]) {
+        [self useCounpon];
+    } else if ([useCounpon isEqualToString:@"2"]) {
+        [self UNuseCounpon];
+    }
+    
+    
+    cellDataArray = contentDic[@"cellData"];
+    NSLog(@"%@", contentDic);
+    NSLog(@"%@", cellDataArray);
+    
+    for (int i = 0; i < cellDataArray.count; i++) {
+        NSDictionary *dic = cellDataArray[i];
+        [projectImageArray replaceObjectAtIndex:i withObject:dic[@"image"]];
+        
+    }
+    NSLog(@"=======%@", projectImageArray);
+    [self.tableView reloadData];
+    
 }
 
 @end

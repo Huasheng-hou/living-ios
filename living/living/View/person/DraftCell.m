@@ -98,6 +98,9 @@
     } else if ([dict[@"type"] isEqualToString:@"event"]) {
         type.text = @"项目";
         type.backgroundColor = [UIColor purpleColor];
+        if (headDic[@"imgUrl"]) {
+            [icon sd_setImageWithURL:[NSURL URLWithString:headDic[@"imgUrl"]]];
+        }
     } else if ([dict[@"type"] isEqualToString:@"class"]) {
         type.text = @"课程";
         type.backgroundColor = LIVING_COLOR;
