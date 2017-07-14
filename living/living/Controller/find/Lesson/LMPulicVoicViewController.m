@@ -1319,9 +1319,27 @@ static NSMutableArray *cellDataArray;
     msgCell.VipFreeTF.text = headDic[@"vipFee"];
     msgCell.couponTF.text = headDic[@"couponFee"];
     
-    msgCell.dateButton.textLabel.text = headDic[@"start"];
-    msgCell.endDateButton.textLabel.text = headDic[@"end"];
     
+    //时间判断
+    if (headDic[@"start"] || headDic[@"end"] ) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd hh:mm:ss";
+        NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+        if (headDic[@"start"]) {
+            NSDate *startDate = [formatter dateFromString:headDic[@"start"]];
+            NSTimeInterval startTime = [startDate timeIntervalSince1970];
+            if (startTime > currentTime) {
+                msgCell.dateButton.textLabel.text = headDic[@"start"];
+            }
+        }
+        if (headDic[@"end"]) {
+            NSDate *endDate = [formatter dateFromString:headDic[@"end"]];
+            NSTimeInterval endTime = [endDate timeIntervalSince1970];
+            if (endTime > currentTime) {
+                msgCell.endDateButton.textLabel.text = headDic[@"end"];
+            }
+        }
+    }
     
     _imgURL = headDic[@"imgUrl"];
     if (_imgURL && ![_imgURL isEqualToString:@""]) {
