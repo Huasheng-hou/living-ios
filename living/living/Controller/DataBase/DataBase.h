@@ -15,6 +15,7 @@
 
 - (BOOL)addToDraft:(NSDictionary *)info;
 - (BOOL)deleteFromDraftWithID:(NSString *)ID;
+- (BOOL)updateDraft:(NSString *)ID withInfo:(NSDictionary *)info;
 - (NSArray *)queryFromDraft;
 
 - (BOOL)deleteAllDataFromDraft;

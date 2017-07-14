@@ -10,4 +10,6 @@
 
 @interface LMPulicVoicViewController : FitBaseViewController
 
+@property (nonatomic, strong) NSDictionary *draftDic;
+
 @end

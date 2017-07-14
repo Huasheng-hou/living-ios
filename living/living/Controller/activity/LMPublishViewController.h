@@ -10,4 +10,7 @@
 
 @interface LMPublishViewController : FitBaseViewController
 
+@property (nonatomic, strong) NSDictionary *draftDic;
+
+
 @end

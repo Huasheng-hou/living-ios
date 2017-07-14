@@ -111,6 +111,18 @@ static DataBase *dataBase = nil;
     [_db close];
     return array;
 }
+- (BOOL)updateDraft:(NSString *)ID withInfo:(NSDictionary *)info {
+    [_db open];
+    
+    BOOL isOK = [_db executeUpdate:@"UPDATE draft SET person_id = ?, title = ?, desp = ?, category = ?, type = ?, content = ?, time = ? WHERE id = ?;" withArgumentsInArray:@[info[@"person_id"], info[@"title"], info[@"desp"], info[@"category"], info[@"type"], info[@"content"], info[@"time"], ID]];
+    if (!isOK) {
+        NSLog(@"修改失败");
+    } else {
+        NSLog(@"修改成功");
+    }
+    [_db close];
+    return isOK;
+}
 - (BOOL)deleteFromDraftWithID:(NSString *)ID {
     [_db open];
     
@@ -124,6 +136,12 @@ static DataBase *dataBase = nil;
     [_db close];
     return isOK;
 }
+
+
+
+
+
+
 
 //清空表
 - (BOOL)deleteAllDataFromDraft {

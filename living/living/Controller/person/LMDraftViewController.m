@@ -9,6 +9,12 @@
 #import "LMDraftViewController.h"
 #import "DraftCell.h"
 #import "DataBase.h"
+#import "LMPublicArticleController.h"
+#import "LMWriteReviewController.h"
+#import "LMPublishViewController.h"
+#import "LMPublicEventController.h"
+#import "LMPulicVoicViewController.h"
+
 @interface LMDraftViewController ()<DraftCellDelegate>
 
 @property (nonatomic, strong) DataBase *db;
@@ -24,22 +30,15 @@
     [self createUI];
     
 }
-- (void)createUI {
-    [super createUI];
-    self.view.backgroundColor = BG_GRAY_COLOR;
-    self.navigationItem.title = @"草稿箱";
-    self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self action:@selector(clearAll:)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     //数据库查询
     _db = [DataBase sharedDataBase];
     NSArray *array = [_db queryFromDraft];
+    [_dataSource removeAllObjects];
     [_dataSource addObjectsFromArray:array];
     if (_dataSource.count > 0) {
-         //有数据，刷新列表
+        //有数据，刷新列表
         _tip.hidden = YES;
         [self.tableView reloadData];
     } else {
@@ -55,6 +54,17 @@
             _tip.hidden = NO;
         }
     }
+}
+- (void)createUI {
+    [super createUI];
+    self.view.backgroundColor = BG_GRAY_COLOR;
+    self.navigationItem.title = @"草稿箱";
+    self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self action:@selector(clearAll:)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -82,15 +92,35 @@
     if (_dataSource.count > indexPath.row) {
         NSDictionary *dataDic = _dataSource[indexPath.row];
         if ([dataDic[@"type"] isEqualToString:@"article"]) {
-            
+            //文章
+            LMPublicArticleController *articleVC = [[LMPublicArticleController alloc] init];
+            articleVC.hidesBottomBarWhenPushed = YES;
+            articleVC.draftDic = dataDic;
+            [self.navigationController pushViewController:articleVC animated:YES];
         } else if ([dataDic[@"type"] isEqualToString:@"review"]) {
-            
+            //回顾
+            LMWriteReviewController *reviewVC = [[LMWriteReviewController alloc] init];
+            reviewVC.hidesBottomBarWhenPushed = YES;
+            reviewVC.draftDic = dataDic;
+            [self.navigationController pushViewController:reviewVC animated:YES];
         } else if ([dataDic[@"type"] isEqualToString:@"activity"]) {
-            
+            //活动
+            LMPublishViewController *activityVC = [[LMPublishViewController alloc] init];
+            activityVC.hidesBottomBarWhenPushed = YES;
+            activityVC.draftDic = dataDic;
+            [self.navigationController pushViewController:activityVC animated:YES];
         } else if ([dataDic[@"type"] isEqualToString:@"event"]) {
-            
+            //项目
+            LMPublicEventController *eventVC = [[LMPublicEventController alloc] init];
+            eventVC.hidesBottomBarWhenPushed = YES;
+            eventVC.draftDic = dataDic;
+            [self.navigationController pushViewController:eventVC animated:YES];
         } else if ([dataDic[@"type"] isEqualToString:@"class"]) {
-            
+            //课程
+            LMPulicVoicViewController *classVC = [[LMPulicVoicViewController alloc] init];
+            classVC.hidesBottomBarWhenPushed = YES;
+            classVC.draftDic = dataDic;
+            [self.navigationController pushViewController:classVC animated:YES];
         }
         
         
