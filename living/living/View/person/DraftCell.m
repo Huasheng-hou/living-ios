@@ -79,7 +79,10 @@
 }
 
 - (void)setData:(NSDictionary *)dict {
-    
+    NSString *contentStr = dict[@"content"];
+    NSData *contentData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *contentDic = [NSJSONSerialization JSONObjectWithData:contentData options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary *headDic = contentDic[@"headData"];
     if ([dict[@"type"] isEqualToString:@"article"]) {
         type.text = @"文章";
         type.backgroundColor = [UIColor yellowColor];
@@ -89,6 +92,9 @@
     } else if ([dict[@"type"] isEqualToString:@"activity"]) {
         type.text = @"活动";
         type.backgroundColor = [UIColor greenColor];
+        if (headDic[@"imgUrl"]) {
+            [icon sd_setImageWithURL:[NSURL URLWithString:headDic[@"imgUrl"]]];
+        }
     } else if ([dict[@"type"] isEqualToString:@"event"]) {
         type.text = @"项目";
         type.backgroundColor = [UIColor purpleColor];

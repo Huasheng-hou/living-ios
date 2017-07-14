@@ -40,7 +40,7 @@
     if (_dataSource.count > 0) {
         //有数据，刷新列表
         _tip.hidden = YES;
-        [self.tableView reloadData];
+        
     } else {
         //没数据，提示信息‘暂无草稿’
         if (!_tip) {
@@ -54,6 +54,7 @@
             _tip.hidden = NO;
         }
     }
+    [self.tableView reloadData];
 }
 - (void)createUI {
     [super createUI];
