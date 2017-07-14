@@ -1723,6 +1723,7 @@ static NSMutableArray *cellDataArray;
     _longitude = [headDic[@"longitude"] doubleValue];
     
     msgCell.joincountTF.text = headDic[@"limitNum"];
+    
     if (headDic[@"notices"] && ![headDic[@"notices"] isEqualToString:@""]) {
         msgCell.applyTextView.text = headDic[@"notices"];
         msgCell.msgLabel.hidden = YES;

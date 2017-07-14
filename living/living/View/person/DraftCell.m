@@ -101,6 +101,9 @@
     } else if ([dict[@"type"] isEqualToString:@"class"]) {
         type.text = @"课程";
         type.backgroundColor = LIVING_COLOR;
+        if (headDic[@"imgUrl"]) {
+            [icon sd_setImageWithURL:[NSURL URLWithString:headDic[@"imgUrl"]]];
+        }
     }
     
     name.text = dict[@"title"];
