@@ -118,6 +118,10 @@ static NSMutableArray *cellDataArray;
         
         [projectImageArray addObject:@""];
     }
+    
+    
+    //草稿箱
+    [self setDataFromDraft];
 }
 
 - (void)createUI
@@ -996,6 +1000,11 @@ static NSMutableArray *cellDataArray;
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             [self textStateHUD:@"发布成功"];
+            //删除草稿
+            if (_draftDic) {
+                db = [DataBase sharedDataBase];
+                [db deleteFromDraftWithID:_draftDic[@"id"]];
+            }
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
@@ -1173,7 +1182,7 @@ static NSMutableArray *cellDataArray;
 - (void)saveDraft {
     NSLog(@"存回顾草稿");
     db = [DataBase sharedDataBase];
-    NSDictionary *contentDic = @{@"cellData":cellDataArray};
+    NSDictionary *contentDic = @{@"cellData":cellDataArray, @"eventUuid":_eventUuid, @"eventName":_eventName};
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
     NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -1181,6 +1190,19 @@ static NSMutableArray *cellDataArray;
     NSString *dateStr = [format stringFromDate:[NSDate date]];
     NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":titleTF.text, @"desp":discribleTF.text, @"category":@"", @"type":@"review", @"content":contentStr, @"time":dateStr};
     NSLog(@"%@", info);
+    
+    if (_draftDic) {
+        //修改
+        if([db updateDraft:_draftDic[@"id"] withInfo:info]) {
+            [self textStateHUD:@"保存成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [self textStateHUD:@"保存失败,请重试"];
+        }
+        return;
+    }
+
+    
     if([db addToDraft:info]) {
         [self textStateHUD:@"保存成功"];
         [self.navigationController popViewControllerAnimated:YES];
@@ -1188,6 +1210,41 @@ static NSMutableArray *cellDataArray;
         [self textStateHUD:@"保存失败,请重试"];
     }
 
+}
+#pragma mark - 从草稿箱填充数据
+- (void)setDataFromDraft {
+    if (!_draftDic) {
+        return;
+    }
+    titleTF.text = _draftDic[@"title"];
+    _eventName = _draftDic[@"title"];
+    
+    discribleTF.text = _draftDic[@"desp"];
+    NSString *typeName = _draftDic[@"category"];
+    if (typeName && ![typeName isEqualToString:@""]) {
+        typeString = typeName;
+        type = 2;
+    }
+    
+    NSString *contentStr = _draftDic[@"content"];
+    NSData *contentData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *contentDic = [NSJSONSerialization JSONObjectWithData:contentData options:NSJSONReadingMutableContainers error:nil];
+    
+    _eventUuid = contentDic[@"eventUuid"];
+    
+    cellDataArray = contentDic[@"cellData"];
+    
+    
+    
+    [projectImageArray removeAllObjects];
+    for (int i = 0; i < cellDataArray.count; i++) {
+        NSDictionary *dic = cellDataArray[i];
+        [projectImageArray addObject:dic[@"images"]];
+        imageNum += [dic[@"images"] count];
+    }
+    NSLog(@"=======%@", projectImageArray);
+    [self.tableView reloadData];
+    
 }
 
 @end
