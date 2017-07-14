@@ -83,12 +83,37 @@
     NSData *contentData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *contentDic = [NSJSONSerialization JSONObjectWithData:contentData options:NSJSONReadingMutableContainers error:nil];
     NSDictionary *headDic = contentDic[@"headData"];
+    NSArray *cellDataArray = contentDic[@"cellData"];
+    
     if ([dict[@"type"] isEqualToString:@"article"]) {
+        
         type.text = @"文章";
         type.backgroundColor = [UIColor yellowColor];
+        if (cellDataArray.count > 0) {
+            NSLog(@"%@", cellDataArray);
+            NSDictionary *dic = cellDataArray[0];
+            NSArray *imgArray = dic[@"images"];
+            if (imgArray.count > 0) {
+                NSDictionary *imageDic = imgArray[0];
+                if (imageDic[@"pictureUrl"]) {
+                    [icon sd_setImageWithURL:[NSURL URLWithString:imageDic[@"pictureUrl"]]];
+                }
+            }
+        }
     } else if ([dict[@"type"] isEqualToString:@"review"]) {
         type.text = @"回顾";
         type.backgroundColor = [UIColor blueColor];
+        if (cellDataArray.count > 0) {
+            NSLog(@"%@", cellDataArray);
+            NSDictionary *dic = cellDataArray[0];
+            NSArray *imgArray = dic[@"images"];
+            if (imgArray.count > 0) {
+                NSDictionary *imageDic = imgArray[0];
+                if (imageDic[@"pictureUrl"]) {
+                    [icon sd_setImageWithURL:[NSURL URLWithString:imageDic[@"pictureUrl"]]];
+                }
+            }
+        }
     } else if ([dict[@"type"] isEqualToString:@"activity"]) {
         type.text = @"活动";
         type.backgroundColor = [UIColor greenColor];
