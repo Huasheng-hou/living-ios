@@ -14,7 +14,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
-
+#import "UIViewController+Authority.h"
 #import "UIImageView+WebCache.h"
 #import "FitConsts.h"
 

@@ -17,6 +17,11 @@
     CLLocationManager *locationManager;
     NSArray *locArray;
     UIView  *backView;
+    
+    //权限
+    UIView *authorityView;
+    UILabel *authorityTip;
+    NSString *authorityString;
 }
 
 @property (strong, nonatomic) UIView *statusBar;
@@ -41,6 +46,55 @@
 @end
 
 @implementation SearchViewController
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (![self hasLocationAuthority]) {
+        authorityString = @"定位服务未开启";
+    } else if ([self hasPhotosAuthority] && [self hasCameraAuthority] && [self hasMicrophoneAuthority]) {
+        if (authorityView && !authorityView.hidden) {
+            authorityView.hidden = YES;
+            
+        }
+        return;
+    }
+    [self addAuthorityView];
+}
+- (void)addAuthorityView {
+    if (!authorityView) {
+        authorityView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
+        authorityView.backgroundColor = [UIColor whiteColor];
+        authorityView.layer.borderWidth = 1;
+        authorityView.layer.borderColor = BG_GRAY_COLOR.CGColor;
+        [self.view addSubview:authorityView];
+        
+        authorityTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth - 100, 30)];
+        authorityTip.text = authorityString;
+        authorityTip.textColor = TEXT_COLOR_LEVEL_1;
+        authorityTip.font = TEXT_FONT_LEVEL_1;
+        [authorityView addSubview:authorityTip];
+        
+        UIButton *openAuthority = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(authorityTip.frame) + 10, 10, 70, 30)];
+        [openAuthority setTitle:@"去开启" forState:UIControlStateNormal];
+        [openAuthority setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+        openAuthority.titleLabel.font = TEXT_FONT_LEVEL_1;
+        openAuthority.clipsToBounds = YES;
+        openAuthority.layer.cornerRadius = 2;
+        openAuthority.layer.borderColor = LIVING_COLOR.CGColor;
+        openAuthority.layer.borderWidth = 1;
+        [openAuthority addTarget:self action:@selector(openAuthority:) forControlEvents:UIControlEventTouchUpInside];
+        [authorityView addSubview:openAuthority];
+    } else {
+        if (authorityView.hidden) {
+            authorityView.hidden = NO;
+            authorityTip.text = authorityString;
+        }
+    }
+}
+- (void)openAuthority:(UIButton *)btn {
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
