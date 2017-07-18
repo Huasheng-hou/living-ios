@@ -72,7 +72,7 @@
     return _dataSource.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 90;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DraftCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
