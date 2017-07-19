@@ -26,10 +26,7 @@
 #define umAppKey                @"55d57f0d67e58ed077003880"
 #define umShareAppKey           @"560274c367e58ec5cb004a8d"
 
-//------------------Bugtags-------------------
 
-#define BugAppKey       @"c07430a1ee2d3b104750f0676ffb230a"
-#define BugAppSecret    @"8a8a8f84a77f0de7bb36d76c3038bbbd"
 
 //------------------微信--------------------
 
@@ -138,23 +135,7 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 #define imageW  kScreenWidth/2
 
-
-
-#define DEBUG_VERSION 1
-
-#ifdef DEBUG_VERSION
-///////*************   测试    ******************////////////
-
-//服务器
-#define SERVER_HOST @"http://120.26.64.40/living/"
-//支付协议
-#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"
-//websocket
-#define WEBSOCKET @"ws://114.55.26.86/live-connect/websocket"
-
-//Bugtags
-#define BUG_MODE BTGInvocationEventBubble
-
+//---------------------分享链接----------------------
 
 //文章
 #define ARTICLE_SHARE_LINK_QQ @"http://qq.yaoguo1818.com/living-web/apparticle/article?fakeId=%@"
@@ -172,6 +153,29 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define CLASS_SHARE_LINK_QQ @"http://qq.yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
 //课程
 #define CLASS_SHARE_LINK_WECHAT @"http://wechat.yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
+
+
+
+//---------------------环境设置----------------------
+
+
+
+#define DEBUG_VERSION 1
+
+#ifdef DEBUG_VERSION
+
+///////*************   测试    ******************////////////
+
+//服务器
+#define SERVER_HOST @"http://120.26.64.40/living/"
+//支付协议
+#define PAY_PROTOCOL_LINK @"http://120.26.64.40/living-web/pay-cn.html"
+//websocket
+#define WEBSOCKET @"ws://114.55.26.86/live-connect/websocket"
+
+//Bugtags
+#define BUG_MODE BTGInvocationEventBubble
+#define BugAppKey       @"c07430a1ee2d3b104750f0676ffb230a"
 
 
 #else
@@ -187,34 +191,7 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 //Bugtags
 #define BUG_MODE BTGInvocationEventNone
-
-
-
-////文章
-//#define ARTICLE_SHARE_LINK @"http://yaoguo1818.com/living-web/apparticle/article?fakeId=%@"
-////活动
-//#define ACTIVITY_SHARE_LINK @"http://wechat.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=1"
-////项目
-//#define ITEM_SHARE_LINK @"http://wechat.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=2"
-////课程
-//#define CLASS_SHARE_LINK @"http://wechat.yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
-
-//文章
-#define ARTICLE_SHARE_LINK_QQ @"http://qq.yaoguo1818.com/living-web/apparticle/article?fakeId=%@"
-//文章
-#define ARTICLE_SHARE_LINK_WECHAT @"http://wechat.yaoguo1818.com/living-web/apparticle/article?fakeId=%@"
-//活动
-#define ACTIVITY_SHARE_LINK_QQ @"http://qq.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=1"
-//活动
-#define ACTIVITY_SHARE_LINK_WECHAT @"http://wechat.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=1"
-//项目
-#define ITEM_SHARE_LINK_QQ @"http://qq.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=2"
-//项目
-#define ITEM_SHARE_LINK_WECHAT @"http://wechat.yaoguo1818.com/living-web/event/detail?event_uuid=%@&type=2"
-//课程
-#define CLASS_SHARE_LINK_QQ @"http://qq.yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
-//课程
-#define CLASS_SHARE_LINK_WECHAT @"http://wechat.yaoguo1818.com/living-web/voice/detail?voiceUuid=%@"
+#define BugAppKey       @"8841feab23ecf4b3815b2cd972bb0eaa"
 
 
 #endif

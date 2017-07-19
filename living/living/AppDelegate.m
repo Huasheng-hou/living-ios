@@ -29,7 +29,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import "UMMobClick/MobClick.h"
 #import "LMHomeDetailController.h"
-
+#import "UncaughtExceptionHandler.h"
 
 
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
@@ -58,13 +58,13 @@ UNUserNotificationCenterDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     //Bugtags
-    // BTGInvocationEventNone, 静默模式，只收集 Crash 信息（如果允许）  /*正式*/
-    // BTGInvocationEventBubble  通过悬浮小球呼出 Bugtags   /*测试*/
+    BugtagsOptions *options = [[BugtagsOptions alloc] init];
+    options.trackingNetwork = YES;
     [Bugtags startWithAppKey:BugAppKey invocationEvent:BUG_MODE];
     
     // * 启动个推
-    //
     [self GexinProcess:launchOptions];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -88,7 +88,7 @@ UNUserNotificationCenterDelegate
     //高德地图
     [AMapServices sharedServices].apiKey = @"51d5d65d0c32d550adda51ed2d90e338";
     
-    //     使用 UNUserNotificationCenter 来管理通知
+    //使用 UNUserNotificationCenter 来管理通知
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     //监听回调事件
     center.delegate = self;
@@ -105,6 +105,17 @@ UNUserNotificationCenterDelegate
     }];
     
     
+    //异常处理
+    //    NSSetUncaughtExceptionHandler(&caughtException);
+    //    signal(SIGABRT, SIG_IGN);
+    //    signal(SIGILL, SIG_IGN);
+    //    signal(SIGSEGV, SIG_IGN);
+    //    signal(SIGFPE, SIG_IGN);
+    //    signal(SIGBUS, SIG_IGN);
+    //    signal(SIGPIPE, SIG_IGN);
+    //    signal(SIGTRAP, SIG_IGN);
+    InstallUncaughtExceptionHandler();
+
     
     return YES;
 }
@@ -538,5 +549,12 @@ UNUserNotificationCenterDelegate
 {
     
 }
+#pragma mark - 异常处理
+//void caughtException(NSException *exception)
+//{
+//
+//    NSLog(@"CRACH: %@", exception);
+//    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+//}
 
 @end

@@ -22,4 +22,6 @@ typedef enum {
 
 @property   (assign, nonatomic) FitPickerViewType   pickerType;
 
+
+
 @end

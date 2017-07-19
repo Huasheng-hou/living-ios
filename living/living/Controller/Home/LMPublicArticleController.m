@@ -27,7 +27,7 @@
 #import <AVFoundation/AVAsset.h>
 #import <AVFoundation/AVAssetImageGenerator.h>
 #import <AVFoundation/AVTime.h>
-
+#import "DataBase.h"
 @interface LMPublicArticleController ()
 <
 UITextFieldDelegate,
@@ -69,6 +69,13 @@ KZVideoViewControllerDelegate
     NSString *videoUrl;
     NSMutableArray *updateImageArray;
     
+    //数据库
+    DataBase *db;
+    
+    //权限
+    UIView *authorityView;
+    UILabel *authorityTip;
+    NSString *authorityString;
 }
 
 
@@ -80,6 +87,68 @@ KZVideoViewControllerDelegate
 @implementation LMPublicArticleController
 
 static NSMutableArray *cellDataArray;
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (![self hasPhotosAuthority] && [self hasCameraAuthority] && [self hasMicrophoneAuthority]) {
+        authorityString = @"相册权限未开启";
+    } else if ([self hasPhotosAuthority] && ![self hasCameraAuthority] && [self hasMicrophoneAuthority]) {
+        authorityString = @"相机权限未开启";
+    } else if ([self hasPhotosAuthority] && [self hasCameraAuthority] && ![self hasMicrophoneAuthority]) {
+        authorityString = @"麦克风权限未开启";
+    } else if (![self hasPhotosAuthority] && ![self hasCameraAuthority] && [self hasMicrophoneAuthority]) {
+        authorityString = @"相册、相机权限未开启";
+    } else if (![self hasPhotosAuthority] && [self hasCameraAuthority] && ![self hasMicrophoneAuthority]) {
+        authorityString = @"相册、麦克风权限未开启";
+    } else if ([self hasPhotosAuthority] && ![self hasCameraAuthority] && ![self hasMicrophoneAuthority]) {
+        authorityString = @"相机、麦克风权限未开启";
+    } else if (![self hasPhotosAuthority] && ![self hasCameraAuthority] && ![self hasMicrophoneAuthority]) {
+        authorityString = @"相册、相机、麦克风权限未开启";
+    } else if ([self hasPhotosAuthority] && [self hasCameraAuthority] && [self hasMicrophoneAuthority]) {
+        if (authorityView && !authorityView.hidden) {
+            authorityView.hidden = YES;
+            
+        }
+        return;
+    }
+    [self addAuthorityView];
+}
+- (void)addAuthorityView {
+    if (!authorityView) {
+        authorityView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50)];
+        authorityView.backgroundColor = [UIColor whiteColor];
+        authorityView.layer.borderWidth = 1;
+        authorityView.layer.borderColor = BG_GRAY_COLOR.CGColor;
+        [self.view addSubview:authorityView];
+        
+        authorityTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kScreenWidth - 100, 30)];
+        authorityTip.text = authorityString;
+        authorityTip.textColor = TEXT_COLOR_LEVEL_1;
+        authorityTip.font = TEXT_FONT_LEVEL_1;
+        [authorityView addSubview:authorityTip];
+        
+        UIButton *openAuthority = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(authorityTip.frame) + 10, 10, 70, 30)];
+        [openAuthority setTitle:@"去开启" forState:UIControlStateNormal];
+        [openAuthority setTitleColor:LIVING_COLOR forState:UIControlStateNormal];
+        openAuthority.titleLabel.font = TEXT_FONT_LEVEL_1;
+        openAuthority.clipsToBounds = YES;
+        openAuthority.layer.cornerRadius = 2;
+        openAuthority.layer.borderColor = LIVING_COLOR.CGColor;
+        openAuthority.layer.borderWidth = 1;
+        [openAuthority addTarget:self action:@selector(openAuthority:) forControlEvents:UIControlEventTouchUpInside];
+        [authorityView addSubview:openAuthority];
+    } else {
+        if (authorityView.hidden) {
+            authorityView.hidden = NO;
+            authorityTip.text = authorityString;
+        }
+    }
+}
+- (void)openAuthority:(UIButton *)btn {
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    
+}
 
 - (void)viewDidLoad
 {
@@ -94,10 +163,10 @@ static NSMutableArray *cellDataArray;
     
     [self.view addSubview:self.tableView];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"发布"
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"存草稿"
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
-                                                                 action:@selector(publishArtcle)];
+                                                                 action:@selector(saveDraft)];
     
     self.navigationItem.rightBarButtonItem = rightItem;
     
@@ -120,6 +189,10 @@ static NSMutableArray *cellDataArray;
         
         [projectImageArray addObject:@""];
     }
+    
+    //草稿箱
+    [self setDataFromDraft];
+    
 }
 
 - (void)createUI
@@ -186,7 +259,7 @@ static NSMutableArray *cellDataArray;
         return cellDataArray.count;
     }
     
-    return 1;
+    return 2;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -272,8 +345,14 @@ static NSMutableArray *cellDataArray;
         
         return 190 + rowNum*(imageWidth + margin);
     }
-    
-    return 100;
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            return 55;
+        } else {
+            return 100;
+        }
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -295,7 +374,7 @@ static NSMutableArray *cellDataArray;
         cell.delegate = self;
         
         cell.includeTF.text     = cellDataArray[indexPath.row][@"content"];
-        
+        NSLog(@"%@", cellDataArray);
         if ([cellDataArray[indexPath.row][@"content"] isEqualToString:@""] && cellDataArray[indexPath.row][@"content"]) {
             
             [cell.textLab setHidden:NO];
@@ -345,23 +424,48 @@ static NSMutableArray *cellDataArray;
     }
     
     if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            static NSString *cellId     = @"cellId";
+            
+            UITableViewCell *addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
+            addCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 45)];
+            
+            textLabel.text              = @"添加内容";
+            textLabel.textAlignment     = NSTextAlignmentCenter;
+            textLabel.font              = TEXT_FONT_LEVEL_1;
+            [addCell.contentView addSubview:textLabel];
+            textLabel.backgroundColor   = [UIColor whiteColor];
+            addCell.backgroundColor     = [UIColor clearColor];
+            
+            return addCell;
+        } else if (indexPath.row == 1) {
+            static NSString *cellId     = @"publicCell";
+            
+            UITableViewCell *publicCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
+            publicCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, kScreenWidth - 40, 45)];
+            
+            textLabel.text              = @"发布";
+            textLabel.textColor         = [UIColor whiteColor];
+            textLabel.textAlignment     = NSTextAlignmentCenter;
+            textLabel.font              = TEXT_FONT_LEVEL_1;
+            textLabel.clipsToBounds     = YES;
+            textLabel.layer.cornerRadius = 5;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(publishAction)];
+            textLabel.userInteractionEnabled = YES;
+            [textLabel addGestureRecognizer:tap];
+            [publicCell.contentView addSubview:textLabel];
+            textLabel.backgroundColor   = LIVING_COLOR;
+            publicCell.backgroundColor  = [UIColor clearColor];
+            
+            return publicCell;
         
-        static NSString *cellId     = @"cellId";
-        
-        UITableViewCell *addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        
-        addCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kScreenWidth, 45)];
-        
-        textLabel.text              = @"添加内容";
-        textLabel.textAlignment     = NSTextAlignmentCenter;
-        textLabel.font              = TEXT_FONT_LEVEL_1;
-        [addCell.contentView addSubview:textLabel];
-        textLabel.backgroundColor   = [UIColor whiteColor];
-        addCell.backgroundColor     = [UIColor clearColor];
-        
-        return addCell;
+        }
     }
     
     return nil;
@@ -370,10 +474,13 @@ static NSMutableArray *cellDataArray;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            NSInteger length    = cellDataArray.count;
+            [self projectDataStorageWithArrayIndex:length];
+            [self refreshData];
+
+        }
         
-        NSInteger length    = cellDataArray.count;
-        [self projectDataStorageWithArrayIndex:length];
-        [self refreshData];
     }
 }
 
@@ -1013,6 +1120,11 @@ static NSMutableArray *cellDataArray;
         if ([[bodyDict objectForKey:@"result"] isEqualToString:@"0"]){
             
             [self textStateHUD:@"发布成功"];
+            //删除草稿
+            if (_draftDic) {
+                db = [DataBase sharedDataBase];
+                [db deleteFromDraftWithID:_draftDic[@"id"]];
+            }
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHomePage" object:nil];
@@ -1198,6 +1310,68 @@ static NSMutableArray *cellDataArray;
 
                                            }];
     [proxy start];
+}
+#pragma mark - 存草稿
+- (void)saveDraft {
+    NSLog(@"存文章草稿");
+    db = [DataBase sharedDataBase];
+    NSDictionary *contentDic = @{@"cellData":cellDataArray};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contentDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *contentStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd hh:mm";
+    NSString *dateStr = [format stringFromDate:[NSDate date]];
+    NSDictionary *info = @{@"person_id":[FitUserManager sharedUserManager].uuid, @"title":titleTF.text, @"desp":discribleTF.text, @"category":typeLabel.text, @"type":@"article", @"content":contentStr, @"time":dateStr};
+    NSLog(@"%@", info);
+    
+    if (_draftDic) {
+        //修改
+        if([db updateDraft:_draftDic[@"id"] withInfo:info]) {
+            [self textStateHUD:@"保存成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [self textStateHUD:@"保存失败,请重试"];
+        }
+        return;
+    }
+    
+    if([db addToDraft:info]) {
+        //插入
+        [self textStateHUD:@"保存成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self textStateHUD:@"保存失败,请重试"];
+    }
+    
+}
+
+#pragma mark - 从草稿箱填充数据
+- (void)setDataFromDraft {
+    if (!_draftDic) {
+        return;
+    }
+    titleTF.text = _draftDic[@"title"];
+    discribleTF.text = _draftDic[@"desp"];
+    NSString *typeName = _draftDic[@"category"];
+    if (typeName && ![typeName isEqualToString:@""]) {
+        typeString = typeName;
+        type = 2;
+    }
+    
+    NSString *contentStr = _draftDic[@"content"];
+    NSData *contentData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *contentDic = [NSJSONSerialization JSONObjectWithData:contentData options:NSJSONReadingMutableContainers error:nil];
+    cellDataArray = contentDic[@"cellData"];
+    
+    [projectImageArray removeAllObjects];
+    for (int i = 0; i < cellDataArray.count; i++) {
+        NSDictionary *dic = cellDataArray[i];
+        [projectImageArray addObject:dic[@"images"]];
+        imageNum += [dic[@"images"] count];
+    }
+    NSLog(@"=======%@", projectImageArray);
+    [self.tableView reloadData];
+    
 }
 
 

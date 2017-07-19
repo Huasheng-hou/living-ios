@@ -10,6 +10,6 @@
 
 @interface LMPublicArticleController :FitTableViewController
 
-
+@property (nonatomic, strong) NSDictionary *draftDic;
 
 @end

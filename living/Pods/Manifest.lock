@@ -3,6 +3,9 @@ PODS:
   - Bugtags (2.3.2):
     - Bugtags/Core (= 2.3.2)
   - Bugtags/Core (2.3.2)
+  - FMDB (2.7.2):
+    - FMDB/standard (= 2.7.2)
+  - FMDB/standard (2.7.2)
   - HMSegmentedControl (1.5.2)
   - jetfire (0.1.2)
   - Masonry (1.0.1)
@@ -41,6 +44,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 1.3.4)
   - Bugtags
+  - FMDB (~> 2.7.2)
   - HMSegmentedControl
   - jetfire (= 0.1.2)
   - Masonry (= 1.0.1)
@@ -63,6 +67,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
   Bugtags: 2ec94ad18b279ce00073ccc7a42cbd4870704882
+  FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   jetfire: 5e823aa9248d3de1fac2b7b6d9c6e31ab7d90f0c
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
@@ -74,6 +79,6 @@ SPEC CHECKSUMS:
   WebsocketStompKit: 31de925ffc7094b569dedcd4a9a4838e649e0860
   ZYQAssetPickerController: e5cf51ee6c05fa06746830026c247cb9f6699e84
 
-PODFILE CHECKSUM: bc6fc732b32d10c1e6aceb6d2d46fe2a4746ecfb
+PODFILE CHECKSUM: 5f73cc1589b5b9e05c0478e27466081da59f7592
 
 COCOAPODS: 1.2.1

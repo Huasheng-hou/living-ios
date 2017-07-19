@@ -48,6 +48,8 @@ WJLoopViewDelegate
     LMEventChooseButton *publicLb;
     LMEventChooseButton *joinLb ;
     NSInteger  seleIndex;
+    
+    
 }
 
 @end
@@ -61,6 +63,7 @@ WJLoopViewDelegate
     }
     return listArray;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

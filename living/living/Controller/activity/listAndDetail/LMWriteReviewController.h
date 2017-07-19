@@ -14,4 +14,6 @@
 
 @property (nonatomic, copy) NSString * eventName;
 
+@property (nonatomic, strong) NSDictionary *draftDic;
+
 @end

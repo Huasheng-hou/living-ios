@@ -57,7 +57,20 @@
         [imageV setContentMode:UIViewContentModeScaleAspectFill];
         [imageV setClipsToBounds:YES];
         
-        imageV.image = imageArray[i];
+        if ([imageArray[i] isKindOfClass:[NSDictionary class]]) {
+            if ([imageArray[i][@"type"] isEqualToString:@"picture"]) {
+//                NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageArray[i][@"pictureUrl"]]];
+//                UIImage *img = [UIImage imageWithData:imgData];
+//                NSData *imageData = UIImageJPEGRepresentation(img, 0.05);
+//                imageV.image = [UIImage imageWithData:imageData];
+                [imageV sd_setImageWithURL:[NSURL URLWithString:imageArray[i][@"pictureUrl"]]];
+            } else if ([imageArray[i][@"type"] isEqualToString:@"video"]) {
+                [imageV sd_setImageWithURL:[NSURL URLWithString:imageArray[i][@"coverUrl"]]];
+            }
+            
+        } else {
+            imageV.image = imageArray[i];
+        }
 //        NSData * imageData = UIImageJPEGRepresentation((UIImage *)imageArray[i], 0.05);
 //        imageV.image = [UIImage imageWithData:imageData];
         imageV.userInteractionEnabled = YES;

@@ -658,23 +658,26 @@ WXApiDelegate
                                            queue:[NSOperationQueue currentQueue]
                                completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
             
-                                   NSDictionary *responseObj    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                                   
-                                   if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
+                                   if (data) {
+                                       NSDictionary *responseObj    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                                        
-                                       [self textStateHUD:@"微信授权失败"];
-                                       return;
-                                   }
-                                   
-                                   NSString     *accessToken    = [responseObj objectForKey:@"access_token"];
-                                   NSString     *openId         = [responseObj objectForKey:@"openid"];
-                                   NSString     *unionId        = [responseObj objectForKey:@"unionid"];
-                                   
-                                   if (accessToken && ![accessToken isEqual:[NSNull null]] && [accessToken isKindOfClass:[NSString class]]) {
+                                       if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
+                                           
+                                           [self textStateHUD:@"微信授权失败"];
+                                           return;
+                                       }
+
+                                       NSString     *accessToken    = [responseObj objectForKey:@"access_token"];
+                                       NSString     *openId         = [responseObj objectForKey:@"openid"];
+                                       NSString     *unionId        = [responseObj objectForKey:@"unionid"];
                                        
-                                       [self wechatLogin:accessToken OpenId:openId UnionId:unionId];
+                                       if (accessToken && ![accessToken isEqual:[NSNull null]] && [accessToken isKindOfClass:[NSString class]]) {
+                                           
+                                           [self wechatLogin:accessToken OpenId:openId UnionId:unionId];
+                                       }
                                    }
                                }];
+                               
     } else {
         
         [self textStateHUD:@"微信授权失败"];
