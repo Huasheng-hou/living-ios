@@ -26,10 +26,7 @@
 #define umAppKey                @"55d57f0d67e58ed077003880"
 #define umShareAppKey           @"560274c367e58ec5cb004a8d"
 
-//------------------Bugtags-------------------
 
-#define BugAppKey       @"c07430a1ee2d3b104750f0676ffb230a"
-#define BugAppSecret    @"8a8a8f84a77f0de7bb36d76c3038bbbd"
 
 //------------------微信--------------------
 
@@ -154,6 +151,9 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 //Bugtags
 #define BUG_MODE BTGInvocationEventBubble
+#define BugAppKey       @"c07430a1ee2d3b104750f0676ffb230a"
+#define BugAppSecret    @"8a8a8f84a77f0de7bb36d76c3038bbbd"
+
 
 
 //文章
@@ -187,7 +187,8 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 
 //Bugtags
 #define BUG_MODE BTGInvocationEventNone
-
+#define BugAppKey       @"8841feab23ecf4b3815b2cd972bb0eaa"
+#define BugAppSecret    @"8a8a8f84a77f0de7bb36d76c3038bbbd"
 
 
 ////文章
