@@ -94,7 +94,7 @@
     
     
     name = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(icon.frame) + 10, 10, kScreenWidth - CGRectGetMaxX(icon.frame) - 60, 20)];
-    name.text = @"这是草稿标题这是草稿标题";
+    name.text = @"无标题";
     name.textColor = TEXT_COLOR_LEVEL_1;
     name.font = TEXT_FONT_LEVEL_1;
     [back addSubview:name];
@@ -200,7 +200,11 @@
         }
     }
     
-    name.text = dict[@"title"];
+    
+    if (dict[@"title"] && ![dict[@"title"] isEqualToString:@""]) {
+        name.text = dict[@"title"];
+    }
+    
     
     time.text = [NSString stringWithFormat:@"时间:%@", dict[@"time"]];
     
