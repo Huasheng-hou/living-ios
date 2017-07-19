@@ -91,11 +91,11 @@
     CGFloat base = sqrt(2.0);
     CGFloat typeW = 40;
     
-    type = [[UILabel alloc] initWithFrame:CGRectMake(80 - typeW, (1 - base) / 4 * typeW, base * typeW, base / 2 * typeW)];
-    type.text = @"文章";
+    type = [[UILabel alloc] initWithFrame:CGRectMake(80 - typeW, (1 - base) / 4 * typeW , base * typeW, base / 2 * typeW)];
+    type.text = @"\n文章";
     type.textColor = [UIColor whiteColor];
     type.textAlignment = NSTextAlignmentCenter;
-    type.font = TEXT_FONT_LEVEL_3;
+    type.font = TEXT_FONT_LEVEL_4;
     type.backgroundColor = LIVING_COLOR;
     type.transform = CGAffineTransformMakeRotation(M_PI / 4);
     type.numberOfLines = 2;
@@ -157,7 +157,7 @@
     
     if ([dict[@"type"] isEqualToString:@"article"]) {
         
-        type.text = @"文章";
+        type.text = @"\n文章";
         desp.text = [NSString stringWithFormat:@"描述：%@", dict[@"desp"]];
         //type.backgroundColor = [UIColor yellowColor];
         if (cellDataArray.count > 0) {
@@ -172,7 +172,7 @@
             }
         }
     } else if ([dict[@"type"] isEqualToString:@"review"]) {
-        type.text = @"回顾";
+        type.text = @"\n回顾";
         desp.text = [NSString stringWithFormat:@"描述：%@", dict[@"desp"]];
         //type.backgroundColor = [UIColor blueColor];
         if (cellDataArray.count > 0) {
@@ -187,21 +187,21 @@
             }
         }
     } else if ([dict[@"type"] isEqualToString:@"activity"]) {
-        type.text = @"活动";
+        type.text = @"\n活动";
         desp.text = [NSString stringWithFormat:@"地址：%@%@", headDic[@"address"], headDic[@"detailAddress"]];
         //type.backgroundColor = [UIColor greenColor];
         if (headDic[@"imgUrl"]) {
             [icon sd_setImageWithURL:[NSURL URLWithString:headDic[@"imgUrl"]]];
         }
     } else if ([dict[@"type"] isEqualToString:@"event"]) {
-        type.text = @"项目";
+        type.text = @"\n项目";
         desp.text = [NSString stringWithFormat:@"地址：%@%@", headDic[@"address"], headDic[@"detailAddress"]];
         //type.backgroundColor = [UIColor purpleColor];
         if (headDic[@"imgUrl"]) {
             [icon sd_setImageWithURL:[NSURL URLWithString:headDic[@"imgUrl"]]];
         }
     } else if ([dict[@"type"] isEqualToString:@"class"]) {
-        type.text = @"课程";
+        type.text = @"\n课程";
         desp.text = [NSString stringWithFormat:@"须知：%@", headDic[@"notices"]];
         //type.backgroundColor = LIVING_COLOR;
         if (headDic[@"imgUrl"]) {

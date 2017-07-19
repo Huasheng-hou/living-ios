@@ -461,10 +461,17 @@ static CGRect oldframe;
                 break;
             }
             case 7:
-                if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
-                    cell.textLabel.text = @"历史活动";
-                    cell.imageView.image = [UIImage imageNamed:@"hostory"];
-                }else {
+                if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                    if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]){
+                        
+                        cell.textLabel.text = @"历史活动";
+                        cell.imageView.image = [UIImage imageNamed:@"hostory"];
+                    } else {
+                        cell.textLabel.text = @"我的草稿";
+                        cell.imageView.image = [UIImage imageNamed:@"draft"];
+                    }
+                }else if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
+                    
                     cell.textLabel.text = @"我的草稿";
                     cell.imageView.image = [UIImage imageNamed:@"draft"];
                 }
@@ -636,15 +643,21 @@ static CGRect oldframe;
                 draftVC.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:draftVC animated:YES];
             }
-            
         }
-        
         if (indexPath.row == 7) {
-            if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
-                LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
-                myVoiceVC.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:myVoiceVC animated:YES];
-            }else {
+            if (infoModels.prove&&[infoModels.prove isEqualToString:@"teacher"]) {
+                if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]){
+                    
+                    LMHostoryEventViewController *myVoiceVC = [[LMHostoryEventViewController alloc] init];
+                    myVoiceVC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:myVoiceVC animated:YES];
+                } else {
+                    NSLog(@"草稿箱");
+                    LMDraftViewController *draftVC = [[LMDraftViewController alloc] init];
+                    draftVC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:draftVC animated:YES];
+                }
+            }else if (infoModels.privileges &&[infoModels.privileges isEqualToString:@"special"]) {
                 
                 NSLog(@"草稿箱");
                 LMDraftViewController *draftVC = [[LMDraftViewController alloc] init];
