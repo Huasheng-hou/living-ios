@@ -597,7 +597,7 @@ WXApiDelegate
 {
     LMWebViewController *webVC = [[LMWebViewController alloc] init];
     
-    webVC.urlString = @"http://120.26.64.40/living/user-cn.html";
+    webVC.urlString = USER_PROTOCOL;
     webVC.titleString = @"隐私协议";
     
     [self.navigationController pushViewController:webVC animated:YES];

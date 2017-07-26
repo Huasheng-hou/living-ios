@@ -132,7 +132,7 @@
         if (indexPath.row==0) {
             LMWebViewController *webVC = [[LMWebViewController alloc] init];
             webVC.hidesBottomBarWhenPushed = YES;
-            webVC.urlString = @"http://120.26.64.40:8080/living/user-cn.html";
+            webVC.urlString = USER_PROTOCOL;
             webVC.titleString = @"用户协议";
             [self.navigationController pushViewController:webVC animated:YES];
         }

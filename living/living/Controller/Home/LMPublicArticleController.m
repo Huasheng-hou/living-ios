@@ -62,7 +62,7 @@ KZVideoViewControllerDelegate
     NSMutableArray *imageViewArray;
     UILabel *typeLabel;
     NSString *typeString;
-    NSInteger  type;
+    NSInteger  type;  //1 未选择分类   2 已选择分类
     NSMutableArray *imageURLArray;
     NSData *videoData;
     NSString *typeIndex;
@@ -456,7 +456,7 @@ static NSMutableArray *cellDataArray;
             textLabel.font              = TEXT_FONT_LEVEL_1;
             textLabel.clipsToBounds     = YES;
             textLabel.layer.cornerRadius = 5;
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(publishAction)];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(publishArtcle)];
             textLabel.userInteractionEnabled = YES;
             [textLabel addGestureRecognizer:tap];
             [publicCell.contentView addSubview:textLabel];
@@ -915,7 +915,7 @@ static NSMutableArray *cellDataArray;
 
 }
 
-#pragma mark 发布成功后等待跳转的页面
+#pragma mark - 点击发布
 
 - (void)publishArtcle
 {
@@ -928,6 +928,11 @@ static NSMutableArray *cellDataArray;
     
     if (discribleTF.text.length ==0) {
         [self textStateHUD:@"请输入描述内容"];
+        return;
+    }
+    
+    if (type == 1) {
+        [self textStateHUD:@"请选择分类"];
         return;
     }
     
@@ -1353,8 +1358,8 @@ static NSMutableArray *cellDataArray;
     titleTF.text = _draftDic[@"title"];
     discribleTF.text = _draftDic[@"desp"];
     NSString *typeName = _draftDic[@"category"];
-    if (typeName && ![typeName isEqualToString:@""]) {
-        typeString = typeName;
+    typeString = typeName;
+    if (typeName && ![typeName isEqualToString:@""] && typeName.length == 2) {
         type = 2;
     }
     
@@ -1367,6 +1372,7 @@ static NSMutableArray *cellDataArray;
     for (int i = 0; i < cellDataArray.count; i++) {
         NSDictionary *dic = cellDataArray[i];
         [projectImageArray addObject:dic[@"images"]];
+        [imageArray addObjectsFromArray:dic[@"images"]];
         imageNum += [dic[@"images"] count];
     }
     NSLog(@"=======%@", projectImageArray);
