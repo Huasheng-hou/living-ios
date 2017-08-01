@@ -1394,7 +1394,6 @@ LMExceptionalViewDelegate
     if (r < 1) return;
     
     NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
-    
     [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 }
 

@@ -505,7 +505,6 @@
 		D50E9FE61E7FCFAD000F2599 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FDF1E7FCFAD000F2599 /* AMap.bundle */; };
 		D50E9FE71E7FCFAD000F2599 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D50E9FE01E7FCFAD000F2599 /* AMapNavi.bundle */; };
 		D50E9FF01E7FD32F000F2599 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		D51FF88B1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D51FF88A1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m */; };
 		D52149AE1E7238A1006890CE /* LMRecommendArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */; };
 		D52149B21E725319006890CE /* LMRecommendVO.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B11E725319006890CE /* LMRecommendVO.m */; };
 		D52149B51E7284EE006890CE /* LMCategoryArticleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D52149B41E7284EE006890CE /* LMCategoryArticleRequest.m */; };
@@ -578,6 +577,9 @@
 		D5D325161E712B150057F636 /* LMYGBOrderChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D325151E712B150057F636 /* LMYGBOrderChooseCell.m */; };
 		D5DC79111E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC79101E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m */; };
 		D5DC79141E8A67E10025BF7C /* LMEventDetailJudgeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC79131E8A67E10025BF7C /* LMEventDetailJudgeListCell.m */; };
+		D5DC803F1F308A2B00F339B7 /* ExceptionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC803A1F308A2B00F339B7 /* ExceptionModel.m */; };
+		D5DC80401F308A2B00F339B7 /* SignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC803C1F308A2B00F339B7 /* SignalHandler.m */; };
+		D5DC80411F308A2B00F339B7 /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DC803E1F308A2B00F339B7 /* UncaughtExceptionHandler.m */; };
 		D5DFBCCB1E80D2370065C313 /* LMYGBBannerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCCA1E80D2370065C313 /* LMYGBBannerRequest.m */; };
 		D5DFBCCE1E80DAC60065C313 /* LMYGBDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCCD1E80DAC60065C313 /* LMYGBDetailController.m */; };
 		D5DFBCD11E80EB7B0065C313 /* LMYGBDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5DFBCD01E80EB7B0065C313 /* LMYGBDetailRequest.m */; };
@@ -1609,8 +1611,6 @@
 		D50E9FE91E7FD134000F2599 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
 		D50E9FEA1E7FD134000F2599 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
 		D50E9FEF1E7FD32F000F2599 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		D51FF8891F0CCA4200D87DE6 /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
-		D51FF88A1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
 		D52149AC1E7238A1006890CE /* LMRecommendArticleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendArticleRequest.h; sourceTree = "<group>"; };
 		D52149AD1E7238A1006890CE /* LMRecommendArticleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommendArticleRequest.m; sourceTree = "<group>"; };
 		D52149B01E725319006890CE /* LMRecommendVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommendVO.h; sourceTree = "<group>"; };
@@ -1751,6 +1751,12 @@
 		D5DC79101E8A5EED0025BF7C /* LMEventDetailJudgeHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailJudgeHeadCell.m; sourceTree = "<group>"; };
 		D5DC79121E8A67E10025BF7C /* LMEventDetailJudgeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMEventDetailJudgeListCell.h; sourceTree = "<group>"; };
 		D5DC79131E8A67E10025BF7C /* LMEventDetailJudgeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMEventDetailJudgeListCell.m; sourceTree = "<group>"; };
+		D5DC80391F308A2B00F339B7 /* ExceptionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExceptionModel.h; sourceTree = "<group>"; };
+		D5DC803A1F308A2B00F339B7 /* ExceptionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExceptionModel.m; sourceTree = "<group>"; };
+		D5DC803B1F308A2B00F339B7 /* SignalHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalHandler.h; sourceTree = "<group>"; };
+		D5DC803C1F308A2B00F339B7 /* SignalHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignalHandler.m; sourceTree = "<group>"; };
+		D5DC803D1F308A2B00F339B7 /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
+		D5DC803E1F308A2B00F339B7 /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
 		D5DFBCC91E80D2370065C313 /* LMYGBBannerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBBannerRequest.h; sourceTree = "<group>"; };
 		D5DFBCCA1E80D2370065C313 /* LMYGBBannerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMYGBBannerRequest.m; sourceTree = "<group>"; };
 		D5DFBCCC1E80DAC60065C313 /* LMYGBDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMYGBDetailController.h; sourceTree = "<group>"; };
@@ -4120,8 +4126,12 @@
 		D51FF8881F0CCA0700D87DE6 /* Crash */ = {
 			isa = PBXGroup;
 			children = (
-				D51FF8891F0CCA4200D87DE6 /* UncaughtExceptionHandler.h */,
-				D51FF88A1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m */,
+				D5DC80391F308A2B00F339B7 /* ExceptionModel.h */,
+				D5DC803A1F308A2B00F339B7 /* ExceptionModel.m */,
+				D5DC803B1F308A2B00F339B7 /* SignalHandler.h */,
+				D5DC803C1F308A2B00F339B7 /* SignalHandler.m */,
+				D5DC803D1F308A2B00F339B7 /* UncaughtExceptionHandler.h */,
+				D5DC803E1F308A2B00F339B7 /* UncaughtExceptionHandler.m */,
 			);
 			path = Crash;
 			sourceTree = "<group>";
@@ -4831,6 +4841,7 @@
 				D563F0971EA4D7D9004C4B28 /* LMSpecialRechargeRequest.m in Sources */,
 				358ED9171E5FC69C006B88BC /* LMMyMessageViewController.m in Sources */,
 				35B747781DDE97F3000AFA26 /* FitConsts.m in Sources */,
+				D5DC80401F308A2B00F339B7 /* SignalHandler.m in Sources */,
 				354298D41E0A207E001E11B4 /* FirUploadVoiceRequest.m in Sources */,
 				35B7475D1DDE97F3000AFA26 /* LMRegisterViewController.m in Sources */,
 				35B748151DDE97F4000AFA26 /* LMPublicMsgCell.m in Sources */,
@@ -4939,6 +4950,7 @@
 				35B748201DDE97F4000AFA26 /* LMBlanceHeadCell.m in Sources */,
 				35B7482B1DDE97F4000AFA26 /* LMFriendCell.m in Sources */,
 				355E7B581DFF9F410089BAB1 /* LMLivingAllRequest.m in Sources */,
+				D5DC803F1F308A2B00F339B7 /* ExceptionModel.m in Sources */,
 				35B748161DDE97F4000AFA26 /* LMTimeButton.m in Sources */,
 				35B7478A1DDE97F3000AFA26 /* UIButton+Badge.m in Sources */,
 				D53494C91E77B50700A4442C /* LMMoreArticlesVO.m in Sources */,
@@ -5097,7 +5109,6 @@
 				35B747791DDE97F3000AFA26 /* ImageHelpTool.m in Sources */,
 				35E92E5B1E3457F900EE6DE6 /* LMChoseCounponButton.m in Sources */,
 				3512137E1DF963C10053B83F /* LMBlacklistViewController.m in Sources */,
-				D51FF88B1F0CCA4200D87DE6 /* UncaughtExceptionHandler.m in Sources */,
 				35B7481C1DDE97F4000AFA26 /* LMCommentCell.m in Sources */,
 				D5A6147A1E89117100F46D60 /* LMMakerRequest.m in Sources */,
 				87B74E0B1E5EBEDA001E3E57 /* LMSegmentController.m in Sources */,
@@ -5106,6 +5117,7 @@
 				351213751DF90A9E0053B83F /* BlendVO.m in Sources */,
 				D5DFBCE41E8104450065C313 /* LMCoinlistVO.m in Sources */,
 				35D1B84C1DEC4BB9004BE2A2 /* NSString+StringHelper.m in Sources */,
+				D5DC80411F308A2B00F339B7 /* UncaughtExceptionHandler.m in Sources */,
 				35B7482E1DDE97F4000AFA26 /* LMLiveRoomCell.m in Sources */,
 				35B748271DDE97F4000AFA26 /* LMOrderCell.m in Sources */,
 				35B747E01DDE97F4000AFA26 /* FirUploadImageRequest.m in Sources */,

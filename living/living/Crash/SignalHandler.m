@@ -1,22 +1,28 @@
 //
-//  UncaughtExceptionHandler.m
+//  SignalHandler.m
 //  UncaughtExceptionDemo
 //
-//  Created by  tomxiang on 15/8/28.
+//  Created by  tomxiang on 15/8/29.
 //  Copyright (c) 2015年  tomxiang. All rights reserved.
 //
 
-#import "UncaughtExceptionHandler.h"
+#import "SignalHandler.h"
 #include <libkern/OSAtomic.h>
 #include <execinfo.h>
 #import <UIKit/UIKit.h>
+#import "UncaughtExceptionHandler.h"
 #import "ExceptionModel.h"
 
-@implementation UncaughtExceptionHandler
+@interface SignalHandler()<UIAlertViewDelegate>
+
+@end
+
+
+@implementation SignalHandler
 
 +(void)saveCreash:(NSString *)exceptionInfo
 {
-    NSString * _libPath  = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"OCCrash"];
+    NSString * _libPath  = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"SigCrash"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:_libPath]){
         [[NSFileManager defaultManager] createDirectoryAtPath:_libPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
@@ -37,32 +43,35 @@
     [[UIApplication sharedApplication] openURL:url];
 }
 
+
 @end
 
 
-
-
-void HandleException(NSException *exception)
+void SignalExceptionHandler(int signal)
 {
-    // 异常的堆栈信息
-    NSArray *stackArray = [exception callStackSymbols];
-    
-    // 出现异常的原因
-    NSString *reason = [exception reason];
-    
-    // 异常名称
-    NSString *name = [exception name];
-    
-    NSString *exceptionInfo = [NSString stringWithFormat:@"Exception reason：%@\nException name：%@\nException stack：%@",name, reason, stackArray];
-    
-    NSLog(@"%@", exceptionInfo);
+    NSMutableString *mstr = [[NSMutableString alloc] init];
+    [mstr appendString:@"Stack:\n"];
+    void* callstack[128];
+    int i, frames = backtrace(callstack, 128);
+    char** strs = backtrace_symbols(callstack, frames);
+    for (i = 0; i <frames; ++i) {
+        [mstr appendFormat:@"%s\n", strs[i]];
+    }
+    [SignalHandler saveCreash:mstr];
 
-    [UncaughtExceptionHandler saveCreash:exceptionInfo];
 }
 
-
-void InstallUncaughtExceptionHandler(void)
+void InstallSignalHandler(void)
 {
-    NSSetUncaughtExceptionHandler(&HandleException);
+    signal(SIGHUP, SignalExceptionHandler);
+    signal(SIGINT, SignalExceptionHandler);
+    signal(SIGQUIT, SignalExceptionHandler);
+    
+    signal(SIGABRT, SignalExceptionHandler);
+    signal(SIGILL, SignalExceptionHandler);
+    signal(SIGSEGV, SignalExceptionHandler);
+    signal(SIGFPE, SignalExceptionHandler);
+    signal(SIGBUS, SignalExceptionHandler);
+    signal(SIGPIPE, SignalExceptionHandler);
 }
 

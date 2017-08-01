@@ -30,6 +30,7 @@
 #import "UMMobClick/MobClick.h"
 #import "LMHomeDetailController.h"
 #import "UncaughtExceptionHandler.h"
+#import "SignalHandler.h"
 
 
 #define TENCENT_CONNECT_APP_KEY @"1105720353"
@@ -58,6 +59,9 @@ UNUserNotificationCenterDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //异常处理
+    InstallSignalHandler();
+    InstallUncaughtExceptionHandler();
     
     //Bugtags
     BugtagsOptions *options = [[BugtagsOptions alloc] init];
@@ -105,17 +109,8 @@ UNUserNotificationCenterDelegate
     }];
     
     
-    //异常处理
-    //    NSSetUncaughtExceptionHandler(&caughtException);
-    //    signal(SIGABRT, SIG_IGN);
-    //    signal(SIGILL, SIG_IGN);
-    //    signal(SIGSEGV, SIG_IGN);
-    //    signal(SIGFPE, SIG_IGN);
-    //    signal(SIGBUS, SIG_IGN);
-    //    signal(SIGPIPE, SIG_IGN);
-    //    signal(SIGTRAP, SIG_IGN);
-    InstallUncaughtExceptionHandler();
-
+   
+   
     
     return YES;
 }
