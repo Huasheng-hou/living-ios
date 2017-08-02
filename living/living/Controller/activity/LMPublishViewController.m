@@ -833,15 +833,17 @@ static NSMutableArray *cellDataArray;
 
 - (void)modifyCellDataContent:(NSInteger)row andText:(NSString *)text{
     
-    NSMutableDictionary *dic=cellDataArray[row];
-    
-    if ([text isEqualToString:@""]) {
+    if (cellDataArray.count > row) {
         
-        [dic setObject:@"" forKey:@"content"];
-    }else{
-        [dic setObject:text forKey:@"content"];
+        NSMutableDictionary *dic=cellDataArray[row];
+        
+        if ([text isEqualToString:@""]) {
+            
+            [dic setObject:@"" forKey:@"content"];
+        }else{
+            [dic setObject:text forKey:@"content"];
+        }
     }
-    
     [self refreshData];
 }
 

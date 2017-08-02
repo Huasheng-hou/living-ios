@@ -27,7 +27,7 @@
     NSData *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary *respDict = [NSJSONSerialization
                               JSONObjectWithData:respData
-                              options:NSJSONReadingMutableLeaves
+                              options:NSJSONReadingMutableContainers
                               error:nil];
     if (!respData || !respDict) {
         return nil;
