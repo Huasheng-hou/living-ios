@@ -177,7 +177,7 @@
     AVPlayerLayer *layer=[AVPlayerLayer playerLayerWithPlayer:playerView];
     [layer setFillMode:kCAFillModeBoth];
     //    显示AVPlayerLayer边界矩形内视频的方式（播放窗口大小）(AVLayerVideoGravityResizeAspectFill  AVLayerVideoGravityResizeAspect   AVLayerVideoGravityResize)
-    layer.videoGravity=AVLayerVideoGravityResizeAspectFill;
+    layer.videoGravity=AVLayerVideoGravityResizeAspect;
     layer.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     layer.backgroundColor=[[UIColor blackColor]CGColor];
     [self.view.layer addSublayer:layer];
