@@ -79,8 +79,8 @@ UNUserNotificationCenterDelegate
     [self.window setRootViewController:rootVC];
     [self.window makeKeyAndVisible];
     
+    //友盟统计
     UMConfigInstance.appKey = @"582bb33fcae7e72e10001e57";
-    
     [MobClick startWithConfigure:UMConfigInstance];
     
     //向微信注册
