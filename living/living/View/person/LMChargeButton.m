@@ -60,7 +60,7 @@
         _midLabel.frame = CGRectMake(0, 35, (kScreenWidth-40)/3, 15);
         [self addSubview:_midLabel];
     }
-    return _downLabel;
+    return _midLabel;
 }
 
 - (void)setType:(NSInteger)type {
