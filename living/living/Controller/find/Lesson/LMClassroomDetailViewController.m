@@ -1950,6 +1950,7 @@ LMChooseViewDelegate
 
 - (void)cellwillClickImageView:(LMVoiceHeaderCell *)cell
 {
+    return;
     LMVoiceMemeberListViewController *member = [[LMVoiceMemeberListViewController alloc] init];
     self.navigationController.navigationBar.hidden  = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];

@@ -133,24 +133,28 @@ liveNameProtocol
     [button2 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:button2];
     
-    LMChargeButton *button3 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)*2/3+25, 40, (kScreenWidth-40)/3, 80)];
+    LMChargeButton *button3 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 130, (kScreenWidth-40)/3, 80)];
     button3.backgroundColor = [UIColor whiteColor];
     button3.tag = 3;
     button3.layer.borderWidth = 0.5;
     button3.layer.borderColor = LINE_COLOR.CGColor;
     button3.upLabel.text = @"5000元";
+    button3.midLabel.text = @"会员1年";
     button3.downLabel.text = @"优惠券388元";
+    button3.type = 1;
     [button3 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:button3];
     
     
-    LMChargeButton *button4 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 130, (kScreenWidth-40)/3, 80)];
+    LMChargeButton *button4 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)/3+20, 130, (kScreenWidth-40)/3, 80)];
     button4.backgroundColor = [UIColor whiteColor];
     button4.layer.borderWidth = 0.5;
     button4.tag = 4;
     button4.layer.borderColor = LINE_COLOR.CGColor;
     button4.upLabel.text = @"10000元";
+    button4.midLabel.text = @"会员1年";
     button4.downLabel.text = @"优惠券888元";
+    button4.type = 1;
     [button4 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:button4];
     
