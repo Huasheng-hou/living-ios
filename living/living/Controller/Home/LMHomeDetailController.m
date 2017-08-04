@@ -1168,7 +1168,8 @@ LMContentTableViewCellDelegate
                         if (i>0) {
                             headImage.frame = CGRectMake(15, 10 + [hightArray[i-1] floatValue], kScreenWidth-30, imageViewH);
                         }else{
-                            headImage.frame = CGRectMake(15, 10 + conHighs, kScreenWidth-30, imageViewH);
+                            //单分组图片在上，文字在下  10+conHighs 表示文字在上，图片在下
+                            headImage.frame = CGRectMake(15, 10 + 0, kScreenWidth-30, imageViewH);
                         }
                         
                         NSString *string = [NSString stringWithFormat:@"%f",imageViewH+headImage.origin.y];
@@ -1178,8 +1179,10 @@ LMContentTableViewCellDelegate
                         [cell.contentView addSubview:headImage];
                         
                     }
-                    //contentLabel.frame = CGRectMake(15, 10+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHighs);
-                    contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
+                    //单分组图片在上，文字在下
+                    contentLabel.frame = CGRectMake(15, 10+[hightArray[arr.count-1] floatValue], kScreenWidth-30, conHighs);
+                    //单分组图片在下，文字在上
+                    //contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);
 
                 }else{
                     contentLabel.frame = CGRectMake(15, 10 , kScreenWidth-30, conHighs);

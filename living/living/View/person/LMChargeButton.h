@@ -14,4 +14,8 @@
 
 @property(nonatomic,strong)UILabel *downLabel;
 
+@property(nonatomic,strong)UILabel *midLabel;
+
+@property (nonatomic, assign) NSInteger type;
+
 @end

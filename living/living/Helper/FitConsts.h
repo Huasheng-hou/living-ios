@@ -177,6 +177,9 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define BUG_MODE BTGInvocationEventBubble
 #define BugAppKey       @"c07430a1ee2d3b104750f0676ffb230a"
 
+//设置-用户协议
+#define USER_PROTOCOL @"http://120.26.64.40/living/user-cn.html"
+
 
 #else
 
@@ -193,6 +196,8 @@ extern NSString *const SERVICE_AGREEMENTS_URL;
 #define BUG_MODE BTGInvocationEventNone
 #define BugAppKey       @"8841feab23ecf4b3815b2cd972bb0eaa"
 
+//设置-用户协议
+#define USER_PROTOCOL @"http://api.yaoguo1818.com/living/user-cn.html"
 
 #endif
 

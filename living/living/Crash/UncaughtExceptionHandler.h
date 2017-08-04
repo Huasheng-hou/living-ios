@@ -1,21 +1,18 @@
 //
 //  UncaughtExceptionHandler.h
-//  living
+//  UncaughtExceptionDemo
 //
-//  Created by hxm on 2017/7/5.
-//  Copyright © 2017年 chenle. All rights reserved.
+//  Created by  tomxiang on 15/8/28.
+//  Copyright (c) 2015年  tomxiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-//#include <sys/signal.h>
 
+@interface UncaughtExceptionHandler:NSObject
 
-@interface UncaughtExceptionHandler : NSObject
-{
-    BOOL dismissed;
-}
 @end
 
-void HandleException(NSException *exception);
-void SignalHandler(int signal);
+
 void InstallUncaughtExceptionHandler(void);
+
+

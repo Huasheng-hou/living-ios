@@ -202,7 +202,7 @@ WJLoopViewDelegate
     
     NSData * respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary * respDict = [NSJSONSerialization JSONObjectWithData:respData
-                                                              options:NSJSONReadingMutableLeaves
+                                                              options:NSJSONReadingMutableContainers
                                                                 error:nil];
     NSDictionary * headDict = [respDict objectForKey:@"head"];
     NSString * returnCode = [headDict objectForKey:@"returnCode"];
@@ -248,7 +248,7 @@ WJLoopViewDelegate
     
     NSData          *respData = [resp dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSDictionary    *respDict = [NSJSONSerialization JSONObjectWithData:respData
-                                                                options:NSJSONReadingMutableLeaves
+                                                                options:NSJSONReadingMutableContainers
                                                                   error:nil];
     
     NSDictionary *headDic = [respDict objectForKey:@"head"];

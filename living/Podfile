@@ -14,7 +14,7 @@ pod 'jetfire', '0.1.2'
 pod 'Masonry','1.0.1'
 pod 'Bugtags'
 pod 'FMDB', '~> 2.7.2'
-
+pod 'UMengAnalytics', '~> 4.2.4'
 
 
 

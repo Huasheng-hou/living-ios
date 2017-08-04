@@ -597,7 +597,7 @@ WXApiDelegate
 {
     LMWebViewController *webVC = [[LMWebViewController alloc] init];
     
-    webVC.urlString = @"http://120.26.64.40/living/user-cn.html";
+    webVC.urlString = USER_PROTOCOL;
     webVC.titleString = @"隐私协议";
     
     [self.navigationController pushViewController:webVC animated:YES];
@@ -692,37 +692,38 @@ WXApiDelegate
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:infoUrl]
                                        queue:[NSOperationQueue currentQueue]
                            completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-                               
-                               NSDictionary *responseObj    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                               
-                               if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
+                               if (data) {
+                                   NSDictionary *responseObj    = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                                    
-                                   [self textStateHUD:@"微信授权失败"];
-                                   return;
-                               }
+                                   if (!responseObj || ![responseObj isKindOfClass:[NSDictionary class]]) {
+                                       
+                                       [self textStateHUD:@"微信授权失败"];
+                                       return;
+                                   }
 
-                               WechatInfoVO     *vo = [WechatInfoVO WechatInfoVOWithDictionary:responseObj];
-                               
-                               if (vo.OpenId) {
+                                   WechatInfoVO     *vo = [WechatInfoVO WechatInfoVOWithDictionary:responseObj];
                                    
-                                   NSString *password   = [self generatePassword:vo.OpenId];
-                                   
-                                   LMWXLoginRequest     *request    = [[LMWXLoginRequest alloc] initWithWechatResult:responseObj andPassword:password];
-                                   
-                                   HTTPProxy    *proxy  = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+                                   if (vo.OpenId) {
                                        
-                                       [self performSelectorOnMainThread:@selector(parseCodeResponse:)
-                                                              withObject:resp
-                                                           waitUntilDone:YES];
+                                       NSString *password   = [self generatePassword:vo.OpenId];
                                        
-                                   } failed:^(NSError *error) {
+                                       LMWXLoginRequest     *request    = [[LMWXLoginRequest alloc] initWithWechatResult:responseObj andPassword:password];
                                        
-                                       [self performSelectorOnMainThread:@selector(textStateHUD:)
-                                                              withObject:@"网络错误"
-                                                           waitUntilDone:YES];
-                                   }];
-                                   
-                                   [proxy start];
+                                       HTTPProxy    *proxy  = [HTTPProxy loadWithRequest:request completed:^(NSString *resp, NSStringEncoding encoding) {
+                                           
+                                           [self performSelectorOnMainThread:@selector(parseCodeResponse:)
+                                                                  withObject:resp
+                                                               waitUntilDone:YES];
+                                           
+                                       } failed:^(NSError *error) {
+                                           
+                                           [self performSelectorOnMainThread:@selector(textStateHUD:)
+                                                                  withObject:@"网络错误"
+                                                               waitUntilDone:YES];
+                                       }];
+                                       
+                                       [proxy start];
+                                   }
                                }
                            }];
 }
