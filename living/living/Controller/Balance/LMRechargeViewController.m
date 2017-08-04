@@ -111,7 +111,7 @@ liveNameProtocol
     [footView addSubview:title];
     
     
-    LMChargeButton *button1 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 40, (kScreenWidth-40)/3, 80)];
+    LMChargeButton *button1 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 40, (kScreenWidth-45)/2, 80)];
     button1.backgroundColor = [UIColor whiteColor];
     button1.tag = 1;
     button1.layer.borderWidth = 0.5;
@@ -123,7 +123,7 @@ liveNameProtocol
     
     
     
-    LMChargeButton *button2 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)/3+20, 40, (kScreenWidth-40)/3, 80)];
+    LMChargeButton *button2 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-45)/2+30, 40, (kScreenWidth-45)/2, 80)];
     button2.backgroundColor = [UIColor whiteColor];
     button2.tag = 2;
     button2.layer.borderWidth = 0.5;
@@ -133,7 +133,7 @@ liveNameProtocol
     [button2 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
     [footView addSubview:button2];
     
-    LMChargeButton *button3 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 130, (kScreenWidth-40)/3, 80)];
+    LMChargeButton *button3 = [[LMChargeButton alloc] initWithFrame:CGRectMake(15, 130, (kScreenWidth-45)/2, 80)];
     button3.backgroundColor = [UIColor whiteColor];
     button3.tag = 3;
     button3.layer.borderWidth = 0.5;
@@ -146,7 +146,7 @@ liveNameProtocol
     [footView addSubview:button3];
     
     
-    LMChargeButton *button4 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-40)/3+20, 130, (kScreenWidth-40)/3, 80)];
+    LMChargeButton *button4 = [[LMChargeButton alloc] initWithFrame:CGRectMake((kScreenWidth-45)/2+30, 130, (kScreenWidth-45)/2, 80)];
     button4.backgroundColor = [UIColor whiteColor];
     button4.layer.borderWidth = 0.5;
     button4.tag = 4;

@@ -207,8 +207,10 @@
     
     BOOL isPlay=sender.selected;
     if (isPlay) {
-        [playerView play];
-        [playButton setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+        if (videoUrlItem.status == AVPlayerItemStatusReadyToPlay && playerView.status == AVPlayerStatusReadyToPlay) {
+            [playerView play];
+            [playButton setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+        }
     }else{
         [playerView pause];
          [playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
@@ -219,6 +221,7 @@
 {
     UISlider *slider1 = (UISlider *)sender;
     if (slider1.value == 0.000000) {
+        
         [playerView seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
             [playerView play];
         }];
@@ -232,9 +235,12 @@
     //调节播放进度(a当前时间（当前帧数）,b每秒钟多少帧)
     CMTime changedTime = CMTimeMakeWithSeconds(slider1.value, 1);
     [playerView seekToTime:changedTime completionHandler:^(BOOL finished) {
-        [playerView play];
-        [playButton setSelected:YES];
-        [playButton setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+        if (videoUrlItem.status == AVPlayerItemStatusReadyToPlay && playerView.status == AVPlayerStatusReadyToPlay) {
+            
+            [playerView play];
+            [playButton setSelected:YES];
+            [playButton setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+        }
     }];
 }
 

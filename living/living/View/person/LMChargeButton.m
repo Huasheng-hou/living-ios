@@ -29,7 +29,7 @@
         _upLabel.textColor = TEXT_COLOR_LEVEL_2;
         _upLabel.font = [UIFont systemFontOfSize:18];
         [_upLabel sizeToFit];
-        _upLabel.frame = CGRectMake(0, 10, (kScreenWidth-40)/3, 30);
+        _upLabel.frame = CGRectMake(0, 10, (kScreenWidth-45)/2, 30);
         [self addSubview:_upLabel];
     }
     return _upLabel;
@@ -43,7 +43,7 @@
         _downLabel.textColor = TEXT_COLOR_LEVEL_2;
         _downLabel.font = TEXT_FONT_LEVEL_2;
         [_downLabel sizeToFit];
-        _downLabel.frame = CGRectMake(0, 40, (kScreenWidth-40)/3, 20);
+        _downLabel.frame = CGRectMake(0, 40, (kScreenWidth-45)/2, 20);
         [self addSubview:_downLabel];
     }
     return _downLabel;
@@ -57,7 +57,7 @@
         _midLabel.textColor = LIVING_COLOR;
         _midLabel.font = TEXT_FONT_LEVEL_2;
         [_midLabel sizeToFit];
-        _midLabel.frame = CGRectMake(0, 35, (kScreenWidth-40)/3, 15);
+        _midLabel.frame = CGRectMake(0, 35, (kScreenWidth-45)/2, 15);
         [self addSubview:_midLabel];
     }
     return _midLabel;
@@ -66,8 +66,8 @@
 - (void)setType:(NSInteger)type {
     _type = type;
     if (type == 1) {
-        self.upLabel.frame = CGRectMake(0, 10, (kScreenWidth-40)/3, 25);
-        self.downLabel.frame = CGRectMake(0, 55, (kScreenWidth-40)/3, 20);
+        self.upLabel.frame = CGRectMake(0, 10, (kScreenWidth-45)/2, 25);
+        self.downLabel.frame = CGRectMake(0, 55, (kScreenWidth-45)/2, 20);
     }
 }
 
