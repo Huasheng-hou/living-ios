@@ -455,7 +455,7 @@ WJLoopViewDelegate
     if (indexPath.section == 1) {
         return 215;
     }
-    return 0;
+    return 0.01;
 }
 
 
@@ -469,7 +469,7 @@ WJLoopViewDelegate
     if (section == 0) {
         return 10;
     }
-    return 0;
+    return 0.01;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
