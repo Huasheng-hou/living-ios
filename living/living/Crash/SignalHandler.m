@@ -66,7 +66,7 @@ void InstallSignalHandler(void)
     signal(SIGHUP, SignalExceptionHandler);
     signal(SIGINT, SignalExceptionHandler);
     signal(SIGQUIT, SignalExceptionHandler);
-    
+    signal(SIGTRAP, SignalExceptionHandler);
     signal(SIGABRT, SignalExceptionHandler);
     signal(SIGILL, SignalExceptionHandler);
     signal(SIGSEGV, SignalExceptionHandler);
