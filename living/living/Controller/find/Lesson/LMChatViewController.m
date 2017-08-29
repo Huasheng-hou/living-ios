@@ -111,6 +111,7 @@ LMExceptionalViewDelegate
     NSInteger loadIndex;
     NSMutableArray *groupArrays;
     
+    BOOL canContinue;
 }
 
 @end
@@ -2189,7 +2190,9 @@ LMExceptionalViewDelegate
                 if ([urlArray containsObject:vo.voiceurl]) {
                     
                 } else {
-                    
+                    if (!canContinue) {
+                        return;
+                    }
                     [voArray addObject:vo];
                     NSString *string = [NSString stringWithFormat:@"%d",i];
                     [newArray addObject:string];
@@ -2237,7 +2240,10 @@ LMExceptionalViewDelegate
     [dic setObject:urlString forKey:@"url"];
     [dic setObject:@"1" forKey:@"status"];
     if (![statusArray containsObject:dic]) {
+        canContinue = YES;
         [statusArray addObject:dic];
+    } else {
+        canContinue = NO;
     }
     [[NSUserDefaults standardUserDefaults] setObject:statusArray forKey:@"readStatus"];
     [[NSUserDefaults standardUserDefaults] synchronize];
