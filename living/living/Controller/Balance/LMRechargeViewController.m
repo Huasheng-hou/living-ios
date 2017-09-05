@@ -139,7 +139,7 @@ liveNameProtocol
     button3.layer.borderWidth = 0.5;
     button3.layer.borderColor = LINE_COLOR.CGColor;
     button3.upLabel.text = @"5000元";
-    button3.midLabel.text = @"会员1年";
+    button3.midLabel.text = @"永久会员";
     button3.downLabel.text = @"优惠券388元";
     button3.type = 1;
     [button3 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
@@ -152,7 +152,7 @@ liveNameProtocol
     button4.tag = 4;
     button4.layer.borderColor = LINE_COLOR.CGColor;
     button4.upLabel.text = @"10000元";
-    button4.midLabel.text = @"会员1年";
+    button4.midLabel.text = @"永久会员";
     button4.downLabel.text = @"优惠券888元";
     button4.type = 1;
     [button4 addTarget:self action:@selector(changeMoney:) forControlEvents:UIControlEventTouchUpInside];
