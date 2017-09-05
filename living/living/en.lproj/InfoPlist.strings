@@ -1,3 +1,5 @@
 /* Localized versions of Info.plist keys */
-NSLocationAlwaysUsageDescription = "";
+//NSLocationAlwaysUsageDescription = "";
 NSLocationWhenInUseUsageDescription = "";
+CFBundleName = "腰果生活";
+CFBundleDisplayName = "腰果生活";
